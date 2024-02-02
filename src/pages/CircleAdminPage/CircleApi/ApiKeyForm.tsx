@@ -53,7 +53,7 @@ export const ApiKeyForm: FC<Props> = ({ circleId, onSuccess }) => {
           ['circle-api-keys', circleId],
           oldKeys => {
             return [...(oldKeys || []), circleApiKey];
-          },
+          }
         );
         onSuccess(data.api_key);
       }

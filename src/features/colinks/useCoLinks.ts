@@ -36,7 +36,7 @@ export const useCoLinks = ({
     },
     {
       enabled: !!coLinksReadOnly,
-    },
+    }
   );
 
   const queryClient = useQueryClient();

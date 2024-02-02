@@ -53,7 +53,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export const getHolderProfileId = async (
-  address: string,
+  address: string
 ): Promise<number | undefined> => {
   const { profiles } = await adminClient.query(
     {
@@ -69,7 +69,7 @@ export const getHolderProfileId = async (
     },
     {
       operationName: 'link_tx_getHolderProfileId',
-    },
+    }
   );
 
   return profiles.pop()?.id;

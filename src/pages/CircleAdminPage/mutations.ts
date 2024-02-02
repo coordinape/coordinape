@@ -4,7 +4,7 @@ export const createCircleIntegration = async (
   circleId: number,
   type: string,
   name: string,
-  data: any,
+  data: any
 ) => {
   return client.mutate(
     {
@@ -20,14 +20,14 @@ export const createCircleIntegration = async (
         { id: true },
       ],
     },
-    { operationName: 'createCircleIntegration' },
+    { operationName: 'createCircleIntegration' }
   );
 };
 
 export const deleteCircleIntegration = async (id: number) =>
   client.mutate(
     { delete_circle_integrations_by_pk: [{ id }, { id: true }] },
-    { operationName: 'deleteCircleIntegration' },
+    { operationName: 'deleteCircleIntegration' }
   );
 
 export const updateCircleIntegration = async (id: number, data: any) => {
@@ -38,6 +38,6 @@ export const updateCircleIntegration = async (id: number, data: any) => {
         { id: true },
       ],
     },
-    { operationName: 'updateCircleIntegration' },
+    { operationName: 'updateCircleIntegration' }
   );
 };

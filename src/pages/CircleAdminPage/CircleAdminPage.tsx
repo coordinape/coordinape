@@ -109,7 +109,7 @@ const schema = z.object({
       .max(255)
       .refine(val => val.trim().length >= 3, {
         message: 'Circle name must be at least 3 characters long.',
-      }),
+      })
   ),
   allow_distribute_evenly: z.string().transform(stringBoolTransform),
   auto_opt_out: z.string().transform(stringBoolTransform),
@@ -117,12 +117,12 @@ const schema = z.object({
   min_vouches: z.optional(
     z.number().refine(val => val > 0, {
       message: 'Number of vouchers can not be 0',
-    }),
+    })
   ),
   nomination_days_limit: z.optional(
     z.number().refine(val => val > 0, {
       message: 'Nomination period should be 1 day at least',
-    }),
+    })
   ),
   only_giver_vouch: z.string().transform(stringBoolTransform),
   team_selection: z.string().transform(stringBoolTransform),
@@ -134,21 +134,21 @@ const schema = z.object({
       })
       .refine(val => val.trim().length >= 3, {
         message: 'Token name length must be between 3 and 255 characters.',
-      }),
+      })
   ),
   vouching: z.boolean(),
   vouching_text: z.optional(
     z.string().refine(val => val.trim().length >= 20, {
       message: 'Vouching text must be at least 20 characters long.',
-    }),
+    })
   ),
   fixed_payment_token_type: z.optional(
     z.optional(
       z.string().max(200, {
         message:
           'Fixed payment token type length can not exceed 200 characters',
-      }),
-    ),
+      })
+    )
   ),
   fixed_payment_vault_id: z.optional(z.string().optional()),
   hide_gives: z.boolean(),
@@ -174,7 +174,7 @@ export const CircleAdminPage = () => {
 
       staleTime: Infinity,
       notifyOnChangeProps: ['data'],
-    },
+    }
   );
 
   if (!circle || isRefetching) return <LoadingModal visible />;
@@ -238,7 +238,7 @@ export const CircleAdminPageInner = ({
   };
 
   const [circleToRemove, setCircleToRemove] = useState<number | undefined>(
-    undefined,
+    undefined
   );
   const {
     control,
@@ -352,7 +352,7 @@ export const CircleAdminPageInner = ({
     return vaultId && fixedVault
       ? removeAddressSuffix(
           removeYearnPrefix(fixedVault?.symbol ?? ''),
-          fixedVault.vault_address,
+          fixedVault.vault_address
         )
       : tokenType
         ? tokenType.startsWith('Yearn')
@@ -628,11 +628,11 @@ export const CircleAdminPageInner = ({
                       setValue(
                         'fixed_payment_token_type',
                         value == '' ? '' : findVault(value)?.symbol,
-                        { shouldDirty: true },
+                        { shouldDirty: true }
                       );
                       if (contracts)
                         updateBalanceState(
-                          getValues('fixed_payment_vault_id') ?? '',
+                          getValues('fixed_payment_vault_id') ?? ''
                         );
                     },
                     defaultValue: stringifiedVaultId(),
@@ -677,8 +677,8 @@ export const CircleAdminPageInner = ({
                   <Text size="medium">{`${numberWithCommas(
                     formatUnits(
                       maxGiftTokens,
-                      getDecimals(getValues('fixed_payment_vault_id') ?? ''),
-                    ),
+                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
+                    )
                   )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
                 </Flex>
               )}

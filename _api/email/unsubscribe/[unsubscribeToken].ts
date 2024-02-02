@@ -28,7 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 export async function unsubscribeEmail(
   res: VercelResponse,
   profileId: string,
-  emailType: string
+  emailType: string,
 ) {
   try {
     assert(isEmailType(emailType), 'invalid email type');
@@ -42,15 +42,15 @@ export async function unsubscribeEmail(
           { id: true },
         ],
       },
-      { operationName: 'email_unsubscribtion' }
+      { operationName: 'email_unsubscribtion' },
     );
     return res.status(200).send({
       message: `Email unsubscribed successfully from ${
         emailType === 'notification'
           ? 'unread notifications emails'
           : emailType === 'product'
-          ? 'product emails'
-          : 'transactional emails'
+            ? 'product emails'
+            : 'transactional emails'
       } list`,
     });
   } catch (error: any) {

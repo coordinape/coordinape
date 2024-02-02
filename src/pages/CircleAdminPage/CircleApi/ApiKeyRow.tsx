@@ -21,7 +21,7 @@ export function ApiKeyRow({
 }) {
   const permissions = pickBy(
     apiKey,
-    (v, k) => v === true && k in circleApiPermissionsSelector,
+    (v, k) => v === true && k in circleApiPermissionsSelector
   );
 
   const permissionsString = Object.keys(permissions)

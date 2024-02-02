@@ -26,7 +26,7 @@ export const ContributorButton = ({
   const [updatingTeammate, setUpdatingTeammate] = useState(false);
 
   const toggleTeammate = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.stopPropagation();
     setUpdatingTeammate(true);

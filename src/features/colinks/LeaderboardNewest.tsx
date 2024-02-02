@@ -35,10 +35,10 @@ export const LeaderboardNewest = ({ limit = 100 }: { limit?: number }) => {
         },
         {
           operationName: 'coLinks_leaderboard_newest',
-        },
+        }
       );
       return newest;
-    },
+    }
   );
   return <Leaderboard leaders={leaders} />;
 };

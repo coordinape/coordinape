@@ -244,7 +244,7 @@ function create_ascii_scene(
   r_mat,
   t_mat,
   v_mat,
-  p_mat,
+  p_mat
 ) {
   return {
     pre: pre,
@@ -348,7 +348,7 @@ function asciirender(s, t) {
               mat[a][1] * 0.5,
               mat[b][0],
               mat[b][1] * 0.5,
-              e,
+              e
             );
         } else if (n > 2) {
           for (let i = 0; i < n; i++) {
@@ -363,7 +363,7 @@ function asciirender(s, t) {
                 mat[a][1] * 0.5,
                 mat[b][0],
                 mat[b][1] * 0.5,
-                e,
+                e
               );
           }
         }

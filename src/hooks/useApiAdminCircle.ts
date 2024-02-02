@@ -25,7 +25,7 @@ interface UpdateUsersParam {
 export const adminUpdateUser = async (
   circleId: number,
   profileId: number,
-  params: UpdateUsersParam,
+  params: UpdateUsersParam
 ) => {
   // const startingTokens = params.starting_tokens
   const { adminUpdateUser } = await client.mutate(
@@ -46,7 +46,7 @@ export const adminUpdateUser = async (
         { id: true },
       ],
     },
-    { operationName: 'adminUpdateUser' },
+    { operationName: 'adminUpdateUser' }
   );
   return adminUpdateUser;
 };
@@ -59,7 +59,7 @@ export const useApiAdminCircle = (circleId: number) => {
       const image_data_base64 = await fileToBase64(newLogo);
       await mutations.updateCircleLogo(circleId, image_data_base64);
     },
-    [circleId],
+    [circleId]
   );
 
   const createEpoch = useRecoilLoadCatch(
@@ -68,7 +68,7 @@ export const useApiAdminCircle = (circleId: number) => {
       await mutations.createEpoch({ circle_id: circleId, params });
     },
     [circleId],
-    { hideLoading: false },
+    { hideLoading: false }
   );
 
   const updateEpoch = useRecoilLoadCatch(
@@ -81,7 +81,7 @@ export const useApiAdminCircle = (circleId: number) => {
         }: {
           params: ValueTypes['UpdateEpochInput']['params'];
           description?: string;
-        },
+        }
       ) => {
         if (params)
           params.time_zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -94,7 +94,7 @@ export const useApiAdminCircle = (circleId: number) => {
         });
       },
     [circleId],
-    { hideLoading: false },
+    { hideLoading: false }
   );
 
   const updateActiveRepeatingEpoch = useRecoilLoadCatch(
@@ -104,26 +104,26 @@ export const useApiAdminCircle = (circleId: number) => {
         params: {
           current: ValueTypes['UpdateEpochInput']['params'];
           next: ValueTypes['CreateEpochInput']['params'];
-        },
+        }
       ) => {
         await mutations.updateActiveRepeatingEpoch(circleId, epochId, params);
       },
     [circleId],
-    { hideLoading: false },
+    { hideLoading: false }
   );
 
   const deleteEpoch = useRecoilLoadCatch(
     () => async (epochId: number) => {
       await mutations.deleteEpoch(circleId, epochId);
     },
-    [circleId],
+    [circleId]
   );
 
   const updateUser = useRecoilLoadCatch(
     () => async (profileId: number, params: UpdateUsersParam) => {
       await adminUpdateUser(circleId, profileId, params);
     },
-    [circleId],
+    [circleId]
   );
 
   const deleteUser = useRecoilLoadCatch(
@@ -131,7 +131,7 @@ export const useApiAdminCircle = (circleId: number) => {
       await mutations.deleteUser(circleId, profileId);
       await queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
     },
-    [circleId],
+    [circleId]
   );
 
   const downloadCSV = useRecoilLoadCatch(
@@ -140,23 +140,23 @@ export const useApiAdminCircle = (circleId: number) => {
         epoch?: number,
         epochId?: number,
         formGiftAmount?: number,
-        giftTokenSymbol?: string,
+        giftTokenSymbol?: string
       ) => {
         return await mutations.allocationCsv(
           circleId,
           epoch,
           epochId,
           formGiftAmount,
-          giftTokenSymbol,
+          giftTokenSymbol
         );
       },
-    [circleId],
+    [circleId]
   );
 
   const restoreCoordinape = useRecoilLoadCatch(
     () => async (circleId: number) => {
       await mutations.restoreCoordinapeUser(circleId);
-    },
+    }
   );
 
   return {

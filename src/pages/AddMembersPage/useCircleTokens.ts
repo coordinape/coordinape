@@ -38,7 +38,7 @@ const useCircleTokens = (circleId: number, type: ShareTokenType) => {
             { uuid: true },
           ],
         },
-        { operationName: 'getCircleTokens' },
+        { operationName: 'getCircleTokens' }
       );
       const token = circle_share_tokens?.pop();
       if (token) return token.uuid;
@@ -51,11 +51,11 @@ const useCircleTokens = (circleId: number, type: ShareTokenType) => {
             { uuid: true },
           ],
         },
-        { operationName: 'createCircleShareTokens' },
+        { operationName: 'createCircleShareTokens' }
       );
       assert(insert_circle_share_tokens_one);
       return insert_circle_share_tokens_one.uuid;
-    },
+    }
   );
 };
 
@@ -67,6 +67,6 @@ const deleteToken = async (circleId: number, type: ShareTokenType) => {
         { __typename: true },
       ],
     },
-    { operationName: 'deleteCircleShareTokens' },
+    { operationName: 'deleteCircleShareTokens' }
   );
 };

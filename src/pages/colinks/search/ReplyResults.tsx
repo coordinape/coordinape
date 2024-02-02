@@ -55,13 +55,13 @@ export const ReplyResults = ({ query }: { query?: string }) => {
         {
           operationName:
             'search_contribtionsMentions_PostResultsBoard @cached(ttl: 60)',
-        },
+        }
       );
       return matching;
     },
     {
       enabled: query != '' && !!currentUserAddress,
-    },
+    }
   );
 
   if (isLoading) return <LoadingIndicator />;

@@ -41,7 +41,7 @@ export const sendAndTrackTx = async (
     savePending,
     deletePending,
     contract,
-  }: Options,
+  }: Options
 ): Promise<SendAndTrackTxResult> => {
   const timestamp = Date.now();
   try {

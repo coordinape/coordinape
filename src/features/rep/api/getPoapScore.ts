@@ -12,7 +12,7 @@ export const getPoapScore = async (address: string) => {
         { aggregate: { count: [{}, true] } },
       ],
     },
-    { operationName: 'getPoapScore__getPoapsHeld' },
+    { operationName: 'getPoapScore__getPoapsHeld' }
   );
   const poapScore =
     (poap_holders_aggregate?.aggregate?.count || 0) * POAP_HOLDING_VALUE;

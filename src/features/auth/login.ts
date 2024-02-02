@@ -33,7 +33,7 @@ export const generateMessage = ({
 export const login = async (
   address: string,
   provider: Web3Provider,
-  connectorName: string,
+  connectorName: string
 ): Promise<{ token: string; id: number }> => {
   let nonce, time;
   try {
@@ -51,7 +51,7 @@ export const login = async (
   const { signature, hash } = await getSignature(
     data,
     provider,
-    connectorName != 'magic',
+    connectorName != 'magic'
   );
   const payload = { signature, hash, address, data, connectorName };
 
@@ -69,7 +69,7 @@ export const login = async (
     throw new Error(
       `${resp.status} ${resp.statusText}: ${
         body.error?.message || body.message || 'No message'
-      }`,
+      }`
     );
   }
 

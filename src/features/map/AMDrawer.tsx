@@ -71,7 +71,7 @@ export const AMDrawer = ({
   const epochOptions = useMemo(() => {
     return amEpochs.length > 0
       ? [{ label: 'ALL', value: -1 }].concat(
-          amEpochs.map(e => ({ label: e.labelGraph, value: e.id })),
+          amEpochs.map(e => ({ label: e.labelGraph, value: e.id }))
         )
       : [{ label: 'No epochs yet', value: -1 }];
   }, [amEpochs]);
@@ -84,9 +84,9 @@ export const AMDrawer = ({
           : (pa.users[0].profile?.name ?? '') <
               (pb.users[0].profile?.name ?? '')
             ? -1
-            : 1,
+            : 1
       ),
-    [rawProfiles, measures, showRank],
+    [rawProfiles, measures, showRank]
   );
 
   const metricOptions = [

@@ -26,7 +26,7 @@ export const AddPage = () => {
   const { data: inviteToken } = useOrgShareToken(orgId, ShareTokenType.Invite);
   const { data: welcomeToken } = useOrgShareToken(
     orgId,
-    ShareTokenType.Welcome,
+    ShareTokenType.Welcome
   );
 
   const inviteLink = inviteToken
@@ -53,7 +53,7 @@ export const AddPage = () => {
           },
         ],
       },
-      { operationName: 'createOrgMembers' },
+      { operationName: 'createOrgMembers' }
     );
 
     await queryClient.invalidateQueries([
@@ -78,7 +78,7 @@ export const AddPage = () => {
 
           return ret;
         },
-        [],
+        []
       ) || []
     );
   };

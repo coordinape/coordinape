@@ -83,7 +83,7 @@ type SetFn =
   | SetRecoilState
   | (<T>(
       recoilVal: RecoilState<T>,
-      valOrUpdater: ((currVal: T) => T) | T,
+      valOrUpdater: ((currVal: T) => T) | T
     ) => void);
 
 const setupRecoilState = (set: SetFn) => {
@@ -99,7 +99,7 @@ export const useMockRecoilState = (
 
   // pass a callback to do any additional setting of recoil state beyond the
   // default installation of the fixtures above.
-  customSetter?: (set: SetFn) => void,
+  customSetter?: (set: SetFn) => void
 ) => {
   const setup = useRecoilCallback(({ set }) => () => {
     setupRecoilState(set);

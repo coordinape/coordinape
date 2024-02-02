@@ -22,7 +22,7 @@ export const InviteCodeLink = ({ profileId }: { profileId: number }) => {
       },
       {
         operationName: 'invitecode',
-      },
+      }
     );
     return profiles_by_pk;
   });

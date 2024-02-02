@@ -56,7 +56,7 @@ test('basic rendering, no sample circle yet', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateCirclePage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -74,7 +74,7 @@ test('basic rendering, has sample circle', async () => {
     await render(
       <TestWrapper withWeb3>
         <CreateCirclePage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 

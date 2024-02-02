@@ -20,7 +20,7 @@ export const useCoLinksNavQuery = () => {
     },
     {
       enabled: !!profileId,
-    },
+    }
   );
 };
 
@@ -58,5 +58,5 @@ const getCoLinksNavData = (profileId: number) =>
         bigQuestionSelector,
       ],
     },
-    { operationName: 'getCoLinksNavData' },
+    { operationName: 'getCoLinksNavData' }
   );

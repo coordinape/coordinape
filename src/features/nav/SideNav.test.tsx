@@ -55,7 +55,7 @@ test('show circle links for distributions route', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -70,9 +70,9 @@ test('show circle links for distributions route', async () => {
       .getAllByText('Members')
       .find(e =>
         e.closest(
-          `a[href="/organizations/${fixtures.organization.id}/members"]`,
-        ),
-      ),
+          `a[href="/organizations/${fixtures.organization.id}/members"]`
+        )
+      )
   ).toBeInTheDocument();
   expect(screen.getByText('Admin'));
   expect(screen.getByText('Epochs'));
@@ -116,7 +116,7 @@ test('show circle links for org members under "other circles"', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -128,7 +128,7 @@ test('show circle links for org members under "other circles"', async () => {
   expect(
     screen
       .getAllByText('Members')
-      .find(e => e.closest(`a[href="/circles/${fixtures.circle.id}/members"]`)),
+      .find(e => e.closest(`a[href="/circles/${fixtures.circle.id}/members"]`))
   ).toBeInTheDocument();
 
   expect(screen.queryByText('Admin')).toBeFalsy();
@@ -173,7 +173,7 @@ test('show org nav links to activity, vaults and members', async () => {
     await render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 

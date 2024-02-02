@@ -23,7 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { name: true, sample: true },
         ],
       },
-      { operationName: 'getOrgNameForCRM' },
+      { operationName: 'getOrgNameForCRM' }
     );
     assert(organizations_by_pk);
 
@@ -40,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           { profile: { name: true } },
         ],
       },
-      { operationName: 'getOrgNameForCRM' },
+      { operationName: 'getOrgNameForCRM' }
     );
     assert(users);
     assert(users.length > 0);

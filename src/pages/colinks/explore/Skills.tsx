@@ -8,7 +8,7 @@ import { fetchTopSkills } from './fetchTopSkills';
 
 export const Skills = ({ query }: { query?: string }) => {
   const { data: skills } = useQuery(['exploreSkills', query], () =>
-    fetchTopSkills(query),
+    fetchTopSkills(query)
   );
 
   return (

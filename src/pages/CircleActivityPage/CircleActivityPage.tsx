@@ -24,7 +24,7 @@ export const CircleActivityPage = () => {
   const query = useQuery(
     [QUERY_KEY_CIRCLE_DATA, circleId],
     () => getCircleData(circleId as number),
-    { enabled: !!circleId, staleTime: Infinity },
+    { enabled: !!circleId, staleTime: Infinity }
   );
   const circle = query.data?.circles_by_pk;
   if (!circle) {

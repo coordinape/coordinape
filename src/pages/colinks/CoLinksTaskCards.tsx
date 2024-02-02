@@ -41,10 +41,10 @@ export const CoLinksTaskCards = ({
         },
         {
           operationName: 'coLinks_tasks_checkRep',
-        },
+        }
       );
       return profiles_public.pop();
-    },
+    }
   );
 
   const { data: keyData } = useQuery(
@@ -76,12 +76,12 @@ export const CoLinksTaskCards = ({
         },
         {
           operationName: 'coLinks_tasks_hasOtherKeys',
-        },
+        }
       );
       return {
         hasOtherKey: hasOtherKey[0]?.amount > 0,
       };
-    },
+    }
   );
 
   const panelStyles = {

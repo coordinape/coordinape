@@ -9,8 +9,8 @@ export default function makeDiscordEvent<
 >(
   msgHandler: (
     payload: EventTriggerPayload<X, Y>,
-    channels: { discord?: boolean; telegram?: boolean },
-  ) => Promise<boolean>,
+    channels: { discord?: boolean; telegram?: boolean }
+  ) => Promise<boolean>
 ) {
   return async function handler(req: VercelRequest, res: VercelResponse) {
     try {

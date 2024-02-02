@@ -8,7 +8,7 @@ import { useToast } from './useToast';
 // useLoadAndTryMutation wraps a mutation call with global loading state and snackbar error/success handling
 export const useLoadAndTryMutation = <T>(
   fn: () => T,
-  { hideLoading, success }: { hideLoading?: boolean; success?: string } = {},
+  { hideLoading, success }: { hideLoading?: boolean; success?: string } = {}
 ): (() => Promise<T | undefined>) => {
   const [, setGlobalLoading] = useRecoilState(rGlobalLoading);
   const { showError, showDefault } = useToast();

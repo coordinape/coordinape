@@ -40,7 +40,7 @@ vi.mock('lib/gql/mutations/vaults', () => {
               id: 1,
             },
           },
-        }),
+        })
       )
       .mockImplementationOnce(x =>
         Promise.resolve({
@@ -54,7 +54,7 @@ vi.mock('lib/gql/mutations/vaults', () => {
               id: 2,
             },
           },
-        }),
+        })
       ),
     savePendingVaultTx: vi.fn(),
   };
@@ -137,7 +137,7 @@ test('submit distribution', async () => {
           vault.vault_address,
           encodeCircleId(2),
           await contracts.getVault(vault.vault_address).vault(),
-          distro.epochId,
+          distro.epochId
         );
         return true;
       })();
@@ -150,7 +150,7 @@ test('submit distribution', async () => {
     render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
   await waitFor(() => expect(work).toBeTruthy());
@@ -209,7 +209,7 @@ test('previous distribution', async () => {
           previousGifts,
           fixedGifts,
           previousTotal,
-          previousTotal,
+          previousTotal
         );
 
         const distro = await submitDistribution({
@@ -245,7 +245,7 @@ test('previous distribution', async () => {
     render(
       <TestWrapper withWeb3>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 

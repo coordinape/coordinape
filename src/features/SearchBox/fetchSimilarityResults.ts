@@ -28,7 +28,7 @@ export const fetchSimilarityResults = async ({
     },
     {
       operationName: 'searchProfiles__searchBoxQuery',
-    },
+    }
   );
   return searchProfiles;
 };

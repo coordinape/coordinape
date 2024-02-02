@@ -12,7 +12,7 @@ export function isEmailType(emailType: string): emailType is EmailType {
 export function genToken(
   profileId: string,
   email: string,
-  emailType: string,
+  emailType: string
 ): string {
   const token = genHmac(profileId, email, emailType);
 

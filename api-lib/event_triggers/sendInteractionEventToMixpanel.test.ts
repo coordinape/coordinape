@@ -64,7 +64,7 @@ test('include circle and org name if only circle id is included', async () => {
       circle_name: circle.name,
       org_id: circle.organization.id,
       organization_name: circle.organization.name,
-    }),
+    })
   );
 
   const circleEvent = mockTrack.mock.calls[1];
@@ -74,11 +74,11 @@ test('include circle and org name if only circle id is included', async () => {
       circle_name: circle.name,
       org_id: circle.organization.id,
       organization_name: circle.organization.name,
-    }),
+    })
   );
 
   expect((res.json as Mock).mock.calls[0][0].message).toEqual(
-    'user event recorded',
+    'user event recorded'
   );
 });
 
@@ -113,6 +113,6 @@ test('ignore sample org events', async () => {
   expect(mockTrack).toHaveBeenCalledTimes(0);
 
   expect((res.json as Mock).mock.calls[0][0].message).toEqual(
-    'user event skipped',
+    'user event skipped'
   );
 });

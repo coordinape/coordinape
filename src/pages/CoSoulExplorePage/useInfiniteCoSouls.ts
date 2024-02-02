@@ -12,7 +12,7 @@ export const useInfiniteCoSouls = (
   queryKey: QueryKey,
   where: Where | null,
   orderBy: OrderBy[],
-  onSettled?: () => void,
+  onSettled?: () => void
 ) => {
   return useInfiniteQuery(
     queryKey,
@@ -24,6 +24,6 @@ export const useInfiniteCoSouls = (
       refetchOnWindowFocus: true,
       refetchInterval: 10000,
       onSettled: () => onSettled && onSettled(),
-    },
+    }
   );
 };

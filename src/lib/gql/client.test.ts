@@ -19,7 +19,7 @@ test('set Bearer authorization with token', async () => {
     {
       profiles: [{}, { name: true }],
     },
-    { operationName: 'test__getProfile' },
+    { operationName: 'test__getProfile' }
   )) as unknown as [string, Record<string, any>];
   expect(args[1].headers.Authorization).toEqual('Bearer mock-token');
 });
@@ -35,7 +35,7 @@ test('set mock headers', async () => {
     {
       profiles: [{}, { name: true }],
     },
-    { operationName: 'test__getProfile' },
+    { operationName: 'test__getProfile' }
   )) as unknown as [string, Record<string, any>];
   expect(args[1].headers).toMatchObject({
     ...mockHeaders,

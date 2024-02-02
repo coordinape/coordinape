@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        { operationName: 'createVouchedUser_findExistingUser' },
+        { operationName: 'createVouchedUser_findExistingUser' }
       );
 
       if (existingUsers.length > 0) {
@@ -69,7 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { id: true },
           ],
         },
-        { operationName: 'createVouchedUser_insertUser' },
+        { operationName: 'createVouchedUser_insertUser' }
       );
 
       if (insert_users_one) {
@@ -84,7 +84,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               { returning: { id: true } },
             ],
           },
-          { operationName: 'createVouchedUser_updateNominees' },
+          { operationName: 'createVouchedUser_updateNominees' }
         );
       }
 

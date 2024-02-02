@@ -128,7 +128,7 @@ const AMProfileCard = ({
                 user.profile?.name,
                 searchRegex,
                 (match, i) =>
-                  i === 1 ? <strong key={match}>{match}</strong> : null,
+                  i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </Text>
             <Text>
@@ -159,7 +159,7 @@ const AMProfileCard = ({
               className="summaryText"
             >
               {reactStringReplace(bio, searchRegex, (match, i) =>
-                i === 1 ? <strong key={match}>{match}</strong> : null,
+                i === 1 ? <strong key={match}>{match}</strong> : null
               )}
             </Text>
 

@@ -150,7 +150,7 @@ export default function initDisplay(
   resolution = [2000, 2000],
   userparams = {},
   useGui = true,
-  _linewidth = linewidth,
+  _linewidth = linewidth
 ) {
   levelUpdate = userparams.guiLevelUpdate;
   idUpdate = userparams.guiIdUpdate;
@@ -177,7 +177,7 @@ export default function initDisplay(
         new dat.GUI(),
         maingui,
         cb,
-        userparams,
+        userparams
       );
       window.initcount = 1;
     } else {
@@ -189,7 +189,7 @@ export default function initDisplay(
         null,
         null,
         cb,
-        userparams,
+        userparams
       );
       window.initcount++;
     }
@@ -202,7 +202,7 @@ export default function initDisplay(
       null,
       null,
       cb,
-      userparams,
+      userparams
     );
   }
 

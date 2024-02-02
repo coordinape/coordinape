@@ -40,7 +40,7 @@ const toSearchString = (params: Record<string, string | number>) =>
 
 const withSearchParams = (
   path: string,
-  params?: Record<string, string | number>,
+  params?: Record<string, string | number>
 ) =>
   params && Object.keys(params).length > 0
     ? `${path}?${toSearchString(params)}`

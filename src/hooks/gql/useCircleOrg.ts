@@ -19,7 +19,7 @@ export function useCircleOrg(circleId: number) {
         },
         {
           operationName: 'circle_integrations',
-        },
+        }
       );
 
       return res.circles_by_pk?.organization;
@@ -28,6 +28,6 @@ export function useCircleOrg(circleId: number) {
       enabled: !!circleId,
       refetchOnWindowFocus: false,
       notifyOnChangeProps: ['data'],
-    },
+    }
   );
 }

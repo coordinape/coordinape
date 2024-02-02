@@ -26,7 +26,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
   const acceptTos = async (profileId: number) => {
     const { acceptTOS } = await client.mutate(
       { acceptTOS: { tos_agreed_at: true } },
-      { operationName: 'acceptTOS__termsGate' },
+      { operationName: 'acceptTOS__termsGate' }
     );
 
     assert(acceptTOS);
@@ -49,7 +49,7 @@ const TermsGate = ({ children }: { children: React.ReactNode }) => {
 
               return { ...oldData, profile };
             }
-          },
+          }
         );
       }
     },

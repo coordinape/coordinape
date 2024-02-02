@@ -24,7 +24,7 @@ const injected = new InjectedConnector({
     // way to handle this conversion to Numbers that the InjectedConnector
     // is expecting, since String.prototype.toString() is idempotent
     // (yay, something in javascript works the way you'd expect!)
-    Number.parseInt(n.toString()),
+    Number.parseInt(n.toString())
   ),
 });
 
@@ -67,13 +67,13 @@ export const connectors: { [key in EConnectorNames]: AbstractConnector } = {
 };
 
 export const findConnectorName = (
-  connector: AbstractConnector,
+  connector: AbstractConnector
 ): EConnectorNames => {
   // workaround for ganache
   if (connector instanceof NetworkConnector) return EConnectorNames.Injected;
 
   const match = Object.entries(connectors).find(
-    ([, c]) => connector?.constructor === c.constructor,
+    ([, c]) => connector?.constructor === c.constructor
   );
   assert(match);
   return match[0] as EConnectorNames;

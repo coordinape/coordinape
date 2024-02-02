@@ -8,7 +8,7 @@ export function parseBase64Image(imageDataBase64: string): Buffer {
   // file size check
   if (imageBytes.byteLength > MAX_IMAGE_BYTES_LENGTH) {
     throw new PayloadTooLargeError(
-      `image size is larger than maximum allowed: ${imageBytes.byteLength}/${MAX_IMAGE_BYTES_LENGTH}`,
+      `image size is larger than maximum allowed: ${imageBytes.byteLength}/${MAX_IMAGE_BYTES_LENGTH}`
     );
   }
   return imageBytes;

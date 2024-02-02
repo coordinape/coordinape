@@ -14,6 +14,6 @@ export const getCircleData = (circleId: number) =>
     },
     {
       operationName: 'getCircleData',
-    },
+    }
   );
 export const QUERY_KEY_CIRCLE_DATA = 'myCircle';

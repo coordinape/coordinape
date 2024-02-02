@@ -94,7 +94,7 @@ export const RecentTransactionsModal = ({
                 )}
               </Box>
             </Box>
-          ),
+          )
         )}
       </Flex>
     </Modal>

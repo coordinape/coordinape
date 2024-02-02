@@ -22,11 +22,11 @@ export function useVaultRouter(contracts?: Contracts) {
   const deposit = async (
     vault: Vault,
     humanAmount: string,
-    usingEth = false,
+    usingEth = false
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts) throw new Error('Contracts not loaded');
     const amount = BigNumber.from(
-      utils.parseUnits(humanAmount, vault.decimals),
+      utils.parseUnits(humanAmount, vault.decimals)
     );
 
     const tokenAddress = getTokenAddress(vault);
@@ -40,7 +40,7 @@ export function useVaultRouter(contracts?: Contracts) {
       const weth = new ethers.Contract(
         tokenAddress,
         ['function deposit() public payable'],
-        contracts.signerOrProvider,
+        contracts.signerOrProvider
       );
       const convertWethTxResult = await sendAndTrackTx(
         () => weth.deposit({ value: amount }),
@@ -50,7 +50,7 @@ export function useVaultRouter(contracts?: Contracts) {
           description: `Deposit ${humanAmount} ETH`,
           chainId: contracts.chainId,
           contract: weth,
-        },
+        }
       );
 
       if (convertWethTxResult.error) return convertWethTxResult;
@@ -73,7 +73,7 @@ export function useVaultRouter(contracts?: Contracts) {
           description: `Approve ${humanAmount} ${symbol}`,
           chainId: contracts.chainId,
           contract: token,
-        },
+        }
       );
       if (result.error) {
         showError(result.error);
@@ -88,7 +88,7 @@ export function useVaultRouter(contracts?: Contracts) {
           : contracts.router.delegateDeposit(
               vault.vault_address,
               tokenAddress,
-              amount,
+              amount
             ),
       {
         showDefault,
@@ -96,7 +96,7 @@ export function useVaultRouter(contracts?: Contracts) {
         description: `Deposit ${humanAmount} ${symbol}`,
         chainId: contracts.chainId,
         contract: isSimpleToken ? token : contracts.router,
-      },
+      }
     );
     if (txResult?.error) {
       showError(txResult.error);
@@ -115,7 +115,7 @@ export function useVaultRouter(contracts?: Contracts) {
   const withdraw = async (
     vault: Vault,
     humanAmount: string,
-    underlying: boolean,
+    underlying: boolean
   ): Promise<SendAndTrackTxResult> => {
     if (!contracts || !account)
       throw new Error('Contracts or account not loaded');
@@ -135,7 +135,7 @@ export function useVaultRouter(contracts?: Contracts) {
         chainId: contracts.chainId,
         description: `Withdraw ${humanAmount} ${symbol}`,
         contract: vaultContract,
-      },
+      }
     );
     if (txResult?.error) {
       showError(txResult.error);

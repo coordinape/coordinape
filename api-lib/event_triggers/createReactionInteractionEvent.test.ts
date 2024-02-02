@@ -20,7 +20,7 @@ describe('#handler', () => {
             circle_id: 123,
           },
         },
-      }),
+      })
     );
 
     const req = {

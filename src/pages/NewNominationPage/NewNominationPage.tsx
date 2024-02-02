@@ -37,8 +37,8 @@ function addServerErrors<T>(
   errors: errorObj[],
   setError: (
     fieldName: keyof T,
-    error: { type: string; message: string | undefined },
-  ) => void,
+    error: { type: string; message: string | undefined }
+  ) => void
 ) {
   return errors.forEach((err, key) => {
     setError(key as keyof T, { type: 'server', message: err.message });
@@ -60,8 +60,8 @@ export const NewNominationPage = () => {
           },
         ],
       },
-      { operationName: 'NewNominationPage_getCircleData' },
-    ),
+      { operationName: 'NewNominationPage_getCircleData' }
+    )
   );
   const circle = data?.circles_by_pk;
   const [submitting, setSubmitting] = useState(false);
@@ -131,7 +131,7 @@ export const NewNominationPage = () => {
                 { name: true },
               ],
             },
-            { operationName: 'NewNomination_getUserName' },
+            { operationName: 'NewNomination_getUserName' }
           );
           assert(profiles, 'failed to fetch user profiles');
 

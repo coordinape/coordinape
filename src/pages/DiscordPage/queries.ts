@@ -20,7 +20,7 @@ export const getDiscordUserByProfileId = async ({
     },
     {
       operationName: 'getDiscordUserByProfileId',
-    },
+    }
   );
   return discord_users;
 };

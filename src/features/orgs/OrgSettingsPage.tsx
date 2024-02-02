@@ -77,11 +77,11 @@ export const OrgSettingsPage = () => {
     {
       enabled: !!profileId,
       staleTime: Infinity,
-    },
+    }
   );
 
   const [uploadedLogoUrl, setUploadedLogoUrl] = useState<undefined | string>(
-    undefined,
+    undefined
   );
 
   const [uploadComplete, setUploadComplete] = useState<boolean>(false);
@@ -118,14 +118,14 @@ export const OrgSettingsPage = () => {
         showError(
           e.target.value +
             ' is invalid, allowed files are: ' +
-            VALID_FILE_TYPES.join(', '),
+            VALID_FILE_TYPES.join(', ')
         );
         setLogoFile(undefined);
       } else if (e.target.files[0].size > MAX_IMAGE_BYTES_LENGTH_BASE64) {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64),
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
         );
       } else {
         setLogoFile(e.target.files[0]);

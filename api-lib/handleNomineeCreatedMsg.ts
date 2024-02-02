@@ -52,7 +52,7 @@ function getChannels(props: GetChannelsProps): Channels<DiscordNomination> {
 
 export default async function handleNomineeCreatedMsg(
   payload: EventTriggerPayload<'nominees', 'INSERT'>,
-  channels: { discord?: boolean; telegram?: boolean },
+  channels: { discord?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },

@@ -7,7 +7,7 @@ import { VercelRequest } from '@vercel/node';
 export async function isValidSignature(
   req: VercelRequest, // must be VercelRequest object, we then properly parse the buffer into a raw string body for the hmac
   signature: string, // your "x-alchemy-signature" from header
-  signingKey: string, // taken from dashboard for specific webhook
+  signingKey: string // taken from dashboard for specific webhook
 ): Promise<boolean> {
   const rawBody = await parseRawBody(req);
 

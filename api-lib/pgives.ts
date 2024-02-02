@@ -29,7 +29,7 @@ const MAX_NOTE_BONUS_PER_USER =
 export const genPgives = async (
   circleIds: number[],
   startFrom: DateTime,
-  endTo: DateTime,
+  endTo: DateTime
 ) => {
   const epochBasedData: Record<
     number,
@@ -43,7 +43,7 @@ export const genPgives = async (
   const { circles, epoch_pgive_data } = await getCircleGifts(
     circleIds,
     startFrom,
-    endTo,
+    endTo
   );
 
   console.log('ppgg foreaching the circles', circles);
@@ -57,7 +57,7 @@ export const genPgives = async (
           ? Math.max(
               ...epoch_pgive_data
                 .filter(e => e.epoch.circle_id === circle.id)
-                .map(e => e.active_months),
+                .map(e => e.active_months)
             ) + 1
           : 0;
 
@@ -106,7 +106,7 @@ export const genPgives = async (
             'circle',
             circle.id,
             ' gift len',
-            epoch.token_gifts?.length ?? 0,
+            epoch.token_gifts?.length ?? 0
           );
           epoch.token_gifts.forEach(g => {
             if (!(g.recipient_id in usersData)) {
@@ -165,7 +165,7 @@ export const genPgives = async (
 
           epoch.gives_receiver_base = Math.min(
             uniqueRecipients * BASE_ACTIVE_POINTS,
-            MAX_BASE_ACTIVE_TOTAL,
+            MAX_BASE_ACTIVE_TOTAL
           );
 
           /* Active Months Bonus */
@@ -176,7 +176,7 @@ export const genPgives = async (
           epoch.active_months_bonus =
             Math.min(
               epochIndexedData.activeMonths * PER_ACTIVE_MONTH_BONUS,
-              MAX_ACTIVE_MONTH_BONUS,
+              MAX_ACTIVE_MONTH_BONUS
             ) * uniqueRecipients;
 
           /* Notes Written Bonus */
@@ -202,7 +202,7 @@ export const genPgives = async (
           /* Part 2: pGIVE per Contributor (Splitting the “pot”) */
 
           const recipientIds = Object.keys(epochBasedData[epoch.id]).map(
-            Number,
+            Number
           );
           if (recipientIds.length) {
             type recMap = Record<number, number>;
@@ -239,7 +239,7 @@ export const genPgives = async (
                 giftCount[recipientId] === notesOnly[recipientId]
               ) {
                 optOutBonusAlloc = roundNumbers(
-                  (notesOnly[recipientId] / possibleNotes) * optOutShare,
+                  (notesOnly[recipientId] / possibleNotes) * optOutShare
                 );
               }
               epochBasedData[epoch.id][recipientId].opt_out_bonus =
@@ -262,7 +262,7 @@ export const genPgives = async (
             const totalTokensSent = epoch.token_gifts.length
               ? epoch.token_gifts.reduce(
                   (total, { tokens }) => total + tokens,
-                  0,
+                  0
                 )
               : 0;
 
@@ -334,7 +334,7 @@ export const genPgives = async (
       console.log(
         'going to insert? for circle',
         epochObjects.length,
-        circle.id,
+        circle.id
       );
       if (epochObjects.length) {
         ops[`u${circle.id}_epoch_data`] = {
@@ -369,7 +369,7 @@ export const genPgives = async (
       },
       {
         operationName: 'insert_pGiveData',
-      },
+      }
     );
   }
 };
@@ -389,7 +389,7 @@ type getCircleGiftsResult = Awaited<ReturnType<typeof getCircleGifts>>;
 const getCircleGifts = async (
   circleIds: Array<number>,
   startFrom: DateTime,
-  endTo: DateTime,
+  endTo: DateTime
 ) => {
   const { circles, epoch_pgive_data } = await adminClient.query(
     {
@@ -468,7 +468,7 @@ const getCircleGifts = async (
         },
       ],
     },
-    { operationName: 'GenPgiveCircleGiftQuery' },
+    { operationName: 'GenPgiveCircleGiftQuery' }
   );
 
   return { circles, epoch_pgive_data };
@@ -476,7 +476,7 @@ const getCircleGifts = async (
 
 export const getCirclesNoPgiveWithDateFilter = async (
   startFrom: DateTime,
-  endTo: DateTime,
+  endTo: DateTime
 ): Promise<Array<number>> => {
   const { circles } = await adminClient.query(
     {
@@ -502,7 +502,7 @@ export const getCirclesNoPgiveWithDateFilter = async (
         },
       ],
     },
-    { operationName: 'GenPgiveCircleFetch' },
+    { operationName: 'GenPgiveCircleFetch' }
   );
   return circles.length ? circles.map(c => c.id) : [];
 };

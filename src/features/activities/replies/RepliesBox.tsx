@@ -56,7 +56,7 @@ export const RepliesBox = ({
       },
       {
         operationName: 'fetchReplies',
-      },
+      }
     );
     return replies;
   };
@@ -79,7 +79,7 @@ export const RepliesBox = ({
     async () => {
       const resp = await fetchReplies();
       return resp.filter(IsValidReply);
-    },
+    }
   );
 
   const { mutate: deleteReply } = useMutation(
@@ -99,14 +99,14 @@ export const RepliesBox = ({
         },
         {
           operationName: 'deleteReply',
-        },
+        }
       );
     },
     {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEY_REPLIES);
       },
-    },
+    }
   );
 
   return (

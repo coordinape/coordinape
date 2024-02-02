@@ -37,7 +37,7 @@ export const fetchPostSearchResults = async ({
     },
     {
       operationName: 'searchBoxQueryPosts',
-    },
+    }
   );
   return { posts: search_contributions };
 };

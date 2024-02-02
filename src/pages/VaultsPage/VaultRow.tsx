@@ -175,7 +175,7 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
               inlineLink
               to={givePaths.vaultTxs(
                 vault.organization.id.toString(),
-                vault.vault_address,
+                vault.vault_address
               )}
             >
               View All Transactions
@@ -203,15 +203,15 @@ const RecentTransactions = ({ vault }: { vault: Vault }) => {
 
 const getDistributions = (vault: Vault) => {
   return vault.vault_transactions.filter(
-    t => t.tx_type === vault_tx_types_enum.Distribution,
+    t => t.tx_type === vault_tx_types_enum.Distribution
   );
 };
 
 const getUniqueContributors = (vault: Vault): number =>
   new Set(
     getDistributions(vault).flatMap(d =>
-      d.distribution?.claims.map(c => c.profile_id),
-    ),
+      d.distribution?.claims.map(c => c.profile_id)
+    )
   ).size;
 
 type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';

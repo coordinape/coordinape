@@ -28,17 +28,17 @@ test('add to org_members when user is created', async () => {
             { id: true, deleted_at: true, org_id: true },
           ],
         },
-        { operationName: 'test' },
+        { operationName: 'test' }
       );
 
       const members = sortBy(org_members, 'profile_id');
       expect(members.length).toBe(2);
       expect(members.map(m => m.org_id).sort()).toEqual(
-        [user1, user2].map(u => u.circle.organization.id).sort(),
+        [user1, user2].map(u => u.circle.organization.id).sort()
       );
       expect(members.map(m => m.deleted_at)).toEqual([null, null]);
     },
-    { timeout: 4000 },
+    { timeout: 4000 }
   );
 });
 
@@ -69,7 +69,7 @@ describe('with deleted user', () => {
           { id: true },
         ],
       },
-      { operationName: 'test' },
+      { operationName: 'test' }
     );
 
     memberId = org_members[0]?.id;
@@ -86,7 +86,7 @@ describe('with deleted user', () => {
           { deleted_at: true },
         ],
       },
-      { operationName: 'test' },
+      { operationName: 'test' }
     );
   });
 
@@ -98,18 +98,18 @@ describe('with deleted user', () => {
           { __typename: true },
         ],
       },
-      { operationName: 'test' },
+      { operationName: 'test' }
     );
 
     await waitFor(
       async () => {
         const { org_members_by_pk } = await adminClient.query(
           { org_members_by_pk: [{ id: memberId }, { deleted_at: true }] },
-          { operationName: 'test' },
+          { operationName: 'test' }
         );
         expect(org_members_by_pk?.deleted_at).toBeNull();
       },
-      { timeout: 4000 },
+      { timeout: 4000 }
     );
   });
 });

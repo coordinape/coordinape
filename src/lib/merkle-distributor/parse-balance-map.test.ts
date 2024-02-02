@@ -16,7 +16,7 @@ test('verify proof for simple 2-entry map', () => {
       account,
       BigNumber.from(amount),
       proof.map(hex => Buffer.from(hex.substring(2), 'hex')),
-      Buffer.from(info.merkleRoot.substring(2), 'hex'),
+      Buffer.from(info.merkleRoot.substring(2), 'hex')
     );
     expect(check).toBeTruthy();
   });
@@ -33,9 +33,9 @@ test('produce same output as fixture created by brownie', () => {
         account,
         BigNumber.from(amount),
         proof.map(hex => Buffer.from(hex.substring(2), 'hex')),
-        Buffer.from(expectedOutput.merkleRoot.substring(2), 'hex'),
+        Buffer.from(expectedOutput.merkleRoot.substring(2), 'hex')
       );
       expect(check).toBeTruthy();
-    },
+    }
   );
 });

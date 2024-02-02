@@ -81,7 +81,7 @@ type CheckBoxProps = {
 export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
   (
     { value, label, error, errorText, disabled, onChange, infoTooltip },
-    ref,
+    ref
   ) => (
     <>
       <Flex
@@ -115,7 +115,7 @@ export const CheckBox = React.forwardRef<HTMLButtonElement, CheckBoxProps>(
         </Text>
       )}
     </>
-  ),
+  )
 );
 
 CheckBox.displayName = 'CheckBox';

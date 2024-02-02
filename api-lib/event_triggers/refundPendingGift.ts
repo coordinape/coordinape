@@ -60,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             };
           return ops;
         },
-        {} as { [aliasKey: string]: ValueTypes['mutation_root'] },
+        {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
       );
 
       const newNonGiverResult = await adminClient.mutate(
@@ -102,7 +102,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
         {
           operationName: 'refundPendingGifts_newNonGiver',
-        },
+        }
       );
       results.push(newNonGiverResult);
     }
@@ -126,7 +126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             };
           return muts;
         },
-        {} as { [aliasKey: string]: ValueTypes['mutation_root'] },
+        {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
       );
 
       const newNonReceiverResult = await adminClient.mutate(
@@ -168,7 +168,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
         {
           operationName: 'refundPendingGifts_newNonReceiver',
-        },
+        }
       );
       results.push(newNonReceiverResult);
     }

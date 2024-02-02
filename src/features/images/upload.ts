@@ -11,14 +11,14 @@ const genUploadLink = async () => {
     },
     {
       operationName: 'generateOneTimeUpload',
-    },
+    }
   );
   const link = generateOneTimeUpload?.result?.upload_url;
   if (link) {
     return link;
   } else
     throw new Error(
-      'Error generating upload link: ' + generateOneTimeUpload?.errors,
+      'Error generating upload link: ' + generateOneTimeUpload?.errors
     );
 };
 

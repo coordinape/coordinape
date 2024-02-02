@@ -44,7 +44,7 @@ export const getCircleSettings = async (circleId: number) => {
         },
       },
     },
-    { operationName: 'getCircleSettings' },
+    { operationName: 'getCircleSettings' }
   );
 
   assert(circle);

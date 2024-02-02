@@ -1,7 +1,7 @@
 const themeLocalStorageKey = 'theme';
 export type ThemePreference = 'auto' | 'dark' | 'light';
 export function isValidThemePreference(
-  theme: string | null,
+  theme: string | null
 ): theme is ThemePreference {
   return theme == 'auto' || theme == 'dark' || theme == 'light';
 }

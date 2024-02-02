@@ -8,7 +8,7 @@ import { textAreaMinHeight } from 'components/FormInputField';
 
 async function fetchUsers(
   query: string,
-  callback: (data: SuggestionDataItem[]) => void,
+  callback: (data: SuggestionDataItem[]) => void
 ) {
   if (!query) return;
   const { profiles_public } = await client.query(
@@ -35,13 +35,13 @@ async function fetchUsers(
     },
     {
       operationName: 'fetchMentionables',
-    },
+    }
   );
   callback(
     profiles_public?.map(p => ({
       id: p.address ?? '',
       display: p.name,
-    })) ?? [],
+    })) ?? []
   );
 }
 
@@ -57,7 +57,7 @@ export const MentionsTextArea = ({
   onKeyDown?: (
     e:
       | React.KeyboardEvent<HTMLTextAreaElement>
-      | React.KeyboardEvent<HTMLInputElement>,
+      | React.KeyboardEvent<HTMLInputElement>
   ) => void;
 }) => {
   return (

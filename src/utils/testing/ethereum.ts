@@ -31,7 +31,7 @@ export class TestProvider {
 
   constructor(url: string, accountIndex = 0, seed: string = DEFAULT_SEED) {
     const privateKey = deriveAccount(accountIndex, seed).privateKey.substring(
-      2,
+      2
     );
 
     this.calls = [];
@@ -43,8 +43,8 @@ export class TestProvider {
       new WalletSubprovider(
         //@ts-ignore
         new Wallet(new Uint8Array(Buffer.from(privateKey, 'hex'))),
-        {},
-      ),
+        {}
+      )
     );
     this.engine.addProvider(new RpcSubProvider({ rpcUrl: url }));
     this.engine.start();
@@ -67,7 +67,7 @@ export class TestProvider {
     if (typeof method === 'object') {
       this.engine.sendAsync([method]);
       console.warn(
-        'Nested JSON-RPC command: ' + JSON.stringify(params, null, 2),
+        'Nested JSON-RPC command: ' + JSON.stringify(params, null, 2)
       );
       return;
     }

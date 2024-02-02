@@ -70,7 +70,7 @@ export const Paginator = ({
   if (!totalPages && totalItems) {
     // Calculate total pages from {totalItems} & {itemsPerPage}
     totalPages = Math.ceil(
-      totalItems / (itemsPerPage || defaults.itemsPerPage),
+      totalItems / (itemsPerPage || defaults.itemsPerPage)
     );
   }
 

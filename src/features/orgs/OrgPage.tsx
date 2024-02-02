@@ -32,7 +32,7 @@ export const OrgPage = () => {
     {
       enabled: !!profileId,
       staleTime: Infinity,
-    },
+    }
   );
   const org = query.data?.organizations_by_pk;
 

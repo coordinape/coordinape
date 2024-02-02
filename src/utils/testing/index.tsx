@@ -68,7 +68,7 @@ export const TestWrapper = ({
 
   assert(
     withRoutes || children,
-    'TestWrapper must have withRoutes or children',
+    'TestWrapper must have withRoutes or children'
   );
 
   return (

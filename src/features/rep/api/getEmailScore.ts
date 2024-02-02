@@ -19,7 +19,7 @@ export const getEmailScore = async (profileId: number) => {
     },
     {
       operationName: 'get_emails_for_score',
-    },
+    }
   );
 
   // TODO: only score if they allow this domain name on their profile?
@@ -31,7 +31,7 @@ export const getEmailScore = async (profileId: number) => {
   }
   const score = Math.min(
     EMAIL_SCORE_MAX,
-    uniqueDomains.size * EMAIL_SCORE_PER_DOMAIN,
+    uniqueDomains.size * EMAIL_SCORE_PER_DOMAIN
   );
   return score;
 };

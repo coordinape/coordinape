@@ -6,7 +6,7 @@ import { coLinksMemberSelector } from './CoLinksMember';
 const MAX_PEOPLE_WITH_SKILL = 100;
 export const fetchPeopleWithSkill = async (
   skill: string,
-  currentUserAddress: string,
+  currentUserAddress: string
 ) => {
   const { profile_skills } = await client.query(
     {
@@ -27,7 +27,7 @@ export const fetchPeopleWithSkill = async (
     },
     {
       operationName: 'explore_fetchSkills',
-    },
+    }
   );
   return profile_skills.map(ps => ps.profile_public);
 };

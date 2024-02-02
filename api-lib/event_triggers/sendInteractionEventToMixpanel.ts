@@ -34,7 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 export const addPropsAndTrack = async (
   event: Event,
-  trackCircleEvent = true,
+  trackCircleEvent = true
 ): Promise<boolean> => {
   const mp = mixpanel.init(MIXPANEL_PROJECT_TOKEN);
 
@@ -58,7 +58,7 @@ export const addPropsAndTrack = async (
           },
         ],
       },
-      { operationName: 'mixpanel_getOrgId' },
+      { operationName: 'mixpanel_getOrgId' }
     );
     assert(circle);
     eventData.org_id = circle.organization_id;
@@ -73,7 +73,7 @@ export const addPropsAndTrack = async (
           { sample: true, name: true },
         ],
       },
-      { operationName: 'mixpanel_getOrgName' },
+      { operationName: 'mixpanel_getOrgName' }
     );
     assert(org);
     eventData.organization_name = org.name;
@@ -91,7 +91,7 @@ export const addPropsAndTrack = async (
       {
         profile_id: event.profile_id,
         ...eventData,
-      },
+      }
     );
   }
 
@@ -111,8 +111,8 @@ const track = (
   mp: Mixpanel,
   eventName: string,
   distinct_id: string,
-  props: Record<string, unknown>,
+  props: Record<string, unknown>
 ) =>
   new Promise<void>(resolve =>
-    mp.track(eventName, { distinct_id, ...props }, () => resolve()),
+    mp.track(eventName, { distinct_id, ...props }, () => resolve())
   );

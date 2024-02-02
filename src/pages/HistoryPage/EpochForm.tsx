@@ -151,7 +151,7 @@ const extraEpoch = (raw: QueryFutureEpoch): IQueryEpoch => {
 const getCollisionMessage = (
   newInterval: Interval,
   newRepeat: RepeatData,
-  e: IQueryEpoch,
+  e: IQueryEpoch
 ) => {
   if (
     newInterval.overlaps(e.interval) ||
@@ -177,7 +177,7 @@ const getCollisionMessage = (
     if (rp.overlaps(c)) {
       if (e.repeatEnum !== 'none' || e.repeat_data) {
         return `Overlap with repeating epoch ${e.number ?? 'x'}: ${rp.toFormat(
-          longFormat,
+          longFormat
         )}`;
       } else {
         return `After repeat, new epoch overlaps ${
@@ -193,7 +193,7 @@ const getCollisionMessage = (
 
 const getZodParser = (
   source?: IEpochFormSource,
-  currentEpoch?: { id: number; end_date: string },
+  currentEpoch?: { id: number; end_date: string }
 ) => {
   const otherRepeating = source?.epoch
     ? source.epoch.id > -1
@@ -234,15 +234,15 @@ const getZodParser = (
         start_date: DateTime.fromISO(start_date)
           .set(
             Duration.fromISOTime(
-              fields.start_time,
-            ).toObject() as DateObjectUnits,
+              fields.start_time
+            ).toObject() as DateObjectUnits
           )
           .setZone(),
         end_date: DateTime.fromISO(end_date)
           .set(
             Duration.fromISOTime(
-              fields.start_time,
-            ).toObject() as DateObjectUnits,
+              fields.start_time
+            ).toObject() as DateObjectUnits
           )
           .setZone(),
         ...fields,
@@ -270,7 +270,7 @@ const getZodParser = (
       {
         path: ['start_date'],
         message: 'Start date cannot be earlier than 100 days ago',
-      },
+      }
     )
     .refine(
       ({ end_date }) => {
@@ -279,7 +279,7 @@ const getZodParser = (
       {
         path: ['end_date'],
         message: 'Epoch must end in the future',
-      },
+      }
     )
     .refine(({ start_date, end_date }) => start_date < end_date, {
       path: ['end_date'],
@@ -287,7 +287,7 @@ const getZodParser = (
     })
     .refine(
       v => !getOverlapIssue(v),
-      v => getOverlapIssue(v) ?? {},
+      v => getOverlapIssue(v) ?? {}
     )
     .refine(
       ({ repeat_view }) => !(repeat_view === 'repeats' && !!otherRepeating),
@@ -295,7 +295,7 @@ const getZodParser = (
         path: ['repeat'],
         // the getOverlapIssue relies on this invariant.
         message: `Only one repeating epoch allowed.`,
-      },
+      }
     )
     .transform(({ start_date, end_date, ...fields }) => ({
       start_date: start_date.toISO(),
@@ -366,7 +366,7 @@ const EpochForm = ({
             ?.filter(e => e.id !== selectedEpoch?.id)
             .map(e => extraEpoch(e)),
     }),
-    [selectedEpoch, epochs, currentEpoch],
+    [selectedEpoch, epochs, currentEpoch]
   );
 
   const nextEpochStartLabel = useMemo(() => {
@@ -418,7 +418,7 @@ const EpochForm = ({
       start_time:
         (source?.epoch?.start_date &&
           DateTime.fromISO(source.epoch.start_date).toLocaleString(
-            DateTime.TIME_24_SIMPLE,
+            DateTime.TIME_24_SIMPLE
           )) ??
         DateTime.now().setZone().toLocaleString(DateTime.TIME_24_SIMPLE),
       start_date:
@@ -452,7 +452,7 @@ const EpochForm = ({
     end_date: source?.epoch
       ? source.epoch.end_date
       : findMonthlyEndDate(
-          DateTime.fromISO(getValues('repeatStartDate')),
+          DateTime.fromISO(getValues('repeatStartDate'))
         ).toISO(),
     repeat_data: source?.epoch?.repeat_data ?? { type: 'one-off' },
   });
@@ -507,7 +507,7 @@ const EpochForm = ({
             setValue(
               'end_date',
               DateTime.fromISO(start_date).plus({ days: 1 }).toISODate(),
-              { shouldValidate: false },
+              { shouldValidate: false }
             );
             return;
           }
@@ -536,7 +536,7 @@ const EpochForm = ({
               setValue(
                 'custom_interval_denomination',
                 custom_duration_denomination,
-                { shouldTouch: true },
+                { shouldTouch: true }
               );
               setValue('custom_interval_qty', custom_duration_qty, {
                 shouldTouch: true,
@@ -550,7 +550,7 @@ const EpochForm = ({
             ) {
               setValue(
                 'custom_duration_denomination',
-                custom_interval_denomination,
+                custom_interval_denomination
               );
               setValue('custom_duration_qty', custom_interval_qty);
               return;
@@ -631,7 +631,7 @@ const EpochForm = ({
       selectedEpoch.id === currentEpoch?.id &&
       selectedEpoch.number !== -1 &&
       false,
-    [selectedEpoch, currentEpoch],
+    [selectedEpoch, currentEpoch]
   );
 
   return (
@@ -1183,7 +1183,7 @@ export const getNextRepeatingDates = (
     | 'custom_interval_qty'
     | 'custom_interval_denomination'
     | 'monthly_repeat_datetime'
-  >,
+  >
 ): { nextStartDate: string; nextEndDate: string } => {
   let nextStartDate = DateTime.now();
   let nextEndDate = DateTime.now();
@@ -1216,7 +1216,7 @@ export const getNextRepeatingDates = (
 };
 
 const buildRepeatData = (
-  data: Omit<epochFormSchema, 'start_date' | 'end_date'>,
+  data: Omit<epochFormSchema, 'start_date' | 'end_date'>
 ): RepeatData => {
   if (data.repeat_view === 'one-off') return { type: 'one-off' };
   if (data.repeat === 'custom')

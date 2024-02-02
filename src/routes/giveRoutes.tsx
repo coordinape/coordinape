@@ -136,7 +136,7 @@ const OrgRouteHandler = () => {
   const isInOrg = profile?.org_members.some(m =>
     circleId
       ? m.organization.circles.some(c => c.id === circleId)
-      : m.org_id === orgId,
+      : m.org_id === orgId
   );
 
   if (!isInOrg && !isInCircle)

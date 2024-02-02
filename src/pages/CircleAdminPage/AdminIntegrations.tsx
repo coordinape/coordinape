@@ -34,7 +34,7 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
     if (typeof window !== `undefined`) {
       // this case will always be true until we move to nextjs
       return `${window.location.origin}${givePaths.connectIntegration(
-        circleId,
+        circleId
       )}`;
     }
     // TODONEXT: this needs to useRouter

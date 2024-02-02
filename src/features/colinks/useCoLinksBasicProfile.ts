@@ -25,13 +25,13 @@ export const useCoLinksBasicProfile = (address?: string) => {
         },
         {
           operationName: 'basic_profile',
-        },
+        }
       );
       return profiles_public.pop();
     },
     {
       enabled: !!address,
-    },
+    }
   );
   return { data, isLoading };
 };

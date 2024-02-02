@@ -19,7 +19,7 @@ export const useNotificationCount = () => {
         await fetchLastReadNotificationId(profileId);
       const count = await fetchNotificationsCount(
         profileId,
-        last_read_notification_id,
+        last_read_notification_id
       );
       return { last_read_notification_id, count };
     },
@@ -37,7 +37,7 @@ export const useNotificationCount = () => {
         }
       },
       refetchIntervalInBackground: true,
-    },
+    }
   );
 
   return { ...data, profileId };
@@ -55,7 +55,7 @@ const fetchLastReadNotificationId = async (profileId: number) => {
     },
     {
       operationName: 'useNotificationCount__last_seen_id',
-    },
+    }
   );
 
   return profiles_by_pk?.last_read_notification_id ?? 0;
@@ -63,7 +63,7 @@ const fetchLastReadNotificationId = async (profileId: number) => {
 
 const fetchNotificationsCount = async (
   profileId: number,
-  last_read_notification_id: number,
+  last_read_notification_id: number
 ) => {
   const { notifications_aggregate } = await client.query(
     {
@@ -83,7 +83,7 @@ const fetchNotificationsCount = async (
     },
     {
       operationName: 'notificationsAndCount',
-    },
+    }
   );
   return notifications_aggregate.aggregate?.count ?? 0;
 };

@@ -72,7 +72,7 @@ export const NetworkSelector = () => {
   const onNetworkError = (error: Error | any) => {
     if (error?.message.match(/Unrecognized chain ID .*/)) {
       showError(
-        `Failed to switch networks. Unrecognized chain ID. Try adding the chain first.`,
+        `Failed to switch networks. Unrecognized chain ID. Try adding the chain first.`
       );
     } else {
       throw new Error(error);

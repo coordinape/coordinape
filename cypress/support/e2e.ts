@@ -30,7 +30,7 @@ declare global {
       mintErc20(
         symbol: 'USDC' | 'DAI',
         receiver: string,
-        amount: string,
+        amount: string
       ): Chainable;
 
       getInputByLabel(label: string, options?: { timeout: number }): Chainable;

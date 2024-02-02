@@ -33,7 +33,7 @@ export async function mint(
     address?: string;
     amount: string;
   },
-  provider?: JsonRpcProvider,
+  provider?: JsonRpcProvider
 ) {
   if (!provider) provider = defaultProvider();
   if (!address) address = (await provider.listAccounts())[0];
@@ -53,14 +53,14 @@ export async function mint(
 const mintWeth = async (
   receiver: string,
   amount: string,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider
 ) => {
   await mintEth(receiver, (Number(amount) + 0.1).toString(), provider);
   const sender = await unlockSigner(receiver);
   const weth = new ethers.Contract(
     tokens.WETH.addr,
     ['function deposit() public payable'],
-    sender,
+    sender
   );
   await weth.deposit({ value: ethers.utils.parseEther(amount) });
 };
@@ -68,7 +68,7 @@ const mintWeth = async (
 const mintEth = async (
   receiver: string,
   amount: string,
-  provider: JsonRpcProvider,
+  provider: JsonRpcProvider
 ) => {
   const signer = provider.getSigner();
   await signer.sendTransaction({
@@ -81,7 +81,7 @@ export const mintToken = async (
   symbol: string,
   receiver: string,
   amount: string,
-  provider?: JsonRpcProvider,
+  provider?: JsonRpcProvider
 ) => {
   if (!provider) provider = defaultProvider();
   const { whale, addr } = tokens[symbol as keyof typeof tokens];
@@ -93,7 +93,7 @@ export const mintToken = async (
       'function transfer(address,uint)',
       'function decimals() view returns (uint8)',
     ],
-    sender,
+    sender
   );
   const decimals = await contract.decimals();
   const wei = BigNumber.from(10).pow(decimals).mul(amount);

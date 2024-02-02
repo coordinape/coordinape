@@ -96,7 +96,7 @@ export const extraCircle = (circle: IApiCircle): ICircle => {
 export const extraGift = (
   gift: IApiTokenGift,
   usersMap: Map<number, IUser>,
-  pending: boolean,
+  pending: boolean
 ): ITokenGift => {
   const sender = usersMap.get(gift.sender_id) ?? createFakeUser(gift.circle_id);
   const recipient =

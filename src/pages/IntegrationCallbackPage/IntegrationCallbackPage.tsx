@@ -72,7 +72,7 @@ export const IntegrationCallbackPage: FC = () => {
   const params = useMemo(() => new URLSearchParams(search), [search]);
 
   const [status, setStatus] = useState<'loading' | 'created' | 'failed'>(
-    'loading',
+    'loading'
   );
 
   const connectIntegration = useCallback(async () => {
@@ -84,7 +84,7 @@ export const IntegrationCallbackPage: FC = () => {
           circleId,
           integration.name,
           data.integrationName,
-          data.integrationConfig,
+          data.integrationConfig
         );
         setStatus('created');
       } catch {

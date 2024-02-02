@@ -59,7 +59,7 @@ const OtherProfilePage = ({ address }: { address: string }) => {
   const { data: profile } = useQuery(
     ['profile', address],
     () => queryProfile(address),
-    { staleTime: Infinity },
+    { staleTime: Infinity }
   );
 
   return !profile ? (
@@ -91,7 +91,7 @@ const ProfilePageContent = ({
       file: newAvatar,
       onSuccess: async (resp: any) => {
         const newAvatar = resp.result.variants.find((s: string) =>
-          s.match(/original$/),
+          s.match(/original$/)
         );
         await updateProfileBackground(newAvatar);
         await fetchManifest();
@@ -115,7 +115,7 @@ const ProfilePageContent = ({
       staleTime: Infinity,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-    },
+    }
   );
 
   useEffect(() => {
@@ -361,7 +361,7 @@ const updateProfileBackground = async (avatar_url: string) => {
     },
     {
       operationName: 'updateProfileAvatar',
-    },
+    }
   );
 };
 

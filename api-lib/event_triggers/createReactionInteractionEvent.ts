@@ -60,7 +60,7 @@ async function getCircleAndOrg(reaction_id: number) {
     },
     {
       operationName: 'createReactionInteractionEvent__getCircleandOrg',
-    },
+    }
   );
 
   assert(data.reactions_by_pk?.activity);

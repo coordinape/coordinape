@@ -32,14 +32,14 @@ export const getTokenAddress = (
   vault: Pick<
     SimpleVaultType,
     'symbol' | 'token_address' | 'simple_token_address'
-  >,
+  >
 ): string => {
   const address = hasSimpleToken(vault)
     ? vault.simple_token_address
     : vault.token_address;
   assert(
     address && address !== AddressZero,
-    'CoVault is missing token address',
+    'CoVault is missing token address'
   );
   return address;
 };
@@ -55,7 +55,7 @@ export const getWrappedAmount = async (
     SimpleVaultType,
     'decimals' | 'vault_address' | 'simple_token_address'
   >,
-  contracts: Contracts,
+  contracts: Contracts
 ): Promise<BigNumber> => {
   const weiAmount = parseUnits(amount, vault.decimals);
   if (hasSimpleToken(vault)) return weiAmount;
@@ -73,14 +73,14 @@ export const getWrappedAmount = async (
   if (newTotalAmount.lt(vaultBalance.add(acceptableError))) return vaultBalance;
 
   throw new Error(
-    `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`,
+    `Trying to tap ${newTotalAmount} but vault has only ${vaultBalance}.`
   );
 };
 
 export const getUnwrappedAmount = (
   amount: number | string | BigNumber,
   pricePerShare: FixedNumber,
-  decimals?: number,
+  decimals?: number
 ) => {
   let figure = amount;
   if (typeof amount === 'number') {
@@ -92,7 +92,7 @@ export const getUnwrappedAmount = (
 
   if (decimals)
     result = result.divUnsafe(
-      FixedNumber.from(BigNumber.from(10).pow(decimals)),
+      FixedNumber.from(BigNumber.from(10).pow(decimals))
     );
 
   return result.toUnsafeFloat();

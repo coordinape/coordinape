@@ -35,7 +35,7 @@ const FallbackAddressContext = createContext<
 >([undefined, () => {}]);
 
 export function useWeb3React<T = any>(
-  key?: string | undefined,
+  key?: string | undefined
 ): UseWeb3ReactReturnType<T> {
   // pass through values if the user is logged in via web3-react
   const context = useOriginalWeb3React(key);

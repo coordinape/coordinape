@@ -116,9 +116,9 @@ export const SearchBox = ({
                 inputRef.current?.value
                   ? coLinksPaths.searchResult(
                       inputRef.current?.value ?? '',
-                      POSTS,
+                      POSTS
                     )
-                  : coLinksPaths.search,
+                  : coLinksPaths.search
               )
             }
           >

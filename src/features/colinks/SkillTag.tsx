@@ -21,7 +21,7 @@ export const SkillTag = ({
 }) => {
   const navigate = useNavigate();
   const onClickSkillHandler = (
-    e: React.MouseEvent<HTMLSpanElement, MouseEvent>,
+    e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
     navigate(coLinksPaths.exploreSkill(skill));

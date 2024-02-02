@@ -17,7 +17,7 @@ export default class BalanceTree {
 
     while (nodes.length < paddedLength) {
       nodes.push(
-        BalanceTree.toNode(nodes.length, AddressZero, BigNumber.from(0)),
+        BalanceTree.toNode(nodes.length, AddressZero, BigNumber.from(0))
       );
     }
 
@@ -29,7 +29,7 @@ export default class BalanceTree {
     account: string,
     amount: BigNumber,
     proof: Buffer[],
-    root: Buffer,
+    root: Buffer
   ): boolean {
     if (root.length === 0) throw new Error('root has 0 length');
     let pair = BalanceTree.toNode(index, account, amount);
@@ -44,16 +44,16 @@ export default class BalanceTree {
   public static toNode(
     index: number | BigNumber,
     account: string,
-    amount: BigNumber,
+    amount: BigNumber
   ): Buffer {
     return Buffer.from(
       utils
         .solidityKeccak256(
           ['uint256', 'address', 'uint256'],
-          [index, account, amount],
+          [index, account, amount]
         )
         .substr(2),
-      'hex',
+      'hex'
     );
   }
 
@@ -65,7 +65,7 @@ export default class BalanceTree {
   public getProof(
     index: number | BigNumber,
     account: string,
-    amount: BigNumber,
+    amount: BigNumber
   ): string[] {
     return this.tree.getHexProof(BalanceTree.toNode(index, account, amount));
   }

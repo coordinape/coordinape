@@ -28,7 +28,7 @@ const fetchBigQuestions = async () => {
     },
     {
       operationName: 'bigQuestions',
-    },
+    }
   );
   return big_questions;
 };

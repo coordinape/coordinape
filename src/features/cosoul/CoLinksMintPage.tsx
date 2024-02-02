@@ -38,7 +38,7 @@ export const CoLinksMintPage = ({
       enabled: !!profileId && !!address,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-    },
+    }
   );
   const cosoul_data = query.data;
 

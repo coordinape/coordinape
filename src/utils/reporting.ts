@@ -12,7 +12,7 @@ export const SEVERITY_DEBUG = 'debug' as SeverityLevel;
 
 export const reportException = (
   error: any,
-  captureContext?: CaptureContext,
+  captureContext?: CaptureContext
 ) => {
   if (DOMAIN_IS_LOCALHOST) return;
 

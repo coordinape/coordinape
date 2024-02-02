@@ -11,7 +11,7 @@ export const provider = () => {
   if (!_provider) {
     _provider = new AlchemyProvider(
       'homestead',
-      VITE_ALCHEMY_ETH_MAINNET_API_KEY,
+      VITE_ALCHEMY_ETH_MAINNET_API_KEY
     );
   }
   return _provider;
@@ -84,7 +84,7 @@ const prohibitedWebsites = [
 
 const isProhibitedWebsite = (url: string) =>
   prohibitedWebsites.some(prohibitedWebsite =>
-    url.replace(/^https?:\/\//, '').startsWith(prohibitedWebsite),
+    url.replace(/^https?:\/\//, '').startsWith(prohibitedWebsite)
   );
 
 const optionalUrl = z.union([url.nullish(), z.literal('')]);
@@ -92,7 +92,7 @@ export const zWebsite = optionalUrl.refine(
   url => !url || !isProhibitedWebsite(url.toLowerCase()),
   {
     message: 'URLs containing that domain are not allowed',
-  },
+  }
 );
 
 export const zCircleName = z

@@ -135,7 +135,7 @@ export const CoSoulItem = ({
                   >
                     {abbreviateString(
                       cosoul.profile_public?.name ?? 'Anon',
-                      14,
+                      14
                     )}
                   </Text>
                 </Flex>

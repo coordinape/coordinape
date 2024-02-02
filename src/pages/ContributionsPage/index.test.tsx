@@ -40,7 +40,7 @@ test('basic rendering with no contributions', async () => {
   render(
     <TestWrapper>
       <ContributionsPage />
-    </TestWrapper>,
+    </TestWrapper>
   );
   await screen.findByText('Contributions');
 });

@@ -30,7 +30,7 @@ type OldFormat = { [account: string]: number | string };
 type NewFormat = { address: string; earnings: string | BigNumber };
 
 export function parseBalanceMap(
-  balances: OldFormat | NewFormat[],
+  balances: OldFormat | NewFormat[]
 ): MerkleDistributorInfo {
   // if balances are in an old format, process them
   const balancesInNewFormat: NewFormat[] = Array.isArray(balances)
@@ -39,7 +39,7 @@ export function parseBalanceMap(
         (account): NewFormat => ({
           address: account,
           earnings: `0x${balances[account].toString(16)}`,
-        }),
+        })
       );
 
   const dataByAddress = balancesInNewFormat.reduce<{
@@ -67,7 +67,7 @@ export function parseBalanceMap(
     sortedAddresses.map(address => ({
       account: address,
       amount: dataByAddress[address].amount,
-    })),
+    }))
   );
 
   // generate claims
@@ -89,7 +89,7 @@ export function parseBalanceMap(
 
   const tokenTotal: BigNumber = sortedAddresses.reduce<BigNumber>(
     (memo, key) => memo.add(dataByAddress[key].amount),
-    BigNumber.from(0),
+    BigNumber.from(0)
   );
 
   return {

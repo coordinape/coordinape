@@ -62,7 +62,7 @@ export function useClaimAllocation() {
             address,
             amount,
             !isSimpleToken,
-            proof,
+            proof
           ),
         {
           showDefault,
@@ -78,7 +78,7 @@ export function useClaimAllocation() {
               tx_type: vault_tx_types_enum.Claim,
             }),
           contract: contracts.distributor,
-        },
+        }
       );
 
       const { receipt, error } = trx;
@@ -106,7 +106,7 @@ export function useClaimAllocation() {
         const weth = new ethers.Contract(
           tokenAddress,
           ['function withdraw(uint) public'],
-          contracts.signerOrProvider,
+          contracts.signerOrProvider
         );
         const { error } = await sendAndTrackTx(() => weth.withdraw(amount), {
           showDefault,
@@ -134,5 +134,5 @@ export function useClaimAllocation() {
 const markClaimed = (payload: { claim_id: number; tx_hash: string }) =>
   client.mutate(
     { markClaimed: [{ payload }, { ids: true }] },
-    { operationName: 'markClaimed' },
+    { operationName: 'markClaimed' }
   );

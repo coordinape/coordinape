@@ -65,7 +65,7 @@ export const ViewProfilePageContents = ({
 
 const fetchCoLinksProfile = async (
   address: string,
-  currentProfileId: number,
+  currentProfileId: number
 ) => {
   const { profiles_public, mutedThem, imMuted } = await client.query(
     {
@@ -135,7 +135,7 @@ const fetchCoLinksProfile = async (
     },
     {
       operationName: 'coLinks_profile',
-    },
+    }
   );
   const profile = profiles_public.pop();
   const mutedThemI = mutedThem.pop();
@@ -172,18 +172,18 @@ const PageContents = ({
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
-    undefined,
+    undefined
   );
 
   const { data: targetProfile, isLoading: fetchCoLinksProfileIsLoading } =
     useQuery([QUERY_KEY_COLINKS, targetAddress, 'profile'], () =>
-      fetchCoLinksProfile(targetAddress, currentUserProfileId),
+      fetchCoLinksProfile(targetAddress, currentUserProfileId)
     );
   const { data: cosoul, isLoading: fetchCoSoulIsLoading } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
     async () => {
       return fetchCoSoul(targetAddress);
-    },
+    }
   );
 
   const needsBootstrapping = targetIsCurrentUser && balance == 0;
@@ -462,7 +462,7 @@ const ProfileLinkDetails = ({ targetAddress }: { targetAddress: string }) => {
       <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
         {(
           list: React.ReactNode,
-          counts?: { link_holders: number; total_links: number },
+          counts?: { link_holders: number; total_links: number }
         ) => (
           <RightColumnSection
             title={

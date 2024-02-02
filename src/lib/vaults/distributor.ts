@@ -9,7 +9,7 @@ export async function uploadEpochRoot(
   vault: Pick<GraphQLTypes['vaults'], 'simple_token_address' | 'vault_address'>,
   circleId: number,
   merkleRoot: string,
-  amount: BigNumber,
+  amount: BigNumber
 ) {
   const encodedCircleId = encodeCircleId(circleId);
   const isSimpleToken = hasSimpleToken(vault);
@@ -25,6 +25,6 @@ export async function uploadEpochRoot(
     tokenAddress,
     merkleRoot,
     amount,
-    tapType,
+    tapType
   );
 }

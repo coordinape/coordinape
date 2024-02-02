@@ -53,7 +53,7 @@ export const WaitListForm = ({
             },
           ],
         },
-        { operationName: 'requestInviteCode' },
+        { operationName: 'requestInviteCode' }
       );
       if (success) {
         queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);

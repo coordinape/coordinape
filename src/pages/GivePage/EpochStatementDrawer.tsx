@@ -94,7 +94,7 @@ export const EpochStatementDrawer = ({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    },
+    }
   );
   const integrationContributions = useContributions({
     address: member.profile.address || '',
@@ -110,7 +110,7 @@ export const EpochStatementDrawer = ({
 
   const { mutate: updateEpochStatement } = useMutation(
     async (bio: string) => updateUser({ circle_id: member.circle_id, bio }),
-    { onSettled: (data, error) => setSaving(error ? 'error' : 'saved') },
+    { onSettled: (data, error) => setSaving(error ? 'error' : 'saved') }
   );
 
   // update the statement in the to level page state
@@ -119,7 +119,7 @@ export const EpochStatementDrawer = ({
       setSaving('scheduled');
       updateEpochStatement(bio);
     },
-    [setSaving, updateEpochStatement],
+    [setSaving, updateEpochStatement]
   );
 
   // statementChanged schedules a save to the underlying state in the parent component, clearing any pending save
@@ -135,9 +135,9 @@ export const EpochStatementDrawer = ({
       // pass in the latest instantiations so we're saving the
       // newest state
       (s: typeof saveStatement, statement: string) => s(statement),
-      DEBOUNCE_TIMEOUT,
+      DEBOUNCE_TIMEOUT
     ),
-    [saveStatement],
+    [saveStatement]
   );
 
   useEffect(() => {
@@ -269,7 +269,7 @@ export const EpochStatementDrawer = ({
                 onFocus={e => {
                   e.currentTarget.setSelectionRange(
                     e.currentTarget.value.length,
-                    e.currentTarget.value.length,
+                    e.currentTarget.value.length
                   );
                 }}
               />

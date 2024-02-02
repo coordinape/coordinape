@@ -85,7 +85,7 @@ export const VaultTransactions = () => {
 export const QUERY_KEY_VAULT_TXS = 'vault-txs';
 
 export function useOnChainTransactions(
-  vault: VaultAndTransactions | undefined,
+  vault: VaultAndTransactions | undefined
 ) {
   const contracts = useContracts();
   return useQuery(
@@ -98,18 +98,18 @@ export function useOnChainTransactions(
       placeholderData: [],
       enabled: !!(contracts && vault),
       staleTime: Infinity,
-    },
+    }
   );
 }
 
 export async function getOnchainVaultTransactions(
   vault: VaultAndTransactions,
-  contracts: Contracts,
+  contracts: Contracts
 ) {
   const { chain_id } = vault;
   assert(
     chain_id.toString() === contracts.chainId,
-    'chain id of vault and provider do not match',
+    'chain id of vault and provider do not match'
   );
   logger.log('getOnchainVaultTransactions');
   const eventResults = await Promise.all([
@@ -143,7 +143,7 @@ async function getDepositEvents(
     simple_token_address,
     vault_transactions,
     decimals,
-  }: VaultAndTransactions,
+  }: VaultAndTransactions
 ): Promise<RawTransaction[]> {
   if (!(token_address || simple_token_address)) return [];
   const isSimpleToken = hasSimpleToken({ simple_token_address });
@@ -157,15 +157,15 @@ async function getDepositEvents(
   const eventsContract = isSimpleToken ? erc20Contract : contracts.router;
   const depositEvents = await eventsContract.queryFilter(
     depositFilter,
-    deployment_block,
+    deployment_block
   );
   logger.log(
-    `${vault_address.substring(0, 6)}: deposit events: ${depositEvents.length}`,
+    `${vault_address.substring(0, 6)}: deposit events: ${depositEvents.length}`
   );
 
   const tokenFilter = erc20Contract.filters.Transfer(
     null,
-    contracts.router.address,
+    contracts.router.address
   );
   const deposits: RawTransaction[] = [];
   for (const event of depositEvents) {
@@ -174,10 +174,10 @@ async function getDepositEvents(
       const tokenTransferEvents = await erc20Contract.queryFilter(
         tokenFilter,
         event.blockNumber,
-        event.blockNumber,
+        event.blockNumber
       );
       transferEvent = tokenTransferEvents.find(
-        e => e.transactionHash === event.transactionHash,
+        e => e.transactionHash === event.transactionHash
       );
       if (!transferEvent) continue;
     } else {
@@ -188,7 +188,7 @@ async function getDepositEvents(
     // might want to convert the tx list to a Record store keyed on txHashes
     // before lookups
     const txDetails = vault_transactions.find(
-      tx => tx.tx_hash === event.transactionHash,
+      tx => tx.tx_hash === event.transactionHash
     );
     if (
       txDetails?.tx_type === 'Deposit' &&
@@ -229,7 +229,7 @@ async function getWithdrawEvents(
     simple_token_address,
     vault_transactions,
     decimals,
-  }: VaultAndTransactions,
+  }: VaultAndTransactions
 ): Promise<RawTransaction[]> {
   if (!(token_address || simple_token_address)) return [];
   const isSimpleToken = hasSimpleToken({ simple_token_address });
@@ -246,18 +246,18 @@ async function getWithdrawEvents(
   const eventsContract = isSimpleToken ? erc20Contract : contracts.router;
   const allWithdrawEvents = await eventsContract.queryFilter(
     withdrawFilter,
-    deployment_block,
+    deployment_block
   );
   const eventTxInfo = await Promise.all(
-    allWithdrawEvents.map(e => e.getTransactionReceipt()),
+    allWithdrawEvents.map(e => e.getTransactionReceipt())
   );
   const withdrawEvents = allWithdrawEvents.filter(
-    (_, idx) => eventTxInfo[idx].to.toLowerCase() === vault_address,
+    (_, idx) => eventTxInfo[idx].to.toLowerCase() === vault_address
   );
   logger.log(
     `${vault_address.substring(0, 6)}: withdraw events: ${
       withdrawEvents.length
-    }`,
+    }`
   );
 
   const withdraws: RawTransaction[] = [];
@@ -266,15 +266,15 @@ async function getWithdrawEvents(
     const tokenTransferEvents = await erc20Contract.queryFilter(
       tokenFilter,
       event.blockNumber,
-      event.blockNumber,
+      event.blockNumber
     );
     const transferEvent = tokenTransferEvents.find(
-      e => e.transactionHash === event.transactionHash,
+      e => e.transactionHash === event.transactionHash
     );
     if (!transferEvent) continue;
     const block = await event.getBlock();
     const txDetails = vault_transactions.find(
-      tx => tx.tx_hash === event.transactionHash,
+      tx => tx.tx_hash === event.transactionHash
     );
     if (
       txDetails?.tx_type === 'Withdraw' &&
@@ -311,22 +311,22 @@ interface RawDistributionTx extends RawTransaction {
 
 async function getDistributionEvents(
   contracts: Contracts,
-  { vault_address, deployment_block, vault_transactions }: VaultAndTransactions,
+  { vault_address, deployment_block, vault_transactions }: VaultAndTransactions
 ): Promise<RawDistributionTx[]> {
   const distroFilter = contracts.distributor.filters.EpochFunded(vault_address);
   const distroEvents = await contracts.distributor.queryFilter(
     distroFilter,
-    deployment_block,
+    deployment_block
   );
   logger.log(
-    `${vault_address.substring(0, 6)}: distro events: ${distroEvents.length}`,
+    `${vault_address.substring(0, 6)}: distro events: ${distroEvents.length}`
   );
 
   const distributions: RawDistributionTx[] = [];
   for (const event of distroEvents) {
     const block = await event.getBlock();
     const txDetails = vault_transactions.find(
-      tx => tx.tx_hash === event.transactionHash,
+      tx => tx.tx_hash === event.transactionHash
     );
     if (txDetails?.tx_type === 'Distribution') {
       const distribution = txDetails.distribution;

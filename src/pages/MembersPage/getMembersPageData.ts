@@ -99,7 +99,7 @@ export const getMembersPageData = async (circleId: number) => {
         },
       ],
     },
-    { operationName: 'getMembersPageData' },
+    { operationName: 'getMembersPageData' }
   );
 };
 

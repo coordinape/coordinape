@@ -25,7 +25,7 @@ export const LinkHoldersPage = () => {
       <LinkHolders target={address}>
         {(
           list: React.ReactNode,
-          counts?: { link_holders: number; total_links: number },
+          counts?: { link_holders: number; total_links: number }
         ) => (
           <Flex column css={{ gap: '$lg' }}>
             <Text h1 css={{ gap: '$lg' }}>

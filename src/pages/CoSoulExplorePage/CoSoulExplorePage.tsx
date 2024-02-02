@@ -30,7 +30,7 @@ const CoSoulExplorePage = () => {
     debounce((q: string) => {
       getVectorAndUpdateWhere(q);
     }, 1000),
-    [],
+    []
   );
 
   const getVectorAndUpdateWhere = async (q: string) => {
@@ -56,7 +56,7 @@ const CoSoulExplorePage = () => {
       },
       {
         operationName: 'searchCoSoulsFE',
-      },
+      }
     );
 
     const ids = searchCosouls?.cosoul_ids;
@@ -76,7 +76,7 @@ const CoSoulExplorePage = () => {
         },
       }));
     }, 1000),
-    [],
+    []
   );
 
   return (

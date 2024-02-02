@@ -82,12 +82,12 @@ const scrollButtonStyles = {
 
 const StyledScrollUpButton = styled(
   SelectPrimitive.ScrollUpButton,
-  scrollButtonStyles,
+  scrollButtonStyles
 );
 
 const StyledScrollDownButton = styled(
   SelectPrimitive.ScrollDownButton,
-  scrollButtonStyles,
+  scrollButtonStyles
 );
 
 // Exports
@@ -120,7 +120,7 @@ export const Select = (
     css?: CSS;
     label?: React.ReactNode;
     infoTooltip?: React.ReactNode;
-  },
+  }
 ) => {
   const {
     id,

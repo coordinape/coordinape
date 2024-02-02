@@ -33,7 +33,7 @@ export const getOrgMembersPageData = async (orgId: number) => {
         },
       ],
     },
-    { operationName: 'getOrgMembersPageData' },
+    { operationName: 'getOrgMembersPageData' }
   );
 };
 

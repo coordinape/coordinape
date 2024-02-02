@@ -84,8 +84,8 @@ const AddMembersPage = () => {
           },
         ],
       },
-      { operationName: 'AddMembers_getCircleData' },
-    ),
+      { operationName: 'AddMembers_getCircleData' }
+    )
   );
 
   const circle = data?.circles_by_pk;
@@ -126,7 +126,7 @@ const AddMembersPage = () => {
           { UserResponse: { profile: { name: true, address: true } } },
         ],
       },
-      { operationName: 'createUsers_newMemberList' },
+      { operationName: 'createUsers_newMemberList' }
     );
 
     const replacedNames = createUsers
@@ -135,12 +135,12 @@ const AddMembersPage = () => {
           m =>
             m.address.toLowerCase() === r?.profile.address.toLowerCase() &&
             r?.profile.name &&
-            m.name !== r?.profile.name,
-        ),
+            m.name !== r?.profile.name
+        )
       )
       .map(({ UserResponse: r }) => ({
         oldName: members.find(
-          m => m.address.toLowerCase() === r?.profile.address.toLowerCase(),
+          m => m.address.toLowerCase() === r?.profile.address.toLowerCase()
         )?.name,
         newName: r?.profile.name,
         address: r?.profile.address,
@@ -220,7 +220,7 @@ export const AddMembersContents = ({
       enabled: !!orgId,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    },
+    }
   );
   useEffect(() => {
     if (error instanceof Error) showError(error.message);
@@ -275,7 +275,7 @@ export const AddMembersContents = ({
       const r = new RegExp(keyword, 'i');
       return r.test(m.profile?.name) || r.test(m.profile.address);
     },
-    [keyword],
+    [keyword]
   );
 
   return (

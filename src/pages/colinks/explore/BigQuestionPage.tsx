@@ -52,7 +52,7 @@ const fetchBigQuestion = async (id: number, profileId: number) => {
     },
     {
       operationName: 'bigQuestions',
-    },
+    }
   );
   return {
     question: big_questions_by_pk,
@@ -71,7 +71,7 @@ export const BigQuestionPage = () => {
 
   const queryClient = useQueryClient();
   const { data } = useQuery(['bigQuestion', questionId], () =>
-    fetchBigQuestion(questionId, profileId),
+    fetchBigQuestion(questionId, profileId)
   );
 
   const onPostSettled = () => {

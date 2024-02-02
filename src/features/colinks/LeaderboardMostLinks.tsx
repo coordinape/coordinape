@@ -48,10 +48,10 @@ export const LeaderboardMostLinks = ({
         },
         {
           operationName: 'coLinks_leaderboard',
-        },
+        }
       );
       return most_links;
-    },
+    }
   );
   return <Leaderboard leaders={leaders} size={size} hideRank={hideRank} />;
 };

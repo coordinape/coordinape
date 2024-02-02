@@ -25,7 +25,7 @@ export function useOrgIdParam(required = true) {
 export const NotReady = 'not ready';
 
 export const useRoleInCircle = (
-  circleId: number | undefined,
+  circleId: number | undefined
 ): number | undefined | typeof NotReady => {
   const profile = useLoginData();
   if (!profile) return NotReady;

@@ -18,7 +18,7 @@ export const useCurrentEpochInfo = (circleId: number, userId?: number) => {
       //minimize background refetch
       refetchOnWindowFocus: false,
       notifyOnChangeProps: ['data'],
-    },
+    }
   );
   const currentEpochEndDate =
     data?.myReceived?.currentEpoch[0] &&
@@ -68,6 +68,6 @@ const getCurrentEpochInfo = async (circleId: number) => {
     },
     {
       operationName: 'getCurrentEpochInfo',
-    },
+    }
   );
 };

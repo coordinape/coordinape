@@ -124,7 +124,7 @@ const queryManifest = async (profileId: number) => {
         },
       ],
     },
-    { operationName: 'fetchManifest' },
+    { operationName: 'fetchManifest' }
   );
 
   assert(data.profiles_by_pk, `unable to load profile ${profileId}`);
@@ -135,7 +135,7 @@ export type QueryManifest = Awaited<ReturnType<typeof queryManifest>>;
 
 // convert data to the form that legacy (pre-Hasura) code expects
 const formatLegacyManifest = async (
-  manifestQuery: Awaited<ReturnType<typeof queryManifest>>,
+  manifestQuery: Awaited<ReturnType<typeof queryManifest>>
 ): Promise<IApiManifest> => {
   const { profiles_by_pk: p } = await manifestQuery;
   assert(p);
@@ -204,6 +204,6 @@ export const useFetchManifest = () => {
         return data;
       },
     [],
-    { who: 'fetchManifest' },
+    { who: 'fetchManifest' }
   );
 };

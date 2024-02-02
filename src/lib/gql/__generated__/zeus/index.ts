@@ -30,7 +30,7 @@ export const apiFetch =
     if (fetchOptions.method && fetchOptions.method === 'GET') {
       return fetch(
         `${options[0]}?query=${encodeURIComponent(query)}`,
-        fetchOptions,
+        fetchOptions
       )
         .then(handleFetchResponse)
         .then((response: GraphQLResponse) => {
@@ -94,13 +94,13 @@ export const InternalsBuildQuery = (
   props: AllTypesPropsType,
   returns: ReturnTypesType,
   ops: Operations,
-  options?: OperationOptions,
+  options?: OperationOptions
 ) => {
   const ibb = (
     k: string,
     o: InputValueType | VType,
     p = '',
-    root = true,
+    root = true
   ): string => {
     const keyForPath = purifyGraphQLKey(k);
     const newPath = [p, keyForPath].join(SEPARATOR);
@@ -118,7 +118,7 @@ export const InternalsBuildQuery = (
         props,
         returns,
         ops,
-        options?.variables?.values,
+        options?.variables?.values
       )(o[0], newPath);
       return `${ibb(args ? `${k}(${args})` : k, o[1], p, false)}`;
     }
@@ -130,7 +130,7 @@ export const InternalsBuildQuery = (
             Array.isArray(objectUnderAlias)
           ) {
             throw new Error(
-              'Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}',
+              'Invalid alias it should be __alias:{ YOUR_ALIAS_NAME: { OPERATION_NAME: { ...selectors }}}'
             );
           }
           const operationName = Object.keys(objectUnderAlias)[0];
@@ -147,7 +147,7 @@ export const InternalsBuildQuery = (
         : '';
     const keyForDirectives = o.__directives ?? '';
     return `${k} ${keyForDirectives}${hasOperationName}${hasVariables}{${Object.entries(
-      o,
+      o
     )
       .filter(([k]) => k !== '__directives')
       .map(e => ibb(...e, [p, `field<>${keyForPath}`].join(SEPARATOR), false))
@@ -162,7 +162,7 @@ export const Thunder =
     O extends keyof typeof Ops,
     R extends keyof ValueTypes = GenericOperation<O>,
   >(
-    operation: O,
+    operation: O
   ) =>
   <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
     fullChainConstruct(fn)(operation)(o as any, ops) as Promise<
@@ -177,12 +177,12 @@ export const SubscriptionThunder =
     O extends keyof typeof Ops,
     R extends keyof ValueTypes = GenericOperation<O>,
   >(
-    operation: O,
+    operation: O
   ) =>
   <Z extends ValueTypes[R]>(o: Z | ValueTypes[R], ops?: OperationOptions) =>
     fullSubscriptionConstruct(fn)(operation)(
       o as any,
-      ops,
+      ops
     ) as SubscriptionToGraphQL<Z, GraphQLTypes[R]>;
 
 export const Subscription = (...options: chainOptions) =>
@@ -194,13 +194,13 @@ export const Zeus = <
 >(
   operation: O,
   o: Z | ValueTypes[R],
-  ops?: OperationOptions,
+  ops?: OperationOptions
 ) =>
   InternalsBuildQuery(
     AllTypesProps,
     ReturnTypes,
     Ops,
-    ops,
+    ops
   )(operation, o as any);
 export const Selector = <T extends keyof ValueTypes>(key: T) =>
   ZeusSelect<ValueTypes[T]>();
@@ -215,7 +215,7 @@ export const fullChainConstruct =
       AllTypesProps,
       ReturnTypes,
       Ops,
-      options,
+      options
     );
     return fn(builder(t, o), options?.variables?.values);
   };
@@ -228,7 +228,7 @@ export const fullSubscriptionConstruct =
       AllTypesProps,
       ReturnTypes,
       Ops,
-      options,
+      options
     );
     return fn(builder(t, o));
   };
@@ -298,7 +298,7 @@ export type chainOptions =
   | [fetchOptions[0]];
 export type FetchFunction = (
   query: string,
-  variables?: Record<string, any>,
+  variables?: Record<string, any>
 ) => Promise<any>;
 export type SubscriptionFunction = (query: string) => any;
 type NotUndefined<T> = T extends undefined ? never : T;
@@ -354,7 +354,7 @@ type Part = ReturnType<typeof mapPart>;
 export const ResolveFromPath = (
   props: AllTypesPropsType,
   returns: ReturnTypesType,
-  ops: Operations,
+  ops: Operations
 ) => {
   const ResolvePropsType = (mappedParts: Part[]) => {
     const oKey = ops[mappedParts[0].v];
@@ -369,7 +369,7 @@ export const ResolveFromPath = (
           `${propsP2}${SEPARATOR}${mappedParts
             .slice(2)
             .map(mp => mp.v)
-            .join(SEPARATOR)}`,
+            .join(SEPARATOR)}`
         );
       }
       if (typeof propsP2 === 'object') {
@@ -379,7 +379,7 @@ export const ResolveFromPath = (
             `${propsP3}${SEPARATOR}${mappedParts
               .slice(3)
               .map(mp => mp.v)
-              .join(SEPARATOR)}`,
+              .join(SEPARATOR)}`
           );
         }
       }
@@ -395,7 +395,7 @@ export const ResolveFromPath = (
           `${returnP2}${SEPARATOR}${mappedParts
             .slice(2)
             .map(mp => mp.v)
-            .join(SEPARATOR)}`,
+            .join(SEPARATOR)}`
         );
       }
     }
@@ -420,7 +420,7 @@ export const InternalArgsBuilt = (
   props: AllTypesPropsType,
   returns: ReturnTypesType,
   ops: Operations,
-  variables?: Record<string, unknown>,
+  variables?: Record<string, unknown>
 ) => {
   const arb = (a: ZeusArgsType, p = '', root = true): string => {
     if (Array.isArray(a)) {
@@ -463,10 +463,10 @@ export const resolverFor = <
   field: Z,
   fn: (
     args: Required<ValueTypes[T]>[Z] extends [infer Input, any] ? Input : any,
-    source: any,
+    source: any
   ) => Z extends keyof ModelTypes[T]
     ? ModelTypes[T][Z] | Promise<ModelTypes[T][Z]> | X
-    : any,
+    : any
 ) => fn as (args?: any, source?: any) => any;
 
 export type SelectionFunction<V> = <T>(t: T | V) => T;
@@ -550,10 +550,10 @@ export type SubscriptionToGraphQL<Z, T> = {
       code?: number;
       reason?: string;
       message?: string;
-    }) => void,
+    }) => void
   ) => void;
   error: (
-    fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void,
+    fn: (e: { data?: InputType<T, Z>; errors?: string[] }) => void
   ) => void;
   open: () => void;
 };
@@ -565,7 +565,7 @@ export const useZeusVariables =
       [P in keyof T]: unknown;
     },
   >(
-    values: Z,
+    values: Z
   ) => {
     return {
       $params: Object.keys(variables)

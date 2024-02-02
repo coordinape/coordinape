@@ -55,10 +55,10 @@ export const LeaderboardProfileResults = ({
         },
         {
           operationName: 'coLinks_leaderboard',
-        },
+        }
       );
       return profiles_matching;
-    },
+    }
   );
   if (!leaders || leaders.length === 0) return <Text>No results</Text>;
 

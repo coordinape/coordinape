@@ -36,7 +36,7 @@ export const OrgCircles = ({
     org.circles.map(c => c.users[0]).some(u => u && isUserAdmin(u));
 
   const [hiddenInNav, setHiddenInNav] = useState<boolean>(
-    org?.members?.[0]?.hidden ?? false,
+    org?.members?.[0]?.hidden ?? false
   );
   const { showError } = useToast();
   const queryClient = useQueryClient();
@@ -57,7 +57,7 @@ export const OrgCircles = ({
           { hidden: true },
         ],
       },
-      { operationName: 'orgCircles_hideFromSideNav' },
+      { operationName: 'orgCircles_hideFromSideNav' }
     );
     return update_org_members_by_pk;
   };
@@ -71,7 +71,7 @@ export const OrgCircles = ({
           oldData => {
             if (oldData) {
               const orgIndex = oldData.organizations.findIndex(
-                o => o.id === org.id,
+                o => o.id === org.id
               );
               const orgToBeModified = oldData.organizations[orgIndex];
               const modifiedOrg = {
@@ -87,7 +87,7 @@ export const OrgCircles = ({
               ];
               return { ...oldData, organizations: modifiedOrganizations };
             }
-          },
+          }
         );
       }
     },

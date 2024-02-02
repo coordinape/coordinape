@@ -17,7 +17,7 @@ type GetChannelsProps = {
 };
 
 function getChannels(
-  props: GetChannelsProps,
+  props: GetChannelsProps
 ): Channels<DiscordUserAddedOrRemoved> {
   const { channels, circle, profiles } = props || {};
 
@@ -56,7 +56,7 @@ function getChannels(
 
 export default async function handleUserRemovedMsg(
   payload: EventTriggerPayload<'users', 'UPDATE'>,
-  channels: { isDiscordBot?: boolean; discord?: boolean; telegram?: boolean },
+  channels: { isDiscordBot?: boolean; discord?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },
@@ -64,10 +64,10 @@ export default async function handleUserRemovedMsg(
 
   if (!data.old.deleted_at && data.new.deleted_at) {
     const { circles_by_pk: circle } = await queries.getCircle(
-      data.new.circle_id,
+      data.new.circle_id
     );
     const { profiles } = await queries.getProfileAndMembership(
-      data.new.profile_id,
+      data.new.profile_id
     );
     await sendSocialMessage({
       message: `${profiles[0].name} has left the circle.`,

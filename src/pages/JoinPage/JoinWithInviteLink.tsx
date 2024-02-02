@@ -84,7 +84,7 @@ const JoinOrg = ({
   // from each circle instead of 3 admins from the first circle
   const admins = uniqBy(
     zip(...org.circles.map(c => c.admins.map(u => u.profile))).flat(),
-    'name',
+    'name'
   )
     .filter(x => x)
     .slice(0, 3) as { name: string; avatar?: string }[];

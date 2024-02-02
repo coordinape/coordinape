@@ -58,7 +58,7 @@ export const HistoryPage = () => {
     // TODO make this work without a userId
     // @ts-ignore
     () => getHistoryData(circleId, userId),
-    { enabled: !!userId && !!circleId },
+    { enabled: !!userId && !!circleId }
   );
 
   const circle = query.data;
@@ -67,7 +67,7 @@ export const HistoryPage = () => {
   const { deleteEpoch, updateEpoch } = useApiAdminCircle(circleId);
 
   const [editEpoch, setEditEpoch] = useState<QueryFutureEpoch | undefined>(
-    undefined,
+    undefined
   );
   const [endEpochDialog, setEndEpochDialog] = useState<boolean>(false);
   const [newEpoch, setNewEpoch] = useState<boolean>(false);
@@ -86,7 +86,7 @@ export const HistoryPage = () => {
   const [page, setPage] = useState(0);
   const shownPastEpochs = useMemo(
     () => pastEpochs.slice(page * pageSize, (page + 1) * pageSize),
-    [pastEpochs, page],
+    [pastEpochs, page]
   );
   const totalPages = Math.ceil(pastEpochs.length / pageSize);
 
@@ -134,7 +134,7 @@ export const HistoryPage = () => {
 
   const deleteEpochHandler = async (
     epochToDelete: QueryFutureEpoch | undefined,
-    currentEpoch: QueryCurrentEpoch | undefined,
+    currentEpoch: QueryCurrentEpoch | undefined
   ) => {
     if (epochToDelete && epochToDelete.id > -1) {
       return deleteEpoch(epochToDelete?.id);
@@ -251,7 +251,7 @@ export const HistoryPage = () => {
       {!isAdmin &&
         circle &&
         pastEpochs.filter(
-          p => p.sentGifts.length > 0 || p.receivedGifts.length > 0,
+          p => p.sentGifts.length > 0 || p.receivedGifts.length > 0
         ).length == 0 && (
           <HintBanner title={'Get started'}>
             <Text p as="p">

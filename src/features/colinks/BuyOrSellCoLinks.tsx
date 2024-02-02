@@ -69,7 +69,7 @@ export const BuyOrSellCoLinks = ({
     {
       refetchInterval: 10000,
       enabled: !!account,
-    },
+    }
   );
 
   const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.gt(opBalance);
@@ -96,10 +96,10 @@ export const BuyOrSellCoLinks = ({
         },
         {
           operationName: 'coLinks_profile_for_buyLinks',
-        },
+        }
       );
       return profiles_public.pop();
-    },
+    }
   );
 
   const syncLinks = async () => {
@@ -109,7 +109,7 @@ export const BuyOrSellCoLinks = ({
       },
       {
         operationName: 'coLinks_sync_after_buysell',
-      },
+      }
     );
   };
 
@@ -151,7 +151,7 @@ export const BuyOrSellCoLinks = ({
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
           contract: coLinksSigner,
-        },
+        }
       );
       if (receipt) {
         setProgress('Done!');

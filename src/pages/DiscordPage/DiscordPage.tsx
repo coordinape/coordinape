@@ -48,7 +48,7 @@ export const DiscordPage = () => {
           setLinkStatus('linked');
         }
       },
-    },
+    }
   );
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export const DiscordPage = () => {
 
       if (!result?.api_key) {
         throw new Error(
-          `An error occurred generating an API key for circle id ${circleIdParam}`,
+          `An error occurred generating an API key for circle id ${circleIdParam}`
         );
       }
 
@@ -116,7 +116,7 @@ export const DiscordPage = () => {
       setLinkStatus('linking');
 
       const response = await fetch(
-        '/api/discord/oauth?' + new URLSearchParams({ code: codeParam }),
+        '/api/discord/oauth?' + new URLSearchParams({ code: codeParam })
       );
       const discordUser = await response.json();
       if (!discordUser || !discordUser.id) {
@@ -155,7 +155,7 @@ const linkDiscordCircle = async (payload: {
 }): Promise<void> => {
   await client.mutate(
     { linkDiscordCircle: [{ payload }, { id: true }] },
-    { operationName: 'linkDiscordCircle' },
+    { operationName: 'linkDiscordCircle' }
   );
 };
 
@@ -164,7 +164,7 @@ const linkDiscordUser = async (payload: {
 }): Promise<void> => {
   await client.mutate(
     { linkDiscordUser: [{ payload }, { id: true }] },
-    { operationName: 'linkDiscordUser' },
+    { operationName: 'linkDiscordUser' }
   );
 };
 

@@ -57,7 +57,7 @@ export const Mutes = ({
       },
       {
         operationName: 'fetchMutes',
-      },
+      }
     );
 
     return { mutedThem: !!mutedThem, imMuted: !!imMuted };
@@ -65,7 +65,7 @@ export const Mutes = ({
 
   const { data: mutes, isLoading } = useQuery(
     [QUERY_KEY_MUTES, profileId, targetProfileId],
-    fetchMutes,
+    fetchMutes
   );
 
   const { mutate: muteThem } = useMutation(
@@ -86,7 +86,7 @@ export const Mutes = ({
         },
         {
           operationName: 'createMute',
-        },
+        }
       );
       assert(insert_mutes_one);
       return insert_mutes_one;
@@ -106,7 +106,7 @@ export const Mutes = ({
           'profile',
         ]);
       },
-    },
+    }
   );
 
   const { mutate: unmuteThem } = useMutation(
@@ -125,7 +125,7 @@ export const Mutes = ({
         },
         {
           operationName: 'createMute',
-        },
+        }
       );
       assert(delete_mutes_by_pk);
       return delete_mutes_by_pk;
@@ -145,7 +145,7 @@ export const Mutes = ({
           'profile',
         ]);
       },
-    },
+    }
   );
 
   if (isLoading || !mutes) {

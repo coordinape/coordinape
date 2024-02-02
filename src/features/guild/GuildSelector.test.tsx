@@ -26,7 +26,7 @@ const Harness = ({
       defaultValues: {
         guild_id,
       },
-    },
+    }
   );
 
   const guildWatch = watch('guild_id');
@@ -52,7 +52,7 @@ test('renders with no guild connected (for org)', async () => {
     await render(
       <TestWrapper>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
   await screen.findByText(/Connect a Guild/);
@@ -96,14 +96,14 @@ test('renders with guild connected (for org)', async () => {
     await render(
       <TestWrapper>
         <Harness guild_id={109} setValue={mockSet} />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
   expect(fetchMock).toHaveBeenCalledTimes(1);
   expect(fetchMock).toHaveBeenCalledWith(
     'https://api.guild.xyz/v1/guild/109',
-    expect.anything(),
+    expect.anything()
   );
   await screen.findByText(/cool donkeys/, {}, { timeout: 1000 });
 

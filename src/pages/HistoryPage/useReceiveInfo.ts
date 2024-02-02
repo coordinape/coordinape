@@ -19,7 +19,7 @@ export const useReceiveInfo = (circleId: number, userId?: number) => {
       //minimize background refetch
       refetchOnWindowFocus: false,
       notifyOnChangeProps: ['data'],
-    },
+    }
   );
   const noEpoch =
     !data?.myReceived?.currentEpoch[0] && !data?.myReceived?.pastEpochs[0];
@@ -148,6 +148,6 @@ const getReceiveInfo = async (circleId: number, userId: number) => {
     },
     {
       operationName: 'getReceivedInfo',
-    },
+    }
   );
 };

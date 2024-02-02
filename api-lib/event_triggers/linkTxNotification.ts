@@ -12,7 +12,7 @@ async function insertLinkTxNotification(
   actorProfileId: number,
   profileId: number,
   tx_hash: string,
-  created_at: string,
+  created_at: string
 ) {
   await adminClient.mutate(
     {
@@ -32,7 +32,7 @@ async function insertLinkTxNotification(
     },
     {
       operationName: 'insert__linkTxNotification',
-    },
+    }
   );
 }
 
@@ -40,7 +40,7 @@ async function insertInviteJoinedNotification(
   inviteeId: number,
   inviterId: number,
   profileId: number,
-  created_at: string,
+  created_at: string
 ) {
   await adminClient.mutate(
     {
@@ -60,7 +60,7 @@ async function insertInviteJoinedNotification(
     },
     {
       operationName: 'insert__inviteeNotification',
-    },
+    }
   );
 }
 
@@ -78,7 +78,7 @@ async function getInvitedBy(profileId: number) {
     },
     {
       operationName: 'getProfileForFirstTimeLinker',
-    },
+    }
   );
   return profiles_by_pk?.invited_by;
 }
@@ -111,13 +111,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           profileId,
           invitedBy,
           profileId,
-          created_at,
+          created_at
         );
         await insertInviteJoinedNotification(
           profileId,
           invitedBy,
           invitedBy,
-          created_at,
+          created_at
         );
 
         // if they were invited by the early access acct we give em 10 invites
@@ -140,7 +140,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         actorProfileId,
         profileId,
         tx_hash,
-        created_at,
+        created_at
       );
     }
 

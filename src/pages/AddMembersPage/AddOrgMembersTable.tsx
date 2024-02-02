@@ -124,7 +124,7 @@ export const AddOrgMembersTable = ({
   }, [members, perPage, filter]);
   const [checkedAll, setCheckedAll] = useState(false);
   const [membersToAdd, setMembersToAdd] = useState<Record<string, QueryMember>>(
-    {},
+    {}
   );
   const [loading, setLoading] = useState<boolean>();
   const successRef = useRef<HTMLDivElement>(null);

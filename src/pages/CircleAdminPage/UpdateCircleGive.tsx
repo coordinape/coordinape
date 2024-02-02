@@ -19,7 +19,7 @@ export const UpdateCircleGive = ({
   const queryClient = useQueryClient();
   const [isApplying, setIsApplying] = useState(false);
   const [startingTokens, setStartingTokens] = useState(
-    circleStartingTokens ?? 0,
+    circleStartingTokens ?? 0
   );
   const [openDialog, setOpenDialog] = useState(false);
   const { showSuccess, showError } = useToast();

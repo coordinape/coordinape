@@ -53,7 +53,7 @@ export const insertOrgMemberIdempotent = async (id: number) => {
         },
       ],
     },
-    { operationName: 'insertOrgMember_getOrgMember' },
+    { operationName: 'insertOrgMember_getOrgMember' }
   );
 
   let message: string;
@@ -80,7 +80,7 @@ export const insertOrgMemberIdempotent = async (id: number) => {
           { id: true },
         ],
       },
-      { operationName: 'insertOrgMember_insertMember' },
+      { operationName: 'insertOrgMember_insertMember' }
     );
     message = 'org_members table updated';
   }

@@ -84,7 +84,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
             }
             if (info?.walletType === 'magic') {
               const provider = await getMagicProvider(
-                isCoPage ? 'optimism' : 'polygon',
+                isCoPage ? 'optimism' : 'polygon'
               );
               await web3Context.setProvider(provider, 'magic');
             }
@@ -104,7 +104,7 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
           await web3Context.activate(
             connectors[savedAuth.connectorName],
             () => {},
-            true,
+            true
           );
         } catch (e) {
           setAuthStep('connect');

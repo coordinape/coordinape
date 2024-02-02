@@ -79,7 +79,7 @@ export default function WithdrawModal({
             symbol={removeYearnPrefix(vault.symbol)}
             decimals={vault.decimals}
             label={`Available to Withdraw: ${numberWithCommas(
-              round(balance, 4),
+              round(balance, 4)
             )} ${removeYearnPrefix(vault.symbol).toUpperCase()}`}
             error={!!errors.amount}
             errorText={errors.amount?.message}
@@ -96,7 +96,7 @@ export default function WithdrawModal({
               ? 'Withdrawing Funds...'
               : `Withdraw from ${vault.symbol} Vault ${shortenAddress(
                   vault.vault_address,
-                  false,
+                  false
                 )}`}
           </Button>
         </Form>

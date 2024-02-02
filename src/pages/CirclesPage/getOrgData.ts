@@ -52,6 +52,6 @@ export const getOrgData = (profileId: number) =>
     },
     {
       operationName: 'getOrgData',
-    },
+    }
   );
 export const QUERY_KEY_MY_ORGS = 'AllMyOrgs';

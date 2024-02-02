@@ -40,10 +40,10 @@ export const LeaderboardRepScore = ({ limit = 100 }: { limit?: number }) => {
         },
         {
           operationName: 'coLinks_leaderboard_repScore',
-        },
+        }
       );
       return highest_rep;
-    },
+    }
   );
   return <Leaderboard leaders={leaders} />;
 };

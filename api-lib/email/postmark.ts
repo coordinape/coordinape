@@ -55,7 +55,7 @@ export async function fetchVerifiedEmail(profileId: number) {
     },
     {
       operationName: 'postmark__fetchVerifiedEmail',
-    },
+    }
   );
 
   return emails[0]?.email;
@@ -71,7 +71,7 @@ export async function sendCoLinksWaitlistWelcomeEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_WELCOME,
     input,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -88,7 +88,7 @@ export async function sendCoLinksWaitlistVerifyEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_VERIFY,
     input,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -105,7 +105,7 @@ export async function sendCoLinksWaitlistInvitedEmail(params: {
     params.email,
     TEMPLATES.COLINKS_WAITLIST_INVITED,
     input,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -117,7 +117,7 @@ export async function sendCoLinksNotificationsEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'notification',
+    'notification'
   );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
@@ -127,7 +127,7 @@ export async function sendCoLinksNotificationsEmail(params: {
     params.email,
     TEMPLATES.COLINKS_NOTIFICATIONS,
     input,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -156,7 +156,7 @@ export async function sendDailySpacecar(params: {
     params.email,
     TEMPLATES.DAILY_SPACECAR,
     params,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -169,7 +169,7 @@ export async function sendHourlyReport(params: {
     params.email,
     TEMPLATES.REPORT_HOURLY,
     params,
-    'colinks',
+    'colinks'
   );
   return res;
 }
@@ -191,7 +191,7 @@ export async function sendVerifyEmail(params: {
     params.email,
     params.coLinks ? TEMPLATES.COLINKS_VERIFY : TEMPLATES.VERIFY,
     input,
-    params.coLinks ? 'colinks' : 'gift_circle',
+    params.coLinks ? 'colinks' : 'gift_circle'
   );
   return res;
 }
@@ -216,7 +216,7 @@ export async function sendEpochEndedEmail(params: {
     params.email,
     TEMPLATES.EPOCH_ENDED,
     input,
-    'gift_circle',
+    'gift_circle'
   );
   return res;
 }
@@ -236,7 +236,7 @@ export async function sendEpochEndingSoonEmail(params: {
     params.email,
     TEMPLATES.EPOCH_ENDING_SOON,
     input,
-    'gift_circle',
+    'gift_circle'
   );
   return res;
 }
@@ -256,7 +256,7 @@ export async function sendEpochStartedEmail(params: {
     params.email,
     TEMPLATES.EPOCH_STARTED,
     input,
-    'gift_circle',
+    'gift_circle'
   );
   return res;
 }
@@ -265,7 +265,7 @@ async function sendEmail(
   to: string,
   templateAlias: TemplateAliases,
   templateModel: Record<string, unknown>,
-  from: 'colinks' | 'gift_circle',
+  from: 'colinks' | 'gift_circle'
 ) {
   const response = await fetch(`${API_BASE_URL}/email/withTemplate`, {
     method: 'POST',

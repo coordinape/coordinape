@@ -26,7 +26,7 @@ type GetChannelsVouchSuccessfulProps = {
 };
 
 function getChannelsVouchUnsuccessful(
-  props: GetChannelsVouchUnsuccessfulProps,
+  props: GetChannelsVouchUnsuccessfulProps
 ): Channels<DiscordVouchUnsuccessful> {
   const { channels, circle, nominee } = props || {};
 
@@ -64,7 +64,7 @@ function getChannelsVouchUnsuccessful(
 }
 
 function getChannelsVouchSuccessful(
-  props: GetChannelsVouchSuccessfulProps,
+  props: GetChannelsVouchSuccessfulProps
 ): Channels<DiscordVouchSuccessful> {
   const { payload, channels, circle, nominee } = props || {};
 
@@ -105,7 +105,7 @@ function getChannelsVouchSuccessful(
 
 export default async function handleCheckNomineeMsg(
   payload: EventTriggerPayload<'nominees', 'UPDATE'>,
-  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean },
+  channels: { discord?: boolean; isDiscordBot?: boolean; telegram?: boolean }
 ) {
   const {
     event: { data },
@@ -120,7 +120,7 @@ export default async function handleCheckNomineeMsg(
 
       if (vouches >= data.new.vouches_required) {
         const { circles_by_pk: circle } = await queries.getCircle(
-          nominee.circle_id,
+          nominee.circle_id
         );
         await sendSocialMessage({
           message: `${nominee.profile?.name} has received enough vouches and is now in the circle`,
@@ -137,7 +137,7 @@ export default async function handleCheckNomineeMsg(
 
       if (new Date(data.new.expiry_date) < new Date()) {
         const { circles_by_pk: circle } = await queries.getCircle(
-          nominee.circle_id,
+          nominee.circle_id
         );
 
         const vouches = nominee.nominations_aggregate?.aggregate?.count ?? 0;

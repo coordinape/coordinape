@@ -68,7 +68,7 @@ export function useVaults({
         },
         {
           operationName: 'getVaultsForOrg',
-        },
+        }
       );
       return vaults;
     },
@@ -83,7 +83,7 @@ export function useVaults({
       },
       refetchOnWindowFocus: false,
       notifyOnChangeProps: ['data'],
-    },
+    }
   );
 }
 

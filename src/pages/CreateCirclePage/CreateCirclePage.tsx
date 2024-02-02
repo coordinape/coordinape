@@ -17,7 +17,7 @@ export const SummonCirclePage = () => {
     {
       enabled: !!profileId,
       refetchOnWindowFocus: false,
-    },
+    }
   );
 
   if (!data || isLoading || isRefetching || isError)

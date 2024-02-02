@@ -25,7 +25,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 const handleInsert = async (
   newRow: EventTriggerPayload<'replies', 'INSERT'>['event']['data']['new'],
-  res: VercelResponse,
+  res: VercelResponse
 ) => {
   const { activity_actor_id, profile_id, created_at, id } = newRow;
 
@@ -66,7 +66,7 @@ const handleInsert = async (
 
 const handleDelete = async (
   newRow: EventTriggerPayload<'replies', 'DELETE'>['event']['data']['old'],
-  res: VercelResponse,
+  res: VercelResponse
 ) => {
   const { id } = newRow;
   await adminClient.mutate(
@@ -95,7 +95,7 @@ const handleDelete = async (
     },
     {
       operationName: 'delete_repliesNotification',
-    },
+    }
   );
 
   res.status(200).json({
@@ -123,7 +123,7 @@ export const parseMentions = (text: string) => {
 };
 
 export const lookupMentionedNames = async (
-  mentions: string[],
+  mentions: string[]
 ): Promise<number[]> => {
   const { profiles } = await adminClient.query(
     {
@@ -142,7 +142,7 @@ export const lookupMentionedNames = async (
     },
     {
       operationName: 'getMentionedNames',
-    },
+    }
   );
 
   // TODO: lookup private_stream_visibility
@@ -178,7 +178,7 @@ const createReplyNotification = async ({
     },
     {
       operationName: 'insert_repliesNotification',
-    },
+    }
   );
 };
 
@@ -216,7 +216,7 @@ const createMentionedInReplyNotification = async ({
     },
     {
       operationName: 'getPrivateStreamVisibility',
-    },
+    }
   );
 
   okToMention = !!private_stream_visibility_by_pk;
@@ -255,7 +255,7 @@ const createMentionedInReplyNotification = async ({
       },
       {
         operationName: 'getPrivateStreamVisibility',
-      },
+      }
     );
 
     okToMention = private_stream_visibility.length === 2 && mutes.length === 0;
@@ -289,6 +289,6 @@ const createMentionedInReplyNotification = async ({
     },
     {
       operationName: 'insert_mentionedInReplyNotification',
-    },
+    }
   );
 };

@@ -170,7 +170,7 @@ export const getHistoryData = async (circleId: number, userId: number) => {
     },
     {
       operationName: 'getHistoryData',
-    },
+    }
   );
 
   return gq.circles_by_pk;

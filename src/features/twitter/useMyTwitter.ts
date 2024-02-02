@@ -22,14 +22,14 @@ export const useMyTwitter = (profileId?: number) => {
         },
         {
           operationName: 'twitter_me',
-        },
+        }
       );
 
       return twitter_accounts_by_pk;
     },
     {
       enabled: !!profileId,
-    },
+    }
   );
   return { twitter: data, isLoading };
 };

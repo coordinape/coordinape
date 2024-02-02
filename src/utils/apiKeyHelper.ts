@@ -5,6 +5,6 @@ const EXAMPLE_QUERY =
 
 export const getConsoleUrl = (authToken = '<API Key>', withExample = false) => {
   return `https://cloud.hasura.io/public/graphiql?endpoint=${VITE_HASURA_URL}&header=Authorization:${encodeURIComponent(
-    `Bearer ${authToken}`,
+    `Bearer ${authToken}`
   )}${withExample ? `&query=${EXAMPLE_QUERY}` : ''}`;
 };

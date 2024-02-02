@@ -38,7 +38,7 @@ export const ViewPage = () => {
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    },
+    }
   );
   coSoulMinted = !!data?.mintInfo;
 

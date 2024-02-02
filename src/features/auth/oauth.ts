@@ -35,7 +35,7 @@ export function getOAuthCookieValue(cookieString: string): string | null {
 
 export function getOAuthRedirectCookieValue(
   cookieString: string,
-  service: string,
+  service: string
 ): string | null {
   const cookies = cookieString.split(';');
   for (const cookie of cookies) {

@@ -59,9 +59,9 @@ export function makeTable<T>(displayName: string) {
       () =>
         sortedData.slice(
           page * perPage,
-          Math.min((page + 1) * perPage, sortedData.length),
+          Math.min((page + 1) * perPage, sortedData.length)
         ),
-      [sortedData, perPage, page],
+      [sortedData, perPage, page]
     );
 
     const totalPages = Math.ceil(sortedData.length / perPage);
@@ -85,7 +85,7 @@ export function makeTable<T>(displayName: string) {
                         {sortIndex === index ? (sortDesc ? ' ↓' : ' ↑') : ''}
                       </Box>
                     </th>
-                  ),
+                  )
               )}
             </tr>
           </thead>

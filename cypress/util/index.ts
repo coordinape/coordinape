@@ -22,14 +22,14 @@ export class TestProvider {
   engine: ProviderEngine;
   constructor(url: string, accountIndex = 0, seed: string = DEFAULT_SEED) {
     const privateKey = deriveAccount(accountIndex, seed).privateKey.substring(
-      2,
+      2
     );
 
     this.engine = new ProviderEngine();
     this.engine.addProvider(new FiltersSubprovider());
     this.engine.addProvider(new NonceSubprovider());
     this.engine.addProvider(
-      new WalletSubprovider(new Wallet(new Buffer(privateKey, 'hex')), {}),
+      new WalletSubprovider(new Wallet(new Buffer(privateKey, 'hex')), {})
     );
     this.engine.addProvider(new RpcSubProvider({ rpcUrl: url }));
     this.engine.start();
@@ -58,7 +58,7 @@ export class TestProvider {
 
 export const injectWeb3 = () => (win: any) => {
   const provider = new Web3Provider(
-    new TestProvider('http://localhost:' + Cypress.env('HARDHAT_GANACHE_PORT')),
+    new TestProvider('http://localhost:' + Cypress.env('HARDHAT_GANACHE_PORT'))
   );
   if (!win.ethereum) {
     Object.defineProperty(win, 'ethereum', { value: provider });

@@ -40,7 +40,7 @@ export const pulseStyles = {
 export const SideNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [currentCircle, setCurrentCircle] = useState<NavCircle | undefined>(
-    undefined,
+    undefined
   );
   const [currentOrg, setCurrentOrg] = useState<NavOrg | undefined>(undefined);
 
@@ -57,7 +57,7 @@ export const SideNav = () => {
       enabled: !!profileId && !!address,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
-    },
+    }
   );
   const cosoul_data = query.data;
 

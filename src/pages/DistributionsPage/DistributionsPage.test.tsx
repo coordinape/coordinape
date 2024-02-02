@@ -114,7 +114,7 @@ test('render without a distribution', async () => {
     await render(
       <TestWrapper withWeb3>
         <DistributionsPage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -155,7 +155,7 @@ test('render with a distribution', async () => {
     await render(
       <TestWrapper withWeb3>
         <DistributionsPage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -164,7 +164,7 @@ test('render with a distribution', async () => {
       expect(screen.getByText('Mock User 1')).toBeInTheDocument();
       expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
     },
-    { timeout: 5000 },
+    { timeout: 5000 }
   );
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
@@ -180,7 +180,7 @@ test('render with no allocations', async () => {
     await render(
       <TestWrapper withWeb3>
         <DistributionsPage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -189,12 +189,12 @@ test('render with no allocations', async () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument();
       expect(screen.queryByText('Avail...')).not.toBeInTheDocument();
     },
-    { timeout: 5000 },
+    { timeout: 5000 }
   );
 
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(
-    screen.getAllByText(/Yearn USDC/i)[0].closest('button[role="combobox"]'),
+    screen.getAllByText(/Yearn USDC/i)[0].closest('button[role="combobox"]')
   ).toBeDisabled();
 });
 
@@ -213,7 +213,7 @@ test('render with no vaults', async () => {
     await render(
       <TestWrapper withWeb3>
         <DistributionsPage />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 

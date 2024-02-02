@@ -91,7 +91,7 @@ export const GiveDrawer = ({
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    },
+    }
   );
   const integrationContributions = useContributions({
     address: member.profile.address || '',
@@ -303,7 +303,7 @@ export const GiveDrawer = ({
               onFocus={e => {
                 e.currentTarget.setSelectionRange(
                   e.currentTarget.value.length,
-                  e.currentTarget.value.length,
+                  e.currentTarget.value.length
                 );
               }}
               placeholder="Say thanks or give constructive feedback."

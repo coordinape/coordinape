@@ -34,7 +34,7 @@ export const fetchCoSouls = async (
   where: Where | null,
   orderBy: OrderBy[],
   page: number,
-  pageSize: number,
+  pageSize: number
 ) => {
   const { cosouls } = await client.query(
     {
@@ -50,7 +50,7 @@ export const fetchCoSouls = async (
     },
     {
       operationName: 'cosouls_fetch_with_withLinks',
-    },
+    }
   );
   return cosouls.map(cosoul => ({
     ...cosoul,
@@ -72,7 +72,7 @@ export const fetchCoSoul = async (address: string) => {
     },
     {
       operationName: 'cosoul_fetch_one_with_links',
-    },
+    }
   );
   const cosoul = cosouls.pop();
 

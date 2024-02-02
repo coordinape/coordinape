@@ -33,21 +33,21 @@ export const CirclesPage = () => {
   const query = useQuery(
     [QUERY_KEY_MY_ORGS, profileId],
     () => getOrgData(profileId as number),
-    { enabled: !!profileId, staleTime: Infinity },
+    { enabled: !!profileId, staleTime: Infinity }
   );
   const orgs = query.data?.organizations;
 
   const [isCircleMember, setIsCircleMember] = useState(false);
   const [showAllCircles, setShowAllCircles] = useState(false);
   const [sampleOrg, setSampleOrg] = useState<OrgWithCircles | undefined>(
-    undefined,
+    undefined
   );
   useEffect(() => {
     if (orgs) {
       setSampleOrg(
         orgs.find(
-          o => o.sample && o.circles.length > 0 && o.created_by == profileId,
-        ),
+          o => o.sample && o.circles.length > 0 && o.created_by == profileId
+        )
       );
 
       // set isCircleMember if user is member in any circles
@@ -118,7 +118,7 @@ export default CirclesPage;
 type QueryCircle = QueryResult['organizations'][0]['circles'][0];
 
 const buttons = (
-  circle: QueryCircle,
+  circle: QueryCircle
 ): [(circleId: number) => string, string][] => {
   if (circle.users.length === 0) {
     return [
@@ -210,7 +210,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
       epoch
         ? [DateTime.fromISO(epoch.start_date), DateTime.fromISO(epoch.end_date)]
         : [undefined, undefined],
-    [epoch],
+    [epoch]
   );
 
   // this check is simple because the gql query filters out ended epochs
@@ -309,7 +309,7 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
                   >
                     {startDate.toFormat('MMM d')} -{' '}
                     {endDate.toFormat(
-                      endDate.month === startDate.month ? 'd' : 'MMM d',
+                      endDate.month === startDate.month ? 'd' : 'MMM d'
                     )}
                   </Text>
                   <Text

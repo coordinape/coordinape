@@ -16,7 +16,7 @@ export const getGitHubScore = async (profileId: number) => {
     },
     {
       operationName: 'getGitHubScore',
-    },
+    }
   );
   if (!github_accounts_by_pk) {
     return 0;

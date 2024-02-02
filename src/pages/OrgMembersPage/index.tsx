@@ -37,7 +37,7 @@ const OrgMembersPage = () => {
       enabled: !!orgId,
       refetchOnWindowFocus: false,
       staleTime: Infinity,
-    },
+    }
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const OrgMembersPage = () => {
       const r = new RegExp(keyword, 'i');
       return r.test(m.profile?.name) || r.test(m.profile.address);
     },
-    [keyword],
+    [keyword]
   );
 
   const organization = data?.organizations_by_pk;
@@ -58,7 +58,7 @@ const OrgMembersPage = () => {
   const { members } = organization;
 
   const isOrgAdmin = members.some(
-    m => m.profile_id === myId && m.profile?.users.some(isUserAdmin),
+    m => m.profile_id === myId && m.profile?.users.some(isUserAdmin)
   );
 
   return (

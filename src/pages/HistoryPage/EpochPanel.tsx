@@ -163,7 +163,7 @@ const DistributionSummary = ({
 
   const tokens = fp.flow(
     fp.groupBy<QueryDistribution>(dist => dist.vault.symbol),
-    fp.mapValues(fp.sumBy(d => d.gift_amount + d.fixed_amount)),
+    fp.mapValues(fp.sumBy(d => d.gift_amount + d.fixed_amount))
   )(distributions);
 
   return (

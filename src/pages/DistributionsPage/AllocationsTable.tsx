@@ -65,7 +65,7 @@ export const AllocationsTable = ({
     epoch: number,
     epochId: number,
     formGiftAmount: number,
-    giftTokenSymbol: string,
+    giftTokenSymbol: string
   ) => Promise<any>;
   epoch: EpochDataResult;
   fixedDist: EpochDataResult['distributions'][0] | undefined;
@@ -78,7 +78,7 @@ export const AllocationsTable = ({
   type User = Exclude<(typeof users)[0], undefined>;
   const givenPercent = useCallback(
     (received: number) => received / totalGive,
-    [totalGive],
+    [totalGive]
   );
 
   const showDeletedInfo = (token_gifts?: Gift[]) => {
@@ -140,7 +140,7 @@ export const AllocationsTable = ({
                     epoch.number,
                     epoch.id,
                     formGiftAmount,
-                    tokenName || '',
+                    tokenName || ''
                   );
                   if (csv?.file) {
                     const a = document.createElement('a');
@@ -231,14 +231,14 @@ export const AllocationsTable = ({
                       user.circleClaimed.toLocaleString('fullwide', {
                         useGrouping: false,
                       }),
-                      lockedTokenDistributionDecimals,
+                      lockedTokenDistributionDecimals
                     )} ${lockedTokenDistributionSymbol}`
                   : circleDist
                     ? `${smartRounding(user.circleClaimed)} ${
                         tokenName || 'GIVE'
                       }`
                     : `${smartRounding(
-                        givenPercent(user.received) * formGiftAmount,
+                        givenPercent(user.received) * formGiftAmount
                       )} ${customToken?.symbol || tokenName || 'GIVE'}`}
               </td>
               <td className="alignRight">

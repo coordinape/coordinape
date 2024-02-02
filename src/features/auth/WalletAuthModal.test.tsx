@@ -21,7 +21,7 @@ describe('with metamask enabled', () => {
       await render(
         <TestWrapper withWeb3>
           <WalletAuthModal />
-        </TestWrapper>,
+        </TestWrapper>
       );
     });
     screen.getByText('Metamask');
@@ -33,7 +33,7 @@ test('without metamask, the metamask login option is disabled', async () => {
     await render(
       <TestWrapper>
         <WalletAuthModal />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -46,7 +46,7 @@ test('email login explainer', async () => {
     await render(
       <TestWrapper>
         <WalletAuthModal />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
   const button = screen.getByText('Email');

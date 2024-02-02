@@ -45,7 +45,7 @@ export const ContributionHelpText = ({ circleId }: { circleId: number }) => {
           ...data,
         };
       },
-    },
+    }
   );
   const [editHelpText, setEditHelpText] = useState(false);
   const [updatedContHelpText, setUpdatedContHelpText] = useState<

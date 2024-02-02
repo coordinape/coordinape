@@ -110,7 +110,7 @@ test('allow request with admin role', async () => {
         hasuraRole: 'admin',
         hasuraProfileId: undefined,
       },
-    }),
+    })
   );
 });
 
@@ -143,8 +143,8 @@ test('prevent API access by default', async () => {
         (e: any) =>
           e.path.includes('x-hasura-role') &&
           e.received === 'api-user' &&
-          e.expected === 'user',
-      ),
+          e.expected === 'user'
+      )
     ).toBeTruthy();
   }
 });
@@ -166,9 +166,9 @@ test('reject bad API permissions', async () => {
   } as VercelRequest;
 
   await expect(() =>
-    getInput(req, schema, { apiPermissions: ['read_circle'] }),
+    getInput(req, schema, { apiPermissions: ['read_circle'] })
   ).rejects.toThrow(
-    /API key does not have the required permissions: read_circle/,
+    /API key does not have the required permissions: read_circle/
   );
 });
 
@@ -192,7 +192,7 @@ test('allow access for good API key', async () => {
         { __typename: true },
       ],
     },
-    { operationName: 'test' },
+    { operationName: 'test' }
   );
 
   const schema = z.object({ message: z.string() }).strict();
@@ -224,6 +224,6 @@ test('allow access for good API key', async () => {
           read_circle: true,
         }),
       },
-    }),
+    })
   );
 });

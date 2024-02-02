@@ -29,7 +29,7 @@ export class Contracts {
   constructor(
     chainId: number,
     signerProvider: JsonRpcProvider,
-    readonly = false,
+    readonly = false
   ) {
     this.chainId = chainId.toString();
     this.provider = signerProvider;
@@ -43,16 +43,16 @@ export class Contracts {
     }
     this.cosoul = CoSoul__factory.connect(
       info.CoSoul.address,
-      this.signerOrProvider,
+      this.signerOrProvider
     );
     if (info.CoLinks?.address) {
       this.coLinks = CoLinks__factory.connect(
         info.CoLinks.address,
-        this.signerOrProvider,
+        this.signerOrProvider
       );
       this.coLinksReadOnly = CoLinks__factory.connect(
         info.CoLinks.address,
-        this.readOnlyProvider,
+        this.readOnlyProvider
       );
     }
   }

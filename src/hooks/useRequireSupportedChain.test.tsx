@@ -47,7 +47,7 @@ test('on valid chain, does nothing', async () => {
   render(
     <TestWrapper>
       <Harness />
-    </TestWrapper>,
+    </TestWrapper>
   );
 
   expect(screen.queryByText(/do not support chain/)).toBeNull();
@@ -59,10 +59,10 @@ test('on invalid chain, shows error', async () => {
   render(
     <TestWrapper>
       <Harness />
-    </TestWrapper>,
+    </TestWrapper>
   );
 
   await screen.findByText(
-    'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.',
+    'Contract interactions do not support chain 12345. Please switch to Ethereum Mainnet.'
   );
 });

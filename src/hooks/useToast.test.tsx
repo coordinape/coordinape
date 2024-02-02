@@ -19,7 +19,7 @@ test('showDefault shows a default themed toast', async () => {
     render(
       <TestWrapper>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -41,7 +41,7 @@ test('showSuccess shows a default themed toast', async () => {
     render(
       <TestWrapper>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 
@@ -63,7 +63,7 @@ test('showError shows a error themed toast', async () => {
     render(
       <TestWrapper>
         <Harness />
-      </TestWrapper>,
+      </TestWrapper>
     );
   });
 

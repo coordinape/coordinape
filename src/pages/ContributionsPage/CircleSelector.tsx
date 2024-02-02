@@ -30,7 +30,7 @@ export const CircleSelector = ({
   }));
   const firstCircle = myCircles && myCircles[0];
   const [circleForContribution, setCircleForContribution] = useState(
-    firstCircle.id.toString(),
+    firstCircle.id.toString()
   );
   const handleCircleChange = (selectedValue: string) => {
     setCircleForContribution(selectedValue);

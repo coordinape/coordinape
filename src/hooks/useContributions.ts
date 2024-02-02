@@ -97,21 +97,21 @@ const fetchContributions = async ({
 
 const deworkIntegration = (
   integration: Integration,
-  timeInput: TimeInput,
+  timeInput: TimeInput
 ): Promise<Response | undefined> => {
   const url = `https://api.deworkxyz.com/integrations/coordinape/${
     integration.data.organizationId
   }?epoch_start=${timeInput.startDate}&epoch_end=${
     timeInput.endDate
   }&workspace_ids=${encodeURIComponent(
-    integration.data.workspaceIds?.join(',') || '',
+    integration.data.workspaceIds?.join(',') || ''
   )}`;
   return fetchContributions({ url, label: DEWORK });
 };
 
 const wonderIntegration = (
   integration: Integration,
-  timeInput: TimeInput,
+  timeInput: TimeInput
 ): Promise<Response | undefined> => {
   let url = `https://external-api.wonderapp.co/v1/coordinape/contributions?org_id=${integration.data.organizationId}&epoch_start=${timeInput.startDate}&epoch_end=${timeInput.endDate}`;
   if (integration.data.podIds) {
@@ -124,7 +124,7 @@ const wonderIntegration = (
 
 export function useContributionUsers(
   timeInput: TimeInput,
-  circleId: number,
+  circleId: number
 ): UserContributions {
   const integrations = useCircleIntegrations(circleId);
   const responses = useQueries(
@@ -150,7 +150,7 @@ export function useContributionUsers(
           // TODO: Add an integration class hasura enum to make this more explicit
           // classes could include: contribution, membership, distribution, etc
           .filter(x => x)
-      : [],
+      : []
   );
   /**
    * responses are individual responses from each integration
@@ -166,7 +166,7 @@ export function useContributionUsers(
         const address = userContribution.address.toLowerCase();
         if (address in combinedContribution) {
           combinedContribution[address] = combinedContribution[address].concat(
-            userContribution.contributions,
+            userContribution.contributions
           );
         } else {
           combinedContribution[address] = userContribution.contributions;
@@ -190,11 +190,11 @@ export function useContributions(input: {
       startDate,
       endDate,
     },
-    circleId,
+    circleId
   );
   const ret = useMemo(
     () => (address ? userToContribution[address.toLowerCase()] : undefined),
-    [address, userToContribution],
+    [address, userToContribution]
   );
 
   return mock ? mockData[address] : ret;

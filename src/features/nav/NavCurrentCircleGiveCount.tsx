@@ -14,7 +14,7 @@ export const NavCurrentCircleGiveCount = ({
 }) => {
   const { showGives, tokenName, visibleGive } = useReceiveInfo(
     circleId,
-    user?.id,
+    user?.id
   );
 
   if (!user || (!showGives && !isUserAdmin(user))) {

@@ -117,7 +117,7 @@ ENS validate
     },
     {
       operationName: 'getLinkScore',
-    },
+    }
   );
 
   const myHoldings = my_holdings.aggregate?.sum?.amount ?? 0;
@@ -138,13 +138,13 @@ ENS validate
 
   const postsTotal = Math.min(
     COLINKS_ENGAGEMENT_SCORE_MAX,
-    postScore + replyScore + reactionScore,
+    postScore + replyScore + reactionScore
   );
 
   return {
     links_score: Math.floor(Math.min(COLINKS_LINK_SCORE_MAX, linksTotal)),
     colinks_engagement_score: Math.floor(
-      Math.min(COLINKS_ENGAGEMENT_SCORE_MAX, postsTotal),
+      Math.min(COLINKS_ENGAGEMENT_SCORE_MAX, postsTotal)
     ),
   };
 };

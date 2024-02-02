@@ -86,7 +86,7 @@ export const useSubmitLockedTokenDistribution = () => {
     }));
 
     const profileIds = await getProfileIds(
-      balances.map(balance => balance.address),
+      balances.map(balance => balance.address)
     );
 
     logger.log('saving...');
@@ -99,7 +99,7 @@ export const useSubmitLockedTokenDistribution = () => {
       chain_id: Number(contracts.chainId),
       locked_token_distribution_gifts: balances.map(balance => ({
         profile_id: profileIds.find(
-          profile => profile.address === balance.address,
+          profile => profile.address === balance.address
         )?.id,
         earnings: balance.earnings,
       })),
@@ -115,7 +115,7 @@ export const useSubmitLockedTokenDistribution = () => {
       weiAmount,
       hedgeyLockPeriod,
       hedgeyTransferable,
-      balances,
+      balances
     );
     const receipt = await transaction.wait();
     if (!receipt) return;

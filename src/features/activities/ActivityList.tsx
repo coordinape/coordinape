@@ -40,7 +40,7 @@ export const ActivityList = ({
     if (pollForNewActivity) {
       setTimeout(
         () => queryClient.invalidateQueries([ACTIVITIES_QUERY_KEY, queryKey]),
-        250,
+        250
       );
       // its ok to poll quickly for 30 seconds
       setPollQuicklyUntil(new Date(Date.now() + 5000));
@@ -58,7 +58,7 @@ export const ActivityList = ({
       where,
       setLatestActivityId,
       onSettled,
-      refetchInterval,
+      refetchInterval
     );
 
   const handleObserver = useCallback<
@@ -70,7 +70,7 @@ export const ActivityList = ({
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage],
+    [fetchNextPage, hasNextPage]
   );
 
   useEffect(() => {
@@ -106,7 +106,7 @@ export const ActivityList = ({
         data.pages.map(page =>
           page.map(c => {
             return <ActivityRow key={c.id} activity={c} drawer={drawer} />;
-          }),
+          })
         )}{' '}
       <Flex ref={observerRef} css={{ justifyContent: 'center' }}>
         {isFetchingNextPage ? <LoadingIndicator /> : <Box>&nbsp;</Box>}

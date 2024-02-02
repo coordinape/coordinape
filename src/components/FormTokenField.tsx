@@ -18,7 +18,7 @@ export const zTokenString = (min: string, max: string, decimals: number) =>
         amount.lte(parseUnits(max, decimals));
       return result;
     },
-    { message: `Amount must be greater than ${min} and no more than ${max}` },
+    { message: `Amount must be greater than ${min} and no more than ${max}` }
   );
 
 type Props = Omit<

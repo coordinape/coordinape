@@ -36,14 +36,14 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
         showError(
           e.target.value +
             ' is invalid, allowed files are: ' +
-            VALID_FILE_TYPES.join(', '),
+            VALID_FILE_TYPES.join(', ')
         );
         setAvatarFile(undefined);
       } else if (e.target.files[0].size > MAX_IMAGE_BYTES_LENGTH_BASE64) {
         showError(
           e.target.value +
             ' is too large, max file size is ' +
-            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64),
+            formatBytes(MAX_IMAGE_BYTES_LENGTH_BASE64)
         );
       } else {
         setAvatarFile(e.target.files[0]);
@@ -56,7 +56,7 @@ export const AvatarUpload = ({ original }: { original?: string }) => {
             file: newAvatar,
             onSuccess: (resp: any) => {
               const newAvatar = resp.result.variants.find((s: string) =>
-                s.match(/avatar$/),
+                s.match(/avatar$/)
               );
               setUploadedAvatarUrl(newAvatar);
               updateProfileAvatar(newAvatar);
@@ -153,6 +153,6 @@ const updateProfileAvatar = async (avatar_url: string) => {
     },
     {
       operationName: 'updateProfileAvatar',
-    },
+    }
   );
 };

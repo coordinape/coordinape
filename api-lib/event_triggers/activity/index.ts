@@ -123,7 +123,7 @@ async function getOrgAndProfile(user_id: number, circle_id: number) {
     },
     {
       operationName: 'getOrgByCircle',
-    },
+    }
   );
 
   return data.circles_by_pk;
@@ -143,7 +143,7 @@ async function getOrgByEpoch(epoch_id: number) {
     },
     {
       operationName: 'getOrgByEpoch',
-    },
+    }
   );
 
   return data.epochs_by_pk;
@@ -163,7 +163,7 @@ export type ContributionActivityInput = Required<
 > & { circle_id?: any; organization_id?: any };
 
 export async function insertContributionActivity(
-  input: ContributionActivityInput,
+  input: ContributionActivityInput
 ) {
   await insertActivity({ action: 'contributions_insert', ...input });
 }

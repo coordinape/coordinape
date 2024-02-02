@@ -16,7 +16,7 @@ export const useOrgShareToken = (orgId: number, type: ShareTokenType) => {
             { uuid: true },
           ],
         },
-        { operationName: 'getOrgTokens' },
+        { operationName: 'getOrgTokens' }
       );
       const token = org_share_tokens?.pop();
       if (token) return token.uuid;
@@ -29,12 +29,12 @@ export const useOrgShareToken = (orgId: number, type: ShareTokenType) => {
             { uuid: true },
           ],
         },
-        { operationName: 'createOrgTokens' },
+        { operationName: 'createOrgTokens' }
       );
       assert(newToken);
       return newToken.uuid;
     },
-    { enabled: !!orgId },
+    { enabled: !!orgId }
   );
 };
 

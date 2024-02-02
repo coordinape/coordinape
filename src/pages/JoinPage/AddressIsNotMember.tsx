@@ -41,7 +41,7 @@ export const AddressIsNotMember = ({
   useEffect(() => {
     if (group?.guild_id) {
       fetchGuildInfo(group.guild_id, address, group.guild_role_id).then(
-        setGuildInfo,
+        setGuildInfo
       );
     }
   }, [tokenJoinInfo]);

@@ -64,7 +64,7 @@ export const queryProfile = async (address: string) => {
         },
       ],
     },
-    { operationName: 'getProfile' },
+    { operationName: 'getProfile' }
   );
 
   const p = profiles.pop();
@@ -141,7 +141,7 @@ export const queryProfilePgive = async (address?: string) => {
         },
       },
     },
-    { operationName: 'getProfile_totalPgive' },
+    { operationName: 'getProfile_totalPgive' }
   );
   const totalPgiver: number | undefined = (totalPgive.aggregate?.sum as any)
     .normalized_pgive;

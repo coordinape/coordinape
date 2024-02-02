@@ -123,7 +123,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
 });
 
 export const MarkdownPreview = (
-  props: React.ComponentProps<typeof StyledMarkdownPreview>,
+  props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
   const navigate = useNavigate();
 

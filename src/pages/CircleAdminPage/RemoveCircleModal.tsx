@@ -35,7 +35,7 @@ export const RemoveCircleModal = ({
     (circle_id: number) =>
       client.mutate(
         { deleteCircle: [{ payload: { circle_id } }, { success: true }] },
-        { operationName: 'deleteCircle' },
+        { operationName: 'deleteCircle' }
       ),
     {
       onMutate: () => {
@@ -54,7 +54,7 @@ export const RemoveCircleModal = ({
         showError(err);
         onClose();
       },
-    },
+    }
   );
 
   if (isLoading) return <LoadingModal visible />;

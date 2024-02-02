@@ -47,7 +47,7 @@ export const JoinForm = ({
         {
           createUserWithToken: [{ payload: { token } }, { id: true }],
         },
-        { operationName: 'createUserWithToken' },
+        { operationName: 'createUserWithToken' }
       );
       await fetchManifest();
       await queryClient.invalidateQueries(QUERY_KEY_NAV);

@@ -88,7 +88,7 @@ export const PostForm = ({
   };
 
   const handleDrag = (
-    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>,
+    e: DragEvent<HTMLDivElement> | DragEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
     e.stopPropagation();
@@ -120,7 +120,7 @@ export const PostForm = ({
             setUploadProgress: setUploadProgress,
             onSuccess: (resp: any) =>
               insertMarkdownImage(
-                resp?.result?.variants.find((s: string) => s.match(/feed$/)),
+                resp?.result?.variants.find((s: string) => s.match(/feed$/))
               ),
           });
         } else {
@@ -144,7 +144,7 @@ export const PostForm = ({
   const { control, reset, resetField, getValues, setValue, setFocus } = useForm(
     {
       mode: 'all',
-    },
+    }
   );
 
   const { field: descriptionField } = useController({
@@ -210,7 +210,7 @@ export const PostForm = ({
         queryClient.invalidateQueries(POST_PAGE_QUERY_KEY);
         cancelEditing();
       },
-    },
+    }
   );
 
   const { mutate: deleteContribution } = useMutation(
@@ -221,7 +221,7 @@ export const PostForm = ({
         reset();
         queryClient.invalidateQueries(ACTIVITIES_QUERY_KEY);
       },
-    },
+    }
   );
 
   const saveContribution = (value: string) => {

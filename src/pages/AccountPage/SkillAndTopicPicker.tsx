@@ -50,7 +50,7 @@ const fetchSkills = async () => {
     },
     {
       operationName: 'fetchPotentialSkills',
-    },
+    }
   );
   return skills;
 };
@@ -73,7 +73,7 @@ const fetchMySkills = async (profileId: number) => {
     },
     {
       operationName: 'fetchMySkills',
-    },
+    }
   );
   return profile_skills.map(ps => ps.skill_name);
 };
@@ -104,7 +104,7 @@ export const SkillAndTopicPicker = () => {
         },
         {
           operationName: 'delete_profile_skill',
-        },
+        }
       );
     },
     {
@@ -112,7 +112,7 @@ export const SkillAndTopicPicker = () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
         await queryClient.invalidateQueries([QUERY_KEY_ALL_SKILLS]);
       },
-    },
+    }
   );
 
   const { mutate: addSkill } = useMutation(
@@ -136,7 +136,7 @@ export const SkillAndTopicPicker = () => {
         },
         {
           operationName: 'add_skill',
-        },
+        }
       );
 
       return client.mutate(
@@ -155,7 +155,7 @@ export const SkillAndTopicPicker = () => {
         },
         {
           operationName: 'add_profile_skill',
-        },
+        }
       );
     },
     {
@@ -163,15 +163,15 @@ export const SkillAndTopicPicker = () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
         setPopoverOpen(false);
       },
-    },
+    }
   );
   const { data: skills, isLoading: skillsLoading } = useQuery(
     [QUERY_KEY_ALL_SKILLS],
-    fetchSkills,
+    fetchSkills
   );
   const { data: profileSkills, isLoading: profileSkillsLoading } = useQuery(
     [QUERY_KEY_PROFILE_SKILLS],
-    () => fetchMySkills(profileId),
+    () => fetchMySkills(profileId)
   );
 
   const isLoading = profileSkillsLoading || skillsLoading;
@@ -293,9 +293,8 @@ export const SkillAndTopicPicker = () => {
                                 sk =>
                                   !profileSkills.some(
                                     ps =>
-                                      ps.toLowerCase() ===
-                                      sk.name.toLowerCase(),
-                                  ),
+                                      ps.toLowerCase() === sk.name.toLowerCase()
+                                  )
                               )
                               .map(skill => (
                                 <Command.Item
@@ -306,7 +305,7 @@ export const SkillAndTopicPicker = () => {
                                   disabled={profileSkills.some(
                                     ps =>
                                       ps.toLowerCase() ===
-                                      skill.name.toLowerCase(),
+                                      skill.name.toLowerCase()
                                   )}
                                 >
                                   <Flex

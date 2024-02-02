@@ -7,7 +7,7 @@ import { getInput } from './handlerHelpers';
 const uploadImageInput = z.object({ image_data_base64: z.string() }).strict();
 
 export const userAndImageData = async (
-  req: VercelRequest,
+  req: VercelRequest
 ): Promise<{
   input: { image_data_base64: string };
   hasuraProfileId: number;
@@ -30,7 +30,7 @@ export const profileUpdateBackgroundMutation = (hasuraProfileId: number) => {
 
 const profileUpdateImageMutation = (
   hasuraProfileId: number,
-  _set: (fileName: string) => { background: string } | { avatar: string },
+  _set: (fileName: string) => { background: string } | { avatar: string }
 ) => {
   // save the new image id in the db
   return async (fileName: string) => {
@@ -48,7 +48,7 @@ const profileUpdateImageMutation = (
       },
       {
         operationName: 'profileUpdateImageMutation',
-      },
+      }
     );
 
     if (!mutationResult.update_profiles_by_pk) {
@@ -60,7 +60,7 @@ const profileUpdateImageMutation = (
 };
 
 export const profileImages = async (
-  hasuraProfileId: number,
+  hasuraProfileId: number
 ): Promise<{ avatar?: string; background?: string }> => {
   // Figure out if there was a previous avatar, because we'll need to delete it
   const { profiles_by_pk } = await adminClient.query(
@@ -77,7 +77,7 @@ export const profileImages = async (
     },
     {
       operationName: 'profileImages',
-    },
+    }
   );
   if (!profiles_by_pk) {
     throw `unable to load images for profile ${hasuraProfileId}`;
