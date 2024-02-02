@@ -14808,7 +14808,7 @@ export type ValueTypes = {
         /** filter the rows which have to be deleted */
         where: ValueTypes['profiles_private_bool_exp'];
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     delete_reactions?: [
       {
@@ -16003,14 +16003,14 @@ export type ValueTypes = {
         /** the rows to be inserted */
         objects: Array<ValueTypes['profiles_private_insert_input']>;
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     insert_profiles_private_one?: [
       {
         /** the row to be inserted */
         object: ValueTypes['profiles_private_insert_input'];
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     insert_reactions?: [
       {
@@ -18169,14 +18169,14 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['profiles_private_bool_exp'];
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     update_profiles_private_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['profiles_private_updates']>;
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     update_reactions?: [
       {
@@ -24708,7 +24708,7 @@ export type ValueTypes = {
           | null;
         distinct?: boolean | undefined | null;
       },
-      boolean | `@${string}`
+      boolean | `@${string}`,
     ];
     max?: ValueTypes['profiles_private_max_fields'];
     min?: ValueTypes['profiles_private_min_fields'];
@@ -28103,7 +28103,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_private_aggregate?: [
       {
@@ -28126,7 +28126,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private_aggregate']
+      ValueTypes['profiles_private_aggregate'],
     ];
     profiles_public?: [
       {
@@ -33811,7 +33811,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_private_aggregate?: [
       {
@@ -33834,7 +33834,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private_aggregate']
+      ValueTypes['profiles_private_aggregate'],
     ];
     profiles_private_stream?: [
       {
@@ -33845,7 +33845,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_public?: [
       {

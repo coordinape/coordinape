@@ -8419,14 +8419,14 @@ export type ValueTypes = {
           | null /** filter the rows which have to be updated */;
         where: ValueTypes['profiles_private_bool_exp'];
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     update_profiles_private_many?: [
       {
         /** updates to execute, in order */
         updates: Array<ValueTypes['profiles_private_updates']>;
       },
-      ValueTypes['profiles_private_mutation_response']
+      ValueTypes['profiles_private_mutation_response'],
     ];
     update_replies?: [
       {
@@ -13401,7 +13401,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_public?: [
       {
@@ -16813,7 +16813,7 @@ export type ValueTypes = {
           | null /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_private_stream?: [
       {
@@ -16824,7 +16824,7 @@ export type ValueTypes = {
         > /** filter the rows returned */;
         where?: ValueTypes['profiles_private_bool_exp'] | undefined | null;
       },
-      ValueTypes['profiles_private']
+      ValueTypes['profiles_private'],
     ];
     profiles_public?: [
       {
