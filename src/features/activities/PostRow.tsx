@@ -7,13 +7,14 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
-import { Edit, Messages, MessageSolid } from 'icons/__generated';
-import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
+import { Edit, Messages, MessageSolid, ShareSolid } from 'icons/__generated';
+import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
 import { ReactionBar } from './reactions/ReactionBar';
 import { RepliesBox } from './replies/RepliesBox';
+import { SharePostModal } from './SharePostModal';
 import { Contribution } from './useInfiniteActivities';
 
 export const PostRow = ({
@@ -95,7 +96,9 @@ export const PostRow = ({
                 justifyContent: 'space-between',
               }}
             >
-              <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
+              <Flex
+                css={{ flexWrap: 'wrap', gap: '$sm', alignItems: 'center' }}
+              >
                 <ActivityProfileName profile={activity.actor_profile_public} />
                 <Text
                   as={NavLink}
@@ -109,6 +112,25 @@ export const PostRow = ({
                 >
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
+                {editableContribution && (
+                  <SharePostModal activityId={activity.id}>
+                    <Link
+                      inlineLink
+                      color="neutral"
+                      css={{
+                        fontSize: '$small',
+                        gap: '$xs',
+                        display: 'inline-flex',
+                      }}
+                    >
+                      <ShareSolid
+                        nostroke
+                        css={{ path: { fill: '$neutral' } }}
+                      />
+                      Share
+                    </Link>
+                  </SharePostModal>
+                )}
               </Flex>
               <Flex
                 css={{
