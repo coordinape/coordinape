@@ -6,7 +6,7 @@ import {
   ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
-} from './config.js';
+} from './config';
 
 export function getProvider(chainId: number) {
   // eslint-disable-next-line no-console

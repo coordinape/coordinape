@@ -1,4 +1,4 @@
-import { IN_PRODUCTION } from './env.js';
+import { IN_PRODUCTION } from './env';
 
 export const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
 export const COORDINAPE_MARKETING_URL = 'https://coordinape.com';

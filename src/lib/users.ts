@@ -1,8 +1,8 @@
 import assert from 'assert';
 
-import isNil from 'lodash-es/isNil.js';
+import isNil from 'lodash-es/isNil';
 
-import { COORDINAPE_USER_ADDRESS } from '../config/constants.js';
+import { COORDINAPE_USER_ADDRESS } from '../config/constants';
 
 export enum Role {
   MEMBER = 0,

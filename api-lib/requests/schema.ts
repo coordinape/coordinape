@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/node';
 import { z } from 'zod';
 
-import { zEthAddressOnly } from '../../src/lib/zod/formHelpers.js';
+import { zEthAddressOnly } from '../../src/lib/zod/formHelpers';
 import { getCircleApiKey } from '../authHelpers';
 
 const sha256HashString = z.string().length(64);

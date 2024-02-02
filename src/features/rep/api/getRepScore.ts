@@ -1,16 +1,16 @@
 import assert from 'assert';
 
-import { adminClient } from '../../../../api-lib/gql/adminClient.js';
-import { getLocalPGIVE } from '../../cosoul/api/pgive.js';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { getLocalPGIVE } from '../../cosoul/api/pgive';
 
-import { getCoLinksScore } from './getCoLinksScore.js';
-import { getEmailScore } from './getEmailScore.js';
-import { getGitHubScore } from './getGitHubScore.js';
-import { getInviteScore } from './getInviteScore.js';
-import { getLinkedInScore } from './getLinkedInScore.js';
-import { getPoapScore } from './getPoapScore.js';
-import { getTwitterScore } from './getTwitterScore.js';
-import { PGIVE_MAX_SCORE } from './scoring.js';
+import { getCoLinksScore } from './getCoLinksScore';
+import { getEmailScore } from './getEmailScore';
+import { getGitHubScore } from './getGitHubScore';
+import { getInviteScore } from './getInviteScore';
+import { getLinkedInScore } from './getLinkedInScore';
+import { getPoapScore } from './getPoapScore';
+import { getTwitterScore } from './getTwitterScore';
+import { PGIVE_MAX_SCORE } from './scoring';
 
 export const getRepScore = async (profileId: number) => {
   const { address, currentScore } = await getAddressAndCurrentScore(profileId);

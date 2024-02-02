@@ -1,6 +1,6 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient.js';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-import { POAP_HOLDING_VALUE, POAP_SCORE_MAX } from './scoring.js';
+import { POAP_HOLDING_VALUE, POAP_SCORE_MAX } from './scoring';
 
 export const getPoapScore = async (address: string) => {
   const { poap_holders_aggregate } = await adminClient.query(

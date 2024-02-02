@@ -1,6 +1,6 @@
 import mp from 'mixpanel-browser';
 // FIXME should be able to just use `crypto`, but couldn't get the polyfill to
-import shajs from 'sha.js';
+import shajs from 'sha';
 
 import { isFeatureEnabled } from '../../config/features';
 

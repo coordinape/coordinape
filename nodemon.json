@@ -1,6 +1,6 @@
 {
   "watch": [
-    "api/",
+    "_api/",
     "api-lib/",
     "scripts/",
     "src/lib",

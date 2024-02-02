@@ -3,10 +3,10 @@ import assert from 'assert';
 import {
   reputation_scores_constraint,
   reputation_scores_update_column,
-} from '../../../../api-lib/gql/__generated__/zeus/index.js';
-import { adminClient } from '../../../../api-lib/gql/adminClient.js';
+} from '../../../../api-lib/gql/__generated__/zeus/index';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 
-import { getRepScore } from './getRepScore.js';
+import { getRepScore } from './getRepScore';
 
 export const updateRepScoreForAddress = async (address: string) => {
   const { profiles } = await adminClient.query(

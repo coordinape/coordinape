@@ -1,10 +1,10 @@
-import { adminClient } from '../../../../api-lib/gql/adminClient.js';
+import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import {
   TWITTER_FOLLOWER_SCORE_VALUE,
   TWITTER_SCORE_BASE,
   TWITTER_SCORE_MAX,
-} from './scoring.js';
+} from './scoring';
 
 export const getTwitterScore = async (profileId: number) => {
   const { twitter_accounts_by_pk } = await adminClient.query(

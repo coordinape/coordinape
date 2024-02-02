@@ -3,13 +3,13 @@ import assert from 'assert';
 import { VercelRequest } from '@vercel/node';
 import { z } from 'zod';
 
-import type { ApiKeyPermission } from './requests/schema.js';
+import type { ApiKeyPermission } from './requests/schema';
 import {
   getSessionVarsSchemaWithPermissions,
   HasuraUserOrAdminSessionVariables,
   HasuraUserSessionVariables,
   InputSchema,
-} from './requests/schema.js';
+} from './requests/schema';
 
 type ApiPermissions = ApiKeyPermission[] | 'block';
 
