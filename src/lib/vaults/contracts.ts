@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import deploymentInfo from '@coordinape/contracts/deploymentInfoon' assert { type: 'json' };
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
 import type {
   ApeDistributor,
   ApeRouter,
