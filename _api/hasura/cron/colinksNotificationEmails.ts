@@ -6,7 +6,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { isRejected } from '../../../src/common-lib/epochs';
-import { IN_PRODUCTION } from '../../../src/config/env';
+import { IN_DEVELOPMENT } from '../../../src/config/env';
 
 async function sendEmailAndUpdateProfile({
   profileId,
@@ -33,7 +33,7 @@ async function sendEmailAndUpdateProfile({
         { id: true },
       ],
     },
-    { operationName: 'colinksNotificationEmail__updateLastEmailedId' }
+    { operationName: 'colinksNotificationEmail__updateLastEmailedId' },
   );
   return;
 }
@@ -67,7 +67,7 @@ async function getColinksUsersWithEmails() {
         },
       ],
     },
-    { operationName: 'colinksNotificationEmail__getUsersData' }
+    { operationName: 'colinksNotificationEmail__getUsersData' },
   );
   return profiles;
 }
@@ -97,12 +97,12 @@ async function getLastUnreadNotification({
     },
     {
       operationName: 'colinksNotificationEmails__getUnreadNotifications',
-    }
+    },
   );
   return notifications?.[0]?.id;
 }
 async function handler(req: VercelRequest, res: VercelResponse) {
-  if (!IN_PRODUCTION) {
+  if (IN_DEVELOPMENT) {
     return res.status(200).json({ success: true });
   }
 
@@ -130,7 +130,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         return;
-      })
+      }),
     );
     const errors = responses.filter(isRejected);
 
@@ -143,7 +143,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         }
       });
       console.error(
-        `Error sending colinks notification emails: ${errorMessages.join('\n')}`
+        `Error sending colinks notification emails: ${errorMessages.join(
+          '\n',
+        )}`,
       );
       throw new Error(errorMessages.join('\n'));
     }
