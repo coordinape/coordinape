@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate } from 'react-router';
@@ -5,6 +7,7 @@ import { styled } from 'stitches.config';
 
 import { webAppURL } from '../../config/webAppURL';
 import { textAreaMinHeight } from 'components/FormInputField';
+import { Text, Modal } from 'ui';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
@@ -49,8 +52,8 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   },
   img: {
     display: 'block',
-    maxHeight: '700px',
-    my: '$xs',
+    maxHeight: '500px',
+    mb: '$xs',
   },
   'h1, h2, h3, h4, h5, p, ul, ol': {
     mb: '0 !important',
@@ -126,6 +129,7 @@ export const MarkdownPreview = (
   props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
   const navigate = useNavigate();
+  const [modal, setModal] = useState(false);
 
   return (
     <ThemeContext.Consumer>
@@ -154,6 +158,30 @@ export const MarkdownPreview = (
                 >
                   {props.children}
                 </a>
+              );
+            },
+            img: ({ ...props }) => {
+              return (
+                <>
+                  <Text
+                    onClick={() => setModal(true)}
+                    css={{
+                      display: 'inline-block',
+                    }}
+                  >
+                    <img alt={props.alt} src={props.src} />
+                  </Text>
+                  <Modal
+                    lightbox
+                    showClose={false}
+                    open={modal}
+                    onOpenChange={() => setModal(false)}
+                  >
+                    <Text onClick={() => setModal(false)}>
+                      <img alt={props.alt} src={props.src} />
+                    </Text>
+                  </Modal>
+                </>
               );
             },
           }}
