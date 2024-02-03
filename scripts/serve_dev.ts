@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
 import address from '../_api/cosoul/[address]';
@@ -61,8 +60,8 @@ if ((global as any).__coverage__) {
   });
 }
 
+console.log('args', process.argv);
 const port = process.argv[2];
-const proxyPort = process.argv[3];
 
 // warning: ordering is important!
 // express passes requests through the routes in the order
@@ -149,14 +148,7 @@ app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
 });
 
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: `http://localhost:${proxyPort}`,
-    logLevel: 'warn',
-  })
-);
-
+console.log('LIUSTEING ON PORT', port);
 app.listen(port, () => {
   /* eslint-disable */
   console.log(`==========================================================`);
