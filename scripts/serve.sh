@@ -12,6 +12,7 @@ SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
 export VITE_API_PORT=$(( $RANDOM % 900 + 3100 ))
 export NODE_ENV=development
+export PORT
 
 COVERAGE=$COVERAGE BROWSER=none $BIN/vite --port $PORT --strictPort & VITE_PID=$!
 until curl -s -o/dev/null http://localhost:$PORT; do

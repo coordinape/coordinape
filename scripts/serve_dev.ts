@@ -153,9 +153,10 @@ app.listen(port, () => {
   /* eslint-disable */
   console.log(`==========================================================`);
   console.log(`Development server has started successfully!`);
+  console.log(`/api is proxied to http://localhost:${port}`);
   console.log(
     `Visit`,
-    chalk.bold(`http://localhost:${port}`),
+    chalk.bold(`http://localhost:${process.env.PORT}`),
     `to view the Coordinape app.`
   );
   console.log(`==========================================================`);
