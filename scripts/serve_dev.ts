@@ -148,7 +148,6 @@ app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
 });
 
-console.log('LIUSTEING ON PORT', port);
 app.listen(port, () => {
   /* eslint-disable */
   console.log(`==========================================================`);
