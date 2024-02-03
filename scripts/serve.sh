@@ -10,19 +10,20 @@ esac; shift; done
 
 SCRIPT_DIR="$(dirname $BASH_SOURCE[0])"
 BIN=$SCRIPT_DIR/../node_modules/.bin
-PROXY_PORT=$(( $RANDOM % 900 + 3100 ))
+export VITE_API_PORT=$(( $RANDOM % 900 + 3100 ))
 export NODE_ENV=development
+export PORT
 
-COVERAGE=$COVERAGE BROWSER=none $BIN/vite --port $PROXY_PORT --strictPort & VITE_PID=$!
-until curl -s -o/dev/null http://localhost:$PROXY_PORT; do
+COVERAGE=$COVERAGE BROWSER=none $BIN/vite --port $PORT --strictPort & VITE_PID=$!
+until curl -s -o/dev/null http://localhost:$PORT; do
   sleep 1
 done
 
 if [ "$COVERAGE" ]; then
-  $BIN/nyc --silent $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
+  $BIN/nyc --silent $BIN/tsx scripts/serve_dev.ts $VITE_API_PORT & API_PID=$!
 else
   echo 'NO COVERAGE'
-  $BIN/tsx scripts/serve_dev.ts $PORT $PROXY_PORT & API_PID=$!
+  $BIN/tsx --watch scripts/serve_dev.ts $VITE_API_PORT & API_PID=$!
 fi
 
 cleanup() {
@@ -31,7 +32,7 @@ cleanup() {
   kill $API_PID || true
 
   # this child process frequently doesn't exit properly
-  ORPHAN_PID=`test $(which lsof) && lsof -t -iTCP:$PROXY_PORT`
+  ORPHAN_PID=`test $(which lsof) && lsof -t -iTCP:$PORT`
   if [ "$ORPHAN_PID" ]; then 
     echo "Removing orphaned vite process... ($ORPHAN_PID)"
     kill $ORPHAN_PID
