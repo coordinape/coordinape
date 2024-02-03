@@ -81,7 +81,7 @@ const Content = styled(Dialog.Content, {
     },
     lightbox: {
       true: {
-        width: 'max-content',
+        width: '100%',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -102,9 +102,6 @@ const Content = styled(Dialog.Content, {
           width: '100%',
           maxWidth: '100vh',
           maxHeight: '96vh',
-        },
-        '@md': {
-          width: '100%',
         },
         '@sm': {
           m: '$1xl auto 0',
@@ -185,7 +182,12 @@ export const Modal = ({
             forceTheme === 'dark' ? dark : forceTheme === 'light' ? light : ''
           }
           drawer={drawer}
-          css={css}
+          css={{
+            ...css,
+            ...(lightbox && {
+              pointerEvents: 'none !important',
+            }),
+          }}
           lightbox={lightbox}
           cmdk={cmdk}
           onPointerDownOutside={event => {

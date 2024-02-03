@@ -7,6 +7,7 @@ import { styled } from 'stitches.config';
 
 import { webAppURL } from '../../config/webAppURL';
 import { textAreaMinHeight } from 'components/FormInputField';
+import { Eye } from 'icons/__generated';
 import { Text, Modal } from 'ui';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
@@ -167,9 +168,42 @@ export const MarkdownPreview = (
                     onClick={() => setModal(true)}
                     css={{
                       display: 'inline-block',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      '&:hover, &:focus': {
+                        '.lightboxButton': {
+                          left: -50,
+                          top: -50,
+                        },
+                      },
                     }}
                   >
                     <img alt={props.alt} src={props.src} />
+                    <Text
+                      className="lightboxButton"
+                      css={{
+                        display: 'flex',
+                        background: '$surface',
+                        position: 'absolute',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        width: 100,
+                        height: 100,
+                        left: -100,
+                        top: -100,
+                        transform: 'rotate(-45deg)',
+                        transition: 'all .2s ease-in-out',
+                      }}
+                    >
+                      <Eye
+                        size="lg"
+                        css={{
+                          transform: 'rotate(45deg)',
+                          position: 'absolute',
+                          bottom: 10,
+                        }}
+                      />
+                    </Text>
                   </Text>
                   <Modal
                     lightbox
