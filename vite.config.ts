@@ -10,7 +10,6 @@ import tsconfigPaths from 'vite-tsconfig-paths';
 
 const env = loadEnv('all', process.cwd());
 
-console.log({ env });
 export default defineConfig({
   appType: 'spa',
   build: {
