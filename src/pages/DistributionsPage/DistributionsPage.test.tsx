@@ -5,6 +5,7 @@ import pick from 'lodash-es/pick';
 import { DateTime } from 'luxon';
 import { Mock, vi } from 'vitest';
 
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import {
   provider,
   restoreSnapshot,
@@ -14,6 +15,8 @@ import {
 
 import { DistributionsPage } from './DistributionsPage';
 import { getEpochData } from './queries';
+
+vi.mock('hooks/useConnectedAddress', () => ({ default: vi.fn() }));
 
 vi.mock('features/auth/useLoginData', () => ({
   useMyUser: () => ({ id: 1, role: 1 }),
@@ -58,6 +61,10 @@ beforeAll(async () => {
   const symbol = 'USDC';
   const vault = await contracts.createVault(symbol, true);
   const mockVaultId = 2;
+
+  (useConnectedAddress as Mock).mockImplementation(
+    () => '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
+  );
 
   mockEpochData = {
     id: 5,

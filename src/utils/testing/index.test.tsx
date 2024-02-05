@@ -5,7 +5,7 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 import { TestWrapper } from '.';
 
 vi.mock('hooks/useConnectedAddress', () => ({
-  default: () => '0x1234567890123456789012345678901234567890',
+  default: () => '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266',
 }));
 
 test('activate connector', async () => {
