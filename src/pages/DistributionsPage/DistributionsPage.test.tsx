@@ -5,7 +5,8 @@ import pick from 'lodash-es/pick';
 import { DateTime } from 'luxon';
 import { Mock, vi } from 'vitest';
 
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
+import { useWeb3React } from '../../hooks/useWeb3React';
 import {
   provider,
   restoreSnapshot,
@@ -62,9 +63,10 @@ beforeAll(async () => {
   const vault = await contracts.createVault(symbol, true);
   const mockVaultId = 2;
 
-  (useConnectedAddress as Mock).mockImplementation(
-    () => '0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266'
-  );
+  (useConnectedAddress as Mock).mockImplementation(() => {
+    const { account } = useWeb3React();
+    return account;
+  });
 
   mockEpochData = {
     id: 5,
@@ -130,9 +132,9 @@ test('render without a distribution', async () => {
   });
   expect(screen.getByText('Gift Circle')).toBeInTheDocument();
   expect(screen.getByText('Please input a token amount')).toBeInTheDocument();
-});
+}, 5000);
 
-test.skip('render with a distribution', async () => {
+test('render with a distribution', async () => {
   (getEpochData as Mock).mockImplementation(async () => ({
     ...mockEpochData,
     distributions: [
@@ -175,7 +177,7 @@ test.skip('render with a distribution', async () => {
   );
 
   expect(screen.getAllByText('10.80 Yearn USDC').length).toEqual(2);
-}, 10000);
+}, 5000);
 
 test('render with no allocations', async () => {
   (getEpochData as Mock).mockImplementation(async () => ({
