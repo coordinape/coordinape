@@ -1,6 +1,5 @@
 import chalk from 'chalk';
 import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
 import address from '../_api/cosoul/[address]';
@@ -62,8 +61,8 @@ if ((global as any).__coverage__) {
   });
 }
 
+console.log('args', process.argv);
 const port = process.argv[2];
-const proxyPort = process.argv[3];
 
 // warning: ordering is important!
 // express passes requests through the routes in the order
@@ -151,21 +150,14 @@ app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
 });
 
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: `http://localhost:${proxyPort}`,
-    logLevel: 'warn',
-  })
-);
-
 app.listen(port, () => {
   /* eslint-disable */
   console.log(`==========================================================`);
   console.log(`Development server has started successfully!`);
+  console.log(`/api is proxied to http://localhost:${port}`);
   console.log(
     `Visit`,
-    chalk.bold(`http://localhost:${port}`),
+    chalk.bold(`http://localhost:${process.env.PORT}`),
     `to view the Coordinape app.`
   );
   console.log(`==========================================================`);
