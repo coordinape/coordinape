@@ -4,6 +4,10 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { TestWrapper } from '.';
 
+vi.mock('hooks/useConnectedAddress', () => ({
+  default: () => '0x1234567890123456789012345678901234567890',
+}));
+
 test('activate connector', async () => {
   let actual: string;
 
