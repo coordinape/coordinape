@@ -10,52 +10,53 @@ import { adminClient } from '../../../api-lib/gql/adminClient.ts';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  let unsubscribeToken: string | undefined;
+  try {
+    let unsubscribeToken: string | undefined;
 
-  if (typeof req.query.unsubscribeToken == 'string') {
-    unsubscribeToken = req.query.unsubscribeToken;
+    if (typeof req.query.unsubscribeToken == 'string') {
+      unsubscribeToken = req.query.unsubscribeToken;
+    }
+
+    if (!unsubscribeToken) {
+      throw new NotFoundError('no unsubscription token provided');
+    }
+
+    const { profileId, emailType } = decodeToken(unsubscribeToken);
+
+    return await unsubscribeEmail(res, profileId, emailType);
+  } catch (error: any) {
+    return errorResponse(res, error);
   }
-
-  if (!unsubscribeToken) {
-    throw new NotFoundError('no unsubscription token provided');
-  }
-
-  const { profileId, emailType } = decodeToken(unsubscribeToken);
-
-  return await unsubscribeEmail(res, profileId, emailType);
 }
 
 export async function unsubscribeEmail(
   res: VercelResponse,
   profileId: string,
-  emailType: string,
+  emailType: string
 ) {
-  try {
-    assert(isEmailType(emailType), 'invalid email type');
-    await adminClient.mutate(
-      {
-        update_profiles_by_pk: [
-          {
-            pk_columns: { id: parseInt(profileId) },
-            ...getEmailColumn(emailType),
-          },
-          { id: true },
-        ],
-      },
-      { operationName: 'email_unsubscribtion' },
-    );
-    return res.status(200).send({
-      message: `Email unsubscribed successfully from ${
-        emailType === 'notification'
-          ? 'unread notifications emails'
-          : emailType === 'product'
-            ? 'product emails'
-            : 'transactional emails'
-      } list`,
-    });
-  } catch (error: any) {
-    return errorResponse(res, error);
-  }
+  assert(isEmailType(emailType), 'invalid email type');
+  await adminClient.mutate(
+    {
+      update_profiles_by_pk: [
+        {
+          pk_columns: { id: parseInt(profileId) },
+          ...getEmailColumn(emailType),
+        },
+        { id: true },
+      ],
+    },
+    { operationName: 'email_unsubscribtion' }
+  );
+
+  const display =
+    emailType === 'notification'
+      ? 'unread notifications emails'
+      : emailType === 'product'
+        ? 'product emails'
+        : 'transactional emails';
+  return res.status(200).send({
+    message: `Email unsubscribed successfully from ${display}`,
+  });
 }
 
 function getEmailColumn(emailType: string) {
