@@ -103,21 +103,42 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
           return;
         }
 
-        if (web3Context.connector) {
-          try {
-            assert(savedAuth.connectorName);
-            await web3Context.activate(
-              connectors[savedAuth.connectorName],
-              () => {},
-              true
-            );
-          } catch (e) {
-            setAuthStep('connect');
-            if (showErrors) showError(e);
-            web3Context.deactivate();
-          }
-        } else {
+        // NEW CODE
+        // if (web3Context.connector) {
+        //   try {
+        //     assert(savedAuth.connectorName);
+        //     await web3Context.activate(
+        //       connectors[savedAuth.connectorName],
+        //       () => {},
+        //       true
+        //     );
+        //   } catch (e) {
+        //     setAuthStep('connect');
+        //     if (showErrors) showError(e);
+        //     web3Context.deactivate();
+        //   }
+        // } else {
+        //   console.log('else clause, but we got:', { savedAuth, web3Context });
+        //   if (savedAuth.connectorName) {
+        //     console.log('reconnecting');
+        //     await reconnect(savedAuth, web3Context, setAuthStep);
+        //   }
+
+        //   setAuthStep('connect');
+        //   web3Context.deactivate();
+        // }
+
+        // OLD CODE
+        try {
+          assert(savedAuth.connectorName);
+          await web3Context.activate(
+            connectors[savedAuth.connectorName],
+            () => {},
+            true
+          );
+        } catch (e) {
           setAuthStep('connect');
+          if (showErrors) showError(e);
           web3Context.deactivate();
         }
       })();
