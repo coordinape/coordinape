@@ -144,7 +144,28 @@ export const RequireWeb3Auth = (props: { children: ReactNode }) => {
 };
 
 export const RequireLoggedIn = (props: { children: ReactNode }) => {
-  // useAuthStateMachine(true, false);
+  const { savedAuth } = useSavedAuth();
+  const web3Context = useWeb3React();
+
+  // if theres a savedAuth connector, reconnect
+  useEffect(() => {
+    const connectorName = savedAuth.connectorName;
+
+    (async () => {
+      try {
+        if (!connectorName) return;
+        // TODO: test reconnecting to magic
+        if (connectorName === 'magic') return;
+        const connector = connectors[connectorName];
+        if (connector) {
+          await web3Context.activate(connector, () => {}, true);
+        }
+      } catch (e) {
+        web3Context.deactivate();
+      }
+    })();
+  }, [savedAuth.connectorName, web3Context.active]);
+
   // 1. are they already logged in?
   const { profileId } = useAuthStore(state => state);
 
