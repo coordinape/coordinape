@@ -62,7 +62,7 @@
       "destination": "/api/og/profileinfo/[address]?address=:address"
     },
     {
-      "source": "^/((?!api).*)",
+      "source": "/((?!api).*)",
       "destination": "/index.html"
     }
   ],
