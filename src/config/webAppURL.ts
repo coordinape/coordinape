@@ -1,4 +1,4 @@
-import { IN_PRODUCTION } from './env';
+import { BRANCH_URL, IN_PRODUCTION } from './env';
 
 export const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
 export const COORDINAPE_MARKETING_URL = 'https://coordinape.com';
@@ -20,15 +20,15 @@ export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
       case 'give':
         return GIVE_PRODUCTION_URL;
     }
-  } else if (process.env.VERCEL_BRANCH_URL) {
-    if (process.env.VERCEL_BRANCH_URL.includes('staging')) {
+  } else if (BRANCH_URL) {
+    if (BRANCH_URL.includes('staging')) {
       if (app == 'colinks') {
         return COLINKS_STAGING_URL;
       } else {
         return GIVE_STAGING_URL;
       }
     } else {
-      return 'https://' + process.env.VERCEL_BRANCH_URL;
+      return 'https://' + BRANCH_URL;
     }
   } else {
     switch (app) {
