@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import { fadeIn, fadeOut, slideInRight, slideOutRight } from 'keyframes';
+import { slideInRight, slideOutRight } from 'keyframes';
 import { CSS, dark, theme as light, styled } from 'stitches.config';
 
 import { X } from 'icons/__generated';
@@ -14,12 +14,6 @@ const Overlay = styled(Dialog.Overlay, {
   alignItems: 'start',
   overflowY: 'auto',
   backdropFilter: 'blur(2px)',
-  "&[data-state='open']": {
-    animation: `${fadeIn} .5s ease`,
-  },
-  "&[data-state='closed']": {
-    animation: `${fadeOut} .5s ease`,
-  },
 });
 
 const OverlayClose = styled(Dialog.Close);
@@ -85,6 +79,35 @@ const Content = styled(Dialog.Content, {
         },
       },
     },
+    lightbox: {
+      true: {
+        width: '100%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        maxWidth: 'none',
+        maxHeight: 'none',
+        boxShadow: 'none',
+        background: 'none',
+        borderRadius: 0,
+        m: '0 auto 0',
+        top: 0,
+        bottom: 0,
+        p: 0,
+        '&:focus, &:focus-within': {
+          outline: 'none',
+        },
+        border: 'none',
+        img: {
+          width: '100%',
+          maxWidth: '100vh',
+          maxHeight: '96vh',
+        },
+        '@sm': {
+          m: '$1xl auto 0',
+        },
+      },
+    },
     cmdk: {
       true: {
         background: 'transparent',
@@ -118,6 +141,7 @@ type ModalProps = {
   showClose?: boolean;
   drawer?: boolean;
   loader?: boolean;
+  lightbox?: boolean;
   cmdk?: boolean;
 };
 export const Modal = ({
@@ -132,6 +156,7 @@ export const Modal = ({
   showClose = true,
   drawer,
   loader,
+  lightbox,
   cmdk,
 }: ModalProps) => {
   return (
@@ -157,9 +182,15 @@ export const Modal = ({
             forceTheme === 'dark' ? dark : forceTheme === 'light' ? light : ''
           }
           drawer={drawer}
-          css={css}
-          loader={loader}
+          css={{
+            ...css,
+            ...(lightbox && {
+              pointerEvents: 'none !important',
+            }),
+          }}
+          lightbox={lightbox}
           cmdk={cmdk}
+          loader={loader}
           onPointerDownOutside={event => {
             event.preventDefault();
           }}
