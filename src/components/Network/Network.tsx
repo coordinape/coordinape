@@ -1,7 +1,9 @@
 import { loginSupportedChainIds } from 'common-lib/constants';
 
 import {
+  Arbitrum,
   AuroraLogo,
+  Base,
   EthColorLogo,
   EthLogo,
   FantomLogo,
@@ -24,6 +26,8 @@ export const Network = ({
     5: <EthColorLogo nostroke />,
     10: <OptimismLogo nostroke />,
     137: <PolygonMaticLogo nostroke />,
+    8453: <Base fa nostroke />,
+    42161: <Arbitrum fa nostroke css={{ color: '#0852FF' }} />,
     1338: <GanacheLogo nostroke />,
     250: <FantomLogo nostroke />,
     1313161554: <AuroraLogo nostroke />,
