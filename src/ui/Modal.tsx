@@ -190,6 +190,7 @@ export const Modal = ({
           }}
           lightbox={lightbox}
           cmdk={cmdk}
+          loader={loader}
           onPointerDownOutside={event => {
             event.preventDefault();
           }}
