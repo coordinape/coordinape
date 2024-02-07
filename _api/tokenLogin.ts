@@ -7,7 +7,9 @@ import {
   generateTokenString,
   hashTokenString,
 } from '../api-lib/authHelpers';
+import { isCoLinksRequest } from '../api-lib/colinks/hostname';
 import { adminClient } from '../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
 
 const schema = z.object({
@@ -16,10 +18,8 @@ const schema = z.object({
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    const { isCoLinks, hostname } = isCoLinksRequest(req);
     const { token } = schema.parse(req.body);
-
-    // eslint-disable-next-line no-console
-    console.log('tokenLogin', token);
 
     const { update_profiles } = await adminClient.mutate(
       {
@@ -72,6 +72,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         },
         { operationName: 'tokenLogin_insertAccessToken' }
       );
+
+    await insertInteractionEvents({
+      event_type: 'login',
+      profile_id: profile.id,
+      data: { hostname, coLinks: isCoLinks, tokenLogin: true },
+    });
 
     return res.status(200).json({
       token: formatAuthHeader(access_token?.id, tokenString),

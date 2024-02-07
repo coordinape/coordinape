@@ -61,7 +61,6 @@ if ((global as any).__coverage__) {
   });
 }
 
-console.log('args', process.argv);
 const port = process.argv[2];
 
 // warning: ordering is important!
