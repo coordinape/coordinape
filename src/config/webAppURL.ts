@@ -1,3 +1,5 @@
+import { VERCEL_BRANCH_URL } from '../../api-lib/config';
+
 import { BRANCH_URL, IN_PRODUCTION } from './env';
 
 export const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
@@ -11,6 +13,17 @@ export const GIVE_LOCAL_URL = 'http://app.co.local:3000';
 export const COLINKS_LOCAL_URL = 'http://colinks.co.local:3000';
 
 export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
+  // support backend BRANCH_URL
+  const branch_url = BRANCH_URL || VERCEL_BRANCH_URL;
+
+  // eslint-disable-next-line no-console
+  console.log('webAppURL', {
+    app,
+    IN_PRODUCTION,
+    BRANCH_URL,
+    VERCEL_BRANCH_URL,
+  });
+
   if (IN_PRODUCTION) {
     switch (app) {
       case 'colinks':
@@ -20,15 +33,15 @@ export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
       case 'give':
         return GIVE_PRODUCTION_URL;
     }
-  } else if (BRANCH_URL) {
-    if (BRANCH_URL.includes('staging')) {
+  } else if (branch_url) {
+    if (branch_url.includes('staging')) {
       if (app == 'colinks') {
         return COLINKS_STAGING_URL;
       } else {
         return GIVE_STAGING_URL;
       }
     } else {
-      return 'https://' + BRANCH_URL;
+      return 'https://' + branch_url;
     }
   } else {
     switch (app) {
