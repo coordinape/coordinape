@@ -7,6 +7,7 @@ export { useLoginData } from './useLoginData';
 export { getAuthToken, setAuthToken } from './token';
 export { useWalletStatus } from './useWalletStatus';
 
+// DEPRECATED: only works with web3
 export const useIsLoggedIn = () => {
   return useAuthStore(state => state.step) === 'done';
 };
