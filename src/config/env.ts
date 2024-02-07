@@ -41,7 +41,7 @@ export const IN_DEVELOPMENT = APP_MODE === 'development';
 
 export const BRANCH_URL =
   getEnvValue<string>('VITE_VERCEL_BRANCH_URL', '') ||
-  getEnvValue<string>('VERCEL_ENV', '');
+  getEnvValue<string>('VERCEL_BRANCH_URL', '');
 
 // // eslint-disable-next-line no-console
 // console.log(
