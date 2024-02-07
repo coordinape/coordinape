@@ -46,7 +46,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const id = parts[parts.length - 1];
 
     // get the stuff
+    // TODO: handle a secret share key and only include the OG tags
+    // get the secret share key from query string and pass to getPostInfo
     const post = await getPostInfo(id);
+    // if the hmac is bad or whatever, don't throw an error just return stripped OG tag
     if (!post) {
       return res.status(404).send({
         message: 'No post found',
