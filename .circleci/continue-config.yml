@@ -17,6 +17,8 @@ jobs:
     parallelism: 2
     steps:
       - checkout
+      - node/install:
+          node-version: '20.11'
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
@@ -56,6 +58,8 @@ jobs:
       HARDHAT_GANACHE_PORT: 8546
     steps:
       - checkout
+      - node/install:
+          node-version: '20.11'
       - run: git submodule sync && git submodule update --init
       - restore_cache:
           name: Restore pnpm Package Cache
@@ -148,6 +152,8 @@ jobs:
           name: check node version
           command: node --version
       - checkout
+      - node/install:
+          node-version: '20.11'
       - restore_cache:
           name: Restore pnpm Package Cache
           keys:
@@ -167,11 +173,11 @@ jobs:
           paths:
             - node_modules
       - run: ./scripts/setup.sh
-      - run: ./scripts/ci/manager.sh test --jest --reporters=default --reporters=jest-junit
+      - run: ./scripts/ci/manager.sh test --jest --reporter=junit --outputFile=./test-results.xml
       - store_test_results:
-          path: 'junit.xml'
+          path: 'test-results.xml'
       - store_artifacts:
-          path: 'junit.xml'
+          path: 'test-results.xml'
 
 workflows:
   static-checks:

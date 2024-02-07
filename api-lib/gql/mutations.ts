@@ -17,7 +17,7 @@ import {
   order_by,
   profiles_constraint,
   ValueTypes,
-} from './__generated__/zeus';
+} from './__generated__/zeus/index';
 import { adminClient } from './adminClient';
 
 export async function insertProfiles(

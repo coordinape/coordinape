@@ -1,17 +1,18 @@
 import { AddressZero } from '@ethersproject/constants';
+import { vi } from 'vitest';
 
+import { updateClaims } from '../../../../_api/hasura/actions/_handlers/markClaimed';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { updateClaims } from '../../../../api/hasura/actions/_handlers/markClaimed';
 import { Contracts } from '../../../../src/lib/vaults';
 import { chainId, provider } from '../../../../src/utils/testing/provider';
 
-jest.mock('../../../../api-lib/gql/adminClient', () => ({
-  adminClient: { mutate: jest.fn(), query: jest.fn() },
+vi.mock('../../../../api-lib/gql/adminClient', () => ({
+  adminClient: { mutate: vi.fn(), query: vi.fn() },
 }));
 
 const mockClient = {
-  query: adminClient.query as jest.Mock,
-  mutate: adminClient.mutate as jest.Mock,
+  query: adminClient.query as Mock,
+  mutate: adminClient.mutate as Mock,
 };
 
 const mockClaimData = (address?: string) => ({

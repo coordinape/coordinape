@@ -11,24 +11,24 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-} from 'ethers';
-import { BytesLike } from '@ethersproject/bytes';
-import { Listener, Provider } from '@ethersproject/providers';
-import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
-import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
+} from "ethers";
+import { BytesLike } from "@ethersproject/bytes";
+import { Listener, Provider } from "@ethersproject/providers";
+import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
+import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
 
 interface BeaconProxyInterface extends ethers.utils.Interface {
   functions: {};
 
   events: {
-    'AdminChanged(address,address)': EventFragment;
-    'BeaconUpgraded(address)': EventFragment;
-    'Upgraded(address)': EventFragment;
+    "AdminChanged(address,address)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
+    "Upgraded(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: 'AdminChanged'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'BeaconUpgraded'): EventFragment;
-  getEvent(nameOrSignatureOrTopic: 'Upgraded'): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
 export class BeaconProxy extends BaseContract {

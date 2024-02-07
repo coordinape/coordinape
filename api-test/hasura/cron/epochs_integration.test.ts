@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 
-import { createNextEpoch, RepeatData } from '../../../api/hasura/cron/epochs';
+import { createNextEpoch, RepeatData } from '../../../_api/hasura/cron/epochs';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { getEpoch } from '../../../api-lib/gql/queries';
 import * as HttpError from '../../../api-lib/HttpError';
@@ -8,7 +9,7 @@ import { findMonthlyEndDate } from '../../../src/common-lib/epochs';
 import { createCircle } from '../../helpers';
 
 let circle;
-const mockErrorLog = jest.spyOn(HttpError, 'errorLog');
+const mockErrorLog = vi.spyOn(HttpError, 'errorLog');
 beforeEach(async () => {
   circle = await createCircle(adminClient);
 });
@@ -44,7 +45,7 @@ const createEpoch = async (object: {
 
 describe('Epoch Cron Integration', () => {
   describe('createNextEpoch', () => {
-    xtest('can create adjacent following monthly epoch', async () => {
+    test.skip('can create adjacent following monthly epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ months: 1 })
@@ -69,7 +70,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    xtest('can create adjacent following custom epoch', async () => {
+    test.skip('can create adjacent following custom epoch', async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });
@@ -96,7 +97,7 @@ describe('Epoch Cron Integration', () => {
         console.error(e);
       }
     });
-    xtest("doesn't create epoch when overlap exists", async () => {
+    test.skip("doesn't create epoch when overlap exists", async () => {
       const start = DateTime.now()
         .setZone('America/Chicago')
         .minus({ weeks: 1 });

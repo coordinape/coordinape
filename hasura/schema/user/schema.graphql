@@ -11088,6 +11088,31 @@ type mutation_root {
   ): [profiles_mutation_response]
 
   """
+  update data of the table: "profiles_private"
+  """
+  update_profiles_private(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profiles_private_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: profiles_private_bool_exp!
+  ): profiles_private_mutation_response
+
+  """
+  update multiples rows of table: "profiles_private"
+  """
+  update_profiles_private_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profiles_private_updates!]!
+  ): [profiles_private_mutation_response]
+
+  """
   update data of the table: "replies"
   """
   update_replies(
@@ -15702,6 +15727,114 @@ input profiles_pk_columns_input {
 }
 
 """
+columns and relationships of "profiles_private"
+"""
+type profiles_private {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'.
+"""
+input profiles_private_bool_exp {
+  _and: [profiles_private_bool_exp!]
+  _not: profiles_private_bool_exp
+  _or: [profiles_private_bool_exp!]
+  address: String_comparison_exp
+  device_login_token: uuid_comparison_exp
+  id: bigint_comparison_exp
+}
+
+"""
+response of any mutation on the table "profiles_private"
+"""
+type profiles_private_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [profiles_private!]!
+}
+
+"""
+Ordering options when selecting data from "profiles_private".
+"""
+input profiles_private_order_by {
+  address: order_by
+  device_login_token: order_by
+  id: order_by
+}
+
+"""
+select columns of table "profiles_private"
+"""
+enum profiles_private_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  device_login_token
+
+  """
+  column name
+  """
+  id
+}
+
+"""
+input type for updating data in table "profiles_private"
+"""
+input profiles_private_set_input {
+  device_login_token: uuid
+}
+
+"""
+Streaming cursor of the table "profiles_private"
+"""
+input profiles_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_private_stream_cursor_value_input {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+input profiles_private_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profiles_private_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: profiles_private_bool_exp!
+}
+
+"""
 columns and relationships of "profiles_public"
 """
 type profiles_public {
@@ -18197,6 +18330,36 @@ type query_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_private"
+  """
+  profiles_private(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
 
   """
   fetch data from the table: "profiles_public"
@@ -23133,6 +23296,56 @@ type subscription_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_private"
+  """
+  profiles_private(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
+
+  """
+  fetch data from the table in a streaming manner: "profiles_private"
+  """
+  profiles_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
 
   """
   fetch data from the table: "profiles_public"

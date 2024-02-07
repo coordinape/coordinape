@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { uploadImage } from 'features/images/upload';

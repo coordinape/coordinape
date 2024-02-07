@@ -6,19 +6,19 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { createWeb3ReactRoot, useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
 import { makeWalletConnectConnector } from 'features/auth/connectors';
-import { getTokenAddress, Contracts, removeYearnPrefix } from 'lib/vaults';
-import round from 'lodash/round';
-import { useForm, useController } from 'react-hook-form';
+import { Contracts, getTokenAddress, removeYearnPrefix } from 'lib/vaults';
+import round from 'lodash-es/round';
+import { useController, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as z from 'zod';
 
-import { ReactComponent as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
+import { default as WalletConnectSVG } from 'assets/svgs/wallet/wallet-connect.svg';
 import { FormTokenField, zTokenString } from 'components';
 import type { Vault } from 'hooks/gql/useVaults';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useContracts } from 'hooks/useContracts';
 import { useVaultRouter } from 'hooks/useVaultRouter';
-import { Box, Button, CheckBox, Form, Link, Modal, Text, Panel } from 'ui';
+import { Box, Button, CheckBox, Form, Link, Modal, Panel, Text } from 'ui';
 import { numberWithCommas, shortenAddress } from 'utils';
 
 import { QUERY_KEY_VAULT_TXS } from './VaultTransactions';

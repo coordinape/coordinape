@@ -25,7 +25,8 @@ hardhat/data/
 
 # production
 /build
-
+/dist
+/.cache
 # misc
 .DS_Store
 .env

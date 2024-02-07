@@ -1,6 +1,6 @@
-import { useEffect, DependencyList } from 'react';
+import { DependencyList, useEffect } from 'react';
 
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash-es/isEqual';
 
 import { usePrevious } from 'hooks';
 

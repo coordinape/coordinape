@@ -1,7 +1,8 @@
 import assert from 'assert';
 
 import { waitFor } from '@testing-library/react';
-import sortBy from 'lodash/sortBy';
+import sortBy from 'lodash-es/sortBy';
+import { vi } from 'vitest';
 
 import { createUser } from '../../api-test/helpers';
 import { adminClient } from '../gql/adminClient';
@@ -45,7 +46,7 @@ test('do nothing when user is deleted', async () => {
   const req = {
     body: { event: { data: { new: { deleted_at: Date.now() } } } },
   };
-  const res: any = { status: jest.fn(() => res), json: jest.fn() };
+  const res: any = { status: vi.fn(() => res), json: vi.fn() };
 
   // @ts-ignore
   await handler(req, res);

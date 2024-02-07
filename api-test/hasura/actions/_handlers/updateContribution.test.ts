@@ -1,12 +1,10 @@
-const assert = jest.requireActual('assert');
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
-
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
   createContribution,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
@@ -14,7 +12,6 @@ import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
 let address, profile, circle, user;
 
 beforeEach(async () => {
-  jest.spyOn(console, 'info').mockImplementation(() => {});
   address = await getUniqueAddress();
   circle = await createCircle(adminClient);
   profile = await createProfile(adminClient, { address });
@@ -35,7 +32,7 @@ describe('Update Contribution action handler', () => {
       description: 'i did a thing',
       profile_id: profile.id,
     });
-    assert(contribution);
+    expect(contribution).not.toBeNull();
     const { updateContribution: result } = await client.mutate(
       {
         updateContribution: [
@@ -69,32 +66,37 @@ describe('Update Contribution action handler', () => {
       description: 'i did a thing',
       profile_id: profile.id,
     });
-    assert(contribution);
-    const result = client.mutate({
-      updateContribution: [
-        {
-          payload: { id: contribution.id, ...default_req },
-        },
-        { id: true },
-      ],
-    });
-
-    await expect(result).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'contribution does not exist',
-              extensions: {
-                code: '422',
-              },
-            },
-          ],
-        },
-        null,
-        2
-      )
+    expect(contribution).not.toBeNull();
+    const result = client.mutate(
+      {
+        updateContribution: [
+          {
+            payload: { id: contribution?.id, ...default_req },
+          },
+          { id: true },
+        ],
+      },
+      { operationName: 'updateContribution_test' }
     );
+
+    await expect(() => result).rejects.toThrowError(
+      'contribution does not exist'
+    );
+
+    expect(await errorResult(result)).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'contribution does not exist',
+            extensions: {
+              code: '422',
+            },
+          },
+        ],
+      })
+    );
+
+    const expectedError = new Error('contribution does not exist');
+    await expect(result).rejects.toThrow(expectedError);
   });
 });

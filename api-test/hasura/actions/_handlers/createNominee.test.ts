@@ -1,11 +1,11 @@
 import faker from 'faker';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import {
   createCircle,
   createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
@@ -54,34 +54,32 @@ describe('Create Nominee action handler', () => {
 
   test('Create a nomination with an address that already exists in the circle', async () => {
     const client = mockUserClient({ profileId: profile.id, address });
-    await expect(() =>
-      client.mutate(
-        {
-          createNominee: [
-            {
-              payload: { ...default_req, circle_id: circle.id, address },
-            },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'createNominee_test' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'User with address already exists in the circle',
-              extensions: {
-                code: '422',
+
+    expect(
+      await errorResult(
+        client.mutate(
+          {
+            createNominee: [
+              {
+                payload: { ...default_req, circle_id: circle.id, address },
               },
-            },
-          ],
-        },
-        null,
-        2
+              { __typename: true },
+            ],
+          },
+          { operationName: 'createNominee_test' }
+        )
       )
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'User with address already exists in the circle',
+            extensions: {
+              code: '422',
+            },
+          },
+        ],
+      })
     );
   });
 
@@ -89,39 +87,36 @@ describe('Create Nominee action handler', () => {
     const client = mockUserClient({ profileId: profile.id, address });
     const nominationAddress = await getUniqueAddress();
 
-    await expect(() =>
-      client.mutate(
-        {
-          createNominee: [
-            {
-              payload: {
-                ...default_req,
-                circle_id: circle.id,
-                address: nominationAddress,
-                name: profile.name,
+    expect(
+      await errorResult(
+        client.mutate(
+          {
+            createNominee: [
+              {
+                payload: {
+                  ...default_req,
+                  circle_id: circle.id,
+                  address: nominationAddress,
+                  name: profile.name,
+                },
               },
-            },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'createNominee_test' }
+              { __typename: true },
+            ],
+          },
+          { operationName: 'createNominee_test' }
+        )
       )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
-          errors: [
-            {
-              message: 'This name is already in use',
-              extensions: {
-                code: '422',
-              },
+    ).toEqual(
+      JSON.stringify({
+        errors: [
+          {
+            message: 'This name is already in use',
+            extensions: {
+              code: '422',
             },
-          ],
-        },
-        null,
-        2
-      )
+          },
+        ],
+      })
     );
   });
 });

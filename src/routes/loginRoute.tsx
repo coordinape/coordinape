@@ -1,7 +1,7 @@
 import { Outlet, Route } from 'react-router-dom';
 
 import { MainLayout } from '../components';
-import { RequireAuth } from '../features/auth';
+import { RequireWeb3Auth } from '../features/auth';
 
 import { RedirectAfterLogin } from './RedirectAfterLogin';
 
@@ -17,9 +17,9 @@ export const loginRoute = [
     <Route
       path="login"
       element={
-        <RequireAuth>
+        <RequireWeb3Auth>
           <RedirectAfterLogin />
-        </RequireAuth>
+        </RequireWeb3Auth>
       }
     />
   </Route>,

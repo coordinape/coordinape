@@ -1,11 +1,10 @@
-import { gql, useSubscription } from '@apollo/client';
 import type { SubscriptionHookOptions } from '@apollo/client';
+import { gql, useSubscription } from '@apollo/client';
 import { getAuthToken } from 'features/auth';
-import isEmpty from 'lodash/isEmpty';
+import isEmpty from 'lodash-es/isEmpty';
 
-import { REACT_APP_HASURA_URL } from '../../config/env';
+import { VITE_HASURA_URL } from '../../config/env';
 import {
-  Zeus,
   apiFetch,
   FetchFunction,
   fullChainConstruct,
@@ -14,6 +13,7 @@ import {
   InputType,
   OperationOptions,
   ValueTypes,
+  Zeus,
 } from '../gql/__generated__/zeus/index';
 import { TEST_SKIP_AUTH } from 'utils/testing/api';
 
@@ -30,7 +30,7 @@ export const ThunderRequireOperationName =
   (fn: FetchFunction) =>
   <
     O extends keyof typeof Ops,
-    R extends keyof ValueTypes = GenericOperation<O>
+    R extends keyof ValueTypes = GenericOperation<O>,
   >(
     operation: O
   ) =>
@@ -45,7 +45,7 @@ export const ThunderRequireOperationName =
 const makeThunder = (headers = {}) =>
   ThunderRequireOperationName(async (...params) =>
     apiFetch([
-      REACT_APP_HASURA_URL,
+      VITE_HASURA_URL,
       {
         method: 'POST',
         headers: {
@@ -70,7 +70,7 @@ export const client = {
 
 export function useTypedSubscription<
   Z extends ValueTypes[O],
-  O extends 'subscription_root'
+  O extends 'subscription_root',
 >(
   subscription: Z | ValueTypes[O],
   options?: SubscriptionHookOptions<InputType<GraphQLTypes[O], Z>>,

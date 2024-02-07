@@ -1,10 +1,10 @@
 import React, {
-  DragEvent,
-  Dispatch,
-  useEffect,
-  useState,
-  useRef,
   ChangeEvent,
+  Dispatch,
+  DragEvent,
+  useEffect,
+  useRef,
+  useState,
 } from 'react';
 
 import { uploadImage } from 'features/images/upload';
@@ -128,7 +128,7 @@ export const PostForm = ({
         }
       }
     } catch (e: any) {
-      showError('Error uploading image: ' + e.message ?? '');
+      showError('Error uploading image: ' + e.message);
       console.error(e);
     } finally {
       setFileUploading(false);

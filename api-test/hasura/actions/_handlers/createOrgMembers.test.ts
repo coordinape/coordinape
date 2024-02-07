@@ -1,19 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import faker from 'faker';
+import { test } from 'vitest';
 
-const { mockLog } = jest.requireMock('../../../../src/common-lib/log');
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import {
   createCircle,
   createOrganization,
-  createProfile,
   createOrgMember,
+  createProfile,
   createUser,
+  errorResult,
   mockUserClient,
 } from '../../../helpers';
 import { getUniqueAddress } from '../../../helpers/getUniqueAddress';
-
-jest.setTimeout(10000);
 
 let address, profile, user, circle, org, org_member;
 
@@ -39,38 +38,41 @@ beforeEach(async () => {
 });
 
 describe('provided invalid input', () => {
-  test('errors if user list contains duplicates', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    await expect(() =>
-      client.mutate(
-        {
-          createOrgMembers: [
+  test(
+    'errors if user list contains duplicates',
+    async () => {
+      const client = mockUserClient({ profileId: profile.id, address });
+
+      expect(
+        await errorResult(
+          client.mutate(
             {
-              payload: {
-                org_id: org.id,
-                users: [
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'tester',
-                    entrance: 'manual-address-entry',
+              createOrgMembers: [
+                {
+                  payload: {
+                    org_id: org.id,
+                    users: [
+                      {
+                        address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                        name: 'tester',
+                        entrance: 'manual-address-entry',
+                      },
+                      {
+                        address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                        name: 'tester2',
+                        entrance: 'manual-address-entry',
+                      },
+                    ],
                   },
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'tester2',
-                    entrance: 'manual-address-entry',
-                  },
-                ],
-              },
+                },
+                { __typename: true },
+              ],
             },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'test_createOrgMembers' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
+            { operationName: 'test_createOrgMembers' }
+          )
+        )
+      ).toEqual(
+        JSON.stringify({
           errors: [
             {
               message:
@@ -80,40 +82,44 @@ describe('provided invalid input', () => {
               },
             },
           ],
-        },
-        null,
-        2
-      )
-    );
-  });
+        })
+      );
+    },
+    {
+      timeout: 10000,
+    }
+  );
 
-  test('errors if user list contains invalid ENS', async () => {
-    const client = mockUserClient({ profileId: profile.id, address });
-    await expect(() =>
-      client.mutate(
-        {
-          createOrgMembers: [
+  test(
+    'errors if user list contains invalid ENS',
+    async () => {
+      const client = mockUserClient({ profileId: profile.id, address });
+
+      expect(
+        await errorResult(
+          client.mutate(
             {
-              payload: {
-                org_id: org.id,
-                users: [
-                  {
-                    address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
-                    name: 'vitalik.eth',
-                    entrance: 'manual-address-entry',
+              createOrgMembers: [
+                {
+                  payload: {
+                    org_id: org.id,
+                    users: [
+                      {
+                        address: '0x1d3bf13f8f7a83390d03db5e23a950778e1d1309',
+                        name: 'vitalik.eth',
+                        entrance: 'manual-address-entry',
+                      },
+                    ],
                   },
-                ],
-              },
+                },
+                { __typename: true },
+              ],
             },
-            { __typename: true },
-          ],
-        },
-        { operationName: 'test_createOrgMembers' }
-      )
-    ).rejects.toThrow();
-    expect(mockLog).toHaveBeenCalledWith(
-      JSON.stringify(
-        {
+            { operationName: 'test_createOrgMembers' }
+          )
+        )
+      ).toEqual(
+        JSON.stringify({
           errors: [
             {
               message:
@@ -123,19 +129,16 @@ describe('provided invalid input', () => {
               },
             },
           ],
-        },
-        null,
-        2
-      )
-    );
-  });
+        })
+      );
+    },
+    { timeout: 10000 }
+  );
 
   test('it undeletes deleted members users', async () => {
     // create a deleted org member
     const deleted_profile = await createProfile(adminClient);
     await createOrgMember(adminClient, {
-      org_id: org.id,
-      profile_id: deleted_profile.id,
       deleted_at: new Date().toISOString(),
     });
 

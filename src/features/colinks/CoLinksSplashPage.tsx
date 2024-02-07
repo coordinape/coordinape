@@ -1,7 +1,7 @@
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
+import { useAuthStateMachine } from '../auth/RequireWeb3Auth';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 

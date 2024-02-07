@@ -1,17 +1,18 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/hardhat/dist/typechain';
-import { Web3Provider } from '@ethersproject/providers';
+import { CoLinks } from '@coordinape/contracts/typechain';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
-import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { LoadingModal } from '../../components';
+import CopyCodeTextField from '../../components/CopyCodeTextField';
 import { webAppURL } from '../../config/webAppURL';
-import { useWeb3React } from '../../hooks/useWeb3React';
+import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
-import { Text } from '../../ui';
-import { chain } from '../cosoul/chains';
-import { useCoSoulContracts } from '../cosoul/useCoSoulContracts';
+import { Button, Flex, Modal, Text } from '../../ui';
+import { useAuthStore } from '../auth';
+import { useLogout } from '../auth/useLogout';
+import { getCoLinksContract } from '../cosoul/contracts';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
@@ -19,19 +20,17 @@ import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
-  coLinksSigner?: CoLinks;
   coLinksReadOnly?: CoLinks;
-  onCorrectChain?: boolean;
-  library?: Web3Provider;
-  chainId?: number;
   address?: string;
   awaitingWallet: boolean;
   setAwaitingWallet(b: boolean): void;
+  setShowConnectWallet: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const initialState: CoLinksContextType = {
   awaitingWallet: false,
   setAwaitingWallet: () => {},
+  setShowConnectWallet: () => {},
 };
 
 // Create the context
@@ -43,29 +42,27 @@ type CoLinksProviderProps = {
 
 // Define the provider component
 const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
-  const { library, chainId, account: address } = useWeb3React();
-  const contracts = useCoSoulContracts();
-
+  const address = useAuthStore(state => state.address);
   const navigate = useNavigate();
-  const onCorrectChain = chainId === Number(chain.chainId);
   const location = useLocation();
-
   const [awaitingWallet, setAwaitingWallet] = useState(false);
-
   const { data } = useCoLinksNavQuery();
 
-  useEffect(() => {
-    if (!onCorrectChain) {
-      navigate(
-        coLinksPaths.wizard +
-          '?redirect=' +
-          encodeURIComponent(location.pathname),
-        {
-          replace: true,
-        }
-      );
-    }
-  }, [onCorrectChain]);
+  const [showConnectWallet, setShowConnectWallet] = useState(false);
+
+  // TODO: on correct chain needs to be checked for the wizard
+  // useEffect(() => {
+  //   if (!onCorrectChain) {
+  //     navigate(
+  //       coLinksPaths.wizard +
+  //         '?redirect=' +
+  //         encodeURIComponent(location.pathname),
+  //       {
+  //         replace: true,
+  //       }
+  //     );
+  //   }
+  // }, [onCorrectChain]);
 
   useEffect(() => {
     if (data) {
@@ -109,48 +106,76 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     }
   }, [notificationCount]);
 
-  if (!chainId) {
-    return <Text>Not connected</Text>;
-  }
-
-  if (!onCorrectChain) {
-    return <LoadingIndicator />;
-  }
+  // TODO: handle these cases
+  // if (!chainId) {
+  //   return <Text>Not connected</Text>;
+  // }
+  //
+  // if (!onCorrectChain) {
+  //   return <LoadingIndicator />;
+  // }
 
   if (data === undefined) {
-    return (
-      <Text>
-        <LoadingIndicator />
-      </Text>
-    );
+    return <LoadingModal visible={true} />;
   }
 
-  if (!contracts || !address || !data) {
-    // FIXME: better loading state
+  if (!data) {
     return <Text>Loading...</Text>;
   }
-  const coLinksSigner = contracts.coLinks;
-  const coLinksReadOnly = contracts.coLinksReadOnly;
-  if (!coLinksSigner || !coLinksReadOnly) {
+  const coLinksReadOnly = getCoLinksContract();
+  if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
   }
 
   return (
     <CoLinksContext.Provider
       value={{
-        coLinksSigner,
         coLinksReadOnly,
-        onCorrectChain,
-        library,
-        chainId,
         address,
         awaitingWallet,
         setAwaitingWallet,
+        setShowConnectWallet,
       }}
     >
       {children}
+      {showConnectWallet && (
+        <ConnectWalletModal onClose={() => setShowConnectWallet(false)} />
+      )}
     </CoLinksContext.Provider>
   );
 };
 
 export { CoLinksProvider, CoLinksContext };
+
+const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
+  const address = useConnectedAddress(true);
+  const logout = useLogout(true);
+  return (
+    <Modal
+      open={true}
+      onOpenChange={open => {
+        !open && onClose();
+      }}
+    >
+      <Flex column css={{ gap: '$md' }}>
+        <Flex column>
+          <Text h1>Connect a Wallet to Continue</Text>
+          <Text p>
+            To perform on-chain interactions, you need to login with your
+            wallet.
+          </Text>
+        </Flex>
+        <Flex column>
+          <Text variant={'label'}>Address:</Text>
+          <CopyCodeTextField value={address} tabIndex={-1} />
+        </Flex>
+        <Flex>
+          <Text size={'small'}>Log out and log back in using your wallet.</Text>
+        </Flex>
+        <Button tabIndex={0} onClick={logout}>
+          Log Out
+        </Button>
+      </Flex>
+    </Modal>
+  );
+};

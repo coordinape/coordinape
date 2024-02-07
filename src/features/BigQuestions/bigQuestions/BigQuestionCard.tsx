@@ -52,10 +52,10 @@ export const BigQuestionCard = ({
             size === 'vertical'
               ? '180px'
               : size === 'large'
-              ? '250px'
-              : size === 'post'
-              ? '64px'
-              : '120px',
+                ? '250px'
+                : size === 'post'
+                  ? '64px'
+                  : '120px',
           aspectRatio: size === 'vertical' ? 'initial' : '1/1',
           backgroundRepeat: 'no-repeat',
           backgroundPosition: `${question.css_background_position ?? 'center'}`,

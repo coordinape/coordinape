@@ -5,7 +5,7 @@ import { EventTriggerPayload, OperationTypes } from './types';
 
 export default function makeTelegramEvent<
   X extends keyof GraphQLTypes,
-  Y extends OperationTypes
+  Y extends OperationTypes,
 >(
   msgHandler: (
     payload: EventTriggerPayload<X, Y>,

@@ -43,10 +43,7 @@ type Data = {
 
 const options = {
   method: 'GET',
-  headers: [
-    ['accept', 'application/json'],
-    ['x-api-key', POAP_API_KEY],
-  ],
+  headers: { accept: 'application/json', 'x-api-key': POAP_API_KEY },
 };
 
 export const getEventsForAddress = async (address: string): Promise<Data[]> => {

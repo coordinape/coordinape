@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
 import assert from 'assert';
 
-import { CoSoul } from '@coordinape/hardhat/dist/typechain';
+import { CoSoul } from '@coordinape/contracts/typechain';
 
 import { Contracts } from '../contracts';
 import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
 
 import {
+  getMintInfo,
   getOnChainPGIVE,
   getTokenId,
   setOnChainPGIVE,
-  getMintInfo,
 } from './cosoul';
 
 import { Awaited } from 'types/shim';

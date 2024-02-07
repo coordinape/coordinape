@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { RegistryAPI, RegistryAPIInterface } from '../RegistryAPI';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { RegistryAPI, RegistryAPIInterface } from "../RegistryAPI";
 export declare class RegistryAPI__factory {
     static readonly abi: {
         inputs: {

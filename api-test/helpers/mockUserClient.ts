@@ -25,3 +25,15 @@ export const mockUserClient = (userOptions: UserOptions) => ({
   mutate: thunder(userOptions)('mutation'),
   subscribe: thunder(userOptions)('subscription'),
 });
+
+export async function errorResult(req: Promise<any>) {
+  try {
+    await req;
+    expect('this').toBe('never reached');
+  } catch (e) {
+    const res = e as any;
+    if (res.response) {
+      return JSON.stringify(res.response);
+    } else return JSON.stringify(res);
+  }
+}

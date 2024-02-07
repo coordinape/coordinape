@@ -1,3 +1,20 @@
 {
-  "extends": "../tsconfig-backend.json"
+  "extends": "../tsconfig-backend.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    //    "noEmit": true,
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react",
+  },
 }

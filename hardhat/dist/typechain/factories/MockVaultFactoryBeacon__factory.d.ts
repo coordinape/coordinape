@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { MockVaultFactoryBeacon, MockVaultFactoryBeaconInterface } from '../MockVaultFactoryBeacon';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { MockVaultFactoryBeacon, MockVaultFactoryBeaconInterface } from "../MockVaultFactoryBeacon";
 export declare class MockVaultFactoryBeacon__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(_reg: string, _apeReg: string, _beacon: string, overrides?: Overrides & {

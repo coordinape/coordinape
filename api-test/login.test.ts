@@ -1,6 +1,7 @@
 import { hashMessage } from '@ethersproject/hash';
+import { vi } from 'vitest';
 
-import handler from '../api/login';
+import handler from '../_api/login';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { generateMessage } from '../src/features/auth/login';
 import { provider } from '../src/utils/testing/provider';
@@ -11,7 +12,7 @@ let res, address, signer;
 const ADDRESS_INDEX = 8;
 
 beforeEach(async () => {
-  res = { status: jest.fn(() => res), json: jest.fn() };
+  res = { status: vi.fn(() => res), json: vi.fn() };
   signer = provider().getSigner(ADDRESS_INDEX);
   address = await signer.getAddress();
 });
@@ -59,7 +60,7 @@ test('allow login with valid signature', async () => {
         { connector: true },
       ],
     },
-    { operationName: 'test' }
+    { operationName: 'test' },
   );
 
   expect(profiles[0]?.connector).toBe('testing');

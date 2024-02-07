@@ -272,8 +272,8 @@ export const CircleRow = ({ circle, onButtonClick, state }: CircleRowProps) => {
             {role === 1
               ? 'Circle Admin'
               : role === 0
-              ? 'Circle Member'
-              : 'Non Member'}
+                ? 'Circle Member'
+                : 'Non Member'}
           </Text>
         </Flex>
         <Flex column css={{ gap: '$sm' }}>

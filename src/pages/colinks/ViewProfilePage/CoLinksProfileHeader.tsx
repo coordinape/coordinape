@@ -2,7 +2,6 @@ import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
 import { CoSoul } from 'features/colinks/fetchCoSouls';
-import { useCoLinks } from 'features/colinks/useCoLinks';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -11,6 +10,7 @@ import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { Mutes } from '../../../features/colinks/Mutes';
 import { PostForm } from '../../../features/colinks/PostForm';
 import { SkillTag } from '../../../features/colinks/SkillTag';
+import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { currentPrompt } from '../ActivityPage';
@@ -33,7 +33,7 @@ export const CoLinksProfileHeader = ({
   currentUserAddress: string;
   targetAddress: string;
 }) => {
-  const { targetBalance, superFriend } = useCoLinks({
+  const { targetBalance, superFriend } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
   });
@@ -239,9 +239,7 @@ export const CoLinksProfileHeader = ({
               Muted
             </Text>
           )}
-          {details?.skills.map(s => (
-            <SkillTag key={s} skill={s} />
-          ))}
+          {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
         </Flex>
 
         {profile.description && (

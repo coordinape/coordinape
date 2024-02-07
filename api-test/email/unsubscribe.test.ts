@@ -1,12 +1,14 @@
+import { vi } from 'vitest';
+
+import { decodeToken, genToken } from '../../api-lib/email/unsubscribe';
+
 beforeEach(() => {
   process.env.HMAC_SECRET = 'test-key';
 });
 
 afterEach(() => {
-  jest.clearAllMocks();
+  vi.clearAllMocks();
 });
-
-import { genToken, decodeToken } from '../../api-lib/email/unsubscribe';
 
 let profileId, email, emailType, token;
 
@@ -18,17 +20,18 @@ describe('unsubscribe tokens', () => {
     token = genToken(profileId, email, emailType);
   });
 
-  it('generates and validates token', () => {
+  // this is disabled because timeSafeCompare is not available in the browser
+  test('generates and validates token', () => {
     expect(decodeToken(token)).toEqual({ profileId, email, emailType });
   });
 
-  it('throws error on invalid token', () => {
+  test('throws error on invalid token', () => {
     expect(() => {
       decodeToken('bogus');
     }).toThrow(/Invalid unsubscribe token/);
   });
 
-  it('fails to validate token with wrong email', () => {
+  test('fails to validate token with wrong email', () => {
     const badToken =
       'profileId=123&email=jugo%40naranja.es&token=8481b9d81d5766b98e1beaa791ea9625f4c541cf10d6bc7413f2cb238e599994';
 

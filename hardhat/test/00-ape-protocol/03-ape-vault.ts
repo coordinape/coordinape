@@ -3,17 +3,13 @@ import { solidity } from 'ethereum-waffle';
 import { BigNumber, ethers } from 'ethers';
 import { network } from 'hardhat';
 
-import {
-  USDC_ADDRESS,
-  USDC_DECIMAL_MULTIPLIER,
-  // USDC_YVAULT_ADDRESS,
-} from '../../constants';
+import { USDC_ADDRESS, USDC_DECIMAL_MULTIPLIER } from '../../constants';
 import {
   ApeDistributor,
   ApeRouter,
-  COToken,
   ApeVaultFactory,
   ApeVaultWrapperImplementation,
+  COToken,
   ERC20,
   RegistryAPI,
   VaultAPI,
@@ -22,7 +18,7 @@ import { unlockSigner } from '../../utils/unlockSigner';
 import { Account } from '../utils/account';
 import { createApeVault } from '../utils/ApeVault/createApeVault';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { takeSnapshot, restoreSnapshot } from '../utils/network';
+import { restoreSnapshot, takeSnapshot } from '../utils/network';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -328,3 +324,5 @@ describe('Test tap function of ApeVault', () => {
   //   expect(await coToken.balanceOf(distributor.address)).to.equal(APE_BALANCE);
   // });
 });
+
+export {};

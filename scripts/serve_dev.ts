@@ -1,49 +1,48 @@
 import chalk from 'chalk';
 import express from 'express';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 import morgan from 'morgan';
 
-import address from '../api/cosoul/[address]';
-import artTokenId from '../api/cosoul/art/[artTokenId]';
-import tokenId from '../api/cosoul/metadata/[tokenId]';
-import screenshot from '../api/cosoul/screenshot/[tokenId]';
-import verify from '../api/cosoul/verify';
-import discord from '../api/discord/oauth';
-import unsubscribeToken from '../api/email/unsubscribe/[unsubscribeToken]';
-import verifyEmail from '../api/email/verify/[uuid]';
-import verifyEmailWaitList from '../api/email/verifywaitlist/[uuid]';
-import github_callback from '../api/github/callback';
-import github_login from '../api/github/login';
-import actionManager from '../api/hasura/actions/actionManager';
-import auth from '../api/hasura/auth';
-import checkNominee from '../api/hasura/cron/checkNominee';
-import colinksNotificationEmails from '../api/hasura/cron/colinksNotificationEmails';
-import dailyReportEmail from '../api/hasura/cron/dailyReportEmail';
-import dailyUpdate from '../api/hasura/cron/dailyUpdate';
-import ensNames from '../api/hasura/cron/ensNames';
-import epochs from '../api/hasura/cron/epochs';
-import fetchPoapData from '../api/hasura/cron/fetchPoapData';
-import generatePoapEmbeddings from '../api/hasura/cron/generatePoapEmbeddings';
-import hourlyReportEmail from '../api/hasura/cron/hourlyReportEmail';
-import pGiveHistoricalGen from '../api/hasura/cron/pGiveHistoricalGen';
-import recoverTransactions from '../api/hasura/cron/recoverTransactions';
-import syncCoSouls from '../api/hasura/cron/syncCoSouls';
-import updateMagicEmails from '../api/hasura/cron/updateMagicEmails';
-import eventManager from '../api/hasura/event_triggers/eventManager';
-import vaults from '../api/hasura/remote/vaults';
-import join from '../api/join/[token]';
-import linkedin_callback from '../api/linkedin/callback';
-import linkedin_login from '../api/linkedin/login';
-import log from '../api/log';
-import login from '../api/login';
-import mpTrack from '../api/mp/track';
-import og_profileInfo from '../api/og/profileinfo/[address]';
-import og_tags from '../api/og/tags';
-import time from '../api/time';
-import twitter_callback from '../api/twitter/callback';
-import twitter_login from '../api/twitter/login';
-import alchemy_cosoul from '../api/webhooks/alchemy_cosoul';
-import alchemy_link_tx from '../api/webhooks/alchemy_link_tx';
+import address from '../_api/cosoul/[address]';
+import artTokenId from '../_api/cosoul/art/[artTokenId]';
+import tokenId from '../_api/cosoul/metadata/[tokenId]';
+import screenshot from '../_api/cosoul/screenshot/[tokenId]';
+import discord from '../_api/discord/oauth';
+import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
+import verifyEmail from '../_api/email/verify/[uuid]';
+import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
+import github_callback from '../_api/github/callback';
+import github_login from '../_api/github/login';
+import actionManager from '../_api/hasura/actions/actionManager';
+import auth from '../_api/hasura/auth';
+import checkNominee from '../_api/hasura/cron/checkNominee';
+import colinksNotificationEmails from '../_api/hasura/cron/colinksNotificationEmails';
+import dailyReportEmail from '../_api/hasura/cron/dailyReportEmail';
+import dailyUpdate from '../_api/hasura/cron/dailyUpdate';
+import ensNames from '../_api/hasura/cron/ensNames';
+import epochs from '../_api/hasura/cron/epochs';
+import fetchPoapData from '../_api/hasura/cron/fetchPoapData';
+import generatePoapEmbeddings from '../_api/hasura/cron/generatePoapEmbeddings';
+import hourlyReportEmail from '../_api/hasura/cron/hourlyReportEmail';
+import pGiveHistoricalGen from '../_api/hasura/cron/pGiveHistoricalGen';
+import recoverTransactions from '../_api/hasura/cron/recoverTransactions';
+import syncCoSouls from '../_api/hasura/cron/syncCoSouls';
+import updateMagicEmails from '../_api/hasura/cron/updateMagicEmails';
+import eventManager from '../_api/hasura/event_triggers/eventManager';
+import vaults from '../_api/hasura/remote/vaults';
+import join from '../_api/join/[token]';
+import linkedin_callback from '../_api/linkedin/callback';
+import linkedin_login from '../_api/linkedin/login';
+import log from '../_api/log';
+import login from '../_api/login';
+import mpTrack from '../_api/mp/track';
+import og_profileInfo from '../_api/og/profileinfo/[address]';
+import og_tags from '../_api/og/tags';
+import time from '../_api/time';
+import tokenLogin from '../_api/tokenLogin';
+import twitter_callback from '../_api/twitter/callback';
+import twitter_login from '../_api/twitter/login';
+import alchemy_cosoul from '../_api/webhooks/alchemy_cosoul';
+import alchemy_link_tx from '../_api/webhooks/alchemy_link_tx';
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -63,7 +62,6 @@ if ((global as any).__coverage__) {
 }
 
 const port = process.argv[2];
-const proxyPort = process.argv[3];
 
 // warning: ordering is important!
 // express passes requests through the routes in the order
@@ -102,10 +100,8 @@ app.get('/api/join/:token', (req, res) => {
 });
 
 // TODO: probably rename these to match prod, but this overlaps with :address route
-app.post('/api/_cosoul/verify', tf(verify));
 app.post('/api/webhooks/alchemy_cosoul', tf(alchemy_cosoul));
 app.post('/api/webhooks/alchemy_link_tx', tf(alchemy_link_tx));
-app.get('/api/_cosoul/verify', tf(verify));
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
 });
@@ -138,6 +134,7 @@ app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
 app.post('/api/log', tf(log));
 app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
+app.post('/api/tokenLogin', tf(tokenLogin));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
 app.get('/api/twitter/login', tf(twitter_login));
@@ -152,23 +149,18 @@ app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
 });
 
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: `http://localhost:${proxyPort}`,
-    logLevel: 'warn',
-  })
-);
-
 app.listen(port, () => {
   /* eslint-disable */
   console.log(`==========================================================`);
   console.log(`Development server has started successfully!`);
+  console.log(`/api is proxied to http://localhost:${port}`);
   console.log(
     `Visit`,
-    chalk.bold(`http://localhost:${port}`),
+    chalk.bold(`http://localhost:${process.env.PORT}`),
     `to view the Coordinape app.`
   );
   console.log(`==========================================================`);
   /* eslint-enable */
 });
+
+export {};

@@ -1,6 +1,6 @@
-import { Signer, ContractFactory, Overrides } from 'ethers';
-import { Provider, TransactionRequest } from '@ethersproject/providers';
-import type { UpgradeableBeacon, UpgradeableBeaconInterface } from '../UpgradeableBeacon';
+import { Signer, ContractFactory, Overrides } from "ethers";
+import { Provider, TransactionRequest } from "@ethersproject/providers";
+import type { UpgradeableBeacon, UpgradeableBeaconInterface } from "../UpgradeableBeacon";
 export declare class UpgradeableBeacon__factory extends ContractFactory {
     constructor(signer?: Signer);
     deploy(implementation_: string, overrides?: Overrides & {

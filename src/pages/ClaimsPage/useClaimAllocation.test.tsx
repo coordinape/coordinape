@@ -5,6 +5,7 @@ import { act, render, waitFor } from '@testing-library/react';
 import { BigNumber, utils } from 'ethers';
 import { createDistribution } from 'lib/merkle-distributor';
 import { Asset, encodeCircleId, getWrappedAmount } from 'lib/vaults';
+import { vi } from 'vitest';
 
 import { useContracts } from 'hooks';
 import { useVaultFactory } from 'hooks/useVaultFactory';
@@ -21,10 +22,10 @@ import { useClaimAllocation } from './useClaimAllocation';
 
 let snapshotId: string;
 
-jest.mock('lib/gql/mutations/vaults', () => {
+vi.mock('lib/gql/mutations/vaults', () => {
   return {
-    addVaultTx: jest.fn().mockReturnValue(Promise.resolve({})),
-    addVault: jest.fn().mockImplementationOnce(x =>
+    addVaultTx: vi.fn().mockReturnValue(Promise.resolve({})),
+    addVault: vi.fn().mockImplementationOnce(x =>
       Promise.resolve({
         createVault: {
           vault: {
@@ -37,7 +38,7 @@ jest.mock('lib/gql/mutations/vaults', () => {
         },
       })
     ),
-    savePendingVaultTx: jest.fn(),
+    savePendingVaultTx: vi.fn(),
   };
 });
 
@@ -52,7 +53,7 @@ beforeAll(async () => {
     amount: '1000',
   });
 
-  console.error = jest.fn();
+  console.error = vi.fn();
 });
 
 afterAll(async () => {

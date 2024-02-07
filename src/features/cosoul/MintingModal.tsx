@@ -16,7 +16,7 @@ export const MINTING_STEPS = [
   // 'Commission the Artist',
 ] as const;
 
-export type MintingStep = typeof MINTING_STEPS[number];
+export type MintingStep = (typeof MINTING_STEPS)[number];
 
 const isDone = (step: MintingStep, currentStep: MintingStep) => {
   return MINTING_STEPS.indexOf(step) <= MINTING_STEPS.indexOf(currentStep);

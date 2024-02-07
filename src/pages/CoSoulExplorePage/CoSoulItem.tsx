@@ -24,18 +24,18 @@ export const CoSoulItem = ({
     repScore > tier3
       ? '#E3A102'
       : repScore > tier2
-      ? '#1EC6AD'
-      : repScore > tier1
-      ? '#9995E0'
-      : 'transparent';
+        ? '#1EC6AD'
+        : repScore > tier1
+          ? '#9995E0'
+          : 'transparent';
   return (
     <AppLink
       to={
         !coLinksSite
           ? coSoulPaths.cosoulView(cosoul.address)
           : exploreView
-          ? coLinksPaths.profile(cosoul.address)
-          : coLinksPaths.score(cosoul.address)
+            ? coLinksPaths.profile(cosoul.address)
+            : coLinksPaths.score(cosoul.address)
       }
     >
       <Box

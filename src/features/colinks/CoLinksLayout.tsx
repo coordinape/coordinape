@@ -3,7 +3,6 @@ import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { scrollToTop } from '../../components';
-import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
@@ -20,12 +19,11 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
     scrollToTop();
   }, [location]);
 
-  const { library, onCorrectChain, coLinksReadOnly } =
-    useContext(CoLinksContext);
+  const { coLinksReadOnly } = useContext(CoLinksContext);
 
-  if (library === undefined || onCorrectChain === undefined) {
-    return <LoadingIndicator />;
-  }
+  // if (library === undefined || onCorrectChain === undefined) {
+  //   return <LoadingIndicator />;
+  // }
 
   if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;

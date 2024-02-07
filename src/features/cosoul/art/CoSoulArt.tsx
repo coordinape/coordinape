@@ -1,6 +1,6 @@
 import { artWidth, artWidthMobile } from '../constants';
 
-import Display from './CoSoulArtDisplay.js';
+import Display from './CoSoulArtDisplay';
 
 const resolution = [2000, 2000];
 const linewidth = 3;

@@ -1,5 +1,5 @@
-import { render, screen, act, waitFor } from '@testing-library/react';
-import { saveAllData, EConnectorNames } from 'features/auth/useSavedAuth';
+import { act, render, screen, waitFor } from '@testing-library/react';
+import { EConnectorNames, saveAllData } from 'features/auth/useSavedAuth';
 import { useQueryClient } from 'react-query';
 
 import {
@@ -11,7 +11,7 @@ import { createProfile } from '../../../api-test/helpers';
 import { useWeb3React } from 'hooks/useWeb3React';
 import { provider as getProvider, TestWrapper } from 'utils/testing';
 
-import { RequireAuth } from './RequireAuth';
+import { RequireWeb3Auth } from './RequireWeb3Auth';
 import { QUERY_KEY_LOGIN_DATA } from './useLoginData';
 
 import { Awaited } from 'types/shim';
@@ -48,9 +48,9 @@ beforeAll(async () => {
 test('show connection modal', () => {
   render(
     <TestWrapper>
-      <RequireAuth>
+      <RequireWeb3Auth>
         <div>Hello world</div>
-      </RequireAuth>
+      </RequireWeb3Auth>
     </TestWrapper>
   );
   screen.findByText('Connect Your Wallet');
@@ -86,9 +86,9 @@ test('reconnect with saved auth', async () => {
     await render(
       <TestWrapper withWeb3>
         <WaitForAddress>
-          <RequireAuth>
+          <RequireWeb3Auth>
             <CheckData />
-          </RequireAuth>
+          </RequireWeb3Auth>
         </WaitForAddress>
       </TestWrapper>
     );

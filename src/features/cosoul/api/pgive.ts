@@ -11,6 +11,7 @@ export const getLocalPGIVE = async (address: string) => {
         },
         // what is the diff between pgive and normalized_pgive.
         // I thought pgive was normalized give, plus stuff
+        // @ts-ignore
         { aggregate: { sum: [{}, { normalized_pgive: true }] } },
       ],
     },
@@ -19,6 +20,7 @@ export const getLocalPGIVE = async (address: string) => {
     }
   );
   return Math.floor(
+    // @ts-ignore
     (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0
   );
 };

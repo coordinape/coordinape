@@ -27,7 +27,7 @@ const TEMPLATES = {
   REPORT_HOURLY: 'report_hourly',
 } as const;
 
-type TemplateAliases = typeof TEMPLATES[keyof typeof TEMPLATES];
+type TemplateAliases = (typeof TEMPLATES)[keyof typeof TEMPLATES];
 
 // get base url for staging, prod, or localhost
 
@@ -123,6 +123,8 @@ export async function sendCoLinksNotificationsEmail(params: {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
     unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
   };
+  // eslint-disable-next-line no-console
+  console.log('sending email to', params.email, 'with', { input });
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_NOTIFICATIONS,

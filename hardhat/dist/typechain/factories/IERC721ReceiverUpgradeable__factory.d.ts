@@ -1,6 +1,6 @@
-import { Signer } from 'ethers';
-import { Provider } from '@ethersproject/providers';
-import type { IERC721ReceiverUpgradeable, IERC721ReceiverUpgradeableInterface } from '../IERC721ReceiverUpgradeable';
+import { Signer } from "ethers";
+import { Provider } from "@ethersproject/providers";
+import type { IERC721ReceiverUpgradeable, IERC721ReceiverUpgradeableInterface } from "../IERC721ReceiverUpgradeable";
 export declare class IERC721ReceiverUpgradeable__factory {
     static readonly abi: {
         inputs: {

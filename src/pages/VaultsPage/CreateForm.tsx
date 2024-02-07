@@ -1,11 +1,11 @@
-import { MouseEvent, useState, useCallback } from 'react';
+import { MouseEvent, useCallback, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ethers } from 'ethers';
-import { Asset } from 'lib/vaults';
 import type { Contracts } from 'lib/vaults';
-import debounce from 'lodash/debounce';
-import isEmpty from 'lodash/isEmpty';
+import { Asset } from 'lib/vaults';
+import debounce from 'lodash-es/debounce';
+import isEmpty from 'lodash-es/isEmpty';
 import { useController, useForm } from 'react-hook-form';
 import { styled } from 'stitches.config';
 import { z } from 'zod';

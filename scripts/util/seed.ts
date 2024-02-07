@@ -2,7 +2,7 @@ import { HDNode } from '@ethersproject/hdnode';
 import { faker } from '@faker-js/faker';
 import { DateTime } from 'luxon';
 
-import { sampleMemberData } from '../../api/hasura/actions/_handlers/createSampleCircle_data';
+import { sampleMemberData } from '../../_api/hasura/actions/_handlers/createSampleCircle_data';
 import {
   COORDINAPE_USER_ADDRESS,
   LOCAL_SEED_ADDRESS,
@@ -14,8 +14,6 @@ import {
   ValueTypes,
 } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient';
-import { resizeAvatar } from '../../api-lib/images';
-import { ImageUpdater } from '../../api-lib/ImageUpdater';
 import { profileUpdateAvatarMutation } from '../../api-lib/profileImages';
 import { Awaited } from '../../api-lib/ts4.5shim';
 
@@ -160,12 +158,9 @@ export async function insertMemberships(
 }
 
 async function addAvatar(profileId: number) {
-  const updater = new ImageUpdater<{ id: number }>(
-    resizeAvatar,
-    profileUpdateAvatarMutation(profileId)
+  await profileUpdateAvatarMutation(profileId)(
+    sampleMemberData[profileId % sampleMemberData.length].avatar
   );
-  const imageData = await getBase64Avatar();
-  await updater.uploadImage(imageData);
 }
 
 export async function getAvatars() {
@@ -271,13 +266,6 @@ export async function createProfiles() {
   );
 
   return devProfileId;
-}
-
-async function getBase64Avatar() {
-  const url = faker.image.avatar();
-  const response = await fetch(url);
-  const buffer = await response.arrayBuffer();
-  return Buffer.from(buffer).toString('base64');
 }
 
 export function getMembershipInput(

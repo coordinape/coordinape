@@ -3,7 +3,7 @@ import assert from 'assert';
 import {
   reputation_scores_constraint,
   reputation_scores_update_column,
-} from '../../../../api-lib/gql/__generated__/zeus';
+} from '../../../../api-lib/gql/__generated__/zeus/index';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 
 import { getRepScore } from './getRepScore';

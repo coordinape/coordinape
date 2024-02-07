@@ -1,11 +1,11 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 
 import { GiveAllocator } from './GiveAllocator';
 import { Gift } from './index';
 
 describe('Test for GiveAllocator', () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const mockAdjust = jest.fn((recipientId: number, amount: number) => {
+  const mockAdjust = vi.fn((recipientId: number, amount: number) => {
     return true;
   });
   const mockGift: Gift = {
@@ -24,9 +24,8 @@ describe('Test for GiveAllocator', () => {
         optedOut={false}
       />
     );
-    const tokenCount: HTMLInputElement = await screen.findByTestId(
-      'tokenCount'
-    );
+    const tokenCount: HTMLInputElement =
+      await screen.findByTestId('tokenCount');
     expect(tokenCount.value).toEqual('3');
   });
 
@@ -56,9 +55,8 @@ describe('Test for GiveAllocator', () => {
         optedOut={false}
       />
     );
-    const tokenCount: HTMLInputElement = await screen.findByTestId(
-      'tokenCount'
-    );
+    const tokenCount: HTMLInputElement =
+      await screen.findByTestId('tokenCount');
     expect((tokenCount as HTMLInputElement).value).toEqual('4');
   });
 

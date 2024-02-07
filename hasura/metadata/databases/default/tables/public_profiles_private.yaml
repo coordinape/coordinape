@@ -1,0 +1,24 @@
+table:
+  name: profiles_private
+  schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - id
+        - address
+        - device_login_token
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+    comment: ""
+update_permissions:
+  - role: user
+    permission:
+      columns:
+        - device_login_token
+      filter:
+        id:
+          _eq: X-Hasura-User-Id
+      check: null
+    comment: ""

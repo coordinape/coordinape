@@ -246,8 +246,8 @@ export const AddOrgMembersTable = ({
         {isSubmitting
           ? 'Adding Members...'
           : selectedMembers.length <= 1
-          ? 'Add Member'
-          : `Add ${selectedMembers.length} Members`}
+            ? 'Add Member'
+            : `Add ${selectedMembers.length} Members`}
       </Button>
       <div ref={successRef}>
         {successCount > 0 && (

@@ -72,7 +72,7 @@ const rFullCircle = selector<IFullCircle>({
     const users = iti(fullCircle.values())
       .flat(fc =>
         fc.users.map(
-          ({ profile, ...u }) => ({ profile, ...extraUser(u) } as IUser)
+          ({ profile, ...u }) => ({ profile, ...extraUser(u) }) as IUser
         )
       )
       .toArray();
@@ -159,8 +159,8 @@ const rCircleEpochsStatus = selectorFamily({
       const currentEpochNumber = currentEpoch?.number
         ? String(currentEpoch.number)
         : previousEpoch?.number
-        ? String(previousEpoch.number + 1)
-        : '1';
+          ? String(previousEpoch.number + 1)
+          : '1';
       let timingMessage = 'Epoch not Scheduled';
       let longTimingMessage = 'Next Epoch not Scheduled';
 

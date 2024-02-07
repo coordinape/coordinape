@@ -5564,6 +5564,9 @@ export const AllTypesProps: Record<string, any> = {
     delete_profiles_by_pk: {
       id: 'bigint',
     },
+    delete_profiles_private: {
+      where: 'profiles_private_bool_exp',
+    },
     delete_reactions: {
       where: 'reactions_bool_exp',
     },
@@ -6032,6 +6035,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_profiles_one: {
       object: 'profiles_insert_input',
       on_conflict: 'profiles_on_conflict',
+    },
+    insert_profiles_private: {
+      objects: 'profiles_private_insert_input',
+    },
+    insert_profiles_private_one: {
+      object: 'profiles_private_insert_input',
     },
     insert_reactions: {
       objects: 'reactions_insert_input',
@@ -6850,6 +6859,14 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_profiles_many: {
       updates: 'profiles_updates',
+    },
+    update_profiles_private: {
+      _inc: 'profiles_private_inc_input',
+      _set: 'profiles_private_set_input',
+      where: 'profiles_private_bool_exp',
+    },
+    update_profiles_private_many: {
+      updates: 'profiles_private_updates',
     },
     update_reactions: {
       _inc: 'reactions_inc_input',
@@ -9142,6 +9159,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamp_comparison_exp',
     description: 'String_comparison_exp',
     description_embedding: 'vector_comparison_exp',
+    device_login_token: 'uuid_comparison_exp',
     discord_username: 'String_comparison_exp',
     distributions: 'distributions_bool_exp',
     distributions_aggregate: 'distributions_aggregate_bool_exp',
@@ -9194,6 +9212,7 @@ export const AllTypesProps: Record<string, any> = {
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
     description_embedding: 'vector',
+    device_login_token: 'uuid',
     distributions: 'distributions_arr_rel_insert_input',
     emails: 'emails_arr_rel_insert_input',
     id: 'bigint',
@@ -9240,6 +9259,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     description: 'order_by',
     description_embedding: 'order_by',
+    device_login_token: 'order_by',
     discord_username: 'order_by',
     distributions_aggregate: 'distributions_aggregate_order_by',
     emails_aggregate: 'emails_aggregate_order_by',
@@ -9275,6 +9295,49 @@ export const AllTypesProps: Record<string, any> = {
   },
   profiles_pk_columns_input: {
     id: 'bigint',
+  },
+  profiles_private_aggregate_fields: {
+    count: {
+      columns: 'profiles_private_select_column',
+    },
+  },
+  profiles_private_bool_exp: {
+    _and: 'profiles_private_bool_exp',
+    _not: 'profiles_private_bool_exp',
+    _or: 'profiles_private_bool_exp',
+    address: 'String_comparison_exp',
+    device_login_token: 'uuid_comparison_exp',
+    id: 'bigint_comparison_exp',
+  },
+  profiles_private_inc_input: {
+    id: 'bigint',
+  },
+  profiles_private_insert_input: {
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_order_by: {
+    address: 'order_by',
+    device_login_token: 'order_by',
+    id: 'order_by',
+  },
+  profiles_private_select_column: true,
+  profiles_private_set_input: {
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_stream_cursor_input: {
+    initial_value: 'profiles_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profiles_private_stream_cursor_value_input: {
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_updates: {
+    _inc: 'profiles_private_inc_input',
+    _set: 'profiles_private_set_input',
+    where: 'profiles_private_bool_exp',
   },
   profiles_public: {
     link_holder: {
@@ -9404,6 +9467,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_set_input: {
     created_at: 'timestamp',
     description_embedding: 'vector',
+    device_login_token: 'uuid',
     id: 'bigint',
     invite_code: 'uuid',
     invite_code_redeemed_at: 'timestamptz',
@@ -9421,6 +9485,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_stream_cursor_value_input: {
     created_at: 'timestamp',
     description_embedding: 'vector',
+    device_login_token: 'uuid',
     id: 'bigint',
     invite_code: 'uuid',
     invite_code_redeemed_at: 'timestamptz',
@@ -10092,6 +10157,16 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_private: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
+    },
+    profiles_private_aggregate: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
     },
     profiles_public: {
       distinct_on: 'profiles_public_select_column',
@@ -11729,6 +11804,20 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_private: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
+    },
+    profiles_private_aggregate: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
+    },
+    profiles_private_stream: {
+      cursor: 'profiles_private_stream_cursor_input',
+      where: 'profiles_private_bool_exp',
     },
     profiles_public: {
       distinct_on: 'profiles_public_select_column',
@@ -17486,6 +17575,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_profile_skills_by_pk: 'profile_skills',
     delete_profiles: 'profiles_mutation_response',
     delete_profiles_by_pk: 'profiles',
+    delete_profiles_private: 'profiles_private_mutation_response',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
     delete_replies: 'replies_mutation_response',
@@ -17621,6 +17711,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_profile_skills_one: 'profile_skills',
     insert_profiles: 'profiles_mutation_response',
     insert_profiles_one: 'profiles',
+    insert_profiles_private: 'profiles_private_mutation_response',
+    insert_profiles_private_one: 'profiles_private',
     insert_reactions: 'reactions_mutation_response',
     insert_reactions_one: 'reactions',
     insert_replies: 'replies_mutation_response',
@@ -17827,6 +17919,8 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
+    update_profiles_private: 'profiles_private_mutation_response',
+    update_profiles_private_many: 'profiles_private_mutation_response',
     update_reactions: 'reactions_mutation_response',
     update_reactions_by_pk: 'reactions',
     update_reactions_many: 'reactions_mutation_response',
@@ -19486,6 +19580,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamp',
     description: 'String',
     description_embedding: 'vector',
+    device_login_token: 'uuid',
     discord_username: 'String',
     distributions: 'distributions',
     distributions_aggregate: 'distributions_aggregate',
@@ -19561,6 +19656,7 @@ export const ReturnTypes: Record<string, any> = {
     connector: 'String',
     created_at: 'timestamp',
     description: 'String',
+    device_login_token: 'uuid',
     discord_username: 'String',
     github_username: 'String',
     id: 'bigint',
@@ -19591,6 +19687,7 @@ export const ReturnTypes: Record<string, any> = {
     connector: 'String',
     created_at: 'timestamp',
     description: 'String',
+    device_login_token: 'uuid',
     discord_username: 'String',
     github_username: 'String',
     id: 'bigint',
@@ -19615,6 +19712,66 @@ export const ReturnTypes: Record<string, any> = {
   profiles_mutation_response: {
     affected_rows: 'Int',
     returning: 'profiles',
+  },
+  profiles_private: {
+    address: 'String',
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_aggregate: {
+    aggregate: 'profiles_private_aggregate_fields',
+    nodes: 'profiles_private',
+  },
+  profiles_private_aggregate_fields: {
+    avg: 'profiles_private_avg_fields',
+    count: 'Int',
+    max: 'profiles_private_max_fields',
+    min: 'profiles_private_min_fields',
+    stddev: 'profiles_private_stddev_fields',
+    stddev_pop: 'profiles_private_stddev_pop_fields',
+    stddev_samp: 'profiles_private_stddev_samp_fields',
+    sum: 'profiles_private_sum_fields',
+    var_pop: 'profiles_private_var_pop_fields',
+    var_samp: 'profiles_private_var_samp_fields',
+    variance: 'profiles_private_variance_fields',
+  },
+  profiles_private_avg_fields: {
+    id: 'Float',
+  },
+  profiles_private_max_fields: {
+    address: 'String',
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_min_fields: {
+    address: 'String',
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profiles_private',
+  },
+  profiles_private_stddev_fields: {
+    id: 'Float',
+  },
+  profiles_private_stddev_pop_fields: {
+    id: 'Float',
+  },
+  profiles_private_stddev_samp_fields: {
+    id: 'Float',
+  },
+  profiles_private_sum_fields: {
+    id: 'bigint',
+  },
+  profiles_private_var_pop_fields: {
+    id: 'Float',
+  },
+  profiles_private_var_samp_fields: {
+    id: 'Float',
+  },
+  profiles_private_variance_fields: {
+    id: 'Float',
   },
   profiles_public: {
     address: 'String',
@@ -19955,6 +20112,8 @@ export const ReturnTypes: Record<string, any> = {
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
+    profiles_private: 'profiles_private',
+    profiles_private_aggregate: 'profiles_private_aggregate',
     profiles_public: 'profiles_public',
     profiles_public_aggregate: 'profiles_public_aggregate',
     reactions: 'reactions',
@@ -20704,6 +20863,9 @@ export const ReturnTypes: Record<string, any> = {
     profiles: 'profiles',
     profiles_aggregate: 'profiles_aggregate',
     profiles_by_pk: 'profiles',
+    profiles_private: 'profiles_private',
+    profiles_private_aggregate: 'profiles_private_aggregate',
+    profiles_private_stream: 'profiles_private',
     profiles_public: 'profiles_public',
     profiles_public_aggregate: 'profiles_public_aggregate',
     profiles_public_stream: 'profiles_public',

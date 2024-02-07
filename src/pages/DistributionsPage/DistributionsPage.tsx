@@ -5,7 +5,7 @@ import { claimsUnwrappedAmount } from 'common-lib/distributions';
 import { useMyUser } from 'features/auth/useLoginData';
 import { isUserAdmin } from 'lib/users';
 import { getDisplayTokenString } from 'lib/vaults/tokens';
-import uniqBy from 'lodash/uniqBy';
+import uniqBy from 'lodash-es/uniqBy';
 import { DateTime } from 'luxon';
 import { useQuery, useQueryClient } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -198,14 +198,14 @@ export function DistributionsPage() {
     ? circleDist
       ? getDisplayTokenString(circleDist.vault)
       : giftVault
-      ? getDisplayTokenString(giftVault)
-      : ''
+        ? getDisplayTokenString(giftVault)
+        : ''
     : circle.fixed_payment_token_type;
   const fixedTokenName = fixedDist
     ? getDisplayTokenString(fixedDist.vault)
     : fixedVault
-    ? getDisplayTokenString(fixedVault)
-    : '';
+      ? getDisplayTokenString(fixedVault)
+      : '';
 
   const startDate = DateTime.fromISO(epoch.start_date);
   const endDate = DateTime.fromISO(epoch.end_date);

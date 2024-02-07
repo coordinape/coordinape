@@ -230,7 +230,8 @@
     opacity: 0;
   }
 }
-- @keyframes burst14 {
+
+@keyframes burst14 {
   0% {
     transform: translate(0, 0);
     opacity: 1;

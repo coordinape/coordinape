@@ -34,7 +34,7 @@ export const login = async (
   address: string,
   provider: Web3Provider,
   connectorName: string
-): Promise<{ token: string; id: number }> => {
+): Promise<{ token: string; id: number; address: string }> => {
   let nonce, time;
   try {
     const nonceReq = await fetch('/api/time');
@@ -75,3 +75,5 @@ export const login = async (
 
   return body;
 };
+
+// TODO: delete this , its just for local

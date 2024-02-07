@@ -42,7 +42,7 @@ type RelationTypes =
  */
 export interface EventTriggerPayload<
   G extends keyof GraphQLTypes,
-  O extends OperationTypes = OperationTypes
+  O extends OperationTypes = OperationTypes,
 > {
   event: {
     session_variables: { [x: string]: string };
@@ -53,10 +53,10 @@ export interface EventTriggerPayload<
           ? Omit<GraphQLTypes[G], RelationTypes> | null
           : null
         : O extends 'MANUAL'
-        ? O extends 'UPDATE' | 'DELETE'
-          ? Omit<GraphQLTypes[G], RelationTypes> | null
-          : null
-        : Omit<GraphQLTypes[G], RelationTypes>;
+          ? O extends 'UPDATE' | 'DELETE'
+            ? Omit<GraphQLTypes[G], RelationTypes> | null
+            : null
+          : Omit<GraphQLTypes[G], RelationTypes>;
       new: O extends 'DELETE' ? null : Omit<GraphQLTypes[G], RelationTypes>;
     };
     trace_context: {

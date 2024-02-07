@@ -27,8 +27,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       event_type: private_stream
         ? 'post_create'
         : big_question_id
-        ? 'big_question_response_create'
-        : 'contribution_create',
+          ? 'big_question_response_create'
+          : 'contribution_create',
       circle_id: circle_id,
       profile_id: private_stream || big_question_id ? profile_id : user_id,
       data: {

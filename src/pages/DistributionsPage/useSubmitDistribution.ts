@@ -7,7 +7,7 @@ import { savePendingVaultTx } from 'lib/gql/mutations/vaults';
 import { createDistribution } from 'lib/merkle-distributor';
 import { getWrappedAmount } from 'lib/vaults';
 import { uploadEpochRoot } from 'lib/vaults/distributor';
-import mapValues from 'lodash/mapValues';
+import mapValues from 'lodash-es/mapValues';
 
 import { useContracts, useToast } from 'hooks';
 import type { Vault } from 'hooks/gql/useVaults';

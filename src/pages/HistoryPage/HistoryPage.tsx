@@ -339,23 +339,25 @@ export const HistoryPage = () => {
           ></EpochForm>
         )}
         <CollapsibleContent>
-          {futureEpochs?.slice(1).map(e => (
-            <EpochForm
-              key={e.id}
-              circleId={circleId}
-              epochs={futureEpochs}
-              selectedEpoch={e}
-              currentEpoch={currentEpoch}
-              setEditEpoch={setEditEpoch}
-              setEndEpochDialog={setEndEpochDialog}
-              setNewEpoch={setNewEpoch}
-              onClose={closeFormHandler}
-              isEditing={editEpoch || newEpoch ? true : false}
-              editingEpoch={editEpoch?.id}
-              setEpochToDelete={setEpochToDelete}
-              isAdmin={isAdmin}
-            ></EpochForm>
-          ))}
+          {futureEpochs
+            ?.slice(1)
+            .map(e => (
+              <EpochForm
+                key={e.id}
+                circleId={circleId}
+                epochs={futureEpochs}
+                selectedEpoch={e}
+                currentEpoch={currentEpoch}
+                setEditEpoch={setEditEpoch}
+                setEndEpochDialog={setEndEpochDialog}
+                setNewEpoch={setNewEpoch}
+                onClose={closeFormHandler}
+                isEditing={editEpoch || newEpoch ? true : false}
+                editingEpoch={editEpoch?.id}
+                setEpochToDelete={setEpochToDelete}
+                isAdmin={isAdmin}
+              ></EpochForm>
+            ))}
         </CollapsibleContent>
         {futureEpochs && futureEpochs.length > 1 && (
           <CollapsibleTrigger asChild>

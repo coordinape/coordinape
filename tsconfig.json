@@ -1,31 +1,37 @@
 {
   "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "lib": ["dom", "dom.iterable", "es2021"],
-    //    "lib": ["dom", "dom.iterable", "es2021"],
+    "target": "ESNext",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "types": [
+      "vite/client",
+      "vite-plugin-svgr/client",
+      "webpack-env",
+      "vitest/globals",
+    ],
     "allowJs": true,
-    "target": "es2021",
-    "module": "es2022",
+    "skipLibCheck": true,
+    "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
     "paths": {
-      "@emotion/core": ["./types/emotion-core-stub.d.ts"]
+      "@emotion/core": ["./types/emotion-core-stub.d.ts"],
     },
     "plugins": [
       {
         "transform": "ts-auto-mock/transformer",
-        "cacheBetweenTests": false
-      }
+        "cacheBetweenTests": false,
+      },
     ],
-    "sourceMap": true
+    "sourceMap": true,
   },
-  "include": ["src", "./setupTests.ts"]
+  "include": ["src", "./setupTests.ts"],
 }

@@ -4,12 +4,18 @@ import { TestWrapper } from 'utils/testing';
 
 import { CirclesPage } from './CirclesPage';
 
-jest.mock('features/auth', () => ({
-  useAuthStore: () => 1,
-}));
-
-jest.mock('./getOrgData', () => {
+vi.mock('features/auth', async importOriginal => {
+  const orig = await importOriginal<typeof import('features/auth/index')>();
   return {
+    __esModule: true,
+    ...orig,
+    useAuthStore: () => 1,
+  };
+});
+
+vi.mock('./getOrgData', async importOriginal => {
+  return {
+    ...(await importOriginal<typeof import('./getOrgData')>()),
     getOrgData: async () => ({
       organizations: [
         {

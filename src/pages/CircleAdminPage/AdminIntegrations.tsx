@@ -20,7 +20,7 @@ import { deleteCircleIntegration } from './mutations';
 export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const integrations = useCircleIntegrations(circleId);
   const [deleteIntegration, setDeleteIntegration] =
-    useState<Exclude<typeof integrations['data'], undefined>[number]>();
+    useState<Exclude<(typeof integrations)['data'], undefined>[number]>();
 
   const handleDeleteIntegration = useCallback(async () => {
     if (deleteIntegration) {
