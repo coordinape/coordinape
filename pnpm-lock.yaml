@@ -549,9 +549,6 @@ devDependencies:
   '@types/sharp':
     specifier: ^0.29.5
     version: 0.29.5
-  '@types/showdown':
-    specifier: ^2.0.6
-    version: 2.0.6
   '@types/uuid':
     specifier: ^8.3.4
     version: 8.3.4
@@ -8233,10 +8230,6 @@ packages:
     resolution: {integrity: sha512-3TC+S3H5RwnJmLYMHrcdfNjz/CaApKmujjY9b6PU/pE6n0qfooi99YqXGWoW8frU9EWYj/XTI35Pzxa+ThAZ5Q==}
     dependencies:
       '@types/node': 18.18.13
-    dev: true
-
-  /@types/showdown@2.0.6:
-    resolution: {integrity: sha512-pTvD/0CIeqe4x23+YJWlX2gArHa8G0J0Oh6GKaVXV7TAeickpkkZiNOgFcFcmLQ5lB/K0qBJL1FtRYltBfbGCQ==}
     dev: true
 
   /@types/sinonjs__fake-timers@8.1.1:

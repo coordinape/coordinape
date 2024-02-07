@@ -267,7 +267,6 @@
     "@types/react-virtualized-auto-sizer": "1.0.0",
     "@types/sha.js": "^2.4.0",
     "@types/sharp": "^0.29.5",
-    "@types/showdown": "^2.0.6",
     "@types/uuid": "^8.3.4",
     "@types/webpack-env": "^1.18.4",
     "@types/ws": "^8.5.10",
