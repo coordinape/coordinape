@@ -103,32 +103,6 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
           return;
         }
 
-        // NEW CODE
-        // if (web3Context.connector) {
-        //   try {
-        //     assert(savedAuth.connectorName);
-        //     await web3Context.activate(
-        //       connectors[savedAuth.connectorName],
-        //       () => {},
-        //       true
-        //     );
-        //   } catch (e) {
-        //     setAuthStep('connect');
-        //     if (showErrors) showError(e);
-        //     web3Context.deactivate();
-        //   }
-        // } else {
-        //   console.log('else clause, but we got:', { savedAuth, web3Context });
-        //   if (savedAuth.connectorName) {
-        //     console.log('reconnecting');
-        //     await reconnect(savedAuth, web3Context, setAuthStep);
-        //   }
-
-        //   setAuthStep('connect');
-        //   web3Context.deactivate();
-        // }
-
-        // OLD CODE
         try {
           assert(savedAuth.connectorName);
           await web3Context.activate(
@@ -168,26 +142,31 @@ export const RequireLoggedIn = (props: { children: ReactNode }) => {
   const { savedAuth } = useSavedAuth();
   const web3Context = useWeb3React();
 
+  useAuthStateMachine(false, false);
+
   // if theres a savedAuth connector, reconnect
   useEffect(() => {
     const connectorName = savedAuth.connectorName;
 
+    if (!connectorName) return;
+    if (connectorName === 'magic') return;
+    // @ts-ignore
+    if (connectorName === 'token') return;
+
     (async () => {
       try {
-        if (!connectorName) return;
         // TODO: test reconnecting to magic
-        if (connectorName === 'magic') return;
         const connector = connectors[connectorName];
         if (connector && !web3Context.active) {
           await web3Context.activate(connector, () => {}, true);
         }
       } catch (e) {
+        console.error(e);
         web3Context.deactivate();
       }
     })();
   }, [savedAuth.connectorName, web3Context.active]);
 
-  // 1. are they already logged in?
   const { profileId } = useAuthStore(state => state);
 
   if (!profileId) {
@@ -198,8 +177,6 @@ export const RequireLoggedIn = (props: { children: ReactNode }) => {
 };
 
 const RestoreLogin = ({ children }: { children: React.ReactNode }) => {
-  // 2. if not, can we use cookie?
-  // eslint-disable-next-line no-console
   const { setProfileId, setAddress } = useAuthStore(state => state);
 
   // this restores the cookie->AuthToken
