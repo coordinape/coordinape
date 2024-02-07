@@ -1,18 +1,32 @@
 import { useContext, useEffect, useState } from 'react';
 
 import { CoLinks } from '@coordinape/contracts/typechain';
+import { ChainId } from '@decent.xyz/box-common';
 import { BigNumber } from '@ethersproject/bignumber';
+import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
+import {
+  defaultAvailableChains,
+  wagmiChain,
+  wagmiConfig,
+} from 'features/DecentSwap/config';
+import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { useQuery } from 'react-query';
 import type { CSS } from 'stitches.config';
+import { Address } from 'viem';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useToast } from '../../hooks';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, Link, Text } from '../../ui';
+import { Button, Flex, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/contractHelpers';
+import { BridgeButton } from 'components/BridgeButton';
+import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
+import { OrBar } from 'components/OrBar';
+import { IN_PREVIEW } from 'config/env';
+import { isFeatureEnabled } from 'config/features';
 
 import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
@@ -53,23 +67,26 @@ export const BuyOrSellCoLinks = ({
 
   const [progress, setProgress] = useState('');
 
-  const { library, account } = useWeb3React();
+  const { chainId, account } = useWeb3React();
   const doWithCoLinksContract = useDoWithCoLinksContract();
 
   const { data: opBalance } = useQuery(
     ['balanceOf', account],
     async () => {
       if (account) {
-        return await library?.getBalance(account);
+        return await getBalance(wagmiConfig, {
+          address: account as Address,
+          chainId: wagmiChain.id,
+        });
       }
     },
     {
-      refetchInterval: 10000,
+      refetchInterval: 2000,
       enabled: !!account,
     }
   );
-
-  const notEnoughBalance = buyPriceBN && opBalance && buyPriceBN?.gt(opBalance);
+  const notEnoughBalance =
+    buyPriceBN && opBalance && buyPriceBN.toBigInt() > opBalance?.value;
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
@@ -243,7 +260,7 @@ export const BuyOrSellCoLinks = ({
                     refresh();
                   }}
                   target={subject}
-                  disabled={notEnoughBalance}
+                  disabled={notEnoughBalance ?? false}
                 />
                 <Text color="complete" semibold css={{ textAlign: 'right' }}>
                   {buyPrice !== null ? buyPrice : '...'}
@@ -287,37 +304,41 @@ export const BuyOrSellCoLinks = ({
             </Flex>
           )}
           {notEnoughBalance && opBalance && (
-            <Flex
-              className="bridgeContainer"
-              css={{
-                alignItems: 'center',
-                gap: '$sm',
-                p: '$md',
-                m: '$md 0 0',
-                background: '$tagNeutralBackground',
-                color: '$tagNeutralText',
-                borderRadius: '$3',
-              }}
-              column
-            >
-              <Flex>
-                <Text size={'small'} semibold css={{ textAlign: 'center' }}>
-                  You only have{' '}
-                  {ethers.utils.formatEther(opBalance).slice(0, 6)} ETH -
-                  Deposit more to buy.
-                </Text>
-              </Flex>
-              <Button
-                size="xs"
-                as={Link}
-                color={'cta'}
-                href="https://www.optimism.io/apps/bridges"
-                target={'_blank'}
-                rel={'noreferrer'}
-                css={{ whiteSpace: 'normal' }}
+            <Flex column css={{ gap: '$sm', mt: '$xs' }}>
+              <Text
+                tag
+                semibold
+                css={{ textAlign: 'center' }}
+                color={'warning'}
               >
-                Bridge ETH to Optimism
-              </Button>
+                You only have{' '}
+                {ethers.utils.formatEther(opBalance.value).slice(0, 6)} ETH
+              </Text>
+              <Panel neutral>
+                <Text inline size="small" css={{ textAlign: 'center' }}>
+                  Please{' '}
+                  <Text inline semibold>
+                    deposit more ETH
+                  </Text>
+                  <br />
+                  to your Optimism wallet
+                </Text>
+                <Flex column css={{ mt: '$sm' }}>
+                  {defaultAvailableChains.includes(chainId as ChainId) &&
+                  (!IN_PREVIEW ||
+                    (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
+                    <BridgeButton>
+                      <>
+                        <DecentSwap></DecentSwap>
+                        <OrBar>OR</OrBar>
+                        <OptimismBridgeButton />
+                      </>
+                    </BridgeButton>
+                  ) : (
+                    <OptimismBridgeButton />
+                  )}
+                </Flex>
+              </Panel>
             </Flex>
           )}
         </Flex>

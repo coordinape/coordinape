@@ -6,7 +6,8 @@ export type FeatureName =
   | 'similarity'
   | 'share_post'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
-  | 'ignore_dnt';
+  | 'ignore_dnt'
+  | 'test_decent';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables

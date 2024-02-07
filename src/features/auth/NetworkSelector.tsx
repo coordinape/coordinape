@@ -93,7 +93,7 @@ export const NetworkSelector = () => {
   });
 
   const chainOrder = [
-    [1, 10, 137, 250, 1313161554],
+    [1, 10, 137, 8453, 42161, 250, 1313161554],
     [5, ...(IN_DEVELOPMENT ? [420, 1338] : [])],
   ];
 

@@ -4,15 +4,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 // import { randomUUID } from 'node:crypto';
-import { TextDecoder, TextEncoder } from 'util';
-
-// window.crypto.randomUUID = randomUUID;
-
-// Hacky workarounds to fix issues with CRA / jest with webpack5 for self.id libs
-// https://github.com/ipfs/js-ipfs/issues/3620
-global.TextEncoder = TextEncoder;
-// @ts-expect-error mismatched versions of typings
-global.TextDecoder = TextDecoder;
 
 vi.mock('./ui/MarkdownPreview/MarkdownPreview.tsx', () => {
   return vi.importActual('../__mocks__/ReactMarkdown.tsx');
