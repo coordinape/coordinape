@@ -63,7 +63,11 @@
     },
     {
       "source": "/api/og/postimage/:id",
-      "destination": "/api/og/profileinfo/[id]?id=:id"
+      "destination": "/api/og/postimage/[id]?id=:id"
+    },
+    {
+      "source": "/api/og/postinfo/:id",
+      "destination": "/api/og/postinfo/[id]?id=:id"
     },
     {
       "source": "/(.*)",
