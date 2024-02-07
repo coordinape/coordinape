@@ -85,11 +85,6 @@ export const MIXPANEL_PROJECT_TOKEN: string = getEnvValue(
   ''
 );
 
-export const VERCEL_BRANCH_URL = getEnvValue(
-  'VERCEL_BRANCH_URL',
-  'unknown-branch-url'
-);
-
 export const HASURA_DISCORD_SECRET: string = getEnvValue(
   'HASURA_DISCORD_SECRET',
   'no_secret'
