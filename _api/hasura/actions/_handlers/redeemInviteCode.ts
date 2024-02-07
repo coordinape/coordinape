@@ -5,6 +5,7 @@ import {
   getEarlyAccessProfileId,
   getWaitListGuardianProfileId,
 } from '../../../../api-lib/colinks/helperAccounts';
+import { IS_LOCAL_ENV } from '../../../../api-lib/config';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
@@ -44,6 +45,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       payload,
       session: { hasuraProfileId },
     } = await getInput(req, redeemInviteCodeInput);
+
+    if (IS_LOCAL_ENV) {
+      // any code is valid in local env
+      await recordRedemption(hasuraProfileId, hasuraProfileId, payload.code);
+      return res.status(200).json({ success: true });
+    }
 
     const hostname = req.headers.host;
     // make sure the code is valid and the user is ok
