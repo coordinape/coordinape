@@ -178,7 +178,7 @@ export const RequireLoggedIn = (props: { children: ReactNode }) => {
         // TODO: test reconnecting to magic
         if (connectorName === 'magic') return;
         const connector = connectors[connectorName];
-        if (connector) {
+        if (connector && !web3Context.active) {
           await web3Context.activate(connector, () => {}, true);
         }
       } catch (e) {
