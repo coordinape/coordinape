@@ -18,6 +18,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return res.status(400).json({ message: 'Missing x-original-path header' });
   }
 
+  // eslint-disable-next-line no-console
+  console.log('og tags.ts invoked', { appURL, path });
+
   if (path.startsWith('/0x')) {
     const address = path.substring(1);
 
