@@ -8,6 +8,9 @@ import { ImageResponse } from '@vercel/og';
 export const config = {
   runtime: 'edge',
 };
+
+export const edge = true;
+
 const DEFAULT_AVATAR =
   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 
