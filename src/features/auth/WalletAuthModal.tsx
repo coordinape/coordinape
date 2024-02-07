@@ -315,6 +315,7 @@ export const WalletAuthModal = () => {
               Terms of Service
             </Link>
           </Text>
+          <HR />
         </Flex>
       </Flex>
     </Modal>

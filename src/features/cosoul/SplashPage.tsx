@@ -1,4 +1,3 @@
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { sync } from 'keyframes';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -12,7 +11,6 @@ import { SingleColumnLayout } from 'ui/layouts';
 import { QUERY_KEY_COSOUL_VIEW } from './ViewPage';
 
 export const SplashPage = () => {
-  useAuthStateMachine(false, false);
   const address = useConnectedAddress();
 
   const { data } = useQuery(

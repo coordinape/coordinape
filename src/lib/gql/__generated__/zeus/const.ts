@@ -3587,6 +3587,13 @@ export const AllTypesProps: Record<string, any> = {
     update_profiles_many: {
       updates: 'profiles_updates',
     },
+    update_profiles_private: {
+      _set: 'profiles_private_set_input',
+      where: 'profiles_private_bool_exp',
+    },
+    update_profiles_private_many: {
+      updates: 'profiles_private_updates',
+    },
     update_replies: {
       _set: 'replies_set_input',
       where: 'replies_bool_exp',
@@ -5039,6 +5046,35 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_private_bool_exp: {
+    _and: 'profiles_private_bool_exp',
+    _not: 'profiles_private_bool_exp',
+    _or: 'profiles_private_bool_exp',
+    address: 'String_comparison_exp',
+    device_login_token: 'uuid_comparison_exp',
+    id: 'bigint_comparison_exp',
+  },
+  profiles_private_order_by: {
+    address: 'order_by',
+    device_login_token: 'order_by',
+    id: 'order_by',
+  },
+  profiles_private_select_column: true,
+  profiles_private_set_input: {
+    device_login_token: 'uuid',
+  },
+  profiles_private_stream_cursor_input: {
+    initial_value: 'profiles_private_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profiles_private_stream_cursor_value_input: {
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_updates: {
+    _set: 'profiles_private_set_input',
+    where: 'profiles_private_bool_exp',
+  },
   profiles_public: {
     link_holder: {
       distinct_on: 'link_holders_select_column',
@@ -5545,6 +5581,11 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_private: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
     },
     profiles_public: {
       distinct_on: 'profiles_public_select_column',
@@ -6656,6 +6697,15 @@ export const AllTypesProps: Record<string, any> = {
     },
     profiles_by_pk: {
       id: 'bigint',
+    },
+    profiles_private: {
+      distinct_on: 'profiles_private_select_column',
+      order_by: 'profiles_private_order_by',
+      where: 'profiles_private_bool_exp',
+    },
+    profiles_private_stream: {
+      cursor: 'profiles_private_stream_cursor_input',
+      where: 'profiles_private_bool_exp',
     },
     profiles_public: {
       distinct_on: 'profiles_public_select_column',
@@ -9419,6 +9469,8 @@ export const ReturnTypes: Record<string, any> = {
     update_profiles: 'profiles_mutation_response',
     update_profiles_by_pk: 'profiles',
     update_profiles_many: 'profiles_mutation_response',
+    update_profiles_private: 'profiles_private_mutation_response',
+    update_profiles_private_many: 'profiles_private_mutation_response',
     update_replies: 'replies_mutation_response',
     update_replies_by_pk: 'replies',
     update_replies_many: 'replies_mutation_response',
@@ -10086,6 +10138,15 @@ export const ReturnTypes: Record<string, any> = {
     affected_rows: 'Int',
     returning: 'profiles',
   },
+  profiles_private: {
+    address: 'String',
+    device_login_token: 'uuid',
+    id: 'bigint',
+  },
+  profiles_private_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profiles_private',
+  },
   profiles_public: {
     address: 'String',
     avatar: 'String',
@@ -10207,6 +10268,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_skills_by_pk: 'profile_skills',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    profiles_private: 'profiles_private',
     profiles_public: 'profiles_public',
     reactions: 'reactions',
     reactions_aggregate: 'reactions_aggregate',
@@ -10605,6 +10667,8 @@ export const ReturnTypes: Record<string, any> = {
     profile_skills_stream: 'profile_skills',
     profiles: 'profiles',
     profiles_by_pk: 'profiles',
+    profiles_private: 'profiles_private',
+    profiles_private_stream: 'profiles_private',
     profiles_public: 'profiles_public',
     profiles_public_stream: 'profiles_public',
     profiles_stream: 'profiles',

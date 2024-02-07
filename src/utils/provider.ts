@@ -1,4 +1,4 @@
-import type { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import type { Web3Provider } from '@ethersproject/providers';
 import { ethers } from 'ethers';
 import _ from 'lodash-es';
 
@@ -146,10 +146,7 @@ export async function switchOrAddNetwork(
   }
 }
 
-export const getReadOnlyProvider = (
-  provider: JsonRpcProvider,
-  chainId: number
-) => {
+export const getReadOnlyProvider = (chainId: number) => {
   switch (chainId) {
     case 10:
       return new ethers.providers.AlchemyProvider(
@@ -161,6 +158,8 @@ export const getReadOnlyProvider = (
       return new ethers.providers.JsonRpcProvider(
         `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
       );
+    case 1338:
+      // TODO: this is hacked for local - does it need to handle CI port?
+      return new ethers.providers.JsonRpcProvider(`http://localhost:8546`);
   }
-  return provider;
 };

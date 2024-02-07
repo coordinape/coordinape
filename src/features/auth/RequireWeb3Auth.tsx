@@ -9,13 +9,17 @@ import {
 } from 'features/auth/magic';
 import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { useIsCoSoulSite } from 'features/cosoul/useIsCoSoulSite';
+import { useQuery } from 'react-query';
 
+import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { client } from '../../lib/gql/client';
 import { LoadingModal } from 'components';
 import { useToast } from 'hooks';
 import { useWeb3React } from 'hooks/useWeb3React';
 
 import { connectors } from './connectors';
 import { useAuthStore } from './store';
+import { getAuthToken } from './token';
 import { useFinishAuth } from './useFinishAuth';
 import { useSavedAuth } from './useSavedAuth';
 import { WalletAuthModal } from './WalletAuthModal';
@@ -116,7 +120,9 @@ export const useAuthStateMachine = (showErrors: boolean, forceSign = true) => {
   }, [savedAuth.connectorName, web3Context.active, isCoSoulPage]);
 };
 
-export const RequireAuth = (props: { children: ReactNode }) => {
+export const RequireWeb3Auth = (props: { children: ReactNode }) => {
+  // TODO: when no wallet is available, this isn't real nice - an error is thrown
+  // Not sure why when this doesn't throw on the production app / main branch
   useAuthStateMachine(true);
   const authStep = useAuthStore(state => state.step);
   const web3Context = useWeb3React();
@@ -130,4 +136,99 @@ export const RequireAuth = (props: { children: ReactNode }) => {
 
   // render routes
   return <>{props.children}</>;
+};
+
+export const RequireLoggedIn = (props: { children: ReactNode }) => {
+  const { savedAuth } = useSavedAuth();
+  const web3Context = useWeb3React();
+
+  useAuthStateMachine(false, false);
+
+  // if theres a savedAuth connector, reconnect
+  useEffect(() => {
+    const connectorName = savedAuth.connectorName;
+
+    if (!connectorName) return;
+    if (connectorName === 'magic') return;
+    // @ts-ignore
+    if (connectorName === 'token') return;
+
+    (async () => {
+      try {
+        // TODO: test reconnecting to magic
+        const connector = connectors[connectorName];
+        if (connector && !web3Context.active) {
+          await web3Context.activate(connector, () => {}, true);
+        }
+      } catch (e) {
+        console.error(e);
+        web3Context.deactivate();
+      }
+    })();
+  }, [savedAuth.connectorName, web3Context.active]);
+
+  const { profileId } = useAuthStore(state => state);
+
+  if (!profileId) {
+    return <RestoreLogin>{props.children}</RestoreLogin>;
+  }
+
+  return <>{props.children}</>;
+};
+
+const RestoreLogin = ({ children }: { children: React.ReactNode }) => {
+  const { setProfileId, setAddress } = useAuthStore(state => state);
+
+  // this restores the cookie->AuthToken
+  useSavedAuth();
+
+  const authToken = getAuthToken(false);
+  // WE should only do this, if we know we have an authtoken, in the store
+  const { data: myProfile, isLoading } = useQuery(
+    ['myprofile'],
+    async () => {
+      try {
+        const { profiles_private } = await client.query(
+          {
+            profiles_private: [
+              {},
+              {
+                id: true,
+                address: true,
+              },
+            ],
+          },
+          {
+            operationName: 'whoami',
+          }
+        );
+
+        return profiles_private.pop();
+      } catch (e) {
+        return undefined;
+      }
+    },
+    {
+      enabled: !!authToken,
+      onSuccess: data => {
+        if (data) {
+          setProfileId(data.id);
+          setAddress(data.address as string);
+        }
+      },
+    }
+  );
+
+  if (!!authToken && isLoading) {
+    return <LoadingIndicator />;
+  }
+
+  if (!myProfile) {
+    return (
+      <RequireWeb3Auth>
+        <WalletAuthModal />
+      </RequireWeb3Auth>
+    );
+  }
+  return <>{children}</>;
 };

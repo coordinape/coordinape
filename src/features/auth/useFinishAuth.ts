@@ -24,7 +24,7 @@ export const useFinishAuth = () => {
   const logout = useLogout();
   const { setSavedAuth, getAndUpdate } = useSavedAuth();
   const web3Context = useWeb3React();
-  const setProfileId = useAuthStore(state => state.setProfileId);
+  const { setProfileId, setAddress } = useAuthStore(state => state);
 
   const isCoLinks = useIsCoLinksSite();
 
@@ -54,6 +54,7 @@ export const useFinishAuth = () => {
 
       assert(profileId, 'missing profile ID after login');
       setProfileId(profileId);
+      setAddress(address);
 
       // Send a truncated address to sentry to help us debug customer issues
       Sentry.setTag(

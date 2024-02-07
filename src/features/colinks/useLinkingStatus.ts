@@ -9,7 +9,7 @@ import { MEMBERS_QUERY_KEY } from './InifiniteMembersList';
 import { QUERY_KEY_COLINKS_NAV } from './useCoLinksNavQuery';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-export const useCoLinks = ({
+export const useLinkingStatus = ({
   address,
   target,
 }: {

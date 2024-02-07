@@ -39,6 +39,8 @@ export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
 
+export const BRANCH_URL = getEnvValue<string>('VITE_VERCEL_BRANCH_URL', '');
+
 // // eslint-disable-next-line no-console
 // console.log(
 //   'APP_MODE',

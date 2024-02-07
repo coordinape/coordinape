@@ -38,6 +38,7 @@ import mpTrack from '../_api/mp/track';
 import og_profileInfo from '../_api/og/profileinfo/[address]';
 import og_tags from '../_api/og/tags';
 import time from '../_api/time';
+import tokenLogin from '../_api/tokenLogin';
 import twitter_callback from '../_api/twitter/callback';
 import twitter_login from '../_api/twitter/login';
 import alchemy_cosoul from '../_api/webhooks/alchemy_cosoul';
@@ -60,7 +61,6 @@ if ((global as any).__coverage__) {
   });
 }
 
-console.log('args', process.argv);
 const port = process.argv[2];
 
 // warning: ordering is important!
@@ -134,6 +134,7 @@ app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
 app.post('/api/log', tf(log));
 app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
+app.post('/api/tokenLogin', tf(tokenLogin));
 app.post('/api/mp/track', tf(mpTrack));
 app.get('/api/time', tf(time));
 app.get('/api/twitter/login', tf(twitter_login));

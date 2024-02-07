@@ -7,7 +7,13 @@ import { Copy } from 'icons/__generated';
 import { Button, TextField } from 'ui';
 import { Box } from 'ui/Box/Box';
 
-const CopyCodeTextField = ({ value }: { value: string }) => {
+const CopyCodeTextField = ({
+  value,
+  tabIndex,
+}: {
+  value: string;
+  tabIndex?: number;
+}) => {
   const { showDefault } = useToast();
 
   const copyToClip = () => {
@@ -34,6 +40,7 @@ const CopyCodeTextField = ({ value }: { value: string }) => {
         value={value}
         readOnly={true}
         onClick={copyToClip}
+        tabIndex={tabIndex}
         css={{
           width: '100%',
           cursor: 'pointer',

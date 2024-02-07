@@ -6,7 +6,7 @@ import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
-import { useAuthStateMachine } from '../../../features/auth/RequireAuth';
+import { useAuthStateMachine } from '../../../features/auth/RequireWeb3Auth';
 import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';

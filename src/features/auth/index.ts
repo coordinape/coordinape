@@ -1,7 +1,7 @@
 import { PROVIDER_TYPE as MAGIC_PROVIDER_TYPE } from './magic';
 import { useAuthStore } from './store';
 
-export { RequireAuth } from './RequireAuth';
+export { RequireWeb3Auth } from './RequireWeb3Auth';
 export { useAuthStore } from './store';
 export { useLoginData } from './useLoginData';
 export { getAuthToken, setAuthToken } from './token';

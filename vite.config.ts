@@ -28,7 +28,9 @@ export default defineConfig({
     // EnvironmentPlugin('all'),
     nodePolyfills(),
     tsconfigPaths(),
-    reactRefresh(),
+    reactRefresh({
+      include: '**/*.tsx',
+    }),
     svgrPlugin({
       svgrOptions: {
         icon: true,

@@ -1,4 +1,3 @@
-import { useAuthStateMachine } from 'features/auth/RequireAuth';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -17,7 +16,6 @@ import { CoSoulPromo } from './CoSoulPromo';
 
 export const QUERY_KEY_COSOUL_VIEW = 'cosoul_view';
 export const ViewPage = () => {
-  useAuthStateMachine(false, false);
   const { address } = useParams();
 
   let coSoulMinted;

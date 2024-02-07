@@ -6,7 +6,7 @@ import { Fragment, lazy, Suspense } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { MainLayout } from '../components';
-import { RequireAuth, useLoginData } from '../features/auth';
+import { RequireWeb3Auth, useLoginData } from '../features/auth';
 import { OrgPage, OrgSettingsPage } from '../features/orgs';
 import { isUserAdmin, isUserMember } from '../lib/users';
 import AccountPage from '../pages/AccountPage/AccountPage';
@@ -197,11 +197,11 @@ export const giveRoutes = [
       <Route
         path="*"
         element={
-          <RequireAuth>
+          <RequireWeb3Auth>
             <Suspense fallback={null}>
               <GiveRoutes />
             </Suspense>
-          </RequireAuth>
+          </RequireWeb3Auth>
         }
       />
     </Route>

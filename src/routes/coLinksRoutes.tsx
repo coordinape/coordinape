@@ -2,7 +2,8 @@ import { Fragment } from 'react';
 
 import { Outlet, Route } from 'react-router-dom';
 
-import { RequireAuth } from '../features/auth';
+import { RequireWeb3Auth } from '../features/auth';
+import { RequireLoggedIn } from '../features/auth/RequireWeb3Auth';
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
 import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayout';
@@ -11,6 +12,7 @@ import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLay
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
+import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
 import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
 import { BigQuestionsPage } from '../pages/colinks/explore/BigQuestionsPage';
 import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
@@ -57,6 +59,10 @@ export const coLinksRoutes = [
       path={coLinksPaths.inviteCode(':code')}
       element={<InviteCodePage />}
     />
+    <Route
+      path={coLinksPaths.authenticate(':token')}
+      element={<AuthenticatePage />}
+    />
   </Route>,
   <Route
     key="splashLayout"
@@ -69,9 +75,9 @@ export const coLinksRoutes = [
     <Route
       path="login"
       element={
-        <RequireAuth>
+        <RequireWeb3Auth>
           <RedirectAfterLogin />
-        </RequireAuth>
+        </RequireWeb3Auth>
       }
     />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
@@ -81,13 +87,13 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireAuth>
+        <RequireLoggedIn>
           <CoLinksProvider>
             <CoLinksLayout>
               <Outlet />
             </CoLinksLayout>
           </CoLinksProvider>
-        </RequireAuth>
+        </RequireLoggedIn>
       }
     >
       <Route
@@ -176,11 +182,11 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireAuth>
+        <RequireWeb3Auth>
           <CoLinksWizardLayout>
             <Outlet />
           </CoLinksWizardLayout>
-        </RequireAuth>
+        </RequireWeb3Auth>
       }
     >
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />

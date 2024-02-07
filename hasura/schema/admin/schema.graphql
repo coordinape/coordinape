@@ -21207,6 +21207,16 @@ type mutation_root {
   delete_profiles_by_pk(id: bigint!): profiles
 
   """
+  delete data from the table: "profiles_private"
+  """
+  delete_profiles_private(
+    """
+    filter the rows which have to be deleted
+    """
+    where: profiles_private_bool_exp!
+  ): profiles_private_mutation_response
+
+  """
   delete data from the table: "reactions"
   """
   delete_reactions(
@@ -22854,6 +22864,26 @@ type mutation_root {
     """
     on_conflict: profiles_on_conflict
   ): profiles
+
+  """
+  insert data into the table: "profiles_private"
+  """
+  insert_profiles_private(
+    """
+    the rows to be inserted
+    """
+    objects: [profiles_private_insert_input!]!
+  ): profiles_private_mutation_response
+
+  """
+  insert a single row into the table: "profiles_private"
+  """
+  insert_profiles_private_one(
+    """
+    the row to be inserted
+    """
+    object: profiles_private_insert_input!
+  ): profiles_private
 
   """
   insert data into the table: "reactions"
@@ -25703,6 +25733,36 @@ type mutation_root {
     """
     updates: [profiles_updates!]!
   ): [profiles_mutation_response]
+
+  """
+  update data of the table: "profiles_private"
+  """
+  update_profiles_private(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profiles_private_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profiles_private_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: profiles_private_bool_exp!
+  ): profiles_private_mutation_response
+
+  """
+  update multiples rows of table: "profiles_private"
+  """
+  update_profiles_private_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profiles_private_updates!]!
+  ): [profiles_private_mutation_response]
 
   """
   update data of the table: "reactions"
@@ -34472,6 +34532,7 @@ type profiles {
   created_at: timestamp!
   description: String
   description_embedding: vector
+  device_login_token: uuid
   discord_username: String
 
   """
@@ -35050,6 +35111,7 @@ input profiles_bool_exp {
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
   description_embedding: vector_comparison_exp
+  device_login_token: uuid_comparison_exp
   discord_username: String_comparison_exp
   distributions: distributions_bool_exp
   distributions_aggregate: distributions_aggregate_bool_exp
@@ -35102,6 +35164,11 @@ enum profiles_constraint {
   profiles_address_key
 
   """
+  unique or primary key constraint on columns "device_login_token"
+  """
+  profiles_device_login_token_key
+
+  """
   unique or primary key constraint on columns "invite_code"
   """
   profiles_invite_code_key
@@ -35148,6 +35215,7 @@ input profiles_insert_input {
   created_at: timestamp
   description: String
   description_embedding: vector
+  device_login_token: uuid
   discord_username: String
   distributions: distributions_arr_rel_insert_input
   emails: emails_arr_rel_insert_input
@@ -35194,6 +35262,7 @@ type profiles_max_fields {
   connector: String
   created_at: timestamp
   description: String
+  device_login_token: uuid
   discord_username: String
   github_username: String
   id: bigint
@@ -35228,6 +35297,7 @@ type profiles_min_fields {
   connector: String
   created_at: timestamp
   description: String
+  device_login_token: uuid
   discord_username: String
   github_username: String
   id: bigint
@@ -35305,6 +35375,7 @@ input profiles_order_by {
   created_at: order_by
   description: order_by
   description_embedding: order_by
+  device_login_token: order_by
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
   emails_aggregate: emails_aggregate_order_by
@@ -35344,6 +35415,236 @@ primary key columns input for table: profiles
 """
 input profiles_pk_columns_input {
   id: bigint!
+}
+
+"""
+columns and relationships of "profiles_private"
+"""
+type profiles_private {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+aggregated selection of "profiles_private"
+"""
+type profiles_private_aggregate {
+  aggregate: profiles_private_aggregate_fields
+  nodes: [profiles_private!]!
+}
+
+"""
+aggregate fields of "profiles_private"
+"""
+type profiles_private_aggregate_fields {
+  avg: profiles_private_avg_fields
+  count(columns: [profiles_private_select_column!], distinct: Boolean): Int!
+  max: profiles_private_max_fields
+  min: profiles_private_min_fields
+  stddev: profiles_private_stddev_fields
+  stddev_pop: profiles_private_stddev_pop_fields
+  stddev_samp: profiles_private_stddev_samp_fields
+  sum: profiles_private_sum_fields
+  var_pop: profiles_private_var_pop_fields
+  var_samp: profiles_private_var_samp_fields
+  variance: profiles_private_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type profiles_private_avg_fields {
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'.
+"""
+input profiles_private_bool_exp {
+  _and: [profiles_private_bool_exp!]
+  _not: profiles_private_bool_exp
+  _or: [profiles_private_bool_exp!]
+  address: String_comparison_exp
+  device_login_token: uuid_comparison_exp
+  id: bigint_comparison_exp
+}
+
+"""
+input type for incrementing numeric columns in table "profiles_private"
+"""
+input profiles_private_inc_input {
+  id: bigint
+}
+
+"""
+input type for inserting data into table "profiles_private"
+"""
+input profiles_private_insert_input {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+aggregate max on columns
+"""
+type profiles_private_max_fields {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type profiles_private_min_fields {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+response of any mutation on the table "profiles_private"
+"""
+type profiles_private_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [profiles_private!]!
+}
+
+"""
+Ordering options when selecting data from "profiles_private".
+"""
+input profiles_private_order_by {
+  address: order_by
+  device_login_token: order_by
+  id: order_by
+}
+
+"""
+select columns of table "profiles_private"
+"""
+enum profiles_private_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  device_login_token
+
+  """
+  column name
+  """
+  id
+}
+
+"""
+input type for updating data in table "profiles_private"
+"""
+input profiles_private_set_input {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+aggregate stddev on columns
+"""
+type profiles_private_stddev_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type profiles_private_stddev_pop_fields {
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type profiles_private_stddev_samp_fields {
+  id: Float
+}
+
+"""
+Streaming cursor of the table "profiles_private"
+"""
+input profiles_private_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_private_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_private_stream_cursor_value_input {
+  address: String
+  device_login_token: uuid
+  id: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type profiles_private_sum_fields {
+  id: bigint
+}
+
+input profiles_private_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profiles_private_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profiles_private_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: profiles_private_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type profiles_private_var_pop_fields {
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type profiles_private_var_samp_fields {
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type profiles_private_variance_fields {
+  id: Float
 }
 
 """
@@ -36014,6 +36315,11 @@ enum profiles_select_column {
   """
   column name
   """
+  device_login_token
+
+  """
+  column name
+  """
   discord_username
 
   """
@@ -36133,6 +36439,7 @@ input profiles_set_input {
   created_at: timestamp
   description: String
   description_embedding: vector
+  device_login_token: uuid
   discord_username: String
   github_username: String
   id: bigint
@@ -36223,6 +36530,7 @@ input profiles_stream_cursor_value_input {
   created_at: timestamp
   description: String
   description_embedding: vector
+  device_login_token: uuid
   discord_username: String
   github_username: String
   id: bigint
@@ -36321,6 +36629,11 @@ enum profiles_update_column {
   column name
   """
   description_embedding
+
+  """
+  column name
+  """
+  device_login_token
 
   """
   column name
@@ -39845,6 +40158,66 @@ type query_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_private"
+  """
+  profiles_private(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_private"
+  """
+  profiles_private_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): profiles_private_aggregate!
 
   """
   fetch data from the table: "profiles_public"
@@ -47850,6 +48223,86 @@ type subscription_root {
   fetch data from the table: "profiles" using primary key columns
   """
   profiles_by_pk(id: bigint!): profiles
+
+  """
+  fetch data from the table: "profiles_private"
+  """
+  profiles_private(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_private"
+  """
+  profiles_private_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_private_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_private_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): profiles_private_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "profiles_private"
+  """
+  profiles_private_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_private_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_private_bool_exp
+  ): [profiles_private!]!
 
   """
   fetch data from the table: "profiles_public"
