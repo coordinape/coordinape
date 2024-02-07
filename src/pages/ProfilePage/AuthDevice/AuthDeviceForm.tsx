@@ -62,9 +62,7 @@ export const AuthDeviceForm = () => {
           authenticate a second device. You&apos;ll still need a wallet
           connection to buy and sell links.
         </Text>
-        <Text>
-          Anyone who sees this QR code can access your account. Look behind you.
-        </Text>
+        <Text>Anyone who sees this QR code can access your account.</Text>
 
         <Flex
           column
