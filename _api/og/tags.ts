@@ -49,12 +49,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // get the share token from query string and verify it
     const token = req.query.s as string;
 
+    // eslint-disable-next-line no-console
+    console.log('parsed token from url as', { token, reqQuery: req.query });
+
     const post = await getPostInfo(id);
 
     try {
       decodeToken(token, post?.profile?.id, id);
     } catch (e) {
       // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag
+      console.error('failed to decode token', e);
       return res.status(400).send({
         message: 'Invalid share token',
       });
