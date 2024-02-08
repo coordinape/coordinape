@@ -54,14 +54,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const post = await getPostInfo(id);
 
+    let validToken = false;
     try {
       decodeToken(token, post?.profile?.id, id);
+      validToken = true;
     } catch (e) {
-      // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag
+      // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag without post contents
       console.error('failed to decode token', e);
-      return res.status(400).send({
-        message: 'Invalid share token',
-      });
     }
 
     if (!post) {
@@ -75,9 +74,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       buildTags({
         title: `Post by ${post.profile?.name} - CoLinks`,
         description: 'Join the conversation on CoLinks',
-        image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(
-          id
-        )}`,
+        image: validToken
+          ? `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(id)}`
+          : appImg,
         path,
         twitter_card: 'summary_large_image',
       })
