@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { escape } from 'html-escaper';
 
@@ -47,20 +48,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const id = parts[parts.length - 1];
 
     // get the share token from query string and verify it
-    const token = req.query.s as string;
+    const token = new URLSearchParams(path.split('?')[1]).get('s');
 
     // eslint-disable-next-line no-console
-    console.log('parsed token from url as', { token, reqQuery: req.query });
+    // console.log('parsed token from url as', { token, path });
 
     const post = await getPostInfo(id);
+    console.log('got post');
 
     let validToken = false;
-    try {
-      decodeToken(token, post?.profile?.id, id);
-      validToken = true;
-    } catch (e) {
-      // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag without post contents
-      console.error('failed to decode token', e);
+    if (token) {
+      try {
+        decodeToken(token, post?.profile?.id, id);
+        validToken = true;
+      } catch (e) {
+        // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag without post contents
+        console.error('failed to decode token', e);
+      }
     }
 
     if (!post) {
