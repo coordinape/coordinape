@@ -43,6 +43,7 @@ export const getPostInfo = async (id: string) => {
           contribution: {
             description: true,
             profile: {
+              id: true,
               avatar: true,
               name: true,
               links: true,

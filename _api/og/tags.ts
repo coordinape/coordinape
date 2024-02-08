@@ -1,6 +1,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { escape } from 'html-escaper';
 
+import { decodeToken } from '../../api-lib/colinks/share';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { getBigQuestionInfo } from './bqinfo/[id]';
@@ -45,11 +46,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const parts = path.split('/');
     const id = parts[parts.length - 1];
 
-    // get the stuff
-    // TODO: handle a secret share key and only include the OG tags
-    // get the secret share key from query string and pass to getPostInfo
+    // get the share token from query string and verify it
+    const token = req.query.s as string;
+
     const post = await getPostInfo(id);
-    // if the hmac is bad or whatever, don't throw an error just return stripped OG tag
+
+    try {
+      decodeToken(token, post?.profile?.id, id);
+    } catch (e) {
+      // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag
+      return res.status(400).send({
+        message: 'Invalid share token',
+      });
+    }
+
     if (!post) {
       return res.status(404).send({
         message: 'No post found',
