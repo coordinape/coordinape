@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { default as ReactMarkdownPreview } from '@uiw/react-markdown-preview';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { useNavigate } from 'react-router';
@@ -7,8 +5,8 @@ import { styled } from 'stitches.config';
 
 import { webAppURL } from '../../config/webAppURL';
 import { textAreaMinHeight } from 'components/FormInputField';
-import { Eye } from 'icons/__generated';
-import { Text, Modal } from 'ui';
+
+import { LightboxImage } from './LightboxImage';
 
 const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   fontFamily: '$display !important',
@@ -130,7 +128,6 @@ export const MarkdownPreview = (
   props: React.ComponentProps<typeof StyledMarkdownPreview>
 ) => {
   const navigate = useNavigate();
-  const [modal, setModal] = useState(false);
 
   return (
     <ThemeContext.Consumer>
@@ -163,60 +160,7 @@ export const MarkdownPreview = (
             },
             img: ({ ...props }) => {
               return (
-                <>
-                  <Text
-                    onClick={() => setModal(true)}
-                    css={{
-                      display: 'block',
-                      width: 'fit-content',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      '&:hover, &:focus': {
-                        '.lightboxButton': {
-                          left: -50,
-                          top: -50,
-                        },
-                      },
-                    }}
-                  >
-                    <img alt={props.alt} src={props.src} />
-                    <Text
-                      className="lightboxButton"
-                      css={{
-                        display: 'flex',
-                        background: '$surface',
-                        position: 'absolute',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: 100,
-                        height: 100,
-                        left: -100,
-                        top: -100,
-                        transform: 'rotate(-45deg)',
-                        transition: 'all .2s ease-in-out',
-                      }}
-                    >
-                      <Eye
-                        size="lg"
-                        css={{
-                          transform: 'rotate(45deg)',
-                          position: 'absolute',
-                          bottom: 10,
-                        }}
-                      />
-                    </Text>
-                  </Text>
-                  <Modal
-                    lightbox
-                    showClose={false}
-                    open={modal}
-                    onOpenChange={() => setModal(false)}
-                  >
-                    <Text onClick={() => setModal(false)}>
-                      <img alt={props.alt} src={props.src} />
-                    </Text>
-                  </Modal>
-                </>
+                <LightboxImage alt={props.alt || ''} src={props.src || ''} />
               );
             },
           }}
