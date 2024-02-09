@@ -23,6 +23,10 @@ type Mutation {
 }
 
 type Mutation {
+  createCoLinksGive(payload: CreateCoLinksGiveInput!): CreateCoLinksGiveResponse
+}
+
+type Mutation {
   createEpoch(payload: CreateEpochInput!): EpochResponse
 }
 
@@ -243,6 +247,10 @@ input CreateCircleInput {
   organization_id: Int
   contact: String
   image_data_base64: String
+}
+
+input CreateCoLinksGiveInput {
+  activity_id: Int!
 }
 
 input CreateUserInput {
@@ -593,6 +601,10 @@ input SearchProfilesInput {
 }
 
 type CreateCircleResponse {
+  id: Int!
+}
+
+type CreateCoLinksGiveResponse {
   id: Int!
 }
 

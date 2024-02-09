@@ -178,6 +178,14 @@ type CreateCircleResponse {
   ): users_aggregate!
 }
 
+input CreateCoLinksGiveInput {
+  activity_id: Int!
+}
+
+type CreateCoLinksGiveResponse {
+  id: Int!
+}
+
 input CreateEpochInput {
   circle_id: Int!
   grant: Float
@@ -20814,6 +20822,7 @@ type mutation_root {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
+  createCoLinksGive(payload: CreateCoLinksGiveInput!): CreateCoLinksGiveResponse
 
   """
   create epoch using new, more flexible api

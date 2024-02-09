@@ -10,6 +10,7 @@ import addInviteCodes from './_handlers/addInviteCodes';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import createCircle from './_handlers/createCircle';
+import createCoLinksGive from './_handlers/createCoLinksGive.ts';
 import createEpoch from './_handlers/createEpoch';
 import createNominee from './_handlers/createNominee';
 import createOrgMembers from './_handlers/createOrgMembers';
@@ -69,6 +70,7 @@ const HANDLERS: HandlerDict = {
   adminUpdateUser,
   allocationCsv,
   createCircle,
+  createCoLinksGive,
   createEpoch,
   createNominee,
   createOrgMembers,

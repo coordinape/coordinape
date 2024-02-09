@@ -158,41 +158,50 @@ export const PostRow = ({
                     reactions={activity.reactions}
                     drawer={false}
                   />
-                  <Flex className="commentButton">
-                    <>
-                      {commentCount > 0 ? (
-                        <Button
-                          color="link"
-                          css={{
-                            width: 'auto',
-                            textDecoration: 'none',
-                            '*': {
-                              fill: '$link',
-                            },
-                          }}
-                          onClick={() => setDisplayComments(prev => !prev)}
-                        >
-                          {commentCount}{' '}
-                          <Messages nostroke css={{ ml: '$sm' }} />
-                        </Button>
-                      ) : (
-                        <Button
-                          color="transparent"
-                          css={{
-                            p: '$xs',
-                            width: 'auto',
-                            '*': {
-                              fill: '$secondaryText',
-                            },
-                          }}
-                          onClick={() => setDisplayComments(prev => !prev)}
-                        >
-                          <Text className="iconMessage">
-                            <MessageSolid nostroke css={{ ml: '$sm' }} />
-                          </Text>
-                        </Button>
-                      )}
-                    </>
+                  <Flex>
+                    <Button
+                      size={'small'}
+                      color={'transparent'}
+                      css={{ '&:hover': { color: '$ctaHover' } }}
+                    >
+                      +GIVE
+                    </Button>
+                    <Flex className="commentButton">
+                      <>
+                        {commentCount > 0 ? (
+                          <Button
+                            color="link"
+                            css={{
+                              width: 'auto',
+                              textDecoration: 'none',
+                              '*': {
+                                fill: '$link',
+                              },
+                            }}
+                            onClick={() => setDisplayComments(prev => !prev)}
+                          >
+                            {commentCount}{' '}
+                            <Messages nostroke css={{ ml: '$sm' }} />
+                          </Button>
+                        ) : (
+                          <Button
+                            color="transparent"
+                            css={{
+                              p: '$xs',
+                              width: 'auto',
+                              '*': {
+                                fill: '$secondaryText',
+                              },
+                            }}
+                            onClick={() => setDisplayComments(prev => !prev)}
+                          >
+                            <Text className="iconMessage">
+                              <MessageSolid nostroke css={{ ml: '$sm' }} />
+                            </Text>
+                          </Button>
+                        )}
+                      </>
+                    </Flex>
                   </Flex>
                 </Flex>
               </>
