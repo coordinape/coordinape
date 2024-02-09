@@ -12,7 +12,7 @@ import {
 import {
   getAvailablePoints,
   POINTS_PER_GIVE,
-} from '../../../../src/features/points/getAvailablePoints.ts';
+} from '../../../../src/features/points/getAvailablePoints';
 
 const createCoLinksGiveInput = z
   .object({
