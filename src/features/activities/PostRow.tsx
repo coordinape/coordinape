@@ -5,8 +5,10 @@ import { useNavQuery } from 'features/nav/getNavData';
 import { DateTime } from 'luxon';
 import { NavLink, useLocation } from 'react-router-dom';
 
+import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
+import { CoLinksGiveButton } from '../points/CoLinksGiveButton';
 import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
@@ -36,6 +38,8 @@ export const PostRow = ({
   const bigQuestion = location.pathname.includes('bigquestion')
     ? undefined
     : activity.big_question;
+
+  const profileId = useProfileId(true);
 
   return (
     <>
@@ -159,13 +163,9 @@ export const PostRow = ({
                     drawer={false}
                   />
                   <Flex>
-                    <Button
-                      size={'small'}
-                      color={'transparent'}
-                      css={{ '&:hover': { color: '$ctaHover' } }}
-                    >
-                      +GIVE
-                    </Button>
+                    {profileId !== activity.actor_profile_public.id && (
+                      <CoLinksGiveButton activityId={activity.id} />
+                    )}
                     <Flex className="commentButton">
                       <>
                         {commentCount > 0 ? (

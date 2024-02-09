@@ -5,56 +5,91 @@ import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
-import { errorResponse } from '../../../../api-lib/HttpError';
-import { addInviteCodes } from '../../../../api-lib/invites';
-import { zEthAddressOnly } from '../../../../src/lib/zod/formHelpers';
+import {
+  errorResponse,
+  UnprocessableError,
+} from '../../../../api-lib/HttpError';
+import {
+  getAvailablePoints,
+  POINTS_PER_GIVE,
+} from '../../../../src/features/points/getAvailablePoints.ts';
 
-const addInviteCodesInput = z
+const createCoLinksGiveInput = z
   .object({
-    address: zEthAddressOnly,
-    count: z.number(),
-    to_invitees: z.boolean().optional(),
+    activity_id: z.number(),
   })
   .strict();
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { payload } = await getInput(req, addInviteCodesInput, {
-      allowAdmin: true,
-    });
+    const {
+      payload,
+      session: { hasuraProfileId: profileId },
+    } = await getInput(req, createCoLinksGiveInput);
 
-    // lookup profile by address
-    const { profiles } = await adminClient.query(
+    // lookup activity by address
+    // make sure its not deleted, and not us
+    const { activities_by_pk } = await adminClient.query(
       {
-        profiles: [
-          { where: { address: { _ilike: payload.address } } },
-          { id: true },
+        activities_by_pk: [
+          { id: payload.activity_id },
+          { id: true, actor_profile_id: true, deleted_at: true },
         ],
       },
-      { operationName: 'addInviteCodes__getProfileByAddress' }
+      { operationName: 'createCoLinksGive__fetchActivity' }
     );
-    assert(profiles.length > 0, 'no profiles found for address');
 
-    let profilesToInput = profiles;
-    if (payload.to_invitees) {
-      const { profiles: invitees } = await adminClient.query(
-        {
-          profiles: [
-            { where: { invited_by: { _eq: profiles[0].id } } },
-            { id: true },
-          ],
-        },
-        { operationName: 'addInviteCodes__getInviteeByAddress' }
-      );
-      assert(invitees.length > 0, 'no invitees found for address');
-      profilesToInput = invitees;
+    if (!activities_by_pk) {
+      throw new UnprocessableError('activity not found');
+    }
+    if (activities_by_pk.deleted_at) {
+      throw new UnprocessableError('activity has been deleted');
+    }
+    if (activities_by_pk.actor_profile_id === profileId) {
+      throw new UnprocessableError('cannot give to self');
     }
 
-    for (const profile of profilesToInput) {
-      await addInviteCodes(profile.id, payload.count);
-    }
+    const points = await getAvailablePoints();
 
-    return res.status(200).json({ success: true });
+    if (points < POINTS_PER_GIVE) {
+      throw new UnprocessableError('not enough points');
+    }
+    // insert the thing
+    // checkpoint balance
+    // return the id
+    const { insert_colinks_gives_one } = await adminClient.mutate(
+      {
+        insert_colinks_gives_one: [
+          {
+            object: {
+              activity_id: payload.activity_id,
+              profile_id: profileId,
+              target_profile_id: activities_by_pk.actor_profile_id,
+            },
+          },
+          {
+            id: true,
+          },
+        ],
+        update_profiles: [
+          {
+            where: { id: { _eq: profileId } },
+            _set: {
+              points_balance: points - POINTS_PER_GIVE,
+              points_checkpointed_at: 'now()',
+            },
+          },
+          {
+            affected_rows: true,
+          },
+        ],
+      },
+      {
+        operationName: 'createCoLinksGive__insertAndCheckpoint',
+      }
+    );
+    assert(insert_colinks_gives_one);
+    return res.status(200).json({ id: insert_colinks_gives_one.id });
   } catch (e: any) {
     return errorResponse(res, e);
   }

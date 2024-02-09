@@ -6,6 +6,7 @@ import { client } from '../../lib/gql/client';
 
 export const MAX_POINTS_CAP = 1000;
 export const EMISSION_PER_SECOND = 0.1;
+export const POINTS_PER_GIVE = 1.0;
 
 export const getAvailablePoints = async () => {
   const { profiles_private } = await client.query(
@@ -34,8 +35,5 @@ export const getAvailablePoints = async () => {
   );
 
   const accruedPoints = secondsSinceLastCheckpoint * EMISSION_PER_SECOND;
-  return Math.min(
-    profile.points_balance + accruedPoints,
-    MAX_POINTS_CAP
-  ).toFixed(2);
+  return Math.min(profile.points_balance + accruedPoints, MAX_POINTS_CAP);
 };
