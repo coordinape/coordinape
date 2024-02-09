@@ -338,7 +338,7 @@ const Count = () => {
         backgroundColor: '$alert',
         color: 'white',
         p: '$xs',
-        width: '20px',
+        minWidth: '20px',
         height: '20px',
         alignItems: 'center',
         justifyContent: 'center',
