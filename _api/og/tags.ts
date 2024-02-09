@@ -44,47 +44,37 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
     );
   } else if (path.startsWith('/post/')) {
-    const parts = path.split('/');
-    const id = parts[parts.length - 1];
+    // if we have a valid share token, render post, otherwise render colinks generic og tags
 
-    // get the share token from query string and verify it
-    const token = new URLSearchParams(path.split('?')[1]).get('s');
+    try {
+      const url = new URL(path, appURL);
 
-    // eslint-disable-next-line no-console
-    // console.log('parsed token from url as', { token, path });
+      const parts = url.pathname.split('/');
+      const id = parts[parts.length - 1];
+      const token = url.searchParams.get('s');
 
-    const post = await getPostInfo(id);
-    console.log('got post');
-
-    let validToken = false;
-    if (token) {
-      try {
-        decodeToken(token, post?.profile?.id, id);
-        validToken = true;
-      } catch (e) {
-        // TODO: if the hmac is bad or whatever, don't throw an error just return stripped OG tag without post contents
-        console.error('failed to decode token', e);
+      if (!token) {
+        console.error('no token found given', { url, parts, token });
+        throw new Error('no token found');
       }
-    }
 
-    if (!post) {
-      return res.status(404).send({
-        message: 'No post found',
-      });
-    }
+      const post = await getPostInfo(id);
 
-    // it's a post!
-    return res.send(
-      buildTags({
-        title: `Post by ${post.profile?.name} - CoLinks`,
-        description: 'Join the conversation on CoLinks',
-        image: validToken
-          ? `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(id)}`
-          : appImg,
-        path,
-        twitter_card: 'summary_large_image',
-      })
-    );
+      decodeToken(token, post?.profile?.id, id);
+
+      return res.send(
+        buildTags({
+          title: `Post by ${post?.profile?.name} - CoLinks`,
+          description: 'Join the conversation on CoLinks',
+          image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(id)}`,
+          path,
+          twitter_card: 'summary_large_image',
+        })
+      );
+    } catch (e) {
+      console.error('error tagging post', e);
+      return res.send(defaultCoLinksTags(path));
+    }
   } else if (path.startsWith('/bigquestion/')) {
     const parts = path.split('/');
     const id = parts[parts.length - 1];
@@ -110,17 +100,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
     );
   } else {
-    return res.send(
-      buildTags({
-        title: 'CoLinks',
-        description: appDescription,
-        image: appImg,
-        path,
-        twitter_card: 'summary',
-      })
-    );
+    return res.send(defaultCoLinksTags(path));
   }
 }
+
+const defaultCoLinksTags = (path: string) => {
+  return buildTags({
+    title: 'CoLinks',
+    description: appDescription,
+    image: appImg,
+    path,
+    twitter_card: 'summary',
+  });
+};
 
 const buildTags = ({
   title,

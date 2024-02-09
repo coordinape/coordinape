@@ -59,5 +59,7 @@ export const getPostInfo = async (id: string) => {
       operationName: 'postInfoForOgTags',
     }
   );
-  return activities_by_pk?.contribution;
+  const post = activities_by_pk;
+  assert(post, 'no post found');
+  return post.contribution;
 };
