@@ -1,0 +1,9 @@
+-- Could not auto-generate a down migration.
+-- Please write an appropriate down migration for the SQL below:
+-- CREATE OR REPLACE VIEW "public"."profiles_private" AS
+--  SELECT p.id,
+--     p.address,
+--     p.device_login_token,
+--     p.points_checkpointed_at,
+--     p.points_balance
+--    FROM profiles p;

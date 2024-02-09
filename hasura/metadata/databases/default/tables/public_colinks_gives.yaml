@@ -1,26 +1,28 @@
 table:
-  name: profiles_private
+  name: colinks_gives
   schema: public
 select_permissions:
   - role: user
     permission:
       columns:
+        - activity_id
+        - profile_id
+        - target_profile_id
         - id
-        - address
-        - points_balance
-        - points_checkpointed_at
-        - device_login_token
-      filter:
-        id:
-          _eq: X-Hasura-User-Id
+        - created_at
+        - updated_at
+        - skill
+      filter: {}
+      limit: 0
+      allow_aggregations: true
     comment: ""
 update_permissions:
   - role: user
     permission:
       columns:
-        - device_login_token
+        - skill
       filter:
-        id:
+        profile_id:
           _eq: X-Hasura-User-Id
       check: null
     comment: ""
