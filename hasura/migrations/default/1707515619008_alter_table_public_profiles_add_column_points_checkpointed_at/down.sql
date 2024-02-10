@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."profiles" add column "points_checkpointed_at" timestamptz
---  not null default now();
+alter table "public"."profiles" drop column "points_checkpointed_at";
