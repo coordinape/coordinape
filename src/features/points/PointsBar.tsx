@@ -2,13 +2,14 @@ import { useQuery } from 'react-query';
 
 import { Panel, Text } from '../../ui';
 
-import { getAvailablePoints, MAX_POINTS_CAP } from './getAvailablePoints';
+import { MAX_POINTS_CAP } from './getAvailablePoints';
+import { getMyAvailablePoints } from './getMyAvailablePoints';
 
 export const PointsBar = () => {
   const { data: points } = useQuery(
     'points',
     async () => {
-      return await getAvailablePoints();
+      return await getMyAvailablePoints();
     },
     {
       onError: error => {

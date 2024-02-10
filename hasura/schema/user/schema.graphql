@@ -700,6 +700,66 @@ type activities {
   """
   epoch: epochs
   epoch_id: bigint
+
+  """
+  An array relationship
+  """
+  gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
   id: bigint!
 
   """
@@ -1000,6 +1060,8 @@ input activities_bool_exp {
   created_at: timestamptz_comparison_exp
   epoch: epochs_bool_exp
   epoch_id: bigint_comparison_exp
+  gives: colinks_gives_bool_exp
+  gives_aggregate: colinks_gives_aggregate_bool_exp
   id: bigint_comparison_exp
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
@@ -1111,6 +1173,7 @@ input activities_order_by {
   created_at: order_by
   epoch: epochs_order_by
   epoch_id: order_by
+  gives_aggregate: colinks_gives_aggregate_order_by
   id: order_by
   organization: organizations_order_by
   organization_id: order_by
@@ -4353,6 +4416,11 @@ columns and relationships of "colinks_gives"
 type colinks_gives {
   activity_id: bigint!
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  giver_profile_public: profiles_public
   id: Int!
   profile_id: bigint!
   skill: citext
@@ -4366,6 +4434,17 @@ aggregated selection of "colinks_gives"
 type colinks_gives_aggregate {
   aggregate: colinks_gives_aggregate_fields
   nodes: [colinks_gives!]!
+}
+
+input colinks_gives_aggregate_bool_exp {
+  count: colinks_gives_aggregate_bool_exp_count
+}
+
+input colinks_gives_aggregate_bool_exp_count {
+  arguments: [colinks_gives_select_column!]
+  distinct: Boolean
+  filter: colinks_gives_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -4386,6 +4465,23 @@ type colinks_gives_aggregate_fields {
 }
 
 """
+order by aggregate values of table "colinks_gives"
+"""
+input colinks_gives_aggregate_order_by {
+  avg: colinks_gives_avg_order_by
+  count: order_by
+  max: colinks_gives_max_order_by
+  min: colinks_gives_min_order_by
+  stddev: colinks_gives_stddev_order_by
+  stddev_pop: colinks_gives_stddev_pop_order_by
+  stddev_samp: colinks_gives_stddev_samp_order_by
+  sum: colinks_gives_sum_order_by
+  var_pop: colinks_gives_var_pop_order_by
+  var_samp: colinks_gives_var_samp_order_by
+  variance: colinks_gives_variance_order_by
+}
+
+"""
 aggregate avg on columns
 """
 type colinks_gives_avg_fields {
@@ -4393,6 +4489,16 @@ type colinks_gives_avg_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "colinks_gives"
+"""
+input colinks_gives_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -4404,6 +4510,7 @@ input colinks_gives_bool_exp {
   _or: [colinks_gives_bool_exp!]
   activity_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
@@ -4425,6 +4532,19 @@ type colinks_gives_max_fields {
 }
 
 """
+order by max() on columns of table "colinks_gives"
+"""
+input colinks_gives_max_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type colinks_gives_min_fields {
@@ -4435,6 +4555,19 @@ type colinks_gives_min_fields {
   skill: citext
   target_profile_id: bigint
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "colinks_gives"
+"""
+input colinks_gives_min_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -4458,6 +4591,7 @@ Ordering options when selecting data from "colinks_gives".
 input colinks_gives_order_by {
   activity_id: order_by
   created_at: order_by
+  giver_profile_public: profiles_public_order_by
   id: order_by
   profile_id: order_by
   skill: order_by
@@ -4530,6 +4664,16 @@ type colinks_gives_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type colinks_gives_stddev_pop_fields {
@@ -4540,6 +4684,16 @@ type colinks_gives_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type colinks_gives_stddev_samp_fields {
@@ -4547,6 +4701,16 @@ type colinks_gives_stddev_samp_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -4587,6 +4751,16 @@ type colinks_gives_sum_fields {
   target_profile_id: bigint
 }
 
+"""
+order by sum() on columns of table "colinks_gives"
+"""
+input colinks_gives_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
 input colinks_gives_updates {
   """
   sets the columns of the filtered rows to the given values
@@ -4610,6 +4784,16 @@ type colinks_gives_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type colinks_gives_var_samp_fields {
@@ -4620,6 +4804,16 @@ type colinks_gives_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type colinks_gives_variance_fields {
@@ -4627,6 +4821,16 @@ type colinks_gives_variance_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "colinks_gives"
+"""
+input colinks_gives_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """

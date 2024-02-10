@@ -554,6 +554,7 @@ custom_types:
   enums: []
   input_objects:
     - name: CreateCircleInput
+    - name: CreateCoLinksGiveInput
     - name: CreateUserInput
     - name: UploadImageInput
     - name: UploadCircleImageInput
@@ -628,6 +629,7 @@ custom_types:
             schema: public
           source: default
           type: object
+    - name: CreateCoLinksGiveResponse
     - name: UpdateProfileResponse
       relationships:
         - field_mapping:

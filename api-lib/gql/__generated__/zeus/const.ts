@@ -83,6 +83,16 @@ export const AllTypesProps: Record<string, any> = {
   UserObj: {},
   VouchInput: {},
   activities: {
+    gives: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
+    gives_aggregate: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
     private_stream_visibility: {
       distinct_on: 'private_stream_visibility_select_column',
       order_by: 'private_stream_visibility_order_by',
@@ -188,6 +198,8 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     epoch: 'epochs_bool_exp',
     epoch_id: 'bigint_comparison_exp',
+    gives: 'colinks_gives_bool_exp',
+    gives_aggregate: 'colinks_gives_aggregate_bool_exp',
     id: 'bigint_comparison_exp',
     organization: 'organizations_bool_exp',
     organization_id: 'bigint_comparison_exp',
@@ -233,6 +245,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     epoch: 'epochs_obj_rel_insert_input',
     epoch_id: 'bigint',
+    gives: 'colinks_gives_arr_rel_insert_input',
     id: 'bigint',
     organization: 'organizations_obj_rel_insert_input',
     organization_id: 'bigint',
@@ -301,6 +314,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     epoch: 'epochs_order_by',
     epoch_id: 'order_by',
+    gives_aggregate: 'colinks_gives_aggregate_order_by',
     id: 'order_by',
     organization: 'organizations_order_by',
     organization_id: 'order_by',
@@ -2113,10 +2127,41 @@ export const AllTypesProps: Record<string, any> = {
     new_amount: 'order_by',
     profile_id: 'order_by',
   },
+  colinks_gives_aggregate_bool_exp: {
+    count: 'colinks_gives_aggregate_bool_exp_count',
+  },
+  colinks_gives_aggregate_bool_exp_count: {
+    arguments: 'colinks_gives_select_column',
+    filter: 'colinks_gives_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   colinks_gives_aggregate_fields: {
     count: {
       columns: 'colinks_gives_select_column',
     },
+  },
+  colinks_gives_aggregate_order_by: {
+    avg: 'colinks_gives_avg_order_by',
+    count: 'order_by',
+    max: 'colinks_gives_max_order_by',
+    min: 'colinks_gives_min_order_by',
+    stddev: 'colinks_gives_stddev_order_by',
+    stddev_pop: 'colinks_gives_stddev_pop_order_by',
+    stddev_samp: 'colinks_gives_stddev_samp_order_by',
+    sum: 'colinks_gives_sum_order_by',
+    var_pop: 'colinks_gives_var_pop_order_by',
+    var_samp: 'colinks_gives_var_samp_order_by',
+    variance: 'colinks_gives_variance_order_by',
+  },
+  colinks_gives_arr_rel_insert_input: {
+    data: 'colinks_gives_insert_input',
+    on_conflict: 'colinks_gives_on_conflict',
+  },
+  colinks_gives_avg_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
   },
   colinks_gives_bool_exp: {
     _and: 'colinks_gives_bool_exp',
@@ -2124,6 +2169,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'colinks_gives_bool_exp',
     activity_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
+    giver_profile_public: 'profiles_public_bool_exp',
     id: 'Int_comparison_exp',
     profile_id: 'bigint_comparison_exp',
     skill: 'citext_comparison_exp',
@@ -2139,10 +2185,29 @@ export const AllTypesProps: Record<string, any> = {
   colinks_gives_insert_input: {
     activity_id: 'bigint',
     created_at: 'timestamptz',
+    giver_profile_public: 'profiles_public_obj_rel_insert_input',
     profile_id: 'bigint',
     skill: 'citext',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+  },
+  colinks_gives_max_order_by: {
+    activity_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    skill: 'order_by',
+    target_profile_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  colinks_gives_min_order_by: {
+    activity_id: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    skill: 'order_by',
+    target_profile_id: 'order_by',
+    updated_at: 'order_by',
   },
   colinks_gives_on_conflict: {
     constraint: 'colinks_gives_constraint',
@@ -2152,6 +2217,7 @@ export const AllTypesProps: Record<string, any> = {
   colinks_gives_order_by: {
     activity_id: 'order_by',
     created_at: 'order_by',
+    giver_profile_public: 'profiles_public_order_by',
     id: 'order_by',
     profile_id: 'order_by',
     skill: 'order_by',
@@ -2168,6 +2234,24 @@ export const AllTypesProps: Record<string, any> = {
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
+  colinks_gives_stddev_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  colinks_gives_stddev_pop_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  colinks_gives_stddev_samp_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
   colinks_gives_stream_cursor_input: {
     initial_value: 'colinks_gives_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -2180,11 +2264,35 @@ export const AllTypesProps: Record<string, any> = {
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
   },
+  colinks_gives_sum_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
   colinks_gives_update_column: true,
   colinks_gives_updates: {
     _inc: 'colinks_gives_inc_input',
     _set: 'colinks_gives_set_input',
     where: 'colinks_gives_bool_exp',
+  },
+  colinks_gives_var_pop_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  colinks_gives_var_samp_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
+  },
+  colinks_gives_variance_order_by: {
+    activity_id: 'order_by',
+    id: 'order_by',
+    profile_id: 'order_by',
+    target_profile_id: 'order_by',
   },
   contribution_count_aggregate_fields: {
     count: {
@@ -14146,6 +14254,8 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     epoch: 'epochs',
     epoch_id: 'bigint',
+    gives: 'colinks_gives',
+    gives_aggregate: 'colinks_gives_aggregate',
     id: 'bigint',
     organization: 'organizations',
     organization_id: 'bigint',
@@ -15270,6 +15380,7 @@ export const ReturnTypes: Record<string, any> = {
   colinks_gives: {
     activity_id: 'bigint',
     created_at: 'timestamptz',
+    giver_profile_public: 'profiles_public',
     id: 'Int',
     profile_id: 'bigint',
     skill: 'citext',

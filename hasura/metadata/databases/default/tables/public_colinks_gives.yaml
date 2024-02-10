@@ -1,6 +1,16 @@
 table:
   name: colinks_gives
   schema: public
+object_relationships:
+  - name: giver_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -13,7 +23,6 @@ select_permissions:
         - updated_at
         - skill
       filter: {}
-      limit: 0
       allow_aggregations: true
     comment: ""
 update_permissions:

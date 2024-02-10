@@ -12,7 +12,7 @@ import {
 import {
   getAvailablePoints,
   POINTS_PER_GIVE,
-} from '../../../../src/features/points/getAvailablePoints';
+} from '../../../../src/features/points/getAvailablePoints.ts';
 
 const createCoLinksGiveInput = z
   .object({
@@ -27,29 +27,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       session: { hasuraProfileId: profileId },
     } = await getInput(req, createCoLinksGiveInput);
 
+    console.log('PAUUUYYY', payload);
     // lookup activity by address
     // make sure its not deleted, and not us
-    const { activities_by_pk } = await adminClient.query(
+    const { activities } = await adminClient.query(
       {
-        activities_by_pk: [
-          { id: payload.activity_id },
-          { id: true, actor_profile_id: true, deleted_at: true },
+        activities: [
+          {
+            where: {
+              id: { _eq: payload.activity_id },
+              contribution: { deleted_at: { _is_null: true } },
+            },
+          },
+          { id: true, actor_profile_id: true },
         ],
       },
       { operationName: 'createCoLinksGive__fetchActivity' }
     );
 
-    if (!activities_by_pk) {
-      throw new UnprocessableError('activity not found');
+    const activity = activities.pop();
+
+    if (!activity) {
+      throw new UnprocessableError('post not found');
     }
-    if (activities_by_pk.deleted_at) {
-      throw new UnprocessableError('activity has been deleted');
-    }
-    if (activities_by_pk.actor_profile_id === profileId) {
+    if (activity.actor_profile_id === profileId) {
       throw new UnprocessableError('cannot give to self');
     }
 
-    const points = await getAvailablePoints();
+    const { profiles_by_pk } = await adminClient.query(
+      {
+        profiles_by_pk: [
+          { id: profileId },
+          {
+            points_balance: true,
+            points_checkpointed_at: true,
+          },
+        ],
+      },
+      {
+        operationName: 'getPointsForGiver',
+      }
+    );
+    assert(profiles_by_pk, 'current user profile not found');
+    const points = getAvailablePoints(
+      profiles_by_pk.points_balance,
+      profiles_by_pk.points_checkpointed_at
+    );
 
     if (points < POINTS_PER_GIVE) {
       throw new UnprocessableError('not enough points');
@@ -64,7 +87,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             object: {
               activity_id: payload.activity_id,
               profile_id: profileId,
-              target_profile_id: activities_by_pk.actor_profile_id,
+              target_profile_id: activity.actor_profile_id,
             },
           },
           {
@@ -75,7 +98,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             where: { id: { _eq: profileId } },
             _set: {
-              points_balance: points - POINTS_PER_GIVE,
+              // TODO: THIS REQUIRES DOUBLE in db column points_balance: points - POINTS_PER_GIVE,
+              points_balance: 187,
               points_checkpointed_at: 'now()',
             },
           },

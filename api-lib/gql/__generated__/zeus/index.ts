@@ -1192,6 +1192,52 @@ export type ValueTypes = {
     /** An object relationship */
     epoch?: ValueTypes['epochs'];
     epoch_id?: boolean | `@${string}`;
+    gives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    gives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
@@ -1495,6 +1541,11 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    gives?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+    gives_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     organization?: ValueTypes['organizations_bool_exp'] | undefined | null;
     organization_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -1572,6 +1623,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     epoch?: ValueTypes['epochs_obj_rel_insert_input'] | undefined | null;
     epoch_id?: ValueTypes['bigint'] | undefined | null;
+    gives?: ValueTypes['colinks_gives_arr_rel_insert_input'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     organization?:
       | ValueTypes['organizations_obj_rel_insert_input']
@@ -1708,6 +1760,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['order_by'] | undefined | null;
     epoch?: ValueTypes['epochs_order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
+    gives_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     organization?: ValueTypes['organizations_order_by'] | undefined | null;
     organization_id?: ValueTypes['order_by'] | undefined | null;
@@ -6068,6 +6124,8 @@ export type ValueTypes = {
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
@@ -6081,6 +6139,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['colinks_gives'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['colinks_gives_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['colinks_gives_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['colinks_gives_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "colinks_gives" */
   ['colinks_gives_aggregate_fields']: AliasType<{
     avg?: ValueTypes['colinks_gives_avg_fields'];
@@ -6105,6 +6178,32 @@ export type ValueTypes = {
     variance?: ValueTypes['colinks_gives_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "colinks_gives" */
+  ['colinks_gives_aggregate_order_by']: {
+    avg?: ValueTypes['colinks_gives_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['colinks_gives_max_order_by'] | undefined | null;
+    min?: ValueTypes['colinks_gives_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['colinks_gives_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['colinks_gives_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['colinks_gives_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['colinks_gives_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['colinks_gives_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['colinks_gives_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['colinks_gives_variance_order_by'] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "colinks_gives" */
+  ['colinks_gives_arr_rel_insert_input']: {
+    data: Array<ValueTypes['colinks_gives_insert_input']>;
+    /** upsert condition */
+    on_conflict?: ValueTypes['colinks_gives_on_conflict'] | undefined | null;
+  };
   /** aggregate avg on columns */
   ['colinks_gives_avg_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6113,6 +6212,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by avg() on columns of table "colinks_gives" */
+  ['colinks_gives_avg_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "colinks_gives". All fields are combined with a logical 'AND'. */
   ['colinks_gives_bool_exp']: {
     _and?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
@@ -6120,6 +6226,10 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    giver_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
@@ -6139,6 +6249,10 @@ export type ValueTypes = {
   ['colinks_gives_insert_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    giver_profile_public?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
     id?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
@@ -6156,6 +6270,16 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "colinks_gives" */
+  ['colinks_gives_max_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6167,6 +6291,16 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "colinks_gives" */
+  ['colinks_gives_min_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** response of any mutation on the table "colinks_gives" */
   ['colinks_gives_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
@@ -6185,6 +6319,10 @@ export type ValueTypes = {
   ['colinks_gives_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    giver_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
@@ -6215,6 +6353,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_pop on columns */
   ['colinks_gives_stddev_pop_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6223,6 +6368,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_pop_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_samp on columns */
   ['colinks_gives_stddev_samp_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6231,6 +6383,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_samp_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "colinks_gives" */
   ['colinks_gives_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -6256,6 +6415,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by sum() on columns of table "colinks_gives" */
+  ['colinks_gives_sum_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** update columns of table "colinks_gives" */
   ['colinks_gives_update_column']: colinks_gives_update_column;
   ['colinks_gives_updates']: {
@@ -6274,6 +6440,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_var_pop_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate var_samp on columns */
   ['colinks_gives_var_samp_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6282,6 +6455,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_var_samp_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate variance on columns */
   ['colinks_gives_variance_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -6290,6 +6470,13 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by variance() on columns of table "colinks_gives" */
+  ['colinks_gives_variance_order_by']: {
+    activity_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "contribution_count" */
   ['contribution_count']: AliasType<{
     contributions?: boolean | `@${string}`;
@@ -39902,6 +40089,10 @@ export type ModelTypes = {
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    gives: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization?: GraphQLTypes['organizations'] | undefined;
@@ -41746,6 +41937,8 @@ export type ModelTypes = {
   ['colinks_gives']: {
     activity_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
@@ -41757,6 +41950,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['colinks_gives_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['colinks_gives']>;
   };
+  ['colinks_gives_aggregate_bool_exp']: GraphQLTypes['colinks_gives_aggregate_bool_exp'];
+  ['colinks_gives_aggregate_bool_exp_count']: GraphQLTypes['colinks_gives_aggregate_bool_exp_count'];
   /** aggregate fields of "colinks_gives" */
   ['colinks_gives_aggregate_fields']: {
     avg?: GraphQLTypes['colinks_gives_avg_fields'] | undefined;
@@ -41771,6 +41966,10 @@ export type ModelTypes = {
     var_samp?: GraphQLTypes['colinks_gives_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['colinks_gives_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "colinks_gives" */
+  ['colinks_gives_aggregate_order_by']: GraphQLTypes['colinks_gives_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "colinks_gives" */
+  ['colinks_gives_arr_rel_insert_input']: GraphQLTypes['colinks_gives_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['colinks_gives_avg_fields']: {
     activity_id?: number | undefined;
@@ -41778,6 +41977,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by avg() on columns of table "colinks_gives" */
+  ['colinks_gives_avg_order_by']: GraphQLTypes['colinks_gives_avg_order_by'];
   /** Boolean expression to filter rows from the table "colinks_gives". All fields are combined with a logical 'AND'. */
   ['colinks_gives_bool_exp']: GraphQLTypes['colinks_gives_bool_exp'];
   /** unique or primary key constraints on table "colinks_gives" */
@@ -41796,6 +41997,8 @@ export type ModelTypes = {
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "colinks_gives" */
+  ['colinks_gives_max_order_by']: GraphQLTypes['colinks_gives_max_order_by'];
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
@@ -41806,6 +42009,8 @@ export type ModelTypes = {
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by min() on columns of table "colinks_gives" */
+  ['colinks_gives_min_order_by']: GraphQLTypes['colinks_gives_min_order_by'];
   /** response of any mutation on the table "colinks_gives" */
   ['colinks_gives_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -41830,6 +42035,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_order_by']: GraphQLTypes['colinks_gives_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['colinks_gives_stddev_pop_fields']: {
     activity_id?: number | undefined;
@@ -41837,6 +42044,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_pop_order_by']: GraphQLTypes['colinks_gives_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['colinks_gives_stddev_samp_fields']: {
     activity_id?: number | undefined;
@@ -41844,6 +42053,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by stddev_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_samp_order_by']: GraphQLTypes['colinks_gives_stddev_samp_order_by'];
   /** Streaming cursor of the table "colinks_gives" */
   ['colinks_gives_stream_cursor_input']: GraphQLTypes['colinks_gives_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
@@ -41855,6 +42066,8 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** order by sum() on columns of table "colinks_gives" */
+  ['colinks_gives_sum_order_by']: GraphQLTypes['colinks_gives_sum_order_by'];
   /** update columns of table "colinks_gives" */
   ['colinks_gives_update_column']: GraphQLTypes['colinks_gives_update_column'];
   ['colinks_gives_updates']: GraphQLTypes['colinks_gives_updates'];
@@ -41865,6 +42078,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_var_pop_order_by']: GraphQLTypes['colinks_gives_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['colinks_gives_var_samp_fields']: {
     activity_id?: number | undefined;
@@ -41872,6 +42087,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_var_samp_order_by']: GraphQLTypes['colinks_gives_var_samp_order_by'];
   /** aggregate variance on columns */
   ['colinks_gives_variance_fields']: {
     activity_id?: number | undefined;
@@ -41879,6 +42096,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by variance() on columns of table "colinks_gives" */
+  ['colinks_gives_variance_order_by']: GraphQLTypes['colinks_gives_variance_order_by'];
   /** columns and relationships of "contribution_count" */
   ['contribution_count']: {
     contributions?: GraphQLTypes['bigint'] | undefined;
@@ -54319,6 +54538,10 @@ export type GraphQLTypes = {
     /** An object relationship */
     epoch?: GraphQLTypes['epochs'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    gives: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization?: GraphQLTypes['organizations'] | undefined;
@@ -54461,6 +54684,10 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    gives_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     organization?: GraphQLTypes['organizations_bool_exp'] | undefined;
     organization_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -54525,6 +54752,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     epoch?: GraphQLTypes['epochs_obj_rel_insert_input'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
+    gives?: GraphQLTypes['colinks_gives_arr_rel_insert_input'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     organization?:
       | GraphQLTypes['organizations_obj_rel_insert_input']
@@ -54652,6 +54880,9 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['order_by'] | undefined;
     epoch?: GraphQLTypes['epochs_order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
+    gives_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     organization?: GraphQLTypes['organizations_order_by'] | undefined;
     organization_id?: GraphQLTypes['order_by'] | undefined;
@@ -58251,6 +58482,8 @@ export type GraphQLTypes = {
     __typename: 'colinks_gives';
     activity_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
@@ -58262,6 +58495,15 @@ export type GraphQLTypes = {
     __typename: 'colinks_gives_aggregate';
     aggregate?: GraphQLTypes['colinks_gives_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['colinks_gives']>;
+  };
+  ['colinks_gives_aggregate_bool_exp']: {
+    count?: GraphQLTypes['colinks_gives_aggregate_bool_exp_count'] | undefined;
+  };
+  ['colinks_gives_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['colinks_gives_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
   };
   /** aggregate fields of "colinks_gives" */
   ['colinks_gives_aggregate_fields']: {
@@ -58278,6 +58520,28 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes['colinks_gives_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['colinks_gives_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "colinks_gives" */
+  ['colinks_gives_aggregate_order_by']: {
+    avg?: GraphQLTypes['colinks_gives_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['colinks_gives_max_order_by'] | undefined;
+    min?: GraphQLTypes['colinks_gives_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['colinks_gives_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['colinks_gives_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['colinks_gives_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['colinks_gives_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['colinks_gives_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['colinks_gives_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['colinks_gives_variance_order_by'] | undefined;
+  };
+  /** input type for inserting array relation for remote table "colinks_gives" */
+  ['colinks_gives_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['colinks_gives_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['colinks_gives_on_conflict'] | undefined;
+  };
   /** aggregate avg on columns */
   ['colinks_gives_avg_fields']: {
     __typename: 'colinks_gives_avg_fields';
@@ -58286,6 +58550,13 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by avg() on columns of table "colinks_gives" */
+  ['colinks_gives_avg_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Boolean expression to filter rows from the table "colinks_gives". All fields are combined with a logical 'AND'. */
   ['colinks_gives_bool_exp']: {
     _and?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
@@ -58293,6 +58564,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
@@ -58312,6 +58584,9 @@ export type GraphQLTypes = {
   ['colinks_gives_insert_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    giver_profile_public?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
@@ -58329,6 +58604,16 @@ export type GraphQLTypes = {
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "colinks_gives" */
+  ['colinks_gives_max_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: {
     __typename: 'colinks_gives_min_fields';
@@ -58339,6 +58624,16 @@ export type GraphQLTypes = {
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "colinks_gives" */
+  ['colinks_gives_min_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "colinks_gives" */
   ['colinks_gives_mutation_response']: {
@@ -58358,6 +58653,7 @@ export type GraphQLTypes = {
   ['colinks_gives_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
@@ -58388,6 +58684,13 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_pop on columns */
   ['colinks_gives_stddev_pop_fields']: {
     __typename: 'colinks_gives_stddev_pop_fields';
@@ -58396,6 +58699,13 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_pop_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_samp on columns */
   ['colinks_gives_stddev_samp_fields']: {
     __typename: 'colinks_gives_stddev_samp_fields';
@@ -58403,6 +58713,13 @@ export type GraphQLTypes = {
     id?: number | undefined;
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_stddev_samp_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "colinks_gives" */
   ['colinks_gives_stream_cursor_input']: {
@@ -58429,6 +58746,13 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
+  /** order by sum() on columns of table "colinks_gives" */
+  ['colinks_gives_sum_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** update columns of table "colinks_gives" */
   ['colinks_gives_update_column']: colinks_gives_update_column;
   ['colinks_gives_updates']: {
@@ -58447,6 +58771,13 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "colinks_gives" */
+  ['colinks_gives_var_pop_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate var_samp on columns */
   ['colinks_gives_var_samp_fields']: {
     __typename: 'colinks_gives_var_samp_fields';
@@ -58455,6 +58786,13 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "colinks_gives" */
+  ['colinks_gives_var_samp_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate variance on columns */
   ['colinks_gives_variance_fields']: {
     __typename: 'colinks_gives_variance_fields';
@@ -58462,6 +58800,13 @@ export type GraphQLTypes = {
     id?: number | undefined;
     profile_id?: number | undefined;
     target_profile_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "colinks_gives" */
+  ['colinks_gives_variance_order_by']: {
+    activity_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** columns and relationships of "contribution_count" */
   ['contribution_count']: {

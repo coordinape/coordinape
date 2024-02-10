@@ -45,6 +45,13 @@ object_relationships:
     using:
       foreign_key_constraint_on: user_id
 array_relationships:
+  - name: gives
+    using:
+      foreign_key_constraint_on:
+        column: activity_id
+        table:
+          name: colinks_gives
+          schema: public
   - name: private_stream_visibility
     using:
       manual_configuration:
