@@ -5217,7 +5217,7 @@ export const AllTypesProps: Record<string, any> = {
     address: 'String_comparison_exp',
     device_login_token: 'uuid_comparison_exp',
     id: 'bigint_comparison_exp',
-    points_balance: 'Int_comparison_exp',
+    points_balance: 'float8_comparison_exp',
     points_checkpointed_at: 'timestamptz_comparison_exp',
   },
   profiles_private_order_by: {
@@ -5238,6 +5238,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_private_stream_cursor_value_input: {
     device_login_token: 'uuid',
     id: 'bigint',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_updates: {
@@ -10443,7 +10444,7 @@ export const ReturnTypes: Record<string, any> = {
     address: 'String',
     device_login_token: 'uuid',
     id: 'bigint',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_mutation_response: {

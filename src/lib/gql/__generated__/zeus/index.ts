@@ -11971,7 +11971,7 @@ export type ValueTypes = {
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     device_login_token?: ValueTypes['uuid_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    points_balance?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    points_balance?: ValueTypes['float8_comparison_exp'] | undefined | null;
     points_checkpointed_at?:
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
@@ -12011,7 +12011,7 @@ export type ValueTypes = {
     address?: string | undefined | null;
     device_login_token?: ValueTypes['uuid'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   ['profiles_private_updates']: {
@@ -24324,7 +24324,7 @@ export type ModelTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
@@ -35020,7 +35020,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
@@ -35031,7 +35031,7 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     device_login_token?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    points_balance?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    points_balance?: GraphQLTypes['float8_comparison_exp'] | undefined;
     points_checkpointed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
@@ -35070,7 +35070,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   ['profiles_private_updates']: {

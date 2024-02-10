@@ -9,6 +9,7 @@ import createContributionInteractionEvent from '../../../api-lib/event_triggers/
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
+import createNotificationColinksGives from '../../../api-lib/event_triggers/createNotificationColinksGives';
 import createNotificationPosts from '../../../api-lib/event_triggers/createNotificationPosts';
 import createNotificationReactions from '../../../api-lib/event_triggers/createNotificationReactions';
 import createNotificationReplies from '../../../api-lib/event_triggers/createNotificationReplies';
@@ -57,6 +58,7 @@ const HANDLERS: HandlerDict = {
   createReactionInteractionEvent,
   linkTxInteractionEvent,
   linkTxNotification,
+  createNotificationColinksGives,
   createNotificationReactions,
   createNotificationReplies,
   createNotificationPosts,

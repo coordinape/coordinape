@@ -16264,7 +16264,7 @@ type profiles_private {
   address: String
   device_login_token: uuid
   id: bigint
-  points_balance: Int
+  points_balance: float8
   points_checkpointed_at: timestamptz
 }
 
@@ -16278,7 +16278,7 @@ input profiles_private_bool_exp {
   address: String_comparison_exp
   device_login_token: uuid_comparison_exp
   id: bigint_comparison_exp
-  points_balance: Int_comparison_exp
+  points_balance: float8_comparison_exp
   points_checkpointed_at: timestamptz_comparison_exp
 }
 
@@ -16367,7 +16367,7 @@ input profiles_private_stream_cursor_value_input {
   address: String
   device_login_token: uuid
   id: bigint
-  points_balance: Int
+  points_balance: float8
   points_checkpointed_at: timestamptz
 }
 

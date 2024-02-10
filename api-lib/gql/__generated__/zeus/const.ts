@@ -7787,6 +7787,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'notifications_bool_exp',
     actor_profile_id: 'bigint_comparison_exp',
     actor_profile_public: 'profiles_public_bool_exp',
+    colinks_give_id: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     id: 'Int_comparison_exp',
     invite_joined_id: 'bigint_comparison_exp',
@@ -7835,6 +7836,7 @@ export const AllTypesProps: Record<string, any> = {
   notifications_order_by: {
     actor_profile_id: 'order_by',
     actor_profile_public: 'profiles_public_order_by',
+    colinks_give_id: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
     invite_joined_id: 'order_by',
@@ -9394,7 +9396,7 @@ export const AllTypesProps: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
     org_members_aggregate: 'org_members_aggregate_bool_exp',
-    points_balance: 'Int_comparison_exp',
+    points_balance: 'float8_comparison_exp',
     points_checkpointed_at: 'timestamptz_comparison_exp',
     product_emails: 'Boolean_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
@@ -9417,6 +9419,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_inc_input: {
     id: 'bigint',
     invited_by: 'bigint',
+    points_balance: 'float8',
   },
   profiles_insert_input: {
     address_data_fetches: 'address_data_fetches_obj_rel_insert_input',
@@ -9437,6 +9440,7 @@ export const AllTypesProps: Record<string, any> = {
     name: 'citext',
     nominees: 'nominees_arr_rel_insert_input',
     org_members: 'org_members_arr_rel_insert_input',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     profile_skills: 'profile_skills_obj_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
@@ -9523,15 +9527,17 @@ export const AllTypesProps: Record<string, any> = {
     address: 'String_comparison_exp',
     device_login_token: 'uuid_comparison_exp',
     id: 'bigint_comparison_exp',
-    points_balance: 'Int_comparison_exp',
+    points_balance: 'float8_comparison_exp',
     points_checkpointed_at: 'timestamptz_comparison_exp',
   },
   profiles_private_inc_input: {
     id: 'bigint',
+    points_balance: 'float8',
   },
   profiles_private_insert_input: {
     device_login_token: 'uuid',
     id: 'bigint',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_order_by: {
@@ -9545,6 +9551,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_private_set_input: {
     device_login_token: 'uuid',
     id: 'bigint',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_stream_cursor_input: {
@@ -9554,6 +9561,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_private_stream_cursor_value_input: {
     device_login_token: 'uuid',
     id: 'bigint',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_updates: {
@@ -9697,6 +9705,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_code_sent_at: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -9716,6 +9725,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_code_sent_at: 'timestamptz',
     invited_by: 'bigint',
     name: 'citext',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     tos_agreed_at: 'timestamp',
     updated_at: 'timestamp',
@@ -18725,6 +18735,7 @@ export const ReturnTypes: Record<string, any> = {
   notifications: {
     actor_profile_id: 'bigint',
     actor_profile_public: 'profiles_public',
+    colinks_give_id: 'Int',
     created_at: 'timestamptz',
     id: 'Int',
     invite_joined_id: 'bigint',
@@ -18761,6 +18772,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_avg_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18771,6 +18783,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_max_fields: {
     actor_profile_id: 'bigint',
+    colinks_give_id: 'Int',
     created_at: 'timestamptz',
     id: 'Int',
     invite_joined_id: 'bigint',
@@ -18783,6 +18796,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_min_fields: {
     actor_profile_id: 'bigint',
+    colinks_give_id: 'Int',
     created_at: 'timestamptz',
     id: 'Int',
     invite_joined_id: 'bigint',
@@ -18799,6 +18813,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_stddev_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18809,6 +18824,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_stddev_pop_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18819,6 +18835,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_stddev_samp_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18829,6 +18846,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_sum_fields: {
     actor_profile_id: 'bigint',
+    colinks_give_id: 'Int',
     id: 'Int',
     invite_joined_id: 'bigint',
     mention_post_id: 'Int',
@@ -18839,6 +18857,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_var_pop_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18849,6 +18868,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_var_samp_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -18859,6 +18879,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   notifications_variance_fields: {
     actor_profile_id: 'Float',
+    colinks_give_id: 'Float',
     id: 'Float',
     invite_joined_id: 'Float',
     mention_post_id: 'Float',
@@ -19965,7 +19986,7 @@ export const ReturnTypes: Record<string, any> = {
     nominees_aggregate: 'nominees_aggregate',
     org_members: 'org_members',
     org_members_aggregate: 'org_members_aggregate',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     product_emails: 'Boolean',
     profile_skills: 'profile_skills',
@@ -20034,7 +20055,7 @@ export const ReturnTypes: Record<string, any> = {
     links_held: 'Int',
     medium_username: 'String',
     name: 'citext',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     skills: 'String',
     telegram_username: 'String',
@@ -20067,7 +20088,7 @@ export const ReturnTypes: Record<string, any> = {
     links_held: 'Int',
     medium_username: 'String',
     name: 'citext',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     skills: 'String',
     telegram_username: 'String',
@@ -20084,7 +20105,7 @@ export const ReturnTypes: Record<string, any> = {
     address: 'String',
     device_login_token: 'uuid',
     id: 'bigint',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_aggregate: {
@@ -20112,14 +20133,14 @@ export const ReturnTypes: Record<string, any> = {
     address: 'String',
     device_login_token: 'uuid',
     id: 'bigint',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_min_fields: {
     address: 'String',
     device_login_token: 'uuid',
     id: 'bigint',
-    points_balance: 'Int',
+    points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
   },
   profiles_private_mutation_response: {
@@ -20140,7 +20161,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   profiles_private_sum_fields: {
     id: 'bigint',
-    points_balance: 'Int',
+    points_balance: 'float8',
   },
   profiles_private_var_pop_fields: {
     id: 'Float',
@@ -20313,7 +20334,7 @@ export const ReturnTypes: Record<string, any> = {
     last_read_notification_id: 'Int',
     links: 'Int',
     links_held: 'Int',
-    points_balance: 'Int',
+    points_balance: 'float8',
   },
   profiles_var_pop_fields: {
     id: 'Float',

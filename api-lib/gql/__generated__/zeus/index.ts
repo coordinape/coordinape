@@ -20434,6 +20434,7 @@ export type ValueTypes = {
     actor_profile_id?: boolean | `@${string}`;
     /** An object relationship */
     actor_profile_public?: ValueTypes['profiles_public'];
+    colinks_give_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
@@ -20492,6 +20493,7 @@ export type ValueTypes = {
   /** aggregate avg on columns */
   ['notifications_avg_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20511,6 +20513,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_bool_exp']
       | undefined
       | null;
+    colinks_give_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_joined_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -20536,6 +20539,7 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "notifications" */
   ['notifications_inc_input']: {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    colinks_give_id?: number | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     mention_post_id?: number | undefined | null;
@@ -20551,6 +20555,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
+    colinks_give_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
@@ -20580,6 +20585,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['notifications_max_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
@@ -20594,6 +20600,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['notifications_min_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
@@ -20626,6 +20633,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_order_by']
       | undefined
       | null;
+    colinks_give_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     invite_joined_id?: ValueTypes['order_by'] | undefined | null;
@@ -20655,6 +20663,7 @@ export type ValueTypes = {
   /** input type for updating data in table "notifications" */
   ['notifications_set_input']: {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    colinks_give_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
@@ -20668,6 +20677,7 @@ export type ValueTypes = {
   /** aggregate stddev on columns */
   ['notifications_stddev_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20680,6 +20690,7 @@ export type ValueTypes = {
   /** aggregate stddev_pop on columns */
   ['notifications_stddev_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20692,6 +20703,7 @@ export type ValueTypes = {
   /** aggregate stddev_samp on columns */
   ['notifications_stddev_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20711,6 +20723,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['notifications_stream_cursor_value_input']: {
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    colinks_give_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
@@ -20724,6 +20737,7 @@ export type ValueTypes = {
   /** aggregate sum on columns */
   ['notifications_sum_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20746,6 +20760,7 @@ export type ValueTypes = {
   /** aggregate var_pop on columns */
   ['notifications_var_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20758,6 +20773,7 @@ export type ValueTypes = {
   /** aggregate var_samp on columns */
   ['notifications_var_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -20770,6 +20786,7 @@ export type ValueTypes = {
   /** aggregate variance on columns */
   ['notifications_variance_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
+    colinks_give_id?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     mention_post_id?: boolean | `@${string}`;
@@ -24894,7 +24911,7 @@ export type ValueTypes = {
       | ValueTypes['org_members_aggregate_bool_exp']
       | undefined
       | null;
-    points_balance?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    points_balance?: ValueTypes['float8_comparison_exp'] | undefined | null;
     points_checkpointed_at?:
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
@@ -24938,7 +24955,7 @@ export type ValueTypes = {
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -24989,7 +25006,7 @@ export type ValueTypes = {
       | ValueTypes['org_members_arr_rel_insert_input']
       | undefined
       | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
     product_emails?: boolean | undefined | null;
     profile_skills?:
@@ -25244,7 +25261,7 @@ export type ValueTypes = {
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     device_login_token?: ValueTypes['uuid_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    points_balance?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    points_balance?: ValueTypes['float8_comparison_exp'] | undefined | null;
     points_checkpointed_at?:
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
@@ -25253,14 +25270,14 @@ export type ValueTypes = {
   /** input type for incrementing numeric columns in table "profiles_private" */
   ['profiles_private_inc_input']: {
     id?: ValueTypes['bigint'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
   };
   /** input type for inserting data into table "profiles_private" */
   ['profiles_private_insert_input']: {
     address?: string | undefined | null;
     device_login_token?: ValueTypes['uuid'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -25304,7 +25321,7 @@ export type ValueTypes = {
     address?: string | undefined | null;
     device_login_token?: ValueTypes['uuid'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate stddev on columns */
@@ -25337,7 +25354,7 @@ export type ValueTypes = {
     address?: string | undefined | null;
     device_login_token?: ValueTypes['uuid'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   /** aggregate sum on columns */
@@ -25881,7 +25898,7 @@ export type ValueTypes = {
     links_held?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
     product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
@@ -25960,7 +25977,7 @@ export type ValueTypes = {
     links_held?: number | undefined | null;
     medium_username?: string | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
-    points_balance?: number | undefined | null;
+    points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
     product_emails?: boolean | undefined | null;
     skills?: string | undefined | null;
@@ -48019,6 +48036,7 @@ export type ModelTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -48065,6 +48083,7 @@ export type ModelTypes = {
   /** aggregate avg on columns */
   ['notifications_avg_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48084,6 +48103,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['notifications_max_fields']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -48097,6 +48117,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['notifications_min_fields']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -48127,6 +48148,7 @@ export type ModelTypes = {
   /** aggregate stddev on columns */
   ['notifications_stddev_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48138,6 +48160,7 @@ export type ModelTypes = {
   /** aggregate stddev_pop on columns */
   ['notifications_stddev_pop_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48149,6 +48172,7 @@ export type ModelTypes = {
   /** aggregate stddev_samp on columns */
   ['notifications_stddev_samp_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48164,6 +48188,7 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['notifications_sum_fields']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     mention_post_id?: number | undefined;
@@ -48178,6 +48203,7 @@ export type ModelTypes = {
   /** aggregate var_pop on columns */
   ['notifications_var_pop_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48189,6 +48215,7 @@ export type ModelTypes = {
   /** aggregate var_samp on columns */
   ['notifications_var_samp_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -48200,6 +48227,7 @@ export type ModelTypes = {
   /** aggregate variance on columns */
   ['notifications_variance_fields']: {
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -49995,7 +50023,7 @@ export type ModelTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
-    points_balance: number;
+    points_balance: GraphQLTypes['float8'];
     points_checkpointed_at: GraphQLTypes['timestamptz'];
     product_emails: boolean;
     /** An object relationship */
@@ -50085,7 +50113,7 @@ export type ModelTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
@@ -50119,7 +50147,7 @@ export type ModelTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
@@ -50148,7 +50176,7 @@ export type ModelTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregated selection of "profiles_private" */
@@ -50188,7 +50216,7 @@ export type ModelTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -50196,7 +50224,7 @@ export type ModelTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "profiles_private" */
@@ -50234,7 +50262,7 @@ export type ModelTypes = {
   /** aggregate sum on columns */
   ['profiles_private_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   ['profiles_private_updates']: GraphQLTypes['profiles_private_updates'];
   /** aggregate var_pop on columns */
@@ -50462,7 +50490,7 @@ export type ModelTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: GraphQLTypes['profiles_update_column'];
@@ -68665,6 +68693,7 @@ export type GraphQLTypes = {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68714,6 +68743,7 @@ export type GraphQLTypes = {
   ['notifications_avg_fields']: {
     __typename: 'notifications_avg_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68729,6 +68759,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
     actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    colinks_give_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_joined_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -68753,6 +68784,7 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "notifications" */
   ['notifications_inc_input']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     mention_post_id?: number | undefined;
@@ -68767,6 +68799,7 @@ export type GraphQLTypes = {
     actor_profile_public?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68792,6 +68825,7 @@ export type GraphQLTypes = {
   ['notifications_max_fields']: {
     __typename: 'notifications_max_fields';
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68806,6 +68840,7 @@ export type GraphQLTypes = {
   ['notifications_min_fields']: {
     __typename: 'notifications_min_fields';
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68834,6 +68869,7 @@ export type GraphQLTypes = {
   ['notifications_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    colinks_give_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_joined_id?: GraphQLTypes['order_by'] | undefined;
@@ -68862,6 +68898,7 @@ export type GraphQLTypes = {
   /** input type for updating data in table "notifications" */
   ['notifications_set_input']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68876,6 +68913,7 @@ export type GraphQLTypes = {
   ['notifications_stddev_fields']: {
     __typename: 'notifications_stddev_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68888,6 +68926,7 @@ export type GraphQLTypes = {
   ['notifications_stddev_pop_fields']: {
     __typename: 'notifications_stddev_pop_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68900,6 +68939,7 @@ export type GraphQLTypes = {
   ['notifications_stddev_samp_fields']: {
     __typename: 'notifications_stddev_samp_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68918,6 +68958,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['notifications_stream_cursor_value_input']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
@@ -68932,6 +68973,7 @@ export type GraphQLTypes = {
   ['notifications_sum_fields']: {
     __typename: 'notifications_sum_fields';
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     mention_post_id?: number | undefined;
@@ -68954,6 +68996,7 @@ export type GraphQLTypes = {
   ['notifications_var_pop_fields']: {
     __typename: 'notifications_var_pop_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68966,6 +69009,7 @@ export type GraphQLTypes = {
   ['notifications_var_samp_fields']: {
     __typename: 'notifications_var_samp_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -68978,6 +69022,7 @@ export type GraphQLTypes = {
   ['notifications_variance_fields']: {
     __typename: 'notifications_variance_fields';
     actor_profile_id?: number | undefined;
+    colinks_give_id?: number | undefined;
     id?: number | undefined;
     invite_joined_id?: number | undefined;
     mention_post_id?: number | undefined;
@@ -72254,7 +72299,7 @@ export type GraphQLTypes = {
     org_members: Array<GraphQLTypes['org_members']>;
     /** An aggregate relationship */
     org_members_aggregate: GraphQLTypes['org_members_aggregate'];
-    points_balance: number;
+    points_balance: GraphQLTypes['float8'];
     points_checkpointed_at: GraphQLTypes['timestamptz'];
     product_emails: boolean;
     /** An object relationship */
@@ -72380,7 +72425,7 @@ export type GraphQLTypes = {
     org_members_aggregate?:
       | GraphQLTypes['org_members_aggregate_bool_exp']
       | undefined;
-    points_balance?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    points_balance?: GraphQLTypes['float8_comparison_exp'] | undefined;
     points_checkpointed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
@@ -72415,7 +72460,7 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   /** input type for inserting data into table "profiles" */
   ['profiles_insert_input']: {
@@ -72460,7 +72505,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['citext'] | undefined;
     nominees?: GraphQLTypes['nominees_arr_rel_insert_input'] | undefined;
     org_members?: GraphQLTypes['org_members_arr_rel_insert_input'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     product_emails?: boolean | undefined;
     profile_skills?:
@@ -72508,7 +72553,7 @@ export type GraphQLTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
@@ -72543,7 +72588,7 @@ export type GraphQLTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
@@ -72647,7 +72692,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregated selection of "profiles_private" */
@@ -72687,7 +72732,7 @@ export type GraphQLTypes = {
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     device_login_token?: GraphQLTypes['uuid_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    points_balance?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    points_balance?: GraphQLTypes['float8_comparison_exp'] | undefined;
     points_checkpointed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
@@ -72695,14 +72740,14 @@ export type GraphQLTypes = {
   /** input type for incrementing numeric columns in table "profiles_private" */
   ['profiles_private_inc_input']: {
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   /** input type for inserting data into table "profiles_private" */
   ['profiles_private_insert_input']: {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate max on columns */
@@ -72711,7 +72756,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate min on columns */
@@ -72720,7 +72765,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** response of any mutation on the table "profiles_private" */
@@ -72746,7 +72791,7 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate stddev on columns */
@@ -72779,14 +72824,14 @@ export type GraphQLTypes = {
     address?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   /** aggregate sum on columns */
   ['profiles_private_sum_fields']: {
     __typename: 'profiles_private_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   ['profiles_private_updates']: {
     /** increments the numeric columns with given value of the filtered values */
@@ -73122,7 +73167,7 @@ export type GraphQLTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     product_emails?: boolean | undefined;
     skills?: string | undefined;
@@ -73201,7 +73246,7 @@ export type GraphQLTypes = {
     links_held?: number | undefined;
     medium_username?: string | undefined;
     name?: GraphQLTypes['citext'] | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     product_emails?: boolean | undefined;
     skills?: string | undefined;
@@ -73220,7 +73265,7 @@ export type GraphQLTypes = {
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
-    points_balance?: number | undefined;
+    points_balance?: GraphQLTypes['float8'] | undefined;
   };
   /** update columns of table "profiles" */
   ['profiles_update_column']: profiles_update_column;
@@ -80172,6 +80217,7 @@ export const enum notifications_constraint {
 /** select columns of table "notifications" */
 export const enum notifications_select_column {
   actor_profile_id = 'actor_profile_id',
+  colinks_give_id = 'colinks_give_id',
   created_at = 'created_at',
   id = 'id',
   invite_joined_id = 'invite_joined_id',
@@ -80185,6 +80231,7 @@ export const enum notifications_select_column {
 /** update columns of table "notifications" */
 export const enum notifications_update_column {
   actor_profile_id = 'actor_profile_id',
+  colinks_give_id = 'colinks_give_id',
   created_at = 'created_at',
   id = 'id',
   invite_joined_id = 'invite_joined_id',
