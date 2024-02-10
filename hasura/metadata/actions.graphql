@@ -99,7 +99,6 @@ type Mutation {
 }
 
 type Mutation {
->>>>>>> d14d7226 (delete works yay)
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
