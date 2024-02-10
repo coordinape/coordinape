@@ -25,6 +25,30 @@ const QUERY_KEY_ALL_SKILLS = 'skills';
 
 const MAX_POTENTIAL_SKILLS = 1000;
 
+const insertSkill = async (skill: string) => {
+  await client.mutate(
+    {
+      insert_skills_one: [
+        {
+          object: {
+            name: skill,
+          },
+          on_conflict: {
+            constraint: skills_constraint.skills_pkey,
+            update_columns: [],
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'add_skill',
+    }
+  );
+};
+
 // TODO: maybe this should do server-side filtering but prob not needed for awhile
 // that's why there is the commented out where clause.
 const fetchSkills = async () => {
@@ -115,30 +139,9 @@ export const SkillAndTopicPicker = () => {
     }
   );
 
-  const { mutate: addSkill } = useMutation(
+  const { mutate: addSkillToProfile } = useMutation(
     async (skill: string) => {
-      await client.mutate(
-        {
-          insert_skills_one: [
-            {
-              object: {
-                name: skill,
-              },
-              on_conflict: {
-                constraint: skills_constraint.skills_pkey,
-                update_columns: [],
-              },
-            },
-            {
-              __typename: true,
-            },
-          ],
-        },
-        {
-          operationName: 'add_skill',
-        }
-      );
-
+      await insertSkill(skill);
       return client.mutate(
         {
           insert_profile_skills_one: [
@@ -174,12 +177,7 @@ export const SkillAndTopicPicker = () => {
     () => fetchMySkills(profileId)
   );
 
-  const isLoading = profileSkillsLoading || skillsLoading;
-
   const maxedOut = (profileSkills?.length ?? 0) === MAX_SKILLS;
-
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
 
   return (
     <Panel css={{ alignItems: 'flex-start' }}>
@@ -232,107 +230,113 @@ export const SkillAndTopicPicker = () => {
               {maxedOut ? `${MAX_SKILLS} Interests Max` : `Add Interests`}
             </Text>
             <Flex>
-              <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-                {!maxedOut && (
-                  <Flex
-                    column
-                    as={Popover.Trigger}
-                    css={{
-                      alignItems: 'flex-start',
-                      gap: '$sm',
-                      borderRadius: '$3',
-                    }}
-                  >
-                    {/* This TextField is just a popover trigger */}
-                    <TextField
-                      placeholder="Search or Add Interest"
-                      disabled={maxedOut}
-                      css={{ width: '302px' }}
-                      value=""
-                    />
-                  </Flex>
-                )}
-                <PopoverContent
-                  avoidCollisions={false}
-                  align={'start'}
-                  css={{
-                    background: 'transparent',
-                    mt: 'calc(-$1xl + 0.5px)',
-                    p: 0,
-                  }}
-                >
-                  <ComboBox
-                    filter={(value, search) => {
-                      if (value == search.toLowerCase()) {
-                        return 1;
-                      } else if (value.includes(search.toLowerCase()))
-                        return 0.9;
-                      return 0;
-                    }}
-                  >
-                    <Command.Input
-                      ref={inputRef}
-                      placeholder={'Search or Add Interest'}
-                      maxLength={30}
-                    />
-
-                    <Command.List>
-                      {isLoading ? (
-                        <Command.Loading>LoadingMate</Command.Loading>
-                      ) : (
-                        <>
-                          <AddItem
-                            addSkill={addSkill}
-                            mySkills={Array.from(profileSkills)}
-                            allSkills={skills}
-                          />
-
-                          <Command.Group>
-                            {skills
-                              .filter(
-                                sk =>
-                                  !profileSkills.some(
-                                    ps =>
-                                      ps.toLowerCase() === sk.name.toLowerCase()
-                                  )
-                              )
-                              .map(skill => (
-                                <Command.Item
-                                  key={skill.name}
-                                  value={skill.name}
-                                  onSelect={addSkill}
-                                  defaultChecked={false}
-                                  disabled={profileSkills.some(
-                                    ps =>
-                                      ps.toLowerCase() ===
-                                      skill.name.toLowerCase()
-                                  )}
-                                >
-                                  <Flex
-                                    css={{
-                                      justifyContent: 'space-between',
-                                      width: '100%',
-                                    }}
-                                  >
-                                    <Text semibold>{skill.name}</Text>
-                                    <Text tag color={'secondary'} size={'xs'}>
-                                      <User /> {skill.count}
-                                    </Text>
-                                  </Flex>
-                                </Command.Item>
-                              ))}
-                          </Command.Group>
-                        </>
-                      )}
-                    </Command.List>
-                  </ComboBox>
-                </PopoverContent>
-              </Popover.Root>
+              <SkillComboBox />
             </Flex>
           </Flex>
         </>
       )}
     </Panel>
+  );
+};
+
+const SkillComboBox = () => {
+  const isLoading = profileSkillsLoading || skillsLoading;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+
+  return (
+    <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
+      {!maxedOut && (
+        <Flex
+          column
+          as={Popover.Trigger}
+          css={{
+            alignItems: 'flex-start',
+            gap: '$sm',
+            borderRadius: '$3',
+          }}
+        >
+          {/* This TextField is just a popover trigger */}
+          <TextField
+            placeholder="Search or Add Interest"
+            disabled={maxedOut}
+            css={{ width: '302px' }}
+            value=""
+          />
+        </Flex>
+      )}
+      <PopoverContent
+        avoidCollisions={false}
+        align={'start'}
+        css={{
+          background: 'transparent',
+          mt: 'calc(-$1xl + 0.5px)',
+          p: 0,
+        }}
+      >
+        <ComboBox
+          filter={(value, search) => {
+            if (value == search.toLowerCase()) {
+              return 1;
+            } else if (value.includes(search.toLowerCase())) return 0.9;
+            return 0;
+          }}
+        >
+          <Command.Input
+            ref={inputRef}
+            placeholder={'Search or Add Interest'}
+            maxLength={30}
+          />
+
+          <Command.List>
+            {isLoading ? (
+              <Command.Loading>LoadingMate</Command.Loading>
+            ) : (
+              <>
+                <AddItem
+                  addSkill={addSkill}
+                  mySkills={Array.from(profileSkills)}
+                  allSkills={skills}
+                />
+
+                <Command.Group>
+                  {skills
+                    .filter(
+                      sk =>
+                        !profileSkills.some(
+                          ps => ps.toLowerCase() === sk.name.toLowerCase()
+                        )
+                    )
+                    .map(skill => (
+                      <Command.Item
+                        key={skill.name}
+                        value={skill.name}
+                        onSelect={addSkill}
+                        defaultChecked={false}
+                        disabled={profileSkills.some(
+                          ps => ps.toLowerCase() === skill.name.toLowerCase()
+                        )}
+                      >
+                        <Flex
+                          css={{
+                            justifyContent: 'space-between',
+                            width: '100%',
+                          }}
+                        >
+                          <Text semibold>{skill.name}</Text>
+                          <Text tag color={'secondary'} size={'xs'}>
+                            <User /> {skill.count}
+                          </Text>
+                        </Flex>
+                      </Command.Item>
+                    ))}
+                </Command.Group>
+              </>
+            )}
+          </Command.List>
+        </ComboBox>
+      </PopoverContent>
+    </Popover.Root>
   );
 };
 
