@@ -79,27 +79,23 @@ export const CoLinksGiveButton = ({
   };
 
   const deleteGiveMutation = async () => {
-    // return client.mutate(
-    //   {
-    //     // delete_colinks_give: [
-    //     //   {
-    //     //     where: {
-    //     //       id: myGive!.id,
-    //     //     },
-    //     //     _set: {
-    //     //       skill: skill,
-    //     //     },
-    //     //   },
-    //     //   {
-    //     //     id: true,
-    //     //   },
-    //     // ],
-    //     delete_,
-    //   },
-    //   {
-    //     operationName: 'updateGiveSkill',
-    //   }
-    // );
+    return client.mutate(
+      {
+        deleteCoLinksGive: [
+          {
+            payload: {
+              give_id: myGive!.id,
+            },
+          },
+          {
+            success: true,
+          },
+        ],
+      },
+      {
+        operationName: 'updateGiveSkill',
+      }
+    );
   };
 
   const { mutate: createGive } = useMutation(createGiveMutation, {

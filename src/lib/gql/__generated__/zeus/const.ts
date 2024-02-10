@@ -32,6 +32,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   CreateVaultInput: {},
   DeleteCircleInput: {},
+  DeleteCoLinksGiveInput: {},
   DeleteContributionInput: {},
   DeleteEmailInput: {},
   DeleteEpochInput: {},
@@ -3361,6 +3362,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     deleteCircle: {
       payload: 'DeleteCircleInput',
+    },
+    deleteCoLinksGive: {
+      payload: 'DeleteCoLinksGiveInput',
     },
     deleteContribution: {
       payload: 'DeleteContributionInput',
@@ -8324,6 +8328,9 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Int',
     profile_public: 'profiles_public',
   },
+  SuccessResponse: {
+    success: 'Boolean',
+  },
   SyncCoSoulOutput: {
     token_id: 'String',
   },
@@ -9647,6 +9654,7 @@ export const ReturnTypes: Record<string, any> = {
     createVault: 'VaultResponse',
     createVaultTx: 'LogVaultTxResponse',
     deleteCircle: 'ConfirmationResponse',
+    deleteCoLinksGive: 'SuccessResponse',
     deleteContribution: 'ConfirmationResponse',
     deleteEmail: 'ConfirmationResponse',
     deleteEpoch: 'DeleteEpochResponse',

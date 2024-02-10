@@ -63,6 +63,10 @@ type Mutation {
 }
 
 type Mutation {
+  deleteCoLinksGive(payload: DeleteCoLinksGiveInput!): SuccessResponse
+}
+
+type Mutation {
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
 }
 
@@ -95,6 +99,7 @@ type Mutation {
 }
 
 type Mutation {
+>>>>>>> d14d7226 (delete works yay)
   generateApiKey(payload: GenerateApiKeyInput!): GenerateApiKeyResponse
 }
 
@@ -251,6 +256,10 @@ input CreateCircleInput {
 
 input CreateCoLinksGiveInput {
   activity_id: Int!
+}
+
+input DeleteCoLinksGiveInput {
+  give_id: Int!
 }
 
 input CreateUserInput {

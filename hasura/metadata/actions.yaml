@@ -153,6 +153,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: deleteCoLinksGive
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=deleteCoLinksGive'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: deleteContribution
     definition:
       kind: synchronous
@@ -555,6 +565,7 @@ custom_types:
   input_objects:
     - name: CreateCircleInput
     - name: CreateCoLinksGiveInput
+    - name: DeleteCoLinksGiveInput
     - name: CreateUserInput
     - name: UploadImageInput
     - name: UploadCircleImageInput

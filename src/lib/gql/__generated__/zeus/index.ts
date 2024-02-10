@@ -742,6 +742,9 @@ export type ValueTypes = {
   ['DeleteCircleInput']: {
     circle_id: number;
   };
+  ['DeleteCoLinksGiveInput']: {
+    give_id: number;
+  };
   ['DeleteContributionInput']: {
     contribution_id: number;
   };
@@ -983,6 +986,10 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined | null;
   };
+  ['SuccessResponse']: AliasType<{
+    success?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SyncCoSoulInput']: {
     tx_hash: string;
   };
@@ -7929,6 +7936,10 @@ export type ValueTypes = {
     deleteCircle?: [
       { payload: ValueTypes['DeleteCircleInput'] },
       ValueTypes['ConfirmationResponse'],
+    ];
+    deleteCoLinksGive?: [
+      { payload: ValueTypes['DeleteCoLinksGiveInput'] },
+      ValueTypes['SuccessResponse'],
     ];
     deleteContribution?: [
       { payload: ValueTypes['DeleteContributionInput'] },
@@ -20258,6 +20269,7 @@ export type ModelTypes = {
   ['CreateUsersInput']: GraphQLTypes['CreateUsersInput'];
   ['CreateVaultInput']: GraphQLTypes['CreateVaultInput'];
   ['DeleteCircleInput']: GraphQLTypes['DeleteCircleInput'];
+  ['DeleteCoLinksGiveInput']: GraphQLTypes['DeleteCoLinksGiveInput'];
   ['DeleteContributionInput']: GraphQLTypes['DeleteContributionInput'];
   ['DeleteEmailInput']: GraphQLTypes['DeleteEmailInput'];
   ['DeleteEpochInput']: GraphQLTypes['DeleteEpochInput'];
@@ -20361,6 +20373,9 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
+  ['SuccessResponse']: {
+    success: boolean;
+  };
   ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
   ['SyncCoSoulOutput']: {
     token_id?: string | undefined;
@@ -22787,6 +22802,7 @@ export type ModelTypes = {
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteCoLinksGive?: GraphQLTypes['SuccessResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete the specified email from the current users' profile */
     deleteEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -26252,6 +26268,9 @@ export type GraphQLTypes = {
   ['DeleteCircleInput']: {
     circle_id: number;
   };
+  ['DeleteCoLinksGiveInput']: {
+    give_id: number;
+  };
   ['DeleteContributionInput']: {
     contribution_id: number;
   };
@@ -26492,6 +26511,10 @@ export type GraphQLTypes = {
     _regex?: string | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: string | undefined;
+  };
+  ['SuccessResponse']: {
+    __typename: 'SuccessResponse';
+    success: boolean;
   };
   ['SyncCoSoulInput']: {
     tx_hash: string;
@@ -32123,6 +32146,7 @@ export type GraphQLTypes = {
     /** Log offchain information for vault transactions */
     createVaultTx?: GraphQLTypes['LogVaultTxResponse'] | undefined;
     deleteCircle?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    deleteCoLinksGive?: GraphQLTypes['SuccessResponse'] | undefined;
     deleteContribution?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** delete the specified email from the current users' profile */
     deleteEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;

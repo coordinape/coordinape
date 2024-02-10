@@ -199,6 +199,10 @@ input DeleteCircleInput {
   circle_id: Int!
 }
 
+input DeleteCoLinksGiveInput {
+  give_id: Int!
+}
+
 input DeleteContributionInput {
   contribution_id: Int!
 }
@@ -495,6 +499,10 @@ input String_comparison_exp {
   does the column match the given SQL regular expression
   """
   _similar: String
+}
+
+type SuccessResponse {
+  success: Boolean!
 }
 
 input SyncCoSoulInput {
@@ -10472,6 +10480,7 @@ type mutation_root {
   """
   createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
   deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
+  deleteCoLinksGive(payload: DeleteCoLinksGiveInput!): SuccessResponse
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
 
   """
