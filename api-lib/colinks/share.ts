@@ -27,10 +27,6 @@ export function decodeToken(
   }
 
   const generatedToken = genHmac(profileId, activityId);
-
-  // eslint-disable-next-line no-console
-  console.log({ token, generatedToken: generatedToken.slice(0, LENGTH) });
-
   if (token !== generatedToken.slice(0, LENGTH)) {
     throw new UnauthorizedError('Invalid token');
   }
