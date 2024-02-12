@@ -44,8 +44,13 @@ export const reportException = (
 
 export const initSentry = () => {
   if (DOMAIN_IS_LOCALHOST) return;
+
   Sentry.init({
-    environment: DOMAIN_IS_PREVIEW ? 'development' : 'production',
+    environment: DOMAIN_IS_LOCALHOST
+      ? 'development'
+      : DOMAIN_IS_PREVIEW
+        ? 'preview'
+        : 'production',
     dsn: 'https://1b672f036d56422ea7087e932011ec74@o919561.ingest.sentry.io/5863782',
     // ignoreErrors accepts regex. Strings will match partially.
     ignoreErrors: [
