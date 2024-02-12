@@ -11,6 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import {
   AtSign,
+  Give,
   Links,
   MessageSquare,
   PaperPlane,
@@ -88,6 +89,17 @@ const fetchNotifications = async () => {
             address: true,
             id: true,
           },
+          give: {
+            id: true,
+            created_at: true,
+            skill: true,
+            activity_id: true,
+            giver_profile_public: {
+              avatar: true,
+              name: true,
+              address: true,
+            },
+          },
           link_tx: {
             buy: true,
             tx_hash: true,
@@ -125,6 +137,7 @@ export type MentionReply = NonNullable<Notification['mention_reply']>;
 export type MentionPost = NonNullable<Notification['mention_post']>;
 export type Reaction = NonNullable<Notification['reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
+export type Give = NonNullable<Notification['give']>;
 
 export const NotificationsPage = () => {
   const profileId = useProfileId(true);
@@ -209,18 +222,13 @@ export const NotificationsPage = () => {
             }
             if (n.reply) {
               content = (
-                <Reply
-                  reply={n.reply}
-                  actor={n.actor_profile_public}
-                  profile={n.profile}
-                />
+                <Reply reply={n.reply} actor={n.actor_profile_public} />
               );
             } else if (n.mention_reply) {
               content = (
                 <MentionReply
                   reply={n.mention_reply}
                   actor={n.actor_profile_public}
-                  profile={n.profile}
                 />
               );
             } else if (n.mention_post) {
@@ -228,18 +236,16 @@ export const NotificationsPage = () => {
                 <MentionPost
                   post={n.mention_post}
                   actor={n.actor_profile_public}
-                  profile={n.profile}
                 />
               );
             } else if (n.link_tx) {
               content = <LinkTxNotification tx={n.link_tx} />;
+            } else if (n.give) {
+              content = <ColinksGiveNotification give={n.give} n={n} />;
             } else if (n.invited_profile_public) {
               content =
                 n.invited_profile_public.id === profileId ? (
-                  <InvitedNotification
-                    invitee={n.invited_profile_public}
-                    n={n}
-                  />
+                  <InvitedNotification n={n} />
                 ) : (
                   <InviteeNotification
                     invitee={n.invited_profile_public}
@@ -261,11 +267,9 @@ export const NotificationsPage = () => {
 export const MentionReply = ({
   reply,
   actor,
-  profile,
 }: {
   reply: MentionReply;
   actor?: Actor;
-  profile: Profile;
 }) => {
   return (
     <NotificationItem>
@@ -324,15 +328,7 @@ export const MentionReply = ({
     </NotificationItem>
   );
 };
-export const Reply = ({
-  reply,
-  actor,
-  profile,
-}: {
-  reply: Reply;
-  actor?: Actor;
-  profile: Profile;
-}) => {
+export const Reply = ({ reply, actor }: { reply: Reply; actor?: Actor }) => {
   return (
     <NotificationItem>
       <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
@@ -393,11 +389,9 @@ export const Reply = ({
 export const MentionPost = ({
   post,
   actor,
-  profile,
 }: {
   post: MentionPost;
   actor?: Actor;
-  profile: Profile;
 }) => {
   return (
     <NotificationItem>
@@ -633,13 +627,7 @@ export const InviteeNotification = ({
   );
 };
 
-export const InvitedNotification = ({
-  invitee,
-  n,
-}: {
-  invitee: Invitee;
-  n: Notification;
-}) => {
+export const InvitedNotification = ({ n }: { n: Notification }) => {
   return (
     <NotificationItem>
       <Flex
@@ -669,6 +657,69 @@ export const InvitedNotification = ({
               <Text size="small" color={'default'}>
                 you were invited by
               </Text>
+              <Text semibold size="small">
+                {n.actor_profile_public?.name}
+              </Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(n.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+const ColinksGiveNotification = ({
+  n,
+  give,
+}: {
+  n: Notification;
+  give: Give;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex
+        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
+      >
+        <Icon>
+          <Give size={'lg'} css={{ mt: '-$sm' }} />
+        </Icon>
+
+        <Link
+          as={NavLink}
+          to={coLinksPaths.profile(n.actor_profile_public?.address ?? 'FIXME')}
+        >
+          <Avatar
+            path={n.actor_profile_public?.avatar}
+            name={n.actor_profile_public?.name}
+            size="small"
+          />
+        </Link>
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+            <Flex
+              as={AppLink}
+              css={{
+                gap: '$xs',
+                mr: '$xs',
+                flexWrap: 'wrap',
+              }}
+              to={coLinksPaths.post(give.activity_id)}
+            >
+              <Text size="small" color={'default'}>
+                +GIVE
+              </Text>
+              {give.skill && (
+                <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
+                  <Text size="small">#{give.skill}</Text>
+                </Link>
+              )}
+              <Text size="small" color={'default'}>
+                from
+              </Text>
+
               <Text semibold size="small">
                 {n.actor_profile_public?.name}
               </Text>
