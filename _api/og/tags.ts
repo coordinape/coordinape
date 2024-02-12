@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { escape } from 'html-escaper';
 
