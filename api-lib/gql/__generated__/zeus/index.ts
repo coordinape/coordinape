@@ -6316,6 +6316,12 @@ export type ValueTypes = {
     returning?: ValueTypes['colinks_gives'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "colinks_gives" */
+  ['colinks_gives_obj_rel_insert_input']: {
+    data: ValueTypes['colinks_gives_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['colinks_gives_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "colinks_gives" */
   ['colinks_gives_on_conflict']: {
     constraint: ValueTypes['colinks_gives_constraint'];
@@ -20447,6 +20453,8 @@ export type ValueTypes = {
     actor_profile_public?: ValueTypes['profiles_public'];
     colinks_give_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    give?: ValueTypes['colinks_gives'];
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -20526,6 +20534,7 @@ export type ValueTypes = {
       | null;
     colinks_give_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    give?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_joined_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invited_profile_public?:
@@ -20568,6 +20577,7 @@ export type ValueTypes = {
       | null;
     colinks_give_id?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    give?: ValueTypes['colinks_gives_obj_rel_insert_input'] | undefined | null;
     id?: number | undefined | null;
     invite_joined_id?: ValueTypes['bigint'] | undefined | null;
     invited_profile_public?:
@@ -20646,6 +20656,7 @@ export type ValueTypes = {
       | null;
     colinks_give_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    give?: ValueTypes['colinks_gives_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     invite_joined_id?: ValueTypes['order_by'] | undefined | null;
     invited_profile_public?:
@@ -42050,6 +42061,8 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['colinks_gives']>;
   };
+  /** input type for inserting object relation for remote table "colinks_gives" */
+  ['colinks_gives_obj_rel_insert_input']: GraphQLTypes['colinks_gives_obj_rel_insert_input'];
   /** on_conflict condition type for table "colinks_gives" */
   ['colinks_gives_on_conflict']: GraphQLTypes['colinks_gives_on_conflict'];
   /** Ordering options when selecting data from "colinks_gives". */
@@ -48054,6 +48067,8 @@ export type ModelTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     colinks_give_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    give?: GraphQLTypes['colinks_gives'] | undefined;
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -58694,6 +58709,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['colinks_gives']>;
   };
+  /** input type for inserting object relation for remote table "colinks_gives" */
+  ['colinks_gives_obj_rel_insert_input']: {
+    data: GraphQLTypes['colinks_gives_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['colinks_gives_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "colinks_gives" */
   ['colinks_gives_on_conflict']: {
     constraint: GraphQLTypes['colinks_gives_constraint'];
@@ -68719,6 +68740,8 @@ export type GraphQLTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     colinks_give_id?: number | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    give?: GraphQLTypes['colinks_gives'] | undefined;
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -68785,6 +68808,7 @@ export type GraphQLTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     colinks_give_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    give?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_joined_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invited_profile_public?:
@@ -68825,6 +68849,7 @@ export type GraphQLTypes = {
       | undefined;
     colinks_give_id?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    give?: GraphQLTypes['colinks_gives_obj_rel_insert_input'] | undefined;
     id?: number | undefined;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     invited_profile_public?:
@@ -68895,6 +68920,7 @@ export type GraphQLTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     colinks_give_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    give?: GraphQLTypes['colinks_gives_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_joined_id?: GraphQLTypes['order_by'] | undefined;
     invited_profile_public?:

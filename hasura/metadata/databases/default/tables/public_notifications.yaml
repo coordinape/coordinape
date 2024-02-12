@@ -11,6 +11,15 @@ object_relationships:
         remote_table:
           name: profiles_public
           schema: public
+  - name: give
+    using:
+      manual_configuration:
+        column_mapping:
+          colinks_give_id: id
+        insertion_order: null
+        remote_table:
+          name: colinks_gives
+          schema: public
   - name: invited_profile_public
     using:
       manual_configuration:

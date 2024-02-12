@@ -4154,6 +4154,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'notifications_bool_exp',
     actor_profile_public: 'profiles_public_bool_exp',
     created_at: 'timestamptz_comparison_exp',
+    give: 'colinks_gives_bool_exp',
     id: 'Int_comparison_exp',
     invite_joined_id: 'bigint_comparison_exp',
     invited_profile_public: 'profiles_public_bool_exp',
@@ -4173,6 +4174,7 @@ export const AllTypesProps: Record<string, any> = {
   notifications_order_by: {
     actor_profile_public: 'profiles_public_order_by',
     created_at: 'order_by',
+    give: 'colinks_gives_order_by',
     id: 'order_by',
     invite_joined_id: 'order_by',
     invited_profile_public: 'profiles_public_order_by',
@@ -9942,6 +9944,7 @@ export const ReturnTypes: Record<string, any> = {
   notifications: {
     actor_profile_public: 'profiles_public',
     created_at: 'timestamptz',
+    give: 'colinks_gives',
     id: 'Int',
     invite_joined_id: 'bigint',
     invited_profile_public: 'profiles_public',

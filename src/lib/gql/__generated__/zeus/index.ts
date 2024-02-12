@@ -9549,6 +9549,8 @@ export type ValueTypes = {
     /** An object relationship */
     actor_profile_public?: ValueTypes['profiles_public'];
     created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    give?: ValueTypes['colinks_gives'];
     id?: boolean | `@${string}`;
     invite_joined_id?: boolean | `@${string}`;
     /** An object relationship */
@@ -9624,6 +9626,7 @@ export type ValueTypes = {
       | undefined
       | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    give?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_joined_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invited_profile_public?:
@@ -9676,6 +9679,7 @@ export type ValueTypes = {
       | undefined
       | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    give?: ValueTypes['colinks_gives_order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     invite_joined_id?: ValueTypes['order_by'] | undefined | null;
     invited_profile_public?:
@@ -23443,6 +23447,8 @@ export type ModelTypes = {
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    give?: GraphQLTypes['colinks_gives'] | undefined;
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -33116,6 +33122,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     actor_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    give?: GraphQLTypes['colinks_gives'] | undefined;
     id: number;
     invite_joined_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
@@ -33178,6 +33186,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['notifications_bool_exp']> | undefined;
     actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    give?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_joined_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invited_profile_public?:
@@ -33226,6 +33235,7 @@ export type GraphQLTypes = {
   ['notifications_order_by']: {
     actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    give?: GraphQLTypes['colinks_gives_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_joined_id?: GraphQLTypes['order_by'] | undefined;
     invited_profile_public?:
