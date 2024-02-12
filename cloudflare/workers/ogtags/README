@@ -1,0 +1,20 @@
+# Cloudflare Workers
+
+We use cloudflare workers to hydrate OG tags for our posts.
+
+
+# Setup
+
+First you need to login to cloudflare using wrangler.
+
+```bash
+~/code/coordinape/cloudflare/workers/ogtags ❯ pnpm npx wrangler login
+```
+
+# Staging deploy
+
+pnpm npx wrangler deploy --e staging
+
+# Production deploy
+
+pnpm npx wrangler deploy --e production

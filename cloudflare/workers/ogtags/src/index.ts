@@ -27,10 +27,12 @@ export default {
 		const fetchTheTags = async () => {
 			const controller = new AbortController();
 
+			const originalPath = url.pathname + url.search;
+
 			const timeoutId = setTimeout(() => controller.abort(), 15000);
 			const tagResponse = await fetch(apiURL, {
 				headers: {
-					'X-Original-Path': url.pathname,
+					'X-Original-Path': originalPath,
 					...originalRequest.headers,
 				},
 				signal: controller.signal,

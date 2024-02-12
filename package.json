@@ -203,7 +203,9 @@
     "repl": "tsx scripts/repl.ts",
     "ai_repl": "tsx scripts/ai.ts",
     "psql": "docker exec -it coordinape-postgres-1 psql -U postgres",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cloudflare:deploy:staging": "cd ./cloudflare/workers/ogtags && pnpm npx wrangler deploy --e staging",
+    "cloudflare:deploy:prod": "cd ./cloudflare/workers/ogtags && pnpm npx wrangler deploy --e production"
   },
   "lint-staged": {
     "{api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
