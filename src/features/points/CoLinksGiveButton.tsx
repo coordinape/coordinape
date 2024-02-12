@@ -1,6 +1,9 @@
-import { useState } from 'react';
+/* eslint-disable no-console */
+import { useEffect, useState } from 'react';
 
-import { useMutation } from 'react-query';
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
+import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
@@ -24,16 +27,17 @@ export const CoLinksGiveButton = ({
   const profileId = useProfileId(true);
   const { showError } = useToast();
 
+  const queryClient = useQueryClient();
   const [skill, setSkill] = useState<string | undefined>(undefined);
 
   const myGive = gives.find(
     give => give.giver_profile_public?.id === profileId
   );
 
-  const [createdGive, setCreatedGive] = useState<number | undefined>(
-    myGive?.id
-  );
-  // TODO: invalidation after you give
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ myGive, skill, gives });
+  }, [myGive, skill, gives]);
 
   const createGiveMutation = () => {
     return client.mutate(
@@ -56,12 +60,16 @@ export const CoLinksGiveButton = ({
   };
 
   const updateSkillMutation = () => {
+    if (!myGive?.id) {
+      console.error('no give id');
+      throw new Error('no give id');
+    }
     return client.mutate(
       {
         update_colinks_gives_by_pk: [
           {
             pk_columns: {
-              id: myGive!.id,
+              id: myGive?.id,
             },
             _set: {
               skill: skill,
@@ -79,6 +87,10 @@ export const CoLinksGiveButton = ({
   };
 
   const deleteGiveMutation = async () => {
+    if (!myGive?.id) {
+      console.error('no give id');
+      throw new Error('no give id');
+    }
     return client.mutate(
       {
         deleteCoLinksGive: [
@@ -98,11 +110,16 @@ export const CoLinksGiveButton = ({
     );
   };
 
+  const invalidateActivities = () => {
+    queryClient.invalidateQueries([
+      ACTIVITIES_QUERY_KEY,
+      [QUERY_KEY_COLINKS, 'activity'],
+    ]);
+  };
+
   const { mutate: createGive } = useMutation(createGiveMutation, {
-    onSuccess: data => {
-      if (data.createCoLinksGive) {
-        setCreatedGive(data.createCoLinksGive.id);
-      }
+    onSuccess: () => {
+      invalidateActivities();
     },
     onError: error => {
       showError(error);
@@ -110,21 +127,17 @@ export const CoLinksGiveButton = ({
   });
 
   const { mutate: updateGiveSkill } = useMutation(updateSkillMutation, {
-    // onSuccess: data => {
-    //   // if (data.createCoLinksGive) {
-    //   //   setCreatedGive(data.createCoLinksGive.id);
-    //   // }
-    // },
+    onSuccess: () => {
+      invalidateActivities();
+    },
     onError: error => {
       showError(error);
     },
   });
   const { mutate: deleteGive } = useMutation(deleteGiveMutation, {
-    // onSuccess: data => {
-    //   // if (data.createCoLinksGive) {
-    //   //   setCreatedGive(data.createCoLinksGive.id);
-    //   // }
-    // },
+    onSuccess: () => {
+      invalidateActivities();
+    },
     onError: error => {
       showError(error);
     },
@@ -133,7 +146,7 @@ export const CoLinksGiveButton = ({
   return (
     <>
       <Flex column css={{ gap: '$sm' }}>
-        {!createdGive && (
+        {!myGive && (
           <Button
             size={'small'}
             color={'transparent'}
@@ -143,7 +156,7 @@ export const CoLinksGiveButton = ({
             +GIVE
           </Button>
         )}
-        {createdGive && (
+        {myGive && (
           <>
             {!myGive?.skill && (
               <>
