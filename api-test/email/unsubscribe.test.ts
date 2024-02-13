@@ -16,7 +16,7 @@ describe('unsubscribe tokens', () => {
   beforeEach(() => {
     profileId = '123';
     email = 'jugo@naranja.es';
-    emailType = 'product';
+    emailType = 'colinks_happenings';
     token = genToken(profileId, email, emailType);
   });
 
