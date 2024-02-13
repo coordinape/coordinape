@@ -3,17 +3,22 @@ import { useState } from 'react';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import { OgPostImage } from '../../../_api/og/postimage/OgPostImage';
 import CopyCodeTextField from 'components/CopyCodeTextField';
 import { webAppURL } from 'config/webAppURL';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Modal, Text } from 'ui';
 
+import { Contribution } from './useInfiniteActivities';
+
 export const SharePostModal = ({
   children,
   activityId,
+  activity,
 }: {
   children: React.ReactNode;
   activityId: number;
+  activity: Contribution;
 }) => {
   const genShareLink = async (activityId: number) => {
     return await client.mutate(
@@ -52,7 +57,8 @@ export const SharePostModal = ({
           <Flex column css={{ gap: '$sm' }}>
             <Text h2>Share your post</Text>
             <Text p>
-              Use this unique link to share your post publicly with anyone.
+              Use this unique link to share a preview of your post outside of
+              CoLinks.
             </Text>
             <Flex css={{ mt: '$sm' }}>
               {isLoading ? (
@@ -63,6 +69,14 @@ export const SharePostModal = ({
                 />
               )}
             </Flex>
+            <OgPostImage
+              description={activity.contribution.description}
+              name={activity.actor_profile_public.name}
+              avatar={activity.actor_profile_public.avatar}
+              links={99}
+              rep={99}
+              scale={1}
+            />
           </Flex>
         </Modal>
       )}
