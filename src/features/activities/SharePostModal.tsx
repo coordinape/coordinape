@@ -60,7 +60,7 @@ export const SharePostModal = ({
               Use this unique link to share a preview of your post outside of
               CoLinks.
             </Text>
-            <Flex css={{ mt: '$sm' }}>
+            <Flex css={{ mt: '$sm', mb: '$md' }}>
               {isLoading ? (
                 'loading ...'
               ) : (
@@ -69,14 +69,17 @@ export const SharePostModal = ({
                 />
               )}
             </Flex>
-            <OgPostImage
-              description={activity.contribution.description}
-              name={activity.actor_profile_public.name}
-              avatar={activity.actor_profile_public.avatar}
-              links={99}
-              rep={99}
-              scale={1}
-            />
+            <Text variant="label">Example display</Text>
+            <Flex css={{ borderRadius: '$3', overflow: 'clip' }}>
+              <OgPostImage
+                description={activity.contribution.description}
+                name={activity.actor_profile_public.name}
+                avatar={activity.actor_profile_public.avatar}
+                links={99}
+                rep={99}
+                scale={1}
+              />
+            </Flex>
           </Flex>
         </Modal>
       )}

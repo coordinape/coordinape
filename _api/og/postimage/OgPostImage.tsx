@@ -20,18 +20,6 @@ export const OgPostImage = ({
   const DEFAULT_AVATAR =
     'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 
-  function getRandomColor(colors: string[]): string {
-    // Ensure the array is not empty
-    if (colors.length === 0) {
-      throw new Error('The color array is empty.');
-    }
-
-    // Get a random index from the array
-    const randomIndex = Math.floor(Math.random() * colors.length);
-
-    // Return the color at the random index
-    return colors[randomIndex];
-  }
   function abbreviateNumber(num: number): string {
     if (num < 1000) {
       return num.toString();
@@ -46,15 +34,11 @@ export const OgPostImage = ({
     }
   }
   const svgSize = 23 * scale;
-  const colorArray = ['#cb2dc5', '#602dcb', '#2f2dcb', '#2d64cb', '#2da7cb'];
-  const colorArray2 = ['#fe4949', '#ff9702', '#d9d800', '#82d900', '#00d964'];
-  const randomColor = getRandomColor(colorArray);
-  const randomColor2 = getRandomColor(colorArray2);
 
   return (
     <div
       style={{
-        background: `linear-gradient(135deg, rgba(0,0,0,0.6), transparent 65%), linear-gradient(45deg, ${randomColor} 0%, ${randomColor2} 100%)`,
+        background: `linear-gradient(135deg, rgba(0,0,0,0.6), transparent 65%), linear-gradient(20deg, #602dcb 0%, #00d94d 100%)`,
         height: '100%',
         width: '100%',
         display: 'flex',
