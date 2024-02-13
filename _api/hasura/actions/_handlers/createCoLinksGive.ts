@@ -12,7 +12,7 @@ import {
 import {
   getAvailablePoints,
   POINTS_PER_GIVE,
-} from '../../../../src/features/points/getAvailablePoints.ts';
+} from '../../../../src/features/points/getAvailablePoints';
 
 const createCoLinksGiveInput = z
   .object({
@@ -79,6 +79,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // insert the thing
     // checkpoint balance
     // return the id
+
+    const newPoints = points - POINTS_PER_GIVE;
+
     const { insert_colinks_gives_one } = await adminClient.mutate(
       {
         insert_colinks_gives_one: [
@@ -97,8 +100,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             where: { id: { _eq: profileId } },
             _set: {
-              // TODO: THIS REQUIRES DOUBLE in db column points_balance: points - POINTS_PER_GIVE,
-              points_balance: 187,
+              points_balance: newPoints,
               points_checkpointed_at: 'now()',
             },
           },

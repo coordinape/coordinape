@@ -9,7 +9,10 @@ import {
   errorResponse,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import { getAvailablePoints } from '../../../../src/features/points/getAvailablePoints.ts';
+import {
+  getAvailablePoints,
+  POINTS_PER_GIVE,
+} from '../../../../src/features/points/getAvailablePoints';
 
 const deleteCoLinksGiveInput = z
   .object({
@@ -59,15 +62,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     );
     assert(profiles_by_pk, 'current user profile not found');
+
     const points = getAvailablePoints(
       profiles_by_pk.points_balance,
       profiles_by_pk.points_checkpointed_at
     );
-    console.log(points);
-
     // delete the thing
     // checkpoint balance
     // return the id
+
+    const newPoints = points + POINTS_PER_GIVE;
     await adminClient.mutate(
       {
         delete_colinks_gives: [
@@ -84,9 +88,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             where: { id: { _eq: profileId } },
             _set: {
-              // TODO: THIS REQUIRES DOUBLE in db column points_balance:
-              //points_balance:  points - POINTS_PER_GIVE,
-              points_balance: 187,
+              points_balance: newPoints,
               points_checkpointed_at: 'now()',
             },
           },
