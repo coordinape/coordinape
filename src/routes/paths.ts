@@ -143,6 +143,8 @@ export const givePaths = {
 
   // email verification
   verify: (uuid: string) => `/email/verify/${uuid}`,
+  unsubscribe: (unsubscribeToken: string) =>
+    `/email/unsubscribe/${unsubscribeToken}`,
 };
 
 export const isCircleSpecificPath = (location: Location) =>

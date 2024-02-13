@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { WizardInstructions } from 'features/colinks/wizard/WizardInstructions';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import { useNavigate } from 'react-router';
@@ -7,13 +8,14 @@ import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
-import { coLinksPaths } from '../../routes/paths';
+import { coLinksPaths, givePaths } from '../../routes/paths';
 import { Button, Flex, Panel, Text } from '../../ui';
 
 export const UnsubscribeEmailPage = () => {
   useAuthStateMachine(false);
   const { unsubscribeToken } = useParams();
   const navigate = useNavigate();
+  const isCoLinks = useIsCoLinksSite();
 
   const [unsubscribeMessage, setUnsubscribeMessage] = useState<
     string | undefined
@@ -54,19 +56,33 @@ export const UnsubscribeEmailPage = () => {
                   <Button
                     color="cta"
                     onClick={() => {
-                      navigate(coLinksPaths.home, {
-                        replace: true,
-                      });
+                      if (isCoLinks) {
+                        navigate(coLinksPaths.home, {
+                          replace: true,
+                        });
+                      } else {
+                        navigate(givePaths.home, {
+                          replace: true,
+                        });
+                      }
                     }}
                   >
-                    Continue to CoLinks
+                    {isCoLinks
+                      ? 'Continue to CoLinks'
+                      : 'Continue to Coordinape'}
                   </Button>
                   <Button
                     color="secondary"
                     onClick={() => {
-                      navigate(coLinksPaths.account, {
-                        replace: true,
-                      });
+                      if (isCoLinks) {
+                        navigate(coLinksPaths.account, {
+                          replace: true,
+                        });
+                      } else {
+                        navigate(givePaths.account, {
+                          replace: true,
+                        });
+                      }
                     }}
                   >
                     View Email Settings

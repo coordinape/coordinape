@@ -31,6 +31,7 @@ import ProfilePage from '../pages/ProfilePage';
 import VaultsPage from '../pages/VaultsPage';
 import { VaultTransactions } from '../pages/VaultsPage/VaultTransactions';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
+import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import {
   NotReady,
@@ -194,6 +195,10 @@ export const giveRoutes = [
     >
       <Route path={givePaths.join(':token')} element={<JoinPage />} />
       <Route path={givePaths.verify(':uuid')} element={<VerifyEmailPage />} />
+      <Route
+        path={givePaths.unsubscribe(':unsubscribeToken')}
+        element={<UnsubscribeEmailPage />}
+      />
       <Route
         path="*"
         element={

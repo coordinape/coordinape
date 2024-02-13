@@ -49,9 +49,9 @@ export async function unsubscribeEmail(
   const display =
     emailType === 'notification'
       ? 'unread notifications emails'
-      : emailType === 'product'
+      : emailType === 'colinks_happenings' || emailType === 'give_happenings'
         ? 'product emails'
-        : 'transactional emails';
+        : 'circle emails';
   return res.status(200).send({
     message: `Email unsubscribed successfully from ${display}`,
   });
@@ -61,11 +61,9 @@ function getEmailColumn(emailType: EmailType) {
   switch (emailType) {
     case 'notification':
       return { _set: { colinks_notification_emails: false } };
-    case 'product':
+    case 'give_happenings':
       return { _set: { product_emails: false } };
-    case 'transactional':
-      return { _set: { app_emails: false } };
-    case 'colinks_product':
+    case 'colinks_happenings':
       return { _set: { colinks_product_emails: false } };
     default:
       return { _set: { app_emails: false } };

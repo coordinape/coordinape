@@ -3,18 +3,18 @@ import { createHmac } from 'crypto';
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
-export type EmailType =
-  | 'product'
-  | 'transactional'
-  | 'notification'
-  | 'colinks_product';
+type EmailType =
+  | 'give_happenings'
+  | 'colinks_happenings'
+  | 'circle_notification'
+  | 'notification'; // for colinks notifications. remainded this way to not affect old links
 
 export function isEmailType(emailType: string): emailType is EmailType {
   return [
-    'product',
-    'transactional',
+    'give_happenings',
+    'colinks_happenings',
+    'circle_notification',
     'notification',
-    'colinks_product',
   ].includes(emailType);
 }
 
@@ -31,7 +31,6 @@ export function genToken(
     emailType,
     token,
   });
-
   return params.toString();
 }
 
