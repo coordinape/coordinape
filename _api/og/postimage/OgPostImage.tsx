@@ -86,7 +86,7 @@ export const OgPostImage = ({
                 avatar
                   ? IN_DEVELOPMENT
                     ? avatar
-                    : process.env.REACT_APP_S3_BASE_URL + avatar
+                    : process.env.VITE_S3_BASE_URL + avatar
                   : DEFAULT_AVATAR
               }
               style={{ margin: '0', borderRadius: 99999 }}

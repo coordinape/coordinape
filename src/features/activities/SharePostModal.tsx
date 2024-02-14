@@ -75,6 +75,7 @@ export const SharePostModal = ({
                 description={activity.contribution.description}
                 name={activity.actor_profile_public.name}
                 avatar={activity.actor_profile_public.avatar}
+                // TODO these shouldn't be hardcoded
                 links={99}
                 rep={99}
                 scale={1}

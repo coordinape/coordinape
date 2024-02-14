@@ -12,6 +12,7 @@ import { Flex, Panel, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
 
 export const POST_PAGE_QUERY_KEY = 'colinks_post_page';
+
 const fetchPost = async (id: number) => {
   const { activities_by_pk } = await client.query(
     {
