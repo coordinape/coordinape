@@ -1,5 +1,4 @@
-/* eslint-disable no-console */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
@@ -35,11 +34,6 @@ export const CoLinksGiveButton = ({
   const myGive = gives.find(
     give => give.giver_profile_public?.id === profileId
   );
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ myGive, skill, gives });
-  }, [myGive, skill, gives]);
 
   const createGiveMutation = () => {
     return client.mutate(
