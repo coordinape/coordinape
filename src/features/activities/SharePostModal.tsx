@@ -3,22 +3,22 @@ import { useState } from 'react';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
-import { OgPostImage } from '../../../_api/og/postimage/OgPostImage';
+// import { OgPostImage } from '../../../_api/og/postimage/OgPostImage';
 import CopyCodeTextField from 'components/CopyCodeTextField';
 import { webAppURL } from 'config/webAppURL';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Modal, Text } from 'ui';
 
-import { Contribution } from './useInfiniteActivities';
+// import { Contribution } from './useInfiniteActivities';
 
 export const SharePostModal = ({
   children,
   activityId,
-  activity,
+  // activity,
 }: {
   children: React.ReactNode;
   activityId: number;
-  activity: Contribution;
+  // activity: Contribution;
 }) => {
   const genShareLink = async (activityId: number) => {
     return await client.mutate(
@@ -69,8 +69,8 @@ export const SharePostModal = ({
                 />
               )}
             </Flex>
-            <Text variant="label">Example display</Text>
-            <Flex css={{ borderRadius: '$3', overflow: 'clip' }}>
+            {/* <Text variant="label">Example display</Text> */}
+            {/* <Flex css={{ borderRadius: '$3', overflow: 'clip' }}>
               <OgPostImage
                 description={activity.contribution.description}
                 name={activity.actor_profile_public.name}
@@ -80,7 +80,7 @@ export const SharePostModal = ({
                 rep={99}
                 scale={1}
               />
-            </Flex>
+            </Flex> */}
           </Flex>
         </Modal>
       )}

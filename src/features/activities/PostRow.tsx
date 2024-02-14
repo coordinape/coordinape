@@ -113,7 +113,7 @@ export const PostRow = ({
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
                 {editableContribution && (
-                  <SharePostModal activityId={activity.id} activity={activity}>
+                  <SharePostModal activityId={activity.id}>
                     <Link
                       inlineLink
                       color="neutral"
