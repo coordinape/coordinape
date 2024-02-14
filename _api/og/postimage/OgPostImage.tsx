@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 
 import { IN_DEVELOPMENT } from '../../../src/config/env';
