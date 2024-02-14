@@ -19,6 +19,7 @@ const TEMPLATES = {
   COLINKS_WAITLIST_WELCOME: 'colinks_waitlist_welcome',
   COLINKS_WAITLIST_INVITED: 'colinks_waitlist_invited',
   COLINKS_NOTIFICATIONS: 'colinks_notification',
+  COLINKS_BIG_QUESTION: 'colinks_big_question',
   EPOCH_ENDED: 'epoch_ended',
   EPOCH_STARTED: 'epoch_started',
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
@@ -128,6 +129,35 @@ export async function sendCoLinksNotificationsEmail(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_NOTIFICATIONS,
+    input,
+    'colinks'
+  );
+  return res;
+}
+
+export async function sendCoLinksBigQuestionEmail(params: {
+  email: string;
+  profile_id: number;
+  big_question_id: number;
+  big_question_prompt: string;
+}) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    'notification'
+  );
+  const input = {
+    action_url:
+      webAppURL('colinks') +
+      coLinksPaths.bigQuestion(params.big_question_id.toString()),
+    unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
+    big_question_prompt: params.big_question_prompt,
+  };
+  // eslint-disable-next-line no-console
+  console.log('sending big question email to', params.email, 'with', { input });
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.COLINKS_BIG_QUESTION,
     input,
     'colinks'
   );
