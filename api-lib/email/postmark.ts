@@ -3,7 +3,7 @@ import { coLinksPaths } from '../../src/routes/paths';
 import { POSTMARK_SERVER_TOKEN } from '../config';
 import { adminClient } from '../gql/adminClient';
 
-import { genToken } from './unsubscribe';
+import { EmailType, genToken } from './unsubscribe';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
@@ -118,7 +118,7 @@ export async function sendCoLinksNotificationsEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'notification'
+    EmailType.COLINKS_NOTIFICATION
   );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
@@ -245,7 +245,7 @@ export async function sendEpochEndedEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'circle_notification'
+    EmailType.CIRCLE_NOTIFICATION
   );
 
   const input = {
@@ -275,7 +275,7 @@ export async function sendEpochEndingSoonEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'circle_notification'
+    EmailType.CIRCLE_NOTIFICATION
   );
 
   const input = {
@@ -303,7 +303,7 @@ export async function sendEpochStartedEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'circle_notification'
+    EmailType.CIRCLE_NOTIFICATION
   );
 
   const input = {

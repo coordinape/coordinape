@@ -861,8 +861,8 @@ function calculateNumReceived(
     }[]
   >((acc, u) => {
     const email = u.profile?.emails?.[0]?.email;
-    const emailSubscribtion = u.profile?.app_emails;
-    if (email && emailSubscribtion) {
+    const emailSubscription = u.profile?.app_emails;
+    if (email && emailSubscription) {
       acc.push({
         email,
         profileId: u.profile.id,

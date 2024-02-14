@@ -3,18 +3,19 @@ import { createHmac } from 'crypto';
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
-type EmailType =
-  | 'give_happenings'
-  | 'colinks_happenings'
-  | 'circle_notification'
-  | 'notification'; // for colinks notifications. remainded this way to not affect old links
+export enum EmailType {
+  GIVE_CIRCLE_HAPPENINGS = 'give_happenings',
+  COLINKS_HOT_HAPPENINGS = 'colinks_happenings',
+  CIRCLE_NOTIFICATION = 'circle_notification',
+  COLINKS_NOTIFICATION = 'notification', // for colinks notifications. remainded this way to not affect old links
+}
 
-export function isEmailType(emailType: string): emailType is EmailType {
+export function isEmailType(emailType: EmailType): emailType is EmailType {
   return [
-    'give_happenings',
-    'colinks_happenings',
-    'circle_notification',
-    'notification',
+    EmailType.CIRCLE_NOTIFICATION,
+    EmailType.COLINKS_NOTIFICATION,
+    EmailType.COLINKS_HOT_HAPPENINGS,
+    EmailType.GIVE_CIRCLE_HAPPENINGS,
   ].includes(emailType);
 }
 
@@ -45,7 +46,13 @@ export function decodeToken(encodedString: string): {
   const token = params.get('token');
   const emailType = params.get('emailType');
 
-  if (!profileId || !email || !token || !emailType || !isEmailType(emailType)) {
+  if (
+    !profileId ||
+    !email ||
+    !token ||
+    !emailType ||
+    !isEmailType(emailType as EmailType)
+  ) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
 
