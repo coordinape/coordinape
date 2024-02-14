@@ -12,9 +12,11 @@ import { Button, Flex, Text, TextField } from '../../ui';
 
 export const CoLinksGiveButton = ({
   activityId,
+  isMyPost,
   gives,
 }: {
   activityId: number;
+  isMyPost: boolean;
   gives: {
     id: number;
     skill?: string;
@@ -146,7 +148,7 @@ export const CoLinksGiveButton = ({
   return (
     <>
       <Flex column css={{ gap: '$sm' }}>
-        {!myGive && (
+        {!isMyPost && !myGive && (
           <Button
             size={'small'}
             color={'transparent'}

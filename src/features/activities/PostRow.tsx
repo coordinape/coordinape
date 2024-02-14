@@ -163,12 +163,11 @@ export const PostRow = ({
                     drawer={false}
                   />
                   <Flex>
-                    {profileId !== activity.actor_profile_public.id && (
-                      <CoLinksGiveButton
-                        activityId={activity.id}
-                        gives={activity.gives}
-                      />
-                    )}
+                    <CoLinksGiveButton
+                      isMyPost={activity.actor_profile_public.id === profileId}
+                      activityId={activity.id}
+                      gives={activity.gives}
+                    />
                     <Flex className="commentButton">
                       <>
                         {commentCount > 0 ? (
