@@ -7,6 +7,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
+import isFeatureEnabled from 'config/features';
 import { Edit, Messages, MessageSolid, ShareSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
 
@@ -112,7 +113,7 @@ export const PostRow = ({
                 >
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
-                {editableContribution && (
+                {isFeatureEnabled('share_post') && editableContribution && (
                   <SharePostModal activityId={activity.id}>
                     <Link
                       inlineLink
