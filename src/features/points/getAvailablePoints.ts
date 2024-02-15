@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon';
 
-export const MAX_POINTS_CAP = 1000;
-export const EMISSION_PER_SECOND = 0.1;
-export const POINTS_PER_GIVE = MAX_POINTS_CAP / 5;
+export const MAX_POINTS_CAP = 1800;
+export const EMISSION_PER_SECOND = 0.0000001;
+export const MAX_GIVE = 5;
+export const POINTS_PER_GIVE = MAX_POINTS_CAP / MAX_GIVE;
 
 export const getAvailablePoints = (balance: number, checkpoint: string) => {
   const checkpointTime = DateTime.fromISO(checkpoint);
