@@ -684,7 +684,7 @@ const ColinksGiveNotification = ({
         css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
       >
         <Icon>
-          <Give size={'lg'} css={{ mt: '-$sm' }} />
+          <Give nostroke size={'lg'} css={{ mt: '-$sm' }} />
         </Icon>
 
         <Link
