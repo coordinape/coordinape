@@ -168,10 +168,7 @@ export const SkillAndTopicPicker = () => {
       },
     }
   );
-  const { data: skills, isLoading: skillsLoading } = useQuery(
-    [QUERY_KEY_ALL_SKILLS],
-    fetchSkills
-  );
+
   const { data: profileSkills, isLoading: profileSkillsLoading } = useQuery(
     [QUERY_KEY_PROFILE_SKILLS],
     () => fetchMySkills(profileId)
@@ -185,10 +182,11 @@ export const SkillAndTopicPicker = () => {
         <Text large semibold>
           Interests
         </Text>
-        {skills === undefined ||
-          (profileSkills === undefined && <LoadingIndicator />)}
+        {(profileSkills === undefined || profileSkillsLoading) && (
+          <LoadingIndicator />
+        )}
       </Flex>
-      {skills !== undefined && profileSkills !== undefined && (
+      {profileSkills !== undefined && (
         <>
           <Flex column>
             <Text css={{ mt: '$sm', mb: '$lg' }}>
@@ -230,7 +228,10 @@ export const SkillAndTopicPicker = () => {
               {maxedOut ? `${MAX_SKILLS} Interests Max` : `Add Interests`}
             </Text>
             <Flex>
-              <SkillComboBox />
+              <SkillComboBox
+                hideInput={maxedOut}
+                excludeSkills={profileSkills}
+              />
             </Flex>
           </Flex>
         </>
@@ -239,14 +240,25 @@ export const SkillAndTopicPicker = () => {
   );
 };
 
-const SkillComboBox = () => {
-  const isLoading = profileSkillsLoading || skillsLoading;
+type SkillComboBoxProps = {
+  hideInput: boolean;
+  excludeSkills: string[];
+};
+const SkillComboBox = ({ hideInput, excludeSkills }: SkillComboBoxProps) => {
+  const { data: skills, isLoading } = useQuery(
+    [QUERY_KEY_ALL_SKILLS],
+    fetchSkills
+  );
+
   const inputRef = useRef<HTMLInputElement>(null);
   const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
 
+  if (!skills || isLoading) {
+    return <LoadingIndicator />;
+  }
   return (
     <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-      {!maxedOut && (
+      {!hideInput && (
         <Flex
           column
           as={Popover.Trigger}
@@ -259,7 +271,6 @@ const SkillComboBox = () => {
           {/* This TextField is just a popover trigger */}
           <TextField
             placeholder="Search or Add Interest"
-            disabled={maxedOut}
             css={{ width: '302px' }}
             value=""
           />
@@ -295,7 +306,7 @@ const SkillComboBox = () => {
               <>
                 <AddItem
                   addSkill={addSkill}
-                  mySkills={Array.from(profileSkills)}
+                  alreadyAddedSkills={Array.from(excludeSkills)}
                   allSkills={skills}
                 />
 
@@ -303,7 +314,7 @@ const SkillComboBox = () => {
                   {skills
                     .filter(
                       sk =>
-                        !profileSkills.some(
+                        !excludeSkills.some(
                           ps => ps.toLowerCase() === sk.name.toLowerCase()
                         )
                     )
@@ -313,7 +324,7 @@ const SkillComboBox = () => {
                         value={skill.name}
                         onSelect={addSkill}
                         defaultChecked={false}
-                        disabled={profileSkills.some(
+                        disabled={excludeSkills.some(
                           ps => ps.toLowerCase() === skill.name.toLowerCase()
                         )}
                       >
@@ -344,11 +355,11 @@ type Skill = Awaited<ReturnType<typeof fetchSkills>>[number];
 
 const AddItem = ({
   addSkill,
-  mySkills,
+  alreadyAddedSkills,
   allSkills,
 }: {
   addSkill(skill: string): void;
-  mySkills: string[];
+  alreadyAddedSkills: string[];
   allSkills: Skill[];
 }) => {
   const search = useCommandState(state => state.search);
@@ -359,7 +370,7 @@ const AddItem = ({
     return null;
   }
 
-  if (mySkills.some(s => s.toLowerCase() === search.toLowerCase())) {
+  if (alreadyAddedSkills.some(s => s.toLowerCase() === search.toLowerCase())) {
     return (
       <Command.Item color={'cta'} key={search} value={search} disabled={true}>
         <Text semibold>Already added {search}</Text>
