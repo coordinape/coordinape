@@ -7,7 +7,8 @@ import { useMutation, useQueryClient } from 'react-query';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, Text, TextField } from '../../ui';
+import { PickOneSkill } from '../../pages/AccountPage/AccountPage';
+import { Button, Flex, Text } from '../../ui';
 
 export const CoLinksGiveButton = ({
   activityId,
@@ -29,11 +30,12 @@ export const CoLinksGiveButton = ({
   const { showError } = useToast();
 
   const queryClient = useQueryClient();
-  const [skill, setSkill] = useState<string | undefined>(undefined);
 
   const myGive = gives.find(
     give => give.giver_profile_public?.id === profileId
   );
+
+  const [skill, setSkill] = useState<string | undefined>(myGive?.skill);
 
   const createGiveMutation = () => {
     return client.mutate(
@@ -55,12 +57,11 @@ export const CoLinksGiveButton = ({
     );
   };
 
-  const updateSkillMutation = () => {
+  const updateSkillMutation = async (newSkill: string | undefined) => {
     if (!myGive?.id) {
-      console.error('no give id');
       throw new Error('no give id');
     }
-    return client.mutate(
+    const { update_colinks_gives_by_pk } = await client.mutate(
       {
         update_colinks_gives_by_pk: [
           {
@@ -68,11 +69,12 @@ export const CoLinksGiveButton = ({
               id: myGive?.id,
             },
             _set: {
-              skill: skill,
+              skill: newSkill,
             },
           },
           {
             id: true,
+            skill: true,
           },
         ],
       },
@@ -80,11 +82,11 @@ export const CoLinksGiveButton = ({
         operationName: 'updateGiveSkill',
       }
     );
+    return update_colinks_gives_by_pk?.skill;
   };
 
   const deleteGiveMutation = async () => {
     if (!myGive?.id) {
-      console.error('no give id');
       throw new Error('no give id');
     }
     return client.mutate(
@@ -123,8 +125,9 @@ export const CoLinksGiveButton = ({
   });
 
   const { mutate: updateGiveSkill } = useMutation(updateSkillMutation, {
-    onSuccess: () => {
+    onSuccess: skill => {
       invalidateActivities();
+      setSkill(skill);
     },
     onError: error => {
       showError(error);
@@ -133,6 +136,7 @@ export const CoLinksGiveButton = ({
   const { mutate: deleteGive } = useMutation(deleteGiveMutation, {
     onSuccess: () => {
       invalidateActivities();
+      setSkill(undefined);
     },
     onError: error => {
       showError(error);
@@ -154,17 +158,12 @@ export const CoLinksGiveButton = ({
         )}
         {myGive && (
           <>
-            {!myGive?.skill && (
-              <>
-                <TextField
-                  placeholder={'enter a skill'}
-                  value={skill}
-                  onChange={e => setSkill(e.target.value)}
-                />
-                <Button onClick={() => updateGiveSkill()}>Save</Button>
-              </>
-            )}
-            <Button onClick={() => deleteGive()}>Delete</Button>
+            <PickOneSkill
+              setSkill={skill => updateGiveSkill(skill)}
+              skill={skill}
+              placeholder={'Choose a GIVE Reason'}
+              clearSkill={() => deleteGive()}
+            />
           </>
         )}
         {gives.map(g => (
