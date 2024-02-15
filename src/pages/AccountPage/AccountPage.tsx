@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
@@ -33,7 +33,6 @@ export default function AccountPage() {
       setSearchParams('');
     }
   }, [error]);
-
   return (
     <SingleColumnLayout>
       <ContentHeader>
@@ -42,8 +41,6 @@ export default function AccountPage() {
         </Flex>
       </ContentHeader>
       <Flex column css={{ maxWidth: '$readable', gap: '$lg' }}>
-        Boom
-        <PickOneSkill />
         {isCoLinksPage && (
           <>
             <Panel css={{ gap: '$md' }}>
@@ -90,8 +87,18 @@ export default function AccountPage() {
   );
 }
 
-const PickOneSkill = () => {
-  const [skill, setSkill] = useState<string | undefined>();
+type PickOneSkillProps = {
+  skill?: string;
+  setSkill: (skill: string | undefined) => void;
+  clearSkill: () => void;
+  placeholder?: string;
+};
+export const PickOneSkill = ({
+  clearSkill,
+  placeholder,
+  skill,
+  setSkill,
+}: PickOneSkillProps) => {
   return (
     <>
       {skill ? (
@@ -99,7 +106,7 @@ const PickOneSkill = () => {
           <Text tag size="medium" color="complete" css={{ pr: 0 }}>
             {skill}
             <IconButton
-              onClick={() => setSkill(undefined)}
+              onClick={() => clearSkill()}
               css={{ pr: '$sm', width: 'auto' }}
             >
               <X size={'xs'} />
@@ -113,7 +120,7 @@ const PickOneSkill = () => {
           addSkill={async (skill: string) => {
             setSkill(skill);
           }}
-          placeholder={'Choose a GIVE Reason'}
+          placeholder={placeholder}
         />
       )}
     </>
