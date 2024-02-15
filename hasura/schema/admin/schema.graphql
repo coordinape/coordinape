@@ -34734,6 +34734,7 @@ type profiles {
     where: invite_codes_bool_exp
   ): invite_codes_aggregate!
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int!
@@ -35095,6 +35096,7 @@ aggregate avg on columns
 type profiles_avg_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -35139,6 +35141,7 @@ input profiles_bool_exp {
   invite_codes: invite_codes_bool_exp
   invite_codes_aggregate: invite_codes_aggregate_bool_exp
   invited_by: bigint_comparison_exp
+  last_emailed_big_question_id: Int_comparison_exp
   last_emailed_notification_id: Int_comparison_exp
   last_read_notification_id: Int_comparison_exp
   links: Int_comparison_exp
@@ -35203,6 +35206,7 @@ input type for incrementing numeric columns in table "profiles"
 input profiles_inc_input {
   id: bigint
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -35240,6 +35244,7 @@ input profiles_insert_input {
   invite_code_sent_at: timestamptz
   invite_codes: invite_codes_arr_rel_insert_input
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -35284,6 +35289,7 @@ type profiles_max_fields {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -35319,6 +35325,7 @@ type profiles_min_fields {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -35400,6 +35407,7 @@ input profiles_order_by {
   invite_code_sent_at: order_by
   invite_codes_aggregate: invite_codes_aggregate_order_by
   invited_by: order_by
+  last_emailed_big_question_id: order_by
   last_emailed_notification_id: order_by
   last_read_notification_id: order_by
   links: order_by
@@ -36373,6 +36381,11 @@ enum profiles_select_column {
   """
   column name
   """
+  last_emailed_big_question_id
+
+  """
+  column name
+  """
   last_emailed_notification_id
 
   """
@@ -36461,6 +36474,7 @@ input profiles_set_input {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -36482,6 +36496,7 @@ aggregate stddev on columns
 type profiles_stddev_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -36494,6 +36509,7 @@ aggregate stddev_pop on columns
 type profiles_stddev_pop_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -36506,6 +36522,7 @@ aggregate stddev_samp on columns
 type profiles_stddev_samp_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -36552,6 +36569,7 @@ input profiles_stream_cursor_value_input {
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -36573,6 +36591,7 @@ aggregate sum on columns
 type profiles_sum_fields {
   id: bigint
   invited_by: bigint
+  last_emailed_big_question_id: Int
   last_emailed_notification_id: Int
   last_read_notification_id: Int
   links: Int
@@ -36691,6 +36710,11 @@ enum profiles_update_column {
   """
   column name
   """
+  last_emailed_big_question_id
+
+  """
+  column name
+  """
   last_emailed_notification_id
 
   """
@@ -36777,6 +36801,7 @@ aggregate var_pop on columns
 type profiles_var_pop_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -36789,6 +36814,7 @@ aggregate var_samp on columns
 type profiles_var_samp_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
@@ -36801,6 +36827,7 @@ aggregate variance on columns
 type profiles_variance_fields {
   id: Float
   invited_by: Float
+  last_emailed_big_question_id: Float
   last_emailed_notification_id: Float
   last_read_notification_id: Float
   links: Float
