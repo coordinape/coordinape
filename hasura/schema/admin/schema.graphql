@@ -478,6 +478,14 @@ input SetPrimaryEmailInput {
   email: String!
 }
 
+input ShareInput {
+  activity_id: Int!
+}
+
+type ShareOutput {
+  token: String!
+}
+
 input SimilarProfileInput {
   address: String!
 }
@@ -23984,6 +23992,11 @@ type mutation_root {
   sets a given email as the primary email for user
   """
   setPrimaryEmail(payload: SetPrimaryEmailInput!): ConfirmationResponse
+
+  """
+  Generate share link for Colinks activity/post
+  """
+  share(payload: ShareInput!): ShareOutput
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 
   """

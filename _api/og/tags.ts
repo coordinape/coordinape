@@ -1,9 +1,11 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { escape } from 'html-escaper';
 
+import { decodeToken } from '../../api-lib/colinks/share';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { getBigQuestionInfo } from './bqinfo/[id]';
+import { getPostInfo } from './postinfo/[id]';
 import { getProfileInfo } from './profileinfo/[address]';
 
 const appURL = webAppURL('colinks');
@@ -40,6 +42,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         twitter_card: 'summary_large_image',
       })
     );
+  } else if (path.startsWith('/post/')) {
+    // if we have a valid share token, render post, otherwise render colinks generic og tags
+
+    try {
+      const url = new URL(path, appURL);
+
+      const parts = url.pathname.split('/');
+      const id = parts[parts.length - 1];
+      const token = url.searchParams.get('s');
+
+      if (!token) {
+        console.error('no token found given', { url, parts, token });
+        throw new Error('no token found');
+      }
+
+      const post = await getPostInfo(id);
+
+      decodeToken(token, post?.profile?.id, id);
+
+      return res.send(
+        buildTags({
+          title: `Post by ${post?.profile?.name} - CoLinks`,
+          description: 'Join the conversation on CoLinks',
+          image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(id)}`,
+          path,
+          twitter_card: 'summary_large_image',
+        })
+      );
+    } catch (e) {
+      console.error('error tagging post', e);
+      return res.send(defaultCoLinksTags(path));
+    }
   } else if (path.startsWith('/bigquestion/')) {
     const parts = path.split('/');
     const id = parts[parts.length - 1];
@@ -52,10 +86,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    // it's a user!
+    // it's a big q!
     return res.send(
       buildTags({
-        title: `The Big Question: ${bq.prompt} -  on CoLinks`,
+        title: `The Big Question: ${bq.prompt} - CoLinks`,
         description: bq.prompt,
         image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
           id
@@ -65,17 +99,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       })
     );
   } else {
-    return res.send(
-      buildTags({
-        title: 'CoLinks',
-        description: appDescription,
-        image: appImg,
-        path,
-        twitter_card: 'summary',
-      })
-    );
+    return res.send(defaultCoLinksTags(path));
   }
 }
+
+const defaultCoLinksTags = (path: string) => {
+  return buildTags({
+    title: 'CoLinks',
+    description: appDescription,
+    image: appImg,
+    path,
+    twitter_card: 'summary',
+  });
+};
 
 const buildTags = ({
   title,

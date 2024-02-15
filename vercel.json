@@ -62,6 +62,14 @@
       "destination": "/api/og/profileinfo/[address]?address=:address"
     },
     {
+      "source": "/api/og/postimage/:id",
+      "destination": "/api/og/postimage/[id]?id=:id"
+    },
+    {
+      "source": "/api/og/postinfo/:id",
+      "destination": "/api/og/postinfo/[id]?id=:id"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

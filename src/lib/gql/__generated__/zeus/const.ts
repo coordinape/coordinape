@@ -57,6 +57,7 @@ export const AllTypesProps: Record<string, any> = {
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
   SetPrimaryEmailInput: {},
+  ShareInput: {},
   SimilarProfileInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
@@ -3602,6 +3603,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     setPrimaryEmail: {
       payload: 'SetPrimaryEmailInput',
+    },
+    share: {
+      payload: 'ShareInput',
     },
     syncCoSoul: {
       payload: 'SyncCoSoulInput',
@@ -8328,6 +8332,9 @@ export const ReturnTypes: Record<string, any> = {
     profile_public: 'profiles_public',
     similarity: 'Float',
   },
+  ShareOutput: {
+    token: 'String',
+  },
   SimilarProfileOutput: {
     profile_id: 'Int',
     profile_public: 'profiles_public',
@@ -9737,6 +9744,7 @@ export const ReturnTypes: Record<string, any> = {
     requestInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
+    share: 'ShareOutput',
     syncCoSoul: 'SyncCoSoulOutput',
     syncLinks: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',

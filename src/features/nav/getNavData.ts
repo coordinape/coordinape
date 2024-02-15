@@ -1,8 +1,8 @@
-import { useAuthStore, useIsLoggedIn } from 'features/auth';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import useProfileId from 'hooks/useProfileId';
 import { useWeb3React } from 'hooks/useWeb3React';
 
 export const getNavData = (profileId: number, chainId: number) =>
@@ -95,8 +95,8 @@ export const QUERY_KEY_NAV = 'Nav';
 // FIXME this is redundant with fetchManifest
 export const useNavQuery = () => {
   const { chainId } = useWeb3React();
-  const isLoggedIn = useIsLoggedIn();
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId();
+
   return useQuery(
     [QUERY_KEY_NAV, profileId],
     async () => {
@@ -108,7 +108,7 @@ export const useNavQuery = () => {
       return { ...data, profile };
     },
     {
-      enabled: !!profileId && !!chainId && isLoggedIn,
+      enabled: !!profileId && !!chainId,
       staleTime: Infinity,
     }
   );
