@@ -46,6 +46,8 @@ async function sendEmailAndUpdateProfile({
 
 async function getEligibleUsersWithEmails(big_question_id: number) {
   // get all eligible users who have not received a big question email for this big question id
+
+  // TODO: this query is not working!!!!
   const { profiles } = await adminClient.query(
     {
       profiles: [
@@ -90,7 +92,7 @@ async function getActiveBigQuestion() {
       big_questions: [
         {
           where: {
-            _and: [{ publish_at: { _gt: now } }, { expire_at: { _lt: now } }],
+            _and: [{ publish_at: { _lt: now } }, { expire_at: { _gt: now } }],
           },
           limit: 1,
         },
@@ -107,17 +109,18 @@ async function getActiveBigQuestion() {
 }
 
 async function handler(req: VercelRequest, res: VercelResponse) {
-  if (IN_DEVELOPMENT) {
-    return res.status(200).json({ success: true });
-  }
+  // if (IN_DEVELOPMENT) {
+  //   return res.status(200).json({ success: true });
+  // }
 
   const big_question = await getActiveBigQuestion();
 
   if (!big_question) {
+    console.error('No active big question found');
     return res.status(200).json({ success: true });
   }
 
-  const profiles = getEligibleUsersWithEmails(big_question.id);
+  const profiles = await getEligibleUsersWithEmails(big_question.id);
 
   // email and update last emailed big question id
   try {
