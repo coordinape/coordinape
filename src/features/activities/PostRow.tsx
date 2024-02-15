@@ -9,7 +9,7 @@ import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
 import { CoLinksGiveButton } from '../points/CoLinksGiveButton';
-import { Edit, Messages, MessageSolid } from 'icons/__generated';
+import { BoltFill, Edit, Messages, MessageSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
@@ -157,11 +157,14 @@ export const PostRow = ({
                   className="clickThrough"
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
-                  <ReactionBar
-                    activityId={activity.id}
-                    reactions={activity.reactions}
-                    drawer={false}
-                  />
+                  <Flex css={{ alignItems: 'center' }}>
+                    <BoltFill nostroke />
+                    <ReactionBar
+                      activityId={activity.id}
+                      reactions={activity.reactions}
+                      drawer={false}
+                    />
+                  </Flex>
                   <Flex>
                     <CoLinksGiveButton
                       isMyPost={activity.actor_profile_public.id === profileId}
