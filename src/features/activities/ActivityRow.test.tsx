@@ -25,6 +25,12 @@ test('shows unknown activity if data is missing', async () => {
     action: 'created',
     private_stream: false,
     created_at: new Date('2022-03-15T09:30:00'),
+    gives: [],
+    gives_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   await act(async () => {
@@ -58,6 +64,12 @@ test('shows epoch activity row', async () => {
     private_stream: false,
     reactions: [],
     reply_count: 0,
+    gives: [],
+    gives_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -94,6 +106,12 @@ test('shows new user activity row', async () => {
     },
     reactions: [],
     reply_count: 0,
+    gives: [],
+    gives_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -138,6 +156,12 @@ test('shows contribution activity row', async () => {
     },
     reactions: [],
     reply_count: 0,
+    gives: [],
+    gives_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   const Harness = () => {
@@ -210,6 +234,12 @@ describe('reactions', () => {
         },
       },
     ],
+    gives: [],
+    gives_aggregate: {
+      aggregate: {
+        count: 0,
+      },
+    },
   };
 
   test('renders existing reactions', async () => {
