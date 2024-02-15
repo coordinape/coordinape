@@ -169,6 +169,10 @@ type Mutation {
 }
 
 type Mutation {
+  share(payload: ShareInput!): ShareOutput
+}
+
+type Mutation {
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 }
 
@@ -592,6 +596,10 @@ input SearchProfilesInput {
   limit: Int
 }
 
+input ShareInput {
+  activity_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -794,6 +802,10 @@ type UploadUrlResponse {
   result: UploadUrlResult
   result_info: String
   success: Boolean
+}
+
+type ShareOutput {
+  token: String!
 }
 
 scalar timestamptz

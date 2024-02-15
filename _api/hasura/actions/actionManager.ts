@@ -44,6 +44,7 @@ import restoreCoordinape from './_handlers/restoreCoordinape';
 import searchCosouls from './_handlers/searchCosouls';
 import searchProfiles from './_handlers/searchProfiles';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
+import share from './_handlers/share';
 import syncCoSoul from './_handlers/syncCoSoul';
 import syncLinks from './_handlers/syncLinks';
 import updateAllocations from './_handlers/updateAllocations';
@@ -102,6 +103,7 @@ const HANDLERS: HandlerDict = {
   searchCosouls,
   searchProfiles,
   setPrimaryEmail,
+  share,
   syncCoSoul,
   syncLinks,
   updateAllocations,

@@ -936,6 +936,13 @@ export type ValueTypes = {
   ['SetPrimaryEmailInput']: {
     email: string;
   };
+  ['ShareInput']: {
+    activity_id: number;
+  };
+  ['ShareOutput']: AliasType<{
+    token?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SimilarProfileInput']: {
     address: string;
   };
@@ -8083,6 +8090,7 @@ export type ValueTypes = {
       { payload: ValueTypes['SetPrimaryEmailInput'] },
       ValueTypes['ConfirmationResponse'],
     ];
+    share?: [{ payload: ValueTypes['ShareInput'] }, ValueTypes['ShareOutput']];
     syncCoSoul?: [
       { payload: ValueTypes['SyncCoSoulInput'] },
       ValueTypes['SyncCoSoulOutput'],
@@ -19830,6 +19838,10 @@ export type ModelTypes = {
     similarity: number;
   };
   ['SetPrimaryEmailInput']: GraphQLTypes['SetPrimaryEmailInput'];
+  ['ShareInput']: GraphQLTypes['ShareInput'];
+  ['ShareOutput']: {
+    token: string;
+  };
   ['SimilarProfileInput']: GraphQLTypes['SimilarProfileInput'];
   ['SimilarProfileOutput']: {
     profile_id: number;
@@ -22299,6 +22311,8 @@ export type ModelTypes = {
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** Generate share link for Colinks activity/post */
+    share?: GraphQLTypes['ShareOutput'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -25737,6 +25751,13 @@ export type GraphQLTypes = {
   };
   ['SetPrimaryEmailInput']: {
     email: string;
+  };
+  ['ShareInput']: {
+    activity_id: number;
+  };
+  ['ShareOutput']: {
+    __typename: 'ShareOutput';
+    token: string;
   };
   ['SimilarProfileInput']: {
     address: string;
@@ -31303,6 +31324,8 @@ export type GraphQLTypes = {
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** Generate share link for Colinks activity/post */
+    share?: GraphQLTypes['ShareOutput'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
