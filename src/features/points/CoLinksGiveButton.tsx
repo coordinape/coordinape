@@ -8,7 +8,7 @@ import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
 import { client } from '../../lib/gql/client';
 import { PickOneSkill } from '../../pages/AccountPage/AccountPage';
-import { Button, Flex, Text } from '../../ui';
+import { Button, Flex } from '../../ui';
 
 export const CoLinksGiveButton = ({
   activityId,
@@ -85,29 +85,6 @@ export const CoLinksGiveButton = ({
     return update_colinks_gives_by_pk?.skill;
   };
 
-  const deleteGiveMutation = async () => {
-    if (!myGive?.id) {
-      throw new Error('no give id');
-    }
-    return client.mutate(
-      {
-        deleteCoLinksGive: [
-          {
-            payload: {
-              give_id: myGive!.id,
-            },
-          },
-          {
-            success: true,
-          },
-        ],
-      },
-      {
-        operationName: 'updateGiveSkill',
-      }
-    );
-  };
-
   const invalidateActivities = () => {
     queryClient.invalidateQueries([
       ACTIVITIES_QUERY_KEY,
@@ -133,15 +110,6 @@ export const CoLinksGiveButton = ({
       showError(error);
     },
   });
-  const { mutate: deleteGive } = useMutation(deleteGiveMutation, {
-    onSuccess: () => {
-      invalidateActivities();
-      setSkill(undefined);
-    },
-    onError: error => {
-      showError(error);
-    },
-  });
 
   return (
     <>
@@ -162,18 +130,9 @@ export const CoLinksGiveButton = ({
               setSkill={skill => updateGiveSkill(skill)}
               skill={skill}
               placeholder={'Choose a GIVE Reason'}
-              clearSkill={() => deleteGive()}
             />
           </>
         )}
-        {gives.map(g => (
-          <Text size="xs" semibold key={g.id}>
-            +GIVE #{g.skill} from{' '}
-            {g.giver_profile_public?.id === profileId
-              ? 'You'
-              : g.giver_profile_public?.name}
-          </Text>
-        ))}
       </Flex>
     </>
   );

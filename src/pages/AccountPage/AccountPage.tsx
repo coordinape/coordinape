@@ -8,9 +8,8 @@ import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
 import { useToast } from '../../hooks';
-import { X } from '../../icons/__generated';
 import { EditEmailForm } from 'pages/ProfilePage/EmailSettings/EditEmailForm';
-import { ContentHeader, Flex, IconButton, Panel, Text } from 'ui';
+import { ContentHeader, Flex, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { EditProfileInfo } from './EditProfileInfo';
@@ -90,30 +89,16 @@ export default function AccountPage() {
 type PickOneSkillProps = {
   skill?: string;
   setSkill: (skill: string | undefined) => void;
-  clearSkill: () => void;
   placeholder?: string;
 };
 export const PickOneSkill = ({
-  clearSkill,
   placeholder,
   skill,
   setSkill,
 }: PickOneSkillProps) => {
   return (
     <>
-      {skill ? (
-        <Flex css={{ gap: '$md' }}>
-          <Text tag size="medium" color="complete" css={{ pr: 0 }}>
-            {skill}
-            <IconButton
-              onClick={() => clearSkill()}
-              css={{ pr: '$sm', width: 'auto' }}
-            >
-              <X size={'xs'} />
-            </IconButton>
-          </Text>
-        </Flex>
-      ) : (
+      {!skill && (
         <SkillComboBox
           hideInput={false}
           excludeSkills={[]}

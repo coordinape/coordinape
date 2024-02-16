@@ -1,15 +1,20 @@
 import { useState } from 'react';
 
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionCard';
+import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useNavQuery } from 'features/nav/getNavData';
+import { PostGives } from 'features/points/PostGives';
+import { useDeleteGiveMutation } from 'features/points/useDeleteGiveMutation';
 import { DateTime } from 'luxon';
+import { useQueryClient } from 'react-query';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
 import { CoLinksGiveButton } from '../points/CoLinksGiveButton';
-import { BoltFill, Edit, Messages, MessageSolid } from 'icons/__generated';
+import { Edit, Messages, MessageSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
@@ -25,6 +30,7 @@ export const PostRow = ({
   activity: Contribution;
   focus: boolean;
 }) => {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const { data } = useNavQuery();
   const editableContribution =
@@ -40,6 +46,24 @@ export const PostRow = ({
     : activity.big_question;
 
   const profileId = useProfileId(true);
+
+  const myGive = activity.gives.find(
+    give => give.giver_profile_public?.id === profileId
+  );
+
+  const invalidateActivities = () => {
+    queryClient.invalidateQueries([
+      ACTIVITIES_QUERY_KEY,
+      [QUERY_KEY_COLINKS, 'activity'],
+    ]);
+  };
+
+  const deleteGive = useDeleteGiveMutation({
+    giveId: myGive?.id,
+    onSuccess: () => {
+      invalidateActivities();
+    },
+  });
 
   return (
     <>
@@ -158,19 +182,22 @@ export const PostRow = ({
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
                   <Flex css={{ alignItems: 'center' }}>
-                    <BoltFill nostroke />
-                    <ReactionBar
-                      activityId={activity.id}
-                      reactions={activity.reactions}
-                      drawer={false}
-                    />
-                  </Flex>
-                  <Flex>
                     <CoLinksGiveButton
                       isMyPost={activity.actor_profile_public.id === profileId}
                       activityId={activity.id}
                       gives={activity.gives}
                     />
+                    <ReactionBar
+                      activityId={activity.id}
+                      reactions={activity.reactions}
+                      drawer={false}
+                    />
+                    <PostGives
+                      gives={activity.gives}
+                      clearSkill={() => deleteGive()}
+                    />
+                  </Flex>
+                  <Flex>
                     <Flex className="commentButton">
                       <>
                         {commentCount > 0 ? (
