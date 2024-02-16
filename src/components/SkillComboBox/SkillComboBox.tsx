@@ -4,7 +4,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
 import { useQuery } from 'react-query';
 
-import { BoltFill, User } from '../../icons/__generated';
+import { User } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Flex, PopoverContent, Text, TextField } from '../../ui';
@@ -46,9 +46,11 @@ const fetchSkills = async () => {
 type SkillComboBoxProps = {
   excludeSkills: string[];
   placeholder?: string;
-  addSkill(skill: string | undefined): Promise<void>;
+  addSkill(skill: string): Promise<void>;
   defaultOpen?: boolean;
   trigger?: React.ReactNode;
+  extraItems?: React.ReactNode[];
+  customRender?(skill: string, count: number): React.ReactNode;
 };
 
 export const SkillComboBox = ({
@@ -57,6 +59,8 @@ export const SkillComboBox = ({
   defaultOpen = false,
   placeholder = 'Search or Add Interest',
   trigger,
+  extraItems,
+  customRender,
 }: SkillComboBoxProps) => {
   const { data: skills, isLoading } = useQuery(
     [QUERY_KEY_ALL_SKILLS],
@@ -123,25 +127,7 @@ export const SkillComboBox = ({
               <Command.Loading>LoadingMate</Command.Loading>
             ) : (
               <>
-                <Command.Item
-                  color={'cta'}
-                  key={'noskill'}
-                  value={'noskill'}
-                  onSelect={() => addSkill(undefined)}
-                >
-                  <Flex
-                    css={{
-                      justifyContent: 'space-between',
-                      width: '100%',
-                      gap: '$lg',
-                    }}
-                  >
-                    <Text semibold>
-                      <BoltFill css={{ mr: '$xs' }} /> Just GIVE - no particular
-                      skill
-                    </Text>
-                  </Flex>
-                </Command.Item>
+                {extraItems?.map(item => item)}
                 <AddItem
                   addSkill={skill =>
                     addSkill(skill).then(() => setPopoverOpen(false))
@@ -176,17 +162,21 @@ export const SkillComboBox = ({
                           ps => ps.toLowerCase() === skill.name.toLowerCase()
                         )}
                       >
-                        <Flex
-                          css={{
-                            justifyContent: 'space-between',
-                            width: '100%',
-                          }}
-                        >
-                          <Text semibold>{skill.name}</Text>
-                          <Text tag color={'secondary'} size={'xs'}>
-                            <User /> {skill.count}
-                          </Text>
-                        </Flex>
+                        {customRender ? (
+                          customRender(skill.name, skill.count)
+                        ) : (
+                          <Flex
+                            css={{
+                              justifyContent: 'space-between',
+                              width: '100%',
+                            }}
+                          >
+                            <Text semibold>{skill.name}</Text>
+                            <Text tag color={'secondary'} size={'xs'}>
+                              <User /> {skill.count}
+                            </Text>
+                          </Flex>
+                        )}
                       </Command.Item>
                     ))}
                 </Command.Group>

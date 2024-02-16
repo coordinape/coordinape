@@ -1,3 +1,4 @@
+import { Command } from 'cmdk';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useMutation, useQueryClient } from 'react-query';
@@ -5,8 +6,9 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
+import { BoltFill, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
-import { Button, Flex } from '../../ui';
+import { Button, Flex, Text } from '../../ui';
 
 export const CoLinksGiveButton = ({
   activityId,
@@ -73,16 +75,6 @@ export const CoLinksGiveButton = ({
   return (
     <>
       <Flex className="clickThrough" column css={{ gap: '$sm' }}>
-        {/*{!isMyPost && !myGive && (*/}
-        {/*  <Button*/}
-        {/*    size={'small'}*/}
-        {/*    color={'transparent'}*/}
-        {/*    css={{ '&:hover': { color: '$ctaHover' } }}*/}
-        {/*    onClick={() => createGive()}*/}
-        {/*  >*/}
-        {/*    +GIVE*/}
-        {/*  </Button>*/}
-        {/*)}*/}
         {!isMyPost && !myGive && (
           <>
             <PickOneSkill
@@ -123,6 +115,39 @@ export const PickOneSkill = ({
       }}
       placeholder={placeholder}
       trigger={trigger}
+      customRender={(skill, count) => (
+        <Flex
+          css={{
+            justifyContent: 'space-between',
+            width: '100%',
+          }}
+        >
+          <Text semibold>{skill}</Text>
+          <Text tag color={'complete'} size={'xs'}>
+            <User /> {count}
+          </Text>
+        </Flex>
+      )}
+      extraItems={[
+        <Command.Item
+          color={'cta'}
+          key={'noskill'}
+          value={'noskill'}
+          onSelect={() => setSkill(undefined)}
+        >
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              width: '100%',
+              gap: '$lg',
+            }}
+          >
+            <Text semibold>
+              <BoltFill css={{ mr: '$xs' }} /> Just GIVE - no particular skill
+            </Text>
+          </Flex>
+        </Command.Item>,
+      ]}
     />
   );
 };
