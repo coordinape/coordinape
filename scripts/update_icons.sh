@@ -28,19 +28,19 @@ trap cleanup EXIT
 
 # copy all the various icons into the tmpdir
 # if there are new icon dirs, add them here
-cp src/icons/brands/*svg $WORK_DIR
-cp src/icons/custom/*svg $WORK_DIR
-cp src/icons/feather/*svg $WORK_DIR
-cp src/icons/fontawesome/*svg $WORK_DIR_512
-cp src/icons/networks/*svg $WORK_DIR
+cp -a src/icons/brands/. $WORK_DIR
+cp -a src/icons/custom/. $WORK_DIR
+cp -a src/icons/feather/. $WORK_DIR
+cp -a src/icons/fontawesome/. $WORK_DIR_512
+cp -a src/icons/networks/. $WORK_DIR
 
 # cleanup whatever old ones are there
-rm -rf src/icons/__generated/*
+rm -rf src/icons/__generated/
 
 # generate icons from all the svgs
 
-npx @svgr/cli --typescript  $WORK_DIR --template ./src/icons/svgr-template.js --svg-props css="{CSS_REPLACE}" --svg-props viewBox="0 0 24 24" --out-dir $OUT_DIR
-npx @svgr/cli --typescript  $WORK_DIR_512 --template ./src/icons/svgr-template.js --svg-props css="{CSS_REPLACE}" --svg-props viewBox="0 0 512 512" --out-dir $OUT_DIR_512
+npx @svgr/cli --typescript  $WORK_DIR --template ./src/icons/svgr-template.cjs --svg-props css="{CSS_REPLACE}" --svg-props viewBox="0 0 24 24" --out-dir $OUT_DIR
+npx @svgr/cli --typescript  $WORK_DIR_512 --template ./src/icons/svgr-template.cjs --svg-props css="{CSS_REPLACE}" --svg-props viewBox="0 0 512 512" --out-dir $OUT_DIR_512
 mv $OUT_DIR_512/*.tsx $OUT_DIR
 cat $OUT_DIR_512/index.ts >> $OUT_DIR/index.ts
 sed -i '.bak' 's/\<svg/\<SvgIcon/g' src/icons/__generated/*.tsx
