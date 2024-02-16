@@ -144,7 +144,7 @@ export async function sendCoLinksBigQuestionEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'notification'
+    'colinks_product'
   );
   const input = {
     action_url:

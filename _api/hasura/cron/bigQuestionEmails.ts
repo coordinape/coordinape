@@ -1,4 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { DateTime } from 'luxon';
 
 import { sendCoLinksBigQuestionEmail } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -55,10 +56,13 @@ async function getEligibleUsersWithEmails(big_question_id: number) {
           where: {
             colinks_product_emails: { _eq: true },
             links: { _gt: 0 },
-            last_emailed_big_question_id: { _neq: big_question_id },
             emails: {
               verified_at: { _is_null: false },
             },
+            _or: [
+              { last_emailed_big_question_id: { _neq: big_question_id } },
+              { last_emailed_big_question_id: { _is_null: true } },
+            ],
           },
           limit: 100,
         },
@@ -86,13 +90,19 @@ async function getEligibleUsersWithEmails(big_question_id: number) {
 }
 
 async function getActiveBigQuestion() {
-  const now = new Date().toISOString();
+  // start sending big question emails 24 hours after big question goes live
+  const now = DateTime.now();
+  const published_before = now.minus({ hours: 24 });
+
   const { big_questions } = await adminClient.query(
     {
       big_questions: [
         {
           where: {
-            _and: [{ publish_at: { _lt: now } }, { expire_at: { _gt: now } }],
+            _and: [
+              { publish_at: { _lt: published_before.toISO() } },
+              { expire_at: { _gt: now.toISO() } },
+            ],
           },
           limit: 1,
         },
