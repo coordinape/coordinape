@@ -4,7 +4,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
 import { useQuery } from 'react-query';
 
-import { User } from '../../icons/__generated';
+import { BoltFill, User } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Flex, PopoverContent, Text, TextField } from '../../ui';
@@ -44,17 +44,19 @@ const fetchSkills = async () => {
 };
 
 type SkillComboBoxProps = {
-  hideInput: boolean;
   excludeSkills: string[];
   placeholder?: string;
   addSkill(skill: string): Promise<void>;
+  defaultOpen?: boolean;
+  trigger?: React.ReactNode;
 };
 
 export const SkillComboBox = ({
-  hideInput,
   excludeSkills,
   addSkill,
+  defaultOpen = false,
   placeholder = 'Search or Add Interest',
+  trigger,
 }: SkillComboBoxProps) => {
   const { data: skills, isLoading } = useQuery(
     [QUERY_KEY_ALL_SKILLS],
@@ -62,31 +64,37 @@ export const SkillComboBox = ({
   );
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const [popoverOpen, setPopoverOpen] = useState<boolean>(false);
+  const [popoverOpen, setPopoverOpen] = useState<boolean>(defaultOpen);
 
   if (!skills || isLoading) {
     return <LoadingIndicator />;
   }
   return (
-    <Popover.Root open={popoverOpen} onOpenChange={setPopoverOpen}>
-      {!hideInput && (
-        <Flex
-          column
-          as={Popover.Trigger}
-          css={{
-            alignItems: 'flex-start',
-            gap: '$sm',
-            borderRadius: '$3',
-          }}
-        >
-          {/* This TextField is just a popover trigger */}
+    <Popover.Root
+      open={popoverOpen}
+      defaultOpen={defaultOpen}
+      onOpenChange={setPopoverOpen}
+    >
+      <Flex
+        column
+        as={Popover.Trigger}
+        css={{
+          alignItems: 'flex-start',
+          gap: '$sm',
+          borderRadius: '$3',
+        }}
+      >
+        {/* This TextField is just a popover trigger */}
+        {trigger ? (
+          trigger
+        ) : (
           <TextField
             placeholder={placeholder}
             css={{ width: '302px' }}
             value=""
           />
-        </Flex>
-      )}
+        )}
+      </Flex>
       <PopoverContent
         avoidCollisions={false}
         align={'start'}
@@ -115,6 +123,25 @@ export const SkillComboBox = ({
               <Command.Loading>LoadingMate</Command.Loading>
             ) : (
               <>
+                <Command.Item
+                  color={'cta'}
+                  key={'noskill'}
+                  value={'noskill'}
+                  onSelect={() => alert('noskill')}
+                >
+                  <Flex
+                    css={{
+                      justifyContent: 'space-between',
+                      width: '100%',
+                      gap: '$lg',
+                    }}
+                  >
+                    <Text semibold>
+                      <BoltFill css={{ mr: '$xs' }} /> Just GIVE - no particular
+                      skill
+                    </Text>
+                  </Flex>
+                </Command.Item>
                 <AddItem
                   addSkill={skill =>
                     addSkill(skill).then(() => setPopoverOpen(false))
@@ -123,7 +150,13 @@ export const SkillComboBox = ({
                   allSkills={skills}
                 />
 
-                <Command.Group>
+                <Command.Group
+                  heading={
+                    <Text semibold color="neutral" size={'xs'}>
+                      Choose an Optional Skill Vector
+                    </Text>
+                  }
+                >
                   {skills
                     .filter(
                       sk =>

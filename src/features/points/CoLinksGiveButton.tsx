@@ -4,10 +4,10 @@ import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useMutation, useQueryClient } from 'react-query';
 
+import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
 import { client } from '../../lib/gql/client';
-import { PickOneSkill } from '../../pages/AccountPage/AccountPage';
 import { Button, Flex } from '../../ui';
 
 export const CoLinksGiveButton = ({
@@ -37,6 +37,7 @@ export const CoLinksGiveButton = ({
 
   const [skill, setSkill] = useState<string | undefined>(myGive?.skill);
 
+  const [needsSkill, setNeedsSkill] = useState(false);
   const createGiveMutation = () => {
     return client.mutate(
       {
@@ -95,6 +96,7 @@ export const CoLinksGiveButton = ({
   const { mutate: createGive } = useMutation(createGiveMutation, {
     onSuccess: () => {
       invalidateActivities();
+      setNeedsSkill(true);
     },
     onError: error => {
       showError(error);
@@ -113,27 +115,67 @@ export const CoLinksGiveButton = ({
 
   return (
     <>
-      <Flex column css={{ gap: '$sm' }}>
-        {!isMyPost && !myGive && (
-          <Button
-            size={'small'}
-            color={'transparent'}
-            css={{ '&:hover': { color: '$ctaHover' } }}
-            onClick={() => createGive()}
-          >
-            +GIVE
-          </Button>
-        )}
-        {myGive && (
+      <Flex className="clickThrough" column css={{ gap: '$sm' }}>
+        {/*{!isMyPost && !myGive && (*/}
+        {/*  <Button*/}
+        {/*    size={'small'}*/}
+        {/*    color={'transparent'}*/}
+        {/*    css={{ '&:hover': { color: '$ctaHover' } }}*/}
+        {/*    onClick={() => createGive()}*/}
+        {/*  >*/}
+        {/*    +GIVE*/}
+        {/*  </Button>*/}
+        {/*)}*/}
+        {((!isMyPost && !myGive) || needsSkill) && (
           <>
             <PickOneSkill
               setSkill={skill => updateGiveSkill(skill)}
               skill={skill}
               placeholder={'Choose a GIVE Reason'}
+              trigger={
+                <Button
+                  size={'small'}
+                  color={'transparent'}
+                  css={{ '&:hover': { color: '$ctaHover' } }}
+                  onClick={() => createGive()}
+                >
+                  +GIVE
+                </Button>
+              }
             />
           </>
         )}
       </Flex>
+    </>
+  );
+};
+
+type PickOneSkillProps = {
+  skill?: string;
+  setSkill: (skill: string | undefined) => void;
+  placeholder?: string;
+  trigger: React.ReactNode;
+};
+export const PickOneSkill = ({
+  placeholder,
+  skill,
+  setSkill,
+  trigger,
+}: PickOneSkillProps) => {
+  return (
+    <>
+      {!skill && (
+        <>
+          <SkillComboBox
+            excludeSkills={[]}
+            addSkill={async (skill: string) => {
+              setSkill(skill);
+            }}
+            placeholder={placeholder}
+            trigger={trigger}
+          />
+        </>
+      )}
     </>
   );
 };

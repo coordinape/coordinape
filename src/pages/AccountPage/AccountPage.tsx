@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 
 import { useSearchParams } from 'react-router-dom';
 
-import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
@@ -85,29 +84,3 @@ export default function AccountPage() {
     </SingleColumnLayout>
   );
 }
-
-type PickOneSkillProps = {
-  skill?: string;
-  setSkill: (skill: string | undefined) => void;
-  placeholder?: string;
-};
-export const PickOneSkill = ({
-  placeholder,
-  skill,
-  setSkill,
-}: PickOneSkillProps) => {
-  return (
-    <>
-      {!skill && (
-        <SkillComboBox
-          hideInput={false}
-          excludeSkills={[]}
-          addSkill={async (skill: string) => {
-            setSkill(skill);
-          }}
-          placeholder={placeholder}
-        />
-      )}
-    </>
-  );
-};

@@ -1,6 +1,6 @@
 import useProfileId from '../../hooks/useProfileId';
 import { Flex, IconButton, Text } from '../../ui';
-import { X } from 'icons/__generated';
+import { BoltFill, X } from 'icons/__generated';
 
 export const PostGives = ({
   gives,
@@ -24,7 +24,35 @@ export const PostGives = ({
         {gives.map(g => (
           <Flex key={g.id} css={{ gap: '$md' }}>
             <Text tag size="medium" color="complete">
-              {g.skill}
+              {g.skill ? (
+                <>
+                  {' '}
+                  {'+1'}
+                  <BoltFill
+                    css={{
+                      path: {
+                        fill: '$complete',
+                      },
+                    }}
+                    nostroke
+                    size={'md'}
+                  />{' '}
+                  {g.skill}
+                </>
+              ) : (
+                <>
+                  {'+1'}
+                  <BoltFill
+                    css={{
+                      path: {
+                        fill: '$complete',
+                      },
+                    }}
+                    nostroke
+                    size={'md'}
+                  />
+                </>
+              )}
               {g.giver_profile_public?.id === profileId && (
                 <IconButton
                   onClick={() => clearSkill()}

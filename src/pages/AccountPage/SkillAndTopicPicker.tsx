@@ -188,7 +188,6 @@ export const SkillAndTopicPicker = () => {
             </Text>
             <Flex>
               <SkillComboBox
-                hideInput={maxedOut}
                 excludeSkills={profileSkills}
                 addSkill={async (skill: string) => addSkillToProfile(skill)}
               />
