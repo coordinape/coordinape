@@ -695,6 +695,7 @@ export type ValueTypes = {
   }>;
   ['CreateCoLinksGiveInput']: {
     activity_id: number;
+    skill?: string | undefined | null;
   };
   ['CreateCoLinksGiveResponse']: AliasType<{
     id?: boolean | `@${string}`;
@@ -3749,6 +3750,8 @@ export type ValueTypes = {
     activity_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
+    give_skill?: ValueTypes['skills'];
+    /** An object relationship */
     giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -3844,6 +3847,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    give_skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     giver_profile_public?:
       | ValueTypes['profiles_public_bool_exp']
       | undefined
@@ -3908,6 +3912,7 @@ export type ValueTypes = {
   ['colinks_gives_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    give_skill?: ValueTypes['skills_order_by'] | undefined | null;
     giver_profile_public?:
       | ValueTypes['profiles_public_order_by']
       | undefined
@@ -21238,6 +21243,8 @@ export type ModelTypes = {
     activity_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
+    give_skill?: GraphQLTypes['skills'] | undefined;
+    /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
     profile_id: GraphQLTypes['bigint'];
@@ -26227,6 +26234,7 @@ export type GraphQLTypes = {
   };
   ['CreateCoLinksGiveInput']: {
     activity_id: number;
+    skill?: string | undefined;
   };
   ['CreateCoLinksGiveResponse']: {
     __typename: 'CreateCoLinksGiveResponse';
@@ -28694,6 +28702,8 @@ export type GraphQLTypes = {
     activity_id: GraphQLTypes['bigint'];
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
+    give_skill?: GraphQLTypes['skills'] | undefined;
+    /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
     profile_id: GraphQLTypes['bigint'];
@@ -28769,6 +28779,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -28830,6 +28841,7 @@ export type GraphQLTypes = {
   ['colinks_gives_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;

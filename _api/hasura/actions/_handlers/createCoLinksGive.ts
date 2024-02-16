@@ -3,6 +3,10 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import {
+  skills_constraint,
+  skills_update_column,
+} from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
@@ -17,6 +21,7 @@ import {
 const createCoLinksGiveInput = z
   .object({
     activity_id: z.number(),
+    skill: z.string().optional(),
   })
   .strict();
 
@@ -90,6 +95,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               activity_id: payload.activity_id,
               profile_id: profileId,
               target_profile_id: activity.actor_profile_id,
+              give_skill: payload.skill
+                ? {
+                    data: {
+                      name: payload.skill,
+                    },
+                    on_conflict: {
+                      constraint: skills_constraint.skills_pkey,
+                      update_columns: [skills_update_column.name],
+                    },
+                  }
+                : undefined,
             },
           },
           {

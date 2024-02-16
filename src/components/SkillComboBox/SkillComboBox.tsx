@@ -46,7 +46,7 @@ const fetchSkills = async () => {
 type SkillComboBoxProps = {
   excludeSkills: string[];
   placeholder?: string;
-  addSkill(skill: string): Promise<void>;
+  addSkill(skill: string | undefined): Promise<void>;
   defaultOpen?: boolean;
   trigger?: React.ReactNode;
 };
@@ -127,7 +127,7 @@ export const SkillComboBox = ({
                   color={'cta'}
                   key={'noskill'}
                   value={'noskill'}
-                  onSelect={() => alert('noskill')}
+                  onSelect={() => addSkill(undefined)}
                 >
                   <Flex
                     css={{

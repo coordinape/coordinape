@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useMutation, useQueryClient } from 'react-query';
@@ -35,16 +33,14 @@ export const CoLinksGiveButton = ({
     give => give.giver_profile_public?.id === profileId
   );
 
-  const [skill, setSkill] = useState<string | undefined>(myGive?.skill);
-
-  const [needsSkill, setNeedsSkill] = useState(false);
-  const createGiveMutation = () => {
+  const createGiveMutation = (skill: string | undefined) => {
     return client.mutate(
       {
         createCoLinksGive: [
           {
             payload: {
               activity_id: activityId,
+              skill,
             },
           },
           {
@@ -58,34 +54,6 @@ export const CoLinksGiveButton = ({
     );
   };
 
-  const updateSkillMutation = async (newSkill: string | undefined) => {
-    if (!myGive?.id) {
-      throw new Error('no give id');
-    }
-    const { update_colinks_gives_by_pk } = await client.mutate(
-      {
-        update_colinks_gives_by_pk: [
-          {
-            pk_columns: {
-              id: myGive?.id,
-            },
-            _set: {
-              skill: newSkill,
-            },
-          },
-          {
-            id: true,
-            skill: true,
-          },
-        ],
-      },
-      {
-        operationName: 'updateGiveSkill',
-      }
-    );
-    return update_colinks_gives_by_pk?.skill;
-  };
-
   const invalidateActivities = () => {
     queryClient.invalidateQueries([
       ACTIVITIES_QUERY_KEY,
@@ -96,17 +64,6 @@ export const CoLinksGiveButton = ({
   const { mutate: createGive } = useMutation(createGiveMutation, {
     onSuccess: () => {
       invalidateActivities();
-      setNeedsSkill(true);
-    },
-    onError: error => {
-      showError(error);
-    },
-  });
-
-  const { mutate: updateGiveSkill } = useMutation(updateSkillMutation, {
-    onSuccess: skill => {
-      invalidateActivities();
-      setSkill(skill);
     },
     onError: error => {
       showError(error);
@@ -126,18 +83,16 @@ export const CoLinksGiveButton = ({
         {/*    +GIVE*/}
         {/*  </Button>*/}
         {/*)}*/}
-        {((!isMyPost && !myGive) || needsSkill) && (
+        {!isMyPost && !myGive && (
           <>
             <PickOneSkill
-              setSkill={skill => updateGiveSkill(skill)}
-              skill={skill}
+              setSkill={skill => createGive(skill)}
               placeholder={'Choose a GIVE Reason'}
               trigger={
                 <Button
                   size={'small'}
                   color={'transparent'}
                   css={{ '&:hover': { color: '$ctaHover' } }}
-                  onClick={() => createGive()}
                 >
                   +GIVE
                 </Button>
@@ -151,31 +106,23 @@ export const CoLinksGiveButton = ({
 };
 
 type PickOneSkillProps = {
-  skill?: string;
   setSkill: (skill: string | undefined) => void;
   placeholder?: string;
   trigger: React.ReactNode;
 };
 export const PickOneSkill = ({
   placeholder,
-  skill,
   setSkill,
   trigger,
 }: PickOneSkillProps) => {
   return (
-    <>
-      {!skill && (
-        <>
-          <SkillComboBox
-            excludeSkills={[]}
-            addSkill={async (skill: string) => {
-              setSkill(skill);
-            }}
-            placeholder={placeholder}
-            trigger={trigger}
-          />
-        </>
-      )}
-    </>
+    <SkillComboBox
+      excludeSkills={[]}
+      addSkill={async (skill: string) => {
+        setSkill(skill);
+      }}
+      placeholder={placeholder}
+      trigger={trigger}
+    />
   );
 };

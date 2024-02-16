@@ -1411,6 +1411,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'colinks_gives_bool_exp',
     activity_id: 'bigint_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
+    give_skill: 'skills_bool_exp',
     giver_profile_public: 'profiles_public_bool_exp',
     id: 'Int_comparison_exp',
     profile_id: 'bigint_comparison_exp',
@@ -1439,6 +1440,7 @@ export const AllTypesProps: Record<string, any> = {
   colinks_gives_order_by: {
     activity_id: 'order_by',
     created_at: 'order_by',
+    give_skill: 'skills_order_by',
     giver_profile_public: 'profiles_public_order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -8812,6 +8814,7 @@ export const ReturnTypes: Record<string, any> = {
   colinks_gives: {
     activity_id: 'bigint',
     created_at: 'timestamptz',
+    give_skill: 'skills',
     giver_profile_public: 'profiles_public',
     id: 'Int',
     profile_id: 'bigint',

@@ -255,6 +255,7 @@ input CreateCircleInput {
 
 input CreateCoLinksGiveInput {
   activity_id: Int!
+  skill: String
 }
 
 input DeleteCoLinksGiveInput {
