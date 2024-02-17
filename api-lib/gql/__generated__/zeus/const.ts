@@ -9404,6 +9404,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_codes: 'invite_codes_bool_exp',
     invite_codes_aggregate: 'invite_codes_aggregate_bool_exp',
     invited_by: 'bigint_comparison_exp',
+    last_emailed_big_question_id: 'Int_comparison_exp',
     last_emailed_notification_id: 'Int_comparison_exp',
     last_read_notification_id: 'Int_comparison_exp',
     links: 'Int_comparison_exp',
@@ -9506,6 +9507,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_code_sent_at: 'order_by',
     invite_codes_aggregate: 'invite_codes_aggregate_order_by',
     invited_by: 'order_by',
+    last_emailed_big_question_id: 'order_by',
     last_emailed_notification_id: 'order_by',
     last_read_notification_id: 'order_by',
     links: 'order_by',
@@ -20004,6 +20006,7 @@ export const ReturnTypes: Record<string, any> = {
     invite_codes: 'invite_codes',
     invite_codes_aggregate: 'invite_codes_aggregate',
     invited_by: 'bigint',
+    last_emailed_big_question_id: 'Int',
     last_emailed_notification_id: 'Int',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -20053,6 +20056,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_avg_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20077,6 +20081,7 @@ export const ReturnTypes: Record<string, any> = {
     invite_code_requested_at: 'timestamptz',
     invite_code_sent_at: 'timestamptz',
     invited_by: 'bigint',
+    last_emailed_big_question_id: 'Int',
     last_emailed_notification_id: 'Int',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -20110,6 +20115,7 @@ export const ReturnTypes: Record<string, any> = {
     invite_code_requested_at: 'timestamptz',
     invite_code_sent_at: 'timestamptz',
     invited_by: 'bigint',
+    last_emailed_big_question_id: 'Int',
     last_emailed_notification_id: 'Int',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -20331,6 +20337,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_stddev_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20340,6 +20347,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_stddev_pop_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20349,6 +20357,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_stddev_samp_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20358,6 +20367,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_sum_fields: {
     id: 'bigint',
     invited_by: 'bigint',
+    last_emailed_big_question_id: 'Int',
     last_emailed_notification_id: 'Int',
     last_read_notification_id: 'Int',
     links: 'Int',
@@ -20367,6 +20377,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_var_pop_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20376,6 +20387,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_var_samp_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',
@@ -20385,6 +20397,7 @@ export const ReturnTypes: Record<string, any> = {
   profiles_variance_fields: {
     id: 'Float',
     invited_by: 'Float',
+    last_emailed_big_question_id: 'Float',
     last_emailed_notification_id: 'Float',
     last_read_notification_id: 'Float',
     links: 'Float',

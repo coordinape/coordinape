@@ -14,6 +14,7 @@ import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import actionManager from '../_api/hasura/actions/actionManager';
 import auth from '../_api/hasura/auth';
+import bigQuestionEmails from '../_api/hasura/cron/bigQuestionEmails';
 import checkNominee from '../_api/hasura/cron/checkNominee';
 import colinksNotificationEmails from '../_api/hasura/cron/colinksNotificationEmails';
 import dailyReportEmail from '../_api/hasura/cron/dailyReportEmail';
@@ -95,6 +96,7 @@ app.post(
   '/api/hasura/cron/colinksNotificationEmails',
   tf(colinksNotificationEmails)
 );
+app.post('/api/hasura/cron/bigQuestionEmails', tf(bigQuestionEmails));
 app.get('/api/join/:token', (req, res) => {
   return tf(join)({ ...req, query: req.params }, res);
 });
