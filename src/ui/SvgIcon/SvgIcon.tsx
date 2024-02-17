@@ -37,6 +37,13 @@ export const SvgIcon = styled('svg', {
         },
       },
     },
+    currentColor: {
+      true: {
+        '& path, & g, & circle, & rect': {
+          fill: 'currentColor',
+        },
+      },
+    },
     boldstroke: {
       true: {
         '& path, & g, & circle, & rect': {
