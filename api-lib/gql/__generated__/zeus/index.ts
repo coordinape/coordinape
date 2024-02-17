@@ -24027,6 +24027,7 @@ export type ValueTypes = {
       ValueTypes['invite_codes_aggregate'],
     ];
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -24312,6 +24313,7 @@ export type ValueTypes = {
   ['profiles_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -24387,6 +24389,10 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    last_emailed_big_question_id?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
     last_emailed_notification_id?:
       | ValueTypes['Int_comparison_exp']
       | undefined
@@ -24444,6 +24450,7 @@ export type ValueTypes = {
   ['profiles_inc_input']: {
     id?: ValueTypes['bigint'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_big_question_id?: number | undefined | null;
     last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -24487,6 +24494,7 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_big_question_id?: number | undefined | null;
     last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -24540,6 +24548,7 @@ export type ValueTypes = {
     invite_code_requested_at?: boolean | `@${string}`;
     invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -24573,6 +24582,7 @@ export type ValueTypes = {
     invite_code_requested_at?: boolean | `@${string}`;
     invite_code_sent_at?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -24651,6 +24661,7 @@ export type ValueTypes = {
       | undefined
       | null;
     invited_by?: ValueTypes['order_by'] | undefined | null;
+    last_emailed_big_question_id?: ValueTypes['order_by'] | undefined | null;
     last_emailed_notification_id?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     links?: ValueTypes['order_by'] | undefined | null;
@@ -25348,6 +25359,7 @@ export type ValueTypes = {
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_big_question_id?: number | undefined | null;
     last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -25366,6 +25378,7 @@ export type ValueTypes = {
   ['profiles_stddev_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25376,6 +25389,7 @@ export type ValueTypes = {
   ['profiles_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25386,6 +25400,7 @@ export type ValueTypes = {
   ['profiles_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25422,6 +25437,7 @@ export type ValueTypes = {
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
     invited_by?: ValueTypes['bigint'] | undefined | null;
+    last_emailed_big_question_id?: number | undefined | null;
     last_emailed_notification_id?: number | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
@@ -25440,6 +25456,7 @@ export type ValueTypes = {
   ['profiles_sum_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25460,6 +25477,7 @@ export type ValueTypes = {
   ['profiles_var_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25470,6 +25488,7 @@ export type ValueTypes = {
   ['profiles_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -25480,6 +25499,7 @@ export type ValueTypes = {
   ['profiles_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
     invited_by?: boolean | `@${string}`;
+    last_emailed_big_question_id?: boolean | `@${string}`;
     last_emailed_notification_id?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
@@ -49148,6 +49168,7 @@ export type ModelTypes = {
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -49211,6 +49232,7 @@ export type ModelTypes = {
   ['profiles_avg_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49243,6 +49265,7 @@ export type ModelTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49275,6 +49298,7 @@ export type ModelTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49570,6 +49594,7 @@ export type ModelTypes = {
   ['profiles_stddev_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49579,6 +49604,7 @@ export type ModelTypes = {
   ['profiles_stddev_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49588,6 +49614,7 @@ export type ModelTypes = {
   ['profiles_stddev_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49601,6 +49628,7 @@ export type ModelTypes = {
   ['profiles_sum_fields']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49613,6 +49641,7 @@ export type ModelTypes = {
   ['profiles_var_pop_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49622,6 +49651,7 @@ export type ModelTypes = {
   ['profiles_var_samp_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -49631,6 +49661,7 @@ export type ModelTypes = {
   ['profiles_variance_fields']: {
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71001,6 +71032,7 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
@@ -71067,6 +71099,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_avg_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71122,6 +71155,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_aggregate_bool_exp']
       | undefined;
     invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    last_emailed_big_question_id?:
+      | GraphQLTypes['Int_comparison_exp']
+      | undefined;
     last_emailed_notification_id?:
       | GraphQLTypes['Int_comparison_exp']
       | undefined;
@@ -71165,6 +71201,7 @@ export type GraphQLTypes = {
   ['profiles_inc_input']: {
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71205,6 +71242,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_arr_rel_insert_input']
       | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71253,6 +71291,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71286,6 +71325,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71354,6 +71394,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['invite_codes_aggregate_order_by']
       | undefined;
     invited_by?: GraphQLTypes['order_by'] | undefined;
+    last_emailed_big_question_id?: GraphQLTypes['order_by'] | undefined;
     last_emailed_notification_id?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
@@ -71834,6 +71875,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71853,6 +71895,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71863,6 +71906,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71873,6 +71917,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_stddev_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71908,6 +71953,7 @@ export type GraphQLTypes = {
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71927,6 +71973,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_sum_fields';
     id?: GraphQLTypes['bigint'] | undefined;
     invited_by?: GraphQLTypes['bigint'] | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71947,6 +71994,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_var_pop_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71957,6 +72005,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_var_samp_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -71967,6 +72016,7 @@ export type GraphQLTypes = {
     __typename: 'profiles_variance_fields';
     id?: number | undefined;
     invited_by?: number | undefined;
+    last_emailed_big_question_id?: number | undefined;
     last_emailed_notification_id?: number | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
@@ -79217,6 +79267,7 @@ export const enum profiles_select_column {
   invite_code_requested_at = 'invite_code_requested_at',
   invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
+  last_emailed_big_question_id = 'last_emailed_big_question_id',
   last_emailed_notification_id = 'last_emailed_notification_id',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
@@ -79254,6 +79305,7 @@ export const enum profiles_update_column {
   invite_code_requested_at = 'invite_code_requested_at',
   invite_code_sent_at = 'invite_code_sent_at',
   invited_by = 'invited_by',
+  last_emailed_big_question_id = 'last_emailed_big_question_id',
   last_emailed_notification_id = 'last_emailed_notification_id',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',

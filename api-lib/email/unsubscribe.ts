@@ -3,16 +3,25 @@ import { createHmac } from 'crypto';
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
-type EmailType = 'product' | 'transactional' | 'notification';
+export type EmailType =
+  | 'product'
+  | 'transactional'
+  | 'notification'
+  | 'colinks_product';
 
 export function isEmailType(emailType: string): emailType is EmailType {
-  return ['product', 'transactional', 'notification'].includes(emailType);
+  return [
+    'product',
+    'transactional',
+    'notification',
+    'colinks_product',
+  ].includes(emailType);
 }
 
 export function genToken(
   profileId: string,
   email: string,
-  emailType: string
+  emailType: EmailType
 ): string {
   const token = genHmac(profileId, email, emailType);
 
@@ -22,13 +31,14 @@ export function genToken(
     emailType,
     token,
   });
+
   return params.toString();
 }
 
 export function decodeToken(encodedString: string): {
   profileId: string;
   email: string;
-  emailType: string;
+  emailType: EmailType;
 } {
   const params = new URLSearchParams(encodedString);
   const profileId = params.get('profileId');
