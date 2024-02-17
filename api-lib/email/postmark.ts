@@ -152,6 +152,10 @@ export async function sendCoLinksBigQuestionEmail(params: {
       coLinksPaths.bigQuestion(params.big_question_id.toString()),
     unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
     big_question_prompt: params.big_question_prompt,
+    big_question_image_url:
+      webAppURL('colinks') +
+      '/api/og/bqimage/' +
+      params.big_question_id.toString(),
   };
   // eslint-disable-next-line no-console
   console.log('sending big question email to', params.email, 'with', { input });
