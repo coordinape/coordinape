@@ -4,8 +4,8 @@ import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
 export enum EmailType {
-  GIVE_CIRCLE_HAPPENINGS = 'give_happenings',
-  COLINKS_HOT_HAPPENINGS = 'colinks_happenings',
+  GIVE_CIRCLE_HAPPENINGS = 'give_circle_product',
+  COLINKS_HOT_HAPPENINGS = 'colinks_product',
   CIRCLE_NOTIFICATION = 'circle_notification',
   COLINKS_NOTIFICATION = 'notification', // for colinks notifications. remainded this way to not affect old links
 }
@@ -61,7 +61,7 @@ export function decodeToken(encodedString: string): {
   if (token !== generatedToken) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
-  return { profileId, email, emailType };
+  return { profileId, email, emailType: emailType as EmailType };
 }
 
 function genHmac(profileId: string, email: string, emailType: string): string {
