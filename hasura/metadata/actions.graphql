@@ -18,6 +18,10 @@ type Mutation {
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
+type Query {
+  checkEthDenverInvitee: CheckEthDenverInviteeOutput
+}
+
 type Mutation {
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
 }
@@ -806,6 +810,10 @@ type UploadUrlResponse {
 
 type ShareOutput {
   token: String!
+}
+
+type CheckEthDenverInviteeOutput {
+  is_eth_denver_invitee: Boolean!
 }
 
 scalar timestamptz

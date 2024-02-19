@@ -6,4 +6,5 @@ export type WizardProgress = {
   hasCoSoul: boolean;
   hasOwnKey: boolean;
   hasOtherKey: boolean;
+  isEthDenverInvitee?: boolean;
 };

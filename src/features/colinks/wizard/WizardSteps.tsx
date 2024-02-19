@@ -7,6 +7,7 @@ import { useAuthStore } from '../../auth';
 import { useToast } from 'hooks';
 
 import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
+import { WizardCompetition } from './WizardCompetition';
 import { WizardComplete } from './WizardComplete';
 import { WizardCoSoul } from './WizardCoSoul';
 import { WizardName } from './WizardName';
@@ -48,11 +49,13 @@ export const WizardSteps = ({
     hasCoSoul,
     hasOwnKey,
     // hasOtherKey,
+    isEthDenverInvitee,
   } = progress;
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showStepRep, setShowStepRep] = useState(true);
   const [showStepBuyOther, setShowStepBuyOther] = useState(true);
+  const [showStepCompetition, setShowStepCompetition] = useState(true);
 
   const [showStepCoSoul, setShowStepCoSoul] = useState(true);
   const { showError } = useToast();
@@ -92,6 +95,8 @@ export const WizardSteps = ({
     return <WizardCoSoul setShowStepCoSoul={setShowStepCoSoul} />;
   } else if (!hasOwnKey) {
     return <WizardOwnLink address={progress.address} />;
+  } else if (isEthDenverInvitee && showStepCompetition) {
+    return <WizardCompetition skipStep={() => setShowStepCompetition(false)} />;
   } else if (showStepRep) {
     return (
       <WizardRep repScore={repScore} skipStep={() => setShowStepRep(false)} />
