@@ -19,7 +19,7 @@ export const WizardCompetition = ({ skipStep }: { skipStep: () => void }) => {
         column
         css={{
           ...fullScreenStyles,
-          backgroundImage: "url('/imgs/background/colink-other.jpg')",
+          backgroundImage: "url('/imgs/background/eth-denver.jpg')",
           backgroundPosition: 'bottom',
         }}
       />
