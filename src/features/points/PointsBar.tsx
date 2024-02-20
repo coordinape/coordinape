@@ -4,7 +4,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
-import { BoltFill } from 'icons/__generated';
+import { GemSharpSolid } from 'icons/__generated';
 
 import {
   MAX_GIVE,
@@ -98,7 +98,7 @@ export const PointsBar = () => {
             You have{' '}
             <Text inline semibold>
               {points && Math.floor(points / POINTS_PER_GIVE)}
-              <BoltFill nostroke /> GIVE tokens
+              <GemSharpSolid nostroke /> GIVE tokens
             </Text>{' '}
             that you can use to show people you appreciated them.
           </Text>
@@ -112,7 +112,7 @@ export const PointsBar = () => {
         <progress id="points" max={MAX_POINTS_CAP} value={points} />
         {Array.from({ length: MAX_GIVE }, (_, index) => (
           <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
-            <BoltFill nostroke />
+            <GemSharpSolid nostroke />
           </Text>
         ))}
       </Flex>

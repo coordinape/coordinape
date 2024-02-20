@@ -1,6 +1,6 @@
 import useProfileId from '../../hooks/useProfileId';
 import { Flex, IconButton, Text } from '../../ui';
-import { BoltFill, X } from 'icons/__generated';
+import { GemSharpSolid, X } from 'icons/__generated';
 
 export const PostGives = ({
   gives,
@@ -22,35 +22,26 @@ export const PostGives = ({
     <>
       <Flex css={{ gap: '$sm' }}>
         {gives.map(g => (
-          <Flex key={g.id} css={{ gap: '$md' }}>
-            <Text tag size="medium" color="complete">
+          <Flex key={g.id}>
+            <Text
+              tag
+              size="medium"
+              color="complete"
+              css={{
+                ...(g.giver_profile_public?.id === profileId
+                  ? { outline: '1px solid $complete' }
+                  : {}),
+              }}
+            >
               {g.skill ? (
                 <>
-                  {' '}
                   {'+1'}
-                  <BoltFill
-                    css={{
-                      path: {
-                        fill: '$complete',
-                      },
-                    }}
-                    nostroke
-                    size={'md'}
-                  />{' '}
-                  {g.skill}
+                  <GemSharpSolid fa size={'md'} /> {g.skill}
                 </>
               ) : (
                 <>
                   {'+1'}
-                  <BoltFill
-                    css={{
-                      path: {
-                        fill: '$complete',
-                      },
-                    }}
-                    nostroke
-                    size={'md'}
-                  />
+                  <GemSharpSolid fa size={'md'} />
                 </>
               )}
               {g.giver_profile_public?.id === profileId && (
@@ -58,7 +49,7 @@ export const PostGives = ({
                   onClick={() => clearSkill()}
                   css={{ pr: '$sm', width: 'auto' }}
                 >
-                  <X size={'xs'} />
+                  <X size={'sm'} color="complete" />
                 </IconButton>
               )}
             </Text>

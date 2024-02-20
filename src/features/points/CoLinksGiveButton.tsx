@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { BoltFill, GemSharpSolid, User } from '../../icons/__generated';
+import { GemSharpSolid, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
 
@@ -157,7 +157,8 @@ export const PickOneSkill = ({
             }}
           >
             <Text semibold>
-              <BoltFill css={{ mr: '$xs' }} /> Just GIVE - no particular skill
+              <GemSharpSolid css={{ mr: '$xs' }} /> Just GIVE - no particular
+              skill
             </Text>
           </Flex>
         </Command.Item>,
