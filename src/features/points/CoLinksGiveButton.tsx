@@ -86,7 +86,7 @@ export const CoLinksGiveButton = ({
                   color={'transparent'}
                   css={{ '&:hover': { color: '$ctaHover' } }}
                 >
-                  +GIVE
+                  <BoltFill nostroke />
                 </Button>
               }
             />
