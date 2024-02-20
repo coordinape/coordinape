@@ -74,6 +74,8 @@ export { default as EthLogoTransparent } from './EthLogoTransparent';
 export { default as ExternalLink } from './ExternalLink';
 export { default as EyeOff } from './EyeOff';
 export { default as Eye } from './Eye';
+export { default as FaceSmileSolid } from './FaceSmileSolid';
+export { default as FaceSmile } from './FaceSmile';
 export { default as FantomLogo } from './FantomLogo';
 export { default as FileText } from './FileText';
 export { default as Filter } from './Filter';

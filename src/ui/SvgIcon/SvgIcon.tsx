@@ -44,6 +44,14 @@ export const SvgIcon = styled('svg', {
         },
       },
     },
+    fa: {
+      true: {
+        '& path, & g, & circle, & rect': {
+          fill: 'currentColor',
+          stroke: 'none',
+        },
+      },
+    },
     boldstroke: {
       true: {
         '& path, & g, & circle, & rect': {
