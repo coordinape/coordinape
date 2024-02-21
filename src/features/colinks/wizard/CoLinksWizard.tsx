@@ -64,6 +64,21 @@ export const CoLinksWizard = () => {
     }
   );
 
+  const { data: checkEthDenverInvitee } = useQuery(
+    ['colink_checkEthDenverInvitee', address, 'wizard'],
+    async () => {
+      const { checkEthDenverInvitee } = await client.query(
+        {
+          checkEthDenverInvitee: { is_eth_denver_invitee: true },
+        },
+        {
+          operationName: 'coLinks_wizard',
+        }
+      );
+      return checkEthDenverInvitee;
+    }
+  );
+
   const hasRep = !!myProfile?.reputation_score?.total_score;
   const { data: keyData } = useQuery(
     [QUERY_KEY_COLINKS, address, 'wizardKeys'],
@@ -123,7 +138,13 @@ export const CoLinksWizard = () => {
   );
 
   const readyData =
-    keyData && myProfile && data && chainId && account && address;
+    keyData &&
+    myProfile &&
+    data &&
+    chainId &&
+    account &&
+    address &&
+    checkEthDenverInvitee;
 
   useEffect(() => {
     if (data?.profile) {
@@ -158,6 +179,7 @@ export const CoLinksWizard = () => {
                 hasCoSoul,
                 hasOwnKey: keyData.hasOwnKey,
                 hasOtherKey: keyData.hasOtherKey,
+                isEthDenverInvitee: checkEthDenverInvitee.is_eth_denver_invitee,
               }}
               repScore={myProfile?.reputation_score?.total_score}
             />

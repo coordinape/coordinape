@@ -9,6 +9,7 @@ import addEmail from './_handlers/addEmail';
 import addInviteCodes from './_handlers/addInviteCodes';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
+import checkEthDenverInvitee from './_handlers/checkEthDenverInvitee';
 import createCircle from './_handlers/createCircle';
 import createEpoch from './_handlers/createEpoch';
 import createNominee from './_handlers/createNominee';
@@ -86,6 +87,7 @@ const HANDLERS: HandlerDict = {
   deleteUser,
   deleteUsers,
   endEpoch,
+  checkEthDenverInvitee,
   generateApiKey,
   getHeadlines,
   getSimilarProfiles,

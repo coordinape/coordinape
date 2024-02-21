@@ -13844,6 +13844,9 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'Int',
   },
+  CheckEthDenverInviteeOutput: {
+    is_eth_denver_invitee: 'Boolean',
+  },
   ConfirmationResponse: {
     success: 'Boolean',
   },
@@ -19988,6 +19991,7 @@ export const ReturnTypes: Record<string, any> = {
     burns: 'burns',
     burns_aggregate: 'burns_aggregate',
     burns_by_pk: 'burns',
+    checkEthDenverInvitee: 'CheckEthDenverInviteeOutput',
     circle_api_keys: 'circle_api_keys',
     circle_api_keys_aggregate: 'circle_api_keys_aggregate',
     circle_api_keys_by_pk: 'circle_api_keys',
