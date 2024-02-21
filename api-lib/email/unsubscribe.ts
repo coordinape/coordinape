@@ -45,6 +45,7 @@ export function decodeToken(encodedString: string): {
   const email = decodeURIComponent(params.get('email') || '');
   const token = params.get('token');
   const emailType = params.get('emailType');
+  console.log(params);
 
   if (
     !profileId ||
@@ -59,6 +60,7 @@ export function decodeToken(encodedString: string): {
   const generatedToken = genHmac(profileId, email, emailType);
 
   if (token !== generatedToken) {
+    console.log(token, generatedToken);
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
   return { profileId, email, emailType: emailType as EmailType };
