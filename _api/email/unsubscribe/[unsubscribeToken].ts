@@ -46,26 +46,33 @@ export async function unsubscribeEmail(
     { operationName: 'email_unsubscribtion' }
   );
 
-  const display =
-    emailType === 'notification'
-      ? 'unread notifications emails'
-      : emailType === 'product'
-        ? 'product emails'
-        : 'transactional emails';
+  let display;
+  switch (emailType) {
+    case EmailType.COLINKS_NOTIFICATION:
+      display = 'unread notifications emails';
+      break;
+    case EmailType.COLINKS_HOT_HAPPENINGS:
+      display = 'hot happenings emails';
+      break;
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
+      display = 'product emails';
+      break;
+    default:
+      display = 'circle emails';
+  }
+
   return res.status(200).send({
     message: `Email unsubscribed successfully from ${display}`,
   });
 }
 
-function getEmailColumn(emailType: EmailType) {
-  switch (emailType) {
-    case 'notification':
+function getEmailColumn(emailType: string) {
+    switch (emailType) {
+    case EmailType.COLINKS_NOTIFICATION:
       return { _set: { colinks_notification_emails: false } };
-    case 'product':
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
       return { _set: { product_emails: false } };
-    case 'transactional':
-      return { _set: { app_emails: false } };
-    case 'colinks_product':
+    case EmailType.COLINKS_HOT_HAPPENINGS:
       return { _set: { colinks_product_emails: false } };
     default:
       return { _set: { app_emails: false } };

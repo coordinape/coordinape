@@ -3,18 +3,19 @@ import { createHmac } from 'crypto';
 import { HMAC_SECRET } from '../config';
 import { UnauthorizedError } from '../HttpError';
 
-export type EmailType =
-  | 'product'
-  | 'transactional'
-  | 'notification'
-  | 'colinks_product';
+export enum EmailType {
+  GIVE_CIRCLE_HAPPENINGS = 'give_circle_product',
+  COLINKS_HOT_HAPPENINGS = 'colinks_product',
+  CIRCLE_NOTIFICATION = 'circle_notification',
+  COLINKS_NOTIFICATION = 'notification', // for colinks notifications. remainded this way to not affect old links
+}
 
-export function isEmailType(emailType: string): emailType is EmailType {
+export function isEmailType(emailType: EmailType): emailType is EmailType {
   return [
-    'product',
-    'transactional',
-    'notification',
-    'colinks_product',
+    EmailType.CIRCLE_NOTIFICATION,
+    EmailType.COLINKS_NOTIFICATION,
+    EmailType.COLINKS_HOT_HAPPENINGS,
+    EmailType.GIVE_CIRCLE_HAPPENINGS,
   ].includes(emailType);
 }
 
@@ -31,7 +32,6 @@ export function genToken(
     emailType,
     token,
   });
-
   return params.toString();
 }
 
@@ -46,7 +46,13 @@ export function decodeToken(encodedString: string): {
   const token = params.get('token');
   const emailType = params.get('emailType');
 
-  if (!profileId || !email || !token || !emailType || !isEmailType(emailType)) {
+  if (
+    !profileId ||
+    !email ||
+    !token ||
+    !emailType ||
+    !isEmailType(emailType as EmailType)
+  ) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
 
@@ -55,7 +61,7 @@ export function decodeToken(encodedString: string): {
   if (token !== generatedToken) {
     throw new UnauthorizedError('Invalid unsubscribe token');
   }
-  return { profileId, email, emailType };
+  return { profileId, email, emailType: emailType as EmailType };
 }
 
 function genHmac(profileId: string, email: string, emailType: string): string {

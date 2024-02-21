@@ -3,7 +3,7 @@ import { coLinksPaths } from '../../src/routes/paths';
 import { POSTMARK_SERVER_TOKEN } from '../config';
 import { adminClient } from '../gql/adminClient';
 
-import { genToken } from './unsubscribe';
+import { EmailType, genToken } from './unsubscribe';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
@@ -118,7 +118,7 @@ export async function sendCoLinksNotificationsEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'notification'
+    EmailType.COLINKS_NOTIFICATION
   );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
@@ -144,7 +144,7 @@ export async function sendCoLinksBigQuestionEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'colinks_product'
+    EmailType.COLINKS_HOT_HAPPENINGS
   );
   const input = {
     action_url:
@@ -238,15 +238,23 @@ export async function sendEpochEndedEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
   num_give_senders: number;
   num_notes_received: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     num_give_senders: params.num_give_senders,
     num_notes_received: params.num_notes_received,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/epochs`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
@@ -262,11 +270,19 @@ export async function sendEpochEndingSoonEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
@@ -282,11 +298,19 @@ export async function sendEpochStartedEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
