@@ -1,6 +1,5 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { getEarlyAccessProfileId } from '../colinks/helperAccounts';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { addInviteCodes } from '../invites';
@@ -120,13 +119,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           created_at
         );
 
-        // if they were invited by the early access acct we give em 10 invites
-        const eid = await getEarlyAccessProfileId();
-        if (invitedBy === eid) {
-          await addInviteCodes(profileId, 10);
-        } else {
-          await addInviteCodes(profileId, 5);
-        }
+        await addInviteCodes(profileId, 10);
 
         return res.status(200).json({
           message: `saved invite joined notification`,
