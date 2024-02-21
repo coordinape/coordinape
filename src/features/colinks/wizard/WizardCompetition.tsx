@@ -1,6 +1,5 @@
 import { ArrowRight } from 'icons/__generated';
-import { coLinksPaths } from 'routes/paths';
-import { AppLink, Button, Flex, Link, Text } from 'ui';
+import { Button, Flex, Link, Text } from 'ui';
 
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
@@ -27,13 +26,16 @@ export const WizardCompetition = ({ skipStep }: { skipStep: () => void }) => {
         <Flex column css={{ gap: '$md' }}>
           <Text h2>Congratulations!</Text>
           <Text h2>You&apos;ve entered the ETH Denver 2024 Contest!</Text>
-          <AppLink to={coLinksPaths.invites}>
-            Now, go build your network!
-          </AppLink>
-          <Text inline>
+          <Text>
             Invite your friends to CoLinks, and for each one that joins
             you&apos;ll receive an additional contest entry (max 10 additional
             entries).
+          </Text>
+          <Text inline>
+            Once you&apos;re in the app, visit the{' '}
+            <Text inline semibold>
+              Invites Page.
+            </Text>
           </Text>
           <Button
             outlined
