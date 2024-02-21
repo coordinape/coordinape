@@ -33,6 +33,7 @@ const fetchPost = async (id: number) => {
 export const PostPage = () => {
   const { id } = useParams();
   assert(id);
+
   const { data: post, isLoading } = useQuery([POST_PAGE_QUERY_KEY, id], () =>
     fetchPost(Number(id))
   );
@@ -61,7 +62,6 @@ export const PostPage = () => {
       {/*  address={post.actor_profile_public.address}*/}
       {/*  title={post.big_question ? 'The Big Question Answer' : 'Post'}*/}
       {/*/>*/}
-
       <Flex
         column
         css={{
