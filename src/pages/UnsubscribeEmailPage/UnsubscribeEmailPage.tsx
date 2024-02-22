@@ -25,10 +25,12 @@ export const UnsubscribeEmailPage = () => {
     try {
       fetch('/api/email/unsubscribe/' + unsubscribeToken).then(res => {
         res.json().then(res => {
+          console.error(res.message);
           setUnsubscribeMessage(res.message);
         });
       });
     } catch (e) {
+      console.error(e);
       if (e instanceof Error) {
         setUnsubscribeMessage(e.message ?? 'unknown error');
       } else {
