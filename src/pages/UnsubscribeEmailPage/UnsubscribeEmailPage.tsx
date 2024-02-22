@@ -31,6 +31,7 @@ export const UnsubscribeEmailPage = () => {
     } catch (e) {
       if (e instanceof Error) {
         setUnsubscribeMessage(e.message ?? 'unknown error');
+        console.error(e);
       } else {
         setUnsubscribeMessage('Invalid token or network error');
       }
@@ -49,7 +50,10 @@ export const UnsubscribeEmailPage = () => {
             <Flex column css={{ gap: '$md' }}>
               {unsubscribeMessage && (
                 <>
-                  <Text h2>You&lsquo;ve been unsubscribed</Text>
+                  {!unsubscribeMessage.includes('Invalid') && (
+                    <Text h2>You&lsquo;ve been unsubscribed</Text>
+                  )}
+
                   <Panel nested>
                     <Text>{unsubscribeMessage}</Text>
                   </Panel>
