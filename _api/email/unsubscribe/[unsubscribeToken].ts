@@ -67,7 +67,7 @@ export async function unsubscribeEmail(
 }
 
 function getEmailColumn(emailType: string) {
-    switch (emailType) {
+  switch (emailType) {
     case EmailType.COLINKS_NOTIFICATION:
       return { _set: { colinks_notification_emails: false } };
     case EmailType.GIVE_CIRCLE_HAPPENINGS:
