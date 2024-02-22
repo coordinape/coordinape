@@ -4,6 +4,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
   decodeToken,
+  EmailType,
   isEmailType,
 } from '../../../api-lib/email/unsubscribe.ts';
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';
@@ -11,11 +12,8 @@ import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    let unsubscribeToken: string | undefined;
-
-    if (typeof req.query.unsubscribeToken == 'string') {
-      unsubscribeToken = req.query.unsubscribeToken;
-    }
+    // strip url to get raw unsubscribe token; using req.query.unsubscribeToken would decode the token improperly
+    const unsubscribeToken = req.url?.replace('/api/email/unsubscribe/', '');
 
     if (!unsubscribeToken) {
       throw new NotFoundError('no unsubscription token provided');
@@ -32,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 export async function unsubscribeEmail(
   res: VercelResponse,
   profileId: string,
-  emailType: string
+  emailType: EmailType
 ) {
   assert(isEmailType(emailType), 'invalid email type');
   await adminClient.mutate(
@@ -48,23 +46,35 @@ export async function unsubscribeEmail(
     { operationName: 'email_unsubscribtion' }
   );
 
-  const display =
-    emailType === 'notification'
-      ? 'unread notifications emails'
-      : emailType === 'product'
-        ? 'product emails'
-        : 'transactional emails';
+  let display;
+  switch (emailType) {
+    case EmailType.COLINKS_NOTIFICATION:
+      display = 'unread notifications emails';
+      break;
+    case EmailType.COLINKS_HOT_HAPPENINGS:
+      display = 'hot happenings emails';
+      break;
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
+      display = 'product emails';
+      break;
+    default:
+      display = 'circle emails';
+  }
+
   return res.status(200).send({
     message: `Email unsubscribed successfully from ${display}`,
   });
 }
 
 function getEmailColumn(emailType: string) {
-  if (emailType === 'notification') {
-    return { _set: { colinks_notification_emails: false } };
-  } else if (emailType === 'product') {
-    return { _set: { product_emails: false } };
-  } else {
-    return { _set: { app_emails: false } };
+    switch (emailType) {
+    case EmailType.COLINKS_NOTIFICATION:
+      return { _set: { colinks_notification_emails: false } };
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
+      return { _set: { product_emails: false } };
+    case EmailType.COLINKS_HOT_HAPPENINGS:
+      return { _set: { colinks_product_emails: false } };
+    default:
+      return { _set: { app_emails: false } };
   }
 }

@@ -3,7 +3,7 @@ import { coLinksPaths } from '../../src/routes/paths';
 import { POSTMARK_SERVER_TOKEN } from '../config';
 import { adminClient } from '../gql/adminClient';
 
-import { genToken } from './unsubscribe';
+import { EmailType, genToken } from './unsubscribe';
 
 const HELP_URL = 'https://docs.coordinape.com';
 const API_BASE_URL = 'https://api.postmarkapp.com';
@@ -19,6 +19,7 @@ const TEMPLATES = {
   COLINKS_WAITLIST_WELCOME: 'colinks_waitlist_welcome',
   COLINKS_WAITLIST_INVITED: 'colinks_waitlist_invited',
   COLINKS_NOTIFICATIONS: 'colinks_notification',
+  COLINKS_BIG_QUESTION: 'colinks_big_question',
   EPOCH_ENDED: 'epoch_ended',
   EPOCH_STARTED: 'epoch_started',
   EPOCH_ENDING_SOON: 'epoch_ending_soon',
@@ -117,7 +118,7 @@ export async function sendCoLinksNotificationsEmail(params: {
   const token = genToken(
     params.profile_id.toString(),
     params.email,
-    'notification'
+    EmailType.COLINKS_NOTIFICATION
   );
   const input = {
     action_url: webAppURL('colinks') + coLinksPaths.notifications,
@@ -128,6 +129,39 @@ export async function sendCoLinksNotificationsEmail(params: {
   const res = await sendEmail(
     params.email,
     TEMPLATES.COLINKS_NOTIFICATIONS,
+    input,
+    'colinks'
+  );
+  return res;
+}
+
+export async function sendCoLinksBigQuestionEmail(params: {
+  email: string;
+  profile_id: number;
+  big_question_id: number;
+  big_question_prompt: string;
+}) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.COLINKS_HOT_HAPPENINGS
+  );
+  const input = {
+    action_url:
+      webAppURL('colinks') +
+      coLinksPaths.bigQuestion(params.big_question_id.toString()),
+    unsubscribe_url: webAppURL('colinks') + '/email/unsubscribe/' + token,
+    big_question_prompt: params.big_question_prompt,
+    big_question_image_url:
+      webAppURL('colinks') +
+      '/api/og/bqimage/' +
+      params.big_question_id.toString(),
+  };
+  // eslint-disable-next-line no-console
+  console.log('sending big question email to', params.email, 'with', { input });
+  const res = await sendEmail(
+    params.email,
+    TEMPLATES.COLINKS_BIG_QUESTION,
     input,
     'colinks'
   );
@@ -204,15 +238,23 @@ export async function sendEpochEndedEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
   num_give_senders: number;
   num_notes_received: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     num_give_senders: params.num_give_senders,
     num_notes_received: params.num_notes_received,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/epochs`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
@@ -228,11 +270,19 @@ export async function sendEpochEndingSoonEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
@@ -248,11 +298,19 @@ export async function sendEpochStartedEmail(params: {
   circle_name: string;
   circle_id: number;
   epoch_id: number;
+  profile_id: number;
 }) {
+  const token = genToken(
+    params.profile_id.toString(),
+    params.email,
+    EmailType.CIRCLE_NOTIFICATION
+  );
+
   const input = {
     circle_name: params.circle_name,
     epoch_id: params.epoch_id,
     action_url: `${webAppURL('give')}/circles/${params.circle_id}/give`,
+    unsubscribe_url: webAppURL('give') + '/email/unsubscribe/' + token,
   };
   const res = await sendEmail(
     params.email,
