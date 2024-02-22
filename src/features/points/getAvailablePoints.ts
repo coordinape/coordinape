@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 export const MAX_POINTS_CAP = 1800;
-export const EMISSION_PER_SECOND = 0.01;
+export const EMISSION_PER_SECOND = 180;
 export const MAX_GIVE = 5;
 export const POINTS_PER_GIVE = MAX_POINTS_CAP / MAX_GIVE;
 
