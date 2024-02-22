@@ -117,6 +117,7 @@ export const SkillComboBox = ({
           }}
         >
           <Command.Input
+            className="clickProtect"
             ref={inputRef}
             placeholder={placeholder}
             maxLength={30}
