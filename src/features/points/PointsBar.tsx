@@ -4,7 +4,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
-import { GemSharpSolid } from 'icons/__generated';
+import { GemCoFillSm } from 'icons/__generated';
 
 import {
   MAX_GIVE,
@@ -15,7 +15,7 @@ import { getMyAvailablePoints } from './getMyAvailablePoints';
 
 const progressStyles = {
   position: 'relative',
-  pt: '1.1rem',
+  pt: '1.3rem',
   '.tickMark': {
     color: 'orange',
     position: 'absolute',
@@ -29,7 +29,7 @@ const progressStyles = {
     },
     svg: {
       position: 'absolute',
-      top: '-1.1rem',
+      top: '-1.3rem',
       left: '-0.5rem',
       path: {
         fill: '$border',
@@ -93,12 +93,12 @@ export const PointsBar = () => {
         </IconButton>
       </Text>
       {showInfo && (
-        <>
+        <Flex column css={{ mb: '$sm' }}>
           <Text inline size="small">
             You have{' '}
             <Text inline semibold>
-              {points && Math.floor(points / POINTS_PER_GIVE)}
-              <GemSharpSolid nostroke /> GIVE tokens
+              {points && Math.floor(points / POINTS_PER_GIVE)}{' '}
+              <GemCoFillSm fa css={{ mt: -2 }} /> GIVE tokens
             </Text>{' '}
             that you can use to show people you appreciated them.
           </Text>
@@ -106,13 +106,14 @@ export const PointsBar = () => {
             You constantly earn GIVE up to a max, and you also gain GIVE as your
             REP increases.
           </Text>
-        </>
+        </Flex>
       )}
       <Flex css={{ ...progressStyles }}>
         <progress id="points" max={MAX_POINTS_CAP} value={points} />
         {Array.from({ length: MAX_GIVE }, (_, index) => (
           <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
-            <GemSharpSolid nostroke />
+            {/* <GemSharpSolid nostroke /> */}
+            <GemCoFillSm fa />
           </Text>
         ))}
       </Flex>

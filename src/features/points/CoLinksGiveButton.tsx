@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemSharpSolid, User } from '../../icons/__generated';
+import { GemCoFill, GemCoFillSm, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
 
@@ -14,7 +14,6 @@ export const CoLinksGiveButton = ({
   activityId,
   isMyPost,
   gives,
-  size,
 }: {
   activityId: number;
   isMyPost: boolean;
@@ -26,7 +25,6 @@ export const CoLinksGiveButton = ({
       id?: number;
     };
   }[];
-  size: 'large' | 'small';
 }) => {
   const profileId = useProfileId(true);
   const { showError } = useToast();
@@ -83,25 +81,60 @@ export const CoLinksGiveButton = ({
               setSkill={skill => createGive(skill)}
               placeholder={'Choose a GIVE Reason'}
               trigger={
-                <Button
-                  noPadding
-                  color="transparent"
-                  css={{
-                    ...(size == 'large'
-                      ? {
-                          background: '$surfaceNested',
-                          p: '$sm',
-                          borderRadius: 999,
-                          boxShadow: '$shadow4',
-                        }
-                      : {}),
-                    '&:hover': { color: '$ctaHover' },
-                  }}
-                >
-                  <Flex column css={{ alignItems: 'center' }}>
-                    <GemSharpSolid fa size={size == 'large' ? 'lg' : 'md'} />
-                  </Flex>
-                </Button>
+                <>
+                  <Button
+                    noPadding
+                    color="secondary"
+                    css={{
+                      p: '3px 5px',
+                    }}
+                  >
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <GemCoFill fa size="xl" />
+                      <Text size="xs">GIVE</Text>
+                    </Flex>
+                  </Button>
+                  {/* <Button
+                    noPadding
+                    color="secondary"
+                    css={{
+                      p: '3px 5px',
+                    }}
+                  >
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <GemCoFillSm fa size="xl" />
+                      <Text size="xs">GIVE</Text>
+                    </Flex>
+                  </Button>
+                  <Button
+                    noPadding
+                    color="cta"
+                    outlined
+                    css={{
+                      p: '3px 5px',
+                    }}
+                  >
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <GemCoFill fa size="xl" />
+                      <Text size="xs">GIVE</Text>
+                    </Flex>
+                  </Button>
+                  <Button
+                    noPadding
+                    color="cta"
+                    outlined
+                    css={{
+                      p: '3px 5px',
+                      border: 'none',
+                      background: '$surfaceNested !important',
+                    }}
+                  >
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <GemCoFill fa size="xl" />
+                      <Text size="xs">GIVE</Text>
+                    </Flex>
+                  </Button> */}
+                </>
               }
             />
           </>
@@ -157,7 +190,7 @@ export const PickOneSkill = ({
             }}
           >
             <Text semibold>
-              <GemSharpSolid css={{ mr: '$xs' }} /> Just GIVE - no particular
+              <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE - no particular
               skill
             </Text>
           </Flex>

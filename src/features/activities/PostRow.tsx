@@ -108,10 +108,9 @@ export const PostRow = ({
             },
           }}
         >
-          <Flex column css={{ alignItems: 'center', gap: '$sm' }}>
+          <Flex column css={{ alignItems: 'center', gap: '$md' }}>
             <ActivityAvatar profile={activity.actor_profile_public} />
             <CoLinksGiveButton
-              size="large"
               isMyPost={activity.actor_profile_public.id === profileId}
               activityId={activity.id}
               gives={activity.gives}

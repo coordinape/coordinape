@@ -1,6 +1,6 @@
 import useProfileId from '../../hooks/useProfileId';
 import { Flex, IconButton, Text } from '../../ui';
-import { GemSharpSolid, X } from 'icons/__generated';
+import { GemCoFillSm, X } from 'icons/__generated';
 
 export const PostGives = ({
   gives,
@@ -36,12 +36,12 @@ export const PostGives = ({
               {g.skill ? (
                 <>
                   {'+1'}
-                  <GemSharpSolid fa size={'md'} /> {g.skill}
+                  <GemCoFillSm fa size={'md'} /> {g.skill}
                 </>
               ) : (
                 <>
                   {'+1'}
-                  <GemSharpSolid fa size={'md'} />
+                  <GemCoFillSm fa size={'md'} />
                 </>
               )}
               {g.giver_profile_public?.id === profileId && (

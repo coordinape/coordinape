@@ -80,6 +80,8 @@ export { default as FantomLogo } from './FantomLogo';
 export { default as FileText } from './FileText';
 export { default as Filter } from './Filter';
 export { default as GanacheLogo } from './GanacheLogo';
+export { default as GemCoFillSm } from './GemCoFillSm';
+export { default as GemCoFill } from './GemCoFill';
 export { default as GemSharpSolid } from './GemSharpSolid';
 export { default as GiveReceiveBoth } from './GiveReceiveBoth';
 export { default as GiveReceiveGive } from './GiveReceiveGive';
