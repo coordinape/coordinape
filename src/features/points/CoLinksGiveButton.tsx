@@ -6,7 +6,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { BoltFill, User } from '../../icons/__generated';
+import { GemCoFill, GemCoFillSm, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
 
@@ -81,13 +81,20 @@ export const CoLinksGiveButton = ({
               setSkill={skill => createGive(skill)}
               placeholder={'Choose a GIVE Reason'}
               trigger={
-                <Button
-                  size={'small'}
-                  color={'transparent'}
-                  css={{ '&:hover': { color: '$ctaHover' } }}
-                >
-                  <BoltFill nostroke />
-                </Button>
+                <>
+                  <Button
+                    noPadding
+                    color="secondary"
+                    css={{
+                      p: '3px 5px',
+                    }}
+                  >
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <GemCoFill fa size="xl" />
+                      <Text size="xs">GIVE</Text>
+                    </Flex>
+                  </Button>
+                </>
               }
             />
           </>
@@ -143,7 +150,8 @@ export const PickOneSkill = ({
             }}
           >
             <Text semibold>
-              <BoltFill css={{ mr: '$xs' }} /> Just GIVE - no particular skill
+              <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE - no particular
+              skill
             </Text>
           </Flex>
         </Command.Item>,

@@ -108,7 +108,14 @@ export const PostRow = ({
             },
           }}
         >
-          <ActivityAvatar profile={activity.actor_profile_public} />
+          <Flex column css={{ alignItems: 'center', gap: '$md' }}>
+            <ActivityAvatar profile={activity.actor_profile_public} />
+            <CoLinksGiveButton
+              isMyPost={activity.actor_profile_public.id === profileId}
+              activityId={activity.id}
+              gives={activity.gives}
+            />
+          </Flex>
           <Flex
             className="clickThrough"
             column
@@ -204,12 +211,7 @@ export const PostRow = ({
                   className="clickThrough"
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
-                  <Flex css={{ alignItems: 'center' }}>
-                    <CoLinksGiveButton
-                      isMyPost={activity.actor_profile_public.id === profileId}
-                      activityId={activity.id}
-                      gives={activity.gives}
-                    />
+                  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
                     <ReactionBar
                       activityId={activity.id}
                       reactions={activity.reactions}

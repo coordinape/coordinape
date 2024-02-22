@@ -343,6 +343,20 @@ export const Button = styled('button', {
       },
     },
     {
+      color: 'cta',
+      outlined: true,
+      css: {
+        background: 'transparent',
+        color: '$cta',
+        borderColor: '$cta',
+        '&:hover': {
+          background: 'transparent',
+          color: '$ctaHover',
+          borderColor: '$ctaHover',
+        },
+      },
+    },
+    {
       size: 'large',
       color: 'inputStyle',
       css: {

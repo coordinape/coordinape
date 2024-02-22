@@ -1,6 +1,6 @@
 import useProfileId from '../../hooks/useProfileId';
 import { Flex, IconButton, Text } from '../../ui';
-import { BoltFill, X } from 'icons/__generated';
+import { GemCoFillSm, X } from 'icons/__generated';
 
 export const PostGives = ({
   gives,
@@ -60,29 +60,12 @@ export const PostGives = ({
                 <>
                   {' '}
                   {`+${g.count}`}
-                  <BoltFill
-                    css={{
-                      path: {
-                        fill: '$complete',
-                      },
-                    }}
-                    nostroke
-                    size={'md'}
-                  />{' '}
-                  {g.skill}
+                  <GemCoFillSm fa size={'md'} /> {g.skill}
                 </>
               ) : (
                 <>
                   {`+${g.count}`}
-                  <BoltFill
-                    css={{
-                      path: {
-                        fill: '$complete',
-                      },
-                    }}
-                    nostroke
-                    size={'md'}
-                  />
+                  <GemCoFillSm fa size={'md'} />
                 </>
               )}
               {g.gives.some(
@@ -92,7 +75,7 @@ export const PostGives = ({
                   onClick={() => clearSkill()}
                   css={{ pr: '$sm', width: 'auto' }}
                 >
-                  <X size={'xs'} />
+                  <X size={'sm'} color="complete" />
                 </IconButton>
               )}
             </Text>

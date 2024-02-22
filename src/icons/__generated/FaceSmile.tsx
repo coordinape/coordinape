@@ -7,7 +7,7 @@ const css = {
   // '& path': { stroke: 'none' }
   // '& path': { stroke: 'none' }
 };
-export const SvgGemSharpSolid = (props: SvgIconProps) => (
+export const SvgFaceSmile = (props: SvgIconProps) => (
   <SvgIcon
     xmlns="http://www.w3.org/2000/svg"
     width={24}
@@ -19,8 +19,8 @@ export const SvgGemSharpSolid = (props: SvgIconProps) => (
     <path
       fill="#000"
       fillRule="nonzero"
-      d="M0 10.25 12 23l12-12.75L18.75 2H5.25L0 10.25ZM17.77 3l-3.674 5.952L22 9.857 12 11 2 9.857l7.904-.905L6.23 3 12 8.414 17.77 3Z"
+      d="M21.5 12a9.5 9.5 0 1 0-19 0 9.5 9.5 0 0 0 19 0Zm-21 0C.5 5.649 5.649.5 12 .5S23.5 5.649 23.5 12 18.351 23.5 12 23.5.5 18.351.5 12Zm7.901 2.847c.697.731 1.89 1.512 3.595 1.512 1.706 0 2.898-.78 3.595-1.512a1.123 1.123 0 0 1 1.554-.063 1.05 1.05 0 0 1 .065 1.512A7.108 7.108 0 0 1 12 18.5c-2.457 0-4.204-1.138-5.208-2.204a1.047 1.047 0 0 1 .064-1.512 1.118 1.118 0 0 1 1.555.063H8.4ZM6.5 10a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0ZM16 8.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"
     />
   </SvgIcon>
 );
-export default SvgGemSharpSolid;
+export default SvgFaceSmile;
