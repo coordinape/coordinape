@@ -342,6 +342,7 @@ const Count = () => {
         height: '20px',
         alignItems: 'center',
         justifyContent: 'center',
+        whiteSpace: 'nowrap',
       }}
     >
       {count}

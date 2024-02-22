@@ -75,28 +75,46 @@ export const CoLinksGiveButton = ({
   return (
     <>
       <Flex className="clickThrough" column css={{ gap: '$sm' }}>
-        {!isMyPost && !myGive && (
+        {!isMyPost && (
           <>
-            <PickOneSkill
-              setSkill={skill => createGive(skill)}
-              placeholder={'Choose a GIVE Reason'}
-              trigger={
-                <>
-                  <Button
-                    noPadding
-                    color="secondary"
-                    css={{
-                      p: '3px 5px',
-                    }}
-                  >
-                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                      <GemCoFill fa size="xl" />
-                      <Text size="xs">GIVE</Text>
-                    </Flex>
-                  </Button>
-                </>
-              }
-            />
+            {myGive ? (
+              <Button
+                noPadding
+                color="cta"
+                css={{
+                  pointerEvents: 'none',
+                  p: '3px 5px',
+                  background:
+                    'linear-gradient(.33turn, $coLinksCta 23%, $complete)',
+                }}
+              >
+                <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                  <GemCoFill fa size="xl" />
+                  <Text size="xs">GIVE</Text>
+                </Flex>
+              </Button>
+            ) : (
+              <PickOneSkill
+                setSkill={skill => createGive(skill)}
+                placeholder={'Choose a GIVE Reason'}
+                trigger={
+                  <>
+                    <Button
+                      noPadding
+                      color="secondary"
+                      css={{
+                        p: '3px 5px',
+                      }}
+                    >
+                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                        <GemCoFill fa size="xl" />
+                        <Text size="xs">GIVE</Text>
+                      </Flex>
+                    </Button>
+                  </>
+                }
+              />
+            )}
           </>
         )}
       </Flex>

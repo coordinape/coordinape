@@ -4,6 +4,7 @@ import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionCard';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useNavQuery } from 'features/nav/getNavData';
+import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { PostGives } from 'features/points/PostGives';
 import { useDeleteGiveMutation } from 'features/points/useDeleteGiveMutation';
 import { DateTime } from 'luxon';
@@ -13,7 +14,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
-import { CoLinksGiveButton } from '../points/CoLinksGiveButton';
 import isFeatureEnabled from 'config/features';
 import { Edit, Messages, MessageSolid, ShareSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
@@ -108,14 +108,7 @@ export const PostRow = ({
             },
           }}
         >
-          <Flex column css={{ alignItems: 'center', gap: '$md' }}>
-            <ActivityAvatar profile={activity.actor_profile_public} />
-            <CoLinksGiveButton
-              isMyPost={activity.actor_profile_public.id === profileId}
-              activityId={activity.id}
-              gives={activity.gives}
-            />
-          </Flex>
+          <ActivityAvatar profile={activity.actor_profile_public} />
           <Flex
             className="clickThrough"
             column
@@ -205,13 +198,30 @@ export const PostRow = ({
                 <MarkdownPreview
                   render
                   source={activity.contribution.description}
-                  css={{ cursor: 'auto', mb: '-$xs', mt: '$xs' }}
+                  css={{
+                    cursor: 'auto',
+                    mb: '-$xs',
+                    mt: '$xs',
+                    // apply min height to make room for absolute positioned GIVE button
+                    minHeight: editableContribution ? 0 : '$3xl',
+                  }}
                 />
                 <Flex
                   className="clickThrough"
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
-                  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                  <Flex
+                    css={{ alignItems: 'center', gap: '$sm', flexWrap: 'wrap' }}
+                  >
+                    <Flex css={{ position: 'absolute', left: -61, bottom: 0 }}>
+                      <CoLinksGiveButton
+                        isMyPost={
+                          activity.actor_profile_public.id === profileId
+                        }
+                        activityId={activity.id}
+                        gives={activity.gives}
+                      />
+                    </Flex>
                     <ReactionBar
                       activityId={activity.id}
                       reactions={activity.reactions}

@@ -55,7 +55,16 @@ export const PostGives = ({
       <Flex css={{ gap: '$sm' }}>
         {sortedGives.map(g => (
           <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
-            <Text tag size="medium" color="complete">
+            <Text
+              tag
+              size="medium"
+              color="complete"
+              css={{
+                ...(g.gives.some(
+                  give => give.giver_profile_public?.id === profileId
+                ) && { outline: '1px solid $complete' }),
+              }}
+            >
               {g.skill ? (
                 <>
                   {' '}
