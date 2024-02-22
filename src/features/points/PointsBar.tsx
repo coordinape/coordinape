@@ -98,13 +98,13 @@ export const PointsBar = () => {
             You have{' '}
             <Text inline semibold>
               {points && Math.floor(points / POINTS_PER_GIVE)}{' '}
-              <GemCoFillSm fa css={{ mt: -2 }} /> GIVE tokens
+              <GemCoFillSm fa css={{ mt: -2 }} /> GIVE
             </Text>{' '}
             that you can use to show people you appreciated them.
           </Text>
           <Text size="small">
-            You constantly earn GIVE up to a max, and you also gain GIVE as your
-            REP increases.
+            You constantly earn GIVE up to {MAX_GIVE}, and you also gain GIVE as
+            your REP increases.
           </Text>
         </Flex>
       )}
@@ -116,12 +116,6 @@ export const PointsBar = () => {
             <GemCoFillSm fa />
           </Text>
         ))}
-      </Flex>
-      <Flex css={{ justifyContent: 'space-between' }}>
-        <Text variant="label" color="cta">
-          {points && Math.floor(points)} Give
-        </Text>
-        <Text variant="label">{MAX_POINTS_CAP} Max</Text>
       </Flex>
     </Panel>
   );
