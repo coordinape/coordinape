@@ -33,6 +33,8 @@ export const activitySelector = Selector('activities')({
       giver_profile_public: {
         name: true,
         id: true,
+        address: true,
+        avatar: true,
       },
     },
   ],

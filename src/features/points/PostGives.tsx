@@ -1,6 +1,17 @@
+import { ActivityAvatar } from 'features/activities/ActivityAvatar';
+import { NavLink } from 'react-router-dom';
+
 import useProfileId from '../../hooks/useProfileId';
-import { Flex, IconButton, Text } from '../../ui';
+import {
+  Flex,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from '../../ui';
 import { GemCoFillSm, X } from 'icons/__generated';
+import { coLinksPaths } from 'routes/paths';
 
 export const PostGives = ({
   gives,
@@ -13,6 +24,7 @@ export const PostGives = ({
     giver_profile_public?: {
       name?: string;
       id?: number;
+      address?: string;
     };
   }[];
 }) => {
@@ -55,45 +67,92 @@ export const PostGives = ({
       <Flex css={{ gap: '$sm' }}>
         {sortedGives.map(g => (
           <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
-            <Text
-              tag
-              size="medium"
-              color="complete"
-              css={{
-                ...(g.gives.some(
-                  give => give.giver_profile_public?.id === profileId
-                ) && { outline: '1px solid $complete' }),
-              }}
-            >
-              {g.skill ? (
-                <>
-                  {' '}
-                  {`+${g.count}`}
-                  <GemCoFillSm fa size={'md'} /> {g.skill}
-                </>
-              ) : (
-                <>
-                  {`+${g.count}`}
-                  <GemCoFillSm fa size={'md'} />
-                </>
-              )}
-              {g.gives.some(
-                give => give.giver_profile_public?.id === profileId
-              ) && (
-                <IconButton
-                  onClick={() => clearSkill()}
-                  css={{ pr: '$sm', width: 'auto' }}
+            <Popover>
+              <PopoverTrigger css={{ cursor: 'pointer' }}>
+                <Text
+                  tag
+                  size="medium"
+                  color="complete"
+                  css={{
+                    ...(g.gives.some(
+                      give => give.giver_profile_public?.id === profileId
+                    ) && { outline: '1px solid $complete' }),
+                  }}
                 >
-                  <X size={'sm'} color="complete" />
-                </IconButton>
-              )}
-              {/* <Text size="xs">
-                from{' '}
-                {g.giver_profile_public?.id === profileId
-                  ? 'You'
-                  : g.giver_profile_public?.name}
-              </Text> */}
-            </Text>
+                  {g.skill ? (
+                    <>
+                      {' '}
+                      {`+${g.count}`}
+                      <GemCoFillSm fa size={'md'} /> {g.skill}
+                    </>
+                  ) : (
+                    <>
+                      {`+${g.count}`}
+                      <GemCoFillSm fa size={'md'} />
+                    </>
+                  )}
+
+                  {g.gives.some(
+                    give => give.giver_profile_public?.id === profileId
+                  ) && (
+                    <IconButton
+                      onClick={() => clearSkill()}
+                      css={{ pr: '$sm', width: 'auto' }}
+                    >
+                      <X size={'sm'} color="complete" />
+                    </IconButton>
+                  )}
+                </Text>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                css={{
+                  background: '$dim',
+                  mt: '$sm',
+                  p: '$sm $sm',
+                }}
+              >
+                <Text
+                  variant="label"
+                  css={{
+                    color: '$complete',
+                    borderBottom: '0.5px solid $border',
+                    pb: '$xs',
+                    mb: '$sm',
+                  }}
+                >
+                  {g.skill}
+                </Text>
+                <Flex column css={{ gap: '$sm' }}>
+                  {g.gives
+                    .filter(give => give.giver_profile_public?.name)
+                    .map((give, index) => (
+                      <>
+                        {give.giver_profile_public && (
+                          <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                            <ActivityAvatar
+                              size="xs"
+                              profile={give.giver_profile_public}
+                            />
+                            <Text
+                              size="small"
+                              semibold
+                              css={{ textDecoration: 'none' }}
+                              as={NavLink}
+                              to={coLinksPaths.profile(
+                                give.giver_profile_public.address || ''
+                              )}
+                              key={index}
+                            >
+                              {give.giver_profile_public?.name}
+                            </Text>
+                          </Flex>
+                        )}
+                      </>
+                    ))}
+                </Flex>
+              </PopoverContent>
+            </Popover>
           </Flex>
         ))}
       </Flex>
