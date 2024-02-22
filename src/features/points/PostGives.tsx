@@ -87,13 +87,13 @@ export const PostGives = ({
                   <X size={'sm'} color="complete" />
                 </IconButton>
               )}
+              {/* <Text size="xs">
+                from{' '}
+                {g.giver_profile_public?.id === profileId
+                  ? 'You'
+                  : g.giver_profile_public?.name}
+              </Text> */}
             </Text>
-            {/* <Text size="xs" semibold key={g.id}>
-              from{' '}
-              {g.giver_profile_public?.id === profileId
-                ? 'You'
-                : g.giver_profile_public?.name}
-            </Text> */}
           </Flex>
         ))}
       </Flex>

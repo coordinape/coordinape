@@ -86,6 +86,7 @@ export const CoLinksGiveButton = ({
                   p: '3px 5px',
                   background:
                     'linear-gradient(.33turn, $coLinksCta 23%, $complete)',
+                  boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                 }}
               >
                 <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
