@@ -20,8 +20,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new NotFoundError('no unsubscription token provided');
     }
 
-    console.error({ encodedToken });
-
     const { profileId, emailType } = decodeToken(encodedToken);
 
     return await unsubscribeEmail(res, profileId, emailType);
