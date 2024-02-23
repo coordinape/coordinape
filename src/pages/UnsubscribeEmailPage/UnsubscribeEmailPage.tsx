@@ -29,8 +29,8 @@ export const UnsubscribeEmailPage = () => {
         });
       });
     } catch (e) {
+      console.error(e);
       if (e instanceof Error) {
-        console.error(e);
         setUnsubscribeMessage(e.message ?? 'unknown error');
       } else {
         setUnsubscribeMessage('Invalid token or network error');
