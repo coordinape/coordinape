@@ -84,8 +84,7 @@ export const CoLinksGiveButton = ({
                 css={{
                   pointerEvents: 'none',
                   p: '3px 5px',
-                  background:
-                    'linear-gradient(.33turn, $coLinksCta 23%, $complete)',
+                  background: 'linear-gradient(.33turn, $cta 23%, $complete)',
                   boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                 }}
               >
