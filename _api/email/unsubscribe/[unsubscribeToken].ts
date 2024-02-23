@@ -19,6 +19,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new NotFoundError('no unsubscription token provided');
     }
 
+    console.error('req.url', req.url);
+    console.error({ unsubscribeToken });
+
     const { profileId, emailType } = decodeToken(unsubscribeToken);
 
     return await unsubscribeEmail(res, profileId, emailType);
@@ -67,7 +70,7 @@ export async function unsubscribeEmail(
 }
 
 function getEmailColumn(emailType: string) {
-    switch (emailType) {
+  switch (emailType) {
     case EmailType.COLINKS_NOTIFICATION:
       return { _set: { colinks_notification_emails: false } };
     case EmailType.GIVE_CIRCLE_HAPPENINGS:

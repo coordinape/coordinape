@@ -31,7 +31,7 @@
     },
     {
       "source": "/api/email/unsubscribe/:unsubscribeToken",
-      "destination": "/api/email/unsubscribe/[unsubscribeToken]?unsubscribeToken=:unsubscribeToken"
+      "destination": "/api/email/unsubscribe/test?unsubscribeToken=:unsubscribeToken"
     },
     {
       "source": "/api/email/verify/:uuid",
