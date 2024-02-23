@@ -34,22 +34,6 @@
       "destination": "/api/email/unsubscribe/[unsubscribeToken]?unsubscribeToken=:unsubscribeToken"
     },
     {
-      "source": "/api/email/unsubscribe1/:unsubscribeToken",
-      "destination": "/api/email/unsubscribe/[test]?unsubscribeToken=:unsubscribeToken"
-    },
-    {
-      "source": "/api/email/unsubscribe2/:unsubscribeToken",
-      "destination": "/api/email/unsubscribe?unsubscribeToken=:unsubscribeToken"
-    },
-    {
-      "source": "/api/email/unsubscribe3/:unsubscribeToken",
-      "destination": "/api/email/unsubscribe/[unsubscribeToken]"
-    },
-    {
-      "source": "/api/email/unsubscribe4/:unsubscribeToken",
-      "destination": "/api/email/unsubscribe?:unsubscribeToken"
-    },
-    {
       "source": "/api/email/verify/:uuid",
       "destination": "/api/email/verify/[uuid]?uuid=:uuid"
     },

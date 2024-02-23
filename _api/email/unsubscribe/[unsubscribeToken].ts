@@ -13,16 +13,16 @@ import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // strip url to get raw unsubscribe token; using req.query.unsubscribeToken would decode the token improperly
-    const unsubscribeToken = req.url?.replace('/api/email/unsubscribe/', '');
+    const pathname = new URL('https://server' + req.url).pathname;
+    const encodedToken = pathname?.replace('/api/email/unsubscribe/', '');
 
-    if (!unsubscribeToken) {
+    if (!encodedToken) {
       throw new NotFoundError('no unsubscription token provided');
     }
 
-    console.error('req.url', req.url);
-    console.error({ unsubscribeToken });
+    console.error({ encodedToken });
 
-    const { profileId, emailType } = decodeToken(unsubscribeToken);
+    const { profileId, emailType } = decodeToken(encodedToken);
 
     return await unsubscribeEmail(res, profileId, emailType);
   } catch (error: any) {
