@@ -6,15 +6,14 @@ import { useLocation } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
-import { webAppURL } from '../../config/webAppURL';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 import { useLogout } from '../auth/useLogout';
 import { getCoLinksContract } from '../cosoul/contracts';
-import { useNotificationCount } from '../notifications/useNotificationCount';
 
+import { FaviconNotificationBadge } from './FaviconNotificationBadge';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
 import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
@@ -91,21 +90,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     }
   }, [data]);
 
-  const { count: notificationCount } = useNotificationCount();
-  useEffect(() => {
-    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement;
-    if (!link) {
-      link = document.createElement('link');
-      link.rel = 'icon';
-      document.getElementsByTagName('head')[0].appendChild(link);
-    }
-    if (notificationCount !== undefined && notificationCount > 0) {
-      link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon-noti.png';
-    } else {
-      link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon.png';
-    }
-  }, [notificationCount]);
-
   // TODO: handle these cases
   // if (!chainId) {
   //   return <Text>Not connected</Text>;
@@ -137,6 +121,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
         setShowConnectWallet,
       }}
     >
+      <FaviconNotificationBadge />
       {children}
       {showConnectWallet && (
         <ConnectWalletModal onClose={() => setShowConnectWallet(false)} />

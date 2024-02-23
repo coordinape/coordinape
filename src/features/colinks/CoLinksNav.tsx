@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { useContext, useEffect, useState } from 'react';
+import { memo, useContext, useEffect, useState } from 'react';
 
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { useLocation } from 'react-router';
@@ -326,7 +326,7 @@ const NavItem = ({
   );
 };
 
-const Count = () => {
+const Count = memo(function Count() {
   const { count } = useNotificationCount();
 
   return count ? (
@@ -348,4 +348,4 @@ const Count = () => {
       {count}
     </Text>
   ) : null;
-};
+});
