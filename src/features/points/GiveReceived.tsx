@@ -82,7 +82,6 @@ export const GiveReceived = ({ address }: { address: string }) => {
   return (
     <>
       <Text>total give received: {data.length}</Text>
-      <Text>skills: {data.length}</Text>
       {sortedGives.map(g => (
         <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
           <Popover>
