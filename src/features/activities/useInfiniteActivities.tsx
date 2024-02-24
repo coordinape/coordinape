@@ -140,6 +140,7 @@ export const useInfiniteActivities = (
       refetchOnWindowFocus: true,
       refetchInterval: overrideRefetchInterval ?? 10000,
       onSettled: () => onSettled && onSettled(),
+      notifyOnChangeProps: 'tracked',
     }
   );
 };
