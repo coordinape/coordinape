@@ -12,56 +12,25 @@ import {
 } from '../../ui';
 import { GemCoFillSm, X } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-
+type Gives = {
+  id: number;
+  skill?: string;
+  giver_profile_public?: {
+    name?: string;
+    id?: number;
+    address?: string;
+    avatar?: string;
+  };
+}[];
 export const PostGives = ({
   gives,
   clearSkill,
 }: {
   clearSkill: () => void;
-  gives: {
-    id: number;
-    skill?: string;
-    giver_profile_public?: {
-      name?: string;
-      id?: number;
-      address?: string;
-    };
-  }[];
+  gives: Gives;
 }) => {
   const profileId = useProfileId(true);
-
-  const groupedGives = gives.reduce(
-    (acc, give) => {
-      if (give.skill) {
-        if (!acc[give.skill]) {
-          acc[give.skill] = [];
-        }
-        acc[give.skill].push(give);
-      } else {
-        if (!acc['']) {
-          acc[''] = [];
-        }
-        acc[''].push(give);
-      }
-      return acc;
-    },
-    {} as Record<string, typeof gives>
-  );
-
-  const sortedGives = Object.entries(groupedGives)
-    .map(([skill, gives]) => ({
-      count: gives.length,
-      gives: gives,
-      skill: skill,
-    }))
-    .sort((a, b) => {
-      const diff = b.count - a.count;
-      if (diff == 0) {
-        return a.skill.localeCompare(b.skill);
-      }
-      return diff;
-    });
-
+  const sortedGives = groupAndSortGive(gives);
   return (
     <>
       <Flex css={{ gap: '$sm' }}>
@@ -158,4 +127,44 @@ export const PostGives = ({
       </Flex>
     </>
   );
+};
+
+const groupedGives = (gives: Gives) => {
+  return gives.reduce(
+    (acc, give) => {
+      if (give.skill) {
+        if (!acc[give.skill]) {
+          acc[give.skill] = [];
+        }
+        acc[give.skill].push(give);
+      } else {
+        if (!acc['']) {
+          acc[''] = [];
+        }
+        acc[''].push(give);
+      }
+      return acc;
+    },
+    {} as Record<string, Gives>
+  );
+};
+
+const sortedGives = (groupedGives: Record<string, Gives>) => {
+  return Object.entries(groupedGives)
+    .map(([skill, gives]) => ({
+      count: gives.length,
+      gives: gives,
+      skill: skill,
+    }))
+    .sort((a, b) => {
+      const diff = b.count - a.count;
+      if (diff == 0) {
+        return a.skill.localeCompare(b.skill);
+      }
+      return diff;
+    });
+};
+
+export const groupAndSortGive = (gives: Gives) => {
+  return sortedGives(groupedGives(gives));
 };

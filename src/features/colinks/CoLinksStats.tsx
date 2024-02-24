@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 
+import { GiveReceived } from 'features/points/GiveReceived';
 import { useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
@@ -7,12 +8,14 @@ import { Flex, Text } from '../../ui';
 import { CertificateLight, Links } from 'icons/__generated';
 
 export const CoLinksStats = ({
+  profile_id,
   links,
   score,
   size = 'xs',
   address,
   holdingCount,
 }: {
+  profile_id: number;
   links: number;
   score: number;
   address?: string;
@@ -79,6 +82,7 @@ export const CoLinksStats = ({
           {abbreviateNumber(links ?? 0)}
         </Text>
       </Text>
+      <GiveReceived profile_id={profile_id} />
       {holdingCount > 0 && (
         <Text tag size="xs" color="cta">
           You Hold {holdingCount}
