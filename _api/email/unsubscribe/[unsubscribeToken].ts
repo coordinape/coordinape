@@ -13,13 +13,14 @@ import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // strip url to get raw unsubscribe token; using req.query.unsubscribeToken would decode the token improperly
-    const unsubscribeToken = req.url?.replace('/api/email/unsubscribe/', '');
+    const pathname = new URL('https://server' + req.url).pathname;
+    const encodedToken = pathname?.replace('/api/email/unsubscribe/', '');
 
-    if (!unsubscribeToken) {
+    if (!encodedToken) {
       throw new NotFoundError('no unsubscription token provided');
     }
 
-    const { profileId, emailType } = decodeToken(unsubscribeToken);
+    const { profileId, emailType } = decodeToken(encodedToken);
 
     return await unsubscribeEmail(res, profileId, emailType);
   } catch (error: any) {
@@ -67,7 +68,7 @@ export async function unsubscribeEmail(
 }
 
 function getEmailColumn(emailType: string) {
-    switch (emailType) {
+  switch (emailType) {
     case EmailType.COLINKS_NOTIFICATION:
       return { _set: { colinks_notification_emails: false } };
     case EmailType.GIVE_CIRCLE_HAPPENINGS:
