@@ -2,6 +2,7 @@ import assert from 'assert';
 import { Dispatch, useState } from 'react';
 
 import { CoSoul } from 'features/colinks/fetchCoSouls';
+import { GiveReceived } from 'features/points/GiveReceived';
 import { client } from 'lib/gql/client';
 import { useQuery, useQueryClient } from 'react-query';
 
@@ -241,6 +242,11 @@ export const CoLinksProfileHeader = ({
           )}
           {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
         </Flex>
+        {profile.address && (
+          <Flex css={{ gap: '$sm' }}>
+            <GiveReceived address={profile.address} size="large" />
+          </Flex>
+        )}
 
         {profile.description && (
           <Text color="secondary">{profile.description}</Text>

@@ -80,7 +80,7 @@ export const CoLinksStats = ({
           {abbreviateNumber(links ?? 0)}
         </Text>
       </Text>
-      {address && <GiveReceived address={address} />}
+      {address && <GiveReceived size={size} address={address} />}
       {holdingCount > 0 && (
         <Text tag size="xs" color="cta">
           You Hold {holdingCount}
