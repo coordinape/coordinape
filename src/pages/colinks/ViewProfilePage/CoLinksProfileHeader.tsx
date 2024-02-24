@@ -124,7 +124,6 @@ export const CoLinksProfileHeader = ({
               </Text>
               <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
                 <CoLinksStats
-                  profile_id={profile.id}
                   address={profile.address}
                   links={profile.links ?? 0}
                   score={profile.reputation_score?.total_score ?? 0}

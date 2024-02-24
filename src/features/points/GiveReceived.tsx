@@ -8,41 +8,77 @@ import { GemCoFillSm } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
 import { groupAndSortGive } from './PostGives';
-export const GiveReceived = ({ profile_id }: { profile_id: number }) => {
-  const { data } = useQuery(['give_received', profile_id], async () => {
-    const { colinks_gives } = await client.query(
-      {
-        colinks_gives: [
-          {
-            where: {
-              target_profile_id: {
-                _eq: profile_id,
+export const GiveReceived = ({ address }: { address: string }) => {
+  const { data: profileId } = useQuery(
+    ['give_received_lookup_profile_id', address],
+    async () => {
+      const { profiles_public } = await client.query(
+        {
+          profiles_public: [
+            {
+              where: {
+                address: {
+                  _eq: address,
+                },
+              },
+              limit: 1,
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+        {
+          operationName: 'getGiveReceivedLookupProfileId',
+        }
+      );
+      const profile_id: number = profiles_public.pop()?.id;
+      return profile_id;
+    }
+  );
+  const { data } = useQuery(
+    ['give_received', profileId],
+    async () => {
+      const { colinks_gives } = await client.query(
+        {
+          colinks_gives: [
+            {
+              where: {
+                target_profile_id: {
+                  _eq: profileId,
+                },
               },
             },
-          },
-          {
-            id: true,
-            skill: true,
-            profile_id: true,
-            activity_id: true,
-            giver_profile_public: {
+            {
               id: true,
-              address: true,
-              name: true,
-              avatar: true,
+              skill: true,
+              profile_id: true,
+              activity_id: true,
+              giver_profile_public: {
+                id: true,
+                address: true,
+                name: true,
+                avatar: true,
+              },
             },
-          },
-        ],
-      },
-      {
-        operationName: 'getGiveReceived',
-      }
-    );
+          ],
+        },
+        {
+          operationName: 'getGiveReceived',
+        }
+      );
 
-    return colinks_gives;
-  });
+      return colinks_gives;
+    },
+    {
+      enabled: !!profileId,
+    }
+  );
+
   if (!data) return null;
+
   const sortedGives = groupAndSortGive(data);
+
   return (
     <>
       <Text>total give received: {data.length}</Text>
