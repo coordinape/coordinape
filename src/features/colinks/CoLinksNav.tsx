@@ -2,15 +2,18 @@
 import { memo, useContext, useEffect, useState } from 'react';
 
 import { CoLogoMark } from 'features/nav/CoLogoMark';
+import { client } from 'lib/gql/client';
+import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
-import { Flex, HR, IconButton, Link, Text } from '../../ui';
+import { Button, Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
+import HintBanner from 'components/HintBanner';
 import {
   Ai,
   BoltFill,
@@ -34,6 +37,21 @@ export const CoLinksNav = () => {
   const { data } = useCoLinksNavQuery();
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
+
+  const { data: checkEthDenverInvitee } = useQuery(
+    ['colink_checkEthDenverInvitee', address, 'wizard'],
+    async () => {
+      const { checkEthDenverInvitee } = await client.query(
+        {
+          checkEthDenverInvitee: { is_eth_denver_invitee: true },
+        },
+        {
+          operationName: 'coLinks_wizard',
+        }
+      );
+      return checkEthDenverInvitee;
+    }
+  );
 
   const navigate = useNavigate();
 
@@ -252,6 +270,29 @@ export const CoLinksNav = () => {
             <PaperPlane size="lg" nostroke />
             Invites
           </NavItem>
+          {checkEthDenverInvitee?.is_eth_denver_invitee && (
+            <Flex css={{ mt: '$md' }}>
+              <HintBanner
+                title={'Welcome ETH Denver'}
+                dismissible="eth-denver-contest"
+              >
+                <Text inline p as="p">
+                  <Text semibold inline>
+                    Invite your friends to CoLinks
+                  </Text>
+                  , and for each one that joins you&apos;ll receive an
+                  additional contest entry (max 10 additional entries).
+                </Text>
+                <Button
+                  as={NavLink}
+                  color="secondary"
+                  to={coLinksPaths.invites}
+                >
+                  Get invite codes
+                </Button>
+              </HintBanner>
+            </Flex>
+          )}
         </Flex>
       </Flex>
       <Flex column>

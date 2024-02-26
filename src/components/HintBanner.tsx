@@ -35,7 +35,7 @@ const HintBanner = ({
       {!!dismissible && (
         <IconButton
           onClick={toggleBanner}
-          css={{ position: 'absolute', right: '$md', top: '$md' }}
+          css={{ position: 'absolute', right: '$md', top: 'calc($md - 2px)' }}
         >
           <X size="lg" />
         </IconButton>

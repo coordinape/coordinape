@@ -46,6 +46,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: checkEthDenverInvitee
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=checkEthDenverInvitee'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: checkEthDenverInvitee
   - name: createCircle
     definition:
       kind: synchronous
@@ -905,5 +915,6 @@ custom_types:
     - name: UploadUrlResult
     - name: UploadUrlResponse
     - name: ShareOutput
+    - name: CheckEthDenverInviteeOutput
   scalars:
     - name: timestamptz

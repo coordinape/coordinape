@@ -5,7 +5,7 @@ import { useMutation } from 'react-query';
 
 import { client } from '../../../lib/gql/client';
 import useProfileId from 'hooks/useProfileId';
-import { Box, Button, Flex, Text } from 'ui';
+import { Image, Box, Button, Flex, Text } from 'ui';
 
 import { QRCode } from './QRCode';
 
@@ -84,7 +84,15 @@ export const AuthDeviceForm = () => {
             {token ? (
               <QRCode token={token} />
             ) : (
-              <QRCode token={'placeholder'} />
+              <Flex column css={{ gap: '$md', flexBasis: '$lg' }}>
+                <Flex css={{ justifyContent: 'center' }}>
+                  <Image
+                    alt="Example QR code"
+                    css={{ width: '300px', height: '300px' }}
+                    src="/imgs/background/placeholder-qr.png"
+                  />
+                </Flex>
+              </Flex>
             )}
           </Box>
           {!token && (

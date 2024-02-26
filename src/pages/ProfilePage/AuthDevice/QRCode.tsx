@@ -83,18 +83,6 @@ export const QRCode = ({ token }: { token: string }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setOptions({
-      ...options,
-      data: authUrl,
-    });
-  }, [token]);
-
-  useEffect(() => {
-    if (!qrCode) return;
-    qrCode.update(options);
-  }, [options]);
-
-  useEffect(() => {
     if (ref.current) {
       qrCode.append(ref.current);
     }

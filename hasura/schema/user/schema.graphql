@@ -85,6 +85,10 @@ input Boolean_comparison_exp {
   _nin: [Boolean!]
 }
 
+type CheckEthDenverInviteeOutput {
+  is_eth_denver_invitee: Boolean!
+}
+
 type ConfirmationResponse {
   success: Boolean!
 }
@@ -17147,6 +17151,11 @@ type query_root {
   fetch data from the table: "burns" using primary key columns
   """
   burns_by_pk(id: bigint!): burns
+
+  """
+  checkEthDenverInvitee
+  """
+  checkEthDenverInvitee: CheckEthDenverInviteeOutput
 
   """
   An array relationship

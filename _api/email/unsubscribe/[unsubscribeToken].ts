@@ -13,13 +13,14 @@ import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     // strip url to get raw unsubscribe token; using req.query.unsubscribeToken would decode the token improperly
-    const unsubscribeToken = req.url?.replace('/api/email/unsubscribe/', '');
+    const pathname = new URL('https://server' + req.url).pathname;
+    const encodedToken = pathname?.replace('/api/email/unsubscribe/', '');
 
-    if (!unsubscribeToken) {
+    if (!encodedToken) {
       throw new NotFoundError('no unsubscription token provided');
     }
 
-    const { profileId, emailType } = decodeToken(unsubscribeToken);
+    const { profileId, emailType } = decodeToken(encodedToken);
 
     return await unsubscribeEmail(res, profileId, emailType);
   } catch (error: any) {
@@ -46,26 +47,33 @@ export async function unsubscribeEmail(
     { operationName: 'email_unsubscribtion' }
   );
 
-  const display =
-    emailType === 'notification'
-      ? 'unread notifications emails'
-      : emailType === 'product'
-        ? 'product emails'
-        : 'transactional emails';
+  let display;
+  switch (emailType) {
+    case EmailType.COLINKS_NOTIFICATION:
+      display = 'unread notifications emails';
+      break;
+    case EmailType.COLINKS_HOT_HAPPENINGS:
+      display = 'hot happenings emails';
+      break;
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
+      display = 'product emails';
+      break;
+    default:
+      display = 'circle emails';
+  }
+
   return res.status(200).send({
     message: `Email unsubscribed successfully from ${display}`,
   });
 }
 
-function getEmailColumn(emailType: EmailType) {
+function getEmailColumn(emailType: string) {
   switch (emailType) {
-    case 'notification':
+    case EmailType.COLINKS_NOTIFICATION:
       return { _set: { colinks_notification_emails: false } };
-    case 'product':
+    case EmailType.GIVE_CIRCLE_HAPPENINGS:
       return { _set: { product_emails: false } };
-    case 'transactional':
-      return { _set: { app_emails: false } };
-    case 'colinks_product':
+    case EmailType.COLINKS_HOT_HAPPENINGS:
       return { _set: { colinks_product_emails: false } };
     default:
       return { _set: { app_emails: false } };

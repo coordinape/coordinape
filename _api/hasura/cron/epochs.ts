@@ -75,9 +75,17 @@ async function getEpochsToNotify() {
                 discord_webhook: true,
                 organization: { id: true, name: true, sample: true },
                 users: [
-                  { where: { deleted_at: { _is_null: true } } },
+                  {
+                    where: {
+                      _and: [
+                        { deleted_at: { _is_null: true } },
+                        { profile: { app_emails: { _eq: true } } },
+                      ],
+                    },
+                  },
                   {
                     profile: {
+                      id: true,
                       emails: [
                         {
                           where: {
@@ -139,13 +147,17 @@ async function getEpochsToNotify() {
                 users: [
                   {
                     where: {
-                      non_giver: { _eq: false },
-                      deleted_at: { _is_null: true },
-                      give_token_remaining: { _gt: 0 },
+                      _and: [
+                        { non_giver: { _eq: false } },
+                        { deleted_at: { _is_null: true } },
+                        { give_token_remaining: { _gt: 0 } },
+                        { profile: { app_emails: { _eq: true } } },
+                      ],
                     },
                   },
                   {
                     profile: {
+                      id: true,
                       name: true,
                       emails: [
                         {
@@ -198,13 +210,18 @@ async function getEpochsToNotify() {
                 users: [
                   {
                     where: {
-                      deleted_at: { _is_null: true },
+                      _and: [
+                        { deleted_at: { _is_null: true } },
+                        { profile: { app_emails: { _eq: true } } },
+                      ],
                     },
                   },
                   {
                     id: true,
                     profile: {
+                      id: true,
                       name: true,
+                      app_emails: true,
                       emails: [
                         {
                           where: {
@@ -334,11 +351,11 @@ export async function notifyEpochStart({
         await notifyEpochStatus(message, { telegram: true }, epoch);
 
       const membersData = (epoch.circle?.users || []).reduce<
-        { email: string }[]
+        { email: string; profileId: number }[]
       >((acc, u) => {
         const email: string = u.profile?.emails?.[0]?.email;
         if (email) {
-          acc.push({ email: email });
+          acc.push({ email: email, profileId: u.profile.id });
         }
         return acc;
       }, []);
@@ -397,11 +414,11 @@ export async function notifyEpochEnd({
       }
 
       const membersData = (epoch.circle?.users || []).reduce<
-        { email: string }[]
+        { email: string; profileId: number }[]
       >((acc, u) => {
         const email: string = u.profile?.emails?.[0]?.email;
         if (email) {
-          acc.push({ email: email });
+          acc.push({ email: email, profileId: u.profile.id });
         }
         return acc;
       }, []);
@@ -474,48 +491,51 @@ export async function endEpochHandler(
   // if auto_opt_out is true, set users where `starting_tokens == give_tokens_remaining to non_receiver = true
   // copy user bios to histories
   // reset give_tokens_received = 0, give_token_remaining = starting tokens, epoch_first_visit = 1, bio = null
-  const userUpdateMutations = circle.users.reduce((ops, user) => {
-    const userUserHasAllGive =
-      user.give_token_remaining === user.starting_tokens;
-    if (userUserHasAllGive) usersWithStartingGive.push(user.profile.name);
-    const optOutMutation =
-      !user.non_giver &&
-      !user.non_receiver &&
-      circle.auto_opt_out &&
-      userUserHasAllGive
-        ? { non_receiver: true }
-        : {};
+  const userUpdateMutations = circle.users.reduce(
+    (ops, user) => {
+      const userUserHasAllGive =
+        user.give_token_remaining === user.starting_tokens;
+      if (userUserHasAllGive) usersWithStartingGive.push(user.profile.name);
+      const optOutMutation =
+        !user.non_giver &&
+        !user.non_receiver &&
+        circle.auto_opt_out &&
+        userUserHasAllGive
+          ? { non_receiver: true }
+          : {};
 
-    ops[`u${user.id}_history`] = {
-      insert_histories_one: [
-        {
-          object: {
-            user_id: user.id,
-            bio: user.bio,
-            epoch_id: epoch.id,
-            circle_id: circle_id,
+      ops[`u${user.id}_history`] = {
+        insert_histories_one: [
+          {
+            object: {
+              user_id: user.id,
+              bio: user.bio,
+              epoch_id: epoch.id,
+              circle_id: circle_id,
+            },
           },
-        },
-        { __typename: true },
-      ],
-    };
-    ops[`u${user.id}_userReset`] = {
-      update_users_by_pk: [
-        {
-          pk_columns: { id: user.id },
-          _set: {
-            give_token_received: 0,
-            give_token_remaining: user.starting_tokens,
-            epoch_first_visit: true,
-            bio: null,
-            ...optOutMutation,
+          { __typename: true },
+        ],
+      };
+      ops[`u${user.id}_userReset`] = {
+        update_users_by_pk: [
+          {
+            pk_columns: { id: user.id },
+            _set: {
+              give_token_received: 0,
+              give_token_remaining: user.starting_tokens,
+              epoch_first_visit: true,
+              bio: null,
+              ...optOutMutation,
+            },
           },
-        },
-        { __typename: true },
-      ],
-    };
-    return ops;
-  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+          { __typename: true },
+        ],
+      };
+      return ops;
+    },
+    {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
+  );
 
   await adminClient.mutate(
     {
@@ -833,12 +853,19 @@ function calculateNumReceived(
   epoch: Pick<EpochsToNotify, 'endEpoch'>['endEpoch'][number]
 ) {
   return (epoch.circle?.users || []).reduce<
-    { email: string; tokenNumReceived: number; notesNumReceived: number }[]
+    {
+      email: string;
+      tokenNumReceived: number;
+      notesNumReceived: number;
+      profileId: number;
+    }[]
   >((acc, u) => {
     const email = u.profile?.emails?.[0]?.email;
-    if (email) {
+    const emailSubscription = u.profile?.app_emails;
+    if (email && emailSubscription) {
       acc.push({
         email,
+        profileId: u.profile.id,
         tokenNumReceived: epoch.epoch_pending_token_gifts.reduce(
           (count, gift) =>
             count + (gift.recipient_id === u.id && gift.tokens > 0 ? 1 : 0),
@@ -870,6 +897,7 @@ async function emailEpochStatus({
     email: string;
     tokenNumReceived?: number;
     notesNumReceived?: number;
+    profileId: number;
   }>;
 }) {
   try {
@@ -881,29 +909,32 @@ async function emailEpochStatus({
               circle_id: circleId,
               circle_name: circleName,
               epoch_id: epochId,
+              profile_id: memberData.profileId,
               num_give_senders: memberData.tokenNumReceived ?? 0,
               num_notes_received: memberData.notesNumReceived ?? 0,
             });
           })
         : status === 'endingSoon'
-        ? membersData.map(memberData => {
-            return sendEpochEndingSoonEmail({
-              email: memberData.email,
-              circle_id: circleId,
-              circle_name: circleName,
-              epoch_id: epochId,
-            });
-          })
-        : status === 'started'
-        ? membersData.map(memberData => {
-            return sendEpochStartedEmail({
-              email: memberData.email,
-              circle_id: circleId,
-              circle_name: circleName,
-              epoch_id: epochId,
-            });
-          })
-        : []
+          ? membersData.map(memberData => {
+              return sendEpochEndingSoonEmail({
+                email: memberData.email,
+                circle_id: circleId,
+                circle_name: circleName,
+                epoch_id: epochId,
+                profile_id: memberData.profileId,
+              });
+            })
+          : status === 'started'
+            ? membersData.map(memberData => {
+                return sendEpochStartedEmail({
+                  email: memberData.email,
+                  circle_id: circleId,
+                  circle_name: circleName,
+                  epoch_id: epochId,
+                  profile_id: memberData.profileId,
+                });
+              })
+            : []
     );
 
     const errors = responses?.filter(isRejected);

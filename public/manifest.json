@@ -1,6 +1,8 @@
 {
-  "short_name": "Coordinape",
-  "name": "Coordinape",
+  "lang": "en-us",
+  "short_name": "CoLinks",
+  "name": "CoLinks by Coordinape",
+  "description": "CoLinks is a network of professionals and friends in the web3 ecosystem.",
   "icons": [
     {
       "src": "svgs/logo/logo.svg",
@@ -18,8 +20,9 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/home",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "any"
 }

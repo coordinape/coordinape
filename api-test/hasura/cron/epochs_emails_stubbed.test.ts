@@ -8,8 +8,6 @@ import {
   notifyEpochEnd,
   notifyEpochStart,
 } from '../../../_api/hasura/cron/epochs';
-import { insertActivity } from '../../../api-lib/event_triggers/activity/mutations';
-import { adminClient } from '../../../api-lib/gql/adminClient';
 import {
   sendEpochEndedEmail,
   sendEpochEndingSoonEmail,
@@ -87,8 +85,20 @@ const mockCircle = {
       name: 'mock Org',
     },
     users: [
-      { profile: { name: 'bob', emails: [{ email: 'bob@test.com' }] } },
-      { profile: { name: 'alice', emails: [{ email: 'alice@test.com' }] } },
+      {
+        profile: {
+          app_emails: true,
+          name: 'bob',
+          emails: [{ email: 'bob@test.com' }],
+        },
+      },
+      {
+        profile: {
+          app_emails: true,
+          name: 'alice',
+          emails: [{ email: 'alice@test.com' }],
+        },
+      },
     ],
   },
   notifyEndEpochs: {
@@ -98,8 +108,20 @@ const mockCircle = {
     name: 'circle with ending epoch',
     organization: { name: 'mock Org' },
     users: [
-      { profile: { name: 'bob', emails: [{ email: 'bob@test.com' }] } },
-      { profile: { name: 'alice', emails: [{ email: 'alice@test.com' }] } },
+      {
+        profile: {
+          app_emails: true,
+          name: 'bob',
+          emails: [{ email: 'bob@test.com' }],
+        },
+      },
+      {
+        profile: {
+          app_emails: true,
+          name: 'alice',
+          emails: [{ email: 'alice@test.com' }],
+        },
+      },
     ],
   },
   endEpoch: {
@@ -119,6 +141,7 @@ const mockCircle = {
         starting_tokens: 100 * (1 + i),
         give_token_remaining: i > 1 ? 0 : 100 * (1 + i),
         profile: {
+          app_emails: i < 5 ? true : false,
           name: 'person ' + i,
           emails: [i < 6 ? { email: `person${i}@test.com` } : {}],
         },
@@ -205,7 +228,7 @@ describe('send email notifications to circle members with verified emails', () =
     });
     const result = await endEpoch(input);
     expect(result).toEqual([]);
-    expect(sendEpochEndedEmail).toBeCalledTimes(6); //number of users with emails
+    expect(sendEpochEndedEmail).toBeCalledTimes(5); //number of users with app_emails set to true
     expect(sendEpochEndedEmail).nthCalledWith(1, {
       circle_id: 1,
       circle_name: 'circle with epoch that has ended',

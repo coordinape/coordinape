@@ -645,6 +645,10 @@ export type ValueTypes = {
     _neq?: boolean | undefined | null;
     _nin?: Array<boolean> | undefined | null;
   };
+  ['CheckEthDenverInviteeOutput']: AliasType<{
+    is_eth_denver_invitee?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['ConfirmationResponse']: AliasType<{
     success?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -12470,6 +12474,8 @@ export type ValueTypes = {
       ValueTypes['burns'],
     ];
     burns_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['burns']];
+    /** checkEthDenverInvitee */
+    checkEthDenverInvitee?: ValueTypes['CheckEthDenverInviteeOutput'];
     circle_api_keys?: [
       {
         /** distinct select on columns */
@@ -20252,6 +20258,9 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['CheckEthDenverInviteeOutput']: {
+    is_eth_denver_invitee: boolean;
+  };
   ['ConfirmationResponse']: {
     success: boolean;
   };
@@ -24455,6 +24464,10 @@ export type ModelTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** checkEthDenverInvitee */
+    checkEthDenverInvitee?:
+      | GraphQLTypes['CheckEthDenverInviteeOutput']
+      | undefined;
     /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
@@ -26218,6 +26231,10 @@ export type GraphQLTypes = {
     _lte?: boolean | undefined;
     _neq?: boolean | undefined;
     _nin?: Array<boolean> | undefined;
+  };
+  ['CheckEthDenverInviteeOutput']: {
+    __typename: 'CheckEthDenverInviteeOutput';
+    is_eth_denver_invitee: boolean;
   };
   ['ConfirmationResponse']: {
     __typename: 'ConfirmationResponse';
@@ -35344,6 +35361,10 @@ export type GraphQLTypes = {
     burns: Array<GraphQLTypes['burns']>;
     /** fetch data from the table: "burns" using primary key columns */
     burns_by_pk?: GraphQLTypes['burns'] | undefined;
+    /** checkEthDenverInvitee */
+    checkEthDenverInvitee?:
+      | GraphQLTypes['CheckEthDenverInviteeOutput']
+      | undefined;
     /** An array relationship */
     circle_api_keys: Array<GraphQLTypes['circle_api_keys']>;
     /** fetch data from the table: "circle_api_keys" using primary key columns */
