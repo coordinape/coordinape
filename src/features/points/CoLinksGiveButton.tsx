@@ -89,10 +89,12 @@ export const CoLinksGiveButton = ({
           <>
             {myGive ? (
               <Button
+                as="span"
                 noPadding
                 color="cta"
                 css={{
                   pointerEvents: 'none',
+                  cursor: 'default',
                   p: '3px 5px',
                   background: 'linear-gradient(.33turn, $cta 23%, $complete)',
                   boxShadow: '#1e00312e -2px -2px 7px 1px inset',
@@ -110,9 +112,11 @@ export const CoLinksGiveButton = ({
                 trigger={
                   <>
                     <Button
+                      as="span"
                       noPadding
                       color="secondary"
                       css={{
+                        cursor: 'pointer',
                         p: '3px 5px',
                       }}
                     >

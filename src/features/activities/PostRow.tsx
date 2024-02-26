@@ -217,7 +217,12 @@ export const PostRow = ({
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
                   <Flex
-                    css={{ alignItems: 'center', gap: '$sm', flexWrap: 'wrap' }}
+                    css={{
+                      alignItems: 'center',
+                      gap: '$sm',
+                      flexWrap: 'wrap',
+                      position: 'relative',
+                    }}
                   >
                     <Flex css={{ position: 'absolute', left: -61, bottom: 0 }}>
                       <CoLinksGiveButton
