@@ -4,7 +4,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
-import { GemCoFillSm } from 'icons/__generated';
+import { GemCoFill, GemCoFillSm } from 'icons/__generated';
 
 import {
   MAX_GIVE,
@@ -127,6 +127,7 @@ export const PointsBar = ({ open = false }: { open?: boolean }) => {
         >
           <Flex column css={{ width: '100%', gap: '$sm' }}>
             <Text semibold>
+              {showInfo && <GemCoFill fa size="lg" css={{ mr: '$xs' }} />}
               GIVE
               {!open && (
                 <IconButton onClick={() => setShowInfo(prev => !prev)}>
