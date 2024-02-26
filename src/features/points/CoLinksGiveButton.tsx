@@ -10,6 +10,8 @@ import { GemCoFill, GemCoFillSm, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
 
+import { POINTS_QUERY_KEY } from './PointsBar';
+
 export const CoLinksGiveButton = ({
   activityId,
   isMyPost,
@@ -63,9 +65,14 @@ export const CoLinksGiveButton = ({
     ]);
   };
 
+  const invalidatePointsBar = () => {
+    queryClient.invalidateQueries([POINTS_QUERY_KEY]);
+  };
+
   const { mutate: createGive } = useMutation(createGiveMutation, {
     onSuccess: () => {
       invalidateActivities();
+      invalidatePointsBar();
     },
     onError: error => {
       showError(error);

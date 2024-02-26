@@ -5,6 +5,7 @@ import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionC
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useNavQuery } from 'features/nav/getNavData';
 import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
+import { POINTS_QUERY_KEY } from 'features/points/PointsBar';
 import { PostGives } from 'features/points/PostGives';
 import { useDeleteGiveMutation } from 'features/points/useDeleteGiveMutation';
 import { DateTime } from 'luxon';
@@ -60,10 +61,15 @@ export const PostRow = ({
     ]);
   };
 
+  const invalidatePointsBar = () => {
+    queryClient.invalidateQueries([POINTS_QUERY_KEY]);
+  };
+
   const deleteGive = useDeleteGiveMutation({
     giveId: myGive?.id,
     onSuccess: () => {
       invalidateActivities();
+      invalidatePointsBar();
     },
   });
 

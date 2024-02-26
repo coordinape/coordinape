@@ -13,6 +13,8 @@ import {
 } from './getAvailablePoints';
 import { getMyAvailablePoints } from './getMyAvailablePoints';
 
+export const POINTS_QUERY_KEY = 'points_query_key';
+
 const progressStyles = {
   position: 'relative',
   pt: '1.3rem',
@@ -60,7 +62,7 @@ const progressStyles = {
 
 export const PointsBar = () => {
   const { data: points } = useQuery(
-    'points',
+    [POINTS_QUERY_KEY],
     async () => {
       return await getMyAvailablePoints();
     },
