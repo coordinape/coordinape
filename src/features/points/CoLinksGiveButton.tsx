@@ -87,26 +87,22 @@ export const CoLinksGiveButton = ({
 
   return (
     <>
-      <Flex className="clickThrough" column css={{ gap: '$sm' }}>
+      <Flex column css={{ gap: '$sm' }}>
         {!isMyPost && (
           <>
             {myGive ? (
               <Button
+                className="clickProtect"
                 as="span"
                 noPadding
-                // color="cta"
-                color="secondary"
+                color="cta"
                 css={{
-                  cursor: 'pointer',
+                  pointerEvents: 'none',
+                  cursor: 'default',
                   p: '3px 5px',
+                  background: 'linear-gradient(.33turn, $cta 23%, $complete)',
+                  boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                 }}
-                // css={{
-                //   pointerEvents: 'none',
-                //   cursor: 'default',
-                //   p: '3px 5px',
-                //   background: 'linear-gradient(.33turn, $cta 23%, $complete)',
-                //   boxShadow: '#1e00312e -2px -2px 7px 1px inset',
-                // }}
               >
                 <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
                   <GemCoFill fa size="xl" />
@@ -123,19 +119,10 @@ export const CoLinksGiveButton = ({
                     <Button
                       as="span"
                       noPadding
-                      // color="secondary"
-                      color="cta"
-                      // css={{
-                      //   cursor: 'pointer',
-                      //   p: '3px 5px',
-                      // }}
+                      color="secondary"
                       css={{
-                        pointerEvents: 'none',
-                        cursor: 'default',
+                        cursor: 'pointer',
                         p: '3px 5px',
-                        // background:
-                        //   'linear-gradient(.33turn, $cta 23%, $complete)',
-                        // boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                       }}
                     >
                       <Flex column css={{ alignItems: 'center', gap: '$xs' }}>

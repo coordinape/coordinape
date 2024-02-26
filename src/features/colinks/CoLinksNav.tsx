@@ -2,7 +2,7 @@
 import { memo, useContext, useEffect, useState } from 'react';
 
 import { CoLogoMark } from 'features/nav/CoLogoMark';
-import { GiveAvailable } from 'features/points/GiveAvailable';
+import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useLocation } from 'react-router';
@@ -150,7 +150,7 @@ export const CoLinksNav = () => {
             <CoLogoMark muted small mark />
           </Flex>
         </Flex>
-        <GiveAvailable />
+        <GiveAvailablePopover />
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
