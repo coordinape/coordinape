@@ -9590,6 +9590,16 @@ export const AllTypesProps: Record<string, any> = {
     where: 'profiles_private_bool_exp',
   },
   profiles_public: {
+    colinks_gives: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
+    colinks_gives_aggregate: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
     link_holder: {
       distinct_on: 'link_holders_select_column',
       order_by: 'link_holders_order_by',
@@ -9642,6 +9652,8 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profiles_public_bool_exp',
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
+    colinks_gives: 'colinks_gives_bool_exp',
+    colinks_gives_aggregate: 'colinks_gives_aggregate_bool_exp',
     cosoul: 'cosouls_bool_exp',
     created_at: 'timestamp_comparison_exp',
     description: 'String_comparison_exp',
@@ -9664,6 +9676,7 @@ export const AllTypesProps: Record<string, any> = {
     website: 'String_comparison_exp',
   },
   profiles_public_insert_input: {
+    colinks_gives: 'colinks_gives_arr_rel_insert_input',
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
     id: 'bigint',
@@ -9683,6 +9696,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_order_by: {
     address: 'order_by',
     avatar: 'order_by',
+    colinks_gives_aggregate: 'colinks_gives_aggregate_order_by',
     cosoul: 'cosouls_order_by',
     created_at: 'order_by',
     description: 'order_by',
@@ -11154,18 +11168,6 @@ export const AllTypesProps: Record<string, any> = {
   similar_profiles_args: {
     match_threshold: 'float8',
   },
-  skills: {
-    profile_skills: {
-      distinct_on: 'profile_skills_select_column',
-      order_by: 'profile_skills_order_by',
-      where: 'profile_skills_bool_exp',
-    },
-    profile_skills_aggregate: {
-      distinct_on: 'profile_skills_select_column',
-      order_by: 'profile_skills_order_by',
-      where: 'profile_skills_bool_exp',
-    },
-  },
   skills_aggregate_fields: {
     count: {
       columns: 'skills_select_column',
@@ -11179,7 +11181,6 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     name: 'citext_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
-    profile_skills_aggregate: 'profile_skills_aggregate_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   skills_constraint: true,
@@ -11187,7 +11188,7 @@ export const AllTypesProps: Record<string, any> = {
   skills_insert_input: {
     created_at: 'timestamptz',
     name: 'citext',
-    profile_skills: 'profile_skills_arr_rel_insert_input',
+    profile_skills: 'profile_skills_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
   skills_obj_rel_insert_input: {
@@ -11203,7 +11204,7 @@ export const AllTypesProps: Record<string, any> = {
     count: 'order_by',
     created_at: 'order_by',
     name: 'order_by',
-    profile_skills_aggregate: 'profile_skills_aggregate_order_by',
+    profile_skills: 'profile_skills_order_by',
     updated_at: 'order_by',
   },
   skills_pk_columns_input: {
@@ -20228,6 +20229,8 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public: {
     address: 'String',
     avatar: 'String',
+    colinks_gives: 'colinks_gives',
+    colinks_gives_aggregate: 'colinks_gives_aggregate',
     cosoul: 'cosouls',
     created_at: 'timestamp',
     description: 'String',
@@ -21069,7 +21072,6 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     name: 'citext',
     profile_skills: 'profile_skills',
-    profile_skills_aggregate: 'profile_skills_aggregate',
     updated_at: 'timestamptz',
   },
   skills_aggregate: {
