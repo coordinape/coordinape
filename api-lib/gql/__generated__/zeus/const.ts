@@ -11154,6 +11154,18 @@ export const AllTypesProps: Record<string, any> = {
   similar_profiles_args: {
     match_threshold: 'float8',
   },
+  skills: {
+    profile_skills: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+    profile_skills_aggregate: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+  },
   skills_aggregate_fields: {
     count: {
       columns: 'skills_select_column',
@@ -11167,6 +11179,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     name: 'citext_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
+    profile_skills_aggregate: 'profile_skills_aggregate_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   skills_constraint: true,
@@ -11174,7 +11187,7 @@ export const AllTypesProps: Record<string, any> = {
   skills_insert_input: {
     created_at: 'timestamptz',
     name: 'citext',
-    profile_skills: 'profile_skills_obj_rel_insert_input',
+    profile_skills: 'profile_skills_arr_rel_insert_input',
     updated_at: 'timestamptz',
   },
   skills_obj_rel_insert_input: {
@@ -11190,7 +11203,7 @@ export const AllTypesProps: Record<string, any> = {
     count: 'order_by',
     created_at: 'order_by',
     name: 'order_by',
-    profile_skills: 'profile_skills_order_by',
+    profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     updated_at: 'order_by',
   },
   skills_pk_columns_input: {
@@ -21056,6 +21069,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     name: 'citext',
     profile_skills: 'profile_skills',
+    profile_skills_aggregate: 'profile_skills_aggregate',
     updated_at: 'timestamptz',
   },
   skills_aggregate: {

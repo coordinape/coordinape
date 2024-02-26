@@ -31074,8 +31074,52 @@ export type ValueTypes = {
     count?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
-    /** An object relationship */
-    profile_skills?: ValueTypes['profile_skills'];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
+    profile_skills_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills_aggregate'],
+    ];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -31120,6 +31164,10 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    profile_skills_aggregate?:
+      | ValueTypes['profile_skills_aggregate_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "skills" */
@@ -31134,7 +31182,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     profile_skills?:
-      | ValueTypes['profile_skills_obj_rel_insert_input']
+      | ValueTypes['profile_skills_arr_rel_insert_input']
       | undefined
       | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -31180,7 +31228,10 @@ export type ValueTypes = {
     count?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
-    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
+    profile_skills_aggregate?:
+      | ValueTypes['profile_skills_aggregate_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: skills */
@@ -51728,8 +51779,10 @@ export type ModelTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An object relationship */
-    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** An aggregate relationship */
+    profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "skills" */
@@ -75087,8 +75140,10 @@ export type GraphQLTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An object relationship */
-    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** An aggregate relationship */
+    profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "skills" */
@@ -75126,6 +75181,9 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    profile_skills_aggregate?:
+      | GraphQLTypes['profile_skills_aggregate_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "skills" */
@@ -75140,7 +75198,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     profile_skills?:
-      | GraphQLTypes['profile_skills_obj_rel_insert_input']
+      | GraphQLTypes['profile_skills_arr_rel_insert_input']
       | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -75185,7 +75243,9 @@ export type GraphQLTypes = {
     count?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
-    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
+    profile_skills_aggregate?:
+      | GraphQLTypes['profile_skills_aggregate_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: skills */
@@ -79646,7 +79706,6 @@ export const enum contribution_count_select_column {
 /** unique or primary key constraints on table "contributions" */
 export const enum contributions_constraint {
   contributions_pkey = 'contributions_pkey',
-  unique_contribution_per_big_question = 'unique_contribution_per_big_question',
 }
 /** select columns of table "contributions" */
 export const enum contributions_select_column {

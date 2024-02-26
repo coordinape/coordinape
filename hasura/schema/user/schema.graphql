@@ -5132,11 +5132,6 @@ enum contributions_constraint {
   unique or primary key constraint on columns "id"
   """
   contributions_pkey
-
-  """
-  unique or primary key constraint on columns "profile_id", "big_question_id"
-  """
-  unique_contribution_per_big_question
 }
 
 """
@@ -15515,6 +15510,18 @@ input profile_skills_aggregate_order_by {
 }
 
 """
+input type for inserting array relation for remote table "profile_skills"
+"""
+input profile_skills_arr_rel_insert_input {
+  data: [profile_skills_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: profile_skills_on_conflict
+}
+
+"""
 order by avg() on columns of table "profile_skills"
 """
 input profile_skills_avg_order_by {
@@ -15586,18 +15593,6 @@ type profile_skills_mutation_response {
   data from the rows affected by the mutation
   """
   returning: [profile_skills!]!
-}
-
-"""
-input type for inserting object relation for remote table "profile_skills"
-"""
-input profile_skills_obj_rel_insert_input {
-  data: profile_skills_insert_input!
-
-  """
-  upsert condition
-  """
-  on_conflict: profile_skills_on_conflict
 }
 
 """
@@ -21011,9 +21006,34 @@ type skills {
   name: citext!
 
   """
-  An object relationship
+  An array relationship
   """
-  profile_skills: profile_skills
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
   updated_at: timestamptz!
 }
 
@@ -21046,7 +21066,7 @@ input type for inserting data into table "skills"
 """
 input skills_insert_input {
   name: citext
-  profile_skills: profile_skills_obj_rel_insert_input
+  profile_skills: profile_skills_arr_rel_insert_input
 }
 
 """
@@ -21092,7 +21112,7 @@ input skills_order_by {
   count: order_by
   created_at: order_by
   name: order_by
-  profile_skills: profile_skills_order_by
+  profile_skills_aggregate: profile_skills_aggregate_order_by
   updated_at: order_by
 }
 

@@ -20,13 +20,6 @@ const fetchSkills = async () => {
     {
       skills: [
         {
-          // where: query
-          //   ? {
-          //       name: {
-          //         _ilike: '%' + query + '%',
-          //       },
-          //     }
-          //   : undefined,
           order_by: [{ count: order_by.desc }, { name: order_by.asc }],
           limit: MAX_POTENTIAL_SKILLS,
         },
@@ -51,6 +44,7 @@ type SkillComboBoxProps = {
   trigger?: React.ReactNode;
   extraItems?: React.ReactNode[];
   customRender?(skill: string, count: number): React.ReactNode;
+  sortSkills?(a: Skill, b: Skill): number;
 };
 
 export const SkillComboBox = ({
@@ -61,10 +55,25 @@ export const SkillComboBox = ({
   trigger,
   extraItems,
   customRender,
+  sortSkills,
 }: SkillComboBoxProps) => {
+  const fetchSkillsSorted = async () => {
+    if (sortSkills) {
+      return new Promise<Skill[]>((resolve, reject) => {
+        fetchSkills()
+          .then(skills => {
+            skills.sort(sortSkills);
+            resolve(skills);
+          })
+          .catch(reject);
+      });
+    }
+    return fetchSkills();
+  };
+
   const { data: skills, isLoading } = useQuery(
     [QUERY_KEY_ALL_SKILLS],
-    fetchSkills
+    fetchSkillsSorted
   );
 
   const inputRef = useRef<HTMLInputElement>(null);

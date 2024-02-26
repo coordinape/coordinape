@@ -229,6 +229,7 @@ export const PostRow = ({
                         isMyPost={
                           activity.actor_profile_public.id === profileId
                         }
+                        targetProfileId={activity.actor_profile_public.id}
                         activityId={activity.id}
                         gives={activity.gives}
                       />
