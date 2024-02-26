@@ -9,6 +9,7 @@ import useProfileId from '../../hooks/useProfileId';
 import { GemCoFill, GemCoFillSm, User } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
+import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
 
@@ -78,6 +79,8 @@ export const CoLinksGiveButton = ({
       showError(error);
     },
   });
+
+  if (!isFeatureEnabled('colinks_give')) return null;
 
   return (
     <>

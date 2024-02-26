@@ -233,10 +233,12 @@ export const PostRow = ({
                       reactions={activity.reactions}
                       drawer={false}
                     />
-                    <PostGives
-                      gives={activity.gives}
-                      clearSkill={() => deleteGive()}
-                    />
+                    {isFeatureEnabled('colinks_give') && (
+                      <PostGives
+                        gives={activity.gives}
+                        clearSkill={() => deleteGive()}
+                      />
+                    )}
                   </Flex>
                   <Flex>
                     <Flex className="commentButton">

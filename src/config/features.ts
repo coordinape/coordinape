@@ -3,9 +3,9 @@
 export type FeatureName =
   | 'debug'
   | 'vector_search'
-  | 'highlights'
   | 'similarity'
   | 'share_post'
+  | 'colinks_give'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt';
 

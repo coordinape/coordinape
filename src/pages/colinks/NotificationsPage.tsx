@@ -33,6 +33,7 @@ import {
   Text,
 } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
 import useProfileId from 'hooks/useProfileId';
 
 const fetchNotifications = async () => {
@@ -678,6 +679,8 @@ const ColinksGiveNotification = ({
   n: Notification;
   give: Give;
 }) => {
+  if (!isFeatureEnabled('colinks_give')) return null;
+
   return (
     <NotificationItem>
       <Flex
