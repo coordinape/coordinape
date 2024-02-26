@@ -11,6 +11,7 @@ import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
 import checkEthDenverInvitee from './_handlers/checkEthDenverInvitee';
 import createCircle from './_handlers/createCircle';
+import createCoLinksGive from './_handlers/createCoLinksGive';
 import createEpoch from './_handlers/createEpoch';
 import createNominee from './_handlers/createNominee';
 import createOrgMembers from './_handlers/createOrgMembers';
@@ -20,6 +21,7 @@ import createUserWithToken from './_handlers/createUserWithToken';
 import createVault from './_handlers/createVault';
 import createVaultTx from './_handlers/createVaultTx';
 import deleteCircle from './_handlers/deleteCircle';
+import deleteCoLinksGive from './_handlers/deleteCoLinksGive.ts';
 import deleteContribution from './_handlers/deleteContribution';
 import deleteEmail from './_handlers/deleteEmail';
 import deleteEpoch from './_handlers/deleteEpoch';
@@ -71,6 +73,7 @@ const HANDLERS: HandlerDict = {
   adminUpdateUser,
   allocationCsv,
   createCircle,
+  createCoLinksGive,
   createEpoch,
   createNominee,
   createOrgMembers,
@@ -80,6 +83,7 @@ const HANDLERS: HandlerDict = {
   createVault,
   createVaultTx,
   deleteCircle,
+  deleteCoLinksGive,
   deleteContribution,
   deleteEmail,
   deleteEpoch,

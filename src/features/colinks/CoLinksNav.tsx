@@ -383,6 +383,7 @@ const Count = memo(function Count() {
         height: '20px',
         alignItems: 'center',
         justifyContent: 'center',
+        whiteSpace: 'nowrap',
       }}
     >
       {count}

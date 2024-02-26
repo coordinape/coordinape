@@ -7,6 +7,8 @@ select_permissions:
       columns:
         - id
         - address
+        - points_balance
+        - points_checkpointed_at
         - device_login_token
       filter:
         id:

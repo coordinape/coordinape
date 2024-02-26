@@ -13,7 +13,7 @@ export const ActivityAvatar = ({
   profile: {
     address?: string;
     cosoul?: { id: number };
-    name: string;
+    name?: string;
     avatar?: string;
   };
   size?: ComponentProps<typeof Avatar>['size'];

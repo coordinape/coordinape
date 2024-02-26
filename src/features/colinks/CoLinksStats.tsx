@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 
+import { GiveReceived } from 'features/points/GiveReceived';
 import { useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
@@ -79,6 +80,7 @@ export const CoLinksStats = ({
           {abbreviateNumber(links ?? 0)}
         </Text>
       </Text>
+      {address && <GiveReceived size={size} address={address} />}
       {holdingCount > 0 && (
         <Text tag size="xs" color="cta">
           You Hold {holdingCount}

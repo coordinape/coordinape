@@ -1,10 +1,18 @@
 import { useState } from 'react';
 
+import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionCard';
+import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useNavQuery } from 'features/nav/getNavData';
+import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
+import { POINTS_QUERY_KEY } from 'features/points/PointsBar';
+import { PostGives } from 'features/points/PostGives';
+import { useDeleteGiveMutation } from 'features/points/useDeleteGiveMutation';
 import { DateTime } from 'luxon';
+import { useQueryClient } from 'react-query';
 import { NavLink, useLocation } from 'react-router-dom';
 
+import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
 import isFeatureEnabled from 'config/features';
@@ -25,6 +33,7 @@ export const PostRow = ({
   activity: Contribution;
   focus: boolean;
 }) => {
+  const queryClient = useQueryClient();
   const location = useLocation();
   const { data } = useNavQuery();
   const editableContribution =
@@ -38,6 +47,31 @@ export const PostRow = ({
   const bigQuestion = location.pathname.includes('bigquestion')
     ? undefined
     : activity.big_question;
+
+  const profileId = useProfileId(true);
+
+  const myGive = activity.gives.find(
+    give => give.giver_profile_public?.id === profileId
+  );
+
+  const invalidateActivities = () => {
+    queryClient.invalidateQueries([
+      ACTIVITIES_QUERY_KEY,
+      [QUERY_KEY_COLINKS, 'activity'],
+    ]);
+  };
+
+  const invalidatePointsBar = () => {
+    queryClient.invalidateQueries([POINTS_QUERY_KEY]);
+  };
+
+  const deleteGive = useDeleteGiveMutation({
+    giveId: myGive?.id,
+    onSuccess: () => {
+      invalidateActivities();
+      invalidatePointsBar();
+    },
+  });
 
   return (
     <>
@@ -170,52 +204,88 @@ export const PostRow = ({
                 <MarkdownPreview
                   render
                   source={activity.contribution.description}
-                  css={{ cursor: 'auto', mb: '-$xs', mt: '$xs' }}
+                  css={{
+                    cursor: 'auto',
+                    mb: '-$xs',
+                    mt: '$xs',
+                    // apply min height to make room for absolute positioned GIVE button
+                    minHeight:
+                      editableContribution || !isFeatureEnabled('colinks_give')
+                        ? 0
+                        : '$3xl',
+                  }}
                 />
                 <Flex
                   className="clickThrough"
                   css={{ justifyContent: 'space-between', mt: '$sm' }}
                 >
-                  <ReactionBar
-                    activityId={activity.id}
-                    reactions={activity.reactions}
-                    drawer={false}
-                  />
-                  <Flex className="commentButton">
-                    <>
-                      {commentCount > 0 ? (
-                        <Button
-                          color="link"
-                          css={{
-                            width: 'auto',
-                            textDecoration: 'none',
-                            '*': {
-                              fill: '$link',
-                            },
-                          }}
-                          onClick={() => setDisplayComments(prev => !prev)}
-                        >
-                          {commentCount}{' '}
-                          <Messages nostroke css={{ ml: '$sm' }} />
-                        </Button>
-                      ) : (
-                        <Button
-                          color="transparent"
-                          css={{
-                            p: '$xs',
-                            width: 'auto',
-                            '*': {
-                              fill: '$secondaryText',
-                            },
-                          }}
-                          onClick={() => setDisplayComments(prev => !prev)}
-                        >
-                          <Text className="iconMessage">
-                            <MessageSolid nostroke css={{ ml: '$sm' }} />
-                          </Text>
-                        </Button>
-                      )}
-                    </>
+                  <Flex
+                    css={{
+                      alignItems: 'center',
+                      gap: '$sm',
+                      flexWrap: 'wrap',
+                      position: 'relative',
+                    }}
+                  >
+                    <Flex css={{ position: 'absolute', left: -61, bottom: 0 }}>
+                      <CoLinksGiveButton
+                        isMyPost={
+                          activity.actor_profile_public.id === profileId
+                        }
+                        targetProfileId={activity.actor_profile_public.id}
+                        activityId={activity.id}
+                        gives={activity.gives}
+                      />
+                    </Flex>
+                    <ReactionBar
+                      activityId={activity.id}
+                      reactions={activity.reactions}
+                      drawer={false}
+                    />
+                    {isFeatureEnabled('colinks_give') && (
+                      <PostGives
+                        gives={activity.gives}
+                        clearSkill={() => deleteGive()}
+                      />
+                    )}
+                  </Flex>
+                  <Flex>
+                    <Flex className="commentButton">
+                      <>
+                        {commentCount > 0 ? (
+                          <Button
+                            color="link"
+                            css={{
+                              width: 'auto',
+                              textDecoration: 'none',
+                              '*': {
+                                fill: '$link',
+                              },
+                            }}
+                            onClick={() => setDisplayComments(prev => !prev)}
+                          >
+                            {commentCount}{' '}
+                            <Messages nostroke css={{ ml: '$sm' }} />
+                          </Button>
+                        ) : (
+                          <Button
+                            color="transparent"
+                            css={{
+                              p: '$xs',
+                              width: 'auto',
+                              '*': {
+                                fill: '$secondaryText',
+                              },
+                            }}
+                            onClick={() => setDisplayComments(prev => !prev)}
+                          >
+                            <Text className="iconMessage">
+                              <MessageSolid nostroke css={{ ml: '$sm' }} />
+                            </Text>
+                          </Button>
+                        )}
+                      </>
+                    </Flex>
                   </Flex>
                 </Flex>
               </>

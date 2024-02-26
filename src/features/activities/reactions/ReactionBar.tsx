@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthStore } from 'features/auth';
 import { useMutation } from 'react-query';
 
-import { Smile } from '../../../icons/__generated';
+import { FaceSmile } from '../../../icons/__generated';
 import { Flex } from '../../../ui';
 import { Reaction } from '../useInfiniteActivities';
 
@@ -126,7 +126,7 @@ export const ReactionBar = ({
           }}
         >
           <span role="img" aria-label="react">
-            <Smile />
+            <FaceSmile fa />
           </span>
         </ReactionButton>
         <ReactionCounts

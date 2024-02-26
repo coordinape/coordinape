@@ -16,6 +16,7 @@ import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
 import { useLinkingStatus } from '../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
+import { PointsBar } from '../../features/points/PointsBar';
 import {
   BarChart,
   HouseFill,
@@ -25,6 +26,7 @@ import {
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
 
 import { CoLinksTaskCards } from './CoLinksTaskCards';
 
@@ -127,6 +129,8 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
+        {isFeatureEnabled('colinks_give') && <PointsBar />}
+
         {data?.big_questions[0] && (
           <BigQuestionCard
             question={data.big_questions[0]}

@@ -31,7 +31,6 @@ export default function AccountPage() {
       setSearchParams('');
     }
   }, [error]);
-
   return (
     <SingleColumnLayout>
       <ContentHeader>

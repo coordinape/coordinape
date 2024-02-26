@@ -182,6 +182,15 @@ type CreateCircleResponse {
   ): users_aggregate!
 }
 
+input CreateCoLinksGiveInput {
+  activity_id: Int!
+  skill: String
+}
+
+type CreateCoLinksGiveResponse {
+  id: Int!
+}
+
 input CreateEpochInput {
   circle_id: Int!
   grant: Float
@@ -229,6 +238,10 @@ input CreateVaultInput {
 
 input DeleteCircleInput {
   circle_id: Int!
+}
+
+input DeleteCoLinksGiveInput {
+  give_id: Int!
 }
 
 input DeleteContributionInput {
@@ -551,6 +564,10 @@ input String_comparison_exp {
   _similar: String
 }
 
+type SuccessResponse {
+  success: Boolean!
+}
+
 input SyncCoSoulInput {
   tx_hash: String!
 }
@@ -754,6 +771,66 @@ type activities {
   """
   epoch: epochs
   epoch_id: bigint
+
+  """
+  An array relationship
+  """
+  gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
   id: bigint!
 
   """
@@ -1099,6 +1176,8 @@ input activities_bool_exp {
   created_at: timestamptz_comparison_exp
   epoch: epochs_bool_exp
   epoch_id: bigint_comparison_exp
+  gives: colinks_gives_bool_exp
+  gives_aggregate: colinks_gives_aggregate_bool_exp
   id: bigint_comparison_exp
   organization: organizations_bool_exp
   organization_id: bigint_comparison_exp
@@ -1163,6 +1242,7 @@ input activities_insert_input {
   created_at: timestamptz
   epoch: epochs_obj_rel_insert_input
   epoch_id: bigint
+  gives: colinks_gives_arr_rel_insert_input
   id: bigint
   organization: organizations_obj_rel_insert_input
   organization_id: bigint
@@ -1313,6 +1393,7 @@ input activities_order_by {
   created_at: order_by
   epoch: epochs_order_by
   epoch_id: order_by
+  gives_aggregate: colinks_gives_aggregate_order_by
   id: order_by
   organization: organizations_order_by
   organization_id: order_by
@@ -8131,6 +8212,560 @@ input claims_variance_order_by {
 }
 
 """
+columns and relationships of "colinks_gives"
+"""
+type colinks_gives {
+  activity_id: bigint!
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  give_skill: skills
+
+  """
+  An object relationship
+  """
+  giver_profile_public: profiles_public
+  id: Int!
+  profile_id: bigint!
+  skill: citext
+  target_profile_id: bigint!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "colinks_gives"
+"""
+type colinks_gives_aggregate {
+  aggregate: colinks_gives_aggregate_fields
+  nodes: [colinks_gives!]!
+}
+
+input colinks_gives_aggregate_bool_exp {
+  count: colinks_gives_aggregate_bool_exp_count
+}
+
+input colinks_gives_aggregate_bool_exp_count {
+  arguments: [colinks_gives_select_column!]
+  distinct: Boolean
+  filter: colinks_gives_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "colinks_gives"
+"""
+type colinks_gives_aggregate_fields {
+  avg: colinks_gives_avg_fields
+  count(columns: [colinks_gives_select_column!], distinct: Boolean): Int!
+  max: colinks_gives_max_fields
+  min: colinks_gives_min_fields
+  stddev: colinks_gives_stddev_fields
+  stddev_pop: colinks_gives_stddev_pop_fields
+  stddev_samp: colinks_gives_stddev_samp_fields
+  sum: colinks_gives_sum_fields
+  var_pop: colinks_gives_var_pop_fields
+  var_samp: colinks_gives_var_samp_fields
+  variance: colinks_gives_variance_fields
+}
+
+"""
+order by aggregate values of table "colinks_gives"
+"""
+input colinks_gives_aggregate_order_by {
+  avg: colinks_gives_avg_order_by
+  count: order_by
+  max: colinks_gives_max_order_by
+  min: colinks_gives_min_order_by
+  stddev: colinks_gives_stddev_order_by
+  stddev_pop: colinks_gives_stddev_pop_order_by
+  stddev_samp: colinks_gives_stddev_samp_order_by
+  sum: colinks_gives_sum_order_by
+  var_pop: colinks_gives_var_pop_order_by
+  var_samp: colinks_gives_var_samp_order_by
+  variance: colinks_gives_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "colinks_gives"
+"""
+input colinks_gives_arr_rel_insert_input {
+  data: [colinks_gives_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: colinks_gives_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type colinks_gives_avg_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "colinks_gives"
+"""
+input colinks_gives_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "colinks_gives". All fields are combined with a logical 'AND'.
+"""
+input colinks_gives_bool_exp {
+  _and: [colinks_gives_bool_exp!]
+  _not: colinks_gives_bool_exp
+  _or: [colinks_gives_bool_exp!]
+  activity_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  give_skill: skills_bool_exp
+  giver_profile_public: profiles_public_bool_exp
+  id: Int_comparison_exp
+  profile_id: bigint_comparison_exp
+  skill: citext_comparison_exp
+  target_profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "colinks_gives"
+"""
+enum colinks_gives_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  colinks_gives_pkey
+
+  """
+  unique or primary key constraint on columns "profile_id", "activity_id", "target_profile_id"
+  """
+  colinks_gives_profile_id_target_profile_id_activity_id_key
+}
+
+"""
+input type for incrementing numeric columns in table "colinks_gives"
+"""
+input colinks_gives_inc_input {
+  activity_id: bigint
+  id: Int
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+input type for inserting data into table "colinks_gives"
+"""
+input colinks_gives_insert_input {
+  activity_id: bigint
+  created_at: timestamptz
+  give_skill: skills_obj_rel_insert_input
+  giver_profile_public: profiles_public_obj_rel_insert_input
+  id: Int
+  profile_id: bigint
+  skill: citext
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type colinks_gives_max_fields {
+  activity_id: bigint
+  created_at: timestamptz
+  id: Int
+  profile_id: bigint
+  skill: citext
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+order by max() on columns of table "colinks_gives"
+"""
+input colinks_gives_max_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type colinks_gives_min_fields {
+  activity_id: bigint
+  created_at: timestamptz
+  id: Int
+  profile_id: bigint
+  skill: citext
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "colinks_gives"
+"""
+input colinks_gives_min_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+response of any mutation on the table "colinks_gives"
+"""
+type colinks_gives_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [colinks_gives!]!
+}
+
+"""
+input type for inserting object relation for remote table "colinks_gives"
+"""
+input colinks_gives_obj_rel_insert_input {
+  data: colinks_gives_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: colinks_gives_on_conflict
+}
+
+"""
+on_conflict condition type for table "colinks_gives"
+"""
+input colinks_gives_on_conflict {
+  constraint: colinks_gives_constraint!
+  update_columns: [colinks_gives_update_column!]! = []
+  where: colinks_gives_bool_exp
+}
+
+"""
+Ordering options when selecting data from "colinks_gives".
+"""
+input colinks_gives_order_by {
+  activity_id: order_by
+  created_at: order_by
+  give_skill: skills_order_by
+  giver_profile_public: profiles_public_order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: colinks_gives
+"""
+input colinks_gives_pk_columns_input {
+  id: Int!
+}
+
+"""
+select columns of table "colinks_gives"
+"""
+enum colinks_gives_select_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  skill
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "colinks_gives"
+"""
+input colinks_gives_set_input {
+  activity_id: bigint
+  created_at: timestamptz
+  id: Int
+  profile_id: bigint
+  skill: citext
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type colinks_gives_stddev_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type colinks_gives_stddev_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type colinks_gives_stddev_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "colinks_gives"
+"""
+input colinks_gives_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: colinks_gives_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input colinks_gives_stream_cursor_value_input {
+  activity_id: bigint
+  created_at: timestamptz
+  id: Int
+  profile_id: bigint
+  skill: citext
+  target_profile_id: bigint
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type colinks_gives_sum_fields {
+  activity_id: bigint
+  id: Int
+  profile_id: bigint
+  target_profile_id: bigint
+}
+
+"""
+order by sum() on columns of table "colinks_gives"
+"""
+input colinks_gives_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+update columns of table "colinks_gives"
+"""
+enum colinks_gives_update_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  skill
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input colinks_gives_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: colinks_gives_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: colinks_gives_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: colinks_gives_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type colinks_gives_var_pop_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type colinks_gives_var_samp_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type colinks_gives_variance_fields {
+  activity_id: Float
+  id: Float
+  profile_id: Float
+  target_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "colinks_gives"
+"""
+input colinks_gives_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 columns and relationships of "contribution_count"
 """
 type contribution_count {
@@ -8551,11 +9186,6 @@ enum contributions_constraint {
   unique or primary key constraint on columns "id"
   """
   contributions_pkey
-
-  """
-  unique or primary key constraint on columns "profile_id", "big_question_id"
-  """
-  unique_contribution_per_big_question
 }
 
 """
@@ -20446,6 +21076,7 @@ type mutation_root {
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
+  createCoLinksGive(payload: CreateCoLinksGiveInput!): CreateCoLinksGiveResponse
 
   """
   create epoch using new, more flexible api
@@ -20463,6 +21094,7 @@ type mutation_root {
   """
   createVaultTx(payload: LogVaultTxInput!): LogVaultTxResponse
   deleteCircle(payload: DeleteCircleInput!): ConfirmationResponse
+  deleteCoLinksGive(payload: DeleteCoLinksGiveInput!): SuccessResponse
   deleteContribution(payload: DeleteContributionInput!): ConfirmationResponse
   deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
 
@@ -20637,6 +21269,21 @@ type mutation_root {
   delete single row from the table: "claims"
   """
   delete_claims_by_pk(id: bigint!): claims
+
+  """
+  delete data from the table: "colinks_gives"
+  """
+  delete_colinks_gives(
+    """
+    filter the rows which have to be deleted
+    """
+    where: colinks_gives_bool_exp!
+  ): colinks_gives_mutation_response
+
+  """
+  delete single row from the table: "colinks_gives"
+  """
+  delete_colinks_gives_by_pk(id: Int!): colinks_gives
 
   """
   delete data from the table: "contributions"
@@ -21756,6 +22403,36 @@ type mutation_root {
     """
     on_conflict: claims_on_conflict
   ): claims
+
+  """
+  insert data into the table: "colinks_gives"
+  """
+  insert_colinks_gives(
+    """
+    the rows to be inserted
+    """
+    objects: [colinks_gives_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: colinks_gives_on_conflict
+  ): colinks_gives_mutation_response
+
+  """
+  insert a single row into the table: "colinks_gives"
+  """
+  insert_colinks_gives_one(
+    """
+    the row to be inserted
+    """
+    object: colinks_gives_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: colinks_gives_on_conflict
+  ): colinks_gives
 
   """
   insert data into the table: "contributions"
@@ -23834,6 +24511,52 @@ type mutation_root {
     """
     updates: [claims_updates!]!
   ): [claims_mutation_response]
+
+  """
+  update data of the table: "colinks_gives"
+  """
+  update_colinks_gives(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: colinks_gives_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: colinks_gives_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: colinks_gives_bool_exp!
+  ): colinks_gives_mutation_response
+
+  """
+  update single row of the table: "colinks_gives"
+  """
+  update_colinks_gives_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: colinks_gives_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: colinks_gives_set_input
+    pk_columns: colinks_gives_pk_columns_input!
+  ): colinks_gives
+
+  """
+  update multiples rows of table: "colinks_gives"
+  """
+  update_colinks_gives_many(
+    """
+    updates to execute, in order
+    """
+    updates: [colinks_gives_updates!]!
+  ): [colinks_gives_mutation_response]
 
   """
   update data of the table: "contributions"
@@ -28454,7 +29177,13 @@ type notifications {
   An object relationship
   """
   actor_profile_public: profiles_public
+  colinks_give_id: Int
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  give: colinks_gives
   id: Int!
   invite_joined_id: bigint
 
@@ -28530,6 +29259,7 @@ aggregate avg on columns
 """
 type notifications_avg_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28548,7 +29278,9 @@ input notifications_bool_exp {
   _or: [notifications_bool_exp!]
   actor_profile_id: bigint_comparison_exp
   actor_profile_public: profiles_public_bool_exp
+  colinks_give_id: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  give: colinks_gives_bool_exp
   id: Int_comparison_exp
   invite_joined_id: bigint_comparison_exp
   invited_profile_public: profiles_public_bool_exp
@@ -28581,6 +29313,7 @@ input type for incrementing numeric columns in table "notifications"
 """
 input notifications_inc_input {
   actor_profile_id: bigint
+  colinks_give_id: Int
   id: Int
   invite_joined_id: bigint
   mention_post_id: Int
@@ -28596,7 +29329,9 @@ input type for inserting data into table "notifications"
 input notifications_insert_input {
   actor_profile_id: bigint
   actor_profile_public: profiles_public_obj_rel_insert_input
+  colinks_give_id: Int
   created_at: timestamptz
+  give: colinks_gives_obj_rel_insert_input
   id: Int
   invite_joined_id: bigint
   invited_profile_public: profiles_public_obj_rel_insert_input
@@ -28619,6 +29354,7 @@ aggregate max on columns
 """
 type notifications_max_fields {
   actor_profile_id: bigint
+  colinks_give_id: Int
   created_at: timestamptz
   id: Int
   invite_joined_id: bigint
@@ -28635,6 +29371,7 @@ aggregate min on columns
 """
 type notifications_min_fields {
   actor_profile_id: bigint
+  colinks_give_id: Int
   created_at: timestamptz
   id: Int
   invite_joined_id: bigint
@@ -28676,7 +29413,9 @@ Ordering options when selecting data from "notifications".
 input notifications_order_by {
   actor_profile_id: order_by
   actor_profile_public: profiles_public_order_by
+  colinks_give_id: order_by
   created_at: order_by
+  give: colinks_gives_order_by
   id: order_by
   invite_joined_id: order_by
   invited_profile_public: profiles_public_order_by
@@ -28709,6 +29448,11 @@ enum notifications_select_column {
   column name
   """
   actor_profile_id
+
+  """
+  column name
+  """
+  colinks_give_id
 
   """
   column name
@@ -28761,6 +29505,7 @@ input type for updating data in table "notifications"
 """
 input notifications_set_input {
   actor_profile_id: bigint
+  colinks_give_id: Int
   created_at: timestamptz
   id: Int
   invite_joined_id: bigint
@@ -28777,6 +29522,7 @@ aggregate stddev on columns
 """
 type notifications_stddev_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28791,6 +29537,7 @@ aggregate stddev_pop on columns
 """
 type notifications_stddev_pop_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28805,6 +29552,7 @@ aggregate stddev_samp on columns
 """
 type notifications_stddev_samp_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28834,6 +29582,7 @@ Initial value of the column from where the streaming should start
 """
 input notifications_stream_cursor_value_input {
   actor_profile_id: bigint
+  colinks_give_id: Int
   created_at: timestamptz
   id: Int
   invite_joined_id: bigint
@@ -28850,6 +29599,7 @@ aggregate sum on columns
 """
 type notifications_sum_fields {
   actor_profile_id: bigint
+  colinks_give_id: Int
   id: Int
   invite_joined_id: bigint
   mention_post_id: Int
@@ -28867,6 +29617,11 @@ enum notifications_update_column {
   column name
   """
   actor_profile_id
+
+  """
+  column name
+  """
+  colinks_give_id
 
   """
   column name
@@ -28936,6 +29691,7 @@ aggregate var_pop on columns
 """
 type notifications_var_pop_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28950,6 +29706,7 @@ aggregate var_samp on columns
 """
 type notifications_var_samp_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -28964,6 +29721,7 @@ aggregate variance on columns
 """
 type notifications_variance_fields {
   actor_profile_id: Float
+  colinks_give_id: Float
   id: Float
   invite_joined_id: Float
   mention_post_id: Float
@@ -34865,6 +35623,8 @@ type profiles {
     """
     where: org_members_bool_exp
   ): org_members_aggregate!
+  points_balance: float8!
+  points_checkpointed_at: timestamptz!
   product_emails: Boolean!
 
   """
@@ -35105,6 +35865,7 @@ type profiles_avg_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -35156,6 +35917,8 @@ input profiles_bool_exp {
   nominees_aggregate: nominees_aggregate_bool_exp
   org_members: org_members_bool_exp
   org_members_aggregate: org_members_aggregate_bool_exp
+  points_balance: float8_comparison_exp
+  points_checkpointed_at: timestamptz_comparison_exp
   product_emails: Boolean_comparison_exp
   profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
@@ -35215,6 +35978,7 @@ input profiles_inc_input {
   last_read_notification_id: Int
   links: Int
   links_held: Int
+  points_balance: float8
 }
 
 """
@@ -35257,6 +36021,8 @@ input profiles_insert_input {
   name: citext
   nominees: nominees_arr_rel_insert_input
   org_members: org_members_arr_rel_insert_input
+  points_balance: float8
+  points_checkpointed_at: timestamptz
   product_emails: Boolean
   profile_skills: profile_skills_obj_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
@@ -35300,6 +36066,8 @@ type profiles_max_fields {
   links_held: Int
   medium_username: String
   name: citext
+  points_balance: float8
+  points_checkpointed_at: timestamptz
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp
@@ -35336,6 +36104,8 @@ type profiles_min_fields {
   links_held: Int
   medium_username: String
   name: citext
+  points_balance: float8
+  points_checkpointed_at: timestamptz
   skills: String
   telegram_username: String
   tos_agreed_at: timestamp
@@ -35420,6 +36190,8 @@ input profiles_order_by {
   name: order_by
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
+  points_balance: order_by
+  points_checkpointed_at: order_by
   product_emails: order_by
   profile_skills: profile_skills_order_by
   reputation_score: reputation_scores_order_by
@@ -35449,6 +36221,8 @@ type profiles_private {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35481,6 +36255,7 @@ aggregate avg on columns
 """
 type profiles_private_avg_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35493,6 +36268,8 @@ input profiles_private_bool_exp {
   address: String_comparison_exp
   device_login_token: uuid_comparison_exp
   id: bigint_comparison_exp
+  points_balance: float8_comparison_exp
+  points_checkpointed_at: timestamptz_comparison_exp
 }
 
 """
@@ -35500,6 +36277,7 @@ input type for incrementing numeric columns in table "profiles_private"
 """
 input profiles_private_inc_input {
   id: bigint
+  points_balance: float8
 }
 
 """
@@ -35509,6 +36287,8 @@ input profiles_private_insert_input {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35518,6 +36298,8 @@ type profiles_private_max_fields {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35527,6 +36309,8 @@ type profiles_private_min_fields {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35551,6 +36335,8 @@ input profiles_private_order_by {
   address: order_by
   device_login_token: order_by
   id: order_by
+  points_balance: order_by
+  points_checkpointed_at: order_by
 }
 
 """
@@ -35571,6 +36357,16 @@ enum profiles_private_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  points_balance
+
+  """
+  column name
+  """
+  points_checkpointed_at
 }
 
 """
@@ -35580,6 +36376,8 @@ input profiles_private_set_input {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35587,6 +36385,7 @@ aggregate stddev on columns
 """
 type profiles_private_stddev_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35594,6 +36393,7 @@ aggregate stddev_pop on columns
 """
 type profiles_private_stddev_pop_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35601,6 +36401,7 @@ aggregate stddev_samp on columns
 """
 type profiles_private_stddev_samp_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35625,6 +36426,8 @@ input profiles_private_stream_cursor_value_input {
   address: String
   device_login_token: uuid
   id: bigint
+  points_balance: float8
+  points_checkpointed_at: timestamptz
 }
 
 """
@@ -35632,6 +36435,7 @@ aggregate sum on columns
 """
 type profiles_private_sum_fields {
   id: bigint
+  points_balance: float8
 }
 
 input profiles_private_updates {
@@ -35656,6 +36460,7 @@ aggregate var_pop on columns
 """
 type profiles_private_var_pop_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35663,6 +36468,7 @@ aggregate var_samp on columns
 """
 type profiles_private_var_samp_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -35670,6 +36476,7 @@ aggregate variance on columns
 """
 type profiles_private_variance_fields {
   id: Float
+  points_balance: Float
 }
 
 """
@@ -36420,6 +37227,16 @@ enum profiles_select_column {
   """
   column name
   """
+  points_balance
+
+  """
+  column name
+  """
+  points_checkpointed_at
+
+  """
+  column name
+  """
   product_emails
 
   """
@@ -36485,6 +37302,8 @@ input profiles_set_input {
   links_held: Int
   medium_username: String
   name: citext
+  points_balance: float8
+  points_checkpointed_at: timestamptz
   product_emails: Boolean
   skills: String
   telegram_username: String
@@ -36505,6 +37324,7 @@ type profiles_stddev_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -36518,6 +37338,7 @@ type profiles_stddev_pop_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -36531,6 +37352,7 @@ type profiles_stddev_samp_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -36580,6 +37402,8 @@ input profiles_stream_cursor_value_input {
   links_held: Int
   medium_username: String
   name: citext
+  points_balance: float8
+  points_checkpointed_at: timestamptz
   product_emails: Boolean
   skills: String
   telegram_username: String
@@ -36600,6 +37424,7 @@ type profiles_sum_fields {
   last_read_notification_id: Int
   links: Int
   links_held: Int
+  points_balance: float8
 }
 
 """
@@ -36749,6 +37574,16 @@ enum profiles_update_column {
   """
   column name
   """
+  points_balance
+
+  """
+  column name
+  """
+  points_checkpointed_at
+
+  """
+  column name
+  """
   product_emails
 
   """
@@ -36810,6 +37645,7 @@ type profiles_var_pop_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -36823,6 +37659,7 @@ type profiles_var_samp_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 """
@@ -36836,6 +37673,7 @@ type profiles_variance_fields {
   last_read_notification_id: Float
   links: Float
   links_held: Float
+  points_balance: Float
 }
 
 type query_root {
@@ -37553,6 +38391,71 @@ type query_root {
   fetch data from the table: "claims" using primary key columns
   """
   claims_by_pk(id: bigint!): claims
+
+  """
+  fetch data from the table: "colinks_gives"
+  """
+  colinks_gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_gives"
+  """
+  colinks_gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  fetch data from the table: "colinks_gives" using primary key columns
+  """
+  colinks_gives_by_pk(id: Int!): colinks_gives
 
   """
   fetch data from the table: "contribution_count"
@@ -43587,9 +44490,64 @@ type skills {
   name: citext!
 
   """
-  An object relationship
+  An array relationship
   """
-  profile_skills: profile_skills
+  profile_skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): [profile_skills!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_skills_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_skills_bool_exp
+  ): profile_skills_aggregate!
   updated_at: timestamptz!
 }
 
@@ -43636,6 +44594,7 @@ input skills_bool_exp {
   created_at: timestamptz_comparison_exp
   name: citext_comparison_exp
   profile_skills: profile_skills_bool_exp
+  profile_skills_aggregate: profile_skills_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -43663,7 +44622,7 @@ input skills_insert_input {
   count: Int
   created_at: timestamptz
   name: citext
-  profile_skills: profile_skills_obj_rel_insert_input
+  profile_skills: profile_skills_arr_rel_insert_input
   updated_at: timestamptz
 }
 
@@ -43730,7 +44689,7 @@ input skills_order_by {
   count: order_by
   created_at: order_by
   name: order_by
-  profile_skills: profile_skills_order_by
+  profile_skills_aggregate: profile_skills_aggregate_order_by
   updated_at: order_by
 }
 
@@ -44822,6 +45781,91 @@ type subscription_root {
     """
     where: claims_bool_exp
   ): [claims!]!
+
+  """
+  fetch data from the table: "colinks_gives"
+  """
+  colinks_gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_gives"
+  """
+  colinks_gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  fetch data from the table: "colinks_gives" using primary key columns
+  """
+  colinks_gives_by_pk(id: Int!): colinks_gives
+
+  """
+  fetch data from the table in a streaming manner: "colinks_gives"
+  """
+  colinks_gives_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [colinks_gives_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
 
   """
   fetch data from the table: "contribution_count"

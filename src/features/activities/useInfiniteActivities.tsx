@@ -19,6 +19,26 @@ export const activitySelector = Selector('activities')({
   action: true,
   created_at: true,
   private_stream: true,
+  gives: [
+    {
+      order_by: [
+        {
+          created_at: order_by.desc,
+        },
+      ],
+    },
+    {
+      id: true,
+      skill: true,
+      giver_profile_public: {
+        name: true,
+        id: true,
+        address: true,
+        avatar: true,
+      },
+    },
+  ],
+  gives_aggregate: [{}, { aggregate: { count: [{}, true] } }],
   actor_profile_public: {
     id: true,
     name: true,
