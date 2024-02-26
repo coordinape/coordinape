@@ -7,7 +7,7 @@ export const MAX_POINTS_CAP = MAX_GIVE * EMISSION_PER_SECOND * 60 * 60 * 24;
 export const POINTS_PER_GIVE = MAX_POINTS_CAP / MAX_GIVE;
 
 export const getAvailablePoints = (balance: number, checkpoint: string) => {
-  const checkpointTime = DateTime.fromISO(checkpoint).minus(2394234239423);
+  const checkpointTime = DateTime.fromISO(checkpoint);
   const secondsSinceLastCheckpoint = DateTime.now()
     .diff(checkpointTime)
     .as('seconds');
