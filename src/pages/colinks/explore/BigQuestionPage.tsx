@@ -43,7 +43,6 @@ const fetchBigQuestion = async (id: number, profileId: number) => {
               _eq: profileId,
             },
           },
-          limit: 1,
         },
         {
           activity: activitySelector,
@@ -92,6 +91,7 @@ export const BigQuestionPage = () => {
 
   const state = getState(question);
 
+  const isMultipleAnswers = question.id === 7;
   return (
     <SingleColumnLayout>
       <Helmet>
@@ -113,14 +113,17 @@ export const BigQuestionPage = () => {
                 css={{ width: '100%', gap: '$lg', maxWidth: '$readable' }}
               >
                 <BigQuestionCardCover question={question} />
-                {!alreadyPosted && state === 'open' && (
+                {(!alreadyPosted || isMultipleAnswers) && state === 'open' && (
                   <>
                     <PostForm
                       label={'Post your answer'}
                       bigQuestionId={question.id}
                       showLoading={showLoading}
                       placeholder={
-                        'You may answer this question once. All answers and replies are public to all members of CoLinks.'
+                        (isMultipleAnswers
+                          ? 'This one is an OPEN conversation with no limits. Post as many times as you like.'
+                          : 'You may answer this question once.') +
+                        ' All answers and replies are public to all members of CoLinks.'
                       }
                       // placeholder={'Share your thoughts on The Big Question'}
                       onSave={() => setShowLoading(true)}
@@ -132,7 +135,7 @@ export const BigQuestionPage = () => {
           </ContentHeader>
           {(state === 'open' || state === 'closed') && (
             <Flex column css={{ maxWidth: '$readable', gap: '$xl' }}>
-              {alreadyPosted && (
+              {alreadyPosted && !isMultipleAnswers && (
                 <Flex column css={{ gap: '$md' }}>
                   <Text h2>You answered this very nicely</Text>
                   <ActivityRow
@@ -143,16 +146,22 @@ export const BigQuestionPage = () => {
               )}
 
               <Flex column css={{ gap: '$md' }}>
-                <Text h2>Everyone else&apos;s answers</Text>
+                <Text h2>
+                  {isMultipleAnswers
+                    ? `Everyone's answers`
+                    : `Everyone else's answers`}
+                </Text>
                 <ActivityList
                   queryKey={['bigQuestion', id, 'activities']}
                   where={{
                     big_question_id: {
                       _eq: question.id,
                     },
-                    actor_profile_id: {
-                      _neq: profileId,
-                    },
+                    actor_profile_id: isMultipleAnswers
+                      ? undefined
+                      : {
+                          _neq: profileId,
+                        },
                     contribution: {},
                   }}
                   noPosts={
