@@ -1,7 +1,7 @@
 import { memo, useContext, useEffect, useState } from 'react';
 
 import { CoLogoMark } from 'features/nav/CoLogoMark';
-import { GiveAvailable } from 'features/points/GiveAvailable';
+import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
