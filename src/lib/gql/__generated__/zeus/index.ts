@@ -11363,6 +11363,12 @@ export type ValueTypes = {
       | undefined
       | null;
   };
+  /** input type for inserting array relation for remote table "profile_skills" */
+  ['profile_skills_arr_rel_insert_input']: {
+    data: Array<ValueTypes['profile_skills_insert_input']>;
+    /** upsert condition */
+    on_conflict?: ValueTypes['profile_skills_on_conflict'] | undefined | null;
+  };
   /** order by avg() on columns of table "profile_skills" */
   ['profile_skills_avg_order_by']: {
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -11407,12 +11413,6 @@ export type ValueTypes = {
     returning?: ValueTypes['profile_skills'];
     __typename?: boolean | `@${string}`;
   }>;
-  /** input type for inserting object relation for remote table "profile_skills" */
-  ['profile_skills_obj_rel_insert_input']: {
-    data: ValueTypes['profile_skills_insert_input'];
-    /** upsert condition */
-    on_conflict?: ValueTypes['profile_skills_on_conflict'] | undefined | null;
-  };
   /** on_conflict condition type for table "profile_skills" */
   ['profile_skills_on_conflict']: {
     constraint: ValueTypes['profile_skills_constraint'];
@@ -15246,8 +15246,29 @@ export type ValueTypes = {
     count?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
-    /** An object relationship */
-    profile_skills?: ValueTypes['profile_skills'];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -15268,7 +15289,7 @@ export type ValueTypes = {
   ['skills_insert_input']: {
     name?: ValueTypes['citext'] | undefined | null;
     profile_skills?:
-      | ValueTypes['profile_skills_obj_rel_insert_input']
+      | ValueTypes['profile_skills_arr_rel_insert_input']
       | undefined
       | null;
   };
@@ -15297,7 +15318,10 @@ export type ValueTypes = {
     count?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
-    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
+    profile_skills_aggregate?:
+      | ValueTypes['profile_skills_aggregate_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "skills" */
@@ -24244,6 +24268,8 @@ export type ModelTypes = {
   };
   /** order by aggregate values of table "profile_skills" */
   ['profile_skills_aggregate_order_by']: GraphQLTypes['profile_skills_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "profile_skills" */
+  ['profile_skills_arr_rel_insert_input']: GraphQLTypes['profile_skills_arr_rel_insert_input'];
   /** order by avg() on columns of table "profile_skills" */
   ['profile_skills_avg_order_by']: GraphQLTypes['profile_skills_avg_order_by'];
   /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
@@ -24263,8 +24289,6 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['profile_skills']>;
   };
-  /** input type for inserting object relation for remote table "profile_skills" */
-  ['profile_skills_obj_rel_insert_input']: GraphQLTypes['profile_skills_obj_rel_insert_input'];
   /** on_conflict condition type for table "profile_skills" */
   ['profile_skills_on_conflict']: GraphQLTypes['profile_skills_on_conflict'];
   /** Ordering options when selecting data from "profile_skills". */
@@ -25105,8 +25129,8 @@ export type ModelTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An object relationship */
-    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
@@ -34787,6 +34811,12 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes['profile_skills_var_samp_order_by'] | undefined;
     variance?: GraphQLTypes['profile_skills_variance_order_by'] | undefined;
   };
+  /** input type for inserting array relation for remote table "profile_skills" */
+  ['profile_skills_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['profile_skills_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['profile_skills_on_conflict'] | undefined;
+  };
   /** order by avg() on columns of table "profile_skills" */
   ['profile_skills_avg_order_by']: {
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -34830,12 +34860,6 @@ export type GraphQLTypes = {
     affected_rows: number;
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['profile_skills']>;
-  };
-  /** input type for inserting object relation for remote table "profile_skills" */
-  ['profile_skills_obj_rel_insert_input']: {
-    data: GraphQLTypes['profile_skills_insert_input'];
-    /** upsert condition */
-    on_conflict?: GraphQLTypes['profile_skills_on_conflict'] | undefined;
   };
   /** on_conflict condition type for table "profile_skills" */
   ['profile_skills_on_conflict']: {
@@ -36335,8 +36359,8 @@ export type GraphQLTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An object relationship */
-    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
@@ -36356,7 +36380,7 @@ export type GraphQLTypes = {
   ['skills_insert_input']: {
     name?: GraphQLTypes['citext'] | undefined;
     profile_skills?:
-      | GraphQLTypes['profile_skills_obj_rel_insert_input']
+      | GraphQLTypes['profile_skills_arr_rel_insert_input']
       | undefined;
   };
   /** response of any mutation on the table "skills" */
@@ -36384,7 +36408,9 @@ export type GraphQLTypes = {
     count?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
-    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
+    profile_skills_aggregate?:
+      | GraphQLTypes['profile_skills_aggregate_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "skills" */
@@ -38601,7 +38627,6 @@ export const enum contribution_count_select_column {
 /** unique or primary key constraints on table "contributions" */
 export const enum contributions_constraint {
   contributions_pkey = 'contributions_pkey',
-  unique_contribution_per_big_question = 'unique_contribution_per_big_question',
 }
 /** select columns of table "contributions" */
 export const enum contributions_select_column {

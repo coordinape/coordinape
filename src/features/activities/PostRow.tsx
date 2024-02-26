@@ -209,7 +209,10 @@ export const PostRow = ({
                     mb: '-$xs',
                     mt: '$xs',
                     // apply min height to make room for absolute positioned GIVE button
-                    minHeight: editableContribution ? 0 : '$3xl',
+                    minHeight:
+                      editableContribution || !isFeatureEnabled('colinks_give')
+                        ? 0
+                        : '$3xl',
                   }}
                 />
                 <Flex
@@ -229,6 +232,7 @@ export const PostRow = ({
                         isMyPost={
                           activity.actor_profile_public.id === profileId
                         }
+                        targetProfileId={activity.actor_profile_public.id}
                         activityId={activity.id}
                         gives={activity.gives}
                       />

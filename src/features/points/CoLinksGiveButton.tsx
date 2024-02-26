@@ -1,12 +1,13 @@
 import { Command } from 'cmdk';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemCoFill, GemCoFillSm, User } from '../../icons/__generated';
+import { GemCoFill, GemCoFillSm, User, Zap } from '../../icons/__generated';
+import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
 import isFeatureEnabled from 'config/features';
@@ -15,10 +16,12 @@ import { POINTS_QUERY_KEY } from './PointsBar';
 
 export const CoLinksGiveButton = ({
   activityId,
+  targetProfileId,
   isMyPost,
   gives,
 }: {
   activityId: number;
+  targetProfileId: number;
   isMyPost: boolean;
   gives: {
     id: number;
@@ -109,6 +112,7 @@ export const CoLinksGiveButton = ({
               <PickOneSkill
                 setSkill={skill => createGive(skill)}
                 placeholder={'Choose a GIVE Reason'}
+                targetProfileId={targetProfileId}
                 trigger={
                   <>
                     <Button
@@ -137,15 +141,66 @@ export const CoLinksGiveButton = ({
 };
 
 type PickOneSkillProps = {
+  targetProfileId: number;
   setSkill: (skill: string | undefined) => void;
   placeholder?: string;
   trigger: React.ReactNode;
 };
 export const PickOneSkill = ({
+  targetProfileId,
   placeholder,
   setSkill,
   trigger,
 }: PickOneSkillProps) => {
+  const { data: profile_skills } = useQuery(
+    ['target_give_skills'],
+    async () => {
+      const { profile_skills } = await client.query(
+        {
+          profile_skills: [
+            {
+              where: {
+                profile_id: {
+                  _eq: targetProfileId,
+                },
+              },
+              order_by: [{ skill_name: order_by.asc }],
+            },
+            {
+              skill_name: true,
+            },
+          ],
+        },
+        {
+          operationName: 'fetchGiveTargetSkills',
+        }
+      );
+      return profile_skills;
+    }
+  );
+
+  if (!profile_skills) return null;
+
+  const sortSkills = (
+    a: { name: string; count: number },
+    b: { name: string; count: number }
+  ) => {
+    // if the skill is in the profile_skills, then it should be at the top
+    if (
+      profile_skills.some(skill => skill.skill_name === a.name) &&
+      profile_skills.some(skill => skill.skill_name === b.name)
+    ) {
+      return a.count > b.count ? -1 : 1;
+    }
+    if (profile_skills.some(skill => skill.skill_name === a.name)) {
+      return -1;
+    }
+    if (profile_skills.some(skill => skill.skill_name === b.name)) {
+      return 1;
+    }
+    return a.count > b.count ? -1 : 1;
+  };
+
   return (
     <SkillComboBox
       excludeSkills={[]}
@@ -154,6 +209,7 @@ export const PickOneSkill = ({
       }}
       placeholder={placeholder}
       trigger={trigger}
+      sortSkills={sortSkills}
       customRender={(skill, count) => (
         <Flex
           css={{
@@ -162,9 +218,16 @@ export const PickOneSkill = ({
           }}
         >
           <Text semibold>{skill}</Text>
-          <Text tag color={'complete'} size={'xs'}>
-            <User /> {count}
-          </Text>
+          {/*TODO: @wingfeatherwave make this whole thing pretty */}
+          {profile_skills.some(ps => ps.skill_name === skill) ? (
+            <Text tag color={'complete'} size={'xs'}>
+              <Zap /> &nbsp;
+            </Text>
+          ) : (
+            <Text tag color={'secondary'} size={'xs'}>
+              <User /> {count}
+            </Text>
+          )}
         </Flex>
       )}
       extraItems={[

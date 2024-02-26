@@ -4981,6 +4981,10 @@ export const AllTypesProps: Record<string, any> = {
     var_samp: 'profile_skills_var_samp_order_by',
     variance: 'profile_skills_variance_order_by',
   },
+  profile_skills_arr_rel_insert_input: {
+    data: 'profile_skills_insert_input',
+    on_conflict: 'profile_skills_on_conflict',
+  },
   profile_skills_avg_order_by: {
     profile_id: 'order_by',
   },
@@ -5009,10 +5013,6 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     profile_id: 'order_by',
     skill_name: 'order_by',
-  },
-  profile_skills_obj_rel_insert_input: {
-    data: 'profile_skills_insert_input',
-    on_conflict: 'profile_skills_on_conflict',
   },
   profile_skills_on_conflict: {
     constraint: 'profile_skills_constraint',
@@ -6281,6 +6281,13 @@ export const AllTypesProps: Record<string, any> = {
   },
   search_contributions_args: {},
   search_replies_args: {},
+  skills: {
+    profile_skills: {
+      distinct_on: 'profile_skills_select_column',
+      order_by: 'profile_skills_order_by',
+      where: 'profile_skills_bool_exp',
+    },
+  },
   skills_bool_exp: {
     _and: 'skills_bool_exp',
     _not: 'skills_bool_exp',
@@ -6294,7 +6301,7 @@ export const AllTypesProps: Record<string, any> = {
   skills_constraint: true,
   skills_insert_input: {
     name: 'citext',
-    profile_skills: 'profile_skills_obj_rel_insert_input',
+    profile_skills: 'profile_skills_arr_rel_insert_input',
   },
   skills_obj_rel_insert_input: {
     data: 'skills_insert_input',
@@ -6309,7 +6316,7 @@ export const AllTypesProps: Record<string, any> = {
     count: 'order_by',
     created_at: 'order_by',
     name: 'order_by',
-    profile_skills: 'profile_skills_order_by',
+    profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     updated_at: 'order_by',
   },
   skills_select_column: true,

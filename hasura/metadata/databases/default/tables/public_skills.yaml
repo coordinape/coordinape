@@ -1,7 +1,7 @@
 table:
   name: skills
   schema: public
-object_relationships:
+array_relationships:
   - name: profile_skills
     using:
       manual_configuration:
