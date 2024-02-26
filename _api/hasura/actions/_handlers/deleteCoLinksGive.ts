@@ -4,6 +4,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
+import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponse,
@@ -101,6 +102,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         operationName: 'deleteCoLinksGive__deleteAndCheckpoint',
       }
     );
+
+    const hostname = req.headers.host;
+    await insertInteractionEvents({
+      event_type: 'colinks_give_delete',
+      profile_id: profileId,
+      data: {
+        hostname,
+        give_id: payload.give_id,
+        new_points_balance: newPoints,
+      },
+    });
+
     return res.status(200).json({ success: true });
   } catch (e: any) {
     return errorResponse(res, e);
