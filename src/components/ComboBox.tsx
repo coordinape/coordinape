@@ -7,11 +7,13 @@ import { Box } from '../ui';
 export const ComboBox = ({
   children,
   fullScreen = false,
+  giveSkillSelector = false,
   css,
   ...props
 }: {
   children: React.ReactNode;
   fullScreen?: boolean;
+  giveSkillSelector?: boolean;
   css?: CSS;
 } & React.ComponentProps<typeof Command>) => {
   const Container = styled(Box, {
@@ -50,7 +52,23 @@ export const ComboBox = ({
             fontSize: '$h2',
           }
         : { p: 'calc($sm - 1px) $sm', fontSize: '$medium' }),
-
+      ...(giveSkillSelector && {
+        m: '0 $md 0',
+        background: '$formInputBackground',
+        padding: '$sm',
+        border: '1px solid $formInputBorder',
+        '&:focus': {
+          borderColor: '$formInputBorderFocus',
+        },
+        fontWeight: '$normal',
+        fontSize: '$medium',
+        lineHeight: '1',
+        display: 'flex',
+        flexDirection: 'row',
+        borderRadius: '$3',
+        minWidth: 0,
+        width: 'calc(100% - $md - $md)',
+      }),
       '&::placeholder': {
         color: '$formInputPlaceholder',
       },
@@ -91,6 +109,13 @@ export const ComboBox = ({
           cursor: 'not-allowed',
         },
       },
+      ...(giveSkillSelector && {
+        p: '0',
+        borderRadius: '$4 !important',
+        height: '$xl',
+        color: '$tagSuccessText',
+        backgroundColor: '$tagSuccessBackground',
+      }),
 
       '&[data-disabled="true"]': {
         color: '$surface',
@@ -132,6 +157,9 @@ export const ComboBox = ({
             height: '100%',
             maxHeight: '200px',
           }),
+      ...(giveSkillSelector && {
+        p: '$md',
+      }),
     },
 
     '[cmdk-list-sizer]': {

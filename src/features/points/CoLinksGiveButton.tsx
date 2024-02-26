@@ -6,10 +6,11 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemCoFill, GemCoFillSm, User, Zap } from '../../icons/__generated';
+import { BoltFill, GemCoFill, GemCoFillSm } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
+import { OrBar } from 'components/OrBar';
 import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
@@ -203,6 +204,7 @@ export const PickOneSkill = ({
 
   return (
     <SkillComboBox
+      giveSkillSelector
       excludeSkills={[]}
       addSkill={async (skill: string) => {
         setSkill(skill);
@@ -210,46 +212,63 @@ export const PickOneSkill = ({
       placeholder={placeholder}
       trigger={trigger}
       sortSkills={sortSkills}
-      customRender={(skill, count) => (
+      popoverCss={{ mt: -56 }}
+      customRender={skill => (
         <Flex
           css={{
             justifyContent: 'space-between',
             width: '100%',
+            px: '$sm',
+            '*': { color: '$tagSuccessText' },
           }}
         >
-          <Text semibold>{skill}</Text>
-          {/*TODO: @wingfeatherwave make this whole thing pretty */}
-          {profile_skills.some(ps => ps.skill_name === skill) ? (
+          <Text semibold>
+            <GemCoFillSm fa css={{ mr: '$xs' }} />
+            {skill}
+          </Text>
+          {profile_skills.some(ps => ps.skill_name === skill) && (
             <Text tag color={'complete'} size={'xs'}>
-              <Zap /> &nbsp;
-            </Text>
-          ) : (
-            <Text tag color={'secondary'} size={'xs'}>
-              <User /> {count}
+              <BoltFill fa />
             </Text>
           )}
         </Flex>
       )}
-      extraItems={[
-        <Command.Item
-          color={'cta'}
-          key={'noskill'}
-          value={'noskill'}
-          onSelect={() => setSkill(undefined)}
+      prependedItems={[
+        <Flex
+          column
+          key={'header'}
+          css={{
+            width: '100%',
+            p: '$md $md $sm',
+            gap: '$sm',
+          }}
         >
-          <Flex
-            css={{
-              justifyContent: 'space-between',
-              width: '100%',
-              gap: '$lg',
-            }}
+          <Text variant="label" size="small">
+            Use your GIVE
+            <br />
+            to show your appreciation
+          </Text>
+          <Command.Item
+            color={'cta'}
+            key={'noskill'}
+            value={'noskill'}
+            aria-selected={false}
+            onSelect={() => setSkill(undefined)}
           >
-            <Text semibold>
+            <Button
+              color="primary"
+              size="small"
+              css={{
+                width: '100%',
+                svg: { color: 'currentColor !important' },
+              }}
+            >
               <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE - no particular
               skill
-            </Text>
-          </Flex>
-        </Command.Item>,
+            </Button>
+          </Command.Item>
+          <OrBar>Or Choose a GIVE Reason</OrBar>
+        </Flex>,
       ]}
     />
   );
