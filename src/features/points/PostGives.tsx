@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import useProfileId from '../../hooks/useProfileId';
 import {
+  AppLink,
   Flex,
   IconButton,
   Popover,
@@ -81,17 +82,19 @@ export const PostGives = ({
                   p: '$sm $sm',
                 }}
               >
-                <Text
-                  variant="label"
+                <AppLink
+                  to={coLinksPaths.exploreSkill(g.skill)}
                   css={{
+                    fontSize: '$small',
                     color: '$complete',
+                    fontWeight: '$semibold',
                     borderBottom: '0.5px solid $border',
                     pb: '$xs',
                     mb: '$sm',
                   }}
                 >
                   {g.skill}
-                </Text>
+                </AppLink>
                 <Flex column css={{ gap: '$sm' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)

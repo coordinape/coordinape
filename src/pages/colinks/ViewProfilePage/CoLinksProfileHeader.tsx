@@ -101,7 +101,7 @@ export const CoLinksProfileHeader = ({
 
   return (
     <ContentHeader css={{ '@sm': { mb: 0 } }}>
-      <Flex column css={{ gap: '$md', flexGrow: 1, width: '100%' }}>
+      <Flex column css={{ gap: '$sm', flexGrow: 1, width: '100%' }}>
         <Flex
           css={{
             justifyContent: 'space-between',
@@ -111,7 +111,7 @@ export const CoLinksProfileHeader = ({
             flexWrap: 'wrap',
           }}
         >
-          <Flex alignItems="center" css={{ gap: '$sm' }}>
+          <Flex alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
             <Flex column css={{ mr: '$md' }}>
               <Avatar
                 size="xl"
@@ -250,7 +250,9 @@ export const CoLinksProfileHeader = ({
         )}
 
         {profile.description && (
-          <Text color="secondary">{profile.description}</Text>
+          <Flex css={{ mt: '$xs' }}>
+            <Text color="secondary">{profile.description}</Text>
+          </Flex>
         )}
 
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (

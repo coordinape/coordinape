@@ -5,8 +5,17 @@ import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { Flex, Popover, PopoverContent, PopoverTrigger, Text } from '../../ui';
-import { GemCoFillSm } from 'icons/__generated';
+import {
+  AppLink,
+  Button,
+  Flex,
+  Panel,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from '../../ui';
+import { GemCoFill, GemCoFillSm } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
 import { groupAndSortGive } from './PostGives';
@@ -111,16 +120,66 @@ export const GiveReceived = ({
     );
   }
 
-  if (size === 'large') {
+  if (size === 'large' || size === 'xl') {
     return (
       <>
-        {size == 'large' && (
-          <>
+        <Panel
+          css={{
+            flexDirection: 'row',
+            p: 0,
+            border: 'none',
+            overflow: 'clip',
+            background: size == 'xl' ? '$surface' : 'transparent',
+          }}
+        >
+          {size == 'xl' && (
+            <Button
+              className="clickProtect"
+              as="span"
+              noPadding
+              color="cta"
+              css={{
+                pointerEvents: 'none',
+                cursor: 'default',
+                p: '$md',
+                borderRadius: 0,
+                background: 'linear-gradient(.33turn, $cta 23%, $complete)',
+              }}
+            >
+              <Flex column css={{ alignItems: 'center', gap: '$sm' }}>
+                <Flex row css={{ alignItems: 'center', gap: '$xs' }}>
+                  <GemCoFill fa size="xl" />
+                  <Text semibold size="large" css={{ textAlign: 'center' }}>
+                    {data.length}
+                  </Text>
+                </Flex>
+                {/* <Text semibold size="xs" css={{ textAlign: 'center' }}>
+                  GIVE <br />
+                  Received
+                </Text> */}
+              </Flex>
+            </Button>
+          )}
+          <Flex
+            css={{
+              columnGap: '$sm',
+              rowGap: 0,
+              flexWrap: 'wrap',
+              m: size == 'xl' ? '$sm' : 0,
+              alignItems: 'flex-start',
+            }}
+          >
             {sortedGives.map(g => (
-              <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
+              <Flex key={`give_${g.skill}`}>
                 <Popover>
-                  <PopoverTrigger css={{ cursor: 'pointer' }}>
-                    <Text tag size="medium" color="complete">
+                  <PopoverTrigger
+                    css={{
+                      cursor: 'pointer',
+                      opacity: 0.7,
+                      '&:hover': { opacity: 1 },
+                    }}
+                  >
+                    <Text tag size="small" color="complete">
                       {g.skill ? (
                         <>
                           {' '}
@@ -143,17 +202,19 @@ export const GiveReceived = ({
                       p: '$sm $sm',
                     }}
                   >
-                    <Text
-                      variant="label"
+                    <AppLink
+                      to={coLinksPaths.exploreSkill(g.skill)}
                       css={{
+                        fontSize: '$small',
                         color: '$complete',
+                        fontWeight: '$semibold',
                         borderBottom: '0.5px solid $border',
                         pb: '$xs',
                         mb: '$sm',
                       }}
                     >
                       {g.skill}
-                    </Text>
+                    </AppLink>
                     <Flex column css={{ gap: '$sm' }}>
                       {g.gives
                         .filter(give => give.giver_profile_public?.name)
@@ -186,8 +247,8 @@ export const GiveReceived = ({
                 </Popover>
               </Flex>
             ))}
-          </>
-        )}
+          </Flex>
+        </Panel>
       </>
     );
   }
