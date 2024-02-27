@@ -137,25 +137,29 @@ export const SkillComboBox = ({
         >
           {!isLoading && (
             <>
-              <Flex
-                column
-                key={'header'}
-                css={{
-                  width: '100%',
-                  p: '$md $md 0',
-                  gap: '$sm',
-                }}
-              >
-                <Text variant="label" size="small">
-                  GIVE to show your appreciation
-                </Text>
-                <Command.Group>
-                  {prependedItems?.map(item => item)}
-                  <OrBar css={{ mt: '$md', p: 0, hr: { my: 0 } }}>
-                    Or Choose a GIVE Reason
-                  </OrBar>
-                </Command.Group>
-              </Flex>
+              {giveSkillSelector ? (
+                <Flex
+                  column
+                  key={'header'}
+                  css={{
+                    width: '100%',
+                    p: '$md $md 0',
+                    gap: '$sm',
+                  }}
+                >
+                  <Text variant="label" size="small">
+                    GIVE to show your appreciation
+                  </Text>
+                  <Command.Group>
+                    {prependedItems?.map(item => item)}
+                    <OrBar css={{ mt: '$md', p: 0, hr: { my: 0 } }}>
+                      Or Choose a GIVE Reason
+                    </OrBar>
+                  </Command.Group>
+                </Flex>
+              ) : (
+                <>{prependedItems?.map(item => item)}</>
+              )}
             </>
           )}
           <Command.Input
@@ -264,7 +268,16 @@ const AddItem = ({
         css={{ justifyContent: 'space-between', width: '100%', gap: '$lg' }}
       >
         <Text>Be the First to Add</Text>
-        <Text tag color={'complete'} semibold size={'medium'}>
+        <Text
+          tag
+          color={'complete'}
+          semibold
+          size={'medium'}
+          css={{
+            background: 'transparent',
+            border: '1px solid $tagSuccessBackground',
+          }}
+        >
           {search}
         </Text>
       </Flex>

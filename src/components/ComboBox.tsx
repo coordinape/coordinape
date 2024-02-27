@@ -108,12 +108,6 @@ export const ComboBox = ({
           cursor: 'not-allowed',
         },
       },
-      ...(giveSkillSelector && {
-        borderRadius: '$4 !important',
-        height: '$xl',
-        color: '$tagSuccessText',
-        backgroundColor: '$tagSuccessBackground',
-      }),
 
       '&[data-disabled="true"]': {
         color: '$surface',
@@ -134,6 +128,19 @@ export const ComboBox = ({
         height: '16px',
         color: '$text',
       },
+      ...(giveSkillSelector && {
+        borderRadius: '$4 !important',
+        height: '$xl',
+        color: '$tagSuccessText',
+        backgroundColor: '$tagSuccessBackground',
+        border: '1px solid $tagSuccessText',
+        '&:hover, &[data-selected="true"]': {
+          backgroundColor: '$tagSuccessText',
+          'div *': {
+            color: '$tagSuccessBackground',
+          },
+        },
+      }),
     },
 
     '[cmdk-list]': {

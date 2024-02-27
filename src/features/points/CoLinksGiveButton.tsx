@@ -6,7 +6,12 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemCoFill, GemCoFillSm, UserFill } from '../../icons/__generated';
+import {
+  GemCoFill,
+  GemCoFillSm,
+  Plus,
+  UserFill,
+} from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
@@ -222,13 +227,12 @@ export const PickOneSkill = ({
           }}
         >
           <Text semibold>
+            <Plus css={{ mr: '$xs' }} />
             <GemCoFillSm fa css={{ mr: '$xs' }} />
             {skill}
           </Text>
           {profile_skills.some(ps => ps.skill_name === skill) && (
-            <Text tag color={'complete'} size={'xs'}>
-              <UserFill fa />
-            </Text>
+            <UserFill fa />
           )}
         </Flex>
       )}
@@ -237,10 +241,11 @@ export const PickOneSkill = ({
           key={'noskill'}
           css={{
             '[cmdk-item]': {
-              px: 0,
+              p: 0,
               width: '100%',
               height: 'auto',
               background: 'transparent !important',
+              border: 'none',
             },
           }}
         >
