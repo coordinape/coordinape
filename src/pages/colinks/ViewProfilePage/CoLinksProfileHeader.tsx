@@ -16,7 +16,13 @@ import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizar
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { currentPrompt } from '../ActivityPage';
 import isFeatureEnabled from 'config/features';
-import { ExternalLink, Github, Settings, Twitter } from 'icons/__generated';
+import {
+  ExternalLink,
+  Github,
+  Plus,
+  Settings,
+  Twitter,
+} from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
@@ -35,6 +41,7 @@ export const CoLinksProfileHeader = ({
   currentUserAddress: string;
   targetAddress: string;
 }) => {
+  const [showPostForm, setPostForm] = useState<boolean>(false);
   const { targetBalance, superFriend } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
@@ -256,34 +263,47 @@ export const CoLinksProfileHeader = ({
         )}
 
         {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
-          <Flex css={{ pt: '$md' }}>
-            <PostForm
-              label={
-                <Text size={'medium'} semibold color={'heading'}>
-                  {currentPrompt(promptOffset)}
-                </Text>
-              }
-              refreshPrompt={bumpPromptOffset}
-              showLoading={showLoading}
-              onSuccess={() =>
-                queryClient.setQueryData<CoSoul>(
-                  [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
-                  oldData => {
-                    assert(oldData);
-                    return {
-                      ...oldData,
-                      profile_public: {
-                        ...oldData.profile_public,
-                        post_count: oldData.profile_public?.post_count + 1,
-                        post_count_last_30_days:
-                          oldData.profile_public?.post_count_last_30_days + 1,
-                      },
-                    };
+          <Flex column css={{ pt: '$md', alignItems: 'flex-start' }}>
+            {showPostForm ? (
+              <Flex css={{ width: '100%' }}>
+                <PostForm
+                  label={
+                    <Text size={'medium'} semibold color={'heading'}>
+                      {currentPrompt(promptOffset)}
+                    </Text>
                   }
-                )
-              }
-              onSave={() => setShowLoading(true)}
-            />
+                  refreshPrompt={bumpPromptOffset}
+                  showLoading={showLoading}
+                  onSuccess={() =>
+                    queryClient.setQueryData<CoSoul>(
+                      [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
+                      oldData => {
+                        assert(oldData);
+                        return {
+                          ...oldData,
+                          profile_public: {
+                            ...oldData.profile_public,
+                            post_count: oldData.profile_public?.post_count + 1,
+                            post_count_last_30_days:
+                              oldData.profile_public?.post_count_last_30_days +
+                              1,
+                          },
+                        };
+                      }
+                    )
+                  }
+                  onSave={() => setShowLoading(true)}
+                />
+              </Flex>
+            ) : (
+              <Button
+                color="primary"
+                onClick={() => setPostForm(prev => !prev)}
+              >
+                <Plus />
+                Add Post
+              </Button>
+            )}
           </Flex>
         )}
       </Flex>
