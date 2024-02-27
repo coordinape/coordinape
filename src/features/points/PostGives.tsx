@@ -99,9 +99,12 @@ export const PostGives = ({
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
                     .map((give, index) => (
-                      <>
+                      <Flex
+                        key={`skill_${g.skill}_${index}`}
+                        css={{ alignItems: 'center', gap: '$sm' }}
+                      >
                         {give.giver_profile_public && (
-                          <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                          <>
                             <ActivityAvatar
                               size="xs"
                               profile={give.giver_profile_public}
@@ -114,13 +117,12 @@ export const PostGives = ({
                               to={coLinksPaths.profile(
                                 give.giver_profile_public.address || ''
                               )}
-                              key={index}
                             >
                               {give.giver_profile_public?.name}
                             </Text>
-                          </Flex>
+                          </>
                         )}
-                      </>
+                      </Flex>
                     ))}
                 </Flex>
               </PopoverContent>
