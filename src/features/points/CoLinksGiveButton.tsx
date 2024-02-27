@@ -87,11 +87,12 @@ export const CoLinksGiveButton = ({
 
   return (
     <>
-      <Flex className="clickThrough" column css={{ gap: '$sm' }}>
+      <Flex column css={{ gap: '$sm' }}>
         {!isMyPost && (
           <>
             {myGive ? (
               <Button
+                className="clickProtect"
                 as="span"
                 noPadding
                 color="cta"

@@ -1,7 +1,7 @@
-/* eslint-disable no-console */
 import { memo, useContext, useEffect, useState } from 'react';
 
 import { CoLogoMark } from 'features/nav/CoLogoMark';
+import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
@@ -132,6 +132,7 @@ export const CoLinksNav = () => {
             <CoLogoMark muted small mark />
           </Flex>
         </Flex>
+        <GiveAvailablePopover />
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>

@@ -4,7 +4,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
-import { GemCoFillSm } from 'icons/__generated';
+import { GemCoFill, GemCoFillSm } from 'icons/__generated';
 
 import {
   MAX_GIVE,
@@ -12,8 +12,6 @@ import {
   POINTS_PER_GIVE,
 } from './getAvailablePoints';
 import { getMyAvailablePoints } from './getMyAvailablePoints';
-
-export const POINTS_QUERY_KEY = 'points_query_key';
 
 const progressStyles = {
   position: 'relative',
@@ -60,7 +58,9 @@ const progressStyles = {
   },
 };
 
-export const PointsBar = () => {
+export const POINTS_QUERY_KEY = 'points_query_key';
+
+export const PointsBar = ({ open = false }: { open?: boolean }) => {
   const { data: points } = useQuery(
     [POINTS_QUERY_KEY],
     async () => {
@@ -84,41 +84,88 @@ export const PointsBar = () => {
     };
   }
 
-  const [showInfo, setShowInfo] = useState<boolean>(false);
+  const [showInfo, setShowInfo] = useState<boolean>(open);
 
   return (
-    <Panel css={{ border: 'none', gap: '$xs' }}>
-      <Text semibold>
-        GIVE
-        <IconButton onClick={() => setShowInfo(prev => !prev)}>
-          <InfoCircledIcon />
-        </IconButton>
-      </Text>
-      {showInfo && (
-        <Flex column css={{ mb: '$sm' }}>
-          <Text inline size="small">
-            You have{' '}
-            <Text inline semibold>
-              {points && Math.floor(points / POINTS_PER_GIVE)}{' '}
-              <GemCoFillSm fa css={{ mt: -2 }} /> GIVE
-            </Text>{' '}
-            that you can use to show people you appreciated them.
-          </Text>
-          <Text size="small">
-            You constantly earn GIVE up to {MAX_GIVE}, and you also gain GIVE as
-            your REP increases.
-          </Text>
+    <>
+      <Panel
+        css={{
+          border: 'none',
+          flexDirection: 'column',
+          p: '0',
+          overflow: 'clip',
+          alignItems: 'center',
+          gap: '0',
+        }}
+      >
+        {showInfo && (
+          <Flex
+            className="art"
+            onClick={() => setShowInfo(prev => !prev)}
+            css={{
+              flexGrow: 1,
+              height: '100%',
+              width: '100%',
+              minHeight: '180px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: "url('/imgs/background/colink-give.jpg')",
+            }}
+          />
+        )}
+        <Flex
+          column
+          css={{
+            flex: 2,
+            gap: '$sm',
+            alignItems: 'flex-start',
+            p: '$md',
+            color: '$text',
+            width: '100%',
+          }}
+        >
+          <Flex column css={{ width: '100%', gap: '$sm' }}>
+            <Text semibold>
+              {showInfo && <GemCoFill fa size="lg" css={{ mr: '$xs' }} />}
+              GIVE
+              {!open && (
+                <IconButton onClick={() => setShowInfo(prev => !prev)}>
+                  <InfoCircledIcon />
+                </IconButton>
+              )}
+            </Text>
+            {showInfo && (
+              <Flex column css={{ mb: '$sm', gap: '$md' }}>
+                <Text inline size="small">
+                  GIVE is a scarce thing that is more powerful than an emoji
+                  reaction. You can allocate them to members via Posts to
+                  support ideas, skills and signal value.
+                </Text>
+                <Text inline size="small">
+                  GIVEs roll into the receiver&apos;s onchain pGIVE score on
+                  their CoSoul.
+                </Text>
+                <Text size="small">
+                  Your GIVE bar is always slowly recharging and maxes out at{' '}
+                  {MAX_GIVE}.
+                </Text>
+              </Flex>
+            )}
+            <Flex css={{ ...progressStyles }}>
+              <progress id="points" max={MAX_POINTS_CAP} value={points} />
+              {Array.from({ length: MAX_GIVE }, (_, index) => (
+                <Text
+                  key={index + 1}
+                  className={`tickMark tickMark-${index + 1}`}
+                >
+                  <GemCoFillSm fa />
+                </Text>
+              ))}
+            </Flex>
+          </Flex>
         </Flex>
-      )}
-      <Flex css={{ ...progressStyles }}>
-        <progress id="points" max={MAX_POINTS_CAP} value={points} />
-        {Array.from({ length: MAX_GIVE }, (_, index) => (
-          <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
-            {/* <GemSharpSolid nostroke /> */}
-            <GemCoFillSm fa />
-          </Text>
-        ))}
-      </Flex>
-    </Panel>
+      </Panel>
+    </>
   );
 };
