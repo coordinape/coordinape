@@ -31,7 +31,12 @@ export const ComboBox = ({
             // boxShadow: '$heavy',
             borderRadius: 0,
           }
-        : { borderColor: '$borderFocus', borderRadius: '$3' }),
+        : giveSkillSelector
+          ? {
+              borderColor: 'transparent',
+              borderRadius: '$3',
+            }
+          : { borderColor: '$borderFocus', borderRadius: '$3' }),
     },
     '[cmdk-input]': {
       borderRadius: 0,
