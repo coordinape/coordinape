@@ -95,7 +95,7 @@ export const PostGives = ({
                 >
                   {g.skill}
                 </AppLink>
-                <Flex column css={{ gap: '$sm' }}>
+                <Flex column css={{ gap: '$sm', flexWrap: 'wrap' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
                     .map((give, index) => (
