@@ -250,7 +250,7 @@ export const PickOneSkill = ({
             onSelect={() => setSkill(undefined)}
           >
             <Button
-              color="primary"
+              color="cta"
               size="small"
               css={{
                 width: '100%',
