@@ -19,11 +19,11 @@ export const SingleColumnLayout = ({
       css={{
         maxWidth: '$mediumScreen',
         p: '$lg $xl',
-        '@sm': { p: '$xl $md' },
         margin: '0',
         display: 'flex',
         flexDirection: 'column',
         gap: '$md',
+        '@sm': { p: '$xl $md', gap: 0 },
         ...css,
       }}
     >
