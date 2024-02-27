@@ -22,7 +22,7 @@ export const GiveAvailablePopover = () => {
   return (
     <Popover>
       <PopoverTrigger css={{ cursor: 'pointer' }}>
-        <IconButton css={{ width: 'auto' }}>
+        <IconButton as="span" css={{ width: 'auto' }}>
           {points && Math.floor(points / POINTS_PER_GIVE)}
           <GemCoFill fa size="lg" css={{ ml: '$xs' }} />
         </IconButton>

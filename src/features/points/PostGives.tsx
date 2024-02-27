@@ -66,6 +66,7 @@ export const PostGives = ({
                     give => give.giver_profile_public?.id === profileId
                   ) && (
                     <IconButton
+                      as="span"
                       onClick={() => clearSkill()}
                       css={{ pr: '$sm', width: 'auto' }}
                     >
