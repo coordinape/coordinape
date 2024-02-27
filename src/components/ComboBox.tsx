@@ -134,10 +134,12 @@ export const ComboBox = ({
         color: '$tagSuccessText',
         backgroundColor: '$tagSuccessBackground',
         border: '1px solid $tagSuccessText',
-        '&:hover, &[data-selected="true"]': {
-          backgroundColor: '$tagSuccessText',
-          'div *': {
-            color: '$tagSuccessBackground',
+        '&:not(button)': {
+          '&:hover, &[data-selected="true"]': {
+            backgroundColor: '$tagSuccessText',
+            '*': {
+              color: '$tagSuccessBackground',
+            },
           },
         },
       }),

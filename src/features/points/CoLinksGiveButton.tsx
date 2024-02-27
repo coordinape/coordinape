@@ -260,7 +260,8 @@ export const PickOneSkill = ({
                 width: '100%',
                 height: 'auto',
                 maxHeight: 'none',
-                svg: { color: 'currentColor !important' },
+                '*:not(svg)': { color: '$tagSuccessBackground' },
+                svg: { color: 'currentColor' },
               }}
             >
               <Flex
