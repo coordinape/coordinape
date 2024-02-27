@@ -239,6 +239,8 @@ export const PickOneSkill = ({
             '[cmdk-item]': {
               px: 0,
               width: '100%',
+              height: 'auto',
+              background: 'transparent !important',
             },
           }}
         >
@@ -252,11 +254,22 @@ export const PickOneSkill = ({
               size="small"
               css={{
                 width: '100%',
+                height: 'auto',
+                maxHeight: 'none',
                 svg: { color: 'currentColor !important' },
               }}
             >
-              <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE - no particular
-              skill
+              <Flex
+                column
+                css={{ alignItems: 'center', width: '100%', gap: '$xs' }}
+              >
+                <Text>
+                  <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE
+                </Text>
+                <Text size="small" css={{ opacity: 0.6, fontStyle: 'italic' }}>
+                  no particular reason
+                </Text>
+              </Flex>
             </Button>
           </Command.Item>
         </Flex>,
