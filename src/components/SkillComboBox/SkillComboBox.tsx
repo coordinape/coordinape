@@ -156,7 +156,13 @@ export const SkillComboBox = ({
                   allSkills={skills}
                 />
 
-                <Command.Group>
+                <Command.Group
+                  heading={
+                    <Text semibold color="neutral" size={'xs'}>
+                      Choose an Optional Skill Vector
+                    </Text>
+                  }
+                >
                   {skills
                     .filter(
                       sk =>
