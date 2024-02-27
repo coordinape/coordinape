@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { BoltFill, GemCoFill, GemCoFillSm } from '../../icons/__generated';
+import { GemCoFill, GemCoFillSm, UserFill } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
@@ -227,7 +227,7 @@ export const PickOneSkill = ({
           </Text>
           {profile_skills.some(ps => ps.skill_name === skill) && (
             <Text tag color={'complete'} size={'xs'}>
-              <BoltFill fa />
+              <UserFill fa />
             </Text>
           )}
         </Flex>
