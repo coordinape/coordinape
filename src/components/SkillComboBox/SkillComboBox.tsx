@@ -134,7 +134,7 @@ export const SkillComboBox = ({
             return 0;
           }}
         >
-          {prependedItems?.map(item => item)}
+          {!isLoading && <>{prependedItems?.map(item => item)}</>}
           <Command.Input
             className="clickProtect"
             ref={inputRef}

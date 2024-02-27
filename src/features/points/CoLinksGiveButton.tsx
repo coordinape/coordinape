@@ -252,7 +252,6 @@ export const PickOneSkill = ({
             color={'cta'}
             key={'noskill'}
             value={'noskill'}
-            aria-selected={false}
             onSelect={() => setSkill(undefined)}
           >
             <Button
