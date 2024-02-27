@@ -10,7 +10,6 @@ import { BoltFill, GemCoFill, GemCoFillSm } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
-import { OrBar } from 'components/OrBar';
 import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
@@ -219,7 +218,6 @@ export const PickOneSkill = ({
           css={{
             justifyContent: 'space-between',
             width: '100%',
-            px: '$sm',
             '*': { color: '$tagSuccessText' },
           }}
         >
@@ -236,22 +234,16 @@ export const PickOneSkill = ({
       )}
       prependedItems={[
         <Flex
-          column
-          key={'header'}
+          key={'noskill'}
           css={{
-            width: '100%',
-            p: '$md $md $sm',
-            gap: '$sm',
+            '[cmdk-item]': {
+              px: 0,
+              width: '100%',
+            },
           }}
         >
-          <Text variant="label" size="small">
-            Use your GIVE
-            <br />
-            to show your appreciation
-          </Text>
           <Command.Item
             color={'cta'}
-            key={'noskill'}
             value={'noskill'}
             onSelect={() => setSkill(undefined)}
           >
@@ -267,7 +259,6 @@ export const PickOneSkill = ({
               skill
             </Button>
           </Command.Item>
-          <OrBar>Or Choose a GIVE Reason</OrBar>
         </Flex>,
       ]}
     />

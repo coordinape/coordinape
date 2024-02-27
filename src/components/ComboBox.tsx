@@ -53,7 +53,7 @@ export const ComboBox = ({
           }
         : { p: 'calc($sm - 1px) $sm', fontSize: '$medium' }),
       ...(giveSkillSelector && {
-        m: '0 $md 0',
+        m: '$md $md 0',
         background: '$formInputBackground',
         padding: '$sm',
         border: '1px solid $formInputBorder',
@@ -66,7 +66,6 @@ export const ComboBox = ({
         display: 'flex',
         flexDirection: 'row',
         borderRadius: '$3',
-        minWidth: 0,
         width: 'calc(100% - $md - $md)',
       }),
       '&::placeholder': {
@@ -110,7 +109,6 @@ export const ComboBox = ({
         },
       },
       ...(giveSkillSelector && {
-        p: '0',
         borderRadius: '$4 !important',
         height: '$xl',
         color: '$tagSuccessText',
