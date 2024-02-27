@@ -11,7 +11,6 @@ import { client } from '../../lib/gql/client';
 import { Flex, PopoverContent, Text, TextField } from '../../ui';
 import { ComboBox } from '../ComboBox';
 import { LoadingIndicator } from '../LoadingIndicator';
-import { OrBar } from 'components/OrBar';
 
 export const QUERY_KEY_ALL_SKILLS = 'skills';
 const MAX_POTENTIAL_SKILLS = 1000;
@@ -137,7 +136,7 @@ export const SkillComboBox = ({
         >
           {!isLoading && (
             <>
-              {giveSkillSelector ? (
+              {giveSkillSelector && prependedItems?.length ? (
                 <Flex
                   column
                   key={'header'}
@@ -152,9 +151,6 @@ export const SkillComboBox = ({
                   </Text>
                   <Command.Group>
                     {prependedItems?.map(item => item)}
-                    <OrBar css={{ mt: '$md', p: 0, hr: { my: 0 } }}>
-                      Or Choose a GIVE Reason
-                    </OrBar>
                   </Command.Group>
                 </Flex>
               ) : (

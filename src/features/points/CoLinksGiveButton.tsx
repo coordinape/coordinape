@@ -104,20 +104,19 @@ export const CoLinksGiveButton = ({
                 css={{
                   pointerEvents: 'none',
                   cursor: 'default',
-                  p: '3px 5px',
+                  p: '5px 5px 6px',
                   background: 'linear-gradient(.33turn, $cta 23%, $complete)',
                   boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                 }}
               >
                 <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
                   <GemCoFill fa size="xl" />
-                  <Text size="xs">GIVE</Text>
                 </Flex>
               </Button>
             ) : (
               <PickOneSkill
                 setSkill={skill => createGive(skill)}
-                placeholder={'Choose a GIVE Reason'}
+                placeholder={'Or Support a Skill with GIVE...'}
                 targetProfileId={targetProfileId}
                 trigger={
                   <>
@@ -255,7 +254,7 @@ export const PickOneSkill = ({
             onSelect={() => setSkill(undefined)}
           >
             <Button
-              color="cta"
+              color="complete"
               size="small"
               css={{
                 width: '100%',
@@ -270,9 +269,6 @@ export const PickOneSkill = ({
               >
                 <Text>
                   <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE
-                </Text>
-                <Text size="small" css={{ opacity: 0.6, fontStyle: 'italic' }}>
-                  no particular reason
                 </Text>
               </Flex>
             </Button>

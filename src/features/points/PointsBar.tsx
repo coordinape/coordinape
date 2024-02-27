@@ -128,7 +128,7 @@ export const PointsBar = ({ open = false }: { open?: boolean }) => {
           <Flex column css={{ width: '100%', gap: '$sm' }}>
             <Text semibold>
               {showInfo && <GemCoFill fa size="lg" css={{ mr: '$xs' }} />}
-              GIVE
+              GIVE Bar
               {!open && (
                 <IconButton onClick={() => setShowInfo(prev => !prev)}>
                   <InfoCircledIcon />
