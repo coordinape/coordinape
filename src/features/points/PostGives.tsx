@@ -34,9 +34,9 @@ export const PostGives = ({
   const sortedGives = groupAndSortGive(gives);
   return (
     <>
-      <Flex css={{ gap: '$sm' }}>
+      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
         {sortedGives.map(g => (
-          <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
+          <Flex key={`give_${g.skill}`} css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Popover>
               <PopoverTrigger css={{ cursor: 'pointer' }}>
                 <Text
@@ -95,7 +95,7 @@ export const PostGives = ({
                 >
                   {g.skill}
                 </AppLink>
-                <Flex column css={{ gap: '$sm', flexWrap: 'wrap' }}>
+                <Flex column css={{ gap: '$sm' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
                     .map((give, index) => (
