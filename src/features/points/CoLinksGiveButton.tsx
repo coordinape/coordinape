@@ -173,7 +173,7 @@ export const CoLinksGiveButton = ({
               backgroundImage: "url('/imgs/background/colink-give.jpg')",
             }}
           />
-          <Flex column css={{ alignItems: 'flex-start', gap: '$md', p: '$lg' }}>
+          <Flex column css={{ gap: '$md', p: '$lg' }}>
             <Text h1 semibold>
               <GemCoFill fa size="xl" css={{ mr: '$sm' }} />
               So, you want to send a GIVE?
