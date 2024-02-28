@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Command } from 'cmdk';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
@@ -9,7 +11,7 @@ import useProfileId from '../../hooks/useProfileId';
 import { GemCoFill, GemCoFillSm, User, Zap } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, Text } from '../../ui';
+import { Button, Flex, Modal, Text } from '../../ui';
 import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
@@ -40,6 +42,15 @@ export const CoLinksGiveButton = ({
   const myGive = gives.find(
     give => give.giver_profile_public?.id === profileId
   );
+
+  const dismissibleAs = `banner:colinks_give_intro`;
+
+  const [showBanner, setShowBanner] = useState(false);
+
+  const showModalOneTime = () => {
+    setShowBanner(!window.localStorage.getItem(dismissibleAs));
+    window.localStorage.setItem(dismissibleAs, 'hidden');
+  };
 
   const createGiveMutation = (skill: string | undefined) => {
     return client.mutate(
@@ -118,6 +129,7 @@ export const CoLinksGiveButton = ({
                   <>
                     <Button
                       as="span"
+                      onClick={showModalOneTime}
                       noPadding
                       color="secondary"
                       css={{
@@ -137,6 +149,47 @@ export const CoLinksGiveButton = ({
           </>
         )}
       </Flex>
+      {showBanner && (
+        <Modal
+          open={true}
+          onOpenChange={() => setShowBanner(false)}
+          css={{ maxWidth: '540px', p: 0, border: 'none' }}
+        >
+          <Flex
+            className="art"
+            onClick={() => setShowBanner(false)}
+            css={{
+              flexGrow: 1,
+              height: '100%',
+              width: '100%',
+              minHeight: '280px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+              backgroundImage: "url('/imgs/background/colink-give.jpg')",
+            }}
+          />
+          <Flex column css={{ alignItems: 'flex-start', gap: '$md', p: '$lg' }}>
+            <Text h1 semibold>
+              <GemCoFill fa size="xl" css={{ mr: '$sm' }} />
+              So, you want to send a GIVE?
+            </Text>
+            <Text>
+              Yes please! GIVE is a scarce, off-chain signaling mechanism, which
+              you accrue over time.
+            </Text>
+            <Text semibold>
+              You can use your GIVE in CoLinks by allocating to a post, to
+              signal support for ideas and skills.
+            </Text>
+            <Text>
+              GIVE you send will become an element of CoSouls&apos; onchain
+              reputation.
+            </Text>
+            <Button onClick={() => setShowBanner(false)}>Got it!</Button>
+          </Flex>
+        </Modal>
+      )}
     </>
   );
 };
