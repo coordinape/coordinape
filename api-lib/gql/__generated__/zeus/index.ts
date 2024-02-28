@@ -25444,6 +25444,52 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    colinks_gives?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_gives_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
@@ -25690,6 +25736,11 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    colinks_gives?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+    colinks_gives_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -25733,6 +25784,10 @@ export type ValueTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
+    colinks_gives?:
+      | ValueTypes['colinks_gives_arr_rel_insert_input']
+      | undefined
+      | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
@@ -25802,6 +25857,10 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    colinks_gives_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
@@ -31074,52 +31133,8 @@ export type ValueTypes = {
     count?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
-    profile_skills?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['profile_skills_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['profile_skills_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
-      },
-      ValueTypes['profile_skills'],
-    ];
-    profile_skills_aggregate?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['profile_skills_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['profile_skills_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
-      },
-      ValueTypes['profile_skills_aggregate'],
-    ];
+    /** An object relationship */
+    profile_skills?: ValueTypes['profile_skills'];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -31164,10 +31179,6 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
-    profile_skills_aggregate?:
-      | ValueTypes['profile_skills_aggregate_bool_exp']
-      | undefined
-      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** unique or primary key constraints on table "skills" */
@@ -31182,7 +31193,7 @@ export type ValueTypes = {
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     profile_skills?:
-      | ValueTypes['profile_skills_arr_rel_insert_input']
+      | ValueTypes['profile_skills_obj_rel_insert_input']
       | undefined
       | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -31228,10 +31239,7 @@ export type ValueTypes = {
     count?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
-    profile_skills_aggregate?:
-      | ValueTypes['profile_skills_aggregate_order_by']
-      | undefined
-      | null;
+    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: skills */
@@ -50421,6 +50429,10 @@ export type ModelTypes = {
   ['profiles_public']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An array relationship */
+    colinks_gives: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -50740,9 +50752,9 @@ export type ModelTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table: "colinks_gives" */
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
-    /** fetch aggregated fields from the table: "colinks_gives" */
+    /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** fetch data from the table: "colinks_gives" using primary key columns */
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
@@ -51779,10 +51791,8 @@ export type ModelTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An array relationship */
-    profile_skills: Array<GraphQLTypes['profile_skills']>;
-    /** An aggregate relationship */
-    profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "skills" */
@@ -51973,9 +51983,9 @@ export type ModelTypes = {
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
-    /** fetch data from the table: "colinks_gives" */
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
-    /** fetch aggregated fields from the table: "colinks_gives" */
+    /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** fetch data from the table: "colinks_gives" using primary key columns */
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
@@ -73062,6 +73072,10 @@ export type GraphQLTypes = {
     __typename: 'profiles_public';
     address?: string | undefined;
     avatar?: string | undefined;
+    /** An array relationship */
+    colinks_gives: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
@@ -73132,6 +73146,10 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    colinks_gives?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_gives_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -73163,6 +73181,9 @@ export type GraphQLTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    colinks_gives?:
+      | GraphQLTypes['colinks_gives_arr_rel_insert_input']
+      | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
@@ -73224,6 +73245,9 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    colinks_gives_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
@@ -73589,9 +73613,9 @@ export type GraphQLTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
-    /** fetch data from the table: "colinks_gives" */
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
-    /** fetch aggregated fields from the table: "colinks_gives" */
+    /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** fetch data from the table: "colinks_gives" using primary key columns */
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
@@ -75140,10 +75164,8 @@ export type GraphQLTypes = {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
     name: GraphQLTypes['citext'];
-    /** An array relationship */
-    profile_skills: Array<GraphQLTypes['profile_skills']>;
-    /** An aggregate relationship */
-    profile_skills_aggregate: GraphQLTypes['profile_skills_aggregate'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "skills" */
@@ -75181,9 +75203,6 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
-    profile_skills_aggregate?:
-      | GraphQLTypes['profile_skills_aggregate_bool_exp']
-      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** unique or primary key constraints on table "skills" */
@@ -75198,7 +75217,7 @@ export type GraphQLTypes = {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     profile_skills?:
-      | GraphQLTypes['profile_skills_arr_rel_insert_input']
+      | GraphQLTypes['profile_skills_obj_rel_insert_input']
       | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -75243,9 +75262,7 @@ export type GraphQLTypes = {
     count?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
-    profile_skills_aggregate?:
-      | GraphQLTypes['profile_skills_aggregate_order_by']
-      | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: skills */
@@ -75410,9 +75427,9 @@ export type GraphQLTypes = {
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
-    /** fetch data from the table: "colinks_gives" */
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
-    /** fetch aggregated fields from the table: "colinks_gives" */
+    /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     /** fetch data from the table: "colinks_gives" using primary key columns */
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
