@@ -169,8 +169,8 @@ export const GiveReceived = ({
               alignItems: 'flex-start',
             }}
           >
-            {sortedGives.map(g => (
-              <Flex key={`give_${g.skill}`}>
+            {sortedGives.map((g, i) => (
+              <Flex key={`give_${g.skill}_${i}`}>
                 <Popover>
                   <PopoverTrigger
                     css={{
