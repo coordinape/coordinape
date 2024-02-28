@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, Text } from '../../ui';
+import isFeatureEnabled from 'config/features';
 import { CertificateLight, Links } from 'icons/__generated';
 
 export const CoLinksStats = ({
@@ -80,7 +81,9 @@ export const CoLinksStats = ({
           {abbreviateNumber(links ?? 0)}
         </Text>
       </Text>
-      {address && <GiveReceived size={size} address={address} />}
+      {isFeatureEnabled('colinks_give') && address && (
+        <GiveReceived size={size} address={address} />
+      )}
       {holdingCount > 0 && (
         <Text tag size="xs" color="cta">
           You Hold {holdingCount}
