@@ -36487,6 +36487,66 @@ type profiles_public {
   avatar: String
 
   """
+  An array relationship
+  """
+  colinks_gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
   An object relationship
   """
   cosoul: cosouls
@@ -36792,6 +36852,8 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  colinks_gives: colinks_gives_bool_exp
+  colinks_gives_aggregate: colinks_gives_aggregate_bool_exp
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
@@ -36820,6 +36882,7 @@ input type for inserting data into table "profiles_public"
 input profiles_public_insert_input {
   address: String
   avatar: String
+  colinks_gives: colinks_gives_arr_rel_insert_input
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
   description: String
@@ -36887,6 +36950,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  colinks_gives_aggregate: colinks_gives_aggregate_order_by
   cosoul: cosouls_order_by
   created_at: order_by
   description: order_by
@@ -38393,7 +38457,7 @@ type query_root {
   claims_by_pk(id: bigint!): claims
 
   """
-  fetch data from the table: "colinks_gives"
+  An array relationship
   """
   colinks_gives(
     """
@@ -38423,7 +38487,7 @@ type query_root {
   ): [colinks_gives!]!
 
   """
-  fetch aggregated fields from the table: "colinks_gives"
+  An aggregate relationship
   """
   colinks_gives_aggregate(
     """
@@ -44490,64 +44554,9 @@ type skills {
   name: citext!
 
   """
-  An array relationship
+  An object relationship
   """
-  profile_skills(
-    """
-    distinct select on columns
-    """
-    distinct_on: [profile_skills_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [profile_skills_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: profile_skills_bool_exp
-  ): [profile_skills!]!
-
-  """
-  An aggregate relationship
-  """
-  profile_skills_aggregate(
-    """
-    distinct select on columns
-    """
-    distinct_on: [profile_skills_select_column!]
-
-    """
-    limit the number of rows returned
-    """
-    limit: Int
-
-    """
-    skip the first n rows. Use only with order_by
-    """
-    offset: Int
-
-    """
-    sort the rows by one or more columns
-    """
-    order_by: [profile_skills_order_by!]
-
-    """
-    filter the rows returned
-    """
-    where: profile_skills_bool_exp
-  ): profile_skills_aggregate!
+  profile_skills: profile_skills
   updated_at: timestamptz!
 }
 
@@ -44594,7 +44603,6 @@ input skills_bool_exp {
   created_at: timestamptz_comparison_exp
   name: citext_comparison_exp
   profile_skills: profile_skills_bool_exp
-  profile_skills_aggregate: profile_skills_aggregate_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -44622,7 +44630,7 @@ input skills_insert_input {
   count: Int
   created_at: timestamptz
   name: citext
-  profile_skills: profile_skills_arr_rel_insert_input
+  profile_skills: profile_skills_obj_rel_insert_input
   updated_at: timestamptz
 }
 
@@ -44689,7 +44697,7 @@ input skills_order_by {
   count: order_by
   created_at: order_by
   name: order_by
-  profile_skills_aggregate: profile_skills_aggregate_order_by
+  profile_skills: profile_skills_order_by
   updated_at: order_by
 }
 
@@ -45783,7 +45791,7 @@ type subscription_root {
   ): [claims!]!
 
   """
-  fetch data from the table: "colinks_gives"
+  An array relationship
   """
   colinks_gives(
     """
@@ -45813,7 +45821,7 @@ type subscription_root {
   ): [colinks_gives!]!
 
   """
-  fetch aggregated fields from the table: "colinks_gives"
+  An aggregate relationship
   """
   colinks_gives_aggregate(
     """

@@ -11,6 +11,7 @@ export const enum Tab {
   PROFILES,
   INTERESTS,
   REPLIES,
+  MOST_GIVE,
 }
 
 const TabButton = ({

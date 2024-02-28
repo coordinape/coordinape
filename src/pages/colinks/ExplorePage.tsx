@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { LeaderboardMostGive } from 'features/colinks/LeaderboardMostGive';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
@@ -34,6 +35,7 @@ export const ExplorePage = () => {
   const TabMostLinks = makeTab(Tab.MOST_LINKS, 'Most Links');
   const TabHoldingMost = makeTab(Tab.MOST_HOLDING, 'Holding Most Links');
   const TabHighestRepScore = makeTab(Tab.MOST_REPUTABLE, 'Highest Rep Score');
+  const TabMostGive = makeTab(Tab.MOST_GIVE, 'Most Give');
 
   return (
     <SingleColumnLayout>
@@ -75,6 +77,7 @@ export const ExplorePage = () => {
                 <TabMostLinks />
                 <TabHoldingMost />
                 <TabHighestRepScore />
+                <TabMostGive />
               </Flex>
               <Flex css={{ justifyContent: 'flex-end', flexShrink: 0 }}>
                 <TabLink currentTab={currentTab} />
@@ -107,6 +110,14 @@ export const ExplorePage = () => {
             {currentTab === Tab.MOST_REPUTABLE && (
               <Flex column css={{ gap: '$md' }}>
                 <LeaderboardRepScore limit={5} />
+                <Flex column css={{ alignItems: 'flex-end' }}>
+                  <TabLink currentTab={currentTab} />
+                </Flex>
+              </Flex>
+            )}
+            {currentTab === Tab.MOST_GIVE && (
+              <Flex column css={{ gap: '$md' }}>
+                <LeaderboardMostGive limit={5} />
                 <Flex column css={{ alignItems: 'flex-end' }}>
                   <TabLink currentTab={currentTab} />
                 </Flex>
