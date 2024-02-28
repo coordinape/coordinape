@@ -36,7 +36,7 @@ export const PostGives = ({
     <>
       <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
         {sortedGives.map(g => (
-          <Flex key={`give_${g.skill}`} css={{ gap: '$md', flexWrap: 'wrap' }}>
+          <Flex key={g.skill} css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Popover>
               <PopoverTrigger css={{ cursor: 'pointer' }}>
                 <Text
@@ -99,32 +99,33 @@ export const PostGives = ({
                 <Flex column css={{ gap: '$sm' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
-                    .map((give, index) => (
-                      <Flex
-                        key={`skill_${g.skill}_${index}`}
-                        css={{ alignItems: 'center', gap: '$sm' }}
-                      >
-                        {give.giver_profile_public && (
-                          <>
-                            <ActivityAvatar
-                              size="xs"
-                              profile={give.giver_profile_public}
-                            />
-                            <Text
-                              size="small"
-                              semibold
-                              css={{ textDecoration: 'none' }}
-                              as={NavLink}
-                              to={coLinksPaths.profile(
-                                give.giver_profile_public.address || ''
-                              )}
-                            >
-                              {give.giver_profile_public?.name}
-                            </Text>
-                          </>
-                        )}
-                      </Flex>
-                    ))}
+                    .map(
+                      give =>
+                        give.giver_profile_public && (
+                          <Flex
+                            key={give.giver_profile_public.address}
+                            css={{ alignItems: 'center', gap: '$sm' }}
+                          >
+                            <>
+                              <ActivityAvatar
+                                size="xs"
+                                profile={give.giver_profile_public}
+                              />
+                              <Text
+                                size="small"
+                                semibold
+                                css={{ textDecoration: 'none' }}
+                                as={NavLink}
+                                to={coLinksPaths.profile(
+                                  give.giver_profile_public.address || ''
+                                )}
+                              >
+                                {give.giver_profile_public?.name}
+                              </Text>
+                            </>
+                          </Flex>
+                        )
+                    )}
                 </Flex>
               </PopoverContent>
             </Popover>
