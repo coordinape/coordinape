@@ -95,30 +95,32 @@ export const PostGives = ({
                 <Flex column css={{ gap: '$sm' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
-                    .map((give, index) => (
-                      <>
-                        {give.giver_profile_public && (
-                          <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-                            <ActivityAvatar
-                              size="xs"
-                              profile={give.giver_profile_public}
-                            />
-                            <Text
-                              size="small"
-                              semibold
-                              css={{ textDecoration: 'none' }}
-                              as={NavLink}
-                              to={coLinksPaths.profile(
-                                give.giver_profile_public.address || ''
-                              )}
-                              key={index}
-                            >
-                              {give.giver_profile_public?.name}
-                            </Text>
-                          </Flex>
-                        )}
-                      </>
-                    ))}
+                    .map((give, index) =>
+                      give.giver_profile_public ? (
+                        <Flex
+                          key={`${give.id}`}
+                          css={{ alignItems: 'center', gap: '$sm' }}
+                        >
+                          XX
+                          <ActivityAvatar
+                            size="xs"
+                            profile={give.giver_profile_public}
+                          />
+                          <Text
+                            size="small"
+                            semibold
+                            css={{ textDecoration: 'none' }}
+                            as={NavLink}
+                            to={coLinksPaths.profile(
+                              give.giver_profile_public.address || ''
+                            )}
+                            key={index}
+                          >
+                            {give.giver_profile_public?.name}
+                          </Text>
+                        </Flex>
+                      ) : null
+                    )}
                 </Flex>
               </PopoverContent>
             </Popover>
