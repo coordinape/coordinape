@@ -13,6 +13,7 @@ import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTra
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
+import isFeatureEnabled from 'config/features';
 import { BarChart, ToolsFill } from 'icons/__generated';
 
 import { Skills } from './explore/Skills';
@@ -77,7 +78,7 @@ export const ExplorePage = () => {
                 <TabMostLinks />
                 <TabHoldingMost />
                 <TabHighestRepScore />
-                <TabMostGive />
+                {isFeatureEnabled('colinks_give') && <TabMostGive />}
               </Flex>
               <Flex css={{ justifyContent: 'flex-end', flexShrink: 0 }}>
                 <TabLink currentTab={currentTab} />
