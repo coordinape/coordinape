@@ -175,8 +175,8 @@ export const CoLinksGiveButton = ({
               So, you want to send a GIVE?
             </Text>
             <Text>
-              Yes please! GIVE is a scarce, off-chain signaling mechanism, which
-              you accrue over time.
+              Yes please! GIVE is a scarce signaling mechanism which you accrue
+              over time.
             </Text>
             <Text semibold>
               You can use your GIVE in CoLinks by allocating to a post, to
