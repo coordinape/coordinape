@@ -7,11 +7,13 @@ import { Box } from '../ui';
 export const ComboBox = ({
   children,
   fullScreen = false,
+  giveSkillSelector = false,
   css,
   ...props
 }: {
   children: React.ReactNode;
   fullScreen?: boolean;
+  giveSkillSelector?: boolean;
   css?: CSS;
 } & React.ComponentProps<typeof Command>) => {
   const Container = styled(Box, {
@@ -29,7 +31,12 @@ export const ComboBox = ({
             // boxShadow: '$heavy',
             borderRadius: 0,
           }
-        : { borderColor: '$borderFocus', borderRadius: '$3' }),
+        : giveSkillSelector
+          ? {
+              borderColor: 'transparent',
+              borderRadius: '$3',
+            }
+          : { borderColor: '$borderFocus', borderRadius: '$3' }),
     },
     '[cmdk-input]': {
       borderRadius: 0,
@@ -50,7 +57,22 @@ export const ComboBox = ({
             fontSize: '$h2',
           }
         : { p: 'calc($sm - 1px) $sm', fontSize: '$medium' }),
-
+      ...(giveSkillSelector && {
+        m: '$md $md 0',
+        background: '$formInputBackground',
+        padding: '$sm',
+        border: '1px solid $formInputBorder',
+        '&:focus': {
+          borderColor: '$formInputBorderFocus',
+        },
+        fontWeight: '$normal',
+        fontSize: '$medium',
+        lineHeight: '1',
+        display: 'flex',
+        flexDirection: 'row',
+        borderRadius: '$3',
+        width: 'calc(100% - $md - $md)',
+      }),
       '&::placeholder': {
         color: '$formInputPlaceholder',
       },
@@ -111,6 +133,21 @@ export const ComboBox = ({
         height: '16px',
         color: '$text',
       },
+      ...(giveSkillSelector && {
+        borderRadius: '$4 !important',
+        height: '$xl',
+        color: '$tagSuccessText',
+        backgroundColor: '$tagSuccessBackground',
+        border: '1px solid $tagSuccessText',
+        '&:not(button)': {
+          '&:hover, &[data-selected="true"]': {
+            backgroundColor: '$tagSuccessText',
+            '*': {
+              color: '$tagSuccessBackground',
+            },
+          },
+        },
+      }),
     },
 
     '[cmdk-list]': {
@@ -132,6 +169,9 @@ export const ComboBox = ({
             height: '100%',
             maxHeight: '200px',
           }),
+      ...(giveSkillSelector && {
+        p: '$md',
+      }),
     },
 
     '[cmdk-list-sizer]': {

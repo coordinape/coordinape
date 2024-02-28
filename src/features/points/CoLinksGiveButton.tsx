@@ -6,7 +6,12 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemCoFill, GemCoFillSm, User, Zap } from '../../icons/__generated';
+import {
+  GemCoFill,
+  GemCoFillSm,
+  Plus,
+  UserFill,
+} from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Text } from '../../ui';
@@ -99,20 +104,19 @@ export const CoLinksGiveButton = ({
                 css={{
                   pointerEvents: 'none',
                   cursor: 'default',
-                  p: '3px 5px',
+                  p: '5px 5px 6px',
                   background: 'linear-gradient(.33turn, $cta 23%, $complete)',
                   boxShadow: '#1e00312e -2px -2px 7px 1px inset',
                 }}
               >
                 <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
                   <GemCoFill fa size="xl" />
-                  <Text size="xs">GIVE</Text>
                 </Flex>
               </Button>
             ) : (
               <PickOneSkill
                 setSkill={skill => createGive(skill)}
-                placeholder={'Choose a GIVE Reason'}
+                placeholder={'Or Support a Skill with GIVE...'}
                 targetProfileId={targetProfileId}
                 trigger={
                   <>
@@ -204,6 +208,7 @@ export const PickOneSkill = ({
 
   return (
     <SkillComboBox
+      giveSkillSelector
       excludeSkills={[]}
       addSkill={async (skill: string) => {
         setSkill(skill);
@@ -211,46 +216,65 @@ export const PickOneSkill = ({
       placeholder={placeholder}
       trigger={trigger}
       sortSkills={sortSkills}
-      customRender={(skill, count) => (
+      popoverCss={{ mt: -56 }}
+      customRender={skill => (
         <Flex
           css={{
             justifyContent: 'space-between',
             width: '100%',
+            '*': { color: '$tagSuccessText' },
           }}
         >
-          <Text semibold>{skill}</Text>
-          {/*TODO: @wingfeatherwave make this whole thing pretty */}
-          {profile_skills.some(ps => ps.skill_name === skill) ? (
-            <Text tag color={'complete'} size={'xs'}>
-              <Zap /> &nbsp;
-            </Text>
-          ) : (
-            <Text tag color={'secondary'} size={'xs'}>
-              <User /> {count}
-            </Text>
+          <Text semibold>
+            <Plus css={{ mr: '$xs' }} />
+            <GemCoFillSm fa css={{ mr: '$xs' }} />
+            {skill}
+          </Text>
+          {profile_skills.some(ps => ps.skill_name === skill) && (
+            <UserFill fa />
           )}
         </Flex>
       )}
-      extraItems={[
-        <Command.Item
-          color={'cta'}
+      prependedItems={[
+        <Flex
           key={'noskill'}
-          value={'noskill'}
-          onSelect={() => setSkill(undefined)}
-        >
-          <Flex
-            css={{
-              justifyContent: 'space-between',
+          css={{
+            '[cmdk-item]': {
+              p: 0,
               width: '100%',
-              gap: '$lg',
-            }}
+              height: 'auto',
+              background: 'transparent !important',
+              border: 'none',
+            },
+          }}
+        >
+          <Command.Item
+            color={'cta'}
+            value={'noskill'}
+            onSelect={() => setSkill(undefined)}
           >
-            <Text semibold>
-              <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE - no particular
-              skill
-            </Text>
-          </Flex>
-        </Command.Item>,
+            <Button
+              color="complete"
+              size="small"
+              css={{
+                width: '100%',
+                height: 'auto',
+                maxHeight: 'none',
+                '*:not(svg)': { color: '$tagSuccessBackground' },
+                svg: { color: 'currentColor' },
+              }}
+            >
+              <Flex
+                column
+                css={{ alignItems: 'center', width: '100%', gap: '$xs' }}
+              >
+                <Text>
+                  <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE
+                </Text>
+              </Flex>
+            </Button>
+          </Command.Item>
+        </Flex>,
       ]}
     />
   );

@@ -128,7 +128,7 @@ export const PointsBar = ({ open = false }: { open?: boolean }) => {
           <Flex column css={{ width: '100%', gap: '$sm' }}>
             <Text semibold>
               {showInfo && <GemCoFill fa size="lg" css={{ mr: '$xs' }} />}
-              GIVE
+              GIVE Bar
               {!open && (
                 <IconButton onClick={() => setShowInfo(prev => !prev)}>
                   <InfoCircledIcon />
@@ -139,7 +139,7 @@ export const PointsBar = ({ open = false }: { open?: boolean }) => {
               <Flex column css={{ mb: '$sm', gap: '$md' }}>
                 <Text inline size="small">
                   GIVE is a scarce thing that is more powerful than an emoji
-                  reaction. You can allocate them to members via Posts to
+                  reaction. You can allocate GIVE to members via Posts to
                   support ideas, skills and signal value.
                 </Text>
                 <Text inline size="small">

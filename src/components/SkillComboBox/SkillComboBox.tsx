@@ -3,6 +3,7 @@ import { useRef, useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
 import { useQuery } from 'react-query';
+import { CSS } from 'stitches.config';
 
 import { User } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
@@ -42,9 +43,12 @@ type SkillComboBoxProps = {
   addSkill(skill: string): Promise<void>;
   defaultOpen?: boolean;
   trigger?: React.ReactNode;
+  prependedItems?: React.ReactNode[];
   extraItems?: React.ReactNode[];
   customRender?(skill: string, count: number): React.ReactNode;
   sortSkills?(a: Skill, b: Skill): number;
+  popoverCss?: CSS;
+  giveSkillSelector?: boolean;
 };
 
 export const SkillComboBox = ({
@@ -53,9 +57,12 @@ export const SkillComboBox = ({
   defaultOpen = false,
   placeholder = 'Search or Add Interest',
   trigger,
+  prependedItems,
   extraItems,
   customRender,
   sortSkills,
+  popoverCss,
+  giveSkillSelector = false,
 }: SkillComboBoxProps) => {
   const fetchSkillsSorted = async () => {
     if (sortSkills) {
@@ -115,9 +122,11 @@ export const SkillComboBox = ({
           background: 'transparent',
           mt: 'calc(-$1xl + 0.5px)',
           p: 0,
+          ...popoverCss,
         }}
       >
         <ComboBox
+          giveSkillSelector={giveSkillSelector}
           filter={(value, search) => {
             if (value == search.toLowerCase()) {
               return 1;
@@ -125,6 +134,30 @@ export const SkillComboBox = ({
             return 0;
           }}
         >
+          {!isLoading && (
+            <>
+              {giveSkillSelector && prependedItems?.length ? (
+                <Flex
+                  column
+                  key={'header'}
+                  css={{
+                    width: '100%',
+                    p: '$md $md 0',
+                    gap: '$sm',
+                  }}
+                >
+                  <Text variant="label" size="small">
+                    GIVE to show your appreciation
+                  </Text>
+                  <Command.Group>
+                    {prependedItems?.map(item => item)}
+                  </Command.Group>
+                </Flex>
+              ) : (
+                <>{prependedItems?.map(item => item)}</>
+              )}
+            </>
+          )}
           <Command.Input
             className="clickProtect"
             ref={inputRef}
@@ -146,13 +179,7 @@ export const SkillComboBox = ({
                   allSkills={skills}
                 />
 
-                <Command.Group
-                  heading={
-                    <Text semibold color="neutral" size={'xs'}>
-                      Choose an Optional Skill Vector
-                    </Text>
-                  }
-                >
+                <Command.Group>
                   {skills
                     .filter(
                       sk =>
@@ -237,7 +264,16 @@ const AddItem = ({
         css={{ justifyContent: 'space-between', width: '100%', gap: '$lg' }}
       >
         <Text>Be the First to Add</Text>
-        <Text tag color={'complete'} semibold size={'medium'}>
+        <Text
+          tag
+          color={'complete'}
+          semibold
+          size={'medium'}
+          css={{
+            background: 'transparent',
+            border: '1px solid $tagSuccessBackground',
+          }}
+        >
           {search}
         </Text>
       </Flex>
