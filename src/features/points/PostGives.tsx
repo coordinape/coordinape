@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import useProfileId from '../../hooks/useProfileId';
 import {
+  AppLink,
   Flex,
   IconButton,
   Popover,
@@ -33,9 +34,9 @@ export const PostGives = ({
   const sortedGives = groupAndSortGive(gives);
   return (
     <>
-      <Flex css={{ gap: '$sm' }}>
+      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
         {sortedGives.map(g => (
-          <Flex key={`give_${g.skill}`} css={{ gap: '$md' }}>
+          <Flex key={g.skill} css={{ gap: '$md', flexWrap: 'wrap' }}>
             <Popover>
               <PopoverTrigger css={{ cursor: 'pointer' }}>
                 <Text
@@ -65,6 +66,7 @@ export const PostGives = ({
                     give => give.giver_profile_public?.id === profileId
                   ) && (
                     <IconButton
+                      as="span"
                       onClick={() => clearSkill()}
                       css={{ pr: '$sm', width: 'auto' }}
                     >
@@ -81,44 +83,49 @@ export const PostGives = ({
                   p: '$sm $sm',
                 }}
               >
-                <Text
-                  variant="label"
+                <AppLink
+                  to={coLinksPaths.exploreSkill(g.skill)}
                   css={{
+                    fontSize: '$small',
                     color: '$complete',
+                    fontWeight: '$semibold',
                     borderBottom: '0.5px solid $border',
                     pb: '$xs',
                     mb: '$sm',
                   }}
                 >
                   {g.skill}
-                </Text>
+                </AppLink>
                 <Flex column css={{ gap: '$sm' }}>
                   {g.gives
                     .filter(give => give.giver_profile_public?.name)
-                    .map((give, index) => (
-                      <>
-                        {give.giver_profile_public && (
-                          <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-                            <ActivityAvatar
-                              size="xs"
-                              profile={give.giver_profile_public}
-                            />
-                            <Text
-                              size="small"
-                              semibold
-                              css={{ textDecoration: 'none' }}
-                              as={NavLink}
-                              to={coLinksPaths.profile(
-                                give.giver_profile_public.address || ''
-                              )}
-                              key={index}
-                            >
-                              {give.giver_profile_public?.name}
-                            </Text>
+                    .map(
+                      give =>
+                        give.giver_profile_public && (
+                          <Flex
+                            key={give.giver_profile_public.address}
+                            css={{ alignItems: 'center', gap: '$sm' }}
+                          >
+                            <>
+                              <ActivityAvatar
+                                size="xs"
+                                profile={give.giver_profile_public}
+                              />
+                              <Text
+                                size="small"
+                                semibold
+                                css={{ textDecoration: 'none' }}
+                                as={NavLink}
+                                to={coLinksPaths.profile(
+                                  give.giver_profile_public.address || ''
+                                )}
+                              >
+                                {give.giver_profile_public?.name}
+                              </Text>
+                            </>
                           </Flex>
-                        )}
-                      </>
-                    ))}
+                        )
+                    )}
                 </Flex>
               </PopoverContent>
             </Popover>

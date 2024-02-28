@@ -112,6 +112,9 @@ export const PostRow = ({
                 },
               },
             },
+            '@sm': {
+              p: '$sm',
+            },
           }}
         >
           <ActivityAvatar profile={activity.actor_profile_public} />

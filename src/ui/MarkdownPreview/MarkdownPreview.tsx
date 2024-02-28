@@ -52,7 +52,7 @@ const StyledMarkdownPreview = styled(ReactMarkdownPreview, {
   img: {
     display: 'block',
     maxHeight: '500px',
-    my: '$xs',
+    my: 0,
   },
   'h1, h2, h3, h4, h5, p, ul, ol': {
     mb: '0 !important',
