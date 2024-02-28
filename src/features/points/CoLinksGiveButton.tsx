@@ -21,6 +21,8 @@ import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
 
+const DISMISSIBLE_AS = `banner:colinks_give_intro`;
+
 export const CoLinksGiveButton = ({
   activityId,
   targetProfileId,
@@ -48,13 +50,15 @@ export const CoLinksGiveButton = ({
     give => give.giver_profile_public?.id === profileId
   );
 
-  const dismissibleAs = `banner:colinks_give_intro`;
-
   const [showBanner, setShowBanner] = useState(false);
 
-  const showModalOneTime = () => {
-    setShowBanner(!window.localStorage.getItem(dismissibleAs));
-    window.localStorage.setItem(dismissibleAs, 'hidden');
+  const shouldShowModal = () => {
+    setShowBanner(!window.localStorage.getItem(DISMISSIBLE_AS));
+  };
+
+  const dismissModal = () => {
+    setShowBanner(false);
+    window.localStorage.setItem(DISMISSIBLE_AS, 'hidden');
   };
 
   const createGiveMutation = (skill: string | undefined) => {
@@ -133,7 +137,7 @@ export const CoLinksGiveButton = ({
                   <>
                     <Button
                       as="span"
-                      onClick={showModalOneTime}
+                      onClick={shouldShowModal}
                       noPadding
                       color="secondary"
                       css={{
@@ -156,12 +160,12 @@ export const CoLinksGiveButton = ({
       {showBanner && (
         <Modal
           open={true}
-          onOpenChange={() => setShowBanner(false)}
+          onOpenChange={dismissModal}
           css={{ maxWidth: '540px', p: 0, border: 'none' }}
         >
           <Flex
             className="art"
-            onClick={() => setShowBanner(false)}
+            onClick={dismissModal}
             css={{
               flexGrow: 1,
               height: '100%',
@@ -190,7 +194,7 @@ export const CoLinksGiveButton = ({
               GIVE you send will become an element of CoSouls&apos; onchain
               reputation.
             </Text>
-            <Button onClick={() => setShowBanner(false)}>Got it!</Button>
+            <Button onClick={dismissModal}>Got it!</Button>
           </Flex>
         </Modal>
       )}
