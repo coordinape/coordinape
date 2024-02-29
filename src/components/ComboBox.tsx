@@ -106,7 +106,7 @@ export const ComboBox = ({
         background: '$surfaceNested',
         borderRadius: '$2',
         svg: {
-          color: '$text',
+          color: 'currentColor',
         },
         '&[data-disabled="true"]': {
           backgroundColor: '$surface',
@@ -131,7 +131,7 @@ export const ComboBox = ({
       svg: {
         width: '16px',
         height: '16px',
-        color: '$text',
+        color: 'currentColor',
       },
       ...(giveSkillSelector && {
         p: 0,

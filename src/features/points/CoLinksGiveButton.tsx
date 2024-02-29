@@ -292,11 +292,10 @@ export const PickOneSkill = ({
               alignItems: 'center',
               px: '$sm',
               border: '1px solid',
-              '.skillWrapper, .skillWrapper *': { color: '$tagSuccessText' },
+              color: '$tagSuccessText',
               ...(skillOnProfile
                 ? {
                     borderColor: '$tagSuccessText',
-                    color: '$tagSuccessText',
                     backgroundColor: '$tagSuccessBackground',
                   }
                 : {
@@ -306,14 +305,12 @@ export const PickOneSkill = ({
               '&:not(button)': {
                 '&:hover, &[data-selected="true"]': {
                   backgroundColor: '$tagSuccessText',
-                  '.skillWrapper, .skillWrapper *': {
-                    color: '$tagSuccessBackground',
-                  },
+                  color: '$tagSuccessBackground',
                 },
               },
             }}
           >
-            <Text semibold className="skillWrapper">
+            <Text semibold>
               <Plus css={{ mr: '$xs' }} />
               <GemCoOutline fa css={{ mr: '$xs' }} />
               {skill}
@@ -349,8 +346,6 @@ export const PickOneSkill = ({
                 width: '100%',
                 height: 'auto',
                 maxHeight: 'none',
-                '*:not(svg)': { color: '$successButtonText' },
-                svg: { color: 'currentColor' },
               }}
             >
               <Flex
