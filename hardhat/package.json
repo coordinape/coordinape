@@ -49,7 +49,7 @@
     "typescript": "4.4.3"
   },
   "dependencies": {
-    "@openzeppelin/contracts-upgradeable": "^4.9.2",
+    "@openzeppelin/contracts-upgradeable": "^4.9.6",
     "hardhat": "^2.19.4",
     "tsx": "^4.7.0"
   },
