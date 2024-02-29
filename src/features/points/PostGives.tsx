@@ -58,7 +58,6 @@ export const PostGives = ({
                         css={{ fontWeight: 'normal' }}
                       >{`+${g.count}`}</Text>
                       <GemCoOutline fa size={'md'} /> {g.skill}
-                      {/* <GemCoOutline fa size={'md'} /> {g.skill} */}
                     </>
                   ) : (
                     <>

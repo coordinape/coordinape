@@ -146,10 +146,6 @@ export const CoLinksGiveButton = ({
                         minHeight: 0,
                         fontSize: '$small',
                         borderRadius: '4px',
-                        '&:hover': {
-                          // background: '$cta !important',
-                          // color: '$textOnCta !important',
-                        },
                       }}
                     >
                       <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
