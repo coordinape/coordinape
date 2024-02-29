@@ -234,12 +234,10 @@ export const PostRow = ({
                       reactions={activity.reactions}
                       drawer={false}
                     />
-                    {isFeatureEnabled('colinks_give') && (
-                      <PostGives
-                        gives={activity.gives}
-                        clearSkill={() => deleteGive()}
-                      />
-                    )}
+                    <PostGives
+                      gives={activity.gives}
+                      clearSkill={() => deleteGive()}
+                    />
                   </Flex>
                   <Flex css={{ alignItems: 'center', gap: '$sm' }}>
                     <CoLinksGiveButton
