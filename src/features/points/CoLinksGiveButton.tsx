@@ -8,15 +8,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import {
-  GemCoFill,
-  GemCoFillSm,
-  Plus,
-  UserFill,
-} from '../../icons/__generated';
+import { GemCoFill, GemCoFillSm, Plus } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
-import { Button, Flex, Modal, Text } from '../../ui';
+import { Avatar, Button, Flex, Modal, Text } from '../../ui';
 import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
@@ -215,7 +210,7 @@ export const PickOneSkill = ({
   trigger,
 }: PickOneSkillProps) => {
   const { data: profile_skills } = useQuery(
-    ['target_give_skills'],
+    ['target_give_skills', targetProfileId],
     async () => {
       const { profile_skills } = await client.query(
         {
@@ -230,6 +225,10 @@ export const PickOneSkill = ({
             },
             {
               skill_name: true,
+              profile_public: {
+                avatar: true,
+                name: true,
+              },
             },
           ],
         },
@@ -274,24 +273,28 @@ export const PickOneSkill = ({
       trigger={trigger}
       sortSkills={sortSkills}
       popoverCss={{ mt: -56 }}
-      customRender={skill => (
-        <Flex
-          css={{
-            justifyContent: 'space-between',
-            width: '100%',
-            '*': { color: '$tagSuccessText' },
-          }}
-        >
-          <Text semibold>
-            <Plus css={{ mr: '$xs' }} />
-            <GemCoFillSm fa css={{ mr: '$xs' }} />
-            {skill}
-          </Text>
-          {profile_skills.some(ps => ps.skill_name === skill) && (
-            <UserFill fa />
-          )}
-        </Flex>
-      )}
+      customRender={skill => {
+        const skillOnProfile = profile_skills.find(s => s.skill_name === skill);
+        const profile = skillOnProfile?.profile_public;
+        return (
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              width: '100%',
+              '*': { color: '$tagSuccessText' },
+            }}
+          >
+            <Text semibold>
+              <Plus css={{ mr: '$xs' }} />
+              <GemCoFillSm fa css={{ mr: '$xs' }} />
+              {skill}
+            </Text>
+            {skillOnProfile && (
+              <Avatar path={profile?.avatar} name={profile?.name} size="xs" />
+            )}
+          </Flex>
+        );
+      }}
       prependedItems={[
         <Flex
           key={'noskill'}
