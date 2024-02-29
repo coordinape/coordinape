@@ -12,7 +12,6 @@ import { GemCoOutline, Plus } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Modal, Text } from '../../ui';
-import isFeatureEnabled from 'config/features';
 
 import { POINTS_QUERY_KEY } from './PointsBar';
 
@@ -97,8 +96,6 @@ export const CoLinksGiveButton = ({
       showError(error);
     },
   });
-
-  if (!isFeatureEnabled('colinks_give')) return null;
 
   return (
     <>

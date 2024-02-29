@@ -212,10 +212,7 @@ export const PostRow = ({
                     mb: '-$xs',
                     mt: '$xs',
                     // apply min height to make room for absolute positioned GIVE button
-                    minHeight:
-                      editableContribution || !isFeatureEnabled('colinks_give')
-                        ? 0
-                        : '$3xl',
+                    minHeight: editableContribution ? 0 : '$3xl',
                   }}
                 />
                 <Flex
@@ -239,12 +236,10 @@ export const PostRow = ({
                       reactions={activity.reactions}
                       drawer={false}
                     />
-                    {isFeatureEnabled('colinks_give') && (
-                      <PostGives
-                        gives={activity.gives}
-                        clearSkill={() => deleteGive()}
-                      />
-                    )}
+                    <PostGives
+                      gives={activity.gives}
+                      clearSkill={() => deleteGive()}
+                    />
                   </Flex>
                   <Flex css={{ alignItems: 'center', gap: '$sm' }}>
                     <CoLinksGiveButton
