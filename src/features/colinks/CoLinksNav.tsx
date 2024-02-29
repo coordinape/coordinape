@@ -11,6 +11,7 @@ import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
+import isFeatureEnabled from 'config/features';
 import {
   Ai,
   BoltFill,
@@ -132,7 +133,7 @@ export const CoLinksNav = () => {
             <CoLogoMark muted small mark />
           </Flex>
         </Flex>
-        <GiveAvailablePopover />
+        {isFeatureEnabled('colinks_give') && <GiveAvailablePopover />}
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
         </IconButton>
