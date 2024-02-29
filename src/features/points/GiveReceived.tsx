@@ -218,10 +218,13 @@ export const GiveReceived = ({
                     <Flex column css={{ gap: '$sm' }}>
                       {g.gives
                         .filter(give => give.giver_profile_public?.name)
-                        .map((give, index) => (
-                          <>
-                            {give.giver_profile_public && (
-                              <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                        .map(
+                          (give, index) =>
+                            give.giver_profile_public && (
+                              <Flex
+                                key={give.giver_profile_public.address}
+                                css={{ alignItems: 'center', gap: '$sm' }}
+                              >
                                 <ActivityAvatar
                                   size="xs"
                                   profile={give.giver_profile_public}
@@ -239,9 +242,8 @@ export const GiveReceived = ({
                                   {give.giver_profile_public?.name}
                                 </Text>
                               </Flex>
-                            )}
-                          </>
-                        ))}
+                            )
+                        )}
                     </Flex>
                   </PopoverContent>
                 </Popover>
