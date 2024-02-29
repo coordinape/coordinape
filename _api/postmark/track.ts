@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 // official docs:
 // https://postmarkapp.com/developer/user-guide/tracking-opens
 //
