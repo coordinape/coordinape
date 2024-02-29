@@ -36,7 +36,7 @@ export const ExplorePage = () => {
   const TabMostLinks = makeTab(Tab.MOST_LINKS, 'Most Links');
   const TabHoldingMost = makeTab(Tab.MOST_HOLDING, 'Holding Most Links');
   const TabHighestRepScore = makeTab(Tab.MOST_REPUTABLE, 'Highest Rep Score');
-  const TabMostGive = makeTab(Tab.MOST_GIVE, 'Most Give');
+  const TabMostGive = makeTab(Tab.MOST_GIVE, 'Most GIVE');
 
   return (
     <SingleColumnLayout>

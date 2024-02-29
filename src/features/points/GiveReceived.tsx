@@ -15,7 +15,7 @@ import {
   PopoverTrigger,
   Text,
 } from '../../ui';
-import { GemCoFill, GemCoFillSm } from 'icons/__generated';
+import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
 import { groupAndSortGive } from './PostGives';
@@ -101,7 +101,7 @@ export const GiveReceived = ({
       <Text
         size={size}
         color={'secondary'}
-        title={'Links'}
+        title={'GIVE Received'}
         semibold
         css={{
           gap: size === 'xs' ? '$xs' : '$sm',
@@ -115,7 +115,7 @@ export const GiveReceived = ({
           },
         }}
       >
-        <GemCoFillSm fa /> {data.length}
+        <GemCoOutline fa /> {data.length}
       </Text>
     );
   }
@@ -148,7 +148,7 @@ export const GiveReceived = ({
             >
               <Flex column css={{ alignItems: 'center', gap: '$sm' }}>
                 <Flex row css={{ alignItems: 'center', gap: '$xs' }}>
-                  <GemCoFill fa size="xl" />
+                  <GemCoOutline fa size="xl" />
                   <Text semibold size="large" css={{ textAlign: 'center' }}>
                     {data.length}
                   </Text>
@@ -162,8 +162,7 @@ export const GiveReceived = ({
           )}
           <Flex
             css={{
-              columnGap: '$sm',
-              rowGap: 0,
+              gap: '$sm',
               flexWrap: 'wrap',
               m: size == 'xl' ? '$sm' : 0,
               alignItems: 'flex-start',
@@ -179,17 +178,28 @@ export const GiveReceived = ({
                       '&:hover': { opacity: 1 },
                     }}
                   >
-                    <Text tag size="small" color="complete">
+                    <Text
+                      tag
+                      size="small"
+                      color="complete"
+                      css={{ gap: '$xs' }}
+                    >
                       {g.skill ? (
                         <>
                           {' '}
-                          {`+${g.count}`}
-                          <GemCoFillSm fa size={'md'} /> {g.skill}
+                          <Text
+                            size="small"
+                            css={{ fontWeight: 'normal' }}
+                          >{`+${g.count}`}</Text>
+                          <GemCoOutline fa size={'md'} /> {g.skill}
                         </>
                       ) : (
                         <>
-                          {`+${g.count}`}
-                          <GemCoFillSm fa size={'md'} />
+                          <Text
+                            size="small"
+                            css={{ fontWeight: 'normal' }}
+                          >{`+${g.count}`}</Text>
+                          <GemCoOutline fa size={'md'} />
                         </>
                       )}
                     </Text>

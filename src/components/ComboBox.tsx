@@ -33,7 +33,7 @@ export const ComboBox = ({
           }
         : giveSkillSelector
           ? {
-              borderColor: 'transparent',
+              borderColor: '$borderFocus',
               borderRadius: '$3',
             }
           : { borderColor: '$borderFocus', borderRadius: '$3' }),
@@ -106,7 +106,7 @@ export const ComboBox = ({
         background: '$surfaceNested',
         borderRadius: '$2',
         svg: {
-          color: '$text',
+          color: 'currentColor',
         },
         '&[data-disabled="true"]': {
           backgroundColor: '$surface',
@@ -131,22 +131,13 @@ export const ComboBox = ({
       svg: {
         width: '16px',
         height: '16px',
-        color: '$text',
+        color: 'currentColor',
       },
       ...(giveSkillSelector && {
-        borderRadius: '$4 !important',
-        height: '$xl',
-        color: '$tagSuccessText',
-        backgroundColor: '$tagSuccessBackground',
-        border: '1px solid $tagSuccessText',
-        '&:not(button)': {
-          '&:hover, &[data-selected="true"]': {
-            backgroundColor: '$tagSuccessText',
-            '*': {
-              color: '$tagSuccessBackground',
-            },
-          },
-        },
+        p: 0,
+        height: 'auto',
+        background: 'transparent !important',
+        borderRadius: '0 !important',
       }),
     },
 
