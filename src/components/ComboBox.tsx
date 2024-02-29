@@ -134,19 +134,10 @@ export const ComboBox = ({
         color: '$text',
       },
       ...(giveSkillSelector && {
-        borderRadius: '$4 !important',
-        height: '$xl',
-        color: '$tagSuccessText',
-        backgroundColor: '$tagSuccessBackground',
-        border: '1px solid $tagSuccessText',
-        '&:not(button)': {
-          '&:hover, &[data-selected="true"]': {
-            backgroundColor: '$tagSuccessText',
-            '*': {
-              color: '$tagSuccessBackground',
-            },
-          },
-        },
+        p: 0,
+        height: 'auto',
+        background: 'transparent !important',
+        borderRadius: '0 !important',
       }),
     },
 

@@ -287,10 +287,33 @@ export const PickOneSkill = ({
             css={{
               justifyContent: 'space-between',
               width: '100%',
-              '*': { color: '$tagSuccessText' },
+              borderRadius: '$4 !important',
+              height: '$xl',
+              alignItems: 'center',
+              px: '$sm',
+              border: '1px solid',
+              '.skillWrapper, .skillWrapper *': { color: '$tagSuccessText' },
+              ...(skillOnProfile
+                ? {
+                    borderColor: '$tagSuccessText',
+                    color: '$tagSuccessText',
+                    backgroundColor: '$tagSuccessBackground',
+                  }
+                : {
+                    borderColor: 'transparent',
+                  }),
+
+              '&:not(button)': {
+                '&:hover, &[data-selected="true"]': {
+                  backgroundColor: '$tagSuccessText',
+                  '.skillWrapper, .skillWrapper *': {
+                    color: '$tagSuccessBackground',
+                  },
+                },
+              },
             }}
           >
-            <Text semibold>
+            <Text semibold className="skillWrapper">
               <Plus css={{ mr: '$xs' }} />
               <GemCoOutline fa css={{ mr: '$xs' }} />
               {skill}
@@ -326,7 +349,7 @@ export const PickOneSkill = ({
                 width: '100%',
                 height: 'auto',
                 maxHeight: 'none',
-                '*:not(svg)': { color: '$tagSuccessBackground' },
+                '*:not(svg)': { color: '$successButtonText' },
                 svg: { color: 'currentColor' },
               }}
             >
@@ -334,7 +357,7 @@ export const PickOneSkill = ({
                 column
                 css={{ alignItems: 'center', width: '100%', gap: '$xs' }}
               >
-                <Text>
+                <Text css={{ fontWeight: '$medium' }}>
                   <GemCoOutline fa css={{ mr: '$xs' }} /> Just GIVE
                 </Text>
               </Flex>
