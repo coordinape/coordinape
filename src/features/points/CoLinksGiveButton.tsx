@@ -137,6 +137,7 @@ export const CoLinksGiveButton = ({
                 trigger={
                   <>
                     <Button
+                      as="span"
                       color="dim"
                       onClick={shouldShowModal}
                       size="small"
@@ -146,6 +147,10 @@ export const CoLinksGiveButton = ({
                         minHeight: 0,
                         fontSize: '$small',
                         borderRadius: '4px',
+                        '&:hover': {
+                          background: '$tagCtaBackground',
+                          color: '$tagCtaText',
+                        },
                       }}
                     >
                       <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
@@ -340,6 +345,7 @@ export const PickOneSkill = ({
             onSelect={() => setSkill(undefined)}
           >
             <Button
+              as="span"
               color="complete"
               size="small"
               css={{

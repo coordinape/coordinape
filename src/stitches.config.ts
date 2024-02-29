@@ -214,6 +214,9 @@ export const colors = {
   tagAlertText: figmaColors.error5,
   tagAlertBackground: figmaColors.error2,
 
+  tagCtaText: figmaColors.secondary5,
+  tagCtaBackground: figmaColors.secondary2,
+
   tagSecondaryText: figmaColors.secondary5,
   tagSecondaryBackground: figmaColors.secondary2,
   tagSecondaryBackgroundDim: figmaColors.secondary1,
@@ -541,6 +544,9 @@ export const dark = createTheme({
 
     tagPrimaryText: figmaColors.primary7,
     tagPrimaryBackground: figmaColors.primary9,
+
+    tagCtaText: figmaColors.primary6,
+    tagCtaBackground: figmaColors.primary9,
 
     tagSecondaryText: figmaColors.secondary3,
     tagSecondaryBackground: figmaColors.secondary8,
