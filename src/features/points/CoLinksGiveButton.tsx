@@ -8,7 +8,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
-import { GemCoFill, GemCoFillSm, Plus } from '../../icons/__generated';
+import { GemCoOutline, Plus } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Modal, Text } from '../../ui';
@@ -102,27 +102,33 @@ export const CoLinksGiveButton = ({
 
   return (
     <>
-      <Flex column css={{ gap: '$sm' }}>
+      <Flex column css={{ cursor: 'default', gap: '$sm' }}>
         {!isMyPost && (
           <>
             {myGive ? (
-              <Button
-                className="clickProtect"
-                as="span"
-                noPadding
-                color="cta"
-                css={{
-                  pointerEvents: 'none',
-                  cursor: 'default',
-                  p: '5px 5px 6px',
-                  background: 'linear-gradient(.33turn, $cta 23%, $complete)',
-                  boxShadow: '#1e00312e -2px -2px 7px 1px inset',
-                }}
-              >
-                <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                  <GemCoFill fa size="xl" />
-                </Flex>
-              </Button>
+              <>
+                <Button
+                  className="clickProtect"
+                  as="span"
+                  color="dim"
+                  size="small"
+                  css={{
+                    pointerEvents: 'none',
+                    cursor: 'default',
+                    p: '3px 7px',
+                    height: 'auto',
+                    minHeight: 0,
+                    fontSize: '$small',
+                    borderRadius: '4px',
+                    background: 'linear-gradient(.33turn, $cta 23%, $complete)',
+                    boxShadow: '#1e00312e -2px -2px 7px 1px inset',
+                    color: '$background',
+                  }}
+                >
+                  <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
+                  GIVE
+                </Button>
+              </>
             ) : (
               <PickOneSkill
                 setSkill={skill => createGive(skill)}
@@ -131,19 +137,23 @@ export const CoLinksGiveButton = ({
                 trigger={
                   <>
                     <Button
-                      as="span"
+                      color="dim"
                       onClick={shouldShowModal}
-                      noPadding
-                      color="secondary"
+                      size="small"
                       css={{
-                        cursor: 'pointer',
-                        p: '3px 5px',
+                        p: '3px 7px',
+                        height: 'auto',
+                        minHeight: 0,
+                        fontSize: '$small',
+                        borderRadius: '4px',
+                        '&:hover': {
+                          // background: '$cta !important',
+                          // color: '$textOnCta !important',
+                        },
                       }}
                     >
-                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                        <GemCoFill fa size="xl" />
-                        <Text size="xs">GIVE</Text>
-                      </Flex>
+                      <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
+                      GIVE
                     </Button>
                   </>
                 }
@@ -174,7 +184,7 @@ export const CoLinksGiveButton = ({
           />
           <Flex column css={{ gap: '$md', p: '$lg' }}>
             <Text h1 semibold>
-              <GemCoFill fa size="xl" css={{ mr: '$sm' }} />
+              <GemCoOutline fa size="xl" css={{ mr: '$sm' }} />
               So, you want to send a GIVE?
             </Text>
             <Text>
@@ -286,7 +296,7 @@ export const PickOneSkill = ({
           >
             <Text semibold>
               <Plus css={{ mr: '$xs' }} />
-              <GemCoFillSm fa css={{ mr: '$xs' }} />
+              <GemCoOutline fa css={{ mr: '$xs' }} />
               {skill}
             </Text>
             {skillOnProfile && (
@@ -329,7 +339,7 @@ export const PickOneSkill = ({
                 css={{ alignItems: 'center', width: '100%', gap: '$xs' }}
               >
                 <Text>
-                  <GemCoFillSm fa css={{ mr: '$xs' }} /> Just GIVE
+                  <GemCoOutline fa css={{ mr: '$xs' }} /> Just GIVE
                 </Text>
               </Flex>
             </Button>

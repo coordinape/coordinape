@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
 import { IconButton, Popover, PopoverContent, PopoverTrigger } from '../../ui';
-import { GemCoFill } from 'icons/__generated';
+import { GemCoOutline } from 'icons/__generated';
 
 import { POINTS_PER_GIVE } from './getAvailablePoints';
 import { getMyAvailablePoints } from './getMyAvailablePoints';
@@ -24,7 +24,7 @@ export const GiveAvailablePopover = () => {
       <PopoverTrigger css={{ cursor: 'pointer' }}>
         <IconButton as="span" css={{ width: 'auto' }}>
           {points && Math.floor(points / POINTS_PER_GIVE)}
-          <GemCoFill fa size="lg" css={{ ml: '$xs' }} />
+          <GemCoOutline fa size="lg" css={{ ml: '$xs' }} />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent

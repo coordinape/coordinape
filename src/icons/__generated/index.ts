@@ -83,7 +83,6 @@ export { default as GanacheLogo } from './GanacheLogo';
 export { default as GemCoFillSm } from './GemCoFillSm';
 export { default as GemCoFill } from './GemCoFill';
 export { default as GemCoOutline } from './GemCoOutline';
-export { default as GemSharpSolid } from './GemSharpSolid';
 export { default as GiveReceiveBoth } from './GiveReceiveBoth';
 export { default as GiveReceiveGive } from './GiveReceiveGive';
 export { default as GiveReceiveNone } from './GiveReceiveNone';

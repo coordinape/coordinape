@@ -116,7 +116,7 @@ export const SkillComboBox = ({
         )}
       </Flex>
       <PopoverContent
-        avoidCollisions={false}
+        avoidCollisions={true}
         align={'start'}
         css={{
           background: 'transparent',

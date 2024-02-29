@@ -16,7 +16,7 @@ import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
 import isFeatureEnabled from 'config/features';
-import { Edit, Messages, MessageSolid, ShareSolid } from 'icons/__generated';
+import { Edit, Message, Messages, ShareSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
@@ -220,7 +220,11 @@ export const PostRow = ({
                 />
                 <Flex
                   className="clickThrough"
-                  css={{ justifyContent: 'space-between', mt: '$sm' }}
+                  css={{
+                    justifyContent: 'space-between',
+                    mt: '$sm',
+                    alignItems: 'flex-start',
+                  }}
                 >
                   <Flex
                     css={{
@@ -230,16 +234,6 @@ export const PostRow = ({
                       position: 'relative',
                     }}
                   >
-                    <Flex css={{ position: 'absolute', left: -61, bottom: 0 }}>
-                      <CoLinksGiveButton
-                        isMyPost={
-                          activity.actor_profile_public.id === profileId
-                        }
-                        targetProfileId={activity.actor_profile_public.id}
-                        activityId={activity.id}
-                        gives={activity.gives}
-                      />
-                    </Flex>
                     <ReactionBar
                       activityId={activity.id}
                       reactions={activity.reactions}
@@ -252,7 +246,13 @@ export const PostRow = ({
                       />
                     )}
                   </Flex>
-                  <Flex>
+                  <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+                    <CoLinksGiveButton
+                      isMyPost={activity.actor_profile_public.id === profileId}
+                      targetProfileId={activity.actor_profile_public.id}
+                      activityId={activity.id}
+                      gives={activity.gives}
+                    />
                     <Flex className="commentButton">
                       <>
                         {commentCount > 0 ? (
@@ -277,13 +277,14 @@ export const PostRow = ({
                               p: '$xs',
                               width: 'auto',
                               '*': {
+                                // fill: '$link',
                                 fill: '$secondaryText',
                               },
                             }}
                             onClick={() => setDisplayComments(prev => !prev)}
                           >
-                            <Text className="iconMessage">
-                              <MessageSolid nostroke css={{ ml: '$sm' }} />
+                            <Text color="cta" className="iconMessage">
+                              <Message nostroke css={{ ml: '$sm' }} />
                             </Text>
                           </Button>
                         )}

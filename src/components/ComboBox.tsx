@@ -33,7 +33,7 @@ export const ComboBox = ({
           }
         : giveSkillSelector
           ? {
-              borderColor: 'transparent',
+              borderColor: '$borderFocus',
               borderRadius: '$3',
             }
           : { borderColor: '$borderFocus', borderRadius: '$3' }),

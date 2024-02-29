@@ -11,7 +11,7 @@ import { NavLink } from 'react-router-dom';
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import {
   AtSign,
-  Give,
+  GemCoOutline,
   Links,
   MessageSquare,
   PaperPlane,
@@ -687,7 +687,7 @@ const ColinksGiveNotification = ({
         css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
       >
         <Icon>
-          <Give nostroke size={'lg'} css={{ mt: '-$sm' }} />
+          <GemCoOutline fa size={'lg'} css={{ mt: '-$sm' }} />
         </Icon>
 
         <Link
@@ -716,7 +716,9 @@ const ColinksGiveNotification = ({
               </Text>
               {give.skill && (
                 <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
-                  <Text size="small">#{give.skill}</Text>
+                  <Text tag color="complete" size="small">
+                    {give.skill}
+                  </Text>
                 </Link>
               )}
               <Text size="small" color={'default'}>

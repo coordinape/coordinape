@@ -36,6 +36,7 @@ export const PeopleResult = ({
       </Flex>
       <Flex css={{ gap: '$md' }}>
         <CoLinksStats
+          size={'xs'}
           address={profile.address}
           links={profile.links ?? 0}
           score={profile.reputation_score?.total_score ?? 0}

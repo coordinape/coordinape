@@ -11,7 +11,7 @@ import {
   PopoverTrigger,
   Text,
 } from '../../ui';
-import { GemCoFillSm, X } from 'icons/__generated';
+import { GemCoOutline, X } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 type Gives = {
   id: number;
@@ -44,6 +44,7 @@ export const PostGives = ({
                   size="medium"
                   color="complete"
                   css={{
+                    gap: '$xs',
                     ...(g.gives.some(
                       give => give.giver_profile_public?.id === profileId
                     ) && { outline: '1px solid $complete' }),
@@ -52,13 +53,20 @@ export const PostGives = ({
                   {g.skill ? (
                     <>
                       {' '}
-                      {`+${g.count}`}
-                      <GemCoFillSm fa size={'md'} /> {g.skill}
+                      <Text
+                        size="small"
+                        css={{ fontWeight: 'normal' }}
+                      >{`+${g.count}`}</Text>
+                      <GemCoOutline fa size={'md'} /> {g.skill}
+                      {/* <GemCoOutline fa size={'md'} /> {g.skill} */}
                     </>
                   ) : (
                     <>
-                      {`+${g.count}`}
-                      <GemCoFillSm fa size={'md'} />
+                      <Text
+                        size="small"
+                        css={{ fontWeight: 'normal' }}
+                      >{`+${g.count}`}</Text>
+                      <GemCoOutline fa size={'md'} />
                     </>
                   )}
 
