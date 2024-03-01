@@ -96,10 +96,13 @@ export const PostGives = ({
                   to={coLinksPaths.exploreSkill(g.skill)}
                   css={{
                     ...skillTextStyle,
+                    color: '$complete',
                     fontSize: '$small',
-                    borderBottom: '0.5px solid $border',
-                    pb: '$xs',
-                    mb: '$sm',
+                    ...(g.skill && {
+                      borderBottom: '0.5px solid $border',
+                      pb: '$xs',
+                      mb: '$sm',
+                    }),
                   }}
                 >
                   {g.skill}

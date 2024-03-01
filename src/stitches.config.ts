@@ -626,7 +626,6 @@ export const disabledStyle = {
 };
 
 export const skillTextStyle = {
-  color: '$complete',
   fontWeight: '$semibold',
   maxWidth: '12rem',
   textOverflow: 'ellipsis',
