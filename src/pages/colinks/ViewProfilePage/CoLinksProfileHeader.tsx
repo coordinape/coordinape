@@ -15,7 +15,6 @@ import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { currentPrompt } from '../ActivityPage';
-import isFeatureEnabled from 'config/features';
 import {
   ExternalLink,
   Github,
@@ -250,7 +249,7 @@ export const CoLinksProfileHeader = ({
           )}
           {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
         </Flex>
-        {isFeatureEnabled('colinks_give') && profile.address && (
+        {profile.address && (
           <Flex css={{ gap: '$sm' }}>
             <GiveReceived address={profile.address} size="large" />
           </Flex>

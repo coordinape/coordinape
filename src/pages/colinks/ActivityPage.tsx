@@ -26,7 +26,6 @@ import {
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
-import isFeatureEnabled from 'config/features';
 
 import { CoLinksTaskCards } from './CoLinksTaskCards';
 
@@ -129,7 +128,7 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
-        {isFeatureEnabled('colinks_give') && <PointsBar />}
+        <PointsBar />
 
         {data?.big_questions[0] && (
           <BigQuestionCard
