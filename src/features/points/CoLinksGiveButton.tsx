@@ -298,6 +298,7 @@ export const PickOneSkill = ({
             css={{
               justifyContent: 'space-between',
               width: '100%',
+              maxWidth: '330px',
               borderRadius: '$4 !important',
               height: '$xl',
               alignItems: 'center',
