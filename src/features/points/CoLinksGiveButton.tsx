@@ -177,7 +177,7 @@ export const CoLinksGiveButton = ({
                     }
                   />
                 ) : (
-                  <GiveAvailablePopover giveButton />
+                  <GiveAvailablePopover giveCharging />
                 )}
               </>
             )}

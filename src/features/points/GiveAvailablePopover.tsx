@@ -16,9 +16,9 @@ import { getMyAvailablePoints } from './getMyAvailablePoints';
 import { POINTS_QUERY_KEY, PointsBar } from './PointsBar';
 
 export const GiveAvailablePopover = ({
-  giveButton = false,
+  giveCharging = false,
 }: {
-  giveButton?: boolean;
+  giveCharging?: boolean;
 }) => {
   const { data: points } = useQuery(
     [POINTS_QUERY_KEY],
@@ -32,7 +32,7 @@ export const GiveAvailablePopover = ({
     }
   );
 
-  if (giveButton) {
+  if (giveCharging) {
     return (
       <Popover>
         <PopoverTrigger css={{ cursor: 'pointer' }}>
