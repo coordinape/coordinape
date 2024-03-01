@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
@@ -11,13 +10,12 @@ import {
   MAX_POINTS_CAP,
   POINTS_PER_GIVE,
 } from './getAvailablePoints';
-import { getMyAvailablePoints } from './getMyAvailablePoints';
+import { usePoints } from './usePoints';
 
 const progressStyles = {
   position: 'relative',
   pt: '1.3rem',
   '.tickMark': {
-    color: 'orange',
     position: 'absolute',
     '&:after': {
       content: '',
@@ -31,9 +29,6 @@ const progressStyles = {
       position: 'absolute',
       top: '-1.3rem',
       left: '-0.5rem',
-      path: {
-        fill: '$border',
-      },
     },
   },
   progress: {
@@ -58,20 +53,14 @@ const progressStyles = {
   },
 };
 
-export const POINTS_QUERY_KEY = 'points_query_key';
-
-export const PointsBar = ({ open = false }: { open?: boolean }) => {
-  const { data: points } = useQuery(
-    [POINTS_QUERY_KEY],
-    async () => {
-      return await getMyAvailablePoints();
-    },
-    {
-      onError: error => {
-        console.error(error);
-      },
-    }
-  );
+export const PointsBar = ({
+  open = false,
+  barOnly = false,
+}: {
+  open?: boolean;
+  barOnly?: boolean;
+}) => {
+  const { points } = usePoints();
 
   // Dynamically generate tickMark styles
   for (let i = 1; i <= MAX_GIVE; i++) {
@@ -79,12 +68,25 @@ export const PointsBar = ({ open = false }: { open?: boolean }) => {
     (progressStyles['.tickMark'] as any)[key] = {
       left: `calc(100% / ${MAX_GIVE} * ${i} - 2px)`,
       'svg path': {
-        fill: points && points >= POINTS_PER_GIVE * i ? '$cta' : '$borderDim',
+        fill: points && points >= POINTS_PER_GIVE * i ? '$cta' : '$border',
       },
     };
   }
 
   const [showInfo, setShowInfo] = useState<boolean>(open);
+
+  if (barOnly) {
+    return (
+      <Flex css={{ ...progressStyles }}>
+        <progress id="points" max={MAX_POINTS_CAP} value={points} />
+        {Array.from({ length: MAX_GIVE }, (_, index) => (
+          <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
+            <GemCoOutline fa />
+          </Text>
+        ))}
+      </Flex>
+    );
+  }
 
   return (
     <>
