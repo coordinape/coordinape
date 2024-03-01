@@ -17,7 +17,7 @@ export const GiveAvailablePopover = ({
 }: {
   giveCharging?: boolean;
 }) => {
-  const { give } = usePoints();
+  const { give, nextGiveAt } = usePoints();
 
   if (giveCharging) {
     return (
@@ -54,7 +54,11 @@ export const GiveAvailablePopover = ({
           }}
         >
           <Text semibold>You are currently out of GIVE</Text>
-          <Text size="small">Give more once your GIVE bar has charged!</Text>
+          {nextGiveAt && (
+            <Text size="small">
+              Next GIVE available {nextGiveAt.toRelative()}{' '}
+            </Text>
+          )}
           <Flex column css={{ mt: '$md' }}>
             <PointsBar barOnly />
           </Flex>
