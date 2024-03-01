@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
 import { useQuery } from 'react-query';
-import { CSS } from 'stitches.config';
+import { CSS, skillTextStyle } from 'stitches.config';
 
 import { User } from '../../icons/__generated';
 import { order_by } from '../../lib/gql/__generated__/zeus';
@@ -208,7 +208,7 @@ export const SkillComboBox = ({
                               width: '100%',
                             }}
                           >
-                            <Text semibold>{skill.name}</Text>
+                            <Text css={skillTextStyle}>{skill.name}</Text>
                             <Text tag color={'secondary'} size={'xs'}>
                               <User /> {skill.count}
                             </Text>

@@ -1,5 +1,6 @@
 import { ActivityAvatar } from 'features/activities/ActivityAvatar';
 import { NavLink } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import useProfileId from '../../hooks/useProfileId';
 import {
@@ -57,7 +58,8 @@ export const PostGives = ({
                         size="small"
                         css={{ fontWeight: 'normal' }}
                       >{`+${g.count}`}</Text>
-                      <GemCoOutline fa size={'md'} /> {g.skill}
+                      <GemCoOutline fa size={'md'} />
+                      <Text css={skillTextStyle}>{g.skill}</Text>
                     </>
                   ) : (
                     <>
@@ -93,12 +95,14 @@ export const PostGives = ({
                 <AppLink
                   to={coLinksPaths.exploreSkill(g.skill)}
                   css={{
-                    fontSize: '$small',
+                    ...skillTextStyle,
                     color: '$complete',
-                    fontWeight: '$semibold',
-                    borderBottom: '0.5px solid $border',
-                    pb: '$xs',
-                    mb: '$sm',
+                    fontSize: '$small',
+                    ...(g.skill && {
+                      borderBottom: '0.5px solid $border',
+                      pb: '$xs',
+                      mb: '$sm',
+                    }),
                   }}
                 >
                   {g.skill}

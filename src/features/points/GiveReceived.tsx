@@ -4,6 +4,7 @@ import { ActivityAvatar } from 'features/activities/ActivityAvatar';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import {
   AppLink,
@@ -191,7 +192,8 @@ export const GiveReceived = ({
                             size="small"
                             css={{ fontWeight: 'normal' }}
                           >{`+${g.count}`}</Text>
-                          <GemCoOutline fa size={'md'} /> {g.skill}
+                          <GemCoOutline fa size={'md'} />
+                          <Text css={skillTextStyle}>{g.skill}</Text>
                         </>
                       ) : (
                         <>
