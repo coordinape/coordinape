@@ -4,6 +4,7 @@ import { Command } from 'cmdk';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { skillTextStyle } from 'stitches.config';
 
 import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
@@ -298,7 +299,6 @@ export const PickOneSkill = ({
             css={{
               justifyContent: 'space-between',
               width: '100%',
-              maxWidth: '330px',
               borderRadius: '$4 !important',
               height: '$xl',
               alignItems: 'center',
@@ -322,10 +322,10 @@ export const PickOneSkill = ({
               },
             }}
           >
-            <Text semibold>
+            <Text>
               <Plus css={{ mr: '$xs' }} />
               <GemCoOutline fa css={{ mr: '$xs' }} />
-              {skill}
+              <Text css={skillTextStyle}>{skill}</Text>
             </Text>
             {skillOnProfile && (
               <Avatar path={profile?.avatar} name={profile?.name} size="xs" />

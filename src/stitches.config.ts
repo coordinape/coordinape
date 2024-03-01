@@ -625,6 +625,16 @@ export const disabledStyle = {
   cursor: 'default',
 };
 
+export const skillTextStyle = {
+  color: '$complete',
+  fontWeight: '$semibold',
+  maxWidth: '12rem',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
+  overflow: 'hidden',
+  display: 'inline',
+};
+
 export const globalStyles = globalCss({
   '@font-face': [
     {

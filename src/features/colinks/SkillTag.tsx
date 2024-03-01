@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
-import { CSS } from '../../stitches.config';
+import { CSS, skillTextStyle } from '../../stitches.config';
 import { Flex, Text } from '../../ui';
 import { Users } from 'icons/__generated';
 
@@ -44,7 +44,7 @@ export const SkillTag = ({
         maxWidth: '14em',
       }}
     >
-      <Text semibold ellipsis css={{ flexShrink: 1, textDecoration: 'none' }}>
+      <Text css={{ ...skillTextStyle, flexShrink: 1, textDecoration: 'none' }}>
         {skill}
       </Text>
       {count && (

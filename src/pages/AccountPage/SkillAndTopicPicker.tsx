@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
+import { skillTextStyle } from 'stitches.config';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import {
@@ -170,7 +171,7 @@ export const SkillAndTopicPicker = () => {
                     key={s}
                     css={{ pr: 0 }}
                   >
-                    {s}
+                    <Text css={skillTextStyle}>{s}</Text>
                     <IconButton
                       onClick={() => deleteSkill(s)}
                       css={{ pr: '$sm', width: 'auto' }}
