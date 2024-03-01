@@ -1,10 +1,15 @@
 import assert from 'assert';
 
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
 import { client } from '../../lib/gql/client';
 
-import { POINTS_PER_GIVE, getAvailablePoints } from './getAvailablePoints';
+import {
+  EMISSION_PER_SECOND,
+  POINTS_PER_GIVE,
+  getAvailablePoints,
+} from './getAvailablePoints';
 
 export const POINTS_QUERY_KEY = 'points_query_key';
 
@@ -23,8 +28,9 @@ export const usePoints = () => {
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : undefined;
   const canGive = give ? give >= 1 : false;
+  const nextGiveAt = points ? nextGiveAvailableAt(points) : undefined;
 
-  return { points, give, canGive };
+  return { points, give, canGive, nextGiveAt };
 };
 
 const getMyAvailablePoints = async () => {
@@ -51,4 +57,12 @@ const getMyAvailablePoints = async () => {
     profile.points_balance,
     profile.points_checkpointed_at
   );
+};
+
+const nextGiveAvailableAt = (currPoints: number) => {
+  const needed = POINTS_PER_GIVE - (currPoints % POINTS_PER_GIVE);
+  const timeAt: DateTime = DateTime.now().plus({
+    seconds: needed / EMISSION_PER_SECOND,
+  });
+  return timeAt;
 };
