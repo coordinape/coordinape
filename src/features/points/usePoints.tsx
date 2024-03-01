@@ -9,7 +9,7 @@ import { POINTS_PER_GIVE, getAvailablePoints } from './getAvailablePoints';
 export const POINTS_QUERY_KEY = 'points_query_key';
 
 export const usePoints = () => {
-  const { data } = useQuery(
+  const { data: points } = useQuery(
     [POINTS_QUERY_KEY],
     async () => {
       return await getMyAvailablePoints();
@@ -21,9 +21,8 @@ export const usePoints = () => {
     }
   );
 
-  const points = data || 0;
-  const give = Math.floor(points / POINTS_PER_GIVE);
-  const canGive = give >= 1;
+  const give = points ? Math.floor(points / POINTS_PER_GIVE) : undefined;
+  const canGive = give ? give >= 1 : false;
 
   return { points, give, canGive };
 };
