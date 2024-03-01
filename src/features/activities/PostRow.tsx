@@ -211,8 +211,6 @@ export const PostRow = ({
                     cursor: 'auto',
                     mb: '-$xs',
                     mt: '$xs',
-                    // apply min height to make room for absolute positioned GIVE button
-                    minHeight: editableContribution ? 0 : '$3xl',
                   }}
                 />
                 <Flex
@@ -271,8 +269,8 @@ export const PostRow = ({
                             css={{
                               p: '$xs',
                               width: 'auto',
+                              minHeight: 0,
                               '*': {
-                                // fill: '$link',
                                 fill: '$secondaryText',
                               },
                             }}
