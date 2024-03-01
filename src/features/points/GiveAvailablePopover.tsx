@@ -56,7 +56,7 @@ export const GiveAvailablePopover = ({
           <Text semibold>You are currently out of GIVE</Text>
           {nextGiveAt && (
             <Text size="small">
-              Next GIVE available {nextGiveAt?.toRelative()}{' '}
+              Next GIVE available {nextGiveAt.toRelative()}{' '}
             </Text>
           )}
           <Flex column css={{ mt: '$md' }}>
