@@ -35,6 +35,7 @@ export { default as AuroraLogo } from './AuroraLogo';
 export { default as Award } from './Award';
 export { default as Badge } from './Badge';
 export { default as BarChart } from './BarChart';
+export { default as BatteryLow } from './BatteryLow';
 export { default as BellOff } from './BellOff';
 export { default as Bell } from './Bell';
 export { default as BoltFill } from './BoltFill';

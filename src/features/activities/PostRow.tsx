@@ -5,9 +5,9 @@ import { BigQuestionCard } from 'features/BigQuestions/bigQuestions/BigQuestionC
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useNavQuery } from 'features/nav/getNavData';
 import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
-import { POINTS_QUERY_KEY } from 'features/points/PointsBar';
 import { PostGives } from 'features/points/PostGives';
 import { useDeleteGiveMutation } from 'features/points/useDeleteGiveMutation';
+import { POINTS_QUERY_KEY } from 'features/points/usePoints';
 import { DateTime } from 'luxon';
 import { useQueryClient } from 'react-query';
 import { NavLink, useLocation } from 'react-router-dom';
