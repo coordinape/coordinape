@@ -14,10 +14,8 @@ import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Modal, Text } from '../../ui';
 import isFeatureEnabled from 'config/features';
 
-import { POINTS_PER_GIVE } from './getAvailablePoints';
-import { getMyAvailablePoints } from './getMyAvailablePoints';
 import { GiveAvailablePopover } from './GiveAvailablePopover';
-import { POINTS_QUERY_KEY } from './PointsBar';
+import { POINTS_QUERY_KEY, usePoints } from './usePoints';
 
 const DISMISSIBLE_AS = `banner:colinks_give_intro`;
 
@@ -59,17 +57,7 @@ export const CoLinksGiveButton = ({
     window.localStorage.setItem(DISMISSIBLE_AS, 'hidden');
   };
 
-  const { data: points } = useQuery(
-    [POINTS_QUERY_KEY],
-    async () => {
-      return await getMyAvailablePoints();
-    },
-    {
-      onError: error => {
-        console.error(error);
-      },
-    }
-  );
+  const { points, canGive } = usePoints();
 
   const createGiveMutation = (skill: string | undefined) => {
     return client.mutate(
@@ -146,7 +134,7 @@ export const CoLinksGiveButton = ({
               </>
             ) : (
               <>
-                {points && Math.floor(points / POINTS_PER_GIVE) >= 1 ? (
+                {points && canGive ? (
                   <PickOneSkill
                     setSkill={skill => createGive(skill)}
                     placeholder={'Or Support a Skill with GIVE...'}

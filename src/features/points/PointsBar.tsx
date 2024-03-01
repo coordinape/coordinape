@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { useQuery } from 'react-query';
 
 import { Panel, Text, Flex, IconButton } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
@@ -11,7 +10,7 @@ import {
   MAX_POINTS_CAP,
   POINTS_PER_GIVE,
 } from './getAvailablePoints';
-import { getMyAvailablePoints } from './getMyAvailablePoints';
+import { usePoints } from './usePoints';
 
 const progressStyles = {
   position: 'relative',
@@ -54,8 +53,6 @@ const progressStyles = {
   },
 };
 
-export const POINTS_QUERY_KEY = 'points_query_key';
-
 export const PointsBar = ({
   open = false,
   barOnly = false,
@@ -63,17 +60,7 @@ export const PointsBar = ({
   open?: boolean;
   barOnly?: boolean;
 }) => {
-  const { data: points } = useQuery(
-    [POINTS_QUERY_KEY],
-    async () => {
-      return await getMyAvailablePoints();
-    },
-    {
-      onError: error => {
-        console.error(error);
-      },
-    }
-  );
+  const { points } = usePoints();
 
   // Dynamically generate tickMark styles
   for (let i = 1; i <= MAX_GIVE; i++) {

@@ -1,5 +1,3 @@
-import { useQuery } from 'react-query';
-
 import {
   Button,
   Flex,
@@ -11,26 +9,15 @@ import {
 } from '../../ui';
 import { BatteryLow, GemCoOutline } from 'icons/__generated';
 
-import { POINTS_PER_GIVE } from './getAvailablePoints';
-import { getMyAvailablePoints } from './getMyAvailablePoints';
-import { POINTS_QUERY_KEY, PointsBar } from './PointsBar';
+import { PointsBar } from './PointsBar';
+import { usePoints } from './usePoints';
 
 export const GiveAvailablePopover = ({
   giveCharging = false,
 }: {
   giveCharging?: boolean;
 }) => {
-  const { data: points } = useQuery(
-    [POINTS_QUERY_KEY],
-    async () => {
-      return await getMyAvailablePoints();
-    },
-    {
-      onError: error => {
-        console.error(error);
-      },
-    }
-  );
+  const { give } = usePoints();
 
   if (giveCharging) {
     return (
@@ -80,7 +67,7 @@ export const GiveAvailablePopover = ({
     <Popover>
       <PopoverTrigger css={{ cursor: 'pointer' }}>
         <IconButton as="span" css={{ width: 'auto' }}>
-          {points && Math.floor(points / POINTS_PER_GIVE)}
+          {give}
           <GemCoOutline fa size="lg" css={{ ml: '$xs' }} />
         </IconButton>
       </PopoverTrigger>
