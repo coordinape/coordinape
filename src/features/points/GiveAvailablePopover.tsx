@@ -67,9 +67,7 @@ export const GiveAvailablePopover = ({
           }}
         >
           <Text semibold>You are currently out of GIVE</Text>
-          <Text size="small">
-            Come back later when your GIVE bar has charged up!
-          </Text>
+          <Text size="small">Give more once your GIVE bar has charged!</Text>
           <Flex column css={{ mt: '$md' }}>
             <PointsBar barOnly />
           </Flex>
