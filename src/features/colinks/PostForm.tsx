@@ -377,7 +377,13 @@ export const PostForm = ({
               </Flex>
             )}
 
-            <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+                width: '100%',
+                flexWrap: 'wrap',
+              }}
+            >
               <Flex>
                 <Button
                   size="small"
@@ -420,6 +426,7 @@ export const PostForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
+                  flexGrow: 1,
                   alignItems: 'center',
                   flexDirection: editContribution ? 'row-reverse' : 'row',
                   gap: '$md',
