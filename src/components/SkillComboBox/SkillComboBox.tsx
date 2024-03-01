@@ -12,7 +12,8 @@ import { Flex, PopoverContent, Text, TextField } from '../../ui';
 import { ComboBox } from '../ComboBox';
 import { LoadingIndicator } from '../LoadingIndicator';
 
-export const QUERY_KEY_ALL_SKILLS = 'skills';
+export const QUERY_KEY_SKILLS = 'combobox_skills';
+
 const MAX_POTENTIAL_SKILLS = 1000;
 // TODO: maybe this should do server-side filtering but prob not needed for awhile
 // that's why there is the commented out where clause.
@@ -47,6 +48,7 @@ type SkillComboBoxProps = {
   extraItems?: React.ReactNode[];
   customRender?(skill: string, count: number): React.ReactNode;
   sortSkills?(a: Skill, b: Skill): number;
+  skillQueryKey?: string[];
   popoverCss?: CSS;
   giveSkillSelector?: boolean;
 };
@@ -61,6 +63,7 @@ export const SkillComboBox = ({
   extraItems,
   customRender,
   sortSkills,
+  skillQueryKey = [QUERY_KEY_SKILLS],
   popoverCss,
   giveSkillSelector = false,
 }: SkillComboBoxProps) => {
@@ -79,7 +82,7 @@ export const SkillComboBox = ({
   };
 
   const { data: skills, isLoading } = useQuery(
-    [QUERY_KEY_ALL_SKILLS],
+    skillQueryKey,
     fetchSkillsSorted
   );
 
