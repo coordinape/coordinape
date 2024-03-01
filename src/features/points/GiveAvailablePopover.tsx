@@ -1,13 +1,25 @@
 import { useQuery } from 'react-query';
 
-import { IconButton, Popover, PopoverContent, PopoverTrigger } from '../../ui';
-import { GemCoOutline } from 'icons/__generated';
+import {
+  Button,
+  Flex,
+  IconButton,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from '../../ui';
+import { BatteryLow, GemCoOutline } from 'icons/__generated';
 
 import { POINTS_PER_GIVE } from './getAvailablePoints';
 import { getMyAvailablePoints } from './getMyAvailablePoints';
 import { POINTS_QUERY_KEY, PointsBar } from './PointsBar';
 
-export const GiveAvailablePopover = () => {
+export const GiveAvailablePopover = ({
+  giveButton = false,
+}: {
+  giveButton?: boolean;
+}) => {
   const { data: points } = useQuery(
     [POINTS_QUERY_KEY],
     async () => {
@@ -19,6 +31,53 @@ export const GiveAvailablePopover = () => {
       },
     }
   );
+
+  if (giveButton) {
+    return (
+      <Popover>
+        <PopoverTrigger css={{ cursor: 'pointer' }}>
+          <Button
+            as="span"
+            color="dim"
+            size="small"
+            css={{
+              p: '3px 7px',
+              height: 'auto',
+              minHeight: 0,
+              fontSize: '$small',
+              borderRadius: '4px',
+              '&:hover': {
+                background: '$tagCtaBackground',
+                color: '$tagCtaText',
+              },
+            }}
+          >
+            <BatteryLow fa size="md" css={{ ml: '$xs' }} />
+            GIVE
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent
+          align="end"
+          css={{
+            background: '$surface',
+            width: 270,
+            p: '$md',
+            mt: 5,
+            gap: '$sm',
+          }}
+        >
+          <Text semibold>You are currently out of GIVE</Text>
+          <Text size="small">
+            Come back later when your GIVE bar has charged up!
+          </Text>
+          <Flex column css={{ mt: '$md' }}>
+            <PointsBar barOnly />
+          </Flex>
+        </PopoverContent>
+      </Popover>
+    );
+  }
+
   return (
     <Popover>
       <PopoverTrigger css={{ cursor: 'pointer' }}>
