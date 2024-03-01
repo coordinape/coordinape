@@ -214,6 +214,14 @@ export const Text = styled('span', {
     },
     {
       tag: true,
+      color: 'cta',
+      css: {
+        color: '$tagCtaText',
+        backgroundColor: '$tagCtaBackground',
+      },
+    },
+    {
+      tag: true,
       color: 'neutral',
       css: {
         color: '$tagNeutralText',
