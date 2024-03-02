@@ -268,16 +268,23 @@ export const PickOneSkill = ({
     b: { name: string; count: number }
   ) => {
     // if the skill is in the profile_skills, then it should be at the top
+    const a_name = a.name.toLowerCase();
+    const b_name = b.name.toLowerCase();
+
     if (
-      profile_skills.some(skill => skill.skill_name === a.name) &&
-      profile_skills.some(skill => skill.skill_name === b.name)
+      profile_skills.some(skill => skill.skill_name.toLowerCase() === a_name) &&
+      profile_skills.some(skill => skill.skill_name.toLowerCase() === b_name)
     ) {
       return a.count > b.count ? -1 : 1;
     }
-    if (profile_skills.some(skill => skill.skill_name === a.name)) {
+    if (
+      profile_skills.some(skill => skill.skill_name.toLowerCase() === a_name)
+    ) {
       return -1;
     }
-    if (profile_skills.some(skill => skill.skill_name === b.name)) {
+    if (
+      profile_skills.some(skill => skill.skill_name.toLowerCase() === b_name)
+    ) {
       return 1;
     }
     return a.count > b.count ? -1 : 1;
