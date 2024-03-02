@@ -303,7 +303,9 @@ export const PickOneSkill = ({
       skillQueryKey={[QUERY_KEY_SKILLS, targetProfileId.toString()]}
       popoverCss={{ mt: -56 }}
       customRender={skill => {
-        const skillOnProfile = profile_skills.find(s => s.skill_name === skill);
+        const skillOnProfile = profile_skills.find(
+          s => s.skill_name.toLowerCase() === skill.toLowerCase()
+        );
         const profile = skillOnProfile?.profile_public;
         return (
           <Flex
