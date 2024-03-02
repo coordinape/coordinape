@@ -5,7 +5,7 @@ import { skillTextStyle } from 'stitches.config';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import {
-  QUERY_KEY_ALL_SKILLS,
+  QUERY_KEY_SKILLS,
   SkillComboBox,
 } from '../../components/SkillComboBox/SkillComboBox';
 import useProfileId from '../../hooks/useProfileId';
@@ -95,7 +95,7 @@ export const SkillAndTopicPicker = () => {
     {
       onSuccess: async () => {
         await queryClient.invalidateQueries([QUERY_KEY_PROFILE_SKILLS]);
-        await queryClient.invalidateQueries([QUERY_KEY_ALL_SKILLS]);
+        await queryClient.invalidateQueries([QUERY_KEY_SKILLS]);
       },
     }
   );

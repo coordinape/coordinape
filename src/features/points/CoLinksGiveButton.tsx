@@ -6,7 +6,10 @@ import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { skillTextStyle } from 'stitches.config';
 
-import { SkillComboBox } from '../../components/SkillComboBox/SkillComboBox';
+import {
+  QUERY_KEY_SKILLS,
+  SkillComboBox,
+} from '../../components/SkillComboBox/SkillComboBox';
 import { useToast } from '../../hooks';
 import useProfileId from '../../hooks/useProfileId';
 import { GemCoOutline, Plus } from '../../icons/__generated';
@@ -290,6 +293,7 @@ export const PickOneSkill = ({
       placeholder={placeholder}
       trigger={trigger}
       sortSkills={sortSkills}
+      skillQueryKey={[QUERY_KEY_SKILLS, targetProfileId.toString()]}
       popoverCss={{ mt: -56 }}
       customRender={skill => {
         const skillOnProfile = profile_skills.find(s => s.skill_name === skill);
