@@ -181,7 +181,6 @@ export const WalletAuthModal = () => {
     const localUrl: string = `${host}${path}${queryString}${hash}`;
 
     const url = `https://metamask.app.link/dapp/${localUrl}`;
-    alert(url);
     a.href = url;
     a.target = '_self';
     document.body.appendChild(a);
@@ -259,7 +258,7 @@ export const WalletAuthModal = () => {
                       activate(EConnectorNames.Injected);
                     }}
                   >
-                    Metamask
+                    MetaMask
                     <WALLET_ICONS.injected />
                   </Button>
                 ) : (
@@ -270,7 +269,7 @@ export const WalletAuthModal = () => {
                       openMetaMask();
                     }}
                   >
-                    Metamask
+                    Open/Install MetaMask
                     <WALLET_ICONS.injected />
                   </Button>
                 )}
