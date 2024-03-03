@@ -1,4 +1,4 @@
-import { act, render, screen, fireEvent } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { TestWrapper } from 'utils/testing';
 import { TestProvider } from 'utils/testing/ethereum';
@@ -24,7 +24,7 @@ describe('with metamask enabled', () => {
         </TestWrapper>
       );
     });
-    screen.getByText('Metamask');
+    screen.getByText('MetaMask');
   });
 });
 
@@ -37,7 +37,7 @@ test('without metamask, the metamask login option is disabled', async () => {
     );
   });
 
-  const button = screen.getByText('Metamask Not Found');
+  const button = screen.getByText('Open/Install MetaMask');
   expect(button).toBeDisabled;
 });
 

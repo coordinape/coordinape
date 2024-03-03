@@ -16,7 +16,7 @@ const provider = new JsonRpcProvider(
 );
 
 Cypress.Commands.add('login', () => {
-  cy.contains('Metamask').click();
+  cy.contains('MetaMask').click();
 });
 
 // Cypress doesn't allow top-level callbacks to be async
