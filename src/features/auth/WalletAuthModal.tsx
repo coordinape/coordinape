@@ -169,6 +169,24 @@ export const WalletAuthModal = () => {
     }
   };
 
+  const openMetaMask = () => {
+    const a = document.createElement('a');
+    // Get the host, path, query string, and hash from window.location
+    const host: string = window.location.host; // Includes domain and port
+    const path: string = window.location.pathname; // The path of the URL
+    const queryString: string = window.location.search; // The query string part of the URL, if any
+    const hash: string = window.location.hash; // The fragment identifier part of the URL, if any
+
+    // Combine parts to get the full URL without the scheme
+    const localUrl: string = `${host}${path}${queryString}${hash}`;
+
+    const url = `https://metamask.app.link/dapp/${localUrl}`;
+    a.href = url;
+    a.target = '_self';
+    document.body.appendChild(a);
+    a.click();
+  };
+
   if (explainerOpen)
     return (
       <Explainer
@@ -231,18 +249,30 @@ export const WalletAuthModal = () => {
                   gap: '$md',
                 }}
               >
-                <Button
-                  variant="wallet"
-                  disabled={!isMetamaskEnabled || unsupportedNetwork}
-                  fullWidth
-                  onClick={() => {
-                    activate(EConnectorNames.Injected);
-                  }}
-                >
-                  {isMetamaskEnabled ? 'Metamask' : 'Metamask Not Found'}
-                  <WALLET_ICONS.injected />
-                </Button>
-
+                {isMetamaskEnabled ? (
+                  <Button
+                    variant="wallet"
+                    disabled={unsupportedNetwork}
+                    fullWidth
+                    onClick={() => {
+                      activate(EConnectorNames.Injected);
+                    }}
+                  >
+                    MetaMask
+                    <WALLET_ICONS.injected />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="wallet"
+                    fullWidth
+                    onClick={() => {
+                      openMetaMask();
+                    }}
+                  >
+                    Open/Install MetaMask
+                    <WALLET_ICONS.injected />
+                  </Button>
+                )}
                 <Button
                   variant="wallet"
                   fullWidth
