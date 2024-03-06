@@ -258,6 +258,7 @@ const AddItem = ({
 
   return (
     <Command.Item
+      className="firstToAdd"
       color={'cta'}
       key={search}
       value={search}
@@ -267,16 +268,7 @@ const AddItem = ({
         css={{ justifyContent: 'space-between', width: '100%', gap: '$lg' }}
       >
         <Text>Be the First to Add</Text>
-        <Text
-          tag
-          color={'complete'}
-          semibold
-          size={'medium'}
-          css={{
-            background: 'transparent',
-            border: '1px solid $tagSuccessBackground',
-          }}
-        >
+        <Text tag color={'complete'} semibold size={'medium'}>
           {search}
         </Text>
       </Flex>
