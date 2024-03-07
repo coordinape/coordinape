@@ -106,10 +106,14 @@ export const PostRow = ({
             }),
             flexGrow: 1,
             '&:hover': {
-              '.iconMessage': {
+              '.iconMessage, .iconReaction': {
                 'svg * ': {
                   fill: '$ctaHover',
                 },
+              },
+              '.giveButton': {
+                background: '$tagCtaBackground',
+                color: '$tagCtaText',
               },
             },
             '@sm': {

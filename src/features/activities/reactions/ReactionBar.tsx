@@ -108,6 +108,7 @@ export const ReactionBar = ({
       )}
       <Flex css={{ alignItems: 'center', gap: '$sm' }}>
         <ReactionButton
+          className="iconReaction"
           color="transparent"
           onClick={() => setShowAddReaction(prev => !prev)}
           css={{
@@ -117,6 +118,7 @@ export const ReactionBar = ({
             mr: '$xxs',
             minHeight: 0,
             backgroundColor: 'transparent',
+            color: '$secondaryText',
             '&:hover': {
               color: '$linkHover',
             },
