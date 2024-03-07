@@ -112,7 +112,6 @@ export const PostRow = ({
                 },
               },
               '.giveButton': {
-                background: '$tagCtaBackground',
                 color: '$tagCtaText',
               },
             },
@@ -256,8 +255,14 @@ export const PostRow = ({
                           <Button
                             color="link"
                             css={{
+                              p: '2px $xs',
+                              borderRadius: '$1',
                               width: 'auto',
+                              minHeight: 0,
                               textDecoration: 'none',
+                              '&:hover': {
+                                background: '$tagCtaBackground',
+                              },
                               '*': {
                                 fill: '$link',
                               },
@@ -271,9 +276,13 @@ export const PostRow = ({
                           <Button
                             color="transparent"
                             css={{
-                              p: '$xs',
+                              p: '2px $xs',
+                              borderRadius: '$1',
                               width: 'auto',
                               minHeight: 0,
+                              '&:hover': {
+                                background: '$tagCtaBackground',
+                              },
                               '*': {
                                 fill: '$secondaryText',
                               },
@@ -281,7 +290,7 @@ export const PostRow = ({
                             onClick={() => setDisplayComments(prev => !prev)}
                           >
                             <Text color="cta" className="iconMessage">
-                              <Message nostroke css={{ ml: '$sm' }} />
+                              <Message nostroke />
                             </Text>
                           </Button>
                         )}

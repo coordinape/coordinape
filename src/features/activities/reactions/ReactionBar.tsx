@@ -121,6 +121,7 @@ export const ReactionBar = ({
             color: '$secondaryText',
             '&:hover': {
               color: '$linkHover',
+              background: '$tagCtaBackground',
             },
             svg: {
               marginRight: 0,
