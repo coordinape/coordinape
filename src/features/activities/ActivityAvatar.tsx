@@ -34,7 +34,7 @@ export const ActivityAvatar = ({
       css={{ textDecoration: 'none' }}
     >
       <Avatar
-        css={{ ...css, flexShrink: 0 }}
+        css={{ flexShrink: 0, ...css }}
         name={profile.name}
         path={profile.avatar}
         hasCoSoul={!!profile.cosoul}

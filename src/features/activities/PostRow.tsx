@@ -119,7 +119,7 @@ export const PostRow = ({
         >
           <ActivityAvatar
             profile={activity.actor_profile_public}
-            css={{ '@sm': { width: '40px !important', height: 40 } }}
+            css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
           />
           <Flex
             className="clickThrough"
