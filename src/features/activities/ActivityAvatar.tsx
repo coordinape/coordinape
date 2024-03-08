@@ -1,6 +1,7 @@
 import { ComponentProps } from 'react';
 
 import { NavLink } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { coLinksPaths, givePaths } from '../../routes/paths';
 import { Avatar, Box } from '../../ui';
@@ -9,6 +10,7 @@ import { useIsCoLinksSite } from '../colinks/useIsCoLinksSite';
 export const ActivityAvatar = ({
   profile,
   size,
+  css,
 }: {
   profile: {
     address?: string;
@@ -17,6 +19,7 @@ export const ActivityAvatar = ({
     avatar?: string;
   };
   size?: ComponentProps<typeof Avatar>['size'];
+  css?: CSS;
 }) => {
   const isCoLinksPage = useIsCoLinksSite();
 
@@ -31,7 +34,7 @@ export const ActivityAvatar = ({
       css={{ textDecoration: 'none' }}
     >
       <Avatar
-        css={{ flexShrink: 0 }}
+        css={{ ...css, flexShrink: 0 }}
         name={profile.name}
         path={profile.avatar}
         hasCoSoul={!!profile.cosoul}

@@ -117,7 +117,10 @@ export const PostRow = ({
             },
           }}
         >
-          <ActivityAvatar profile={activity.actor_profile_public} />
+          <ActivityAvatar
+            profile={activity.actor_profile_public}
+            css={{ '@sm': { width: '40px !important', height: 40 } }}
+          />
           <Flex
             className="clickThrough"
             column
@@ -125,6 +128,9 @@ export const PostRow = ({
               flexGrow: 1,
               ml: '$md',
               position: 'relative',
+              '@sm': {
+                ml: '$sm',
+              },
             }}
           >
             <Flex
