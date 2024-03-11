@@ -20,7 +20,7 @@ import {
 import { order_by } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
-import { CSS } from '../../stitches.config';
+import { CSS, skillTextStyle } from '../../stitches.config';
 import {
   AppLink,
   Avatar,
@@ -708,13 +708,14 @@ const ColinksGiveNotification = ({
               }}
               to={coLinksPaths.post(give.activity_id)}
             >
-              <Text size="small" color={'default'}>
-                +GIVE
-              </Text>
               {give.skill && (
                 <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
-                  <Text tag color="complete" size="small">
-                    {give.skill}
+                  <Text tag color="complete" size="small" css={{ gap: '$xs' }}>
+                    <Text size="small" css={{ fontWeight: 'normal' }}>
+                      +1
+                    </Text>
+                    <GemCoOutline fa size={'md'} />
+                    <Text css={skillTextStyle}>{give.skill}</Text>
                   </Text>
                 </Link>
               )}

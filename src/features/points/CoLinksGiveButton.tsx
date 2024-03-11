@@ -143,6 +143,7 @@ export const CoLinksGiveButton = ({
                     trigger={
                       <>
                         <Button
+                          className="giveButton "
                           as="span"
                           color="dim"
                           onClick={shouldShowModal}
