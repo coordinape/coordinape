@@ -11,6 +11,7 @@ import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { SearchBox } from '../SearchBox/SearchBox';
+import HelpButton from 'components/HelpButton';
 import {
   Ai,
   BoltFill,
@@ -279,6 +280,22 @@ export const CoLinksNav = () => {
               },
             }}
           >
+            {mobileMenuOpen && (
+              <HelpButton
+                css={{
+                  top: 20,
+                  right: -40,
+                  position: 'absolute',
+                  display: 'none',
+                  '@sm': {
+                    display: 'block',
+                  },
+                  '.helpButtonContainer': {
+                    position: 'absolute',
+                  },
+                }}
+              />
+            )}
             <CoLinksNavProfile
               name={data.profile.name}
               avatar={data.profile.avatar}

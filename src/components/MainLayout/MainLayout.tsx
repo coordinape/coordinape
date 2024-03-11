@@ -23,7 +23,7 @@ export const MainLayout = ({ children }: { children: React.ReactNode }) => {
         <SideNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
-          <HelpButton />
+          <HelpButton css={{ '@sm': { display: 'none' } }} />
           <Box
             as="main"
             css={{

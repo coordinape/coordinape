@@ -14,6 +14,7 @@ import {
   getCircleFromPath,
   getOrgFromPath,
 } from '../../routes/paths';
+import HelpButton from 'components/HelpButton';
 import { Menu, X } from 'icons/__generated';
 import { EmailCTA } from 'pages/ProfilePage/EmailSettings/EmailCTA';
 import { Button, Flex, IconButton } from 'ui';
@@ -216,7 +217,23 @@ export const SideNav = () => {
             </>
           )}
         </Flex>
-        <Flex column>
+        <Flex column css={{ position: 'relative' }}>
+          {mobileMenuOpen && (
+            <HelpButton
+              css={{
+                top: 20,
+                right: -40,
+                position: 'absolute',
+                display: 'none',
+                '@sm': {
+                  display: 'block',
+                },
+                '.helpButtonContainer': {
+                  position: 'absolute',
+                },
+              }}
+            />
+          )}
           {data && (
             <>
               <Flex column css={{ gap: '$sm' }}>

@@ -47,7 +47,7 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
         <CoLinksNav />
         <Box css={{ width: '100%' }}>
           <GlobalUi />
-          <HelpButton />
+          <HelpButton css={{ '@sm': { display: 'none' } }} />
           <Box
             as="main"
             css={{
