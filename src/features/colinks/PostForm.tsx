@@ -426,7 +426,6 @@ export const PostForm = ({
               <Flex
                 css={{
                   justifyContent: 'flex-end',
-                  flexGrow: 1,
                   alignItems: 'center',
                   flexDirection: editContribution ? 'row-reverse' : 'row',
                   gap: '$md',

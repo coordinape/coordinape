@@ -106,10 +106,13 @@ export const PostRow = ({
             }),
             flexGrow: 1,
             '&:hover': {
-              '.iconMessage': {
+              '.iconMessage, .iconReaction': {
                 'svg * ': {
                   fill: '$ctaHover',
                 },
+              },
+              '.giveButton': {
+                color: '$tagCtaText',
               },
             },
             '@sm': {
@@ -117,7 +120,10 @@ export const PostRow = ({
             },
           }}
         >
-          <ActivityAvatar profile={activity.actor_profile_public} />
+          <ActivityAvatar
+            profile={activity.actor_profile_public}
+            css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
+          />
           <Flex
             className="clickThrough"
             column
@@ -125,6 +131,9 @@ export const PostRow = ({
               flexGrow: 1,
               ml: '$md',
               position: 'relative',
+              '@sm': {
+                ml: '$sm',
+              },
             }}
           >
             <Flex
@@ -252,8 +261,14 @@ export const PostRow = ({
                           <Button
                             color="link"
                             css={{
+                              p: '2px $xs',
+                              borderRadius: '$1',
                               width: 'auto',
+                              minHeight: 0,
                               textDecoration: 'none',
+                              '&:hover': {
+                                background: '$tagCtaBackground',
+                              },
                               '*': {
                                 fill: '$link',
                               },
@@ -267,9 +282,13 @@ export const PostRow = ({
                           <Button
                             color="transparent"
                             css={{
-                              p: '$xs',
+                              p: '2px $xs',
+                              borderRadius: '$1',
                               width: 'auto',
                               minHeight: 0,
+                              '&:hover': {
+                                background: '$tagCtaBackground',
+                              },
                               '*': {
                                 fill: '$secondaryText',
                               },
@@ -277,7 +296,7 @@ export const PostRow = ({
                             onClick={() => setDisplayComments(prev => !prev)}
                           >
                             <Text color="cta" className="iconMessage">
-                              <Message nostroke css={{ ml: '$sm' }} />
+                              <Message nostroke />
                             </Text>
                           </Button>
                         )}

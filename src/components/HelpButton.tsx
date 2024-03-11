@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { styled } from '@stitches/react';
+import { CSS, styled } from '@stitches/react';
 
 import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksSite';
 import {
@@ -108,110 +108,117 @@ const HelpOption = ({
   );
 };
 
-const HelpButton = () => {
+const HelpButton = ({ css }: { css?: CSS }) => {
   const isCoLinksPage = useIsCoLinksSite();
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <HelpButtonContainer
-      data-open={`${open}`}
-      onClick={() => setOpen(true)}
-      css={{
-        '&[data-open="true"]': {
-          height: isCoLinksPage ? '260px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
-        },
-      }}
-    >
-      <Box
-        className={'help-icon'}
+    <Flex css={css}>
+      <HelpButtonContainer
+        className="helpButtonContainer"
+        data-open={`${open}`}
+        onClick={() => setOpen(true)}
         css={{
-          position: 'absolute',
-          height: '100%',
-          width: '100%',
-          top: 0,
-          left: 0,
+          '&[data-open="true"]': {
+            height: isCoLinksPage ? '260px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
+          },
         }}
       >
-        <Flex
-          alignItems="center"
+        <Box
+          className={'help-icon'}
           css={{
-            justifyContent: 'center',
-            width: '100%',
+            position: 'absolute',
             height: '100%',
+            width: '100%',
+            top: 0,
+            left: 0,
           }}
         >
-          <Text semibold h1>
-            ?
-          </Text>
-        </Flex>
-      </Box>
-      <Box className={'open-contents'}>
-        <Flex>
-          <Text css={{ flexGrow: 1 }} bold large>
-            Need Help?
-          </Text>
-          <Box
-            onClick={e => {
-              e.stopPropagation();
-              setOpen(false);
-            }}
+          <Flex
+            alignItems="center"
             css={{
-              mt: '-4px',
-              color: '$neutral',
-              cursor: 'pointer',
-              '&:hover': {
-                color: '$text',
-              },
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
             }}
           >
-            <X size={'md'} color={'inherit'} />
+            <Text semibold h1>
+              ?
+            </Text>
+          </Flex>
+        </Box>
+        <Box className={'open-contents'}>
+          <Flex>
+            <Text css={{ flexGrow: 1 }} bold large>
+              Need Help?
+            </Text>
+            <Box
+              onClick={e => {
+                e.stopPropagation();
+                setOpen(false);
+              }}
+              css={{
+                mt: '-4px',
+                color: '$neutral',
+                cursor: 'pointer',
+                '&:hover': {
+                  color: '$text',
+                },
+              }}
+            >
+              <X size={'md'} color={'inherit'} />
+            </Box>
+          </Flex>
+          <Box css={{ mt: '$sm' }}>
+            <Text size="small" css={{ mt: '$sm', mb: '$md' }}>
+              Ask us anything
+            </Text>
           </Box>
-        </Flex>
-        <Box css={{ mt: '$sm' }}>
-          <Text size="small" css={{ mt: '$sm', mb: '$md' }}>
-            Ask us anything
-          </Text>
-        </Box>
-        <HelpOption
-          href={EXTERNAL_URL_DISCORD}
-          icon={<Discord size={'md'} color={'text'} />}
-        >
-          Ask on Discord
-        </HelpOption>
-        <HelpOption
-          href={
-            !isCoLinksPage
-              ? EXTERNAL_URL_MAILTO_SUPPORT
-              : EXTERNAL_URL_MAILTO_COLINKS_SUPPORT
-          }
-          icon={<Mail size={'md'} color={'text'} />}
-        >
-          Email Us
-        </HelpOption>
-        {!isCoLinksPage && (
           <HelpOption
-            href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
-            icon={<Clock size={'md'} color={'text'} />}
+            href={EXTERNAL_URL_DISCORD}
+            icon={
+              <Discord nostroke size={'md'} css={{ '*': { fill: '$text' } }} />
+            }
           >
-            Schedule a Walkthrough
+            Ask on Discord
           </HelpOption>
-        )}
-        <HelpOption
-          href={EXTERNAL_URL_REPORT_ABUSE_FORM}
-          icon={<AlertTriangle size={'md'} color={'text'} />}
-        >
-          Report Abuse
-        </HelpOption>
-        <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
           <HelpOption
-            href={isCoLinksPage ? EXTERNAL_URL_DOCS_COLINKS : EXTERNAL_URL_DOCS}
-            icon={<FileText size={'md'} color={'text'} />}
+            href={
+              !isCoLinksPage
+                ? EXTERNAL_URL_MAILTO_SUPPORT
+                : EXTERNAL_URL_MAILTO_COLINKS_SUPPORT
+            }
+            icon={<Mail size={'md'} color={'text'} />}
           >
-            Documentation
+            Email Us
           </HelpOption>
+          {!isCoLinksPage && (
+            <HelpOption
+              href={EXTERNAL_URL_SCHEDULE_WALKTHROUGH}
+              icon={<Clock size={'md'} color={'text'} />}
+            >
+              Schedule a Walkthrough
+            </HelpOption>
+          )}
+          <HelpOption
+            href={EXTERNAL_URL_REPORT_ABUSE_FORM}
+            icon={<AlertTriangle size={'md'} color={'text'} />}
+          >
+            Report Abuse
+          </HelpOption>
+          <Box css={{ borderTop: '0.5px solid $border', mt: '$sm' }}>
+            <HelpOption
+              href={
+                isCoLinksPage ? EXTERNAL_URL_DOCS_COLINKS : EXTERNAL_URL_DOCS
+              }
+              icon={<FileText size={'md'} color={'text'} />}
+            >
+              Documentation
+            </HelpOption>
+          </Box>
         </Box>
-      </Box>
-    </HelpButtonContainer>
+      </HelpButtonContainer>
+    </Flex>
   );
 };
 
