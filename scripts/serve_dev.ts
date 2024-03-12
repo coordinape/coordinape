@@ -45,6 +45,7 @@ import twitter_callback from '../_api/twitter/callback';
 import twitter_login from '../_api/twitter/login';
 import alchemy_cosoul from '../_api/webhooks/alchemy_cosoul';
 import alchemy_link_tx from '../_api/webhooks/alchemy_link_tx';
+import neynar_mention from '../_api/webhooks/neynar_mention';
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -105,6 +106,7 @@ app.get('/api/join/:token', (req, res) => {
 // TODO: probably rename these to match prod, but this overlaps with :address route
 app.post('/api/webhooks/alchemy_cosoul', tf(alchemy_cosoul));
 app.post('/api/webhooks/alchemy_link_tx', tf(alchemy_link_tx));
+app.post('/api/webhooks/neynar_mention', tf(neynar_mention));
 app.get('/api/cosoul/:address', (req, res) => {
   return tf(address)({ ...req, query: req.params }, res);
 });
