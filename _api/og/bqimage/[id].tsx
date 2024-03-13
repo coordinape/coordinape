@@ -91,9 +91,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // return res.send(buf);
     // return res.send('WHATUP');
   } catch (e: any) {
-    console.error(`${e.message}`);
+    console.error(`ERROR ${e.message}`);
     return new Response(`Failed to generate the image`, {
       status: 500,
     });
+  } finally {
+    console.error('FINALMENTE!');
   }
 }
