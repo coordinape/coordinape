@@ -7,8 +7,24 @@ import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const parts = (req.url as string).split('/');
+    console.log('URL!', req.url);
+    let urlPath = req.url as string;
+    if (!urlPath.startsWith('http')) {
+      urlPath = `https://www.bigquestions.app${urlPath}`;
+    }
+    const originalUrl = new URL(urlPath);
+
+    console.log(
+      'originalUrl',
+      originalUrl,
+      urlPath,
+      urlPath,
+      originalUrl.pathname
+    );
+    const parts = originalUrl.pathname.split('/');
     const id = parts[parts.length - 1] ?? 'IDK';
+
+    console.log('id', id, 'parts', parts);
 
     const bq = await getBigQuestionInfo(id);
 
