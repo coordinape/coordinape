@@ -138,6 +138,11 @@ export const ComboBox = ({
         height: 'auto',
         background: 'transparent !important',
         borderRadius: '0 !important',
+        '&.firstToAdd': {
+          position: 'absolute',
+          bottom: '-$xl',
+          width: '100%',
+        },
       }),
     },
 
@@ -161,7 +166,9 @@ export const ComboBox = ({
             maxHeight: '200px',
           }),
       ...(giveSkillSelector && {
-        p: '$md',
+        pt: '$md',
+        px: '$md',
+        pb: '$2xl',
       }),
     },
 
@@ -174,6 +181,9 @@ export const ComboBox = ({
           pt: 0,
         },
       },
+      ...(giveSkillSelector && {
+        position: 'relative',
+      }),
     },
 
     '[cmdk-group]': {
