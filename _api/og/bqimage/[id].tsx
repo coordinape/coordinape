@@ -7,10 +7,7 @@ import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    console.log('URL!', req.url);
-    const originalUrl = new URL(req.url as string);
-
-    const parts = originalUrl.pathname.split('/');
+    const parts = (req.url as string).split('/');
     const id = parts[parts.length - 1] ?? 'IDK';
 
     const bq = await getBigQuestionInfo(id);
