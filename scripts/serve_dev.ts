@@ -36,7 +36,9 @@ import linkedin_login from '../_api/linkedin/login';
 import log from '../_api/log';
 import login from '../_api/login';
 import mpTrack from '../_api/mp/track';
-import og_profileInfo from '../_api/og/profileinfo/[address]';
+import ogbqimage from '../_api/og/bqimage/[id]';
+import ogpostimage from '../_api/og/postimage/[id]';
+import ogprofileimage from '../_api/og/profileimage/[address]';
 import og_tags from '../_api/og/tags';
 import postmarkTrack from '../_api/postmark/track';
 import time from '../_api/time';
@@ -124,16 +126,45 @@ app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
 });
 
-app.get('/api/og/profileinfo/:address', (req, res) => {
-  return tf(og_profileInfo)({ ...req, query: req.params }, res);
-});
-
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
   return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
   return tf(unsubscribeToken)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/og/profileimage/:address', (req, res) => {
+  return tf(ogprofileimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
+});
+
+app.get('/api/og/bqimage/:id', (req, res) => {
+  return tf(ogbqimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
+});
+
+app.get('/api/og/postimage/:id', (req, res) => {
+  return tf(ogpostimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
 });
 
 app.post('/api/log', tf(log));

@@ -19,7 +19,8 @@
     "forceConsistentCasingInFileNames": true,
     "sourceMap": true,
     "allowImportingTsExtensions": true,
-    "allowArbitraryExtensions": true
+    "allowArbitraryExtensions": true,
+    "jsx": "react-jsx"
   },
   "ts-node": {
     "esm": true,

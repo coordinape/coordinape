@@ -1,39 +1,36 @@
-// @ts-nocheck
-
+import { Readable } from 'node:stream';
+// @ts-ignore
+import type { ReadableStream } from 'node:stream/web';
 import React from 'react';
 
-import type { VercelRequest } from '@vercel/node';
+// @ts-ignore
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-export const edge = true;
+import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
+// @ts-ignore
 
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(req: VercelRequest) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const originalUrl = new URL(req.url as string);
+    let urlPath = req.url as string;
+    if (!urlPath.startsWith('http')) {
+      urlPath = `https://www.fake.app${urlPath}`;
+    }
+    const originalUrl = new URL(urlPath);
 
     const parts = originalUrl.pathname.split('/');
     const id = parts[parts.length - 1] ?? 'IDK';
 
-    const url = new URL(
-      'https://' +
-        originalUrl.hostname +
-        '/api/og/bqinfo/' +
-        encodeURIComponent(id)
-    );
+    const bq = await getBigQuestionInfo(id);
 
-    const res = await fetch(url.toString());
+    if (!bq) {
+      return res.status(404).send({
+        message: 'big question not found',
+      });
+    }
 
-    const bq: {
-      cover_image_url: string;
-      prompt: string;
-      css_background_position: string | undefined;
-    } = await res.json();
-
-    return new ImageResponse(
+    console.log('building image response');
+    const ir = new ImageResponse(
       (
         <div
           style={{
@@ -95,10 +92,12 @@ export default async function handler(req: VercelRequest) {
         height: 630,
       }
     );
+    // @ts-ignore
+    Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
   } catch (e: any) {
     console.error(`${e.message}`);
-    return new Response(`Failed to generate the image`, {
-      status: 500,
-    });
+    return res.status(500).send(`Failed to generate the image: ${e.message}`);
+  } finally {
+    console.log('finally');
   }
 }
