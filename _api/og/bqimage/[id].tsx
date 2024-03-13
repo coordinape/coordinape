@@ -1,8 +1,8 @@
-// import React from 'react';
+import React from 'react';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { ImageResponse } from '@vercel/og';
 
-// import { ImageResponse } from '@vercel/og';
 import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
