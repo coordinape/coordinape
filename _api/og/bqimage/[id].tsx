@@ -20,6 +20,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
+    return res.status(404).send({
+      message: 'derp',
+    });
     // const ir = new ImageResponse(
     //   (
     //     <div
@@ -86,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // const buf = Buffer.from(ab);
     // res.setHeader('Content-Type', 'image/png');
     // return res.send(buf);
-    return res.send('WHATUP');
+    // return res.send('WHATUP');
   } catch (e: any) {
     console.error(`${e.message}`);
     return new Response(`Failed to generate the image`, {
