@@ -7,6 +7,7 @@ import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
+    console.log('URL!', req.url);
     const originalUrl = new URL(req.url as string);
 
     const parts = originalUrl.pathname.split('/');
@@ -92,9 +93,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // return res.send('WHATUP');
   } catch (e: any) {
     console.error(`ERROR ${e.message}`);
-    return new Response(`Failed to generate the image`, {
-      status: 500,
-    });
+    return res.status(500).send(`Failed to generate the image`);
   } finally {
     console.error('FINALMENTE!');
   }
