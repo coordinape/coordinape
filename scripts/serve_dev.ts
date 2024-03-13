@@ -36,11 +36,8 @@ import linkedin_login from '../_api/linkedin/login';
 import log from '../_api/log';
 import login from '../_api/login';
 import mpTrack from '../_api/mp/track';
-// @ts-ignore -tsx file
 import ogbqimage from '../_api/og/bqimage/[id]';
-// @ts-ignore -tsx file
 import ogpostimage from '../_api/og/postimage/[id]';
-// @ts-ignore -tsx file
 import ogprofileimage from '../_api/og/profileimage/[address]';
 import og_tags from '../_api/og/tags';
 import postmarkTrack from '../_api/postmark/track';
