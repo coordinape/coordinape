@@ -1,5 +1,5 @@
 import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-import { EmbeddedCast } from '@neynar/nodejs-sdk/build/neynar-api/v2/openapi-farcaster/models/embedded-cast';
+import { EmbeddedCast } from '@neynar/nodejs-sdk/build/neynar-api/v2';
 
 import { NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
 
