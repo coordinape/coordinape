@@ -22,9 +22,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     } = req.body;
 
-    publishCast(`@${author_username} whattup, I'm online tracking GIVE!`, {
-      replyTo: hash,
-    });
+    await publishCast(
+      `@${author_username} whattup, I'm online tracking GIVE!`,
+      {
+        replyTo: hash,
+      }
+    );
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
