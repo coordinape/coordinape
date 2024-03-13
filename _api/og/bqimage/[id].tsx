@@ -20,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    return new ImageResponse(
+    const ir = new ImageResponse(
       (
         <div
           style={{
@@ -82,10 +82,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         height: 630,
       }
     );
-    // const ab = await ir.arrayBuffer();
-    // const buf = Buffer.from(ab);
-    // res.setHeader('Content-Type', 'image/png');
-    // return res.send(buf);
+    const ab = await ir.arrayBuffer();
+    const buf = Buffer.from(ab);
+    res.setHeader('Content-Type', 'image/png');
+    return res.send(buf);
   } catch (e: any) {
     console.error(`${e.message}`);
     return new Response(`Failed to generate the image`, {
