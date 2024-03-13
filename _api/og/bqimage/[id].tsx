@@ -1,39 +1,26 @@
-// @ts-nocheck
-
 import React from 'react';
 
-import type { VercelRequest } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-export const edge = true;
+import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
 
-export const config = {
-  runtime: 'edge',
-};
-
-export default async function handler(req: VercelRequest) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const originalUrl = new URL(req.url as string);
 
     const parts = originalUrl.pathname.split('/');
     const id = parts[parts.length - 1] ?? 'IDK';
 
-    const url = new URL(
-      'https://' +
-        originalUrl.hostname +
-        '/api/og/bqinfo/' +
-        encodeURIComponent(id)
-    );
+    const bq = await getBigQuestionInfo(id);
 
-    const res = await fetch(url.toString());
+    if (!bq) {
+      return res.status(404).send({
+        message: 'big question not found',
+      });
+    }
 
-    const bq: {
-      cover_image_url: string;
-      prompt: string;
-      css_background_position: string | undefined;
-    } = await res.json();
-
-    return new ImageResponse(
+    const ir = new ImageResponse(
       (
         <div
           style={{
@@ -95,6 +82,10 @@ export default async function handler(req: VercelRequest) {
         height: 630,
       }
     );
+    const ab = await ir.arrayBuffer();
+    const buf = Buffer.from(ab);
+    res.setHeader('Content-Type', 'image/png');
+    return res.send(buf);
   } catch (e: any) {
     console.error(`${e.message}`);
     return new Response(`Failed to generate the image`, {

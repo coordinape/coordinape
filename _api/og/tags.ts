@@ -4,9 +4,9 @@ import { escape } from 'html-escaper';
 import { decodeToken } from '../../api-lib/colinks/share';
 import { webAppURL } from '../../src/config/webAppURL';
 
-import { getBigQuestionInfo } from './bqinfo/[id]';
-import { getPostInfo } from './postinfo/[id]';
-import { getProfileInfo } from './profileinfo/[address]';
+import { getBigQuestionInfo } from './getBigQuestionInfo';
+import { getPostInfo } from './getPostInfo';
+import { getProfileInfo } from './getProfileInfo';
 
 const appURL = webAppURL('colinks');
 const appImg = 'https://colinks.coordinape.com/imgs/logo/colinks-favicon.png';

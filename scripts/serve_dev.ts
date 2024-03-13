@@ -36,7 +36,12 @@ import linkedin_login from '../_api/linkedin/login';
 import log from '../_api/log';
 import login from '../_api/login';
 import mpTrack from '../_api/mp/track';
-import og_profileInfo from '../_api/og/profileinfo/[address]';
+// @ts-ignore -tsx file
+import ogbqimage from '../_api/og/bqimage/[id]';
+// @ts-ignore -tsx file
+import ogpostimage from '../_api/og/postimage/[id]';
+// @ts-ignore -tsx file
+import ogprofileimage from '../_api/og/profileimage/[address]';
 import og_tags from '../_api/og/tags';
 import postmarkTrack from '../_api/postmark/track';
 import time from '../_api/time';
@@ -45,6 +50,7 @@ import twitter_callback from '../_api/twitter/callback';
 import twitter_login from '../_api/twitter/login';
 import alchemy_cosoul from '../_api/webhooks/alchemy_cosoul';
 import alchemy_link_tx from '../_api/webhooks/alchemy_link_tx';
+// @ts-ignore
 
 const app = express();
 app.use(express.json({ limit: '10mb' })); // for parsing application/json
@@ -122,16 +128,45 @@ app.get('/api/email/verify/:uuid', (req, res) => {
   return tf(verifyEmail)({ ...req, query: req.params }, res);
 });
 
-app.get('/api/og/profileinfo/:address', (req, res) => {
-  return tf(og_profileInfo)({ ...req, query: req.params }, res);
-});
-
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
   return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
   return tf(unsubscribeToken)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/og/profileimage/:address', (req, res) => {
+  return tf(ogprofileimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
+});
+
+app.get('/api/og/bqimage/:id', (req, res) => {
+  return tf(ogbqimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
+});
+
+app.get('/api/og/postimage/:id', (req, res) => {
+  return tf(ogpostimage)(
+    {
+      ...req,
+      url: 'http://colinks.co.local:3000' + req.url,
+      query: req.params,
+    },
+    res
+  );
 });
 
 app.post('/api/log', tf(log));

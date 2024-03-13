@@ -1,41 +1,30 @@
-// @ts-nocheck
-
 import React from 'react';
 
-import type { VercelRequest } from '@vercel/node';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-export const edge = true;
-export const config = {
-  runtime: 'edge',
-};
+import { getProfileInfo } from '../getProfileInfo.ts';
 
 const DEFAULT_AVATAR =
   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 
-export default async function handler(req: VercelRequest) {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const originalUrl = new URL(req.url as string);
 
     const parts = originalUrl.pathname.split('/');
     const address = parts[parts.length - 1] ?? 'IDK';
 
-    const url = new URL(
-      'https://' +
-        originalUrl.hostname +
-        '/api/og/profileinfo/' +
-        encodeURIComponent(address)
-    );
+    const profile = await getProfileInfo(address);
 
-    const res = await fetch(url.toString());
-    const profile: {
-      avatar: string | undefined;
-      name: string;
-      repScore: number;
-      links: number;
-    } = await res.json();
+    if (!profile) {
+      return res.status(404).send({
+        message: 'profile not found',
+      });
+    }
 
-    return new ImageResponse(
+    console.log('hello ladies');
+    const ir = new ImageResponse(
       (
         <div
           style={{
@@ -139,7 +128,7 @@ export default async function handler(req: VercelRequest) {
                   d="M9.739 5.268a1.27 1.27 0 0 1-.898.373H6.277a.638.638 0 0 0-.636.636v2.564c0 .337-.135.66-.373.898L3.456 11.55a.638.638 0 0 0 0 .898l-.899.898a1.912 1.912 0 0 1 0-2.698L4.37 8.84V6.277c0-1.053.854-1.907 1.907-1.907h2.564l1.812-1.813a1.912 1.912 0 0 1 2.698 0L15.16 4.37h2.564c1.053 0 1.907.854 1.907 1.907v2.564l1.813 1.812a1.912 1.912 0 0 1 0 2.698L19.63 15.16v2.564a1.908 1.908 0 0 1-1.907 1.907h-2.564l-1.812 1.813a1.912 1.912 0 0 1-2.698 0L8.84 19.63H6.277a1.908 1.908 0 0 1-1.907-1.907v-2.564l-1.813-1.812.899-.898 1.812 1.812c.238.239.373.56.373.898v2.564c0 .35.286.636.636.636h2.564c.337 0 .66.135.898.373l1.812 1.812a.638.638 0 0 0 .898 0l1.812-1.812a1.27 1.27 0 0 1 .898-.373h2.564c.35 0 .636-.286.636-.636v-2.564c0-.337.135-.66.373-.898l1.812-1.812a.638.638 0 0 0 0-.898l-1.812-1.812a1.27 1.27 0 0 1-.373-.898V6.277a.638.638 0 0 0-.636-.636h-2.564a1.27 1.27 0 0 1-.898-.373L12.45 3.456a.638.638 0 0 0-.898 0L9.739 5.268Z"
                 />
               </svg>
-              {profile.repScore} Rep Score
+              {profile.reputation_score?.total_score ?? 0} Rep Score
             </div>
             <div
               style={{
@@ -170,10 +159,17 @@ export default async function handler(req: VercelRequest) {
         height: 630,
       }
     );
+
+    const ab = await ir.arrayBuffer();
+    const buf = Buffer.from(ab);
+    res.setHeader('Content-Type', 'image/png');
+    return res.send(buf);
   } catch (e: any) {
-    console.error(`${e.message}`);
+    console.error(`${e.message}`, e);
     return new Response(`Failed to generate the image`, {
       status: 500,
     });
+  } finally {
+    console.log('finally');
   }
 }

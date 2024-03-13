@@ -162,7 +162,7 @@
     "react-markdown": "^9.0.1"
   },
   "scripts": {
-    "dev": "vite --port 3000 --strictPort --host",
+    "dev": "echo $PORT && vite --port $PORT --strictPort --host",
     "real": "vite preview --port 3000 --strictPort --host",
     "preinstall": "npx only-allow pnpm",
     "setup": "./scripts/setup.sh",
