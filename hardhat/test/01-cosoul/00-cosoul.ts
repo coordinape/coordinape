@@ -111,35 +111,6 @@ describe('CoSoul', () => {
     ).to.be.revertedWith('Ownable: caller is not the owner');
   });
 
-  describe('mintTo', () => {
-    it('prohibits non authorized mintTo', async () => {
-      const user1 = deploymentInfo.accounts[1];
-      const user2 = deploymentInfo.accounts[2];
-
-      await expect(
-        cosoul.connect(user1.signer).mintTo(user2.address)
-      ).to.be.revertedWith('');
-    });
-
-    it('allows signer to mintTo another address', async () => {
-      const user1 = deploymentInfo.accounts[1];
-      const owner = deploymentInfo.deployer.signer;
-
-      await expect(cosoul.connect(owner).mintTo(user1.address));
-    });
-
-    it('errors if address already has a cosoul', async () => {
-      const user1 = deploymentInfo.accounts[1];
-      const owner = deploymentInfo.deployer.signer;
-
-      await cosoul.connect(user1.signer).mint();
-
-      await expect(
-        cosoul.connect(owner).mintTo(user1.address)
-      ).to.be.revertedWith('Address already has a cosoul');
-    });
-  });
-
   describe('cosoul mint fees', () => {
     let user1, owner;
     beforeEach(async () => {
@@ -187,6 +158,34 @@ describe('CoSoul', () => {
         .mint({ value: ethers.utils.parseUnits('.32', 'ether') });
     });
   });
-});
 
+  describe('mintTo', () => {
+    it('allows signer to mintTo another address', async () => {
+      const user1 = deploymentInfo.accounts[1];
+      const owner = deploymentInfo.deployer.signer;
+
+      expect(await cosoul.connect(owner).mintTo(user1.address));
+    });
+
+    it('prohibits non authorized mintTo', async () => {
+      const user1 = deploymentInfo.accounts[1];
+      const user2 = deploymentInfo.accounts[2];
+
+      await expect(
+        cosoul.connect(user1.signer).mintTo(user2.address)
+      ).to.be.revertedWith('');
+    });
+
+    it('errors if address already has a cosoul', async () => {
+      const user3 = deploymentInfo.accounts[3];
+      const owner = deploymentInfo.deployer.signer;
+
+      await cosoul.connect(user3.signer).mint();
+
+      await expect(
+        cosoul.connect(owner).mintTo(user3.address)
+      ).to.be.revertedWith('Address already has a cosoul');
+    });
+  });
+});
 export {};
