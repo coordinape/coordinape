@@ -89,7 +89,7 @@ export const genHeadline = async (
 
     const end = new Date().getTime();
     // eslint-disable-next-line no-console
-    console.log(`botReply: Took ${end - start}ms`);
+    console.log(`genHeadline: Took ${end - start}ms`);
 
     const func_args =
       headlineResponse.choices[0].message.function_call?.arguments;
@@ -97,7 +97,7 @@ export const genHeadline = async (
 
     return JSON.parse(func_args);
   } catch (err) {
-    console.error('Received an error from OpenAI during botReply:', err);
+    console.error('Received an error from OpenAI during genHeadline:', err);
     return {
       headline: undefined,
       description: undefined,
