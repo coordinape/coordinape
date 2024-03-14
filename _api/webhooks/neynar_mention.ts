@@ -4,6 +4,7 @@ import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { errorResponse } from '../../api-lib/HttpError';
 import { publishCast } from '../../api-lib/neynar';
 import { isValidSignature } from '../../api-lib/neynarSignature';
+import { botReply } from '../../api-lib/openai';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -18,17 +19,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const {
       data: {
         hash,
+        text,
         author: { username: author_username },
       },
     } = req.body;
 
-    await publishCast(
-      `@${author_username} whattup, I'm online tracking GIVE!`,
-      {
-        replyTo: hash,
-        embeds: [{ url: 'https://frames.neynar.com/f/48785bd7/d154488b' }],
-      }
-    );
+    const reply = await botReply(text);
+
+    await publishCast(`@${author_username} ${reply}`, {
+      replyTo: hash,
+      embeds: [{ url: 'https://frames.neynar.com/f/48785bd7/d154488b' }],
+    });
 
     return res.status(200).send({ success: true });
   } catch (error: any) {

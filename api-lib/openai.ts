@@ -89,7 +89,7 @@ export const genHeadline = async (
 
     const end = new Date().getTime();
     // eslint-disable-next-line no-console
-    console.log(`genHeadline: Took ${end - start}ms`);
+    console.log(`botReply: Took ${end - start}ms`);
 
     const func_args =
       headlineResponse.choices[0].message.function_call?.arguments;
@@ -97,10 +97,50 @@ export const genHeadline = async (
 
     return JSON.parse(func_args);
   } catch (err) {
-    console.error('Received an error from OpenAI during genHeadling:', err);
+    console.error('Received an error from OpenAI during botReply:', err);
     return {
       headline: undefined,
       description: undefined,
     };
+  }
+};
+
+export const botReply = async (input: string): Promise<string | undefined> => {
+  try {
+    const openai = openai_client();
+
+    // skip if message length is too long
+    if (input.length > 400) {
+      // eslint-disable-next-line no-console
+      console.log(
+        'botReply: Skipping generation because input size is too long'
+      );
+      return undefined;
+    }
+
+    // time this function
+    const start = new Date().getTime();
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo-1106',
+      temperature: 0.8,
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are a friendly GIVEBOT. Give a brief response to this users input.',
+        },
+        { role: 'user', content: input },
+      ],
+    });
+
+    const end = new Date().getTime();
+    // eslint-disable-next-line no-console
+    console.log(`botReply: Took ${end - start}ms`);
+
+    return response.choices[0].message.content || 'Hello - I am GIVEbot';
+  } catch (err) {
+    console.error('Received an error from OpenAI during genHeadling:', err);
+    return undefined;
   }
 };
