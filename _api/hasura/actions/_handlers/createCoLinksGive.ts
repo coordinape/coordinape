@@ -59,78 +59,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new UnprocessableError('cannot give to self');
     }
 
-    const { profiles_by_pk } = await adminClient.query(
-      {
-        profiles_by_pk: [
-          { id: profileId },
-          {
-            points_balance: true,
-            points_checkpointed_at: true,
-          },
-        ],
-      },
-      {
-        operationName: 'getPointsForGiver',
-      }
-    );
-    assert(profiles_by_pk, 'current user profile not found');
-    const points = getAvailablePoints(
-      profiles_by_pk.points_balance,
-      profiles_by_pk.points_checkpointed_at
-    );
-
-    if (points < POINTS_PER_GIVE) {
-      throw new UnprocessableError('not enough points');
-    }
-    // insert the thing
-    // checkpoint balance
-    // return the id
-
-    const newPoints = points - POINTS_PER_GIVE;
-
-    const { insert_colinks_gives_one } = await adminClient.mutate(
-      {
-        insert_colinks_gives_one: [
-          {
-            object: {
-              activity_id: payload.activity_id,
-              profile_id: profileId,
-              target_profile_id: activity.actor_profile_id,
-              give_skill: payload.skill
-                ? {
-                    data: {
-                      name: payload.skill,
-                    },
-                    on_conflict: {
-                      constraint: skills_constraint.skills_pkey,
-                      update_columns: [skills_update_column.name],
-                    },
-                  }
-                : undefined,
-            },
-          },
-          {
-            id: true,
-          },
-        ],
-        update_profiles: [
-          {
-            where: { id: { _eq: profileId } },
-            _set: {
-              points_balance: newPoints,
-              points_checkpointed_at: 'now()',
-            },
-          },
-          {
-            affected_rows: true,
-          },
-        ],
-      },
-      {
-        operationName: 'createCoLinksGive__insertAndCheckpoint',
-      }
-    );
-    assert(insert_colinks_gives_one);
+    const { newPoints, insert_colinks_gives_one } =
+      await checkPointsAndCreateGive(
+        profileId,
+        activity.actor_profile_id,
+        payload
+      );
 
     const hostname = req.headers.host;
     await insertInteractionEvents({
@@ -149,3 +83,85 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponse(res, e);
   }
 }
+
+export const checkPointsAndCreateGive = async (
+  profileId: number,
+  target_profile_id: number,
+  payload: { activity_id?: number; skill?: string; cast_hash?: string }
+) => {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        {
+          points_balance: true,
+          points_checkpointed_at: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPointsForGiver',
+    }
+  );
+  assert(profiles_by_pk, 'current user profile not found');
+
+  const points = getAvailablePoints(
+    profiles_by_pk.points_balance,
+    profiles_by_pk.points_checkpointed_at
+  );
+
+  if (points < POINTS_PER_GIVE) {
+    throw new UnprocessableError('not enough points');
+  }
+  // insert the thing
+  // checkpoint balance
+  // return the id
+
+  const newPoints = points - POINTS_PER_GIVE;
+
+  const { insert_colinks_gives_one } = await adminClient.mutate(
+    {
+      insert_colinks_gives_one: [
+        {
+          object: {
+            activity_id: payload.activity_id,
+            cast_hash: payload.cast_hash,
+            profile_id: profileId,
+            target_profile_id: target_profile_id,
+            give_skill: payload.skill
+              ? {
+                  data: {
+                    name: payload.skill,
+                  },
+                  on_conflict: {
+                    constraint: skills_constraint.skills_pkey,
+                    update_columns: [skills_update_column.name],
+                  },
+                }
+              : undefined,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+      update_profiles: [
+        {
+          where: { id: { _eq: profileId } },
+          _set: {
+            points_balance: newPoints,
+            points_checkpointed_at: 'now()',
+          },
+        },
+        {
+          affected_rows: true,
+        },
+      ],
+    },
+    {
+      operationName: 'createCoLinksGive__insertAndCheckpoint',
+    }
+  );
+  assert(insert_colinks_gives_one);
+  return { newPoints, insert_colinks_gives_one };
+};

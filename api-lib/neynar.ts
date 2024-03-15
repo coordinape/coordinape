@@ -11,6 +11,16 @@ type PublishCastOptions = {
   channelId?: string;
 };
 
+export const fetchUserByFid = async (fid: number) => {
+  try {
+    const response = await client.fetchBulkUsers([fid]);
+    return response.users[0];
+  } catch (err) {
+    console.error('Got an error from Neynar attempting lookupUserByFid', err);
+    throw err;
+  }
+};
+
 export const publishCast = async (
   text: string,
   options: PublishCastOptions

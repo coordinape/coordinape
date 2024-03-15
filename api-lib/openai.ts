@@ -128,7 +128,7 @@ export const botReply = async (input: string): Promise<string | undefined> => {
         {
           role: 'system',
           content:
-            'You are a friendly GIVEBOT. Give a brief response to this users input.',
+            'You are a friendly GIVEBOT, powered by CoLinks. The user will tag you when they want to send GIVE to another user. Give a brief response to this users input, encouraging their giving and celebrating on-chain reputation. Be quirky.',
         },
         { role: 'user', content: input },
       ],
