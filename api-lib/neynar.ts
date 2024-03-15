@@ -37,3 +37,11 @@ export const publishCast = async (
     throw err;
   }
 };
+
+export const validateFrame = async (messageBytesInHex: string) => {
+  return await client.validateFrameAction(messageBytesInHex, {
+    followContext: true,
+    signerContext: true,
+    castReactionContext: true,
+  });
+};

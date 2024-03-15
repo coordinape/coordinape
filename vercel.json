@@ -58,6 +58,21 @@
       "destination": "/api/og/postimage/[id]?id=:id"
     },
     {
+<<<<<<< HEAD
+=======
+      "source": "/api/og/postinfo/:id",
+      "destination": "/api/og/postinfo/[id]?id=:id"
+    },
+    {
+      "source": "/api/frames/give/:id",
+      "destination": "/api/frames/give/[id]?id=:id"
+    },
+    {
+      "source": "/api/frames/give/img/:id",
+      "destination": "/api/frames/give/img/[id]?id=:id"
+    },
+    {
+>>>>>>> fb9c627f (basic frames impl)
       "source": "/(.*)",
       "destination": "/index.html"
     }

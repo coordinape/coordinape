@@ -6,9 +6,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
 import { getProfileInfo } from '../getProfileInfo.ts';
-
-const DEFAULT_AVATAR =
-  'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
+import { OGAvatar } from '../OGAvatar.tsx';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -62,28 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               }
             />
           </div>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              justifyItems: 'center',
-            }}
-          >
-            <img
-              alt="avatar"
-              height={200}
-              src={
-                profile.avatar
-                  ? (profile.avatar.startsWith('http')
-                      ? ''
-                      : process.env.VITE_S3_BASE_URL) + profile.avatar
-                  : DEFAULT_AVATAR
-              }
-              style={{ margin: '0 30px', borderRadius: 99999 }}
-              width={200}
-            />
-          </div>
+          <OGAvatar avatar={profile.avatar} />
           <div
             style={{
               display: 'flex',

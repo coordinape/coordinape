@@ -3768,6 +3768,8 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -3867,6 +3869,10 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -3932,6 +3938,10 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** primary key columns input for table: colinks_gives */
@@ -21316,7 +21326,7 @@ export type ModelTypes = {
   ['claims_variance_order_by']: GraphQLTypes['claims_variance_order_by'];
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
-    activity_id: GraphQLTypes['bigint'];
+    activity_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     give_skill?: GraphQLTypes['skills'] | undefined;
@@ -21326,6 +21336,8 @@ export type ModelTypes = {
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "colinks_gives" */
@@ -28796,7 +28808,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     __typename: 'colinks_gives';
-    activity_id: GraphQLTypes['bigint'];
+    activity_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     give_skill?: GraphQLTypes['skills'] | undefined;
@@ -28806,6 +28818,8 @@ export type GraphQLTypes = {
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "colinks_gives" */
@@ -28882,6 +28896,9 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** aggregate max on columns */
@@ -28944,6 +28961,9 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** primary key columns input for table: colinks_gives */

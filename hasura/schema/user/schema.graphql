@@ -4435,7 +4435,7 @@ input claims_variance_order_by {
 columns and relationships of "colinks_gives"
 """
 type colinks_gives {
-  activity_id: bigint!
+  activity_id: bigint
   created_at: timestamptz!
 
   """
@@ -4451,6 +4451,11 @@ type colinks_gives {
   profile_id: bigint!
   skill: citext
   target_profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
   updated_at: timestamptz!
 }
 
@@ -4542,6 +4547,7 @@ input colinks_gives_bool_exp {
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
   target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -4624,6 +4630,7 @@ input colinks_gives_order_by {
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
   updated_at: order_by
 }
 
