@@ -3,6 +3,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { getGiveBotInviterProfileId } from '../../api-lib/colinks/helperAccounts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations';
@@ -10,10 +11,12 @@ import { errorResponse } from '../../api-lib/HttpError';
 import { fetchUserByFid, publishCast } from '../../api-lib/neynar';
 import { isValidSignature } from '../../api-lib/neynarSignature';
 import { botReply } from '../../api-lib/openai';
+import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { checkPointsAndCreateGive } from '../hasura/actions/_handlers/createCoLinksGive';
 
 const FC_BOT_CONNECTOR = 'farcaster-bot-created';
 const DO_NOT_REPLY_FIDS = [389267];
+const INITIAL_POINTS = MAX_POINTS_CAP * 0.6;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -58,7 +61,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else {
       // no parent hash or fid
       //TODO: check for mentions to other profiles as receiver
-      throw new Error('No give target');
+      console.log('No parent hash or fid; no-op');
+      res.status(200).send({ success: true });
+      return;
     }
 
     const reply = await botReply(text);
@@ -151,8 +156,9 @@ const createProfile = async (address: string) => {
           object: {
             address,
             connector: FC_BOT_CONNECTOR,
+            points_balance: INITIAL_POINTS,
             name: `New User ${address.substring(0, 8)}`, // not sure how to set this to FC name without having to handle the case that that name is already persent in our db
-            // invited_by: invitedBy,
+            invited_by: await getGiveBotInviterProfileId(),
           },
         },
         {
