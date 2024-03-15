@@ -48,7 +48,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
 
     // Don't reply to the bot itself
-    if (DO_NOT_REPLY_FIDS.find(parent_fid)) {
+    if (DO_NOT_REPLY_FIDS.find(f => f == parent_fid)) {
       res.status(200).send({ success: true });
       return;
     }
