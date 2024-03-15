@@ -40,6 +40,13 @@ const fetchNotifications = async () => {
     {
       notifications: [
         {
+          where: {
+            _not: {
+              give: {
+                activity_id: { _is_null: true },
+              },
+            },
+          },
           order_by: [{ id: order_by.desc }],
           limit: 100,
         },
