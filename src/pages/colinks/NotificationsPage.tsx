@@ -40,13 +40,6 @@ const fetchNotifications = async () => {
     {
       notifications: [
         {
-          where: {
-            _not: {
-              give: {
-                activity_id: { _is_null: true },
-              },
-            },
-          },
           order_by: [{ id: order_by.desc }],
           limit: 100,
         },
@@ -101,6 +94,7 @@ const fetchNotifications = async () => {
             created_at: true,
             skill: true,
             activity_id: true,
+            cast_hash: true,
             giver_profile_public: {
               avatar: true,
               name: true,
@@ -247,8 +241,10 @@ export const NotificationsPage = () => {
               );
             } else if (n.link_tx) {
               content = <LinkTxNotification tx={n.link_tx} />;
-            } else if (n.give) {
+            } else if (n.give && n.give.activity_id) {
               content = <ColinksGiveNotification give={n.give} n={n} />;
+            } else if (n.give && n.give.cast_hash) {
+              content = <ColinksGiveFCNotification give={n.give} n={n} />;
             } else if (n.invited_profile_public) {
               content =
                 n.invited_profile_public.id === profileId ? (
@@ -733,6 +729,62 @@ const ColinksGiveNotification = ({
               <Text semibold size="small">
                 {n.actor_profile_public?.name}
               </Text>
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(n.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+const ColinksGiveFCNotification = ({
+  n,
+  give,
+}: {
+  n: Notification;
+  give: Give;
+}) => {
+  return (
+    <NotificationItem>
+      <Flex
+        css={{ justifyContent: 'flex-start', alignItems: 'center', gap: '$sm' }}
+      >
+        <Icon>
+          <GemCoOutline fa size={'lg'} css={{ mt: '-$sm' }} />
+        </Icon>
+
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
+            <Flex
+              // as={AppLink}
+              css={{
+                gap: '$xs',
+                mr: '$xs',
+                flexWrap: 'wrap',
+              }}
+              // to={coLinksPaths.post(give.activity_id)}
+            >
+              {give.skill ? (
+                <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
+                  <Text tag color="complete" size="small" css={{ gap: '$xs' }}>
+                    <Text size="small" css={{ fontWeight: 'normal' }}>
+                      +1
+                    </Text>
+                    <GemCoOutline fa size={'md'} />
+                    <Text css={skillTextStyle}>{give.skill}</Text>
+                  </Text>
+                </Link>
+              ) : (
+                <Text size="small" css={{ fontWeight: 'normal' }}>
+                  +1 GIVE
+                </Text>
+              )}
+              <Text size="small" color={'default'}>
+                on Farcaster
+              </Text>
+
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(n.created_at).toLocal().toRelative()}
               </Text>
