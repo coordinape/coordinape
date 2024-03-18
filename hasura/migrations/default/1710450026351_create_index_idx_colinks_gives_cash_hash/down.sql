@@ -1,1 +1,1 @@
-DROP INDEX IF EXISTS "public"."idx_colinks_gives_cash_hash";
+DROP INDEX IF EXISTS "public"."idx_colinks_gives_cast_hash";
