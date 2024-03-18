@@ -15,7 +15,8 @@ import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { checkPointsAndCreateGive } from '../hasura/actions/_handlers/createCoLinksGive';
 
 const FC_BOT_CONNECTOR = 'farcaster-bot-created';
-const DO_NOT_REPLY_FIDS = [389267];
+const BOT_FID = 389267;
+const DO_NOT_REPLY_FIDS = [BOT_FID];
 const INITIAL_POINTS = MAX_POINTS_CAP * 0.6;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,6 +34,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         hash,
         parent_author: { fid: parent_fid },
         parent_hash,
+        mentioned_profiles,
         text,
         author: {
           username: author_username,
@@ -53,18 +55,28 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
+    const mentioned_fid = mentioned_profiles.find(
+      (f: { fid: number }) => f.fid !== BOT_FID
+    ).fid;
+
+    let receiver_profile;
     if (parent_hash && parent_fid) {
+      // Cast is a reply
       console.log('This is a reply to ', parent_hash, 'by', parent_fid);
-      const receiver_profile = await receiverProfile(parent_fid);
+      receiver_profile = await receiverProfile(parent_fid);
       console.log('Receiver profile', receiver_profile);
-      await insertCoLinksGive(giver_profile, receiver_profile, hash);
+    } else if (mentioned_fid) {
+      // Cast is not a reply - look for a mention
+      console.log({ mentioned_profiles });
+      receiver_profile = await receiverProfile(mentioned_fid);
     } else {
       // no parent hash or fid
-      //TODO: check for mentions to other profiles as receiver
-      console.log('No parent hash or fid; no-op');
+      console.log('No parent hash or mentioned fid; no-op');
       res.status(200).send({ success: true });
       return;
     }
+
+    await insertCoLinksGive(giver_profile, receiver_profile, hash);
 
     const reply = await botReply(text);
 
