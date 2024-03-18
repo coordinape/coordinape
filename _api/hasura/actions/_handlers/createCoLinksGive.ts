@@ -89,28 +89,9 @@ export const checkPointsAndCreateGive = async (
   target_profile_id: number,
   payload: { activity_id?: number; skill?: string; cast_hash?: string }
 ) => {
-  const { profiles_by_pk } = await adminClient.query(
-    {
-      profiles_by_pk: [
-        { id: profileId },
-        {
-          points_balance: true,
-          points_checkpointed_at: true,
-        },
-      ],
-    },
-    {
-      operationName: 'getPointsForGiver',
-    }
-  );
-  assert(profiles_by_pk, 'current user profile not found');
+  const { canGive, points } = await fetchPoints(profileId);
 
-  const points = getAvailablePoints(
-    profiles_by_pk.points_balance,
-    profiles_by_pk.points_checkpointed_at
-  );
-
-  if (points < POINTS_PER_GIVE) {
+  if (!canGive) {
     throw new UnprocessableError('not enough points');
   }
   // insert the thing
@@ -164,4 +145,29 @@ export const checkPointsAndCreateGive = async (
   );
   assert(insert_colinks_gives_one);
   return { newPoints, insert_colinks_gives_one };
+};
+
+export const fetchPoints = async (profileId: number) => {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        {
+          points_balance: true,
+          points_checkpointed_at: true,
+        },
+      ],
+    },
+    {
+      operationName: 'getPointsForGiver',
+    }
+  );
+  assert(profiles_by_pk, 'current user profile not found');
+
+  const points = getAvailablePoints(
+    profiles_by_pk.points_balance,
+    profiles_by_pk.points_checkpointed_at
+  );
+
+  return { points, canGive: points >= POINTS_PER_GIVE };
 };

@@ -12,12 +12,17 @@ import { fetchUserByFid, publishCast } from '../../api-lib/neynar';
 import { isValidSignature } from '../../api-lib/neynarSignature';
 import { botReply } from '../../api-lib/openai';
 import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
-import { checkPointsAndCreateGive } from '../hasura/actions/_handlers/createCoLinksGive';
+import {
+  checkPointsAndCreateGive,
+  fetchPoints,
+} from '../hasura/actions/_handlers/createCoLinksGive';
 
 const FC_BOT_CONNECTOR = 'farcaster-bot-created';
 const BOT_FID = 389267;
 const DO_NOT_REPLY_FIDS = [BOT_FID];
 const INITIAL_POINTS = MAX_POINTS_CAP * 0.6;
+const NOT_ENOUGH_GIVE_TEXT =
+  "Unfortunately, you do not have enough give. You'll need to wait a bit before you can give again.";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -46,7 +51,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const giver_profile = await giverProfile(
       author_custody_address,
-      author_eth_addresses
+      author_eth_addresses,
+      author_username
     );
 
     // Don't reply to the bot itself
@@ -72,6 +78,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     } else {
       // no parent hash or fid
       console.log('No parent hash or mentioned fid; no-op');
+      res.status(200).send({ success: true });
+      return;
+    }
+
+    // giver has enough give points
+    const { canGive } = await fetchPoints(giver_profile.id);
+    if (!canGive) {
+      await publishCast(`@${author_username} ${NOT_ENOUGH_GIVE_TEXT}`, {
+        replyTo: hash,
+      });
+
       res.status(200).send({ success: true });
       return;
     }
@@ -121,7 +138,8 @@ const findProfileByAddresses = async (addresses: string[]) => {
 
 const giverProfile = async (
   custody_address: string,
-  eth_addresses: string[]
+  eth_addresses: string[],
+  username: string
 ) => {
   const potential_addresses = [...eth_addresses, custody_address];
 
@@ -135,7 +153,7 @@ const giverProfile = async (
     console.log('Creating new profile for giver with addr', address);
     assert(address, 'panic: no address to create profile for');
 
-    return await createProfile(address);
+    return await createProfile(address, username);
   }
 };
 
@@ -156,11 +174,38 @@ const receiverProfile = async (fid: number) => {
     console.log('Creating new profile for receiver with addr', address);
     assert(address, 'panic: no address to create profile for');
 
-    return await createProfile(address);
+    return await createProfile(address, receiver.username);
   }
 };
 
-const createProfile = async (address: string) => {
+const createProfile = async (address: string, preferred_name: string) => {
+  // verify username is not in use
+  const name = preferred_name;
+
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            name: { _eq: preferred_name },
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'neynar_mention__checkProfileName',
+    }
+  );
+  if (profiles.length > 0) {
+    console.log('Preferred name already in use', preferred_name);
+
+    const name = `${preferred_name} ${address.substring(0, 8)}`;
+    console.log('Creating new profile with name', name);
+  }
+
   const { insert_profiles_one } = await adminClient.mutate(
     {
       insert_profiles_one: [
@@ -169,7 +214,7 @@ const createProfile = async (address: string) => {
             address,
             connector: FC_BOT_CONNECTOR,
             points_balance: INITIAL_POINTS,
-            name: `New User ${address.substring(0, 8)}`, // not sure how to set this to FC name without having to handle the case that that name is already persent in our db
+            name: name,
             invited_by: await getGiveBotInviterProfileId(),
           },
         },
