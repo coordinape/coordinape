@@ -18,7 +18,7 @@ async function main() {
   ).attach(deployed_cosoul.address);
 
   // set mint fee
-  const fee = ethers.utils.parseEther('0.0022');
+  const fee = ethers.utils.parseEther('0');
   const setMintFeeTx = await cosoul.setMintFee(fee);
   console.log(
     `cosoul.setMintFee set to ${fee.toString()} wei via tx: `,
