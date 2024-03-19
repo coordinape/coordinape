@@ -10,6 +10,7 @@ import {
   getMintInfo,
   getOnChainPGIVE,
   getTokenId,
+  mintCoSoulForAddress,
   setOnChainPGIVE,
 } from './cosoul';
 
@@ -42,6 +43,18 @@ test('getMintInfo returns mint info', async () => {
   expect(data).toEqual({
     from: '0x0000000000000000000000000000000000000000',
     to: mainAccount,
+    tokenId: 1,
+  });
+});
+
+test('mintCoSoulForAddress mints to a given address', async () => {
+  const address = (await provider().listAccounts())[10];
+  const tx = await mintCoSoulForAddress(address);
+
+  const data = await getMintInfo(tx.hash);
+  expect(data).toEqual({
+    from: '0x0000000000000000000000000000000000000000',
+    to: address,
     tokenId: 1,
   });
 });
