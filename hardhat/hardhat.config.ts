@@ -284,7 +284,7 @@ const config: HardhatUserConfig = {
     optimismSepolia: {
       chainId: 11155420,
       url: OPTIMISM_SEPOLIA_RPC_URL,
-      gasPrice: 30000,
+      // gasPrice: 30000,
       accounts: {
         mnemonic: process.env.OPTIMISM_SEPOLIA_MNEMONIC || defaultMnemonic,
       },
@@ -297,9 +297,7 @@ const config: HardhatUserConfig = {
       accounts: {
         mnemonic: process.env.COSOUL_OPTIMISM_MNEMONIC || defaultMnemonic,
       },
-      deploy: [
-        /*'./scripts/deploy/03-cosoul/',*/ './scripts/deploy/04-colinks/',
-      ],
+      deploy: ['./scripts/deploy/03-cosoul/', './scripts/deploy/04-colinks/'],
       live: true,
     },
   },
