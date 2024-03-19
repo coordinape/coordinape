@@ -13,23 +13,23 @@ import {
   ContractTransaction,
   Overrides,
   CallOverrides,
-} from "ethers";
-import { BytesLike } from "@ethersproject/bytes";
-import { Listener, Provider } from "@ethersproject/providers";
-import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
-import { TypedEventFilter, TypedEvent, TypedListener } from "./commons";
+} from 'ethers';
+import { BytesLike } from '@ethersproject/bytes';
+import { Listener, Provider } from '@ethersproject/providers';
+import { FunctionFragment, EventFragment, Result } from '@ethersproject/abi';
+import { TypedEventFilter, TypedEvent, TypedListener } from './commons';
 
 interface IApeVaultInterface extends ethers.utils.Interface {
   functions: {
-    "tap(uint256,uint256,uint8)": FunctionFragment;
+    'tap(uint256,uint256,uint8)': FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "tap",
+    functionFragment: 'tap',
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
 
-  decodeFunctionResult(functionFragment: "tap", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'tap', data: BytesLike): Result;
 
   events: {};
 }

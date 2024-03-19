@@ -8,7 +8,6 @@ import { numberWithCommas } from 'utils';
 import { artWidth, artWidthMobile } from './constants';
 import { CoSoulButton } from './CoSoulButton';
 import { QueryCoSoulResult } from './getCoSoulData';
-import { COSOUL_MINT_FEE } from './MintOrBurnButton';
 import { generateRandomNumber, scrambleNumber } from './numberScramble';
 import './glitch.css';
 
@@ -128,8 +127,7 @@ export const CoSoulCreate = ({
         <Flex column css={{ gap: '$sm' }}>
           <CoSoulButton onReveal={onReveal} />
           <Text color="secondary">
-            There is a small {`${COSOUL_MINT_FEE}`} ETH fee to mint a CoSoul,
-            and gas costs are minimal.
+            CoSouls are free to mint, and gas costs are minimal.
           </Text>
         </Flex>
       </Panel>

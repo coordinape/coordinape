@@ -42,6 +42,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     "mint()": FunctionFragment;
     "mintFeeInWei()": FunctionFragment;
     "mintNonces(address)": FunctionFragment;
+    "mintTo(address)": FunctionFragment;
     "mintWithSignature(uint256,bytes)": FunctionFragment;
     "name()": FunctionFragment;
     "overrideTransfer(address,address,uint256)": FunctionFragment;
@@ -129,6 +130,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "mintNonces", values: [string]): string;
+  encodeFunctionData(functionFragment: "mintTo", values: [string]): string;
   encodeFunctionData(
     functionFragment: "mintWithSignature",
     values: [BigNumberish, BytesLike]
@@ -257,6 +259,7 @@ interface CoSoulInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mintNonces", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "mintWithSignature",
     data: BytesLike
@@ -482,6 +485,11 @@ export class CoSoul extends BaseContract {
     mintFeeInWei(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    mintTo(
+      _to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     mintWithSignature(
       _nonce: BigNumberish,
@@ -713,6 +721,11 @@ export class CoSoul extends BaseContract {
 
   mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+  mintTo(
+    _to: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   mintWithSignature(
     _nonce: BigNumberish,
     _signature: BytesLike,
@@ -932,6 +945,8 @@ export class CoSoul extends BaseContract {
     mintFeeInWei(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
+    mintTo(_to: string, overrides?: CallOverrides): Promise<void>;
 
     mintWithSignature(
       _nonce: BigNumberish,
@@ -1209,6 +1224,11 @@ export class CoSoul extends BaseContract {
 
     mintNonces(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    mintTo(
+      _to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     mintWithSignature(
       _nonce: BigNumberish,
       _signature: BytesLike,
@@ -1453,6 +1473,11 @@ export class CoSoul extends BaseContract {
     mintNonces(
       arg0: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    mintTo(
+      _to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mintWithSignature(
