@@ -19,12 +19,13 @@ select_permissions:
     permission:
       columns:
         - activity_id
-        - profile_id
-        - target_profile_id
-        - id
+        - cast_hash
         - created_at
-        - updated_at
+        - id
+        - profile_id
         - skill
+        - target_profile_id
+        - updated_at
       filter: {}
       allow_aggregations: true
     comment: ""
