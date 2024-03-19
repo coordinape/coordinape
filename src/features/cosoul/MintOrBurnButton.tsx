@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { ethers } from 'ethers';
 import { MagicModalFixer } from 'features/auth/magic';
 
 import { LoadingModal } from '../../components';
@@ -12,8 +11,6 @@ import { sendAndTrackTx } from '../../utils/contractHelpers';
 import { Contracts } from './contracts';
 import { MINTING_STEPS, MintingModal, MintingStep } from './MintingModal';
 import { useCoSoulToken } from './useCoSoulToken';
-
-export const COSOUL_MINT_FEE = '0.0022';
 
 export const MintOrBurnButton = ({
   contracts,
@@ -141,10 +138,7 @@ const MintButton = ({
     try {
       setAwaitingWallet(true);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () =>
-          contracts.cosoul.mint({
-            value: ethers.utils.parseUnits(COSOUL_MINT_FEE, 'ether'),
-          }),
+        () => contracts.cosoul.mint({}),
         {
           showDefault: showProgress,
           description: `Mint CoSoul`,
