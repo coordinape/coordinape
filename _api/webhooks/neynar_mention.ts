@@ -63,7 +63,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const mentioned_fid = mentioned_profiles.find(
       (f: { fid: number }) => f.fid !== BOT_FID
-    ).fid;
+    )?.fid;
 
     let receiver_profile;
     if (parent_hash && parent_fid) {
@@ -93,7 +93,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    await insertCoLinksGive(giver_profile, receiver_profile, hash);
+    const skill = parseSkill(text);
+
+    await insertCoLinksGive(giver_profile, receiver_profile, hash, skill);
 
     const reply = await botReply(text);
 
@@ -116,7 +118,6 @@ const findProfileByAddresses = async (addresses: string[]) => {
           where: {
             address: { _in: addresses },
           },
-          // order_by: { }
         },
         {
           address: true,
@@ -235,14 +236,15 @@ const createProfile = async (address: string, preferred_name: string) => {
 const insertCoLinksGive = async (
   giver_profile: any,
   receiver_profile: any,
-  hash: string
+  hash: string,
+  skill?: string
 ) => {
   const { newPoints } = await checkPointsAndCreateGive(
     giver_profile.id,
     receiver_profile.id,
     {
       cast_hash: hash,
-      // TODO: set a skill???? skill: 'farcasting',
+      skill: skill,
     }
   );
 
@@ -255,4 +257,9 @@ const insertCoLinksGive = async (
       new_points_balance: newPoints,
     },
   });
+};
+
+const parseSkill = (text: string) => {
+  const skillMatch = text.match(/#(\w+)/);
+  return skillMatch ? skillMatch[1] : undefined;
 };
