@@ -757,38 +757,47 @@ const ColinksGiveFCNotification = ({
 
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
           <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
-            <Flex
-              // as={AppLink}
-              css={{
-                gap: '$xs',
-                mr: '$xs',
-                flexWrap: 'wrap',
-              }}
-              // to={coLinksPaths.post(give.activity_id)}
+            <Link
+              href={`https://warpcast.com/~/conversations/${give.cast_hash}`}
+              target="_blank"
+              rel="noreferrer"
             >
-              {give.skill ? (
-                <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
-                  <Text tag color="complete" size="small" css={{ gap: '$xs' }}>
-                    <Text size="small" css={{ fontWeight: 'normal' }}>
-                      +1
+              <Flex
+                css={{
+                  gap: '$xs',
+                  mr: '$xs',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {give.skill ? (
+                  <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
+                    <Text
+                      tag
+                      color="complete"
+                      size="small"
+                      css={{ gap: '$xs' }}
+                    >
+                      <Text size="small" css={{ fontWeight: 'normal' }}>
+                        +1
+                      </Text>
+                      <GemCoOutline fa size={'md'} />
+                      <Text css={skillTextStyle}>{give.skill}</Text>
                     </Text>
-                    <GemCoOutline fa size={'md'} />
-                    <Text css={skillTextStyle}>{give.skill}</Text>
+                  </Link>
+                ) : (
+                  <Text size="small" css={{ fontWeight: 'normal' }}>
+                    +1 GIVE
                   </Text>
-                </Link>
-              ) : (
-                <Text size="small" css={{ fontWeight: 'normal' }}>
-                  +1 GIVE
+                )}
+                <Text size="small" color={'default'}>
+                  on Farcaster
                 </Text>
-              )}
-              <Text size="small" color={'default'}>
-                on Farcaster
-              </Text>
 
-              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
-                {DateTime.fromISO(n.created_at).toLocal().toRelative()}
-              </Text>
-            </Flex>
+                <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                  {DateTime.fromISO(n.created_at).toLocal().toRelative()}
+                </Text>
+              </Flex>
+            </Link>
           </Flex>
         </Flex>
       </Flex>
