@@ -82,6 +82,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
+    if (receiver_profile.id === giver_profile.id) {
+      await publishCast(`@${author_username} You can't give to yourself.`, {
+        replyTo: hash,
+      });
+      res.status(200).send({ success: true });
+      return;
+    }
+
     // giver has enough give points
     const { canGive } = await fetchPoints(giver_profile.id);
     if (!canGive) {
@@ -175,11 +183,15 @@ const receiverProfile = async (fid: number) => {
     console.log('Creating new profile for receiver with addr', address);
     assert(address, 'panic: no address to create profile for');
 
-    return await createProfile(address, receiver.username);
+    return await createProfile(address, receiver.username, receiver.pfp_url);
   }
 };
 
-const createProfile = async (address: string, preferred_name: string) => {
+const createProfile = async (
+  address: string,
+  preferred_name: string,
+  avatar_url?: string
+) => {
   // verify username is not in use
   const name = preferred_name;
 
@@ -216,6 +228,7 @@ const createProfile = async (address: string, preferred_name: string) => {
             connector: FC_BOT_CONNECTOR,
             points_balance: INITIAL_POINTS,
             name: name,
+            avatar: avatar_url,
             invited_by: await getGiveBotInviterProfileId(),
           },
         },
