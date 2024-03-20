@@ -41,19 +41,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         parent_hash,
         mentioned_profiles,
         text,
-        author: {
-          username: author_username,
-          custody_address: author_custody_address,
-          verified_addresses: { eth_addresses: author_eth_addresses },
-        },
+        author: { fid: author_fid, username: author_username },
       },
     } = req.body;
 
-    const giver_profile = await giverProfile(
-      author_custody_address,
-      author_eth_addresses,
-      author_username
-    );
+    const giver_profile = await findOrCreateProfileByFid(author_fid);
 
     // Don't reply to the bot itself
     if (DO_NOT_REPLY_FIDS.find(f => f == parent_fid)) {
@@ -68,16 +60,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let receiver_profile;
     if (parent_hash && parent_fid) {
       // Cast is a reply
-      console.log('This is a reply to ', parent_hash, 'by', parent_fid);
-      receiver_profile = await receiverProfile(parent_fid);
-      console.log('Receiver profile', receiver_profile);
+      receiver_profile = await findOrCreateProfileByFid(parent_fid);
     } else if (mentioned_fid) {
       // Cast is not a reply - look for a mention
-      console.log({ mentioned_profiles });
-      receiver_profile = await receiverProfile(mentioned_fid);
+      receiver_profile = await findOrCreateProfileByFid(mentioned_fid);
     } else {
       // no parent hash or fid
-      console.log('No parent hash or mentioned fid; no-op');
+      console.log('No parent hash or mentioned fid');
+      await publishCast(
+        `@${author_username} Please reply to a cast, or mention a user to direct your GIVE.`,
+        {
+          replyTo: hash,
+        }
+      );
       res.status(200).send({ success: true });
       return;
     }
@@ -145,45 +140,28 @@ const findProfileByAddresses = async (addresses: string[]) => {
   return profiles.pop();
 };
 
-const giverProfile = async (
-  custody_address: string,
-  eth_addresses: string[],
-  username: string
-) => {
-  const potential_addresses = [...eth_addresses, custody_address];
-
-  const giver_profile = await findProfileByAddresses(potential_addresses);
-
-  if (giver_profile) {
-    return giver_profile;
-  } else {
-    console.log('No giver profile found for addresses', potential_addresses);
-    const address = potential_addresses.pop();
-    console.log('Creating new profile for giver with addr', address);
-    assert(address, 'panic: no address to create profile for');
-
-    return await createProfile(address, username);
-  }
-};
-
-const receiverProfile = async (fid: number) => {
-  const receiver = await fetchUserByFid(fid);
+const findOrCreateProfileByFid = async (fid: number) => {
+  const fc_profile = await fetchUserByFid(fid);
 
   const potential_addresses = [
-    receiver.custody_address,
-    ...receiver.verified_addresses.eth_addresses,
+    fc_profile.custody_address,
+    ...fc_profile.verified_addresses.eth_addresses,
   ];
-  const receiver_profile = await findProfileByAddresses(potential_addresses);
+  const profile = await findProfileByAddresses(potential_addresses);
 
-  if (receiver_profile) {
-    return receiver_profile;
+  if (profile) {
+    return profile;
   } else {
-    console.log('No receiver profile found for addresses', potential_addresses);
+    console.log('No profile found for addresses', potential_addresses);
     const address = potential_addresses.pop();
-    console.log('Creating new profile for receiver with addr', address);
+    console.log('Creating new profile for addr', address);
     assert(address, 'panic: no address to create profile for');
 
-    return await createProfile(address, receiver.username, receiver.pfp_url);
+    return await createProfile(
+      address,
+      fc_profile.username,
+      fc_profile.pfp_url
+    );
   }
 };
 
