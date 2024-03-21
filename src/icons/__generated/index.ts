@@ -26,6 +26,7 @@ export { default as AlertCircle } from './AlertCircle';
 export { default as AlertTriangle } from './AlertTriangle';
 export { default as AlignLeft } from './AlignLeft';
 export { default as AlignRight } from './AlignRight';
+export { default as Arbitrum } from './Arbitrum';
 export { default as ArrowDown } from './ArrowDown';
 export { default as ArrowLeft } from './ArrowLeft';
 export { default as ArrowRight } from './ArrowRight';
