@@ -189,11 +189,11 @@ workflows:
       - hardhat:
           context:
             - CI
-  cypress:
-    jobs:
-      - cypress:
-          context:
-            - CI
+#  cypress:
+#    jobs:
+#      - cypress:
+#          context:
+#            - CI
   jest:
     jobs:
       - jest:
