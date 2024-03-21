@@ -30,7 +30,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    console.log('hello ladies');
     const ir = new ImageResponse(
       (
         <div
