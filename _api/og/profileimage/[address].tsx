@@ -1,5 +1,4 @@
 import { Readable } from 'node:stream';
-// @ts-ignore
 import type { ReadableStream } from 'node:stream/web';
 import React from 'react';
 
@@ -166,12 +165,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     );
 
-    // @ts-ignore
     Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
   } catch (e: any) {
     console.error(`${e.message}`, e);
     res.status(500).send({ message: 'Failed to generate the image' });
-  } finally {
-    console.log('finally');
   }
 }

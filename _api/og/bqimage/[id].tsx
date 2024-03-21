@@ -1,14 +1,11 @@
 import { Readable } from 'node:stream';
-// @ts-ignore
 import type { ReadableStream } from 'node:stream/web';
 import React from 'react';
 
-// @ts-ignore
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
 import { getBigQuestionInfo } from '../getBigQuestionInfo.ts';
-// @ts-ignore
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -29,7 +26,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       });
     }
 
-    console.log('building image response');
     const ir = new ImageResponse(
       (
         <div
@@ -92,12 +88,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         height: 630,
       }
     );
-    // @ts-ignore
     Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
   } catch (e: any) {
     console.error(`${e.message}`);
     return res.status(500).send(`Failed to generate the image: ${e.message}`);
-  } finally {
-    console.log('finally');
   }
 }
