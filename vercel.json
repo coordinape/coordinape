@@ -50,24 +50,12 @@
       "destination": "/api/og/bqimage/[id]?id=:id"
     },
     {
-      "source": "/api/og/bqinfo/:id",
-      "destination": "/api/og/bqinfo/[id]?id=:id"
-    },
-    {
       "source": "/api/og/profileimage/:address",
       "destination": "/api/og/profileimage/[address]?address=:address"
     },
     {
-      "source": "/api/og/profileinfo/:address",
-      "destination": "/api/og/profileinfo/[address]?address=:address"
-    },
-    {
       "source": "/api/og/postimage/:id",
       "destination": "/api/og/postimage/[id]?id=:id"
-    },
-    {
-      "source": "/api/og/postinfo/:id",
-      "destination": "/api/og/postinfo/[id]?id=:id"
     },
     {
       "source": "/(.*)",
