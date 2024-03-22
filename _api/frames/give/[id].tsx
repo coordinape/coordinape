@@ -1,4 +1,3 @@
-// TODO: add this routing to vercel.json
 import React from 'react';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
@@ -6,7 +5,9 @@ import ReactDOM from 'react-dom/server';
 
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
+import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { Frame, FrameButton } from '../Frame.tsx';
+import { FrameMessage } from '../FrameMessage.ts';
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   switch (req.method) {
@@ -23,7 +24,6 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// @ts-ignore
 async function GET(req: VercelRequest, res: VercelResponse) {
   try {
     // WHOMST GAVE TO WHOMST, this is the home frame
@@ -36,8 +36,8 @@ async function GET(req: VercelRequest, res: VercelResponse) {
 
     const s = (
       <Frame
-        postUrl={`http://colinks.co.local:3000/api/frames/give/${give.id}`}
-        src={`http://colinks.co.local:3000/api/frames/give/img/${give.id}`}
+        postUrl={`${webAppURL('colinks')}/api/frames/give/${give.id}`}
+        src={`${webAppURL('colinks')}/api/frames/give/img/${give.id}`}
       >
         <FrameButton id={1} content={'ok who cares'} />
         <FrameButton id={2} content={'i love give'} />
@@ -88,7 +88,7 @@ export const getGive = async (req: VercelRequest) => {
 
   return give;
 };
-// @ts-ignore
+
 async function POST(req: VercelRequest, res: VercelResponse) {
   try {
     const {
@@ -100,13 +100,18 @@ async function POST(req: VercelRequest, res: VercelResponse) {
     console.log(messageBytes);
     console.log(untrustedData);
 
+    // TODO: validation here when !LOCAL ? don't just use untrustedData
+    const frameMessage: FrameMessage = untrustedData;
+    console.log('button clicked: ', frameMessage.buttonIndex);
+    console.log('full message', frameMessage);
+
     // const result = await validateFrame(messageBytes);
     // const { valid, action } = result;
     // console.log(action);
     // console.log({ frame: result });
     const s = (
       <Frame
-        postUrl={'http://colinks.co.local:3000/api/frames/example'}
+        postUrl={`${webAppURL('colinks')}/api/frames/example`}
         src={`brokenimgfornow`}
         state={'moo bro'}
       >

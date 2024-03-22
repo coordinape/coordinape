@@ -1,13 +1,13 @@
-// TODO: add this routing to vercel.json
 import { Readable } from 'node:stream';
-// @ts-ignore
 import type { ReadableStream } from 'node:stream/web';
 import React from 'react';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-import { errorResponse } from '../../../../api-lib/HttpError.ts';
+import { errorResponse, NotFoundError } from '../../../../api-lib/HttpError.ts';
+import { OGAvatar } from '../../../og/OGAvatar.tsx';
+import { getGive } from '../[id].tsx';
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   switch (req.method) {
@@ -19,13 +19,12 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   }
 }
 
-// @ts-ignore
 async function GET(req: VercelRequest, res: VercelResponse) {
   try {
-    // const give = await getGive(req);
-    // if (!give || !give.target_profile_public || !give.giver_profile_public) {
-    //   throw new NotFoundError('give not found');
-    // }
+    const give = await getGive(req);
+    if (!give || !give.target_profile_public || !give.giver_profile_public) {
+      throw new NotFoundError('give not found');
+    }
     const ir = new ImageResponse(
       (
         <div
@@ -36,12 +35,11 @@ async function GET(req: VercelRequest, res: VercelResponse) {
             padding: 16,
           }}
         >
-          <div>slurp the noodle</div>
-          {/*<OGAvatar avatar={give.giver_profile_public.avatar} />*/}
-          {/*<div>{give.giver_profile_public.name}</div>*/}
-          {/*<div>GAVE TO</div>*/}
-          {/*<OGAvatar avatar={give.target_profile_public.avatar} />*/}
-          {/*<div>{give.target_profile_public.name}</div>*/}
+          <OGAvatar avatar={give.giver_profile_public.avatar} />
+          <div>{give.giver_profile_public.name}</div>
+          <div>GAVE TO</div>
+          <OGAvatar avatar={give.target_profile_public.avatar} />
+          <div>{give.target_profile_public.name}</div>
         </div>
       )
     );
