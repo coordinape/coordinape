@@ -149,6 +149,7 @@
     "vite": "^5.0.11",
     "vite-plugin-svgr": "^4.2.0",
     "vite-plugin-vercel": "^5.0.3",
+    "workspace-root": "^3.2.0",
     "ws": "^8.16.0",
     "zod": "3.22.3",
     "zustand": "^4.1.4"
