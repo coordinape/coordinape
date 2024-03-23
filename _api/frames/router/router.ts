@@ -4,12 +4,12 @@ import path from 'path';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
 
-const jsonPath = path.join(__dirname, '..', 'routes');
+const jsonPath = path.join(__dirname, '..');
 
 const getFiles = () => {
   const handlerFiles: string[] = [];
   fs.readdir(jsonPath, (_err, files) => {
-    files.forEach(file => {
+    files?.forEach(file => {
       handlerFiles.push(file);
     });
   });
