@@ -17,7 +17,8 @@ const router: {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
-  const handler = getHandler(req.url ?? '');
+  const { path } = req.query;
+  const handler = getHandler(path as string);
   if (!handler) {
     return res.status(404).send(`no handler found for ${req.url}`);
   }
@@ -55,7 +56,7 @@ const addPath = (
 addPath('/love/bananas', (req, res, params) => {
   return res
     .status(200)
-    .send({ url: req.url, query: req.query, msg: 'naked banans', params });
+    .send({ url: req.url, query: req.query, msg: 'naked bananas', params });
 });
 addPath('/love/bananas/:pathId', (req, res, params) => {
   return res

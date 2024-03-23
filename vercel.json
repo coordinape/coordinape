@@ -67,7 +67,7 @@
     },
     {
       "source": "/api/frames/router/:path*",
-      "destination": "/api/frames/router/:path*"
+      "destination": "/api/frames/router?path=:path*"
     },
     {
       "source": "/(.*)",
