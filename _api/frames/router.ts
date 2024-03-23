@@ -13,3 +13,7 @@ app.get('(.*)', (_req, res) => {
   console.log({ request: _req, url: _req.url });
   res.status(201).send('ok dude');
 });
+
+app.listen(3000, () => console.log('Server ready on port 3000.'));
+
+module.exports = app;
