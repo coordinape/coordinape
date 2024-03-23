@@ -9,6 +9,11 @@ import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { Frame, FrameButton } from '../Frame.tsx';
 import { FrameMessage } from '../FrameMessage.ts';
 
+
+// HOME: X gave to Y
+// *BUTTON* Enter the Arena
+// I'm a Rando // I'm Y // I'm X
+
 export default async function (req: VercelRequest, res: VercelResponse) {
   switch (req.method) {
     case 'GET':
@@ -39,8 +44,7 @@ async function GET(req: VercelRequest, res: VercelResponse) {
         postUrl={`${webAppURL('colinks')}/api/frames/give/${give.id}`}
         src={`${webAppURL('colinks')}/api/frames/give/img/${give.id}`}
       >
-        <FrameButton id={1} content={'ok who cares'} />
-        <FrameButton id={2} content={'i love give'} />
+        <FrameButton id={1} content={'Enter the Arena'} />
       </Frame>
     );
     const sString = ReactDOM.renderToString(s);
@@ -89,38 +93,14 @@ export const getGive = async (req: VercelRequest) => {
   return give;
 };
 
+export async function handleGivePost(msg: FrameMessage, res: VercelResponse)  => {
+
+  // what button was clicked?
+}
+
 async function POST(req: VercelRequest, res: VercelResponse) {
   try {
-    const {
-      body: {
-        untrustedData,
-        trustedData: { messageBytes },
-      },
-    } = req;
-    console.log(messageBytes);
-    console.log(untrustedData);
 
-    // TODO: validation here when !LOCAL ? don't just use untrustedData
-    const frameMessage: FrameMessage = untrustedData;
-    console.log('button clicked: ', frameMessage.buttonIndex);
-    console.log('full message', frameMessage);
-
-    // const result = await validateFrame(messageBytes);
-    // const { valid, action } = result;
-    // console.log(action);
-    // console.log({ frame: result });
-    const s = (
-      <Frame
-        postUrl={`${webAppURL('colinks')}/api/frames/example`}
-        src={`brokenimgfornow`}
-        state={'moo bro'}
-      >
-        <FrameButton id={1} content={'boney'} />
-        <FrameButton id={2} content={'poney'} />
-      </Frame>
-    );
-    const sString = ReactDOM.renderToString(s);
-    return res.status(200).send(sString);
   } catch (error: any) {
     return errorResponse(res, error);
   }

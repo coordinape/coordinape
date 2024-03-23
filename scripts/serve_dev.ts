@@ -10,7 +10,6 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
-import example_frame from '../_api/frames/example.tsx';
 import give_frame from '../_api/frames/give/[id].tsx';
 import give_frame_img from '../_api/frames/give/img/[id].tsx';
 import github_callback from '../_api/github/callback';
@@ -168,6 +167,8 @@ app.get('/api/og/postimage/:id', (req, res) => {
     },
     res
   );
+});
+
 app.get('/api/frames/give/:id', (req, res) => {
   return tf(give_frame)({ ...req, query: req.params }, res);
 });
@@ -193,8 +194,6 @@ app.get('/api/github/login', tf(github_login));
 app.get('/api/github/callback', tf(github_callback));
 app.get('/api/linkedin/login', tf(linkedin_login));
 app.get('/api/linkedin/callback', tf(linkedin_callback));
-app.get('/api/frames/example', tf(example_frame));
-app.post('/api/frames/example', tf(example_frame));
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });
