@@ -9,7 +9,6 @@ import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { Frame, FrameButton } from '../Frame.tsx';
 import { FrameMessage } from '../FrameMessage.ts';
 
-
 // HOME: X gave to Y
 // *BUTTON* Enter the Arena
 // I'm a Rando // I'm Y // I'm X
@@ -93,14 +92,12 @@ export const getGive = async (req: VercelRequest) => {
   return give;
 };
 
-export async function handleGivePost(msg: FrameMessage, res: VercelResponse)  => {
-
+export async function handleGivePost(msg: FrameMessage, res: VercelResponse) {
   // what button was clicked?
 }
 
 async function POST(req: VercelRequest, res: VercelResponse) {
   try {
-
   } catch (error: any) {
     return errorResponse(res, error);
   }
