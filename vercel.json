@@ -70,6 +70,10 @@
       "destination": "/api/frames/router.ts"
     },
     {
+      "source": "/api/frames/goose",
+      "destination": "/api/frames/router.ts"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
