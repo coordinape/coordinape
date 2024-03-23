@@ -4,7 +4,7 @@ import path from 'path';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
 
-const jsonPath = path.join(__dirname, '..');
+const jsonPath = path.join(__dirname, '.');
 
 const getFiles = () => {
   const handlerFiles: string[] = [];
