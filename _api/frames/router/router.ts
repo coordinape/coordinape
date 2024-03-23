@@ -1,5 +1,20 @@
+import * as fs from 'fs';
+import path from 'path';
+
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
+
+const jsonPath = path.join(__dirname, '..', 'routes');
+
+const getFiles = () => {
+  const handlerFiles: string[] = [];
+  fs.readdir(jsonPath, (_err, files) => {
+    files.forEach(file => {
+      handlerFiles.push(file);
+    });
+  });
+  return handlerFiles;
+};
 
 type PathWithHandler = {
   path: Path;
@@ -17,6 +32,7 @@ const router: {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
+  console.log('files', getFiles());
   const { path } = req.query;
   if (!path) {
     return res.status(404).send(`no path provided`);
