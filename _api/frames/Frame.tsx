@@ -26,6 +26,10 @@ export const Frame = ({
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
         <meta property="fc:frame:post_url" content={postUrl} />
+        <meta property="fc:frame:post_url" content={postUrl} />
+        summary_large_image
+        <meta name="twitter:image" content={src} />
+        <meta name="twitter:card" content="summary_large_image" />
         {children}
         {state && <meta property="fc:frame:state" content={state} />}
         {textField && (
