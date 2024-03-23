@@ -71,7 +71,7 @@
     },
 
     {
-      "source": "/api/frames/goose",
+      "source": "/api/frames/router/(.*)",
       "destination": "/api/frames/router.ts"
     },
     {
