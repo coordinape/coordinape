@@ -10,5 +10,6 @@ if (process.env.DEV_LOGGING) {
 }
 
 app.get('(.*)', (_req, res) => {
+  console.log({ request: _req, url: _req.url });
   res.status(201).send('ok dude');
 });
