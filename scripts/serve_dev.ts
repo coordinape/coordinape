@@ -10,6 +10,10 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
+import give_frame_giver from '../_api/frames/give/[id]/handler/giver.tsx';
+import give_frame_rando from '../_api/frames/give/[id]/handler/rando.tsx';
+import give_frame_giver_img from '../_api/frames/give/[id]/img/giver.tsx';
+import give_frame_rando_img from '../_api/frames/give/[id]/img/rando.tsx';
 import give_frame from '../_api/frames/give/[id].tsx';
 import give_frame_img from '../_api/frames/give/img/[id].tsx';
 import github_callback from '../_api/github/callback';
@@ -173,12 +177,28 @@ app.get('/api/frames/give/:id', (req, res) => {
   return tf(give_frame)({ ...req, query: req.params }, res);
 });
 
+app.post('/api/frames/give/:id', (req, res) => {
+  return tf(give_frame)({ ...req, query: req.params }, res);
+});
+
 app.get('/api/frames/give/img/:id', (req, res) => {
   return tf(give_frame_img)({ ...req, query: req.params }, res);
 });
 
-app.post('/api/frames/give/:id', (req, res) => {
-  return tf(give_frame)({ ...req, query: req.params }, res);
+app.post('/api/frames/give/:id/handler/rando', (req, res) => {
+  return tf(give_frame_rando)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/frames/give/:id/img/rando', (req, res) => {
+  return tf(give_frame_rando_img)({ ...req, query: req.params }, res);
+});
+
+app.post('/api/frames/give/:id/handler/giver', (req, res) => {
+  return tf(give_frame_giver)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/frames/give/:id/img/giver', (req, res) => {
+  return tf(give_frame_giver_img)({ ...req, query: req.params }, res);
 });
 
 app.post('/api/log', tf(log));

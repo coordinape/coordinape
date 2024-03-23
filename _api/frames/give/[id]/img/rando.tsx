@@ -5,9 +5,12 @@ import React from 'react';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 
-import { errorResponse, NotFoundError } from '../../../../api-lib/HttpError.ts';
-import { OGAvatar } from '../../../og/OGAvatar.tsx';
-import { getGive } from '../getGive.tsx';
+import {
+  errorResponse,
+  NotFoundError,
+} from '../../../../../api-lib/HttpError.ts';
+import { OGAvatar } from '../../../../og/OGAvatar.tsx';
+import { getGive } from '../../getGive.tsx';
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   switch (req.method) {
@@ -19,12 +22,14 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   }
 }
 
+// GET /api/frames/give/[id]/img/giver
 async function GET(req: VercelRequest, res: VercelResponse) {
   try {
     const give = await getGive(req);
     if (!give || !give.target_profile_public || !give.giver_profile_public) {
       throw new NotFoundError('give not found');
     }
+
     const ir = new ImageResponse(
       (
         <div
@@ -36,6 +41,7 @@ async function GET(req: VercelRequest, res: VercelResponse) {
           }}
         >
           <OGAvatar avatar={give.giver_profile_public.avatar} />
+          <div>HEY RANDO!!!!!</div>
           <div>{give.giver_profile_public.name}</div>
           <div>GAVE TO</div>
           <OGAvatar avatar={give.target_profile_public.avatar} />
@@ -43,7 +49,6 @@ async function GET(req: VercelRequest, res: VercelResponse) {
         </div>
       )
     );
-    // @ts-ignore
     Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
   } catch (error: any) {
     return errorResponse(res, error);

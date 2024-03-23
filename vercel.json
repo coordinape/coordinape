@@ -66,6 +66,10 @@
       "destination": "/api/frames/give/img/[id]?id=:id"
     },
     {
+      "source": "/api/frames/monkey/(.*)",
+      "destination": "/api/frames/router.ts"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

@@ -3,11 +3,14 @@ import React from 'react';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import ReactDOM from 'react-dom/server';
 
-import { adminClient } from '../../../api-lib/gql/adminClient.ts';
 import { errorResponse, NotFoundError } from '../../../api-lib/HttpError.ts';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { Frame, FrameButton } from '../Frame.tsx';
-import { FrameMessage } from '../FrameMessage.ts';
+import { getFarcasterInfo } from '../getFarcasterInfo.tsx';
+
+import { GiverFrame } from './[id]/handler/giver.tsx';
+import { RandoFrame } from './[id]/handler/rando.tsx';
+import { getGive } from './getGive.tsx';
 
 // HOME: X gave to Y
 // *BUTTON* Enter the Arena
@@ -53,51 +56,38 @@ async function GET(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-export const getGive = async (req: VercelRequest) => {
-  let id: number | undefined;
-  if (typeof req.query.id == 'string') {
-    id = parseInt(req.query.id);
-  }
-
-  if (!id) {
-    throw new NotFoundError('no give ID provided');
-  }
-
-  const { colinks_gives_by_pk: give } = await adminClient.query(
-    {
-      colinks_gives_by_pk: [
-        {
-          id,
-        },
-        {
-          id: true,
-          profile_id: true,
-          target_profile_id: true,
-          giver_profile_public: {
-            name: true,
-            avatar: true,
-          },
-          target_profile_public: {
-            name: true,
-            avatar: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'frame_give_getGive',
-    }
-  );
-
-  return give;
-};
-
-export async function handleGivePost(msg: FrameMessage, res: VercelResponse) {
-  // what button was clicked?
-}
-
 async function POST(req: VercelRequest, res: VercelResponse) {
+  // whoami????
   try {
+    const info = await getFarcasterInfo(req);
+    const give = await getGive(req);
+    if (!give || !give.target_profile_public || !give.giver_profile_public) {
+      throw new NotFoundError('give not found');
+    }
+
+    type role = 'rando' | 'giver' | 'target';
+
+    let role: role = 'rando';
+    if (info.profile.id === give.giver_profile_public.id) {
+      role = 'giver';
+    } else if (info.profile.id === give.target_profile_public.id) {
+      role = 'target';
+    }
+
+    if (role === 'giver') {
+      const s = <GiverFrame give={give} />;
+      const sString = ReactDOM.renderToString(s);
+      return res.status(200).send(sString);
+    } else if (role === 'target') {
+      // const s = <TargetFrame give={give} />;
+      // const sString = ReactDOM.renderToString(s);
+      // return res.status(200).send(sString);
+    } else if (role === 'rando') {
+      const s = <RandoFrame give={give} />;
+      const sString = ReactDOM.renderToString(s);
+      return res.status(200).send(sString);
+    }
+    res.send({ no: 'no' });
   } catch (error: any) {
     return errorResponse(res, error);
   }
