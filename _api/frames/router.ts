@@ -18,9 +18,12 @@ const router: {
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   const { path } = req.query;
-  const handler = getHandler(path as string);
+  if (!path) {
+    return res.status(404).send(`no path provided`);
+  }
+  const handler = getHandler((path as string) ?? '');
   if (!handler) {
-    return res.status(404).send(`no handler found for ${req.url}`);
+    return res.status(404).send(`no handler found for ${path}`);
   }
   return handler(req, res);
 }
