@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import assert from 'assert';
 
 import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints.ts';
