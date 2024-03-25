@@ -1,7 +1,9 @@
 import React from 'react';
 
 import { VercelResponse } from '@vercel/node';
+
 // import { renderToString } from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 import { FrameButton } from './FrameButton';
 import { Frame, FRAME_ROUTER_URL_BASE } from './router';
@@ -22,7 +24,7 @@ export const RenderFrameMeta = ({
   const postURL = `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath}`;
   const buttons = frame.buttons;
 
-  const content = (
+  const content: React.JSX.Element = (
     <html lang="en">
       <head>
         <meta property="fc:frame" content="vNext" />
@@ -51,6 +53,6 @@ export const RenderFrameMeta = ({
       </body>
     </html>
   );
-  // const sString = renderToString(content);
-  return res.status(200).send('sString');
+  const sString = renderToString(content);
+  return res.status(200).send(sString);
 };

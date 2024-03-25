@@ -5,7 +5,7 @@ import { Path } from 'path-parser';
 import { webAppURL } from '../../../src/config/webAppURL';
 import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo';
 
-import { RenderFrameImage } from './FrameImage';
+import { RenderFrameImage } from './FrameImage.ts';
 import { RenderFrameMeta } from './FrameMeta';
 import { GiveGiverFrame } from './frames/give/GiveGiverFrame';
 import { GiveHomeFrame } from './frames/give/GiveHomeFrame';

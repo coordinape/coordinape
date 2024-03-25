@@ -9,9 +9,9 @@ export const RenderFrameImage = ({
   children,
   res,
 }: {
-  children: React.ReactNode;
+  children: React.JSX.Element;
   res: VercelResponse;
 }) => {
-  const ir = new ImageResponse(<>{children}</>);
+  const ir = new ImageResponse(children);
   Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
 };
