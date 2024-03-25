@@ -75,6 +75,14 @@ export const VITE_ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
   'VITE_ALCHEMY_ETH_MAINNET_API_KEY',
   'missing-alchemy-eth-mainnet-api-key'
 );
+export const VITE_ALCHEMY_ETH_SEPOLIA_API_KEY = getEnvValue(
+  'VITE_ETH_SEPOLIA_API_KEY',
+  'missing-alchemy-eth-mainnet-api-key'
+);
+export const DECENT_XYZ_API_KEY = getEnvValue(
+  'VITE_DECENT_XYZ_API_KEY',
+  'missing VITE_DECENT_XYZ_API_KEY'
+);
 // eslint-disable-next-line no-console
 export const VITE_HASURA_URL = getEnvValue(
   'VITE_HASURA_URL',

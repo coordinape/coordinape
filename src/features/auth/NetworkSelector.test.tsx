@@ -7,6 +7,7 @@ import { rpcUrl } from 'utils/testing/provider';
 import { NetworkSelector } from './NetworkSelector';
 
 test('without window.ethereum, button is disabled', async () => {
+  (window as any).ethereum = null;
   await act(async () => {
     await render(
       <TestWrapper>

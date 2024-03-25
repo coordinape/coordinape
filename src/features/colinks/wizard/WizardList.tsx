@@ -13,15 +13,8 @@ const Step = ({ label, test }: { label: string; test?: boolean }) => {
 };
 
 export const WizardList = ({ progress }: { progress: WizardProgress }) => {
-  const {
-    address,
-    onCorrectChain,
-    hasName,
-    hasRep,
-    hasCoSoul,
-    hasOwnKey,
-    hasOtherKey,
-  } = progress;
+  const { address, hasName, hasRep, hasCoSoul, hasOwnKey, hasOtherKey } =
+    progress;
   return (
     <Flex
       column
@@ -37,7 +30,6 @@ export const WizardList = ({ progress }: { progress: WizardProgress }) => {
       }}
     >
       <Step label="Connect Wallet" test={!!address} />
-      <Step label="On Optimism" test={onCorrectChain} />
       <Step label="Name" test={hasName} />
       <Step label="CoSoul" test={hasCoSoul} />
       <Step label="Buy Your Own Link" test={hasOwnKey} />
