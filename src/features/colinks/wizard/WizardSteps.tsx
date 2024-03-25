@@ -14,7 +14,6 @@ import { WizardName } from './WizardName';
 import { WizardOwnLink } from './WizardOwnLink';
 import { WizardProgress } from './WizardProgress';
 import { WizardRep } from './WizardRep';
-import { WizardSwitchToOptimism } from './WizardSwitchToOptimism';
 import { WizardTerms } from './WizardTerms';
 
 export const fullScreenStyles = {
@@ -43,7 +42,6 @@ export const WizardSteps = ({
 }) => {
   const {
     // address,
-    onCorrectChain,
     hasName,
     // hasRep,
     hasCoSoul,
@@ -78,16 +76,14 @@ export const WizardSteps = ({
   }, [error]);
 
   useEffect(() => {
-    if (onCorrectChain && redirect) {
+    if (redirect) {
       navigate(redirect, {
         replace: true,
       });
     }
-  }, [onCorrectChain, redirect]);
+  }, [redirect]);
 
-  if (!onCorrectChain) {
-    return <WizardSwitchToOptimism />;
-  } else if (!hasName) {
+  if (!hasName) {
     return <WizardName />;
   } else if (profileId && !termsAccepted) {
     return <WizardTerms setTermsAccepted={setTermsAccepted} />;

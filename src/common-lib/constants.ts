@@ -14,6 +14,8 @@ export const loginSupportedChainIds: Record<string, string> = {
   1: 'Ethereum Mainnet',
   10: 'Optimism',
   137: 'Polygon',
+  8453: 'Base Mainnet',
+  42161: 'Arbitrum One',
   250: 'Fantom Opera',
   1313161554: 'Near Aurora',
   ...(IN_PREVIEW && { 11155420: 'Optimism Sepolia' }),
@@ -21,5 +23,6 @@ export const loginSupportedChainIds: Record<string, string> = {
     11155420: 'Optimism Sepolia',
     1338: 'Localhost Ganache',
     1337: 'Locahost Hardhat',
+    11155111: 'Eth Sepolia',
   }),
 };

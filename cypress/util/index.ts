@@ -61,7 +61,7 @@ export const injectWeb3 = () => (win: any) => {
     new TestProvider('http://localhost:' + Cypress.env('HARDHAT_GANACHE_PORT'))
   );
   if (!win.ethereum) {
-    Object.defineProperty(win, 'ethereum', { value: provider });
+    win.ethereum = provider;
   } else {
     console.warn('ethereum already enabled: ', win.ethereum);
   }
