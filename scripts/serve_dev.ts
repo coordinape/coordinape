@@ -182,7 +182,6 @@ app.get('/api/github/callback', tf(github_callback));
 app.get('/api/linkedin/login', tf(linkedin_login));
 app.get('/api/linkedin/callback', tf(linkedin_callback));
 app.all('/api/frames/router/:path*', (req, res) => {
-  console.log('requrl', req.url);
   let path = req.url as string;
   // trim the first character if it's a slash
   path = path.replace('/api/frames/router/', '');
