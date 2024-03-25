@@ -1,0 +1,17 @@
+import { Readable } from 'node:stream';
+import { ReadableStream } from 'node:stream/web';
+import React from 'react';
+
+import { VercelResponse } from '@vercel/node';
+import { ImageResponse } from '@vercel/og';
+
+export const RenderFrameImage = ({
+  children,
+  res,
+}: {
+  children: React.ReactNode;
+  res: VercelResponse;
+}) => {
+  const ir = new ImageResponse(<>{children}</>);
+  Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
+};

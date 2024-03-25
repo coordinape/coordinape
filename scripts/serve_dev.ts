@@ -10,12 +10,7 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
-import give_frame_giver from '../_api/frames/give/[id]/handler/giver.tsx';
-import give_frame_rando from '../_api/frames/give/[id]/handler/rando.tsx';
-import give_frame_giver_img from '../_api/frames/give/[id]/img/giver.tsx';
-import give_frame_rando_img from '../_api/frames/give/[id]/img/rando.tsx';
-import give_frame from '../_api/frames/give/[id].tsx';
-import give_frame_img from '../_api/frames/give/img/[id].tsx';
+import frames_router from '../_api/frames/router/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import actionManager from '../_api/hasura/actions/actionManager';
@@ -173,34 +168,6 @@ app.get('/api/og/postimage/:id', (req, res) => {
   );
 });
 
-app.get('/api/frames/give/:id', (req, res) => {
-  return tf(give_frame)({ ...req, query: req.params }, res);
-});
-
-app.post('/api/frames/give/:id', (req, res) => {
-  return tf(give_frame)({ ...req, query: req.params }, res);
-});
-
-app.get('/api/frames/give/img/:id', (req, res) => {
-  return tf(give_frame_img)({ ...req, query: req.params }, res);
-});
-
-app.post('/api/frames/give/:id/handler/rando', (req, res) => {
-  return tf(give_frame_rando)({ ...req, query: req.params }, res);
-});
-
-app.get('/api/frames/give/:id/img/rando', (req, res) => {
-  return tf(give_frame_rando_img)({ ...req, query: req.params }, res);
-});
-
-app.post('/api/frames/give/:id/handler/giver', (req, res) => {
-  return tf(give_frame_giver)({ ...req, query: req.params }, res);
-});
-
-app.get('/api/frames/give/:id/img/giver', (req, res) => {
-  return tf(give_frame_giver_img)({ ...req, query: req.params }, res);
-});
-
 app.post('/api/log', tf(log));
 app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
@@ -214,6 +181,14 @@ app.get('/api/github/login', tf(github_login));
 app.get('/api/github/callback', tf(github_callback));
 app.get('/api/linkedin/login', tf(linkedin_login));
 app.get('/api/linkedin/callback', tf(linkedin_callback));
+app.all('/api/frames/router/:path*', (req, res) => {
+  console.log('requrl', req.url);
+  let path = req.url as string;
+  // trim the first character if it's a slash
+  path = path.replace('/api/frames/router/', '');
+  return tf(frames_router)({ ...req, query: { path } }, res);
+});
+
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {
   return res.format({ 'application/javascript': () => res.send('') });

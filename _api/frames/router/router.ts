@@ -1,20 +1,15 @@
-import * as fs from 'fs';
-import path from 'path';
-
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
 
-const jsonPath = path.join(__dirname, '.');
+import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo.tsx';
 
-const getFiles = () => {
-  const handlerFiles: string[] = [];
-  fs.readdir(jsonPath, (_err, files) => {
-    files?.forEach(file => {
-      handlerFiles.push(file);
-    });
-  });
-  return handlerFiles;
-};
+import { RenderFrameImage } from './CoolFrameImage.tsx';
+import { RenderFrameMeta } from './CoolFrameMeta.tsx';
+import { GiveGiverFrame } from './frames/give/GiveGiverFrame.tsx';
+import { GiveHomeFrame } from './frames/give/GiveHomeFrame.tsx';
+
+export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
 type PathWithHandler = {
   path: Path;
@@ -23,6 +18,7 @@ type PathWithHandler = {
     res: VercelResponse,
     params: Record<string, any>
   ) => void;
+  method: 'GET' | 'POST';
 };
 
 const router: {
@@ -32,20 +28,26 @@ const router: {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
-  console.log('files', getFiles());
   const { path } = req.query;
+  console.log('Q', req.query, 'path', path);
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
-  const handler = getHandler('/' + ((path as string) ?? ''));
+  if (req.method !== 'POST' && req.method !== 'GET') {
+    return res.status(405).send(`method not supported ${req.method}`);
+  }
+  const handler = getHandler('/' + ((path as string) ?? ''), req.method);
   if (!handler) {
     return res.status(404).send(`no handler found for ${path}`);
   }
   return handler(req, res);
 }
 
-const getHandler = (path: string) => {
-  for (const { path: p, handler } of router.paths) {
+const getHandler = (path: string, m: 'GET' | 'POST') => {
+  for (const { path: p, handler, method } of router.paths) {
+    if (method !== m) {
+      continue;
+    }
     const params = p.test(path);
     if (params) {
       return (req: VercelRequest, res: VercelResponse) => {
@@ -58,27 +60,115 @@ const getHandler = (path: string) => {
 
 const addPath = (
   path: string,
+  method: 'GET' | 'POST',
   handler: (
     req: VercelRequest,
     res: VercelResponse,
-    params: Record<string, any>
+    params: Record<string, string>
   ) => void
 ) => {
   const p = new Path(path);
   router.paths.push({
     path: p,
+    method,
     handler,
   });
   return path;
 };
 
-addPath('/love/bananas', (req, res, params) => {
+addPath('/love/bananas', 'GET', (req, res, params) => {
   return res
     .status(200)
     .send({ url: req.url, query: req.query, msg: 'naked bananas', params });
 });
-addPath('/love/bananas/:banana', (req, res, params) => {
+addPath('/love/bananas/:banana', 'GET', (req, res, params) => {
   return res
     .status(200)
     .send({ url: req.url, query: req.query, msg: 'banana with path', params });
 });
+
+// FRAME
+// Image/Meta Tags
+// Buttons
+// - onPost -> Does Things, and redirects/returns a Frame???
+// - externalLink
+
+export type ResourceIdentifier = {
+  resourcePathExpression: string;
+  getResourceId: (params: Record<string, string>) => string;
+};
+
+export type CoolFrame = {
+  buttons: CoolButton[];
+  imageNode: (params: Record<string, string>) => Promise<React.ReactNode>;
+  id: string;
+  homeFrame: boolean;
+  resourceIdentifier: ResourceIdentifier;
+};
+
+export type CoolButton = {
+  title: string;
+  action: 'post' | 'link';
+  // only use target for external links
+  target?: string;
+  // only use onPost for post
+  onPost?: (
+    info: FramePostInfo,
+    params: Record<string, string>
+  ) => Promise<CoolFrame>;
+};
+
+const addFrame = (frame: CoolFrame) => {
+  if (frame.homeFrame) {
+    addPath(
+      `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
+      'GET',
+      (_req, res, params) => {
+        RenderFrameMeta({ frame, res, params });
+      }
+    );
+  }
+
+  // always add a post route
+  addPath(
+    `/post/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
+    'POST',
+    async (req, res, params) => {
+      // do things
+      // actually parse the post????
+      const info = await getFramePostInfo(req);
+      return await handleButton(frame, params, info, res);
+    }
+  );
+
+  // always add an image route
+  addPath(
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
+    'GET',
+    async (_req, res, params) => {
+      RenderFrameImage({
+        children: await frame.imageNode(params),
+        res,
+      });
+    }
+  );
+};
+
+const handleButton = async (
+  frame: CoolFrame,
+  params: Record<string, string>,
+  info: FramePostInfo,
+  res: VercelResponse
+) => {
+  const button = frame.buttons[info.message.buttonIndex - 1];
+  if (!button) {
+    return res.send(400).send('invalid button index');
+  }
+  if (button.onPost) {
+    const returnFrame = await button.onPost(info, params);
+    return RenderFrameMeta({ frame: returnFrame, res, params });
+  }
+};
+
+addFrame(GiveHomeFrame);
+addFrame(GiveGiverFrame);

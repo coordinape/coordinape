@@ -1,18 +1,6 @@
-import { VercelRequest } from '@vercel/node';
+import { adminClient } from '../../../../../api-lib/gql/adminClient.ts';
 
-import { adminClient } from '../../../api-lib/gql/adminClient.ts';
-import { NotFoundError } from '../../../api-lib/HttpError.ts';
-
-export const getGive = async (req: VercelRequest) => {
-  let id: number | undefined;
-  if (typeof req.query.id == 'string') {
-    id = parseInt(req.query.id);
-  }
-
-  if (!id) {
-    throw new NotFoundError('no give ID provided');
-  }
-
+export const getGive = async (id: number) => {
   const { colinks_gives_by_pk: give } = await adminClient.query(
     {
       colinks_gives_by_pk: [

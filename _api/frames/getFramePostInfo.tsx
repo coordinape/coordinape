@@ -4,7 +4,7 @@ import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfi
 
 import { FrameMessage } from './FrameMessage.ts';
 
-export async function getFarcasterInfo(req: VercelRequest) {
+export async function getFramePostInfo(req: VercelRequest) {
   const {
     body: {
       untrustedData,
@@ -25,3 +25,5 @@ export async function getFarcasterInfo(req: VercelRequest) {
     profile,
   };
 }
+
+export type FramePostInfo = Awaited<ReturnType<typeof getFramePostInfo>>;
