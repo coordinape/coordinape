@@ -94,7 +94,7 @@ export type ResourceIdentifier = {
 
 export type Frame = {
   buttons: Button[];
-  imageNode: (params: Record<string, string>) => Promise<React.ReactNode>;
+  imageNode: (params: Record<string, string>) => Promise<React.JSX.Element>;
   id: string;
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
@@ -141,8 +141,8 @@ const addFrame = (frame: Frame) => {
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    async (_req, res /*, params*/) => {
-      const ir = new ImageResponse(<div>horse</div>);
+    async (_req, res, params) => {
+      const ir = new ImageResponse(await frame.imageNode(params));
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
 
       // RenderFrameImage({
