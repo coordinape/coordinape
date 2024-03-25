@@ -5,7 +5,7 @@ import { Path } from 'path-parser';
 import { webAppURL } from '../../../src/config/webAppURL';
 import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo';
 
-import { RenderFrameImage } from './FrameImage.ts';
+import { RenderFrameImage } from './FrameImage';
 import { RenderFrameMeta } from './FrameMeta';
 import { GiveGiverFrame } from './frames/give/GiveGiverFrame';
 import { GiveHomeFrame } from './frames/give/GiveHomeFrame';
@@ -132,12 +132,14 @@ const addFrame = (frame: Frame) => {
   );
 
   // always add an image route
+  // @ts-ignore
   addPath(
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
-    async (_req, res, params) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    async (_req, res /*, params*/) => {
       RenderFrameImage({
-        children: await frame.imageNode(params),
+        // children: await frame.imageNode(params),
         res,
       });
     }
