@@ -1,4 +1,4 @@
-import { adminClient } from '../../../../../api-lib/gql/adminClient.ts';
+import { adminClient } from '../../../../../api-lib/gql/adminClient';
 
 export const getGive = async (id: number) => {
   const { colinks_gives_by_pk: give } = await adminClient.query(

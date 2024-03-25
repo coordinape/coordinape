@@ -1,13 +1,13 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
 
-import { webAppURL } from '../../../src/config/webAppURL.ts';
-import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo.tsx';
+import { webAppURL } from '../../../src/config/webAppURL';
+import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo';
 
-import { RenderFrameImage } from './FrameImage.tsx';
-import { RenderFrameMeta } from './FrameMeta.tsx';
-import { GiveGiverFrame } from './frames/give/GiveGiverFrame.tsx';
-import { GiveHomeFrame } from './frames/give/GiveHomeFrame.tsx';
+import { RenderFrameImage } from './FrameImage';
+import { RenderFrameMeta } from './FrameMeta';
+import { GiveGiverFrame } from './frames/give/GiveGiverFrame';
+import { GiveHomeFrame } from './frames/give/GiveHomeFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 

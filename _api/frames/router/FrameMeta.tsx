@@ -3,8 +3,8 @@ import React from 'react';
 import { VercelResponse } from '@vercel/node';
 import ReactDOM from 'react-dom/server';
 
-import { FrameButton } from './FrameButton.tsx';
-import { Frame, FRAME_ROUTER_URL_BASE } from './router.ts';
+import { FrameButton } from './FrameButton';
+import { Frame, FRAME_ROUTER_URL_BASE } from './router';
 
 export const RenderFrameMeta = ({
   frame,

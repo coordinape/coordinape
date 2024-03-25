@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import assert from 'assert';
 
-import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints.ts';
+import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
 import { fetchUserByFid } from '../neynar.ts';

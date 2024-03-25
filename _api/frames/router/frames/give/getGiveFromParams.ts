@@ -1,7 +1,7 @@
-import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
-import { ResourceIdentifier } from '../../router.ts';
+import { NotFoundError } from '../../../../../api-lib/HttpError';
+import { ResourceIdentifier } from '../../router';
 
-import { getGive } from './getGive.tsx';
+import { getGive } from './getGive';
 
 export const giveResourceIdentifier: ResourceIdentifier = {
   resourcePathExpression: '/:giveId',
