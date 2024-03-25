@@ -1,11 +1,15 @@
 /* eslint-disable no-console */
+import { Readable } from 'node:stream';
+import { ReadableStream } from 'node:stream/web';
+import React from 'react';
+
 import { VercelRequest, VercelResponse } from '@vercel/node';
+import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
 import { webAppURL } from '../../../src/config/webAppURL';
 import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo';
 
-import { RenderFrameImage } from './FrameImage';
 import { RenderFrameMeta } from './FrameMeta';
 import { GiveGiverFrame } from './frames/give/GiveGiverFrame';
 import { GiveHomeFrame } from './frames/give/GiveHomeFrame';
@@ -138,10 +142,13 @@ const addFrame = (frame: Frame) => {
     'GET',
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (_req, res /*, params*/) => {
-      RenderFrameImage({
-        // children: await frame.imageNode(params),
-        res,
-      });
+      const ir = new ImageResponse(<div>horse</div>);
+      Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
+
+      // RenderFrameImage({
+      //   // children: await frame.imageNode(params),
+      //   res,
+      // });
     }
   );
 };

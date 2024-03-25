@@ -3,13 +3,13 @@ import React from 'react';
 import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
 import { OGAvatar } from '../../../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../../../getFramePostInfo.tsx';
-import { Frame } from '../../router.ts';
+import { Frame } from '../../router';
 
 import {
   getGiveFromParams,
   giveResourceIdentifier,
 } from './getGiveFromParams.ts';
-import { GiveGiverFrame } from './GiveGiverFrame.tsx';
+import { GiveGiverFrame } from './GiveGiverFrame';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const give = await getGiveFromParams(params);
