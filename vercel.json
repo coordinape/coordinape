@@ -58,14 +58,6 @@
       "destination": "/api/og/postimage/[id]?id=:id"
     },
     {
-      "source": "/api/frames/give/:id",
-      "destination": "/api/frames/give/[id]?id=:id"
-    },
-    {
-      "source": "/api/frames/give/img/:id",
-      "destination": "/api/frames/give/img/[id]?id=:id"
-    },
-    {
       "source": "/api/frames/router/:path*",
       "destination": "/api/frames/router/router?path=:path*"
     },
