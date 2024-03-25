@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { Path } from 'path-parser';
 
@@ -28,6 +29,7 @@ const router: {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
+  console.log('frame router invoked', req.query);
   const { path } = req.query;
   if (!path) {
     return res.status(404).send(`no path provided`);
