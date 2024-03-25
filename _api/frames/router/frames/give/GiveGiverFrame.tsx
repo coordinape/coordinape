@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
 import { OGAvatar } from '../../../../og/OGAvatar.tsx';
-import { CoolFrame } from '../../router.ts';
+import { Frame } from '../../router.ts';
 
 import {
   getGiveFromParams,
@@ -33,7 +33,7 @@ const giverImageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const GiveGiverFrame: CoolFrame = {
+export const GiveGiverFrame: Frame = {
   id: 'give/giver',
   homeFrame: false,
   imageNode: giverImageNode,

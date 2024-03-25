@@ -1,18 +1,18 @@
 import React from 'react';
 
-type CoolFrameButtonProps = {
+type FrameButtonProps = {
   idx: number;
   title: string;
   action: 'link' | 'post';
   target?: string;
 };
 
-export const CoolFrameButton = ({
+export const FrameButton = ({
   idx,
   action,
   target,
   title,
-}: CoolFrameButtonProps) => {
+}: FrameButtonProps) => {
   return (
     <>
       <meta name={`fc:frame:button:${idx}`} content={title} />

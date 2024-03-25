@@ -3,7 +3,7 @@ import React from 'react';
 import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
 import { OGAvatar } from '../../../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../../../getFramePostInfo.tsx';
-import { CoolFrame } from '../../router.ts';
+import { Frame } from '../../router.ts';
 
 import {
   getGiveFromParams,
@@ -68,7 +68,7 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   return GiveHomeFrame;
 };
 
-export const GiveHomeFrame: CoolFrame = {
+export const GiveHomeFrame: Frame = {
   id: 'give',
   homeFrame: true,
   resourceIdentifier: giveResourceIdentifier,

@@ -4,8 +4,8 @@ import { Path } from 'path-parser';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo.tsx';
 
-import { RenderFrameImage } from './CoolFrameImage.tsx';
-import { RenderFrameMeta } from './CoolFrameMeta.tsx';
+import { RenderFrameImage } from './FrameImage.tsx';
+import { RenderFrameMeta } from './FrameMeta.tsx';
 import { GiveGiverFrame } from './frames/give/GiveGiverFrame.tsx';
 import { GiveHomeFrame } from './frames/give/GiveHomeFrame.tsx';
 
@@ -29,7 +29,6 @@ const router: {
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   const { path } = req.query;
-  console.log('Q', req.query, 'path', path);
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
@@ -76,17 +75,6 @@ const addPath = (
   return path;
 };
 
-addPath('/love/bananas', 'GET', (req, res, params) => {
-  return res
-    .status(200)
-    .send({ url: req.url, query: req.query, msg: 'naked bananas', params });
-});
-addPath('/love/bananas/:banana', 'GET', (req, res, params) => {
-  return res
-    .status(200)
-    .send({ url: req.url, query: req.query, msg: 'banana with path', params });
-});
-
 // FRAME
 // Image/Meta Tags
 // Buttons
@@ -98,15 +86,15 @@ export type ResourceIdentifier = {
   getResourceId: (params: Record<string, string>) => string;
 };
 
-export type CoolFrame = {
-  buttons: CoolButton[];
+export type Frame = {
+  buttons: Button[];
   imageNode: (params: Record<string, string>) => Promise<React.ReactNode>;
   id: string;
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
 };
 
-export type CoolButton = {
+export type Button = {
   title: string;
   action: 'post' | 'link';
   // only use target for external links
@@ -115,10 +103,10 @@ export type CoolButton = {
   onPost?: (
     info: FramePostInfo,
     params: Record<string, string>
-  ) => Promise<CoolFrame>;
+  ) => Promise<Frame>;
 };
 
-const addFrame = (frame: CoolFrame) => {
+const addFrame = (frame: Frame) => {
   if (frame.homeFrame) {
     addPath(
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
@@ -155,7 +143,7 @@ const addFrame = (frame: CoolFrame) => {
 };
 
 const handleButton = async (
-  frame: CoolFrame,
+  frame: Frame,
   params: Record<string, string>,
   info: FramePostInfo,
   res: VercelResponse

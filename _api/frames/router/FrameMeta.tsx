@@ -3,15 +3,15 @@ import React from 'react';
 import { VercelResponse } from '@vercel/node';
 import ReactDOM from 'react-dom/server';
 
-import { CoolFrameButton } from './CoolFrameButton.tsx';
-import { CoolFrame, FRAME_ROUTER_URL_BASE } from './router.ts';
+import { FrameButton } from './FrameButton.tsx';
+import { Frame, FRAME_ROUTER_URL_BASE } from './router.ts';
 
 export const RenderFrameMeta = ({
   frame,
   res,
   params,
 }: {
-  frame: CoolFrame;
+  frame: Frame;
   res: VercelResponse;
   params: Record<string, string>;
 }) => {
@@ -32,7 +32,7 @@ export const RenderFrameMeta = ({
         {/*{state && <meta property="fc:frame:state" content={state} />}*/}
         <meta name="twitter:card" content="summary_large_image" />
         {buttons.map((button, idx) => (
-          <CoolFrameButton
+          <FrameButton
             key={idx}
             idx={idx + 1}
             title={button.title}
