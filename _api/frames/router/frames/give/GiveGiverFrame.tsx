@@ -1,13 +1,10 @@
 import React from 'react';
 
-import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
-import { OGAvatar } from '../../../../og/OGAvatar.tsx';
-import { Frame } from '../../router.ts';
+import { NotFoundError } from '../../../../../api-lib/HttpError';
+import { OGAvatar } from '../../../../og/OGAvatar';
+import { Frame } from '../../router';
 
-import {
-  getGiveFromParams,
-  giveResourceIdentifier,
-} from './getGiveFromParams.ts';
+import { getGiveFromParams, giveResourceIdentifier } from './getGiveFromParams';
 
 const giverImageNode = async (params: Record<string, string>) => {
   const give = await getGiveFromParams(params);

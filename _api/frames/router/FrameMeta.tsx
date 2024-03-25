@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { VercelResponse } from '@vercel/node';
-import ReactDOM from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
 
 import { FrameButton } from './FrameButton';
 import { Frame, FRAME_ROUTER_URL_BASE } from './router';
@@ -51,6 +51,6 @@ export const RenderFrameMeta = ({
       </body>
     </html>
   );
-  const sString = ReactDOM.renderToString(content);
+  const sString = renderToString(content);
   return res.status(200).send(sString);
 };
