@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { VercelResponse } from '@vercel/node';
-
 // import { renderToString } from 'react-dom/server';
 import { renderToString } from 'react-dom/server';
 

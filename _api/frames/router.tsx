@@ -7,12 +7,12 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
-import { webAppURL } from '../../../src/config/webAppURL';
-import { FramePostInfo, getFramePostInfo } from '../getFramePostInfo';
+import { webAppURL } from '../../src/config/webAppURL';
 
 import { RenderFrameMeta } from './FrameMeta';
-import { GiveGiverFrame } from './frames/give/GiveGiverFrame';
-import { GiveHomeFrame } from './frames/give/GiveHomeFrame';
+import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
+import { GiveGiverFrame } from './give/GiveGiverFrame';
+import { GiveHomeFrame } from './give/GiveHomeFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 

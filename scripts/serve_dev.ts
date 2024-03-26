@@ -10,7 +10,7 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
-import frames_router from '../_api/frames/router/router';
+import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import actionManager from '../_api/hasura/actions/actionManager';

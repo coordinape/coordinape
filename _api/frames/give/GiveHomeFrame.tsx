@@ -1,21 +1,20 @@
 import React from 'react';
 
-import { NotFoundError } from '../../../../../api-lib/HttpError.ts';
-import { OGAvatar } from '../../../../og/OGAvatar.tsx';
-import { FramePostInfo } from '../../../getFramePostInfo.tsx';
-import { Frame } from '../../router';
+import { NotFoundError } from '../../../api-lib/HttpError.ts';
+import { OGAvatar } from '../../og/OGAvatar.tsx';
+import { FramePostInfo } from '../getFramePostInfo.tsx';
+import { Frame } from '../router.ts';
 
 import {
   getGiveFromParams,
   giveResourceIdentifier,
 } from './getGiveFromParams.ts';
-import { GiveGiverFrame } from './GiveGiverFrame';
+import { GiveGiverFrame } from './GiveGiverFrame.tsx';
+import { GiveRandoFrame } from './GiveRandoFrame.tsx';
+import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const give = await getGiveFromParams(params);
-  if (!give || !give.target_profile_public || !give.giver_profile_public) {
-    throw new NotFoundError('give not found');
-  }
 
   return (
     <div
@@ -53,19 +52,11 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
 
   if (role === 'giver') {
     return GiveGiverFrame;
+  } else if (role === 'target') {
+    return GiveReceiverFrame;
+  } else {
+    return GiveRandoFrame;
   }
-
-  // TODO: hey @singer fix this
-  // } else if (role === 'target') {
-  //     // const s = <TargetFrame give={give} />;
-  //     // const sString = ReactDOM.renderToString(s);
-  //     // return res.status(200).send(sString);
-  // } else if (role === 'rando') {
-  //     const s = <RandoFrame give={give} />;
-  //     const sString = ReactDOM.renderToString(s);
-  //     return res.status(200).send(sString);
-
-  return GiveHomeFrame;
 };
 
 export const GiveHomeFrame: Frame = {

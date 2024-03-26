@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { VercelRequest } from '@vercel/node';
 
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';

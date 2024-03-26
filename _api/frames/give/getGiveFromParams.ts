@@ -1,5 +1,5 @@
-import { NotFoundError } from '../../../../../api-lib/HttpError';
-import { ResourceIdentifier } from '../../router';
+import { NotFoundError } from '../../../api-lib/HttpError';
+import { ResourceIdentifier } from '../router';
 
 import { getGive } from './getGive';
 
