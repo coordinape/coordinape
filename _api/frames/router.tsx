@@ -136,19 +136,12 @@ const addFrame = (frame: Frame) => {
   );
 
   // always add an image route
-  // @ts-ignore
   addPath(
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params));
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
-
-      // RenderFrameImage({
-      //   // children: await frame.imageNode(params),
-      //   res,
-      // });
     }
   );
 };
