@@ -10,6 +10,7 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
+import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import actionManager from '../_api/hasura/actions/actionManager';
@@ -180,6 +181,12 @@ app.get('/api/github/login', tf(github_login));
 app.get('/api/github/callback', tf(github_callback));
 app.get('/api/linkedin/login', tf(linkedin_login));
 app.get('/api/linkedin/callback', tf(linkedin_callback));
+app.all('/api/frames/router/:path*', (req, res) => {
+  let path = req.url as string;
+  // trim the first character if it's a slash
+  path = path.replace('/api/frames/router/', '');
+  return tf(frames_router)({ ...req, query: { path } }, res);
+});
 
 // return empty analytics code
 app.get('/stats/js/script.js', (req, res) => {

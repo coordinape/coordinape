@@ -1418,6 +1418,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     skill: 'citext_comparison_exp',
     target_profile_id: 'bigint_comparison_exp',
+    target_profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   colinks_gives_max_order_by: {
@@ -1447,6 +1448,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     skill: 'order_by',
     target_profile_id: 'order_by',
+    target_profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
   },
   colinks_gives_pk_columns_input: {},
@@ -8843,6 +8845,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     skill: 'citext',
     target_profile_id: 'bigint',
+    target_profile_public: 'profiles_public',
     updated_at: 'timestamptz',
   },
   colinks_gives_aggregate: {

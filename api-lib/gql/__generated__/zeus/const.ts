@@ -2170,6 +2170,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'colinks_gives_bool_exp',
     _or: 'colinks_gives_bool_exp',
     activity_id: 'bigint_comparison_exp',
+    cast_hash: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     give_skill: 'skills_bool_exp',
     giver_profile_public: 'profiles_public_bool_exp',
@@ -2177,6 +2178,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint_comparison_exp',
     skill: 'citext_comparison_exp',
     target_profile_id: 'bigint_comparison_exp',
+    target_profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   colinks_gives_constraint: true,
@@ -2193,10 +2195,12 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
     skill: 'citext',
     target_profile_id: 'bigint',
+    target_profile_public: 'profiles_public_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
   colinks_gives_max_order_by: {
     activity_id: 'order_by',
+    cast_hash: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -2206,6 +2210,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   colinks_gives_min_order_by: {
     activity_id: 'order_by',
+    cast_hash: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -2224,6 +2229,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   colinks_gives_order_by: {
     activity_id: 'order_by',
+    cast_hash: 'order_by',
     created_at: 'order_by',
     give_skill: 'skills_order_by',
     giver_profile_public: 'profiles_public_order_by',
@@ -2231,6 +2237,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     skill: 'order_by',
     target_profile_id: 'order_by',
+    target_profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
   },
   colinks_gives_pk_columns_input: {},
@@ -15432,6 +15439,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives: {
     activity_id: 'bigint',
+    cast_hash: 'String',
     created_at: 'timestamptz',
     give_skill: 'skills',
     giver_profile_public: 'profiles_public',
@@ -15439,6 +15447,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     skill: 'citext',
     target_profile_id: 'bigint',
+    target_profile_public: 'profiles_public',
     updated_at: 'timestamptz',
   },
   colinks_gives_aggregate: {
@@ -15466,6 +15475,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives_max_fields: {
     activity_id: 'bigint',
+    cast_hash: 'String',
     created_at: 'timestamptz',
     id: 'Int',
     profile_id: 'bigint',
@@ -15475,6 +15485,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives_min_fields: {
     activity_id: 'bigint',
+    cast_hash: 'String',
     created_at: 'timestamptz',
     id: 'Int',
     profile_id: 'bigint',

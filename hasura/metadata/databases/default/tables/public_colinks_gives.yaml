@@ -14,6 +14,15 @@ object_relationships:
         remote_table:
           name: profiles_public
           schema: public
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
 select_permissions:
   - role: user
     permission:
