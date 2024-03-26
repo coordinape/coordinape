@@ -25,6 +25,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         padding: 16,
       }}
     >
+      <div style={{ display: 'flex' }}>give home frame</div>
       <OGAvatar avatar={give.giver_profile_public.avatar} />
       <div>{give.giver_profile_public.name}</div>
       <div>GAVE TO</div>

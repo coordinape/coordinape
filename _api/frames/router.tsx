@@ -141,6 +141,17 @@ const addFrame = (frame: Frame) => {
     'GET',
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params));
+      // no cache
+      //
+      //Cache-Control: no-store, no-cache, must-revalidate, max-age=0
+      // Pragma: no-cache
+      // Expires: 0
+      res.setHeader(
+        'Cache-Control',
+        'no-store, no-cache, must-revalidate, max-age=0'
+      );
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
     }
   );
