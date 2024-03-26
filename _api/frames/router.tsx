@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -13,6 +12,8 @@ import { RenderFrameMeta } from './FrameMeta';
 import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
+import { GiveRandoFrame } from './give/GiveRandoFrame';
+import { GiveReceiverFrame } from './give/GiveReceiverFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
@@ -33,7 +34,6 @@ const router: {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
-  console.log('frame router invoked', req.query);
   const { path } = req.query;
   if (!path) {
     return res.status(404).send(`no path provided`);
@@ -118,6 +118,10 @@ const addFrame = (frame: Frame) => {
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
       'GET',
       (_req, res, params) => {
+        res.setHeader(
+          'Cache-Control',
+          'no-store, no-cache, must-revalidate, max-age=0'
+        );
         RenderFrameMeta({ frame, res, params });
       }
     );
@@ -131,13 +135,17 @@ const addFrame = (frame: Frame) => {
       // do things
       // actually parse the post????
       const info = await getFramePostInfo(req);
+      res.setHeader(
+        'Cache-Control',
+        'no-store, no-cache, must-revalidate, max-age=0'
+      );
       return await handleButton(frame, params, info, res);
     }
   );
 
   // always add an image route
   addPath(
-    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?:ts`,
     'GET',
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params));
@@ -175,3 +183,5 @@ const handleButton = async (
 
 addFrame(GiveHomeFrame);
 addFrame(GiveGiverFrame);
+addFrame(GiveReceiverFrame);
+addFrame(GiveRandoFrame);

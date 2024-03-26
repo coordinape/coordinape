@@ -19,7 +19,7 @@ const giverImageNode = async (params: Record<string, string>) => {
     >
       <div>give giver frame</div>
       <OGAvatar avatar={give.giver_profile_public.avatar} />
-      <div>YOUx</div>
+      <div>YOU</div>
       <div>GAVE TO</div>
       <OGAvatar avatar={give.target_profile_public.avatar} />
       <div>{give.target_profile_public.name}</div>

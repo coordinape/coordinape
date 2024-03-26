@@ -28,7 +28,7 @@ const imageNode = async (params: Record<string, string>) => {
 };
 
 export const GiveRandoFrame: Frame = {
-  id: 'give/giver',
+  id: 'give/rando',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: giveResourceIdentifier,

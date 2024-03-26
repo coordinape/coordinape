@@ -28,7 +28,7 @@ const imageNode = async (params: Record<string, string>) => {
 };
 
 export const GiveReceiverFrame: Frame = {
-  id: 'give/giver',
+  id: 'give/receiver',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: giveResourceIdentifier,

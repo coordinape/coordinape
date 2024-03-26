@@ -2,6 +2,7 @@ import React from 'react';
 
 import { VercelResponse } from '@vercel/node';
 // import { renderToString } from 'react-dom/server';
+import { DateTime } from 'luxon';
 import { renderToString } from 'react-dom/server';
 
 import { FrameButton } from './FrameButton';
@@ -17,9 +18,11 @@ export const RenderFrameMeta = ({
   params: Record<string, string>;
 }) => {
   const resourceId = frame.resourceIdentifier.getResourceId(params);
-  const resourcePath = resourceId ? `/${resourceId}` : '';
+  const resourcePath = resourceId ? `${resourceId}` : '';
   // TODO: get these outta here, make them a router function or on Frame
-  const imgSrc = `${FRAME_ROUTER_URL_BASE}/img/${frame.id}${resourcePath}`;
+
+  const updated = DateTime.now().toISO().toString();
+  const imgSrc = `${FRAME_ROUTER_URL_BASE}/img/${frame.id}${resourcePath}?ts=${updated}`;
   const postURL = `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath}`;
   const buttons = frame.buttons;
 
@@ -28,7 +31,6 @@ export const RenderFrameMeta = ({
       <head>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
-        <meta property="fc:frame:post_url" content={postURL} />
         <meta property="fc:frame:post_url" content={postURL} />
         {/*{state && <meta property="fc:frame:state" content={state} />}*/}
         <meta name="twitter:card" content="summary_large_image" />
