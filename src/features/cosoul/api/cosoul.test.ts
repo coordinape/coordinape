@@ -2,15 +2,18 @@
 import assert from 'assert';
 
 import { CoSoul } from '@coordinape/contracts/typechain';
+import { ethers } from 'ethers';
 
 import { Contracts } from '../contracts';
 import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
 
 import {
+  PGIVE_SLOT,
   getMintInfo,
   getOnChainPGIVE,
   getTokenId,
   mintCoSoulForAddress,
+  paddedHex,
   setOnChainPGIVE,
 } from './cosoul';
 
@@ -18,13 +21,16 @@ import { Awaited } from 'types/shim';
 
 let contract: CoSoul;
 let snapshotId: string;
+let accounts: string[];
 let mainAccount: string;
+let secondAccount: string;
 let tokenId: Awaited<ReturnType<typeof getTokenId>>;
 
 beforeEach(async () => {
   snapshotId = await takeSnapshot();
-
-  mainAccount = (await provider().listAccounts())[0];
+  accounts = await provider().listAccounts();
+  mainAccount = accounts[0];
+  secondAccount = accounts[1];
   contract = (await Contracts.fromProvider(provider())).cosoul;
 });
 
@@ -80,8 +86,22 @@ describe('with a minted nft', () => {
 
     test('setOnChainPGIVE sets slot value', async () => {
       assert(tokenId);
-      await setOnChainPGIVE(tokenId, 324);
+      let payload = paddedHex(PGIVE_SLOT, 2, true);
+      payload += paddedHex(324, 8, false) + paddedHex(tokenId, 8, false);
+      const bytesData = ethers.utils.arrayify(payload);
+
+      await setOnChainPGIVE(bytesData);
       expect(await getOnChainPGIVE(tokenId)).toEqual(324);
     });
+  });
+});
+
+test('update pgives for multiple users', async () => {
+  const tx = await contract.connect(mainAccount).mintTo(secondAccount);
+  const data = await getMintInfo(tx.hash);
+  expect(data).toEqual({
+    from: '0x0000000000000000000000000000000000000000',
+    to: secondAccount,
+    tokenId: 1,
   });
 });

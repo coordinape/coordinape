@@ -1,13 +1,34 @@
 import { TransactionReceipt } from '@ethersproject/providers';
-import { BigNumber, ethers, Wallet } from 'ethers';
+import { BigNumber, BytesLike, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
 
-const PGIVE_SLOT = 0;
+export const PGIVE_SLOT = 0;
 export const PGIVE_SYNC_DURATION_DAYS = 30;
+
+export const paddedHex = (
+  n: number,
+  length: number,
+  prefix: boolean = false
+): string => {
+  const _hex = n.toString(16); // convert number to hexadecimal
+  const hexLen = _hex.length;
+  const extra = '0'.repeat(length - hexLen);
+  let pre = '0x';
+  if (!prefix) {
+    pre = '';
+  }
+  if (hexLen === length) {
+    return pre + _hex;
+  } else if (hexLen < length) {
+    return pre + extra + _hex;
+  } else {
+    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+  }
+};
 
 function getCoSoulContract() {
   const chainId = Number(chain.chainId);
@@ -52,17 +73,10 @@ export const getOnChainPGIVE = async (tokenId: number) => {
 };
 
 // set the on-chain PGIVE balance for a given token
-export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
+export const setOnChainPGIVE = async (data: BytesLike) => {
   const contract = getSignedCoSoulContract();
-  const amount = Math.floor(amt);
-  // eslint-disable-next-line no-console
-  console.log(
-    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
-  );
-
   const gasSettings = chain.gasSettings;
-
-  return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
+  return await contract.batchSetSlot_UfO(data, gasSettings);
 };
 
 export const mintCoSoulForAddress = async (address: string) => {

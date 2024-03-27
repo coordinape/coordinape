@@ -6,6 +6,7 @@ import { ethers } from 'hardhat';
 
 import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
+import { paddedHex } from '../utils/hex';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
 
 chai.use(solidity);
@@ -73,6 +74,31 @@ describe('CoSoul', () => {
 
     // get the value of the slot
     expect(await cosoul.connect(owner).getSlot(0, tokenId)).to.eq(6969);
+  });
+
+  it('returns a tokenId for addresses set by as batch', async () => {
+    const owner = deploymentInfo.deployer.signer;
+    const user1 = deploymentInfo.accounts[1];
+    const user2 = deploymentInfo.accounts[2];
+
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
+    await cosoul
+      .connect(user2.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
+    const first = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
+    const sec = await cosoul.tokenOfOwnerByIndex(user2.address, 0);
+
+    let payload =
+      paddedHex(0, 2, true) +
+      paddedHex(6969, 8, false) +
+      paddedHex(first.toNumber(), 8, false);
+    payload += paddedHex(420, 8, false) + paddedHex(sec.toNumber(), 8, false);
+    const contract = cosoul.connect(owner);
+    await contract.batchSetSlot_UfO(payload);
+    expect(await cosoul.connect(owner).getSlot(0, first)).to.eq(6969);
+    expect(await cosoul.connect(owner).getSlot(0, sec)).to.eq(420);
   });
 
   it('tokenURI returns the full URI', async () => {
