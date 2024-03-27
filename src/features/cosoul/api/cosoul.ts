@@ -10,7 +10,7 @@ export const PGIVE_SYNC_DURATION_DAYS = 30;
 
 export const paddedHex = (
   n: number,
-  length: number,
+  length: number = 8,
   prefix: boolean = false
 ): string => {
   const _hex = n.toString(16); // convert number to hexadecimal

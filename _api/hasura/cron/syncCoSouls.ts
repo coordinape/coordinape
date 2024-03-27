@@ -1,6 +1,5 @@
 /* eslint-disable no-console */
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import { ethers } from 'ethers';
 import { DateTime, Settings } from 'luxon';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -162,8 +161,7 @@ const syncCoSoulToken = async (
     if (localPGIVE > 0) {
       const pGIVE = Math.floor(localPGIVE);
       //four bytes for pgive and four bytes for tokenId
-      payload +=
-        paddedHex(pGIVE, 8, false) + paddedHex(cosoul.token_id, 8, false);
+      payload += paddedHex(pGIVE) + paddedHex(cosoul.token_id);
       successMessages.push(
         `set PGIVE on chain for tokenId: ${cosoul.token_id} address: ${cosoul.address} to ${localPGIVE}`
       );
@@ -177,8 +175,7 @@ const syncCoSoulToken = async (
     }
   }
   if (payload.length > 4) {
-    const bytesData = ethers.utils.arrayify(payload);
-    await setOnChainPGIVE(bytesData);
+    await setOnChainPGIVE(payload);
     successMessages.forEach(msg => console.log(msg));
   }
 

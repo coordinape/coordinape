@@ -193,6 +193,6 @@ async function syncPGive(address: string, tokenId: number) {
   }
   // set pgive after because this triggers a metadata update + fetch from OpenSea
   let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
-  payload += paddedHex(pgive, 8, false) + paddedHex(tokenId, 8, false);
+  payload += paddedHex(pgive) + paddedHex(tokenId);
   await setOnChainPGIVE(payload);
 }

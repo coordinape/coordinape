@@ -71,7 +71,7 @@ describe('with a minted nft', () => {
     test('setOnChainPGIVE sets slot value', async () => {
       assert(tokenId);
       let payload = paddedHex(PGIVE_SLOT, 2, true);
-      payload += paddedHex(324, 8, false) + paddedHex(tokenId, 8, false);
+      payload += paddedHex(324) + paddedHex(tokenId);
       const bytesData = ethers.utils.arrayify(payload);
 
       await setOnChainPGIVE(bytesData);
