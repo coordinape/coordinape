@@ -91,10 +91,8 @@ describe('CoSoul', () => {
     const sec = await cosoul.tokenOfOwnerByIndex(user2.address, 0);
 
     let payload =
-      paddedHex(0, 2, true) +
-      paddedHex(6969, 8, false) +
-      paddedHex(first.toNumber(), 8, false);
-    payload += paddedHex(420, 8, false) + paddedHex(sec.toNumber(), 8, false);
+      paddedHex(0, 2, true) + paddedHex(6969) + paddedHex(first.toNumber());
+    payload += paddedHex(420) + paddedHex(sec.toNumber());
     const contract = cosoul.connect(owner);
     await contract.batchSetSlot_UfO(payload);
     expect(await cosoul.connect(owner).getSlot(0, first)).to.eq(6969);
