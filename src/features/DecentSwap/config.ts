@@ -101,13 +101,12 @@ export const wagmiConfig = IN_PRODUCTION
       });
 
 //Used to get the balance of the target chain for that environment
-export const wagmiChain = IN_PRODUCTION
-  ? optimism
-  : IN_PREVIEW
-    ? isFeatureEnabled('test_decent')
-      ? optimism
-      : optimismSepolia
-    : localhost;
+export const wagmiChain =
+  isFeatureEnabled('test_decent') || IN_PRODUCTION
+    ? optimism
+    : IN_PREVIEW
+      ? optimismSepolia
+      : localhost;
 
 export const defaultAvailableChains = [
   ChainId.ETHEREUM,
