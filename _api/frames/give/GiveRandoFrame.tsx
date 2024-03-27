@@ -3,10 +3,11 @@ import React from 'react';
 import { OGAvatar } from '../../og/OGAvatar';
 import { Frame } from '../router';
 
-import { getGiveFromParams, giveResourceIdentifier } from './getGiveFromParams';
+import { getContextFromParams } from './getContextFromParams';
+import { giveResourceIdentifier } from './giveResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
-  const give = await getGiveFromParams(params);
+  const { give, viewerProfile } = await getContextFromParams(params);
 
   return (
     <div
@@ -22,7 +23,7 @@ const imageNode = async (params: Record<string, string>) => {
       <div>GAVE TO</div>
       <OGAvatar avatar={give.target_profile_public.avatar} />
       <div>{give.target_profile_public.name}</div>
-      <div>You are neither of them</div>
+      <div>You, {viewerProfile?.name} are neither of them</div>
     </div>
   );
 };

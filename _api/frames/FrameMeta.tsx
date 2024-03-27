@@ -6,23 +6,32 @@ import { DateTime } from 'luxon';
 import { renderToString } from 'react-dom/server';
 
 import { FrameButton } from './FrameButton';
+import { FramePostInfo } from './getFramePostInfo';
 import { Frame, FRAME_ROUTER_URL_BASE } from './router';
 
 export const RenderFrameMeta = ({
   frame,
   res,
   params,
+  info,
 }: {
   frame: Frame;
   res: VercelResponse;
   params: Record<string, string>;
+  info?: FramePostInfo;
 }) => {
   const resourceId = frame.resourceIdentifier.getResourceId(params);
   const resourcePath = resourceId ? `${resourceId}` : '';
   // TODO: get these outta here, make them a router function or on Frame
 
-  const updated = DateTime.now().toISO().toString();
-  const imgSrc = `${FRAME_ROUTER_URL_BASE}/img/${frame.id}${resourcePath}?ts=${updated}`;
+  const viewer_profile_id: string | undefined = info?.profile?.id;
+
+  const imgParams = {
+    ts: DateTime.now().toISO({ format: 'basic' }).toString(),
+    ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
+  };
+
+  const imgSrc = `${FRAME_ROUTER_URL_BASE}/img/${frame.id}${resourcePath}?${new URLSearchParams(imgParams).toString()}`;
   const postURL = `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath}`;
   const buttons = frame.buttons;
 
