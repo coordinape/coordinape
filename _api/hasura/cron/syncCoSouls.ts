@@ -159,11 +159,12 @@ const getCoSoulsToUpdate = async () => {
 const syncCoSoulToken = async (
   updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) => {
-  let payload = paddedHex(PGIVE_SLOT, 2, true);
+  let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
   const successMessages = [];
   for (const { cosoul, localPGIVE } of updatedCosouls) {
     if (localPGIVE > 0) {
       const pGIVE = Math.floor(localPGIVE);
+      //four bytes for pgive and four bytes for tokenId
       payload +=
         paddedHex(pGIVE, 8, false) + paddedHex(cosoul.token_id, 8, false);
       successMessages.push(
