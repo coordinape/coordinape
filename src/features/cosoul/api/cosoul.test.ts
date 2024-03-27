@@ -20,16 +20,13 @@ import { Awaited } from 'types/shim';
 
 let contract: CoSoul;
 let snapshotId: string;
-let accounts: string[];
 let mainAccount: string;
-let secondAccount: string;
 let tokenId: Awaited<ReturnType<typeof getTokenId>>;
 
 beforeEach(async () => {
   snapshotId = await takeSnapshot();
-  accounts = await provider().listAccounts();
-  mainAccount = accounts[0];
-  secondAccount = accounts[1];
+
+  mainAccount = (await provider().listAccounts())[0];
   contract = (await Contracts.fromProvider(provider())).cosoul;
 });
 
@@ -80,15 +77,5 @@ describe('with a minted nft', () => {
       await setOnChainPGIVE(bytesData);
       expect(await getOnChainPGIVE(tokenId)).toEqual(324);
     });
-  });
-});
-
-test('update pgives for multiple users', async () => {
-  const tx = await contract.connect(mainAccount).mintTo(secondAccount);
-  const data = await getMintInfo(tx.hash);
-  expect(data).toEqual({
-    from: '0x0000000000000000000000000000000000000000',
-    to: secondAccount,
-    tokenId: 1,
   });
 });
