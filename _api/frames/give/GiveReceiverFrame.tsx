@@ -3,10 +3,11 @@ import React from 'react';
 import { OGAvatar } from '../../og/OGAvatar';
 import { Frame } from '../router';
 
-import { getGiveFromParams, giveResourceIdentifier } from './getGiveFromParams';
+import { getContextFromParams } from './getContextFromParams';
+import { giveResourceIdentifier } from './giveResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
-  const give = await getGiveFromParams(params);
+  const { give, viewerProfile } = await getContextFromParams(params);
 
   return (
     <div
@@ -23,55 +24,7 @@ const imageNode = async (params: Record<string, string>) => {
       <div>{give.giver_profile_public.name}</div>
       <div>GAVE TO</div>
       <OGAvatar avatar={give.target_profile_public.avatar} />
-      <div>YOU</div>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <td>have you ever given GIVE</td>
-          <td>eee</td>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <td>do you have your cosoul</td>
-          <td>xxx</td>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <td>have you ever received GIVE</td>
-          <td>rrr</td>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-          }}
-        >
-          <td>have you purhcased your own colink</td>
-          <td>aaa</td>
-        </div>
-      </div>
+      <div tw="flex">YOU {viewerProfile?.name}</div>
     </div>
   );
 };

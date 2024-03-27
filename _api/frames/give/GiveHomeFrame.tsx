@@ -5,16 +5,14 @@ import { OGAvatar } from '../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../getFramePostInfo.tsx';
 import { Frame } from '../router.ts';
 
-import {
-  getGiveFromParams,
-  giveResourceIdentifier,
-} from './getGiveFromParams.ts';
+import { getContextFromParams } from './getContextFromParams.ts';
 import { GiveGiverFrame } from './GiveGiverFrame.tsx';
 import { GiveRandoFrame } from './GiveRandoFrame.tsx';
 import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
+import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
-  const give = await getGiveFromParams(params);
+  const { give } = await getContextFromParams(params);
 
   return (
     <div
@@ -159,7 +157,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
 
 const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   // who are you? which frame to return
-  const give = await getGiveFromParams(params);
+  const { give } = await getContextFromParams(params);
   if (!give || !give.target_profile_public || !give.giver_profile_public) {
     throw new NotFoundError('give not found');
   }

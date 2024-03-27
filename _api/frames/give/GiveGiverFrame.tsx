@@ -3,10 +3,11 @@ import React from 'react';
 import { OGAvatar } from '../../og/OGAvatar';
 import { Frame } from '../router';
 
-import { getGiveFromParams, giveResourceIdentifier } from './getGiveFromParams';
+import { getContextFromParams } from './getContextFromParams';
+import { giveResourceIdentifier } from './giveResourceIdentifier';
 
 const giverImageNode = async (params: Record<string, string>) => {
-  const give = await getGiveFromParams(params);
+  const { give } = await getContextFromParams(params);
 
   return (
     <div
@@ -17,7 +18,7 @@ const giverImageNode = async (params: Record<string, string>) => {
         // padding: 16,
       }}
     >
-      <div>give giver frame</div>
+      <div tw="text-9xl">give giver frame</div>
       <OGAvatar avatar={give.giver_profile_public.avatar} />
       <div>YOU</div>
       <div>GAVE TO</div>

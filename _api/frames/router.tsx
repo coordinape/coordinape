@@ -145,7 +145,7 @@ const addFrame = (frame: Frame) => {
 
   // always add an image route
   addPath(
-    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?:ts`,
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?ts&viewer_profile_id`,
     'GET',
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
@@ -181,7 +181,7 @@ const handleButton = async (
   }
   if (button.onPost) {
     const returnFrame = await button.onPost(info, params);
-    return RenderFrameMeta({ frame: returnFrame, res, params });
+    return RenderFrameMeta({ frame: returnFrame, res, params, info });
   }
 };
 
