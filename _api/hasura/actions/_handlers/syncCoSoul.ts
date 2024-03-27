@@ -14,6 +14,8 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import {
   getTokenId,
+  paddedHex,
+  PGIVE_SLOT,
   PGIVE_SYNC_DURATION_DAYS,
   setOnChainPGIVE,
 } from '../../../../src/features/cosoul/api/cosoul';
