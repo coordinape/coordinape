@@ -30,6 +30,12 @@ const fetchGive = async (id: number) => {
             name: true,
             avatar: true,
             id: true,
+            cosoul: {
+              id: true,
+              token_id: true,
+            },
+            links_held: true,
+            colinks_gives: [{}, { id: true, target_profile_id: true }],
           },
           target_profile_public: {
             name: true,

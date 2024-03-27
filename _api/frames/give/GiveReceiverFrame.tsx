@@ -13,7 +13,8 @@ const imageNode = async (params: Record<string, string>) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        fontSize: 64,
+        width: '100%',
+        fontSize: 36,
         padding: 16,
       }}
     >
@@ -23,6 +24,54 @@ const imageNode = async (params: Record<string, string>) => {
       <div>GAVE TO</div>
       <OGAvatar avatar={give.target_profile_public.avatar} />
       <div>YOU</div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <td>have you ever given GIVE</td>
+          <td>eee</td>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <td>do you have your cosoul</td>
+          <td>xxx</td>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <td>have you ever received GIVE</td>
+          <td>rrr</td>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <td>have you purhcased your own colink</td>
+          <td>aaa</td>
+        </div>
+      </div>
     </div>
   );
 };

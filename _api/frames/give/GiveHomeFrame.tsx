@@ -21,16 +21,138 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        fontSize: 64,
-        padding: 16,
+        width: '100%',
+        height: '100%',
+        background: '#222',
+        color: 'white',
+        fontSize: 36,
+        position: 'relative',
       }}
     >
-      <div style={{ display: 'flex' }}>give home frame</div>
-      <OGAvatar avatar={give.giver_profile_public.avatar} />
-      <div>{give.giver_profile_public.name}</div>
-      <div>GAVE TO</div>
-      <OGAvatar avatar={give.target_profile_public.avatar} />
-      <div>{give.target_profile_public.name}</div>
+      <img
+        alt="avatar"
+        src={'http://colinks.co.local:3000/imgs/frames/frontdoor-1-1.jpg'}
+        style={{ width: '100%' }}
+      />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+        }}
+      >
+        <div
+          style={{
+            padding: 20,
+            fontSize: 48,
+            background: 'navy',
+            display: 'flex',
+            justifyContent: 'space-around',
+          }}
+        >
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <OGAvatar avatar={give.giver_profile_public.avatar} />
+            +1 GIVE
+            <OGAvatar avatar={give.target_profile_public.avatar} />
+          </div>
+        </div>
+        <div
+          style={{
+            padding: 30,
+            fontSize: 40,
+            color: '#ccc',
+            display: 'flex',
+            justifyContent: 'space-between',
+          }}
+        >
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span style={{ fontWeight: 'bold' }}>
+              {give.giver_profile_public.name}
+            </span>
+            <span>Total Given XX</span>
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'flex-end',
+            }}
+          >
+            <span style={{ fontWeight: 'bold' }}>
+              {give.target_profile_public.name}
+            </span>
+            <span>Total Received YY</span>
+          </div>
+        </div>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          position: 'absolute',
+          top: 30,
+          left: 30,
+          padding: 16,
+          background: 'rgba(0,0,0, 0.5)',
+          color: 'white',
+          fontSize: 24,
+        }}
+      >
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: 24,
+          }}
+        >
+          <span>Giver has given GIVE</span>
+          <span>???</span>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: 24,
+          }}
+        >
+          <span>Giver has a cosoul</span>
+          <span>{give.giver_profile_public.cosoul?.id ? 'TRUE' : 'FALSE'}</span>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: 24,
+          }}
+        >
+          <span>Giver has received GIVE</span>
+          <span>???</span>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            gap: 24,
+          }}
+        >
+          <span>Giver has purchased their own colink</span>
+          <span>
+            {give.giver_profile_public.links_held &&
+            give.giver_profile_public.links_held > 0
+              ? 'TRUE'
+              : 'FALSE'}
+          </span>
+        </div>
+      </div>
     </div>
   );
 };
@@ -54,7 +176,7 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   if (role === 'giver') {
     return GiveGiverFrame;
   } else if (role === 'target') {
-    return GiveReceiverFrame;
+    return await GiveReceiverFrame;
   } else {
     return GiveRandoFrame;
   }

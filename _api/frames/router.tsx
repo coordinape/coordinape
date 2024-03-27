@@ -148,7 +148,11 @@ const addFrame = (frame: Frame) => {
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?:ts`,
     'GET',
     async (_req, res, params) => {
-      const ir = new ImageResponse(await frame.imageNode(params));
+      const ir = new ImageResponse(await frame.imageNode(params), {
+        // debug: true,
+        height: 1000,
+        width: 1000,
+      });
       // no cache
       //
       //Cache-Control: no-store, no-cache, must-revalidate, max-age=0

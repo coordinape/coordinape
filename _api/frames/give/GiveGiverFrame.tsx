@@ -13,8 +13,8 @@ const giverImageNode = async (params: Record<string, string>) => {
       style={{
         display: 'flex',
         flexDirection: 'column',
-        fontSize: 64,
-        padding: 16,
+        // fontSize: 20,
+        // padding: 16,
       }}
     >
       <div>give giver frame</div>
@@ -22,6 +22,27 @@ const giverImageNode = async (params: Record<string, string>) => {
       <div>YOU</div>
       <div>GAVE TO</div>
       <OGAvatar avatar={give.target_profile_public.avatar} />
+      <table>
+        <thead></thead>
+        <tbody>
+          <tr>
+            <td>have you ever given GIVE</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>do you have your cosoul</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>have you ever received GIVE</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>have you purhcased your own colink</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
       <div>{give.target_profile_public.name}</div>
     </div>
   );

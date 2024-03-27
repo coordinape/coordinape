@@ -38,5 +38,10 @@ export const GiveRandoFrame: Frame = {
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },
+    {
+      title: 'halp',
+      action: 'link',
+      target: 'https://colinks.coordinape.com',
+    },
   ],
 };
