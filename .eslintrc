@@ -164,6 +164,12 @@
       "parserOptions": {
         "schema": "./hasura/metadata/actions.graphql"
       }
+    },
+    {
+      "files": ["_api/frames/**/*.tsx"],
+      "rules": {
+        "react/no-unknown-property": "off"
+      }
     }
   ]
 }
