@@ -21,6 +21,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         flexDirection: 'column',
         fontSize: 64,
         padding: 16,
+        // fontFamily: 'Roboto',
       }}
     >
       <div tw="text-8xl uppercase" style={{ display: 'flex' }}>

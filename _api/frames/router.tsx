@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -17,6 +19,16 @@ import { GiveReceiverFrame } from './give/GiveReceiverFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
+declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+declare type Style = 'normal' | 'italic';
+interface FontOptions {
+  data: Buffer | ArrayBuffer;
+  name: string;
+  weight?: Weight;
+  style?: Style;
+  lang?: string;
+}
+
 type PathWithHandler = {
   path: Path;
   handler: (
@@ -31,6 +43,15 @@ const router: {
   paths: PathWithHandler[];
 } = {
   paths: [],
+};
+
+const fontPath = join(process.cwd(), 'public', 'fonts', 'Roboto-Bold.ttf');
+const fontData = await readFile(fontPath);
+const RobotoBoldFont: FontOptions = {
+  name: 'Roboto-Bold',
+  data: fontData,
+  weight: 400,
+  style: 'normal',
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
@@ -150,6 +171,7 @@ const addFrame = (frame: Frame) => {
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
         debug: true,
+        fonts: [RobotoBoldFont],
       });
       // no cache
       //
