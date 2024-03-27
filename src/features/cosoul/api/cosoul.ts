@@ -11,7 +11,7 @@ export const REP_SLOT = 1;
 export const PGIVE_SYNC_DURATION_DAYS = 30;
 
 type Slot = typeof PGIVE_SLOT | typeof REP_SLOT;
-type CoSoulArgs = { tokenId: number; amount: number };
+export type CoSoulArgs = { tokenId: number; amount: number };
 
 function getCoSoulContract() {
   const chainId = Number(chain.chainId);
