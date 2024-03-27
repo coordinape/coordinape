@@ -14,18 +14,15 @@ export const generateDecentAmountInParams = ({
   srcToken: TokenInfo;
   connectedAddress?: string;
   toAddress?: string;
-}): UseBoxActionArgs => {
-  if (!srcAmount || !Number(srcAmount)) {
-    throw 'no src amount inputted';
-  }
-  if (!connectedAddress) {
-    throw 'no connected address';
-  }
-  if (!toAddress) {
-    throw 'no to address';
-  }
-  if (!dstToken) {
-    throw 'no dst token';
+}): UseBoxActionArgs | undefined => {
+  if (
+    !srcAmount ||
+    !Number(srcAmount) ||
+    !connectedAddress ||
+    !toAddress ||
+    !dstToken
+  ) {
+    return;
   }
   return {
     actionType: ActionType.SwapAction,
@@ -57,14 +54,8 @@ export const generateDecentAmountOutParams = ({
   connectedAddress?: string;
   toAddress?: string;
 }): UseBoxActionArgs | undefined => {
-  if (!dstAmount || !Number(dstAmount)) {
-    throw 'no destination amount inputted';
-  }
-  if (!connectedAddress) {
-    throw 'no connected address';
-  }
-  if (!toAddress) {
-    throw `no to address`;
+  if (!dstAmount || !Number(dstAmount) || !connectedAddress || !toAddress) {
+    return;
   }
 
   return {

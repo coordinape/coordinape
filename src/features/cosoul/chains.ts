@@ -47,10 +47,9 @@ const localhost = {
 // production: optimism
 // staging: optimismSepolia
 // localhost: localhost ganache
-export const chain = IN_PRODUCTION
-  ? optimism
-  : IN_PREVIEW
-    ? isFeatureEnabled('test_decent')
-      ? optimism
-      : optimismSepolia
-    : localhost;
+export const chain =
+  isFeatureEnabled('test_decent') || IN_PRODUCTION
+    ? optimism
+    : IN_PREVIEW
+      ? optimismSepolia
+      : localhost;

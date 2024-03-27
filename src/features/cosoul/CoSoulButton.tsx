@@ -21,7 +21,7 @@ import { switchToCorrectChain } from '../web3/chainswitch';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
-import { IN_PREVIEW } from 'config/env';
+import { IN_PREVIEW, IN_PRODUCTION } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
 
 import { chain } from './chains';
@@ -72,8 +72,14 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     return (
       <Flex column css={{ gap: '$sm' }}>
         <Text tag semibold color={'warning'}>
-          Your balance is{' '}
-          {ethers.utils.formatEther(balance?.value ?? 0).slice(0, 10)} ETH
+          Your{' '}
+          {isFeatureEnabled('test_decent') || IN_PRODUCTION
+            ? 'OP ETH'
+            : IN_PREVIEW
+              ? 'OP Sepolia ETH'
+              : 'ETH'}{' '}
+          balance is{' '}
+          {ethers.utils.formatEther(balance?.value ?? 0).slice(0, 10)}
         </Text>
         <Panel neutral>
           <Text inline size="small" css={{ textAlign: 'center' }}>
