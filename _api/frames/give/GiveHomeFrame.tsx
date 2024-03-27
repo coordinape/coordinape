@@ -44,8 +44,8 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         <div
           style={{
             padding: 20,
-            fontSize: 48,
-            background: 'navy',
+            fontSize: 56,
+            background: `linear-gradient(55deg, #0B2131 0%, #0F3244 100%)`,
             display: 'flex',
             justifyContent: 'space-around',
           }}
