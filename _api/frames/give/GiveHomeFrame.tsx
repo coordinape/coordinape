@@ -25,6 +25,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         color: 'white',
         fontSize: 36,
         position: 'relative',
+        fontFamily: 'Denim',
       }}
     >
       <img
