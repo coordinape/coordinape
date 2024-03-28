@@ -9,6 +9,8 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getOnChainPGIVE,
+  paddedHex,
+  PGIVE_SLOT,
   setOnChainPGIVE,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
@@ -48,10 +50,10 @@ export async function syncCoSouls() {
   // update each one on-chain if needed, otherwise just update the checked_at column
   const updated = [];
   const errors = [];
+  const pending = [];
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
-    let success = true;
     if (localPGIVE !== onChainPGIVE) {
       // update the screenshot
       // this might take a while and might need to be handled in a separate process
@@ -61,8 +63,9 @@ export async function syncCoSouls() {
         console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
         // proceed with setting on-chain pgive
       }
-      success = await updateCoSoulOnChain(cosoul, localPGIVE);
+      pending.push({ cosoul, localPGIVE });
     } else {
+      updated.push(cosoul.id);
       console.log(
         'No need to update on-chain PGIVE for tokenId',
         cosoul.token_id,
@@ -71,17 +74,19 @@ export async function syncCoSouls() {
         'onChainPGIVE:',
         onChainPGIVE
       );
-
       // update repScore on chain if needed
-
       // just update the checked at
       await updateCheckedAt(cosoul.id);
     }
-    if (success) {
-      updated.push(cosoul.id);
-    } else {
-      errors.push(cosoul.id);
-    }
+  }
+  let success = true;
+  if (pending.length > 0) {
+    success = await updateCoSoulOnChain(pending);
+  }
+  if (success) {
+    updated.push(...pending.map(({ cosoul }) => cosoul.id));
+  } else {
+    errors.push(...pending.map(({ cosoul }) => cosoul.id));
   }
   const message = `${cosouls.length} CoSouls updated`;
   return { message, updated, errors };
@@ -148,76 +153,96 @@ const getCoSoulsToUpdate = async () => {
 };
 
 const syncCoSoulToken = async (
-  coSoulId: number,
-  address: string,
-  totalPGIVE: number,
-  tokenId: number
+  updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) => {
-  if (totalPGIVE > 0) {
-    totalPGIVE = Math.floor(totalPGIVE);
-    await setOnChainPGIVE(tokenId, totalPGIVE);
-    console.log(
-      'set PGIVE on chain for tokenId: ' +
-        tokenId +
-        ' address: ' +
-        address +
-        ' to ' +
-        totalPGIVE
-    );
-  } else {
-    console.log(
-      'skipping setting on-chain PGIVE because it is 0 for tokenId: ' +
-        tokenId +
-        ' address: ' +
-        address
-    );
+  let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
+  const successMessages = [];
+  for (const { cosoul, localPGIVE } of updatedCosouls) {
+    if (localPGIVE > 0) {
+      const pGIVE = Math.floor(localPGIVE);
+      //four bytes for pgive and four bytes for tokenId
+      payload += paddedHex(pGIVE) + paddedHex(cosoul.token_id);
+      successMessages.push(
+        `set PGIVE on chain for tokenId: ${cosoul.token_id} address: ${cosoul.address} to ${localPGIVE}`
+      );
+    } else {
+      console.log(
+        'skipping setting on-chain PGIVE because it is 0 for tokenId: ' +
+          cosoul.token_id +
+          ' address: ' +
+          cosoul.address
+      );
+    }
+  }
+  if (payload.length > 4) {
+    await setOnChainPGIVE(payload);
+    successMessages.forEach(msg => console.log(msg));
   }
 
-  await adminClient.mutate(
-    {
-      update_cosouls_by_pk: [
-        {
-          pk_columns: {
-            id: coSoulId,
+  await Promise.allSettled(
+    updatedCosouls.map(async ({ cosoul, localPGIVE }) => {
+      try {
+        await adminClient.mutate(
+          {
+            update_cosouls_by_pk: [
+              {
+                pk_columns: {
+                  id: cosoul.id,
+                },
+                _set: {
+                  pgive: localPGIVE,
+                  checked_at: new Date().toISOString(),
+                  synced_at: new Date().toISOString(),
+                },
+              },
+              {
+                id: true,
+              },
+            ],
           },
-          _set: {
-            pgive: totalPGIVE,
-            checked_at: new Date().toISOString(),
-            synced_at: new Date().toISOString(),
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'cron__updateCoSoulCache',
-    }
-  );
-  console.log(
-    'Updated CoSoul with address: ' + address + ' to tokenId: ' + tokenId
+          {
+            operationName: 'cron__updateCoSoulCache',
+          }
+        );
+        console.log(
+          'Updated CoSoul with address: ' +
+            cosoul.address +
+            ' to tokenId: ' +
+            cosoul.token_id
+        );
+      } catch (e: unknown) {
+        const message =
+          'Error updating Cosoul with addesss ' +
+          cosoul.address +
+          ' to tokenId: ' +
+          cosoul.token_id;
+        console.error(message);
+        if (e instanceof Error) throw new Error(message);
+      }
+      return;
+    })
   );
 };
 
-async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
+async function updateCoSoulOnChain(
+  updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
+) {
   try {
-    await syncCoSoulToken(
-      cosoul.id,
-      cosoul.address,
-      totalPGIVE,
-      cosoul.token_id
-    );
+    await syncCoSoulToken(updatedCosouls);
     return true;
   } catch (e: any) {
     // don't ruin the whole thing, this might be an on-chain issue or temporary setback
     // TODO: send this to sentry
+    const failedBatch = updatedCosouls.reduce(
+      (accumulator, currentValue, currentIndex) =>
+        accumulator +
+        `[Cosoul ${currentIndex} with id: ${currentValue.cosoul.id}, tokenId: ${currentValue.cosoul.token_id}, address: 
+      ${currentValue.cosoul.address} ,and targetPIVE: ${currentValue.localPGIVE}]`,
+      ''
+    );
     errorLog(
-      `error syncing cosoul id: ${cosoul.id} tokenId: ${
-        cosoul.token_id
-      } address: ${cosoul.address}}, ${
-        e.message ? e.message : e
-      } with targetPIVE: ${totalPGIVE}`
+      `error syncing cosouls list ${failedBatch}
+      ${e.message ? e.message : e}`
     );
     return false;
   }

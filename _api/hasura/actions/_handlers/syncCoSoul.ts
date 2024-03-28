@@ -14,6 +14,8 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
 import {
   getTokenId,
+  paddedHex,
+  PGIVE_SLOT,
   PGIVE_SYNC_DURATION_DAYS,
   setOnChainPGIVE,
 } from '../../../../src/features/cosoul/api/cosoul';
@@ -190,5 +192,7 @@ async function syncPGive(address: string, tokenId: number) {
     // proceed with setting on-chain pgive
   }
   // set pgive after because this triggers a metadata update + fetch from OpenSea
-  await setOnChainPGIVE(tokenId, pgive);
+  let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
+  payload += paddedHex(pgive) + paddedHex(tokenId);
+  await setOnChainPGIVE(payload);
 }

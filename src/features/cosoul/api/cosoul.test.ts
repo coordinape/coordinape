@@ -2,14 +2,17 @@
 import assert from 'assert';
 
 import { CoSoul } from '@coordinape/contracts/typechain';
+import { ethers } from 'ethers';
 
 import { Contracts } from '../contracts';
 import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
 
 import {
+  PGIVE_SLOT,
   getMintInfo,
   getOnChainPGIVE,
   getTokenId,
+  paddedHex,
   setOnChainPGIVE,
 } from './cosoul';
 
@@ -67,7 +70,11 @@ describe('with a minted nft', () => {
 
     test('setOnChainPGIVE sets slot value', async () => {
       assert(tokenId);
-      await setOnChainPGIVE(tokenId, 324);
+      let payload = paddedHex(PGIVE_SLOT, 2, true);
+      payload += paddedHex(324) + paddedHex(tokenId);
+      const bytesData = ethers.utils.arrayify(payload);
+
+      await setOnChainPGIVE(bytesData);
       expect(await getOnChainPGIVE(tokenId)).toEqual(324);
     });
   });
