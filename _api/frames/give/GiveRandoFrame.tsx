@@ -25,25 +25,19 @@ const imageNode = async (params: Record<string, string>) => {
         fontFamily: 'Denim',
       }}
     >
-      <img
-        alt="avatar"
-        src={IMAGE_URL_BASE + 'persona-0.jpg'}
-        style={{ width: '100%' }}
-      />
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
+      <div tw="flex relative" style={{ height: 770 }}>
+        <img
+          alt="avatar"
+          src={IMAGE_URL_BASE + 'persona-0.jpg'}
+          style={{ width: '100%' }}
+        />
         <div
-          tw="flex items-center space-around"
+          tw="absolute bottom-0 w-full flex items-center space-around"
           style={{
             padding: '20px 30px',
             fontSize: 60,
             fontWeight: 600,
-            background: `linear-gradient(55deg, #0B2131 0%, #0F3244 100%)`,
+            background: `linear-gradient(55deg, #0B2131CC 0%, #0F3244CC 100%)`,
           }}
         >
           <div
@@ -63,6 +57,15 @@ const imageNode = async (params: Record<string, string>) => {
             />
           </div>
         </div>
+      </div>
+
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+        }}
+      >
         <div
           tw="w-full flex flex-col text-center justify-center items-center"
           style={{

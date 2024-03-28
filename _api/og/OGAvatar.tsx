@@ -15,7 +15,8 @@ export const OGAvatar = ({ avatar }: { avatar?: string }) => {
     >
       <img
         alt="avatar"
-        height={90}
+        height={95}
+        width={95}
         src={
           avatar
             ? (avatar.startsWith('http') ? '' : process.env.VITE_S3_BASE_URL) +
@@ -23,7 +24,6 @@ export const OGAvatar = ({ avatar }: { avatar?: string }) => {
             : DEFAULT_AVATAR
         }
         style={{ margin: 0, borderRadius: 99999 }}
-        width={90}
       />
     </div>
   );
