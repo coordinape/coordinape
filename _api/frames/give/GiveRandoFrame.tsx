@@ -17,7 +17,7 @@ const imageNode = async (params: Record<string, string>) => {
         flexDirection: 'column',
         width: '100%',
         height: '100%',
-        background: '#222',
+        background: 'black',
         color: 'white',
         fontSize: 36,
         lineHeight: 1.5,
@@ -25,61 +25,62 @@ const imageNode = async (params: Record<string, string>) => {
         fontFamily: 'Denim',
       }}
     >
-      <div tw="flex relative" style={{ height: 770 }}>
-        <img
-          alt="avatar"
-          src={IMAGE_URL_BASE + 'persona-0.jpg'}
-          style={{ width: '100%' }}
-        />
+      <img
+        alt="avatar"
+        src={IMAGE_URL_BASE + 'persona-0.jpg'}
+        style={{ width: '100%' }}
+      />
+      <div
+        tw="absolute bottom-0 w-full flex items-center space-around flex-col"
+        style={{
+          fontSize: 60,
+          fontWeight: 600,
+          background:
+            'radial-gradient(circle at 20% 10%, #135A9588 0%, #09203188 80%)',
+        }}
+      >
         <div
-          tw="absolute bottom-0 w-full flex items-center space-around"
+          tw="w-full"
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             padding: '20px 30px',
-            fontSize: 60,
-            fontWeight: 600,
-            background: `linear-gradient(55deg, #0B2131CC 0%, #0F3244CC 100%)`,
+          }}
+        >
+          <OGAvatar avatar={viewerProfile?.avatar} />
+          Level 0
+          <img
+            alt="gem"
+            src={IMAGE_URL_BASE + 'GemWhite.png'}
+            style={{ width: 70, height: 70 }}
+          />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            // background: 'rgba(0,0,0,0.1)',
           }}
         >
           <div
-            tw="w-full"
+            tw="w-full flex flex-col text-center justify-center items-center"
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
+              height: 230,
+              padding: '20px 32px',
+              fontSize: 46,
             }}
           >
-            <OGAvatar avatar={viewerProfile?.avatar} />
-            Level 0
-            <img
-              alt="gem"
-              src={IMAGE_URL_BASE + 'GemWhite.png'}
-              style={{ width: 70, height: 70 }}
-            />
+            Welcome, {viewerProfile?.name}!
+            <br />
+            Get started by Sending GIVE
           </div>
         </div>
       </div>
 
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
-        }}
-      >
-        <div
-          tw="w-full flex flex-col text-center justify-center items-center"
-          style={{
-            height: 200,
-            padding: '20px 30px',
-            fontSize: 44,
-          }}
-        >
-          Welcome, {viewerProfile?.name}!
-          <br />
-          Get started by Sending GIVE
-        </div>
-      </div>
-      <div
+      {/* frame stats */}
+      {/* <div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -140,7 +141,7 @@ const imageNode = async (params: Record<string, string>) => {
               : 'FALSE'}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

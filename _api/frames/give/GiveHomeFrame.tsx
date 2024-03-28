@@ -24,7 +24,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         flexDirection: 'column',
         width: '100%',
         height: '100%',
-        background: '#222',
+        background: 'black',
         color: 'white',
         fontSize: 36,
         lineHeight: 1.5,
@@ -32,85 +32,91 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         fontFamily: 'Denim',
       }}
     >
-      <div tw="flex relative" style={{ height: 770 }}>
-        <img
-          alt="avatar"
-          src={IMAGE_URL_BASE + 'frontdoor-1-1.jpg'}
-          style={{ width: '100%' }}
-        />
-        <div
-          tw="absolute bottom-0 w-full flex items-center space-around"
-          style={{
-            padding: '20px 30px',
-            fontSize: 60,
-            fontWeight: 600,
-            background: `linear-gradient(55deg, #02233BCC 0%, #058EA1CC 100%)`,
-          }}
-        >
-          <div
-            tw="w-full"
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-            }}
-          >
-            <OGAvatar avatar={give.giver_profile_public.avatar} />
-            <div tw="flex items-center">
-              +1
-              <img
-                alt="gem"
-                src={IMAGE_URL_BASE + 'GemWhite.png'}
-                style={{ width: 70, height: 70, margin: '0 20px' }}
-              />
-              <span>GIVE</span>
-            </div>
-            <OGAvatar avatar={give.target_profile_public.avatar} />
-          </div>
-        </div>
-      </div>
+      <img
+        alt="avatar"
+        src={IMAGE_URL_BASE + 'frontdoor-1-1.jpg'}
+        style={{ width: '100%' }}
+      />
       <div
+        tw="absolute bottom-0 w-full flex items-center space-around flex-col"
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          width: '100%',
+          fontSize: 60,
+          fontWeight: 600,
+          background:
+            'radial-gradient(circle at 20% 10%, #0038FF88 0%, #08C67088 80%)',
         }}
       >
         <div
-          tw="flex items-center justify-between"
+          tw="w-full"
           style={{
-            height: 210,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
             padding: '20px 30px',
-            fontSize: 44,
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: 600, color: '#cacaca' }}>
-              {give.giver_profile_public.name}
-            </span>
-            <span>
-              Total Given{' '}
-              <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>XX</span>
-            </span>
+          <OGAvatar avatar={give.giver_profile_public.avatar} />
+          <div tw="flex items-center">
+            +1
+            <img
+              alt="gem"
+              src={IMAGE_URL_BASE + 'GemWhite.png'}
+              style={{ width: 70, height: 70, margin: '0 20px' }}
+            />
+            <span>GIVE</span>
           </div>
+          <OGAvatar avatar={give.target_profile_public.avatar} />
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            width: '100%',
+            // background: 'rgba(0,0,0,0.1)',
+          }}
+        >
           <div
+            tw="flex items-center justify-between"
             style={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-end',
+              height: 230,
+              padding: '20px 32px',
+              fontSize: 46,
+              fontWeight: 400,
             }}
           >
-            <span style={{ fontWeight: 600, color: '#cacaca' }}>
-              {give.target_profile_public.name}
-            </span>
-            <span>
-              Total Received{' '}
-              <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>XX</span>
-            </span>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <span style={{ fontWeight: 600 }}>
+                {give.giver_profile_public.name}
+              </span>
+              <span>
+                Total Given{' '}
+                <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>
+                  XX
+                </span>
+              </span>
+            </div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'flex-end',
+              }}
+            >
+              <span style={{ fontWeight: 600 }}>
+                {give.target_profile_public.name}
+              </span>
+              <span>
+                Total Received{' '}
+                <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>
+                  XX
+                </span>
+              </span>
+            </div>
           </div>
         </div>
       </div>
-      <div
+      {/* frame stats */}
+      {/* <div
         style={{
           display: 'flex',
           flexDirection: 'column',
@@ -172,7 +178,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               : 'FALSE'}
           </span>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
