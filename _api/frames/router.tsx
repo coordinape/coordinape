@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -31,6 +33,15 @@ const router: {
   paths: PathWithHandler[];
 } = {
   paths: [],
+};
+
+const getPath = (name: string) =>
+  join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
+const createFont = async (name: string, file: string) => {
+  return {
+    name: name,
+    data: await readFile(getPath(file)),
+  };
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
@@ -145,10 +156,36 @@ const addFrame = (frame: Frame) => {
 
   // always add an image route
   addPath(
-    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?:ts`,
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?ts&viewer_profile_id`,
     'GET',
     async (_req, res, params) => {
-      const ir = new ImageResponse(await frame.imageNode(params));
+      const ir = new ImageResponse(await frame.imageNode(params), {
+        // debug: true,
+        height: 1000,
+        width: 1000,
+        fonts: [
+          {
+            ...(await createFont('Denim', 'Denim-Regular')),
+            weight: 400,
+            style: 'normal',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-RegularItalic')),
+            weight: 400,
+            style: 'italic',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-SemiBold')),
+            weight: 600,
+            style: 'normal',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
+            weight: 600,
+            style: 'italic',
+          },
+        ],
+      });
       // no cache
       //
       //Cache-Control: no-store, no-cache, must-revalidate, max-age=0
@@ -177,7 +214,7 @@ const handleButton = async (
   }
   if (button.onPost) {
     const returnFrame = await button.onPost(info, params);
-    return RenderFrameMeta({ frame: returnFrame, res, params });
+    return RenderFrameMeta({ frame: returnFrame, res, params, info });
   }
 };
 
