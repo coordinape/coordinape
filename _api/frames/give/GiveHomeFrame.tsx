@@ -69,7 +69,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: 'bold' }}>
+            <span style={{ fontWeight: 600 }}>
               {give.giver_profile_public.name}
             </span>
             <span>Total Given XX</span>
@@ -81,7 +81,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               alignItems: 'flex-end',
             }}
           >
-            <span style={{ fontWeight: 'bold' }}>
+            <span style={{ fontWeight: 600 }}>
               {give.target_profile_public.name}
             </span>
             <span>Total Received YY</span>
