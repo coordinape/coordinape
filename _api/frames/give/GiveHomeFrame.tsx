@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { NotFoundError } from '../../../api-lib/HttpError.ts';
+import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { OGAvatar } from '../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../getFramePostInfo.tsx';
 import { Frame } from '../router.ts';
@@ -10,6 +11,8 @@ import { GiveGiverFrame } from './GiveGiverFrame.tsx';
 import { GiveRandoFrame } from './GiveRandoFrame.tsx';
 import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
+
+export const IMAGE_URL_BASE = `${webAppURL('colinks')}/public/imgs/frames/`;
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
@@ -24,13 +27,14 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         background: '#222',
         color: 'white',
         fontSize: 36,
+        lineHeight: 1.5,
         position: 'relative',
         fontFamily: 'Denim',
       }}
     >
       <img
         alt="avatar"
-        src={'http://colinks.co.local:3000/imgs/frames/frontdoor-1-1.jpg'}
+        src={IMAGE_URL_BASE + 'frontdoor-1-1.jpg'}
         style={{ width: '100%' }}
       />
       <div
@@ -41,39 +45,51 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         }}
       >
         <div
+          tw="flex items-center space-around"
           style={{
-            padding: 20,
-            fontSize: 56,
-            background: `linear-gradient(55deg, #0B2131 0%, #0F3244 100%)`,
-            display: 'flex',
-            justifyContent: 'space-around',
+            padding: '20px 30px',
+            fontSize: 60,
+            fontWeight: 600,
+            background: `linear-gradient(55deg, #1B394A 0%, #095C6B 100%)`,
           }}
         >
           <div
+            tw="w-full"
             style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'space-between',
             }}
           >
             <OGAvatar avatar={give.giver_profile_public.avatar} />
-            +1 GIVE
+            <div tw="flex items-center">
+              +1
+              <img
+                alt="gem"
+                src={IMAGE_URL_BASE + 'GemWhite.png'}
+                style={{ width: 70, height: 70, margin: '0 20px' }}
+              />
+              <span>GIVE</span>
+            </div>
             <OGAvatar avatar={give.target_profile_public.avatar} />
           </div>
         </div>
         <div
+          tw="flex items-center justify-between"
           style={{
-            padding: 30,
-            fontSize: 40,
-            color: '#ccc',
-            display: 'flex',
-            justifyContent: 'space-between',
+            height: 210,
+            padding: '20px 30px',
+            fontSize: 44,
           }}
         >
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span style={{ fontWeight: 600 }}>
+            <span style={{ fontWeight: 600, color: '#cacaca' }}>
               {give.giver_profile_public.name}
             </span>
-            <span>Total Given XX</span>
+            <span>
+              Total Given{' '}
+              <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>XX</span>
+            </span>
           </div>
           <div
             style={{
@@ -82,10 +98,13 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               alignItems: 'flex-end',
             }}
           >
-            <span style={{ fontWeight: 600 }}>
+            <span style={{ fontWeight: 600, color: '#cacaca' }}>
               {give.target_profile_public.name}
             </span>
-            <span>Total Received YY</span>
+            <span>
+              Total Received{' '}
+              <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>XX</span>
+            </span>
           </div>
         </div>
       </div>

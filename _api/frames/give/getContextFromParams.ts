@@ -35,6 +35,12 @@ const getViewerProfile = async (viewer_id: number) => {
         {
           id: true,
           name: true,
+          avatar: true,
+          cosoul: {
+            id: true,
+          },
+          links: true,
+          links_held: true,
         },
       ],
     },
