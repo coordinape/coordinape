@@ -35,16 +35,6 @@ const router: {
   paths: [],
 };
 
-declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-declare type Style = 'normal' | 'italic';
-interface FontOptions {
-  data: Buffer | ArrayBuffer;
-  name: string;
-  weight?: Weight;
-  style?: Style;
-  lang?: string;
-}
-
 const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 const createFont = async (name: string, file: string) => {
@@ -53,29 +43,6 @@ const createFont = async (name: string, file: string) => {
     data: await readFile(getPath(file)),
   };
 };
-
-const fonts: FontOptions[] = [
-  {
-    ...(await createFont('Denim', 'Denim-Regular')),
-    weight: 400,
-    style: 'normal',
-  },
-  {
-    ...(await createFont('Denim', 'Denim-RegularItalic')),
-    weight: 400,
-    style: 'italic',
-  },
-  {
-    ...(await createFont('Denim', 'Denim-SemiBold')),
-    weight: 600,
-    style: 'normal',
-  },
-  {
-    ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
-    weight: 600,
-    style: 'italic',
-  },
-];
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   const { path } = req.query;
@@ -196,7 +163,28 @@ const addFrame = (frame: Frame) => {
         // debug: true,
         height: 1000,
         width: 1000,
-        fonts: fonts,
+        fonts: [
+          {
+            ...(await createFont('Denim', 'Denim-Regular')),
+            weight: 400,
+            style: 'normal',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-RegularItalic')),
+            weight: 400,
+            style: 'italic',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-SemiBold')),
+            weight: 600,
+            style: 'normal',
+          },
+          {
+            ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
+            weight: 600,
+            style: 'italic',
+          },
+        ],
       });
       // no cache
       //
