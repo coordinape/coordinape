@@ -38,10 +38,8 @@ const router: {
 };
 
 const createFont = async (name: string, file: string) => {
-  const path = new URL(
-    `fonts/${file}.ttf`,
-    'https://coordinape-git-frames-spike-coordinape.vercel.app/'
-  );
+  const baseUrl = webAppURL('colinks');
+  const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
   // eslint-disable-next-line no-console
   console.log('createFont()', { name, file, path });
 
