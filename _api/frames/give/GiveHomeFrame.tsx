@@ -1,8 +1,9 @@
 import React from 'react';
 
 import { NotFoundError } from '../../../api-lib/HttpError.ts';
-import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage.tsx';
 import { FrameBody } from '../../og/FrameBody.tsx';
+import { FrameBodyGradient } from '../../og/FrameBodyGradient.tsx';
 import { FrameFooter } from '../../og/FrameFooter.tsx';
 import { FrameHeadline } from '../../og/FrameHeadline.tsx';
 import { FrameWrapper } from '../../og/FrameWrapper.tsx';
@@ -16,27 +17,20 @@ import { GiveRandoFrame } from './GiveRandoFrame.tsx';
 import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 
-export const IMAGE_URL_BASE = `${webAppURL('colinks')}/public/imgs/frames/`;
-
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
 
   return (
     <FrameWrapper>
-      <img
-        tw="w-full"
-        alt="avatar"
-        src={IMAGE_URL_BASE + 'frontdoor-2-1.jpg'}
-      />
+      <FrameBgImage src="frontdoor-2-1.jpg" />
       <FrameBody>
-        <div
-          tw="absolute bottom-0 w-full flex h-full z-0"
-          style={{
+        <FrameBodyGradient
+          gradientStyles={{
             background:
               'radial-gradient(circle at 25% 10%, #4992E7 0%, #5508D2 80%)',
             opacity: 0.7,
           }}
-        ></div>
+        />
         <FrameHeadline>
           <OGAvatar avatar={give.giver_profile_public.avatar} />
           <div tw="flex items-center grow justify-center">

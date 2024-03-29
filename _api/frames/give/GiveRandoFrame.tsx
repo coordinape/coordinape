@@ -1,6 +1,8 @@
 import React from 'react';
 
+import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage';
 import { FrameBody } from '../../og/FrameBody';
+import { FrameBodyGradient } from '../../og/FrameBodyGradient';
 import { FrameFooter } from '../../og/FrameFooter';
 import { FrameHeadline } from '../../og/FrameHeadline';
 import { FrameWrapper } from '../../og/FrameWrapper';
@@ -8,7 +10,6 @@ import { OGAvatar } from '../../og/OGAvatar';
 import { Frame } from '../router';
 
 import { getContextFromParams } from './getContextFromParams';
-import { IMAGE_URL_BASE } from './GiveHomeFrame';
 import { giveResourceIdentifier } from './giveResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
@@ -16,23 +17,18 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <img
-        alt="avatar"
-        src={IMAGE_URL_BASE + 'persona-0.jpg'}
-        style={{ width: '100%' }}
-      />
+      <FrameBgImage src="persona-0.jpg" />
       <FrameBody>
-        <div
-          tw="absolute bottom-0 w-full flex h-full z-0"
-          style={{
+        <FrameBodyGradient
+          gradientStyles={{
             background:
               'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
             opacity: 0.7,
           }}
-        ></div>
+        />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex w-full grow justify-center">Level 0</div>
+          <div tw="flex items-center grow justify-center">Level 0</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
