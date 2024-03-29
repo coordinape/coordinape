@@ -87,7 +87,7 @@ function DisplayModal({
     connectedAddress,
     srcToken
   );
-  const srcTokenBalanceRounded = roundValue(srcTokenBalance, 2) ?? 0;
+  const srcTokenBalanceRounded = roundValue(srcTokenBalance, 3) ?? 0;
 
   const [submitting, setSubmitting] = useState(false);
   const [showChainSelectorModal, setShowChainSelectorModal] = useState(false);

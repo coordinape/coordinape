@@ -154,10 +154,21 @@ export const executeTransaction = async ({
       const tx = actionResponse.tx as EvmTransaction;
       await provider.getSigner().sendTransaction(tx);
       setSubmitting?.(false);
-    } catch (e) {
-      toast.error('Error sending transaction.', {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
+    } catch (e: any) {
+      console.error(e);
+      if (e?.data?.message?.match(/insufficient funds/)) {
+        toast.error('Insufficient funds for gas. Please reduce input amount', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      } else if (e?.message.match(/user rejected transaction/)) {
+        toast.error('User rejected transaction', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      } else {
+        toast.error('Error sending transaction.', {
+          position: toast.POSITION.BOTTOM_CENTER,
+        });
+      }
       console.error('Error sending tx.', e);
       setShowContinue?.(true);
       setSubmitting?.(false);
