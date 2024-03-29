@@ -17,7 +17,6 @@ export const FrameDebugger = ({ profile }: { profile: any }) => {
         background: 'rgba(0,0,0, 0.7)',
         color: 'white',
         fontSize: 24,
-        zIndex: 99,
       }}
     >
       <div
