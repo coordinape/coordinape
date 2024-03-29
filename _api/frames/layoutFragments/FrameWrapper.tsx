@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unknown-property */
 import React from 'react';
 
 export const FrameWrapper = ({ children }: { children: React.ReactNode }) => {

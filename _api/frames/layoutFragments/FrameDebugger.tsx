@@ -1,7 +1,6 @@
-/* eslint-disable react/no-unknown-property */
 import React from 'react';
 
-import { IN_DEVELOPMENT } from '../../src/config/env';
+import { IN_DEVELOPMENT } from '../../../src/config/env';
 
 export const FrameDebugger = ({ profile }: { profile: any }) => {
   if (!IN_DEVELOPMENT) {
