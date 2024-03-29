@@ -17,12 +17,12 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-0.jpg" />
+      <FrameBgImage src="persona-3.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
+              'radial-gradient(circle at 25% 0%, #3300FF 0%, #EF7200 80%)',
             opacity: 0.7,
           }}
         />
@@ -45,9 +45,9 @@ const imageNode = async (params: Record<string, string>) => {
               fontSize: 46,
             }}
           >
-            Welcome, {viewerProfile?.name}!
+            Join CoLinks
             <br />
-            Get started by Sending GIVE
+            to level up again.
           </div>
         </FrameFooter>
       </FrameBody>

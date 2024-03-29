@@ -17,12 +17,12 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-0.jpg" />
+      <FrameBgImage src="persona-2.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
+              'radial-gradient(circle at 25% 0%, #0DC0E7 0%, #7908D2 80%)',
             opacity: 0.7,
           }}
         />
@@ -45,9 +45,9 @@ const imageNode = async (params: Record<string, string>) => {
               fontSize: 46,
             }}
           >
-            Welcome, {viewerProfile?.name}!
+            Send 5 GIVE
             <br />
-            Get started by Sending GIVE
+            to level up more, bruhv
           </div>
         </FrameFooter>
       </FrameBody>
@@ -62,7 +62,7 @@ export const PersonaTwoFrame: Frame = {
   resourceIdentifier: personaResourceIdentifier,
   buttons: [
     {
-      title: 'Send 5 GIVEs',
+      title: 'Try @givebot',
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },

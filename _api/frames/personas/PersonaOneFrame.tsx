@@ -17,12 +17,12 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-0.jpg" />
+      <FrameBgImage src="persona-1.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
+              'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)',
             opacity: 0.7,
           }}
         />
@@ -45,9 +45,9 @@ const imageNode = async (params: Record<string, string>) => {
               fontSize: 46,
             }}
           >
-            Welcome, {viewerProfile?.name}!
+            Level up more!
             <br />
-            Get started by Sending GIVE
+            Bring your GIVE onchain.
           </div>
         </FrameFooter>
       </FrameBody>
@@ -63,7 +63,7 @@ export const PersonaOneFrame: Frame = {
   // TODO: hook up minting
   buttons: [
     {
-      title: 'Mint',
+      title: 'Send me a CoSoul',
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },

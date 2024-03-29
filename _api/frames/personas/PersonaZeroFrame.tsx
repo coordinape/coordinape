@@ -23,7 +23,7 @@ const imageNode = async (params: Record<string, string>) => {
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
+              'radial-gradient(circle at 25% 0%, #135A95 0%, #092031 80%)',
             opacity: 0.7,
           }}
         />
@@ -48,7 +48,7 @@ const imageNode = async (params: Record<string, string>) => {
           >
             Welcome, {viewerProfile?.name}!
             <br />
-            Get started by Sending GIVE
+            Get started by Sending GIVE.
           </div>
         </FrameFooter>
       </FrameBody>
