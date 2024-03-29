@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
@@ -65,19 +64,22 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 }
 
 const getHandler = (path: string, m: 'GET' | 'POST') => {
-  console.log('getHandler():', m, path);
+  // strip query params from path, and don't test paths against them, but do pass into handler
+  const [url, query] = path.split('?');
+  const queryParams = Object.fromEntries(new URLSearchParams(query).entries());
+
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
     }
-    const params = p.test(path);
-    console.log('got params', params);
-    if (params) {
+
+    // Don't test against query params but pass them in
+    const url_params = p.test(url);
+
+    if (url_params) {
       return (req: VercelRequest, res: VercelResponse) => {
-        handler(req, res, params);
+        handler(req, res, { ...url_params, ...queryParams });
       };
-    } else {
-      console.log('no params found testing path', p, 'against', path);
     }
   }
   return undefined;
@@ -165,7 +167,7 @@ const addFrame = (frame: Frame) => {
 
   // always add an image route
   addPath(
-    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?ts&viewer_profile_id`,
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
