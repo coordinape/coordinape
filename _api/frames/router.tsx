@@ -67,6 +67,8 @@ const getHandler = (path: string, m: 'GET' | 'POST') => {
   // strip query params from path, and don't test paths against them, but do pass into handler
   const [url, query] = path.split('?');
   const queryParams = Object.fromEntries(new URLSearchParams(query).entries());
+  // eslint-disable-next-line no-console
+  console.log('gotHandler():', { url, queryParams });
 
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
