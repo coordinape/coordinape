@@ -27,7 +27,7 @@ export const RenderFrameMeta = ({
   const viewer_profile_id: string | undefined = info?.profile?.id;
 
   const imgParams = {
-    ts: DateTime.now().toISO({ format: 'basic' }).valueOf(),
+    ts: DateTime.now().valueOf().toString(),
     ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
   };
 
