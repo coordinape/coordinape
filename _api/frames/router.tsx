@@ -14,8 +14,8 @@ import { RenderFrameMeta } from './FrameMeta';
 import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
-import { GiveRandoFrame } from './give/GiveRandoFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
+import { PersonaZeroFrame } from './give/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
@@ -221,4 +221,4 @@ const handleButton = async (
 addFrame(GiveHomeFrame);
 addFrame(GiveGiverFrame);
 addFrame(GiveReceiverFrame);
-addFrame(GiveRandoFrame);
+addFrame(PersonaZeroFrame);

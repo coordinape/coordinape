@@ -13,9 +13,9 @@ import { Frame } from '../router.ts';
 
 import { getContextFromParams } from './getContextFromParams.ts';
 import { GiveGiverFrame } from './GiveGiverFrame.tsx';
-import { GiveRandoFrame } from './GiveRandoFrame.tsx';
 import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
+import { PersonaZeroFrame } from './PersonaZeroFrame.tsx';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
@@ -174,7 +174,7 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   } else if (role === 'target') {
     return await GiveReceiverFrame;
   } else {
-    return GiveRandoFrame;
+    return PersonaZeroFrame;
   }
 };
 

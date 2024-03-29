@@ -118,7 +118,7 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const GiveRandoFrame: Frame = {
+export const PersonaZeroFrame: Frame = {
   id: 'give/rando',
   homeFrame: false,
   imageNode: imageNode,
