@@ -4,6 +4,7 @@ import { NotFoundError } from '../../../api-lib/HttpError.ts';
 import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage.tsx';
 import { FrameBody } from '../../og/FrameBody.tsx';
 import { FrameBodyGradient } from '../../og/FrameBodyGradient.tsx';
+import { FrameDebugger } from '../../og/FrameDebugger.tsx';
 import { FrameFooter } from '../../og/FrameFooter.tsx';
 import { FrameHeadline } from '../../og/FrameHeadline.tsx';
 import { FrameWrapper } from '../../og/FrameWrapper.tsx';
@@ -85,70 +86,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
           </div>
         </FrameFooter>
       </FrameBody>
-      {/* frame stats */}
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 30,
-          left: 30,
-          padding: 16,
-          background: 'rgba(0,0,0, 0.5)',
-          color: 'white',
-          fontSize: 24,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>Giver has given GIVE</span>
-          <span>???</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>Giver has a cosoul</span>
-          <span>{give.giver_profile_public.cosoul?.id ? 'TRUE' : 'FALSE'}</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>Giver has received GIVE</span>
-          <span>???</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>Giver has purchased their own colink</span>
-          <span>
-            {give.giver_profile_public.links_held &&
-            give.giver_profile_public.links_held > 0
-              ? 'TRUE'
-              : 'FALSE'}
-          </span>
-        </div>
-      </div> */}
+      <FrameDebugger profile={give.giver_profile_public} />
     </FrameWrapper>
   );
 };

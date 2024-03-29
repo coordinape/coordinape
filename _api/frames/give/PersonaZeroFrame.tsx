@@ -3,6 +3,7 @@ import React from 'react';
 import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage';
 import { FrameBody } from '../../og/FrameBody';
 import { FrameBodyGradient } from '../../og/FrameBodyGradient';
+import { FrameDebugger } from '../../og/FrameDebugger';
 import { FrameFooter } from '../../og/FrameFooter';
 import { FrameHeadline } from '../../og/FrameHeadline';
 import { FrameWrapper } from '../../og/FrameWrapper';
@@ -51,69 +52,7 @@ const imageNode = async (params: Record<string, string>) => {
           </div>
         </FrameFooter>
       </FrameBody>
-      {/* frame stats */}
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
-          top: 30,
-          left: 30,
-          padding: 16,
-          background: 'rgba(0,0,0, 0.5)',
-          color: 'white',
-          fontSize: 24,
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>{viewerProfile?.name} has given GIVE</span>
-          <span>???</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>{viewerProfile?.name} has a cosoul</span>
-          <span>{viewerProfile?.cosoul?.id ? 'TRUE' : 'FALSE'}</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>{viewerProfile?.name} has received GIVE</span>
-          <span>???</span>
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            gap: 24,
-          }}
-        >
-          <span>{viewerProfile?.name} has purchased their own colink</span>
-          <span>
-            {viewerProfile?.links_held && viewerProfile?.links_held > 0
-              ? 'TRUE'
-              : 'FALSE'}
-          </span>
-        </div>
-      </div> */}
+      <FrameDebugger profile={viewerProfile} />
     </FrameWrapper>
   );
 };

@@ -4,16 +4,12 @@ import React from 'react';
 export const FrameWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
+      tw="flex flex-col w-full h-full relative"
       style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: '100%',
         background: 'black',
         color: 'white',
         fontSize: 36,
         lineHeight: 1.5,
-        position: 'relative',
         fontFamily: 'Denim',
       }}
     >

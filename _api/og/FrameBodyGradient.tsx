@@ -11,9 +11,6 @@ export const FrameBodyGradient = ({
   gradientStyles: GradientStyles;
 }) => {
   return (
-    <div
-      tw="absolute bottom-0 w-full flex h-full z-0"
-      style={gradientStyles}
-    ></div>
+    <div tw="absolute bottom-0 w-full flex h-full" style={gradientStyles}></div>
   );
 };
