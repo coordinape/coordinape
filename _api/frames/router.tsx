@@ -55,6 +55,9 @@ const createFont = async (name: string, file: string) => {
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   const { path } = req.query;
+  // eslint-disable-next-line no-console
+  console.log('router()', { path, query: req.query });
+
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
