@@ -182,7 +182,7 @@ const addFrame = (frame: Frame) => {
         // debug: true,
         height: 1000,
         width: 1000,
-        fonts: [
+        fonts: await Promise.all([
           {
             ...(await createFont('Denim', 'Denim-Regular')),
             weight: 400,
@@ -203,7 +203,7 @@ const addFrame = (frame: Frame) => {
             weight: 600,
             style: 'italic',
           },
-        ],
+        ]),
       });
       // no cache
       //
