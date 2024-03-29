@@ -155,7 +155,6 @@ export const executeTransaction = async ({
       await provider.getSigner().sendTransaction(tx);
       setSubmitting?.(false);
     } catch (e: any) {
-      console.error(e);
       if (e?.data?.message?.match(/insufficient funds/)) {
         toast.error('Insufficient funds for gas. Please reduce input amount', {
           position: toast.POSITION.BOTTOM_CENTER,
