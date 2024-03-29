@@ -1,14 +1,14 @@
 import React from 'react';
 
-import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage';
-import { FrameBody } from '../../og/FrameBody';
-import { FrameBodyGradient } from '../../og/FrameBodyGradient';
-import { FrameDebugger } from '../../og/FrameDebugger';
-import { FrameFooter } from '../../og/FrameFooter';
-import { FrameHeadline } from '../../og/FrameHeadline';
-import { FrameWrapper } from '../../og/FrameWrapper';
 import { OGAvatar } from '../../og/OGAvatar';
 import { getViewerFromParams } from '../getViewerFromParams';
+import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
+import { FrameBody } from '../layoutFragments/FrameBody';
+import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
+import { FrameDebugger } from '../layoutFragments/FrameDebugger';
+import { FrameFooter } from '../layoutFragments/FrameFooter';
+import { FrameHeadline } from '../layoutFragments/FrameHeadline';
+import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { Frame } from '../router';
 
 import { personaResourceIdentifier } from './personaResourceIdentifier';

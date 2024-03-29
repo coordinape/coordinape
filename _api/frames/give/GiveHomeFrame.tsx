@@ -1,15 +1,18 @@
 import React from 'react';
 
 import { NotFoundError } from '../../../api-lib/HttpError.ts';
-import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage.tsx';
-import { FrameBody } from '../../og/FrameBody.tsx';
-import { FrameBodyGradient } from '../../og/FrameBodyGradient.tsx';
-import { FrameDebugger } from '../../og/FrameDebugger.tsx';
-import { FrameFooter } from '../../og/FrameFooter.tsx';
-import { FrameHeadline } from '../../og/FrameHeadline.tsx';
-import { FrameWrapper } from '../../og/FrameWrapper.tsx';
 import { OGAvatar } from '../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../getFramePostInfo.tsx';
+import {
+  FrameBgImage,
+  IMAGE_URL_BASE,
+} from '../layoutFragments/FrameBgImage.tsx';
+import { FrameBody } from '../layoutFragments/FrameBody.tsx';
+import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
+import { FrameDebugger } from '../layoutFragments/FrameDebugger.tsx';
+import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
+import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
+import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PersonaFourFrame } from '../personas/PersonaFourFrame.tsx';
 import { PersonaOneFrame } from '../personas/PersonaOneFrame.tsx';
 import { PersonaThreeFrame } from '../personas/PersonaThreeFrame.tsx';
