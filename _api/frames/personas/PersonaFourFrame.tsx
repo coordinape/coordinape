@@ -35,19 +35,7 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ width: 70, height: 70 }}
           />
         </FrameHeadline>
-        <FrameFooter>
-          {' '}
-          <div
-            tw="w-full flex flex-col text-center justify-center items-center"
-            style={{
-              height: 230,
-              padding: '20px 32px',
-              fontSize: 46,
-            }}
-          >
-            TODO: STATS
-          </div>
-        </FrameFooter>
+        <FrameFooter>TODO: STATS</FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );

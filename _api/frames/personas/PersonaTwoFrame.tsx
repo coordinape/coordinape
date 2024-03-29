@@ -36,19 +36,9 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          {' '}
-          <div
-            tw="w-full flex flex-col text-center justify-center items-center"
-            style={{
-              height: 230,
-              padding: '20px 32px',
-              fontSize: 46,
-            }}
-          >
-            Send 5 GIVE
-            <br />
-            to level up more, bruhv
-          </div>
+          Send 5 GIVE
+          <br />
+          to level up more, bruhv
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>

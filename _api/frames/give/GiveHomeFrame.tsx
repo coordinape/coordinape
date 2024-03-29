@@ -9,7 +9,6 @@ import {
 } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
-import { FrameDebugger } from '../layoutFragments/FrameDebugger.tsx';
 import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
@@ -26,6 +25,7 @@ import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
+  const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
 
   return (
     <FrameWrapper>
@@ -34,7 +34,16 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 25% 0%, #4992E7 0%, #5508D2 80%)',
+              giverLevel == 4
+                ? 'radial-gradient(circle at 25% 0%, #E31A1A 0%, #790066 80%)'
+                : giverLevel == 3
+                  ? 'radial-gradient(circle at 25% 0%, #3300FF 0%, #EF7200 80%)'
+                  : giverLevel == 2
+                    ? 'radial-gradient(circle at 25% 0%, #0DC0E7 0%, #7908D2 80%)'
+                    : giverLevel == 1
+                      ? 'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)'
+                      : 'radial-gradient(circle at 25% 0%, #135A95 0%, #092031 80%)',
+
             opacity: 0.7,
           }}
         />
@@ -53,13 +62,8 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         </FrameHeadline>
         <FrameFooter>
           <div
-            tw="flex items-center justify-between"
-            style={{
-              height: 230,
-              padding: '20px 32px',
-              fontSize: 46,
-              fontWeight: 400,
-            }}
+            tw="flex w-full items-center justify-between"
+            style={{ fontWeight: 400 }}
           >
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <span style={{ fontWeight: 600 }}>
@@ -92,7 +96,6 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
           </div>
         </FrameFooter>
       </FrameBody>
-      <FrameDebugger profile={give.giver_profile_public} />
     </FrameWrapper>
   );
 };
@@ -129,7 +132,7 @@ export const GiveHomeFrame: Frame = {
   imageNode: homeFrameImageNode,
   buttons: [
     {
-      title: 'Enter the Arena',
+      title: 'Enter the Portal',
       action: 'post',
       onPost: onPost,
     },

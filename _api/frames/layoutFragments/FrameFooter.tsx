@@ -10,7 +10,16 @@ export const FrameFooter = ({ children }: { children: React.ReactNode }) => {
           width: '100%',
         }}
       >
-        {children}
+        <div
+          tw="w-full flex flex-col text-center justify-center items-center"
+          style={{
+            height: 230,
+            padding: '20px 32px',
+            fontSize: 46,
+          }}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
