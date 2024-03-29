@@ -28,7 +28,7 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Level 2</div>
+          <div tw="flex items-center grow justify-center">Level 4</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
