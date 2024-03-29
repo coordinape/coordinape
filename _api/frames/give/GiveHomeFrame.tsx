@@ -29,7 +29,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="frontdoor-2-1.jpg" />
+      <FrameBgImage src={`frontdoor-${giverLevel}-1.jpg`} />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
