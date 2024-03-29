@@ -65,7 +65,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 }
 
 const getHandler = (path: string, m: 'GET' | 'POST') => {
-  console.log('getHandler', path, m);
+  console.log('getHandler():', m, path);
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
@@ -76,6 +76,8 @@ const getHandler = (path: string, m: 'GET' | 'POST') => {
       return (req: VercelRequest, res: VercelResponse) => {
         handler(req, res, params);
       };
+    } else {
+      console.log('no params found testing path', p, 'against', path);
     }
   }
   return undefined;
