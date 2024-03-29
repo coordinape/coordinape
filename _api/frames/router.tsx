@@ -1,5 +1,3 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -39,12 +37,14 @@ const router: {
   paths: [],
 };
 
-const getPath = (name: string) =>
-  join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 const createFont = async (name: string, file: string) => {
+  const fontData = await fetch(
+    new URL(`fonts/${file}.ttf`, import.meta.url)
+  ).then(res => res.arrayBuffer());
+
   return {
     name: name,
-    data: await readFile(getPath(file)),
+    data: fontData,
   };
 };
 
