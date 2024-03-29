@@ -52,9 +52,7 @@ const createFont = async (name: string, file: string) => {
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
-  const { path } = req.query;
-  // eslint-disable-next-line no-console
-  console.log('router()', { path, query: req.query });
+  const { path, ...queryParams } = req.query;
 
   if (!path) {
     return res.status(404).send(`no path provided`);
@@ -62,31 +60,33 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST' && req.method !== 'GET') {
     return res.status(405).send(`method not supported ${req.method}`);
   }
-  const handler = getHandler('/' + ((path as string) ?? ''), req.method);
+  const handler = getHandler(
+    '/' + ((path as string) ?? ''),
+    req.method,
+    queryParams as Record<string, string>
+  );
   if (!handler) {
     return res.status(404).send(`no handler found for ${path}`);
   }
   return handler(req, res);
 }
 
-const getHandler = (path: string, m: 'GET' | 'POST') => {
-  // strip query params from path, and don't test paths against them, but do pass into handler
-  const [url, query] = path.split('?');
-  const queryParams = Object.fromEntries(new URLSearchParams(query).entries());
-  // eslint-disable-next-line no-console
-  console.log('gotHandler():', { url, queryParams });
-
+const getHandler = (
+  path: string,
+  m: 'GET' | 'POST',
+  queryParams: Record<string, string>
+) => {
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
     }
 
     // Don't test against query params but pass them in
-    const url_params = p.test(url);
-
-    if (url_params) {
+    const url = path.split('?')[0];
+    const pathParams = p.test(url);
+    if (pathParams) {
       return (req: VercelRequest, res: VercelResponse) => {
-        handler(req, res, { ...url_params, ...queryParams });
+        handler(req, res, { ...pathParams, ...queryParams });
       };
     }
   }
