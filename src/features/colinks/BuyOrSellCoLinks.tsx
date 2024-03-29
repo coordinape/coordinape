@@ -81,7 +81,7 @@ export const BuyOrSellCoLinks = ({
       }
     },
     {
-      refetchInterval: 2000,
+      refetchInterval: 4000,
       enabled: !!account,
     }
   );

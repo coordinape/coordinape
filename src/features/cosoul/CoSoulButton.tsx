@@ -28,7 +28,7 @@ import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
 import { useCoSoulContracts } from './useCoSoulContracts';
 
-const MIN_BALANCE = ethers.utils.parseEther('0.004');
+const MIN_BALANCE = ethers.utils.parseEther('0.001');
 
 export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
   const { library, chainId, account, setProvider } = useWeb3React();
@@ -47,8 +47,8 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
       }
     },
     {
-      refetchInterval: 2000,
       enabled: !!account,
+      refetchInterval: 4000,
     }
   );
 
