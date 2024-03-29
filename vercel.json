@@ -100,7 +100,7 @@
     "contentDispositionType": "inline"
   },
   "functions": {
-    "api/frames/*": {
+    "api/frames/router.func": {
       "includeFiles": "public/fonts/Denim*"
     }
   }
