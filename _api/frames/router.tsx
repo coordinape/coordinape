@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
@@ -60,6 +61,8 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 }
 
 const getHandler = (path: string, m: 'GET' | 'POST') => {
+  console.log('getHandler', path, m);
+  console.log('router.paths', router.paths);
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
