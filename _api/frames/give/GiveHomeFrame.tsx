@@ -2,6 +2,10 @@ import React from 'react';
 
 import { NotFoundError } from '../../../api-lib/HttpError.ts';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { FrameBody } from '../../og/FrameBody.tsx';
+import { FrameFooter } from '../../og/FrameFooter.tsx';
+import { FrameHeadline } from '../../og/FrameHeadline.tsx';
+import { FrameWrapper } from '../../og/FrameWrapper.tsx';
 import { OGAvatar } from '../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../getFramePostInfo.tsx';
 import { Frame } from '../router.ts';
@@ -18,45 +22,24 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: '100%',
-        background: 'black',
-        color: 'white',
-        fontSize: 36,
-        lineHeight: 1.5,
-        position: 'relative',
-        fontFamily: 'Denim',
-      }}
-    >
+    <FrameWrapper>
       <img
+        tw="w-full"
         alt="avatar"
-        src={IMAGE_URL_BASE + 'frontdoor-1-1.jpg'}
-        style={{ width: '100%' }}
+        src={IMAGE_URL_BASE + 'frontdoor-2-1.jpg'}
       />
-      <div
-        tw="absolute bottom-0 w-full flex items-center space-around flex-col"
-        style={{
-          fontSize: 60,
-          fontWeight: 600,
-          background:
-            'radial-gradient(circle at 20% 10%, #0038FF88 0%, #08C67088 80%)',
-        }}
-      >
+      <FrameBody>
         <div
-          tw="w-full"
+          tw="absolute bottom-0 w-full flex h-full z-0"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '20px 30px',
+            background:
+              'radial-gradient(circle at 25% 10%, #4992E7 0%, #5508D2 80%)',
+            opacity: 0.7,
           }}
-        >
+        ></div>
+        <FrameHeadline>
           <OGAvatar avatar={give.giver_profile_public.avatar} />
-          <div tw="flex items-center">
+          <div tw="flex items-center grow justify-center">
             +1
             <img
               alt="gem"
@@ -66,15 +49,8 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
             <span>GIVE</span>
           </div>
           <OGAvatar avatar={give.target_profile_public.avatar} />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            // background: 'rgba(0,0,0,0.1)',
-          }}
-        >
+        </FrameHeadline>
+        <FrameFooter>
           <div
             tw="flex items-center justify-between"
             style={{
@@ -113,8 +89,8 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               </span>
             </div>
           </div>
-        </div>
-      </div>
+        </FrameFooter>
+      </FrameBody>
       {/* frame stats */}
       {/* <div
         style={{
@@ -179,7 +155,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
           </span>
         </div>
       </div> */}
-    </div>
+    </FrameWrapper>
   );
 };
 

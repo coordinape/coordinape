@@ -1,5 +1,9 @@
 import React from 'react';
 
+import { FrameBody } from '../../og/FrameBody';
+import { FrameFooter } from '../../og/FrameFooter';
+import { FrameHeadline } from '../../og/FrameHeadline';
+import { FrameWrapper } from '../../og/FrameWrapper';
 import { OGAvatar } from '../../og/OGAvatar';
 import { Frame } from '../router';
 
@@ -11,59 +15,32 @@ const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getContextFromParams(params);
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        width: '100%',
-        height: '100%',
-        background: 'black',
-        color: 'white',
-        fontSize: 36,
-        lineHeight: 1.5,
-        position: 'relative',
-        fontFamily: 'Denim',
-      }}
-    >
+    <FrameWrapper>
       <img
         alt="avatar"
         src={IMAGE_URL_BASE + 'persona-0.jpg'}
         style={{ width: '100%' }}
       />
-      <div
-        tw="absolute bottom-0 w-full flex items-center space-around flex-col"
-        style={{
-          fontSize: 60,
-          fontWeight: 600,
-          background:
-            'radial-gradient(circle at 20% 10%, #135A9588 0%, #09203188 80%)',
-        }}
-      >
+      <FrameBody>
         <div
-          tw="w-full"
+          tw="absolute bottom-0 w-full flex h-full z-0"
           style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '20px 30px',
+            background:
+              'radial-gradient(circle at 20% 10%, #135A95 0%, #092031 80%)',
+            opacity: 0.7,
           }}
-        >
+        ></div>
+        <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          Level 0
+          <div tw="flex w-full grow justify-center">Level 0</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
             style={{ width: 70, height: 70 }}
           />
-        </div>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            width: '100%',
-            // background: 'rgba(0,0,0,0.1)',
-          }}
-        >
+        </FrameHeadline>
+        <FrameFooter>
+          {' '}
           <div
             tw="w-full flex flex-col text-center justify-center items-center"
             style={{
@@ -76,9 +53,8 @@ const imageNode = async (params: Record<string, string>) => {
             <br />
             Get started by Sending GIVE
           </div>
-        </div>
-      </div>
-
+        </FrameFooter>
+      </FrameBody>
       {/* frame stats */}
       {/* <div
         style={{
@@ -142,7 +118,7 @@ const imageNode = async (params: Record<string, string>) => {
           </span>
         </div>
       </div> */}
-    </div>
+    </FrameWrapper>
   );
 };
 
