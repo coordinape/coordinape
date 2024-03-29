@@ -98,5 +98,10 @@
     "dangerouslyAllowSVG": false,
     "contentSecurityPolicy": "default-src 'self'; img-src *;",
     "contentDispositionType": "inline"
+  },
+  "functions": {
+    "api/frames/router.tsx": {
+      "includeFiles": "public/fonts/Denim*"
+    }
   }
 }
