@@ -3,18 +3,17 @@ import React from 'react';
 import { FrameBgImage, IMAGE_URL_BASE } from '../../og/FrameBgImage';
 import { FrameBody } from '../../og/FrameBody';
 import { FrameBodyGradient } from '../../og/FrameBodyGradient';
-import { FrameDebugger } from '../../og/FrameDebugger';
 import { FrameFooter } from '../../og/FrameFooter';
 import { FrameHeadline } from '../../og/FrameHeadline';
 import { FrameWrapper } from '../../og/FrameWrapper';
 import { OGAvatar } from '../../og/OGAvatar';
+import { getViewerFromParams } from '../getViewerFromParams';
 import { Frame } from '../router';
 
-import { getContextFromParams } from './getContextFromParams';
-import { giveResourceIdentifier } from './giveResourceIdentifier';
+import { personaResourceIdentifier } from './personaResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
-  const { viewerProfile } = await getContextFromParams(params);
+  const { viewerProfile } = await getViewerFromParams(params);
 
   return (
     <FrameWrapper>
@@ -29,7 +28,7 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Level 0</div>
+          <div tw="flex items-center grow justify-center">Level 2</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -52,19 +51,18 @@ const imageNode = async (params: Record<string, string>) => {
           </div>
         </FrameFooter>
       </FrameBody>
-      <FrameDebugger profile={viewerProfile} />
     </FrameWrapper>
   );
 };
 
-export const PersonaZeroFrame: Frame = {
-  id: 'give/rando',
+export const PersonaTwoFrame: Frame = {
+  id: 'persona2',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: giveResourceIdentifier,
+  resourceIdentifier: personaResourceIdentifier,
   buttons: [
     {
-      title: 'Try @givebot',
+      title: 'Send 5 GIVEs',
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },

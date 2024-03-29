@@ -16,7 +16,11 @@ import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
-import { PersonaZeroFrame } from './give/PersonaZeroFrame';
+import { PersonaFourFrame } from './personas/PersonaFourFrame';
+import { PersonaOneFrame } from './personas/PersonaOneFrame';
+import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
+import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
+import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
@@ -62,12 +66,12 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
 const getHandler = (path: string, m: 'GET' | 'POST') => {
   console.log('getHandler', path, m);
-  console.log('router.paths', router.paths);
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
     }
     const params = p.test(path);
+    console.log('got params', params);
     if (params) {
       return (req: VercelRequest, res: VercelResponse) => {
         handler(req, res, params);
@@ -225,3 +229,7 @@ addFrame(GiveHomeFrame);
 addFrame(GiveGiverFrame);
 addFrame(GiveReceiverFrame);
 addFrame(PersonaZeroFrame);
+addFrame(PersonaOneFrame);
+addFrame(PersonaTwoFrame);
+addFrame(PersonaThreeFrame);
+addFrame(PersonaFourFrame);

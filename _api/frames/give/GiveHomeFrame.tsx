@@ -10,13 +10,16 @@ import { FrameHeadline } from '../../og/FrameHeadline.tsx';
 import { FrameWrapper } from '../../og/FrameWrapper.tsx';
 import { OGAvatar } from '../../og/OGAvatar.tsx';
 import { FramePostInfo } from '../getFramePostInfo.tsx';
+import { PersonaFourFrame } from '../personas/PersonaFourFrame.tsx';
+import { PersonaOneFrame } from '../personas/PersonaOneFrame.tsx';
+import { PersonaThreeFrame } from '../personas/PersonaThreeFrame.tsx';
+import { PersonaTwoFrame } from '../personas/PersonaTwoFrame.tsx';
+import { PersonaZeroFrame } from '../personas/PersonaZeroFrame.tsx';
 import { Frame } from '../router.ts';
 
 import { getContextFromParams } from './getContextFromParams.ts';
-import { GiveGiverFrame } from './GiveGiverFrame.tsx';
-import { GiveReceiverFrame } from './GiveReceiverFrame.tsx';
+import { getLevelForViewer } from './getLevelForViewer.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
-import { PersonaZeroFrame } from './PersonaZeroFrame.tsx';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
@@ -98,19 +101,19 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
     throw new NotFoundError('give not found');
   }
 
-  type role = 'rando' | 'giver' | 'target';
+  // Enter the Levels persona app
+  const level = await getLevelForViewer(info.profile.id);
 
-  let role: role = 'rando';
-  if (info.profile.id === give.giver_profile_public.id) {
-    role = 'giver';
-  } else if (info.profile.id === give.target_profile_public.id) {
-    role = 'target';
-  }
+  // route each level to its respective Persona
 
-  if (role === 'giver') {
-    return GiveGiverFrame;
-  } else if (role === 'target') {
-    return await GiveReceiverFrame;
+  if (level === 1) {
+    return PersonaOneFrame;
+  } else if (level === 2) {
+    return PersonaTwoFrame;
+  } else if (level === 3) {
+    return PersonaThreeFrame;
+  } else if (level === 4) {
+    return PersonaFourFrame;
   } else {
     return PersonaZeroFrame;
   }
