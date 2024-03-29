@@ -38,9 +38,14 @@ const router: {
 };
 
 const createFont = async (name: string, file: string) => {
-  const fontData = await fetch(
-    new URL(`fonts/${file}.ttf`, import.meta.url)
-  ).then(res => res.arrayBuffer());
+  const path = new URL(
+    `fonts/${file}.ttf`,
+    'https://coordinape-git-frames-spike-coordinape.vercel.app/'
+  );
+  // eslint-disable-next-line no-console
+  console.log('createFont()', { name, file, path });
+
+  const fontData = await fetch(path).then(res => res.arrayBuffer());
 
   return {
     name: name,
