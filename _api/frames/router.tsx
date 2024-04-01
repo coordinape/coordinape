@@ -25,6 +25,16 @@ import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
+declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+declare type Style = 'normal' | 'italic';
+interface FontOptions {
+  data: Buffer | ArrayBuffer;
+  name: string;
+  weight?: Weight;
+  style?: Style;
+  lang?: string;
+}
+
 type PathWithHandler = {
   path: Path;
   handler: (
@@ -46,9 +56,6 @@ const getPath = (name: string) =>
 const createFont = async (name: string, file: string) => {
   // TODO: fix font loading in vercel, url fetching is very slow
 
-  // time this load
-  const startTime = Date.now();
-
   let fontData: ArrayBuffer;
   if (IS_LOCAL_ENV) {
     fontData = await readFile(getPath(file));
@@ -59,10 +66,6 @@ const createFont = async (name: string, file: string) => {
 
     fontData = await fetch(path).then(res => res.arrayBuffer());
   }
-
-  const endTime = Date.now();
-  console.log('createFont()', { name, file });
-  console.log('Font load time:', endTime - startTime, 'ms');
 
   return {
     name: name,
@@ -192,6 +195,35 @@ const addFrame = (frame: Frame) => {
     }
   );
 
+  const loadFonts = async (): Promise<FontOptions[]> => {
+    const startTime = Date.now();
+    const fonts = await Promise.all([
+      {
+        ...(await createFont('Denim', 'Denim-Regular')),
+        weight: 400,
+        style: 'normal',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-RegularItalic')),
+        weight: 400,
+        style: 'italic',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-SemiBold')),
+        weight: 600,
+        style: 'normal',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
+        weight: 600,
+        style: 'italic',
+      },
+    ]);
+    const endTime = Date.now();
+    console.log('Font load time:', endTime - startTime, 'ms');
+    return fonts as FontOptions[];
+  };
+
   // always add an image route
   addPath(
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
@@ -201,28 +233,7 @@ const addFrame = (frame: Frame) => {
         // debug: true,
         height: 1000,
         width: 1000,
-        fonts: await Promise.all([
-          {
-            ...(await createFont('Denim', 'Denim-Regular')),
-            weight: 400,
-            style: 'normal',
-          },
-          {
-            ...(await createFont('Denim', 'Denim-RegularItalic')),
-            weight: 400,
-            style: 'italic',
-          },
-          {
-            ...(await createFont('Denim', 'Denim-SemiBold')),
-            weight: 600,
-            style: 'normal',
-          },
-          {
-            ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
-            weight: 600,
-            style: 'italic',
-          },
-        ]),
+        fonts: await loadFonts(),
       });
       // no cache
       //
