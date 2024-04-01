@@ -15,15 +15,15 @@ export const OGAvatar = ({ avatar }: { avatar?: string }) => {
     >
       <img
         alt="avatar"
-        height={100}
+        height={95}
+        width={95}
         src={
           avatar
             ? (avatar.startsWith('http') ? '' : process.env.VITE_S3_BASE_URL) +
               avatar
             : DEFAULT_AVATAR
         }
-        style={{ margin: '0 30px', borderRadius: 99999 }}
-        width={100}
+        style={{ margin: 0, borderRadius: 99999 }}
       />
     </div>
   );

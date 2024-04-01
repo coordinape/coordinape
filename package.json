@@ -189,10 +189,10 @@
     "test": "./scripts/ci/manager.sh test --jest -i",
     "test:ci": "./scripts/ci/manager.sh test --all",
     "test:up": "./scripts/ci/manager.sh up",
-    "lint:check": "eslint \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\" --max-warnings 0",
+    "lint:check": "eslint \"{{api,_api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\" --max-warnings 0",
     "lint:fix": "pnpm lint:check --fix",
     "lint:staged": "lint-staged --allow-empty",
-    "prettier": "prettier \"{{api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql,json},*.{js,ts,tsx,graphql,json}}\"",
+    "prettier": "prettier \"{{api,_api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql,json},*.{js,ts,tsx,graphql,json}}\"",
     "prettier:check": "pnpm prettier --check",
     "prettier:fix": "pnpm prettier --write",
     "typecheck": "tsc --noEmit && tsc -p tsconfig-backend.json --noEmit",
@@ -211,11 +211,11 @@
     "cloudflare:deploy:prod": "cd ./cloudflare/workers/ogtags && pnpm npx wrangler deploy --e production"
   },
   "lint-staged": {
-    "{api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
+    "{_api,api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
       "eslint --fix --max-warnings 0",
       "prettier --write"
     ],
-    "{{api,api-lib,api-test,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
+    "{{_api,api,api-lib,api-test,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
   },
   "husky": {
     "hooks": {

@@ -33,7 +33,7 @@ async function sendEmailAndUpdateProfile({
         { id: true },
       ],
     },
-    { operationName: 'colinksNotificationEmail__updateLastEmailedId' },
+    { operationName: 'colinksNotificationEmail__updateLastEmailedId' }
   );
   return;
 }
@@ -67,7 +67,7 @@ async function getColinksUsersWithEmails() {
         },
       ],
     },
-    { operationName: 'colinksNotificationEmail__getUsersData' },
+    { operationName: 'colinksNotificationEmail__getUsersData' }
   );
   return profiles;
 }
@@ -97,7 +97,7 @@ async function getLastUnreadNotification({
     },
     {
       operationName: 'colinksNotificationEmails__getUnreadNotifications',
-    },
+    }
   );
   return notifications?.[0]?.id;
 }
@@ -130,7 +130,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
         }
         return;
-      }),
+      })
     );
     const errors = responses.filter(isRejected);
 
@@ -143,9 +143,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         }
       });
       console.error(
-        `Error sending colinks notification emails: ${errorMessages.join(
-          '\n',
-        )}`,
+        `Error sending colinks notification emails: ${errorMessages.join('\n')}`
       );
       throw new Error(errorMessages.join('\n'));
     }

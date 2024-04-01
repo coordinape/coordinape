@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -6,16 +9,31 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
+import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { RenderFrameMeta } from './FrameMeta';
 import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
-import { GiveRandoFrame } from './give/GiveRandoFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
+import { PersonaFourFrame } from './personas/PersonaFourFrame';
+import { PersonaOneFrame } from './personas/PersonaOneFrame';
+import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
+import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
+import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
+
+declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+declare type Style = 'normal' | 'italic';
+interface FontOptions {
+  data: Buffer | ArrayBuffer;
+  name: string;
+  weight?: Weight;
+  style?: Style;
+  lang?: string;
+}
 
 type PathWithHandler = {
   path: Path;
@@ -33,30 +51,64 @@ const router: {
   paths: [],
 };
 
+const getPath = (name: string) =>
+  join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
+const createFont = async (name: string, file: string) => {
+  // TODO: fix font loading in vercel, url fetching is very slow
+
+  let fontData: ArrayBuffer;
+  if (IS_LOCAL_ENV) {
+    fontData = await readFile(getPath(file));
+  } else {
+    const baseUrl = webAppURL('colinks');
+    const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
+    // eslint-disable-next-line no-console
+
+    fontData = await fetch(path).then(res => res.arrayBuffer());
+  }
+
+  return {
+    name: name,
+    data: fontData,
+  };
+};
+
 export default async function (req: VercelRequest, res: VercelResponse) {
-  const { path } = req.query;
+  const { path, ...queryParams } = req.query;
+
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
   if (req.method !== 'POST' && req.method !== 'GET') {
     return res.status(405).send(`method not supported ${req.method}`);
   }
-  const handler = getHandler('/' + ((path as string) ?? ''), req.method);
+  const handler = getHandler(
+    '/' + ((path as string) ?? ''),
+    req.method,
+    queryParams as Record<string, string>
+  );
   if (!handler) {
     return res.status(404).send(`no handler found for ${path}`);
   }
   return handler(req, res);
 }
 
-const getHandler = (path: string, m: 'GET' | 'POST') => {
+const getHandler = (
+  path: string,
+  m: 'GET' | 'POST',
+  queryParams: Record<string, string>
+) => {
   for (const { path: p, handler, method } of router.paths) {
     if (method !== m) {
       continue;
     }
-    const params = p.test(path);
-    if (params) {
+
+    // Don't test against query params but pass them in
+    const url = path.split('?')[0];
+    const pathParams = p.test(url);
+    if (pathParams) {
       return (req: VercelRequest, res: VercelResponse) => {
-        handler(req, res, params);
+        handler(req, res, { ...pathParams, ...queryParams });
       };
     }
   }
@@ -143,12 +195,46 @@ const addFrame = (frame: Frame) => {
     }
   );
 
+  const loadFonts = async (): Promise<FontOptions[]> => {
+    const startTime = Date.now();
+    const fonts = await Promise.all([
+      {
+        ...(await createFont('Denim', 'Denim-Regular')),
+        weight: 400,
+        style: 'normal',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-RegularItalic')),
+        weight: 400,
+        style: 'italic',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-SemiBold')),
+        weight: 600,
+        style: 'normal',
+      },
+      {
+        ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
+        weight: 600,
+        style: 'italic',
+      },
+    ]);
+    const endTime = Date.now();
+    console.log('Font load time:', endTime - startTime, 'ms');
+    return fonts as FontOptions[];
+  };
+
   // always add an image route
   addPath(
-    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}?:ts`,
+    `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
     async (_req, res, params) => {
-      const ir = new ImageResponse(await frame.imageNode(params));
+      const ir = new ImageResponse(await frame.imageNode(params), {
+        // debug: true,
+        height: 1000,
+        width: 1000,
+        fonts: await loadFonts(),
+      });
       // no cache
       //
       //Cache-Control: no-store, no-cache, must-revalidate, max-age=0
@@ -177,11 +263,15 @@ const handleButton = async (
   }
   if (button.onPost) {
     const returnFrame = await button.onPost(info, params);
-    return RenderFrameMeta({ frame: returnFrame, res, params });
+    return RenderFrameMeta({ frame: returnFrame, res, params, info });
   }
 };
 
 addFrame(GiveHomeFrame);
 addFrame(GiveGiverFrame);
 addFrame(GiveReceiverFrame);
-addFrame(GiveRandoFrame);
+addFrame(PersonaZeroFrame);
+addFrame(PersonaOneFrame);
+addFrame(PersonaTwoFrame);
+addFrame(PersonaThreeFrame);
+addFrame(PersonaFourFrame);

@@ -134,74 +134,79 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const updatedNotes = newAllocations.some(g => g.note);
 
-  const allocationMutations = newAllocations.reduce((ops, gift) => {
-    const recipient = eligibleRecipients.find(u => u.id === gift.recipient_id);
-    if (!recipient) return ops;
+  const allocationMutations = newAllocations.reduce(
+    (ops, gift) => {
+      const recipient = eligibleRecipients.find(
+        u => u.id === gift.recipient_id
+      );
+      if (!recipient) return ops;
 
-    const giftTokens =
-      user?.non_giver || recipient.non_receiver ? 0 : gift.tokens;
-    overallTokensUsed += giftTokens;
-    const existingGift = pending_sent_gifts.find(
-      g => g.recipient_id === gift.recipient_id
-    );
+      const giftTokens =
+        user?.non_giver || recipient.non_receiver ? 0 : gift.tokens;
+      overallTokensUsed += giftTokens;
+      const existingGift = pending_sent_gifts.find(
+        g => g.recipient_id === gift.recipient_id
+      );
 
-    ops['updateUser' + gift.recipient_id] = {
-      update_users_by_pk: [
-        {
-          pk_columns: { id: gift.recipient_id },
-          _inc: {
-            give_token_received: existingGift
-              ? giftTokens - existingGift.tokens
-              : giftTokens,
+      ops['updateUser' + gift.recipient_id] = {
+        update_users_by_pk: [
+          {
+            pk_columns: { id: gift.recipient_id },
+            _inc: {
+              give_token_received: existingGift
+                ? giftTokens - existingGift.tokens
+                : giftTokens,
+            },
           },
-        },
-        { __typename: true },
-      ],
-    };
-    ops['giftMutation' + gift.recipient_id] =
-      giftTokens > 0 || gift.note
-        ? {
-            insert_pending_token_gifts_one: [
-              {
-                object: {
-                  ...gift,
-                  circle_id,
-                  epoch_id: currentEpoch.id,
-                  sender_id: user?.id,
-                  sender_address: user?.profile.address,
-                  recipient_address: recipient.profile.address,
-                  tokens: giftTokens,
+          { __typename: true },
+        ],
+      };
+      ops['giftMutation' + gift.recipient_id] =
+        giftTokens > 0 || gift.note
+          ? {
+              insert_pending_token_gifts_one: [
+                {
+                  object: {
+                    ...gift,
+                    circle_id,
+                    epoch_id: currentEpoch.id,
+                    sender_id: user?.id,
+                    sender_address: user?.profile.address,
+                    recipient_address: recipient.profile.address,
+                    tokens: giftTokens,
+                  },
+                  on_conflict: {
+                    constraint:
+                      pending_token_gifts_constraint.pending_token_gifts_sender_id_recipient_id_epoch_id_key,
+                    update_columns: [
+                      pending_token_gifts_update_column.tokens,
+                      pending_token_gifts_update_column.note,
+                      pending_token_gifts_update_column.sender_address,
+                      pending_token_gifts_update_column.recipient_address,
+                    ],
+                  },
                 },
-                on_conflict: {
-                  constraint:
-                    pending_token_gifts_constraint.pending_token_gifts_sender_id_recipient_id_epoch_id_key,
-                  update_columns: [
-                    pending_token_gifts_update_column.tokens,
-                    pending_token_gifts_update_column.note,
-                    pending_token_gifts_update_column.sender_address,
-                    pending_token_gifts_update_column.recipient_address,
-                  ],
+                { __typename: true },
+              ],
+            }
+          : {
+              delete_pending_token_gifts: [
+                {
+                  where: {
+                    epoch_id: { _eq: currentEpoch.id },
+                    sender_id: { _eq: user?.id },
+                    recipient_id: { _eq: gift.recipient_id },
+                    circle_id: { _eq: circle_id },
+                  },
                 },
-              },
-              { __typename: true },
-            ],
-          }
-        : {
-            delete_pending_token_gifts: [
-              {
-                where: {
-                  epoch_id: { _eq: currentEpoch.id },
-                  sender_id: { _eq: user?.id },
-                  recipient_id: { _eq: gift.recipient_id },
-                  circle_id: { _eq: circle_id },
-                },
-              },
-              { __typename: true },
-            ],
-          };
+                { __typename: true },
+              ],
+            };
 
-    return ops;
-  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+      return ops;
+    },
+    {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
+  );
 
   if (starting_tokens < overallTokensUsed) {
     return errorResponseWithStatusCode(

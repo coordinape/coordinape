@@ -34,9 +34,7 @@ const nftChains = [
 
 export const updateProfileNFTs = async (address: string) => {
   await Promise.all(
-    nftChains.map(c =>
-      updateProfileNFTsOneChain(c.alchemy, c.chainId, address),
-    ),
+    nftChains.map(c => updateProfileNFTsOneChain(c.alchemy, c.chainId, address))
   );
 };
 
@@ -44,7 +42,7 @@ const updateProfileNFTsOneChain = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   alchemy: Alchemy,
   chainId: number,
-  address: string,
+  address: string
 ) => {
   let coSoulContract: string | undefined;
   try {
@@ -63,7 +61,7 @@ const updateProfileNFTsOneChain = async (
 
   // filter out the cosoul contract
   const nfts = page.ownedNfts.filter(
-    n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract,
+    n => !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
   );
 
   await insertPageOfNFTs(address, nfts, chainId);
@@ -77,7 +75,7 @@ const updateProfileNFTsOneChain = async (
     page = await loadPage(alchemy, address, pageKey);
     const nfts = page.ownedNfts.filter(
       n =>
-        !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract,
+        !coSoulContract || n.contract.address.toLowerCase() !== coSoulContract
     );
     await insertPageOfNFTs(address, nfts, chainId);
     count += page.ownedNfts.length;
@@ -90,7 +88,7 @@ const updateProfileNFTsOneChain = async (
 const loadPage = async (
   alchemy: Alchemy,
   address: string,
-  pageKey?: string,
+  pageKey?: string
 ) => {
   return await alchemy.nft.getNftsForOwner(address, {
     excludeFilters: [NftFilters.SPAM],
@@ -103,7 +101,7 @@ const loadPage = async (
 const insertPageOfNFTs = async (
   address: string,
   nfts: OwnedNft[],
-  chainId: number,
+  chainId: number
 ) => {
   // ensure the contracts are there
   const contracts: Record<string, ValueTypes['nft_collections_insert_input']> =
@@ -161,6 +159,6 @@ const insertPageOfNFTs = async (
     },
     {
       operationName: 'insertNftAndCollection',
-    },
+    }
   );
 };

@@ -3,16 +3,19 @@
 // https://www.apollographql.com/docs/apollo-server/v3/integrations/middleware/
 // https://github.com/vercel/next.js/pull/30082
 
-import deploymentInfo from "@coordinape/contracts/deploymentInfo.json" assert { type: "json" };
-import { RegistryAPI__factory, VaultAPI__factory } from "@coordinape/contracts/typechain";
-import { AddressZero } from "@ethersproject/constants";
-import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { ApolloServerPluginLandingPageDisabled } from "apollo-server-core";
-import { ApolloServer, gql } from "apollo-server-express";
-import { BigNumber, FixedNumber } from "ethers";
+import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
+import {
+  RegistryAPI__factory,
+  VaultAPI__factory,
+} from '@coordinape/contracts/typechain';
+import { AddressZero } from '@ethersproject/constants';
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { ApolloServerPluginLandingPageDisabled } from 'apollo-server-core';
+import { ApolloServer, gql } from 'apollo-server-express';
+import { BigNumber, FixedNumber } from 'ethers';
 
-import { getProvider } from "../../../api-lib/provider";
-import { DebugLogger } from "../../../src/common-lib/log";
+import { getProvider } from '../../../api-lib/provider';
+import { DebugLogger } from '../../../src/common-lib/log';
 
 const logger = new DebugLogger('remote-vaults');
 
