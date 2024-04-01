@@ -2,6 +2,7 @@ import React from 'react';
 
 import { OGAvatar } from '../../og/OGAvatar';
 import { getViewerFromParams } from '../getViewerFromParams';
+import { HelpFrame } from '../HelpFrame';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
@@ -63,9 +64,9 @@ export const PersonaZeroFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Try @givebot',
-      action: 'link',
-      target: 'https://colinks.coordinape.com',
+      title: 'Show me how to use @givebot',
+      action: 'post',
+      onPost: async () => HelpFrame,
     },
   ],
 };

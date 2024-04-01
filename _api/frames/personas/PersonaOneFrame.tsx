@@ -1,7 +1,10 @@
-/* eslint-disable no-console */
 import React from 'react';
 
-import { mintCoSoulForAddress } from '../../../src/features/cosoul/api/cosoul';
+import {
+  getMintInfoFromReceipt,
+  mintCoSoulForAddress,
+} from '../../../src/features/cosoul/api/cosoul';
+import { minted } from '../../hasura/actions/_handlers/syncCoSoul';
 import { OGAvatar } from '../../og/OGAvatar';
 import { ErrorFrame } from '../ErrorFrame';
 import { FramePostInfo } from '../getFramePostInfo';
@@ -49,13 +52,23 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
-const onPost = async (info: FramePostInfo) => {
-  const mintToAddr = info.profile.address;
-
+const mintCoSoul = async (mintToAddr: string, profileId: number) => {
   try {
-    await mintCoSoulForAddress(mintToAddr);
+    const tx = await mintCoSoulForAddress(mintToAddr);
+    const txReceipt = await tx.wait();
+    const { tokenId } = await getMintInfoFromReceipt(txReceipt);
+
+    await minted(mintToAddr, tx.hash, tokenId, profileId);
   } catch (e) {
     console.error('Error minting CoSoul', e);
+    return false;
+  }
+  return true;
+};
+
+const onPost = async (info: FramePostInfo) => {
+  const success = await mintCoSoul(info.profile.address, info.profile.id);
+  if (!success) {
     return ErrorFrame;
   }
 
