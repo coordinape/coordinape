@@ -52,7 +52,8 @@ export const minted = async (
   address: string,
   txHash: string,
   tokenId: number,
-  profileId?: number
+  profileId?: number,
+  dontSync?: boolean
 ) => {
   // make sure its inserted
   const { insert_cosouls_one } = await adminClient.mutate(
@@ -110,6 +111,7 @@ export const minted = async (
 
   const syncedAt = insert_cosouls_one.synced_at;
   const staleSync =
+    dontSync ||
     !syncedAt ||
     DateTime.fromISO(syncedAt).plus({ days: PGIVE_SYNC_DURATION_DAYS }) <
       DateTime.now();

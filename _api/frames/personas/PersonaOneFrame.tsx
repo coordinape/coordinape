@@ -58,7 +58,7 @@ const mintCoSoul = async (mintToAddr: string, profileId: number) => {
     const txReceipt = await tx.wait();
     const { tokenId } = await getMintInfoFromReceipt(txReceipt);
 
-    await minted(mintToAddr, tx.hash, tokenId, profileId);
+    await minted(mintToAddr, tx.hash, tokenId, profileId, false);
   } catch (e) {
     console.error('Error minting CoSoul', e);
     return false;
