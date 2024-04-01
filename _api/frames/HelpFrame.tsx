@@ -35,22 +35,23 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ width: 70, height: 70 }}
           />
         </FrameHeadline>
-        <FrameFooter>You got an error</FrameFooter>
+        <FrameFooter>Heres how you use GiveBot</FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
 };
 
-export const ErrorFrame: Frame = {
-  id: 'error_frame',
+export const HelpFrame: Frame = {
+  id: 'help_frame',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Visit CoLinks for more fun',
+      title: 'Use on Farcaster',
       action: 'link',
-      target: 'https://colinks.coordinape.com',
+      target:
+        'https://warpcast.com/~/compose?text=@givebot @singer did some nice work today&embeds[]=https://farcaster.xyz',
     },
   ],
 };
