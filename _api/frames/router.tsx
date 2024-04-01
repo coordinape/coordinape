@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
@@ -6,6 +9,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
+import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { RenderFrameMeta } from './FrameMeta';
@@ -37,13 +41,28 @@ const router: {
   paths: [],
 };
 
+const getPath = (name: string) =>
+  join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 const createFont = async (name: string, file: string) => {
-  const baseUrl = webAppURL('colinks');
-  const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
-  // eslint-disable-next-line no-console
-  console.log('createFont()', { name, file, path });
+  // TODO: fix font loading in vercel, url fetching is very slow
 
-  const fontData = await fetch(path).then(res => res.arrayBuffer());
+  // time this load
+  const startTime = Date.now();
+
+  let fontData: ArrayBuffer;
+  if (IS_LOCAL_ENV) {
+    fontData = await readFile(getPath(file));
+  } else {
+    const baseUrl = webAppURL('colinks');
+    const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
+    // eslint-disable-next-line no-console
+
+    fontData = await fetch(path).then(res => res.arrayBuffer());
+  }
+
+  const endTime = Date.now();
+  console.log('createFont()', { name, file });
+  console.log('Font load time:', endTime - startTime, 'ms');
 
   return {
     name: name,
