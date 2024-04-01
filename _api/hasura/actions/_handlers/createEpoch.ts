@@ -203,8 +203,8 @@ export function validateCustomInput({
         epoch date range ${
           interval.length(duration_unit) + ' ' + duration_unit
         } does not match the specified duration ${
-        repeatDuration.as(duration_unit) + ' ' + duration_unit
-      }
+          repeatDuration.as(duration_unit) + ' ' + duration_unit
+        }
       `
     );
 }

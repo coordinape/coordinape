@@ -225,7 +225,7 @@ async function getCosoulData(address: string) {
   const orgs = organizations.map(o => o.organization);
   const orgRollup: Record<
     number,
-    typeof orgs[number] & {
+    (typeof orgs)[number] & {
       circles: {
         name: string;
         pgive: number;

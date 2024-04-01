@@ -56,7 +56,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             { hash: true, circle_id: true },
           ],
         },
-        { operationName: 'auth_getApiKey @cached(ttl: 30)' },
+        { operationName: 'auth_getApiKey @cached(ttl: 30)' }
       );
 
       const { hash, circle_id } = apiKeyRes.circle_api_keys_by_pk || {};

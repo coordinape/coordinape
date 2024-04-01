@@ -153,38 +153,41 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     })
     .map(u => ({ ...u, circle_id }));
 
-  const updateUsersMutation = usersToUpdate.reduce((opts, user) => {
-    const { address, ...u } = user;
-    opts[USER_ALIAS_PREFIX + address] = {
-      update_users_by_pk: [
-        {
-          pk_columns: { id: user.id },
-          _set: {
-            ...u,
-            entrance: ENTRANCE.MANUAL,
-            deleted_at: null,
+  const updateUsersMutation = usersToUpdate.reduce(
+    (opts, user) => {
+      const { address, ...u } = user;
+      opts[USER_ALIAS_PREFIX + address] = {
+        update_users_by_pk: [
+          {
+            pk_columns: { id: user.id },
+            _set: {
+              ...u,
+              entrance: ENTRANCE.MANUAL,
+              deleted_at: null,
+            },
           },
-        },
-        { id: true },
-      ],
-    };
+          { id: true },
+        ],
+      };
 
-    // End any active nomination
-    opts[NOMINEE_ALIAS_PREFIX + address] = {
-      update_nominees: [
-        {
-          _set: { ended: true },
-          where: {
-            circle_id: { _eq: circle_id },
-            address: { _ilike: address },
-            ended: { _eq: false },
+      // End any active nomination
+      opts[NOMINEE_ALIAS_PREFIX + address] = {
+        update_nominees: [
+          {
+            _set: { ended: true },
+            where: {
+              circle_id: { _eq: circle_id },
+              address: { _ilike: address },
+              ended: { _eq: false },
+            },
           },
-        },
-        { returning: { id: true } },
-      ],
-    };
-    return opts;
-  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+          { returning: { id: true } },
+        ],
+      };
+      return opts;
+    },
+    {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
+  );
 
   //check if names are used by other coordinape users
   const { profiles: existingNames } = await adminClient.query(
@@ -249,26 +252,29 @@ async function handler(req: VercelRequest, res: VercelResponse) {
   );
 
   //handle new addresses
-  const updateNomineesMutation = newUsers.reduce((opts, user) => {
-    opts[NOMINEE_ALIAS_PREFIX + user.address] = {
-      update_nominees: [
-        {
-          _set: { ended: true },
-          where: {
-            circle_id: { _eq: circle_id },
-            address: { _ilike: user.address },
-            ended: { _eq: false },
+  const updateNomineesMutation = newUsers.reduce(
+    (opts, user) => {
+      opts[NOMINEE_ALIAS_PREFIX + user.address] = {
+        update_nominees: [
+          {
+            _set: { ended: true },
+            where: {
+              circle_id: { _eq: circle_id },
+              address: { _ilike: user.address },
+              ended: { _eq: false },
+            },
           },
-        },
-        {
-          returning: {
-            id: true,
+          {
+            returning: {
+              id: true,
+            },
           },
-        },
-      ],
-    };
-    return opts;
-  }, {} as { [aliasKey: string]: ValueTypes['mutation_root'] });
+        ],
+      };
+      return opts;
+    },
+    {} as { [aliasKey: string]: ValueTypes['mutation_root'] }
+  );
 
   //get profile IDs
   const { profiles: profilesIds } = await adminClient.query(
