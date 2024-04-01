@@ -12,13 +12,13 @@ import { Path } from 'path-parser';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { webAppURL } from '../../src/config/webAppURL';
 
+import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
 import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
-import { ErrorFrame } from './personas/ErrorFrame';
-import { MintSuccessFrame } from './personas/MintSuccessFrame';
+import { MintSuccessFrame } from './MintSuccessFrame';
 import { PersonaFourFrame } from './personas/PersonaFourFrame';
 import { PersonaOneFrame } from './personas/PersonaOneFrame';
 import { PersonaThreeFrame } from './personas/PersonaThreeFrame';

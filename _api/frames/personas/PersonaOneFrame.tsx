@@ -3,6 +3,7 @@ import React from 'react';
 
 import { mintCoSoulForAddress } from '../../../src/features/cosoul/api/cosoul';
 import { OGAvatar } from '../../og/OGAvatar';
+import { ErrorFrame } from '../ErrorFrame';
 import { FramePostInfo } from '../getFramePostInfo';
 import { getViewerFromParams } from '../getViewerFromParams';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
@@ -11,11 +12,9 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
 import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
+import { MintSuccessFrame } from '../MintSuccessFrame';
 import { Frame } from '../router';
 import { staticResourceIdentifier } from '../staticResourceIdentifier';
-
-import { ErrorFrame } from './ErrorFrame';
-import { MintSuccessFrame } from './MintSuccessFrame';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
