@@ -1,9 +1,6 @@
-/* eslint-disable no-console */
 import React from 'react';
 
-import { mintCoSoulForAddress } from '../../../src/features/cosoul/api/cosoul';
 import { OGAvatar } from '../../og/OGAvatar';
-import { FramePostInfo } from '../getFramePostInfo';
 import { getViewerFromParams } from '../getViewerFromParams';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
@@ -13,9 +10,6 @@ import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { Frame } from '../router';
 import { staticResourceIdentifier } from '../staticResourceIdentifier';
-
-import { ErrorFrame } from './ErrorFrame';
-import { MintSuccessFrame } from './MintSuccessFrame';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -33,7 +27,7 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Level 1</div>
+          <div tw="flex items-center grow justify-center">Mint Success</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -41,41 +35,23 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          Level up more!
+          You Minted A CoSoul!
           <br />
-          Bring your GIVE onchain.
+          Nice Work!!!!
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
 };
 
-const onPost = async (info: FramePostInfo) => {
-  const mintToAddr = info.profile.address;
-
-  try {
-    await mintCoSoulForAddress(mintToAddr);
-  } catch (e) {
-    console.error('Error minting CoSoul', e);
-    return ErrorFrame;
-  }
-
-  return MintSuccessFrame;
-};
-
-export const PersonaOneFrame: Frame = {
-  id: 'persona1',
+export const MintSuccessFrame: Frame = {
+  id: 'cosoul_mint_success',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Mint CoSoul',
-      action: 'post',
-      onPost: onPost,
-    },
-    {
-      title: 'Send me a CoSoul',
+      title: 'Visit CoLinks for more fun',
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },

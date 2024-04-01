@@ -9,8 +9,7 @@ import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { Frame } from '../router';
-
-import { personaResourceIdentifier } from './personaResourceIdentifier';
+import { staticResourceIdentifier } from '../staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -45,7 +44,7 @@ export const PersonaFourFrame: Frame = {
   id: 'persona4',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: personaResourceIdentifier,
+  resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
       title: 'View Leaderboard',
