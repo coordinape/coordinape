@@ -20,6 +20,7 @@ export const RenderFrameMeta = ({
   params: Record<string, string>;
   info?: FramePostInfo;
 }) => {
+  const checkpoint1 = Date.now();
   const resourceId = frame.resourceIdentifier.getResourceId(params);
   const resourcePath = resourceId ? `${resourceId}` : '';
   // TODO: get these outta here, make them a router function or on Frame
@@ -35,6 +36,7 @@ export const RenderFrameMeta = ({
   const postURL = `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath}`;
   const buttons = frame.buttons;
 
+  const checkpoint2 = Date.now();
   const content: React.JSX.Element = (
     <html lang="en">
       <head>
@@ -63,5 +65,15 @@ export const RenderFrameMeta = ({
     </html>
   );
   const sString = renderToString(content);
+  const checkpoint3 = Date.now();
+  // eslint-disable-next-line no-console
+  console.log(
+    'RenderFrameMeta time logging\n1 to 2',
+    checkpoint2 - checkpoint1,
+    'ms',
+    '\n2 to 3',
+    checkpoint3 - checkpoint2,
+    'ms'
+  );
   return res.status(200).send(sString);
 };

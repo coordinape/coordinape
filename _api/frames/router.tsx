@@ -232,12 +232,20 @@ const addFrame = (frame: Frame) => {
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
     async (_req, res, params) => {
+      const startTime = Date.now();
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
         height: 1000,
         width: 1000,
         fonts: await loadFonts(),
       });
+
+      const endTime = Date.now();
+      console.log(
+        'new ImageResponse var assignment took:',
+        endTime - startTime,
+        'ms'
+      );
       // no cache
       //
       //Cache-Control: no-store, no-cache, must-revalidate, max-age=0
@@ -249,7 +257,10 @@ const addFrame = (frame: Frame) => {
       );
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
+      const startTime2 = Date.now();
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
+      const endTime2 = Date.now();
+      console.log('Pipe image to res took', endTime2 - startTime2, 'ms');
     }
   );
 };
