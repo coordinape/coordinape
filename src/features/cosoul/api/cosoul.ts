@@ -1,3 +1,4 @@
+import { TransactionReceipt } from '@ethersproject/providers';
 import { BigNumber, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
@@ -63,6 +64,41 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
 
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
 };
+
+export const mintCoSoulForAddress = async (address: string) => {
+  const contract = getSignedCoSoulContract();
+  const gasSettings = chain.gasSettings;
+
+  // eslint-disable-next-line no-console
+  console.log('minting CoSoul for address: ', address);
+
+  return await contract.mintTo(address, gasSettings);
+};
+
+export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
+  const transferEventSignature = ethers.utils.keccak256(
+    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)')
+  );
+
+  const iface = getCoSoulContract().interface;
+
+  if (receipt.logs === undefined) {
+    throw new Error('No logs found in the transaction receipt');
+  }
+
+  for (const log of receipt.logs) {
+    if (log.topics[0] === transferEventSignature) {
+      const {
+        args: { from, to, tokenId: tokenIdBN },
+      } = iface.parseLog(log);
+      const tokenId = tokenIdBN.toNumber();
+
+      return { from, to, tokenId };
+    }
+  }
+
+  throw new Error('No Transfer event found in the transaction receipt');
+}
 
 export async function getMintInfo(txHash: string) {
   const chainId = Number(chain.chainId);

@@ -9,8 +9,7 @@ import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { Frame } from '../router';
-
-import { personaResourceIdentifier } from './personaResourceIdentifier';
+import { staticResourceIdentifier } from '../staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -49,7 +48,7 @@ export const PersonaThreeFrame: Frame = {
   id: 'persona3',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: personaResourceIdentifier,
+  resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
       title: 'Join CoLinks',

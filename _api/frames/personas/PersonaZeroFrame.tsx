@@ -2,6 +2,7 @@ import React from 'react';
 
 import { OGAvatar } from '../../og/OGAvatar';
 import { getViewerFromParams } from '../getViewerFromParams';
+import { HelpFrame } from '../HelpFrame';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
@@ -10,8 +11,7 @@ import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { Frame } from '../router';
-
-import { personaResourceIdentifier } from './personaResourceIdentifier';
+import { staticResourceIdentifier } from '../staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -61,12 +61,12 @@ export const PersonaZeroFrame: Frame = {
   id: 'persona0',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: personaResourceIdentifier,
+  resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Try @givebot',
-      action: 'link',
-      target: 'https://colinks.coordinape.com',
+      title: 'Show me how to use @givebot',
+      action: 'post',
+      onPost: async () => HelpFrame,
     },
   ],
 };

@@ -1,6 +1,13 @@
 import React from 'react';
 
+import {
+  getMintInfoFromReceipt,
+  mintCoSoulForAddress,
+} from '../../../src/features/cosoul/api/cosoul';
+import { minted } from '../../hasura/actions/_handlers/syncCoSoul';
 import { OGAvatar } from '../../og/OGAvatar';
+import { ErrorFrame } from '../ErrorFrame';
+import { FramePostInfo } from '../getFramePostInfo';
 import { getViewerFromParams } from '../getViewerFromParams';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
@@ -8,9 +15,9 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
 import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
+import { MintSuccessFrame } from '../MintSuccessFrame';
 import { Frame } from '../router';
-
-import { personaResourceIdentifier } from './personaResourceIdentifier';
+import { staticResourceIdentifier } from '../staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -45,13 +52,40 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
+const mintCoSoul = async (mintToAddr: string, profileId: number) => {
+  try {
+    const tx = await mintCoSoulForAddress(mintToAddr);
+    const txReceipt = await tx.wait();
+    const { tokenId } = await getMintInfoFromReceipt(txReceipt);
+
+    await minted(mintToAddr, tx.hash, tokenId, profileId, false);
+  } catch (e) {
+    console.error('Error minting CoSoul', e);
+    return false;
+  }
+  return true;
+};
+
+const onPost = async (info: FramePostInfo) => {
+  const success = await mintCoSoul(info.profile.address, info.profile.id);
+  if (!success) {
+    return ErrorFrame;
+  }
+
+  return MintSuccessFrame;
+};
+
 export const PersonaOneFrame: Frame = {
   id: 'persona1',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: personaResourceIdentifier,
-  // TODO: hook up minting
+  resourceIdentifier: staticResourceIdentifier,
   buttons: [
+    {
+      title: 'Mint CoSoul',
+      action: 'post',
+      onPost: onPost,
+    },
     {
       title: 'Send me a CoSoul',
       action: 'link',
