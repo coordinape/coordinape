@@ -65,8 +65,6 @@ const createFont = async (name: string, file: string) => {
   } else {
     const baseUrl = webAppURL('colinks');
     const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
-    // eslint-disable-next-line no-console
-
     fontData = await fetch(path).then(res => res.arrayBuffer());
   }
 
@@ -78,7 +76,6 @@ const createFont = async (name: string, file: string) => {
 
 export default async function (req: VercelRequest, res: VercelResponse) {
   const { path, ...queryParams } = req.query;
-
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
@@ -107,11 +104,21 @@ const getHandler = (
     }
 
     // Don't test against query params but pass them in
-    const url = path.split('?')[0];
+    const pathParts = path.split('?');
+    const url = pathParts[0];
     const pathParams = p.test(url);
+
     if (pathParams) {
+      const nestedQueryParams = new URLSearchParams(pathParts[1]);
+      const combinedParams = {
+        ...pathParams,
+        ...queryParams,
+      };
+      for (const [key, value] of nestedQueryParams.entries()) {
+        combinedParams[key] = value;
+      }
       return (req: VercelRequest, res: VercelResponse) => {
-        handler(req, res, { ...pathParams, ...queryParams });
+        handler(req, res, combinedParams);
       };
     }
   }
@@ -153,6 +160,7 @@ export type Frame = {
   id: string;
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
+  errorMessage?: string;
 };
 
 export type Button = {
@@ -266,6 +274,9 @@ const handleButton = async (
   }
   if (button.onPost) {
     const returnFrame = await button.onPost(info, params);
+    if (returnFrame.errorMessage) {
+      params['error_message'] = returnFrame.errorMessage;
+    }
     return RenderFrameMeta({ frame: returnFrame, res, params, info });
   }
 };
@@ -280,5 +291,5 @@ addFrame(PersonaThreeFrame);
 addFrame(PersonaFourFrame);
 addFrame(PersonaFourFrame);
 addFrame(MintSuccessFrame);
-addFrame(ErrorFrame);
+addFrame(ErrorFrame());
 addFrame(HelpFrame);

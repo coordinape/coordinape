@@ -25,9 +25,11 @@ export const RenderFrameMeta = ({
   // TODO: get these outta here, make them a router function or on Frame
 
   const viewer_profile_id: string | undefined = info?.profile?.id;
+  const error_message: string | undefined = params['error_message'];
 
   const imgParams = {
     ts: DateTime.now().valueOf().toString(),
+    ...(error_message && { error_message: error_message }),
     ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
   };
 

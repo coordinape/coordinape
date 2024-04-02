@@ -14,6 +14,7 @@ import { staticResourceIdentifier } from './staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
+  const { error_message } = params;
 
   return (
     <FrameWrapper>
@@ -35,22 +36,26 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ width: 70, height: 70 }}
           />
         </FrameHeadline>
-        <FrameFooter>You got an error</FrameFooter>
+        <FrameFooter>
+          You got an error
+          {error_message && `: ${error_message}`}
+        </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
 };
 
-export const ErrorFrame: Frame = {
+export const ErrorFrame = (message?: string): Frame => ({
   id: 'error_frame',
   homeFrame: false,
   imageNode: imageNode,
+  errorMessage: message,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Visit CoLinks for more fun',
+      title: `Visit CoLinks for more fun`,
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },
   ],
-};
+});

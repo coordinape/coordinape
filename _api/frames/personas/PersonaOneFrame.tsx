@@ -69,7 +69,7 @@ const mintCoSoul = async (mintToAddr: string, profileId: number) => {
 const onPost = async (info: FramePostInfo) => {
   const success = await mintCoSoul(info.profile.address, info.profile.id);
   if (!success) {
-    return ErrorFrame;
+    return ErrorFrame('Error minting CoSoul');
   }
 
   return MintSuccessFrame;
