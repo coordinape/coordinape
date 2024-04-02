@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations';
 import { errorResponse } from '../../api-lib/HttpError';
@@ -8,6 +9,8 @@ import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
 import { botReply } from '../../api-lib/openai';
+import { fetchViewerInfo } from '../frames/give/fetchViewerInfo.tsx';
+import { getFrameUrl } from '../frames/router.tsx';
 import {
   checkPointsAndCreateGive,
   fetchPoints,
@@ -15,8 +18,6 @@ import {
 
 const BOT_FID = 389267;
 const DO_NOT_REPLY_FIDS = [BOT_FID];
-const NOT_ENOUGH_GIVE_TEXT =
-  "Unfortunately, you do not have enough give. You'll need to wait a bit before you can give again.";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
@@ -43,6 +44,16 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     // Don't reply to the bot itself
     if (DO_NOT_REPLY_FIDS.find(f => f == parent_fid)) {
+      res.status(200).send({ success: true });
+      return;
+    }
+
+    // Return Help Frame if `@givebot help` is message
+    if (text.trim().toLowerCase() === '@givebot help') {
+      await publishCast(``, {
+        replyTo: hash,
+        embeds: [{ url: getFrameUrl('help') }],
+      });
       res.status(200).send({ success: true });
       return;
     }
@@ -79,12 +90,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
+    // can't give to Givebot
+    if (receiver_profile.id === (await getGiveBotProfileId())) {
+      await publishCast(
+        `@${author_username} Appreciate it, but you can't give to @Givebot.`,
+        {
+          replyTo: hash,
+        }
+      );
+      res.status(200).send({ success: true });
+      return;
+    }
+
     // giver has enough give points
     const { canGive } = await fetchPoints(giver_profile.id);
     if (!canGive) {
-      await publishCast(`@${author_username} ${NOT_ENOUGH_GIVE_TEXT}`, {
-        replyTo: hash,
-      });
+      const { hasCoSoul, linksHeld } = await fetchViewerInfo(giver_profile.id);
+      // out of give, no cosoul
+      if (!hasCoSoul) {
+        await publishCast(
+          `@${author_username} You’re out of GIVE! Level up and get more by acquiring your CoSoul. Click into the GIVE frame, request your CoSoul, and we’ll drop you 10 more GIVE to share!`,
+          {
+            replyTo: hash,
+            embeds: [{ url: getFrameUrl('front_door') }],
+          }
+        );
+      } else if (linksHeld === 0) {
+        // out of give, no colinks
+        await publishCast(
+          `@${author_username} You’re out of GIVE! Level up and get more by joining CoLinks! Click into the GIVE frame and then go to CoLinks and activate your first link to join. You’ll level up and we’ll drop you 10 more GIVE to share`,
+          {
+            replyTo: hash,
+            embeds: [{ url: getFrameUrl('front_door') }],
+          }
+        );
+      } else {
+        await publishCast(
+          `@${author_username} Unfortunately, you are out of give. More REP will equal more GIVE. Get more in CoLinks.`,
+          {
+            replyTo: hash,
+            embeds: [{ url: getFrameUrl('front_door') }],
+          }
+        );
+      }
 
       res.status(200).send({ success: true });
       return;
