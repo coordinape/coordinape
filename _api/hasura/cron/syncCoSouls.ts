@@ -9,8 +9,10 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getOnChainPGIVE,
+  getPayload,
   paddedHex,
   PGIVE_SLOT,
+  setBatchOnChainPGIVE,
   setOnChainPGIVE,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
@@ -156,6 +158,60 @@ const getCoSoulsToUpdate = async () => {
 };
 
 const syncCoSoulToken = async (
+  coSoulId: number,
+  address: string,
+  totalPGIVE: number,
+  tokenId: number
+) => {
+  if (totalPGIVE > 0) {
+    totalPGIVE = Math.floor(totalPGIVE);
+    const tx = await setOnChainPGIVE(tokenId, totalPGIVE);
+    await tx.wait()
+    console.log(
+      'set PGIVE on chain for tokenId: ' +
+        tokenId +
+        ' address: ' +
+        address +
+        ' to ' +
+        totalPGIVE
+    );
+  } else {
+    console.log(
+      'skipping setting on-chain PGIVE because it is 0 for tokenId: ' +
+        tokenId +
+        ' address: ' +
+        address
+    );
+  }
+
+  await adminClient.mutate(
+    {
+      update_cosouls_by_pk: [
+        {
+          pk_columns: {
+            id: coSoulId,
+          },
+          _set: {
+            pgive: totalPGIVE,
+            checked_at: new Date().toISOString(),
+            synced_at: new Date().toISOString(),
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'cron__updateCoSoulCache',
+    }
+  );
+  console.log(
+    'Updated CoSoul with address: ' + address + ' to tokenId: ' + tokenId
+  );
+};
+
+const syncPatchCoSoulToken = async (
   updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) => {
   let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
@@ -164,7 +220,7 @@ const syncCoSoulToken = async (
     if (localPGIVE > 0) {
       const pGIVE = Math.floor(localPGIVE);
       //four bytes for pgive and four bytes for tokenId
-      payload += paddedHex(pGIVE) + paddedHex(cosoul.token_id);
+      payload += getPayload(pGIVE, cosoul.token_id);
       successMessages.push(
         `set PGIVE on chain for tokenId: ${cosoul.token_id} address: ${cosoul.address} to ${localPGIVE}`
       );
@@ -178,8 +234,19 @@ const syncCoSoulToken = async (
     }
   }
   if (payload.length > 4) {
-    const tx = await setOnChainPGIVE(payload);
-    await tx.wait();
+    // 0x and one byte for slot 0x00
+    //if only one needs to be updated on chain, we can use setOnChainPGIVE
+    if (payload.length === 20) {
+      //0x00 plus 4 bytes for pgive and 4 bytes for tokenId
+      const tx = await setOnChainPGIVE(
+        updatedCosouls[0].cosoul.token_id,
+        updatedCosouls[0].localPGIVE
+      );
+      await tx.wait();
+    } else {
+      const tx = await setBatchOnChainPGIVE(payload);
+      await tx.wait();
+    }
     successMessages.forEach(msg => console.log(msg));
   }
 
@@ -232,7 +299,16 @@ async function updateCoSoulOnChain(
   updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) {
   try {
-    await syncCoSoulToken(updatedCosouls);
+    if (updatedCosouls.length === 1) {
+      await syncCoSoulToken(
+        updatedCosouls[0].cosoul.id,
+        updatedCosouls[0].cosoul.address,
+        updatedCosouls[0].localPGIVE,
+        updatedCosouls[0].cosoul.token_id
+      );
+    } else {
+      await syncPatchCoSoulToken(updatedCosouls);
+    }
     return true;
   } catch (e: any) {
     // don't ruin the whole thing, this might be an on-chain issue or temporary setback

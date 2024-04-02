@@ -6,8 +6,8 @@ import { ethers } from 'hardhat';
 
 import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
-import { paddedHex } from '../utils/hex';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
+import { getPayload, paddedHex } from '../utils/payload';
 
 chai.use(solidity);
 const { expect } = chai;
@@ -90,9 +90,8 @@ describe('CoSoul', () => {
     const first = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
     const sec = await cosoul.tokenOfOwnerByIndex(user2.address, 0);
 
-    let payload =
-      paddedHex(0, 2, true) + paddedHex(6969) + paddedHex(first.toNumber());
-    payload += paddedHex(420) + paddedHex(sec.toNumber());
+    let payload = paddedHex(0, 2, true) + getPayload(6969, first.toNumber());
+    payload += getPayload(420, sec.toNumber());
     const contract = cosoul.connect(owner);
     await contract.batchSetSlot_UfO(payload);
     expect(await cosoul.connect(owner).getSlot(0, first)).to.eq(6969);

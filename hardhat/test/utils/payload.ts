@@ -18,3 +18,6 @@ export const paddedHex = (
     return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
   }
 };
+
+export const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);

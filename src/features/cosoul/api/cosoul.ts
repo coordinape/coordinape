@@ -30,6 +30,9 @@ export const paddedHex = (
   }
 };
 
+export const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);
+
 function getCoSoulContract() {
   const chainId = Number(chain.chainId);
   const provider = getProvider(chainId);
@@ -73,7 +76,21 @@ export const getOnChainPGIVE = async (tokenId: number) => {
 };
 
 // set the on-chain PGIVE balance for a given token
-export const setOnChainPGIVE = async (data: BytesLike) => {
+export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
+  const contract = getSignedCoSoulContract();
+  const amount = Math.floor(amt);
+  // eslint-disable-next-line no-console
+  console.log(
+    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
+  );
+
+  const gasSettings = chain.gasSettings;
+
+  return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
+};
+
+// set the on-chain PGIVE balance for multiple tokens
+export const setBatchOnChainPGIVE = async (data: BytesLike) => {
   const contract = getSignedCoSoulContract();
   const gasSettings = chain.gasSettings;
   return await contract.batchSetSlot_UfO(data, gasSettings);
