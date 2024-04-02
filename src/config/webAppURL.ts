@@ -10,8 +10,13 @@ const GIVE_STAGING_URL = 'https://app.costaging.co';
 export const GIVE_LOCAL_URL = 'http://app.co.local:3000';
 export const COLINKS_LOCAL_URL = 'http://colinks.co.local:3000';
 
+// set this to force webAppURL to return a specific URL, like when you are using ngrok to do testing
+const FORCE_WEB_URL = process.env.FORCE_WEB_URL;
+
 export const webAppURL = (app: 'colinks' | 'give' | 'cosoul') => {
-  if (IN_PRODUCTION) {
+  if (FORCE_WEB_URL) {
+    return FORCE_WEB_URL;
+  } else if (IN_PRODUCTION) {
     switch (app) {
       case 'colinks':
         return COLINKS_PRODUCTION_URL;
