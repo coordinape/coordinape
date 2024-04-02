@@ -63,7 +63,6 @@
     "@spruceid/siwe-parser": "^2.0.0",
     "@stitches/react": "^1.2.8",
     "@storybook/react": "^7.6.0",
-    "@tanstack/react-query": "^5.18.0",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/user-event": "^14.4.3",
     "@tsconfig/node20": "^20.1.2",
