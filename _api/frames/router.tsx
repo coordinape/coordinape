@@ -177,6 +177,7 @@ const addFrame = (frame: Frame) => {
           'Cache-Control',
           'no-store, no-cache, must-revalidate, max-age=0'
         );
+        res.setHeader('Content-Type', 'text/html');
         RenderFrameMeta({ frame, res, params });
       }
     );
@@ -249,6 +250,7 @@ const addFrame = (frame: Frame) => {
       );
       res.setHeader('Pragma', 'no-cache');
       res.setHeader('Expires', '0');
+      res.setHeader('Content-Type', 'image/png');
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
     }
   );
