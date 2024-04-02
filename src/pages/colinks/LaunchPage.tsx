@@ -11,6 +11,11 @@ import { useWeb3React } from '../../hooks/useWeb3React';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
 
+export const REQUIRE_INVITE_CODE = false;
+
+const startPath = REQUIRE_INVITE_CODE
+  ? coLinksPaths.wizardStart
+  : coLinksPaths.wizard;
 // Routes recently logged in users to either the colinks app or the colinks wizard
 export const LaunchPage = () => {
   useAuthStateMachine(false, false);
@@ -63,7 +68,7 @@ export const LaunchPage = () => {
   useEffect(() => {
     // get a new wallet connection
     if (authStep === 'connect' && !web3Context.active) {
-      navigate(coLinksPaths.wizardStart, {
+      navigate(startPath, {
         replace: true,
       });
     } else if (keyData !== undefined) {
@@ -72,7 +77,7 @@ export const LaunchPage = () => {
           replace: true,
         });
       } else {
-        navigate(coLinksPaths.wizardStart, {
+        navigate(startPath, {
           replace: true,
         });
       }
