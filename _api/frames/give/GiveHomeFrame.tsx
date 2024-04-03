@@ -26,10 +26,11 @@ import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
   const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
+  const randomArtNumber = Math.floor(Math.random() * 5) + 1;
 
   return (
     <FrameWrapper>
-      <FrameBgImage src={`frontdoor-${giverLevel}-1.jpg`} />
+      <FrameBgImage src={`frontdoor-${giverLevel}-${randomArtNumber}.jpg`} />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
