@@ -59,12 +59,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new UnprocessableError('cannot give to self');
     }
 
-    const { newPoints, insert_colinks_gives_one } =
-      await checkPointsAndCreateGive(
-        profileId,
-        activity.actor_profile_id,
-        payload
-      );
+    const { newPoints, giveId } = await checkPointsAndCreateGive(
+      profileId,
+      activity.actor_profile_id,
+      payload
+    );
 
     const hostname = req.headers.host;
     await insertInteractionEvents({
@@ -78,7 +77,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
-    return res.status(200).json({ id: insert_colinks_gives_one.id });
+    return res.status(200).json({ id: giveId });
   } catch (e: any) {
     return errorResponse(res, e);
   }
