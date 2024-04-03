@@ -1,15 +1,18 @@
 /* eslint-disable no-console */
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
+import { fileURLToPath } from 'url';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
+import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
 import { webAppURL } from '../../src/config/webAppURL';
 
-import { loadFonts } from './_fonts.ts';
 import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
 import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
@@ -23,6 +26,64 @@ import { PersonaOneFrame } from './personas/PersonaOneFrame';
 import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
 import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
 import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
+
+declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+declare type Style = 'normal' | 'italic';
+
+interface FontOptions {
+  data: Buffer | ArrayBuffer;
+  name: string;
+  weight?: Weight;
+  style?: Style;
+  lang?: string;
+}
+
+const createFont = (name: string, filename: string) => {
+  // TODO: fix font loading in vercel, url fetching is very slow
+  let fontData: ArrayBuffer;
+  if (!IS_LOCAL_ENV) {
+    fontData = readFileSync(join(__dirname, `${filename}`));
+  } else {
+    const currentFilename = fileURLToPath(import.meta.url);
+    const currentDirname = dirname(currentFilename);
+    fontData = readFileSync(join(currentDirname, `./${filename}`));
+  }
+
+  return {
+    name: name,
+    data: fontData,
+  };
+};
+
+export const loadFonts = (): FontOptions[] => {
+  const startTime = Date.now();
+  const fonts = [
+    {
+      ...createFont('Denim', '_Denim-Regular.ttf'),
+      weight: 400,
+      style: 'normal',
+    },
+    {
+      ...createFont('Denim', '_Denim-RegularItalic.ttf'),
+      weight: 400,
+      style: 'italic',
+    },
+    {
+      ...createFont('Denim', '_Denim-SemiBold.ttf'),
+      weight: 600,
+      style: 'normal',
+    },
+    {
+      ...createFont('Denim', '_Denim-SemiBoldItalic.ttf'),
+      weight: 600,
+      style: 'italic',
+    },
+  ];
+  const endTime = Date.now();
+  // eslint-disable-next-line no-console
+  console.log('Font load time:', endTime - startTime, 'ms');
+  return fonts as FontOptions[];
+};
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
