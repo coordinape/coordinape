@@ -37,7 +37,7 @@ type PathWithHandler = {
 };
 
 //load the fonts just once, not once per handler
-const fonts = await loadFonts();
+const fonts = loadFonts();
 
 const router: {
   paths: PathWithHandler[];

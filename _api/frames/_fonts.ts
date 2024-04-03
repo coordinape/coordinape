@@ -17,7 +17,7 @@ interface FontOptions {
 
 const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
-const createFont = async (name: string, file: string) => {
+const createFont = (name: string, file: string) => {
   // TODO: fix font loading in vercel, url fetching is very slow
   let fontData: ArrayBuffer;
   if (IS_LOCAL_ENV) {
@@ -34,30 +34,30 @@ const createFont = async (name: string, file: string) => {
   };
 };
 
-export const loadFonts = async (): Promise<FontOptions[]> => {
+export const loadFonts = (): FontOptions[] => {
   const startTime = Date.now();
-  const fonts = await Promise.all([
+  const fonts = [
     {
-      ...(await createFont('Denim', 'Denim-Regular')),
+      ...createFont('Denim', 'Denim-Regular'),
       weight: 400,
       style: 'normal',
     },
     {
-      ...(await createFont('Denim', 'Denim-RegularItalic')),
+      ...createFont('Denim', 'Denim-RegularItalic'),
       weight: 400,
       style: 'italic',
     },
     {
-      ...(await createFont('Denim', 'Denim-SemiBold')),
+      ...createFont('Denim', 'Denim-SemiBold'),
       weight: 600,
       style: 'normal',
     },
     {
-      ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
+      ...createFont('Denim', 'Denim-SemiBoldItalic'),
       weight: 600,
       style: 'italic',
     },
-  ]);
+  ];
   const endTime = Date.now();
   // eslint-disable-next-line no-console
   console.log('Font load time:', endTime - startTime, 'ms');
