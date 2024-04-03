@@ -1,16 +1,14 @@
 /* eslint-disable no-console */
 import { readFileSync } from 'node:fs';
-import { dirname, join } from 'node:path';
+import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
 import React from 'react';
-import { fileURLToPath } from 'url';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
-import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { ErrorFrame } from './ErrorFrame';
@@ -38,16 +36,17 @@ interface FontOptions {
   lang?: string;
 }
 
-const createFont = (name: string, filename: string) => {
+const createFont = (name: string, filepath: string) => {
   // TODO: fix font loading in vercel, url fetching is very slow
-  let fontData: ArrayBuffer;
-  if (!IS_LOCAL_ENV) {
-    fontData = readFileSync(join(__dirname, `${filename}`));
-  } else {
-    const currentFilename = fileURLToPath(import.meta.url);
-    const currentDirname = dirname(currentFilename);
-    fontData = readFileSync(join(currentDirname, `./${filename}`));
-  }
+  // let fontData: ArrayBuffer;
+  // if (!IS_LOCAL_ENV) {
+  const fontData = readFileSync(join(__dirname, `./${filepath}`));
+  // } else {
+  //   const currentFilename = fileURLToPath(import.meta.url);
+  //   const currentDirname = dirname(currentFilename);
+  // const filename = basename(filepath);
+  // fontData = readFileSync(join(currentDirname, `./${filepath}`));
+  // }
 
   return {
     name: name,
@@ -57,9 +56,11 @@ const createFont = (name: string, filename: string) => {
 
 export const loadFonts = (): FontOptions[] => {
   const startTime = Date.now();
+  // these references to the files need to include the join __dirname so that
+  // node file tracing finds them easily enough
   const fonts = [
     {
-      ...createFont('Denim', '_Denim-Regular.ttf'),
+      ...createFont('Denim', `_Denim-Regular.ttf`),
       weight: 400,
       style: 'normal',
     },
