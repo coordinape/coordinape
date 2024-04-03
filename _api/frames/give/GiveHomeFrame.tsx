@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NotFoundError } from '../../../api-lib/HttpError.ts';
 import { OGAvatar } from '../../og/OGAvatar.tsx';
-import { FramePostInfo } from '../getFramePostInfo.tsx';
+import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,

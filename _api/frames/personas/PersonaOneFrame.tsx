@@ -6,9 +6,10 @@ import {
 } from '../../../src/features/cosoul/api/cosoul';
 import { minted } from '../../hasura/actions/_handlers/syncCoSoul';
 import { OGAvatar } from '../../og/OGAvatar';
+import { FramePostInfo } from '../_getFramePostInfo.tsx';
+import { getViewerFromParams } from '../_getViewerFromParams.ts';
+import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { ErrorFrame } from '../ErrorFrame';
-import { FramePostInfo } from '../getFramePostInfo';
-import { getViewerFromParams } from '../getViewerFromParams';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
@@ -17,7 +18,6 @@ import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
 import { MintSuccessFrame } from '../MintSuccessFrame';
 import { Frame } from '../router';
-import { staticResourceIdentifier } from '../staticResourceIdentifier';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);

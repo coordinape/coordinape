@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { readFile } from 'node:fs/promises';
+import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
@@ -9,12 +9,12 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
-import { IS_LOCAL_ENV } from '../../api-lib/config';
+import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
 import { webAppURL } from '../../src/config/webAppURL';
 
+import { FramePostInfo, getFramePostInfo } from './_getFramePostInfo.tsx';
 import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
-import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
@@ -28,16 +28,6 @@ import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
-declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
-declare type Style = 'normal' | 'italic';
-interface FontOptions {
-  data: Buffer | ArrayBuffer;
-  name: string;
-  weight?: Weight;
-  style?: Style;
-  lang?: string;
-}
-
 type PathWithHandler = {
   path: Path;
   handler: (
@@ -48,30 +38,77 @@ type PathWithHandler = {
   method: 'GET' | 'POST';
 };
 
-const router: {
-  paths: PathWithHandler[];
-} = {
-  paths: [],
-};
+declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+declare type Style = 'normal' | 'italic';
 
-const getPath = (name: string) =>
+interface FontOptions {
+  data: Buffer | ArrayBuffer;
+  name: string;
+  weight?: Weight;
+  style?: Style;
+  lang?: string;
+}
+
+// this function is critical to triggering the node file tracing file bundling
+// if this is removed/changed significantly, you need to run pnpm build and look in
+// .vercel/output/functions/router.func to make sure ttfs are still there.
+// this function has to be in the main router.tsx file for tracing to work :smh:
+export const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
-const createFont = async (name: string, file: string) => {
-  // TODO: fix font loading in vercel, url fetching is very slow
 
+const createFont = (name: string, file: string) => {
   let fontData: ArrayBuffer;
   if (IS_LOCAL_ENV) {
-    fontData = await readFile(getPath(file));
+    fontData = readFileSync(getPath(file));
   } else {
-    const baseUrl = webAppURL('colinks');
-    const path = new URL(`${baseUrl}/fonts/${file}.ttf`);
-    fontData = await fetch(path).then(res => res.arrayBuffer());
+    fontData = readFileSync(join(__dirname, `./${file}.ttf`));
   }
 
   return {
     name: name,
     data: fontData,
   };
+};
+
+export const loadFonts = (): FontOptions[] => {
+  const startTime = Date.now();
+  // these references to the files need to include the join __dirname so that
+  // node file tracing finds them easily enough
+  const fonts = [
+    {
+      ...createFont('Denim', `Denim-Regular`),
+      weight: 400,
+      style: 'normal',
+    },
+    {
+      ...createFont('Denim', 'Denim-RegularItalic'),
+      weight: 400,
+      style: 'italic',
+    },
+    {
+      ...createFont('Denim', 'Denim-SemiBold'),
+      weight: 600,
+      style: 'normal',
+    },
+    {
+      ...createFont('Denim', 'Denim-SemiBoldItalic'),
+      weight: 600,
+      style: 'italic',
+    },
+  ];
+  const endTime = Date.now();
+  // eslint-disable-next-line no-console
+  console.log('Font load time:', endTime - startTime, 'ms');
+  return fonts as FontOptions[];
+};
+
+//load the fonts just once, not once per handler
+const fonts = loadFonts();
+
+const router: {
+  paths: PathWithHandler[];
+} = {
+  paths: [],
 };
 
 export default async function (req: VercelRequest, res: VercelResponse) {
@@ -207,35 +244,6 @@ const addFrame = (frame: Frame) => {
     }
   );
 
-  const loadFonts = async (): Promise<FontOptions[]> => {
-    const startTime = Date.now();
-    const fonts = await Promise.all([
-      {
-        ...(await createFont('Denim', 'Denim-Regular')),
-        weight: 400,
-        style: 'normal',
-      },
-      {
-        ...(await createFont('Denim', 'Denim-RegularItalic')),
-        weight: 400,
-        style: 'italic',
-      },
-      {
-        ...(await createFont('Denim', 'Denim-SemiBold')),
-        weight: 600,
-        style: 'normal',
-      },
-      {
-        ...(await createFont('Denim', 'Denim-SemiBoldItalic')),
-        weight: 600,
-        style: 'italic',
-      },
-    ]);
-    const endTime = Date.now();
-    console.log('Font load time:', endTime - startTime, 'ms');
-    return fonts as FontOptions[];
-  };
-
   // always add an image route
   addPath(
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
@@ -245,7 +253,7 @@ const addFrame = (frame: Frame) => {
         // debug: true,
         height: 1000,
         width: 1000,
-        fonts: await loadFonts(),
+        fonts,
       });
       // no cache
       //
