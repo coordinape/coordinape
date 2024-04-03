@@ -15,6 +15,7 @@ import { webAppURL } from '../../src/config/webAppURL';
 import { FramePostInfo, getFramePostInfo } from './_getFramePostInfo.tsx';
 import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
+import { FrontDoor } from './FrontDoorFrame';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
@@ -27,6 +28,10 @@ import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
 import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
+
+export const getFrameUrl = (frameId: string) => {
+  return `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
+};
 
 type PathWithHandler = {
   path: Path;
@@ -303,3 +308,4 @@ addFrame(PersonaFourFrame);
 addFrame(MintSuccessFrame);
 addFrame(ErrorFrame());
 addFrame(HelpFrame);
+addFrame(FrontDoor);

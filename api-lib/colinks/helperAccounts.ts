@@ -7,6 +7,7 @@ const EARLY_ACCESS_ADDRESS = '0xdcCd0C2A37cEE91A8E83D64DedA3C0f662560D6D';
 const WAITLIST_GUARDIAN_ADDRESS = '0x4E927437aFB1D1A4b529cB28e423850A101dd477';
 const ETH_DENVER_INVITER_ADDRESS = '0x3365e273621ca4cd2ebaa9779799d191c7a82cc8';
 const GIVE_BOT_INVITER_ADDRESS = '0x2A3219aA4BD1D26991ab1a206402b3f4E9147D9c';
+const GIVE_BOT_ADDRESS = '0x68d622988fd4662e521dad7f0466b307f5cc49af';
 
 export const getEarlyAccessProfileId = async () => {
   const profile = await getProfilesWithAddress(EARLY_ACCESS_ADDRESS);
@@ -109,6 +110,33 @@ export const getGiveBotInviterProfileId = async () => {
           object: {
             address: GIVE_BOT_INVITER_ADDRESS.toLowerCase(),
             name: 'GIVEbot',
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'insertGIVEBotInviterAccount',
+    }
+  );
+  assert(insert_profiles_one, 'failed to insert GIVE bot inviter profile');
+  return insert_profiles_one.id;
+};
+export const getGiveBotProfileId = async () => {
+  const profile = await getProfilesWithAddress(GIVE_BOT_ADDRESS);
+  if (profile) {
+    return profile.id;
+  }
+  // insert this profile if it doesnt exist, or return the id
+  const { insert_profiles_one } = await adminClient.mutate(
+    {
+      insert_profiles_one: [
+        {
+          object: {
+            address: GIVE_BOT_ADDRESS.toLowerCase(),
+            name: 'GIVEbot custody account',
           },
         },
         {

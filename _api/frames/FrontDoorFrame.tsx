@@ -2,8 +2,8 @@ import React from 'react';
 
 import { OGAvatar } from '../og/OGAvatar';
 
-import { getViewerFromParams } from './_getViewerFromParams.ts';
-import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { getViewerFromParams } from './_getViewerFromParams';
+import { staticResourceIdentifier } from './_staticResourceIdentifier';
 import { FrameBgImage, IMAGE_URL_BASE } from './layoutFragments/FrameBgImage';
 import { FrameBody } from './layoutFragments/FrameBody';
 import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient';
@@ -28,7 +28,9 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Help Frame</div>
+          <div tw="flex items-center grow justify-center">
+            Generic Front Door Frame
+          </div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -41,12 +43,11 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const HelpFrame: Frame = {
-  id: 'help',
+export const FrontDoor: Frame = {
+  id: 'front_door',
   homeFrame: true,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
-  // TODO: change this
   buttons: [
     {
       title: 'Use on Farcaster',
