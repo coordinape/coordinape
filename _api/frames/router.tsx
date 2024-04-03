@@ -9,6 +9,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
+import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
 import { webAppURL } from '../../src/config/webAppURL';
 
 import { ErrorFrame } from './ErrorFrame';
@@ -36,17 +37,18 @@ interface FontOptions {
   lang?: string;
 }
 
-const createFont = (name: string, filepath: string) => {
+const getPath = (name: string) =>
+  join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
+
+const createFont = (name: string, file: string) => {
   // TODO: fix font loading in vercel, url fetching is very slow
-  // let fontData: ArrayBuffer;
-  // if (!IS_LOCAL_ENV) {
-  const fontData = readFileSync(join(__dirname, `./${filepath}`));
-  // } else {
-  //   const currentFilename = fileURLToPath(import.meta.url);
-  //   const currentDirname = dirname(currentFilename);
-  // const filename = basename(filepath);
-  // fontData = readFileSync(join(currentDirname, `./${filepath}`));
-  // }
+
+  let fontData: ArrayBuffer;
+  if (IS_LOCAL_ENV) {
+    fontData = readFileSync(getPath(file));
+  } else {
+    fontData = readFileSync(join(__dirname, `./${file}.ttf`));
+  }
 
   return {
     name: name,
@@ -60,22 +62,22 @@ export const loadFonts = (): FontOptions[] => {
   // node file tracing finds them easily enough
   const fonts = [
     {
-      ...createFont('Denim', `_Denim-Regular.ttf`),
+      ...createFont('Denim', `Denim-Regular`),
       weight: 400,
       style: 'normal',
     },
     {
-      ...createFont('Denim', '_Denim-RegularItalic.ttf'),
+      ...createFont('Denim', 'Denim-RegularItalic'),
       weight: 400,
       style: 'italic',
     },
     {
-      ...createFont('Denim', '_Denim-SemiBold.ttf'),
+      ...createFont('Denim', 'Denim-SemiBold'),
       weight: 600,
       style: 'normal',
     },
     {
-      ...createFont('Denim', '_Denim-SemiBoldItalic.ttf'),
+      ...createFont('Denim', 'Denim-SemiBoldItalic'),
       weight: 600,
       style: 'italic',
     },
