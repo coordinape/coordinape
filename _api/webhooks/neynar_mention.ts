@@ -118,7 +118,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       } else if (linksHeld === 0) {
         // out of give, no colinks
         await publishCast(
-          `@${author_username} You’re out of GIVE! Level up and get more by joining CoLinks! Click into the GIVE frame and then go to CoLinks and activate your first link to join. You’ll level up and we’ll drop you 10 more GIVE to share`,
+          `@${author_username} You’re out of GIVE! Level up and get more by joining CoLinks! Click into the GIVE frame and then go to CoLinks and activate your first link to join. You’ll level up and we’ll drop you 10 more GIVE to share.`,
           {
             replyTo: hash,
             embeds: [{ url: getFrameUrl('front_door') }],
@@ -151,6 +151,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
+    console.error('Failed to process neynar_mention webhook', error);
     return errorResponse(res, error);
   }
 }
