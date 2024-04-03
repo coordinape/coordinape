@@ -201,7 +201,7 @@ async function syncPGive(address: string, tokenId: number) {
   await setOnChainPGIVE(tokenId, pgive);
 }
 
-const addGiveToProfile = async (profileId: number, amount: number) => {
+export const addGiveToProfile = async (profileId: number, amount: number) => {
   await adminClient.mutate(
     {
       update_profiles_by_pk: [
