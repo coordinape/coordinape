@@ -42,6 +42,7 @@ import ogpostimage from '../_api/og/postimage/[id]';
 import ogprofileimage from '../_api/og/profileimage/[address]';
 import og_tags from '../_api/og/tags';
 import postmarkTrack from '../_api/postmark/track';
+import read from '../_api/test/read';
 import time from '../_api/time';
 import tokenLogin from '../_api/tokenLogin';
 import twitter_callback from '../_api/twitter/callback';
@@ -167,7 +168,7 @@ app.get('/api/og/postimage/:id', (req, res) => {
     res
   );
 });
-
+app.get('/api/test/read', tf(read));
 app.post('/api/log', tf(log));
 app.get('/api/og/tags', tf(og_tags));
 app.post('/api/login', tf(login));
