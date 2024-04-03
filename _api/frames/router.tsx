@@ -12,9 +12,9 @@ import { Path } from 'path-parser';
 import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
 import { webAppURL } from '../../src/config/webAppURL';
 
+import { FramePostInfo, getFramePostInfo } from './_getFramePostInfo.tsx';
 import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
-import { FramePostInfo, getFramePostInfo } from './getFramePostInfo';
 import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
 import { GiveReceiverFrame } from './give/GiveReceiverFrame';
@@ -25,6 +25,18 @@ import { PersonaOneFrame } from './personas/PersonaOneFrame';
 import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
 import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
 import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
+
+export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
+
+type PathWithHandler = {
+  path: Path;
+  handler: (
+    req: VercelRequest,
+    res: VercelResponse,
+    params: Record<string, any>
+  ) => void;
+  method: 'GET' | 'POST';
+};
 
 declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 declare type Style = 'normal' | 'italic';
@@ -37,12 +49,14 @@ interface FontOptions {
   lang?: string;
 }
 
-const getPath = (name: string) =>
+// this function is critical to triggering the node file tracing file bundling
+// if this is removed/changed significantly, you need to run pnpm build and look in
+// .vercel/output/functions/router.func to make sure ttfs are still there.
+// this function has to be in the main router.tsx file for tracing to work :smh:
+export const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 
 const createFont = (name: string, file: string) => {
-  // TODO: fix font loading in vercel, url fetching is very slow
-
   let fontData: ArrayBuffer;
   if (IS_LOCAL_ENV) {
     fontData = readFileSync(getPath(file));
@@ -86,18 +100,6 @@ export const loadFonts = (): FontOptions[] => {
   // eslint-disable-next-line no-console
   console.log('Font load time:', endTime - startTime, 'ms');
   return fonts as FontOptions[];
-};
-
-export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
-
-type PathWithHandler = {
-  path: Path;
-  handler: (
-    req: VercelRequest,
-    res: VercelResponse,
-    params: Record<string, any>
-  ) => void;
-  method: 'GET' | 'POST';
 };
 
 //load the fonts just once, not once per handler
