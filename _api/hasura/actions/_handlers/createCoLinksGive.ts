@@ -144,7 +144,7 @@ export const checkPointsAndCreateGive = async (
     }
   );
   assert(insert_colinks_gives_one);
-  return { newPoints, insert_colinks_gives_one };
+  return { newPoints, giveId: insert_colinks_gives_one.id };
 };
 
 export const fetchPoints = async (profileId: number) => {
