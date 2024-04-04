@@ -6,6 +6,8 @@ export const FrameHeadline = ({ children }: { children: React.ReactNode }) => {
       <div
         tw="flex w-full items-center justify-between"
         style={{
+          fontSize: 60,
+          fontWeight: 600,
           padding: '20px 30px',
         }}
       >
