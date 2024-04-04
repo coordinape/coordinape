@@ -1,12 +1,19 @@
 import React from 'react';
 
+import { FramePostInfo } from './_getFramePostInfo';
 import { staticResourceIdentifier } from './_staticResourceIdentifier';
+import { getLevelForViewer } from './give/getLevelForViewer';
 import { FrameBgImage, IMAGE_URL_BASE } from './layoutFragments/FrameBgImage';
 import { FrameBody } from './layoutFragments/FrameBody';
 import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient';
 import { FrameFooter } from './layoutFragments/FrameFooter';
 import { FrameHeadline } from './layoutFragments/FrameHeadline';
 import { FrameWrapper } from './layoutFragments/FrameWrapper';
+import { PersonaFourFrame } from './personas/PersonaFourFrame';
+import { PersonaOneFrame } from './personas/PersonaOneFrame';
+import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
+import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
+import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
 import { Frame } from './router';
 
 const imageNode = async () => {
@@ -42,16 +49,34 @@ const imageNode = async () => {
   );
 };
 
+const onPost = async (info: FramePostInfo) => {
+  // Enter the Levels persona app
+  const level = await getLevelForViewer(info.profile.id);
+
+  // route each level to its respective Persona
+  if (level === 1) {
+    return PersonaOneFrame;
+  } else if (level === 2) {
+    return PersonaTwoFrame;
+  } else if (level === 3) {
+    return PersonaThreeFrame;
+  } else if (level === 4) {
+    return PersonaFourFrame;
+  } else {
+    return PersonaZeroFrame;
+  }
+};
+
 export const FrontDoor: Frame = {
   id: 'front_door',
   homeFrame: true,
-  imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
+  imageNode: imageNode,
   buttons: [
     {
       title: 'Get GIVE',
-      action: 'link',
-      target: 'https://colinks.coordinape.com',
+      action: 'post',
+      onPost: onPost,
     },
   ],
 };
