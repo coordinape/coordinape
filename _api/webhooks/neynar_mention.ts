@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
@@ -8,7 +7,6 @@ import { errorResponse } from '../../api-lib/HttpError';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
-import { botReply } from '../../api-lib/openai';
 import { fetchViewerInfo } from '../frames/give/fetchViewerInfo.tsx';
 import { getFrameUrl } from '../frames/router.tsx';
 import {
@@ -70,7 +68,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Cast is not a reply - look for a mention
       receiver_profile = await findOrCreateProfileByFid(mentioned_fid);
     } else {
-      // no parent hash or fid
+      // eslint-disable-next-line no-console
       console.log('No parent hash or mentioned fid');
       await publishCast(
         `@${author_username} Please reply to a cast, or mention a user to direct your GIVE.`,
@@ -140,13 +138,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const skill = parseSkill(text);
 
-    await insertCoLinksGive(giver_profile, receiver_profile, hash, skill);
+    const giveId = await insertCoLinksGive(
+      giver_profile,
+      receiver_profile,
+      hash,
+      skill
+    );
 
-    const reply = await botReply(text);
-
-    await publishCast(`@${author_username} ${reply}`, {
+    // TODO: change this to no message
+    await publishCast(`GIVE Delivered`, {
       replyTo: hash,
-      embeds: [{ url: 'https://frames.neynar.com/f/48785bd7/d154488b' }],
+      embeds: [{ url: getFrameUrl('give', giveId) }],
     });
 
     return res.status(200).send({ success: true });
@@ -162,7 +164,7 @@ const insertCoLinksGive = async (
   hash: string,
   skill?: string
 ) => {
-  const { newPoints } = await checkPointsAndCreateGive(
+  const { newPoints, giveId } = await checkPointsAndCreateGive(
     giver_profile.id,
     receiver_profile.id,
     {
@@ -180,6 +182,8 @@ const insertCoLinksGive = async (
       new_points_balance: newPoints,
     },
   });
+
+  return giveId;
 };
 
 const parseSkill = (text: string) => {
