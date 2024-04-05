@@ -56,7 +56,7 @@ export const PersonaTwoFrame: Frame = {
     {
       title: 'Try @givebot',
       action: 'link',
-      target: 'https://colinks.coordinape.com',
+      target: 'https://warpcast.com/~/compose?text=@givebot',
     },
   ],
 };

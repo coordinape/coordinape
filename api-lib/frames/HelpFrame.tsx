@@ -93,8 +93,7 @@ export const HelpFrame: Frame = {
     {
       title: 'Try @givebot',
       action: 'link',
-      target:
-        'https://warpcast.com/~/compose?text=@givebot @singer did some nice work today&embeds[]=https://farcaster.xyz',
+      target: 'https://warpcast.com/~/compose?text=@givebot',
     },
   ],
 };
