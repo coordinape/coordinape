@@ -54,7 +54,7 @@ export const PersonaFourFrame: Frame = {
     {
       title: 'View Leaderboard',
       action: 'link',
-      target: webAppURL('colinks') + coLinksPaths.explore,
+      target: webAppURL('colinks') + coLinksPaths.exploreMostGive,
     },
   ],
 };
