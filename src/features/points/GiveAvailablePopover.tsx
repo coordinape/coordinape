@@ -59,7 +59,7 @@ export const GiveAvailablePopover = ({
               Next GIVE available {nextGiveAt.toRelative()}{' '}
             </Text>
           )}
-          <Flex column css={{ mt: '$md' }}>
+          <Flex column>
             <PointsBar barOnly />
           </Flex>
         </PopoverContent>
