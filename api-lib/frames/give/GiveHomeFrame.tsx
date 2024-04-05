@@ -19,12 +19,19 @@ import { PersonaThreeFrame } from '../personas/PersonaThreeFrame.tsx';
 import { PersonaTwoFrame } from '../personas/PersonaTwoFrame.tsx';
 import { PersonaZeroFrame } from '../personas/PersonaZeroFrame.tsx';
 
+import { fetchProfileInfo } from './fetchProfileInfo.tsx';
 import { getContextFromParams } from './getContextFromParams.ts';
 import { getLevelForViewer } from './getLevelForViewer.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
   const { give } = await getContextFromParams(params);
+  const { numGiveSent: giverTotalGiven } = await fetchProfileInfo(
+    give.giver_profile_public.id
+  );
+  const { numGiveReceived: receiverTotalReceived } = await fetchProfileInfo(
+    give.target_profile_public.id
+  );
   const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
   const randomArtNumber = Math.floor(Math.random() * 5) + 1;
 
@@ -73,7 +80,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               <span>
                 Total Given{' '}
                 <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>
-                  XX
+                  {giverTotalGiven}
                 </span>
               </span>
             </div>
@@ -90,7 +97,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               <span>
                 Total Received{' '}
                 <span style={{ fontWeight: 600, paddingLeft: '.5rem' }}>
-                  XX
+                  {receiverTotalReceived}
                 </span>
               </span>
             </div>
