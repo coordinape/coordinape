@@ -85,14 +85,9 @@ export const PersonaOneFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Mint CoSoul',
+      title: 'Send me a CoSoul',
       action: 'post',
       onPost: onPost,
-    },
-    {
-      title: 'Send me a CoSoul',
-      action: 'link',
-      target: 'https://colinks.coordinape.com',
     },
   ],
 };
