@@ -1,4 +1,8 @@
 /* eslint-disable no-console */
+
+/* NOTE: this file uses Vercel OG, so ***ANY*** exported function that is used in another handler will cause Vercel OG to try and load fonts and fail.
+ * Don't export functions from this file
+ * */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
@@ -25,9 +29,6 @@ import { PersonaOneFrame } from '../../api-lib/frames/personas/PersonaOneFrame.t
 import { PersonaThreeFrame } from '../../api-lib/frames/personas/PersonaThreeFrame.tsx';
 import { PersonaTwoFrame } from '../../api-lib/frames/personas/PersonaTwoFrame.tsx';
 import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame.tsx';
-import { webAppURL } from '../../src/config/webAppURL.ts';
-
-export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
 type PathWithHandler = {
   path: Path;

@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { VercelResponse } from '@vercel/node';
-// import { renderToString } from 'react-dom/server';
-import { DateTime } from 'luxon';
 import { renderToString } from 'react-dom/server';
 
-import { Frame, FRAME_ROUTER_URL_BASE } from '../../_api/frames/router.tsx';
+import { Frame } from '../../_api/frames/router.tsx';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { FrameButton } from './FrameButton.tsx';
+import { getPostUrl, getImgSrc } from './routingUrls.ts';
 
 export const RenderFrameMeta = ({
   frame,
@@ -21,21 +20,8 @@ export const RenderFrameMeta = ({
   params: Record<string, string>;
   info?: FramePostInfo;
 }) => {
-  const resourceId = frame.resourceIdentifier.getResourceId(params);
-  const resourcePath = resourceId ? `${resourceId}` : '';
-  // TODO: get these outta here, make them a router function or on Frame
-
-  const viewer_profile_id: string | undefined = info?.profile?.id;
-  const error_message: string | undefined = params['error_message'];
-
-  const imgParams = {
-    ts: DateTime.now().valueOf().toString(),
-    ...(error_message && { error_message: error_message }),
-    ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
-  };
-
-  const imgSrc = `${FRAME_ROUTER_URL_BASE}/img/${frame.id}${resourcePath}?${new URLSearchParams(imgParams).toString()}`;
-  const postURL = `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath}`;
+  const imgSrc = getImgSrc(frame, params, info);
+  const postURL = getPostUrl(frame, params);
   const buttons = frame.buttons;
 
   const content: React.JSX.Element = (
