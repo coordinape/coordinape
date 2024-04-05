@@ -19,12 +19,10 @@ import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
-  const { numGiveSent: giverTotalGiven } = await fetchProfileInfo(
-    viewerProfile?.id
-  );
-  const { numGiveReceived: receiverTotalReceived } = await fetchProfileInfo(
-    viewerProfile?.id
-  );
+  const {
+    numGiveSent: giverTotalGiven,
+    numGiveReceived: receiverTotalReceived,
+  } = await fetchProfileInfo(viewerProfile?.id);
 
   return (
     <FrameWrapper>
