@@ -133,7 +133,7 @@ export const GiveHomeFrame: Frame = {
   imageNode: homeFrameImageNode,
   buttons: [
     {
-      title: 'Enter the Portal',
+      title: 'Get GIVE',
       action: 'post',
       onPost: onPost,
     },

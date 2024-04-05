@@ -7,7 +7,6 @@ import { HelpFrame } from '../HelpFrame';
 import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
 import { FrameBody } from '../layoutFragments/FrameBody';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
-import { FrameDebugger } from '../layoutFragments/FrameDebugger';
 import { FrameFooter } from '../layoutFragments/FrameFooter';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper';
@@ -52,7 +51,6 @@ const imageNode = async (params: Record<string, string>) => {
           </div>
         </FrameFooter>
       </FrameBody>
-      <FrameDebugger profile={viewerProfile} />
     </FrameWrapper>
   );
 };
@@ -64,7 +62,7 @@ export const PersonaZeroFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Show me how to use @givebot',
+      title: 'Try @givebot',
       action: 'post',
       onPost: async () => HelpFrame,
     },

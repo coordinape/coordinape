@@ -1,42 +1,67 @@
 import React from 'react';
 
-import { OGAvatar } from '../og/OGAvatar';
-
-import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
-import { FrameBgImage, IMAGE_URL_BASE } from './layoutFragments/FrameBgImage';
-import { FrameBody } from './layoutFragments/FrameBody';
-import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient';
-import { FrameFooter } from './layoutFragments/FrameFooter';
-import { FrameHeadline } from './layoutFragments/FrameHeadline';
+import { FrameBgImage } from './layoutFragments/FrameBgImage';
 import { FrameWrapper } from './layoutFragments/FrameWrapper';
 import { Frame } from './router';
 
-const imageNode = async (params: Record<string, string>) => {
-  const { viewerProfile } = await getViewerFromParams(params);
-
+const imageNode = async () => {
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-1.jpg" />
-      <FrameBody>
-        <FrameBodyGradient
-          gradientStyles={{
-            background:
-              'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)',
-            opacity: 0.7,
-          }}
-        />
-        <FrameHeadline>
-          <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Help Frame</div>
-          <img
-            alt="gem"
-            src={IMAGE_URL_BASE + 'GemWhite.png'}
-            style={{ width: 70, height: 70 }}
-          />
-        </FrameHeadline>
-        <FrameFooter>Heres how you use GiveBot</FrameFooter>
-      </FrameBody>
+      <FrameBgImage src="help.jpg" />
+      <div
+        tw="w-full grow flex flex-col text-center justify-center items-center"
+        style={{
+          fontSize: 40,
+          fontWeight: 600,
+          gap: 20,
+          background:
+            'radial-gradient(circle at 25% 0%, #ABC3C3 0%, #939393 80%)',
+        }}
+      >
+        <div tw="flex flex-col items-center">
+          <span>Reply to any cast with</span>
+          <span
+            style={{
+              background: '#111111',
+              padding: '8px 25px',
+              borderRadius: 8,
+              marginTop: 8,
+              color: 'white',
+            }}
+          >
+            @givebot
+          </span>
+        </div>
+        <div tw="flex flex-col items-center">
+          <span>Or Cast with</span>
+          <span
+            style={{
+              background: '#111111',
+              padding: '8px 25px',
+              borderRadius: 8,
+              marginTop: 8,
+              color: 'white',
+            }}
+          >
+            @givebot @receiverName #skillTag
+          </span>
+        </div>
+        <div tw="flex flex-col items-center">
+          <span>See this info again</span>
+          <span
+            style={{
+              background: 'white',
+              padding: '8px 25px',
+              borderRadius: 8,
+              marginTop: 8,
+              color: '#111111',
+            }}
+          >
+            @givebot help
+          </span>
+        </div>
+      </div>
     </FrameWrapper>
   );
 };
