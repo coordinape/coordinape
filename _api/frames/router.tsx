@@ -81,35 +81,41 @@ const createFont = (name: string, file: string) => {
 };
 
 export const loadFonts = (): FontOptions[] => {
-  const startTime = Date.now();
-  // these references to the files need to include the join __dirname so that
-  // node file tracing finds them easily enough
-  const fonts = [
-    {
-      ...createFont('Denim', `Denim-Regular`),
-      weight: 400,
-      style: 'normal',
-    },
-    {
-      ...createFont('Denim', 'Denim-RegularItalic'),
-      weight: 400,
-      style: 'italic',
-    },
-    {
-      ...createFont('Denim', 'Denim-SemiBold'),
-      weight: 600,
-      style: 'normal',
-    },
-    {
-      ...createFont('Denim', 'Denim-SemiBoldItalic'),
-      weight: 600,
-      style: 'italic',
-    },
-  ];
-  const endTime = Date.now();
-  // eslint-disable-next-line no-console
-  console.log('Font load time:', endTime - startTime, 'ms');
-  return fonts as FontOptions[];
+  try {
+    console.log('Begin trying to load fonts');
+    const startTime = Date.now();
+    // these references to the files need to include the join __dirname so that
+    // node file tracing finds them easily enough
+    const fonts = [
+      {
+        ...createFont('Denim', `Denim-Regular`),
+        weight: 400,
+        style: 'normal',
+      },
+      {
+        ...createFont('Denim', 'Denim-RegularItalic'),
+        weight: 400,
+        style: 'italic',
+      },
+      {
+        ...createFont('Denim', 'Denim-SemiBold'),
+        weight: 600,
+        style: 'normal',
+      },
+      {
+        ...createFont('Denim', 'Denim-SemiBoldItalic'),
+        weight: 600,
+        style: 'italic',
+      },
+    ];
+    const endTime = Date.now();
+    // eslint-disable-next-line no-console
+    console.log('Font load time:', endTime - startTime, 'ms');
+    return fonts as FontOptions[];
+  } catch (e) {
+    console.error('Error loading fonts', e);
+    return [] as FontOptions[];
+  }
 };
 
 //load the fonts just once, not once per handler
