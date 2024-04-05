@@ -10,20 +10,22 @@ import { ImageResponse } from '@vercel/og';
 import { Path } from 'path-parser';
 
 import { IS_LOCAL_ENV } from '../../api-lib/config.ts';
-import { webAppURL } from '../../src/config/webAppURL';
-
-import { FramePostInfo, getFramePostInfo } from './_getFramePostInfo.tsx';
-import { ErrorFrame } from './ErrorFrame';
-import { RenderFrameMeta } from './FrameMeta';
-import { FrontDoor } from './FrontDoorFrame';
-import { GiveHomeFrame } from './give/GiveHomeFrame';
-import { HelpFrame } from './HelpFrame';
-import { MintSuccessFrame } from './MintSuccessFrame';
-import { PersonaFourFrame } from './personas/PersonaFourFrame';
-import { PersonaOneFrame } from './personas/PersonaOneFrame';
-import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
-import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
-import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
+import {
+  FramePostInfo,
+  getFramePostInfo,
+} from '../../api-lib/frames/_getFramePostInfo.tsx';
+import { ErrorFrame } from '../../api-lib/frames/ErrorFrame.tsx';
+import { RenderFrameMeta } from '../../api-lib/frames/FrameMeta.tsx';
+import { FrontDoor } from '../../api-lib/frames/FrontDoorFrame.tsx';
+import { GiveHomeFrame } from '../../api-lib/frames/give/GiveHomeFrame.tsx';
+import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
+import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
+import { PersonaFourFrame } from '../../api-lib/frames/personas/PersonaFourFrame.tsx';
+import { PersonaOneFrame } from '../../api-lib/frames/personas/PersonaOneFrame.tsx';
+import { PersonaThreeFrame } from '../../api-lib/frames/personas/PersonaThreeFrame.tsx';
+import { PersonaTwoFrame } from '../../api-lib/frames/personas/PersonaTwoFrame.tsx';
+import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame.tsx';
+import { webAppURL } from '../../src/config/webAppURL.ts';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 

@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { OGAvatar } from '../og/OGAvatar';
+import { Frame } from '../../_api/frames/router.tsx';
+import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
 
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
-import { FrameBgImage, IMAGE_URL_BASE } from './layoutFragments/FrameBgImage';
-import { FrameBody } from './layoutFragments/FrameBody';
-import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient';
-import { FrameFooter } from './layoutFragments/FrameFooter';
-import { FrameHeadline } from './layoutFragments/FrameHeadline';
-import { FrameWrapper } from './layoutFragments/FrameWrapper';
-import { Frame } from './router';
+import {
+  FrameBgImage,
+  IMAGE_URL_BASE,
+} from './layoutFragments/FrameBgImage.tsx';
+import { FrameBody } from './layoutFragments/FrameBody.tsx';
+import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient.tsx';
+import { FrameFooter } from './layoutFragments/FrameFooter.tsx';
+import { FrameHeadline } from './layoutFragments/FrameHeadline.tsx';
+import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
-  const { error_message } = params;
 
   return (
     <FrameWrapper>
@@ -29,7 +31,7 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Help Frame</div>
+          <div tw="flex items-center grow justify-center">Mint Success</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -37,25 +39,25 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          You got an error
-          {error_message && `: ${error_message}`}
+          You Minted A CoSoul!
+          <br />
+          Nice Work!!!!
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
 };
 
-export const ErrorFrame = (message?: string): Frame => ({
-  id: 'error_frame',
+export const MintSuccessFrame: Frame = {
+  id: 'cosoul_mint_success',
   homeFrame: false,
   imageNode: imageNode,
-  errorMessage: message,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: `Visit CoLinks for more fun`,
+      title: 'Visit CoLinks for more fun',
       action: 'link',
       target: 'https://colinks.coordinape.com',
     },
   ],
-});
+};

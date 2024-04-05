@@ -2,12 +2,12 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
+import { fetchViewerInfo } from '../../api-lib/frames/give/fetchViewerInfo.tsx';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations';
 import { errorResponse } from '../../api-lib/HttpError';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
-import { fetchViewerInfo } from '../frames/give/fetchViewerInfo.tsx';
 import { getFrameUrl } from '../frames/router.tsx';
 import {
   checkPointsAndCreateGive,

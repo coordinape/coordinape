@@ -1,4 +1,4 @@
-import { adminClient } from '../../../api-lib/gql/adminClient.ts';
+import { adminClient } from '../../gql/adminClient.ts';
 
 export const fetchViewerInfo = async (viewerProfileId: number) => {
   const { hasSentGive, hasReceivedGive, viewerProfile, numGiveSent } =

@@ -166,7 +166,7 @@
       }
     },
     {
-      "files": ["_api/frames/**/*.tsx"],
+      "files": ["api-lib/frames/**/*.tsx"],
       "rules": {
         "react/no-unknown-property": "off"
       }

@@ -1,23 +1,26 @@
 import React from 'react';
 
+import { Frame } from '../../../_api/frames/router.tsx';
+import { minted } from '../../../_api/hasura/actions/_handlers/syncCoSoul.ts';
+import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import {
   getMintInfoFromReceipt,
   mintCoSoulForAddress,
-} from '../../../src/features/cosoul/api/cosoul';
-import { minted } from '../../hasura/actions/_handlers/syncCoSoul';
-import { OGAvatar } from '../../og/OGAvatar';
+} from '../../../src/features/cosoul/api/cosoul.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
-import { ErrorFrame } from '../ErrorFrame';
-import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
-import { FrameBody } from '../layoutFragments/FrameBody';
-import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
-import { FrameFooter } from '../layoutFragments/FrameFooter';
-import { FrameHeadline } from '../layoutFragments/FrameHeadline';
-import { FrameWrapper } from '../layoutFragments/FrameWrapper';
-import { MintSuccessFrame } from '../MintSuccessFrame';
-import { Frame } from '../router';
+import { ErrorFrame } from '../ErrorFrame.tsx';
+import {
+  FrameBgImage,
+  IMAGE_URL_BASE,
+} from '../layoutFragments/FrameBgImage.tsx';
+import { FrameBody } from '../layoutFragments/FrameBody.tsx';
+import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
+import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
+import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
+import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
+import { MintSuccessFrame } from '../MintSuccessFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);

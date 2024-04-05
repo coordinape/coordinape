@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { Frame } from '../../_api/frames/router';
+
 import { FramePostInfo } from './_getFramePostInfo';
 import { staticResourceIdentifier } from './_staticResourceIdentifier';
 import { getLevelForViewer } from './give/getLevelForViewer';
@@ -14,7 +16,6 @@ import { PersonaOneFrame } from './personas/PersonaOneFrame';
 import { PersonaThreeFrame } from './personas/PersonaThreeFrame';
 import { PersonaTwoFrame } from './personas/PersonaTwoFrame';
 import { PersonaZeroFrame } from './personas/PersonaZeroFrame';
-import { Frame } from './router';
 
 const imageNode = async () => {
   const randomArtNumber = Math.floor(Math.random() * 5) + 1;

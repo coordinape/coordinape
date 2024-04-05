@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { Frame } from '../../_api/frames/router.tsx';
+
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
-import { FrameBgImage } from './layoutFragments/FrameBgImage';
-import { FrameWrapper } from './layoutFragments/FrameWrapper';
-import { Frame } from './router';
+import { FrameBgImage } from './layoutFragments/FrameBgImage.tsx';
+import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async () => {
   return (
