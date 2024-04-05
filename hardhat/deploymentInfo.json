@@ -101,7 +101,7 @@
       "address": "0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"
     },
     "CoSoul_Implementation": {
-      "address": "0xCe1538A8f42617585CD3c42734d5079c0628c9c8"
+      "address": "0x2EF1E85651Ff26e3d5EbC5e6A70A60499E166645"
     },
     "CoSoul_Proxy": {
       "address": "0x47c2a56176335fb2b1ded8e7b5acb136d307dc2d"
@@ -262,13 +262,13 @@
       "address": "0x3a21271AE29511106fB4D4061E3f32867F0F8a90"
     },
     "CoSoul": {
-      "address": "0x1bD182105856bFa5Be32230516a7bfb6f8A890D0"
+      "address": "0xea6CE4a91Aa21988467165b85c40AB459553bB64"
     },
     "CoSoul_Implementation": {
-      "address": "0x40E219123d33cF1748592629896D90fe958E4d53"
+      "address": "0x9DFC41Aa7B3004ce50aa5D51BA367670f68468A3"
     },
     "CoSoul_Proxy": {
-      "address": "0x1bD182105856bFa5Be32230516a7bfb6f8A890D0"
+      "address": "0xea6CE4a91Aa21988467165b85c40AB459553bB64"
     },
     "DefaultProxyAdmin": {
       "address": "0x05D38f3E361b0dDC716BB7093F7Bb97cC6AaACE2"
