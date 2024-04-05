@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
-import { fetchViewerInfo } from '../../api-lib/frames/give/fetchViewerInfo.tsx';
+import { fetchProfileInfo } from '../../api-lib/frames/give/fetchProfileInfo.tsx';
 import { FRAME_ROUTER_URL_BASE } from '../../api-lib/frames/routingUrls.ts';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations';
 import { errorResponse } from '../../api-lib/HttpError';
@@ -103,7 +103,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // giver has enough give points
     const { canGive } = await fetchPoints(giver_profile.id);
     if (!canGive) {
-      const { hasCoSoul, linksHeld } = await fetchViewerInfo(giver_profile.id);
+      const { hasCoSoul, linksHeld } = await fetchProfileInfo(giver_profile.id);
       // out of give, no cosoul
       if (!hasCoSoul) {
         await publishCast(
