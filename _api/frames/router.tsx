@@ -29,15 +29,6 @@ import { webAppURL } from '../../src/config/webAppURL.ts';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
-export const getFrameUrl = (frameId: string, resourceId?: number) => {
-  let url = `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
-
-  if (resourceId) {
-    url += `/${resourceId}`;
-  }
-  return url;
-};
-
 type PathWithHandler = {
   path: Path;
   handler: (
