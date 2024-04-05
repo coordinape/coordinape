@@ -8,7 +8,7 @@ export const FrameHeadline = ({ children }: { children: React.ReactNode }) => {
         style={{
           fontSize: 60,
           fontWeight: 600,
-          padding: '20px 30px',
+          padding: '15px 30px',
         }}
       >
         {children}
