@@ -6,7 +6,7 @@ import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
 import { fetchUserByFid } from '../neynar.ts';
 
-const INITIAL_POINTS = MAX_POINTS_CAP * 0.6;
+const INITIAL_POINTS = MAX_POINTS_CAP * 0.6; // start with 15 gives
 const findProfileByAddresses = async (addresses: string[]) => {
   const { profiles } = await adminClient.query(
     {
