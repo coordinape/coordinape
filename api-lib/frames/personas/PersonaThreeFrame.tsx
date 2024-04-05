@@ -56,7 +56,7 @@ export const PersonaThreeFrame: Frame = {
     {
       title: 'Join CoLinks',
       action: 'link',
-      target: 'https://colinks.coordinape.com',
+      target: 'https://colinks.coordinape.com/start',
     },
   ],
 };
