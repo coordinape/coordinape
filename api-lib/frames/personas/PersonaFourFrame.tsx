@@ -50,13 +50,13 @@ const imageNode = async (params: Record<string, string>) => {
           <div tw="flex flex-col items-center">
             <span>
               GIVE given:
-              <span style={{ fontWeight: 600, marginLeft: 15 }}>
+              <span style={{ fontWeight: 600, marginLeft: 12 }}>
                 {giverTotalGiven}
               </span>
             </span>
             <span>
               GIVE received:
-              <span style={{ fontWeight: 600, marginLeft: 15 }}>
+              <span style={{ fontWeight: 600, marginLeft: 12 }}>
                 {receiverTotalReceived}
               </span>
             </span>
