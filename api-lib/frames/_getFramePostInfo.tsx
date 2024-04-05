@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 import { VercelRequest } from '@vercel/node';
 
-import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
-import { validateFrame } from '../../api-lib/neynar.ts';
 import { IN_DEVELOPMENT } from '../../src/config/env.ts';
+import { findOrCreateProfileByFid } from '../neynar/findOrCreateProfileByFid.ts';
+import { validateFrame } from '../neynar.ts';
 
 import { FrameMessage } from './FrameMessage.ts';
 

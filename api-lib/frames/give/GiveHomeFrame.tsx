@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { NotFoundError } from '../../../api-lib/HttpError.ts';
-import { OGAvatar } from '../../og/OGAvatar.tsx';
+import { Frame } from '../../../_api/frames/router.tsx';
+import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
+import { NotFoundError } from '../../HttpError.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import {
   FrameBgImage,
@@ -17,7 +18,6 @@ import { PersonaOneFrame } from '../personas/PersonaOneFrame.tsx';
 import { PersonaThreeFrame } from '../personas/PersonaThreeFrame.tsx';
 import { PersonaTwoFrame } from '../personas/PersonaTwoFrame.tsx';
 import { PersonaZeroFrame } from '../personas/PersonaZeroFrame.tsx';
-import { Frame } from '../router.ts';
 
 import { getContextFromParams } from './getContextFromParams.ts';
 import { getLevelForViewer } from './getLevelForViewer.tsx';

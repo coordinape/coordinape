@@ -1,4 +1,4 @@
-import { ResourceIdentifier } from '../router';
+import { ResourceIdentifier } from '../../../_api/frames/router';
 
 export const giveResourceIdentifier: ResourceIdentifier = {
   resourcePathExpression: '/:giveId',

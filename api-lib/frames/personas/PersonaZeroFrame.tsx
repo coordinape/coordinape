@@ -1,16 +1,19 @@
 import React from 'react';
 
-import { OGAvatar } from '../../og/OGAvatar';
+import { Frame } from '../../../_api/frames/router.tsx';
+import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
-import { HelpFrame } from '../HelpFrame';
-import { FrameBgImage, IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage';
-import { FrameBody } from '../layoutFragments/FrameBody';
-import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient';
-import { FrameFooter } from '../layoutFragments/FrameFooter';
-import { FrameHeadline } from '../layoutFragments/FrameHeadline';
-import { FrameWrapper } from '../layoutFragments/FrameWrapper';
-import { Frame } from '../router';
+import { HelpFrame } from '../HelpFrame.tsx';
+import {
+  FrameBgImage,
+  IMAGE_URL_BASE,
+} from '../layoutFragments/FrameBgImage.tsx';
+import { FrameBody } from '../layoutFragments/FrameBody.tsx';
+import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
+import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
+import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
+import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);

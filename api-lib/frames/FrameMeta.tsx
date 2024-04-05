@@ -5,9 +5,10 @@ import { VercelResponse } from '@vercel/node';
 import { DateTime } from 'luxon';
 import { renderToString } from 'react-dom/server';
 
+import { Frame, FRAME_ROUTER_URL_BASE } from '../../_api/frames/router.tsx';
+
 import { FramePostInfo } from './_getFramePostInfo.tsx';
-import { FrameButton } from './FrameButton';
-import { Frame, FRAME_ROUTER_URL_BASE } from './router';
+import { FrameButton } from './FrameButton.tsx';
 
 export const RenderFrameMeta = ({
   frame,

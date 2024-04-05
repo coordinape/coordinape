@@ -1,19 +1,8 @@
 import assert from 'assert';
 
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { NotFoundError } from '../../../api-lib/HttpError';
+import { adminClient } from '../gql/adminClient';
 
-import { getGive } from './getGive';
-
-export const getContextFromParams = async (params: Record<string, string>) => {
-  const giveStr = params.giveId;
-  if (!giveStr) {
-    throw new NotFoundError('no giveId provided');
-  }
-
-  const giveId = Number(giveStr);
-  const give = await getGive(giveId);
-
+export const getViewerFromParams = async (params: Record<string, string>) => {
   const viewerProfileId = params.viewer_profile_id;
 
   let viewerProfile;
@@ -22,7 +11,7 @@ export const getContextFromParams = async (params: Record<string, string>) => {
     viewerProfile = await getViewerProfile(parseInt(viewerProfileId));
   }
 
-  return { give: give, ...(viewerProfile && { viewerProfile }) };
+  return { ...(viewerProfile && { viewerProfile }) };
 };
 
 const getViewerProfile = async (viewer_id: number) => {

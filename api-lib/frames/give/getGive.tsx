@@ -1,5 +1,5 @@
-import { adminClient } from '../../../api-lib/gql/adminClient';
-import { NotFoundError } from '../../../api-lib/HttpError';
+import { adminClient } from '../../gql/adminClient';
+import { NotFoundError } from '../../HttpError';
 
 export const getGive = async (id: number): Promise<NonNullGive> => {
   const maybeNullGive = await fetchGive(id);

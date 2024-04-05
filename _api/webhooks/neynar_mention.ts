@@ -2,13 +2,13 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
+import { fetchViewerInfo } from '../../api-lib/frames/give/fetchViewerInfo.tsx';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations';
 import { errorResponse } from '../../api-lib/HttpError';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
-import { fetchViewerInfo } from '../frames/give/fetchViewerInfo.tsx';
-import { getFrameUrl } from '../frames/router.tsx';
+import { FRAME_ROUTER_URL_BASE } from '../frames/router.tsx';
 import {
   checkPointsAndCreateGive,
   fetchPoints,
@@ -189,4 +189,13 @@ const insertCoLinksGive = async (
 const parseSkill = (text: string) => {
   const skillMatch = text.match(/#(\w+)/);
   return skillMatch ? skillMatch[1] : undefined;
+};
+
+export const getFrameUrl = (frameId: string, resourceId?: number) => {
+  let url = `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
+
+  if (resourceId) {
+    url += `/${resourceId}`;
+  }
+  return url;
 };
