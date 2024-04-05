@@ -1,11 +1,14 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { addGiveToProfile } from '../../_api/hasura/actions/_handlers/syncCoSoul';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { addInviteCodes } from '../invites';
 import { EventTriggerPayload } from '../types';
 
 import { getHolderProfileId } from './linkTxInteractionEvent';
+
+const EXTRA_GIVE_FOR_COLINKS_CREATE = 10;
 
 async function insertLinkTxNotification(
   actorProfileId: number,
@@ -120,6 +123,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         );
 
         await addInviteCodes(profileId, 10);
+
+        // add extra give to user after joining colinks
+        await addGiveToProfile(profileId, EXTRA_GIVE_FOR_COLINKS_CREATE);
 
         return res.status(200).json({
           message: `saved invite joined notification`,

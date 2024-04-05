@@ -14,7 +14,7 @@ import { usePoints } from './usePoints';
 
 const progressStyles = {
   position: 'relative',
-  pt: '1.3rem',
+  pt: '$xs',
   '.tickMark': {
     position: 'absolute',
     '&:after': {
@@ -60,7 +60,7 @@ export const PointsBar = ({
   open?: boolean;
   barOnly?: boolean;
 }) => {
-  const { points } = usePoints();
+  const { give, points } = usePoints();
 
   // Dynamically generate tickMark styles
   for (let i = 1; i <= MAX_GIVE; i++) {
@@ -81,7 +81,7 @@ export const PointsBar = ({
         <progress id="points" max={MAX_POINTS_CAP} value={points} />
         {Array.from({ length: MAX_GIVE }, (_, index) => (
           <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
-            <GemCoOutline fa />
+            {/* <GemCoOutline fa /> */}
           </Text>
         ))}
       </Flex>
@@ -128,17 +128,44 @@ export const PointsBar = ({
           }}
         >
           <Flex column css={{ width: '100%', gap: '$sm' }}>
-            <Text semibold>
-              {showInfo && <GemCoOutline fa size="lg" css={{ mr: '$xs' }} />}
-              GIVE Bar
-              {!open && (
-                <IconButton onClick={() => setShowInfo(prev => !prev)}>
-                  <InfoCircledIcon />
-                </IconButton>
-              )}
-            </Text>
+            <Flex css={{ justifyContent: 'space-between' }}>
+              <Text semibold>
+                {showInfo && <GemCoOutline fa size="lg" css={{ mr: '$xs' }} />}
+                GIVE Bar
+                {!open && (
+                  <IconButton onClick={() => setShowInfo(prev => !prev)}>
+                    <InfoCircledIcon />
+                  </IconButton>
+                )}
+              </Text>
+              <Flex css={{ alignItems: 'center', gap: '$xs' }}>
+                <Text semibold color="cta">
+                  {give}
+                </Text>
+                <GemCoOutline
+                  fa
+                  css={{
+                    path: {
+                      fill: '$cta',
+                    },
+                  }}
+                />
+              </Flex>
+            </Flex>
+            <Flex css={{ ...progressStyles }}>
+              <progress id="points" max={MAX_POINTS_CAP} value={points} />
+              {Array.from({ length: MAX_GIVE }, (_, index) => (
+                <Text
+                  key={index + 1}
+                  className={`tickMark tickMark-${index + 1}`}
+                >
+                  {/* show give icon above tick marks */}
+                  {/* <GemCoOutline fa /> */}
+                </Text>
+              ))}
+            </Flex>
             {showInfo && (
-              <Flex column css={{ mb: '$sm', gap: '$md' }}>
+              <Flex column css={{ mt: '$sm', gap: '$md' }}>
                 <Text inline size="small">
                   GIVE is a scarce thing that is more powerful than an emoji
                   reaction. You can allocate GIVE to members via Posts to
@@ -154,17 +181,6 @@ export const PointsBar = ({
                 </Text>
               </Flex>
             )}
-            <Flex css={{ ...progressStyles }}>
-              <progress id="points" max={MAX_POINTS_CAP} value={points} />
-              {Array.from({ length: MAX_GIVE }, (_, index) => (
-                <Text
-                  key={index + 1}
-                  className={`tickMark tickMark-${index + 1}`}
-                >
-                  <GemCoOutline fa />
-                </Text>
-              ))}
-            </Flex>
           </Flex>
         </Flex>
       </Panel>

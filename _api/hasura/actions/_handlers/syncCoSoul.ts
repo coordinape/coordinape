@@ -19,8 +19,11 @@ import {
 } from '../../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';
+import { POINTS_PER_GIVE } from '../../../../src/features/points/getAvailablePoints';
 
 import { getInviter } from './redeemInviteCode';
+
+const EXTRA_GIVE_FOR_MINTING = 10;
 
 const syncInput = z
   .object({
@@ -96,6 +99,9 @@ export const minted = async (
     profiles_by_pk = result.profiles_by_pk;
     assert(profiles_by_pk, 'failed to fetch inviter id');
     inviter = await getInviter(profiles_by_pk.invited_by);
+
+    // add more Give to the profile of the CoSoul
+    await addGiveToProfile(profileId, EXTRA_GIVE_FOR_MINTING);
   }
 
   await insertInteractionEvents({
@@ -194,3 +200,26 @@ async function syncPGive(address: string, tokenId: number) {
   // set pgive after because this triggers a metadata update + fetch from OpenSea
   await setOnChainPGIVE(tokenId, pgive);
 }
+
+export const addGiveToProfile = async (profileId: number, amount: number) => {
+  await adminClient.mutate(
+    {
+      update_profiles_by_pk: [
+        {
+          pk_columns: {
+            id: profileId,
+          },
+          _inc: {
+            points_balance: amount * POINTS_PER_GIVE,
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'syncCoSoul__addGiveToProfile',
+    }
+  );
+};
