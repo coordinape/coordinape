@@ -52,7 +52,7 @@ export const PersonaFourFrame: Frame = {
     {
       title: 'View Leaderboard',
       action: 'link',
-      target: 'https://colinks.coordinape.com',
+      target: 'https://colinks.coordinape.com/explore',
     },
   ],
 };
