@@ -16,9 +16,7 @@ import { FramePostInfo, getFramePostInfo } from './_getFramePostInfo.tsx';
 import { ErrorFrame } from './ErrorFrame';
 import { RenderFrameMeta } from './FrameMeta';
 import { FrontDoor } from './FrontDoorFrame';
-import { GiveGiverFrame } from './give/GiveGiverFrame';
 import { GiveHomeFrame } from './give/GiveHomeFrame';
-import { GiveReceiverFrame } from './give/GiveReceiverFrame';
 import { HelpFrame } from './HelpFrame';
 import { MintSuccessFrame } from './MintSuccessFrame';
 import { PersonaFourFrame } from './personas/PersonaFourFrame';
@@ -308,8 +306,6 @@ const handleButton = async (
 };
 
 addFrame(GiveHomeFrame);
-addFrame(GiveGiverFrame);
-addFrame(GiveReceiverFrame);
 addFrame(PersonaZeroFrame);
 addFrame(PersonaOneFrame);
 addFrame(PersonaTwoFrame);
