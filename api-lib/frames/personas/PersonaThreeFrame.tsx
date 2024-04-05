@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
+import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { coLinksPaths } from '../../../src/routes/paths.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import {
@@ -56,7 +58,7 @@ export const PersonaThreeFrame: Frame = {
     {
       title: 'Join CoLinks',
       action: 'link',
-      target: 'https://colinks.coordinape.com/start',
+      target: webAppURL('colinks') + coLinksPaths.wizardStart,
     },
   ],
 };
