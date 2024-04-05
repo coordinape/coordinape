@@ -8,7 +8,7 @@ import { errorResponse } from '../../api-lib/HttpError';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
-import { FRAME_ROUTER_URL_BASE } from '../frames/router.tsx';
+import { webAppURL } from '../../src/config/webAppURL.ts';
 import {
   checkPointsAndCreateGive,
   fetchPoints,
@@ -191,6 +191,7 @@ const parseSkill = (text: string) => {
   return skillMatch ? skillMatch[1] : undefined;
 };
 
+const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 export const getFrameUrl = (frameId: string, resourceId?: number) => {
   let url = `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
 
