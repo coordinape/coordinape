@@ -22,17 +22,33 @@ const imageNode = async () => {
       >
         <div tw="flex flex-col items-center">
           <span>Reply to any cast with</span>
-          <span
-            style={{
-              background: '#111111',
-              padding: '8px 25px',
-              borderRadius: 8,
-              marginTop: 8,
-              color: 'white',
-            }}
-          >
-            @givebot
-          </span>
+          <div tw="flex items-center">
+            <span
+              style={{
+                background: '#111111',
+                padding: '8px 25px',
+                borderRadius: 8,
+                marginTop: 8,
+                color: 'white',
+              }}
+            >
+              @givebot
+            </span>
+            <span style={{ margin: '0 20px', fontWeight: 400, fontSize: 32 }}>
+              OR
+            </span>
+            <span
+              style={{
+                background: '#111111',
+                padding: '8px 25px',
+                borderRadius: 8,
+                marginTop: 8,
+                color: 'white',
+              }}
+            >
+              @givebot #skillTag
+            </span>
+          </div>
         </div>
         <div tw="flex flex-col items-center">
           <span>Or Cast with</span>
@@ -75,7 +91,7 @@ export const HelpFrame: Frame = {
   // TODO: change this
   buttons: [
     {
-      title: 'Use on Farcaster',
+      title: 'Try @givebot',
       action: 'link',
       target:
         'https://warpcast.com/~/compose?text=@givebot @singer did some nice work today&embeds[]=https://farcaster.xyz',
