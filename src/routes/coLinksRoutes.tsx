@@ -41,6 +41,7 @@ import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -137,6 +138,7 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.search} element={<SearchPage />} />
       <Route path={coLinksPaths.exploreMostLinks} element={<MostLinksPage />} />
+      <Route path={coLinksPaths.exploreMostGive} element={<MostGivePage />} />
       <Route
         path={coLinksPaths.exploreRepScore}
         element={<HighestRepScorePage />}
