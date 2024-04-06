@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Frame } from '../../_api/frames/router.tsx';
 import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
+import { webAppURL } from '../../src/config/webAppURL.ts';
+import { coLinksPaths } from '../../src/routes/paths.ts';
 
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
@@ -20,18 +22,18 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-1.jpg" />
+      <FrameBgImage src="mint-success.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)',
+              'radial-gradient(circle at 25% 0%, #1AE322 0%, #6C07D1 80%)',
             opacity: 0.7,
           }}
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Mint Success</div>
+          <div tw="flex items-center grow justify-center">CoSoul Minted</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -39,9 +41,9 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          You Minted A CoSoul!
+          Level up more
           <br />
-          Nice Work!!!!
+          by joining CoLinks and giving GIVE
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
@@ -55,9 +57,15 @@ export const MintSuccessFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Visit CoLinks for more fun',
+      title: 'Join CoLinks',
       action: 'link',
-      target: 'https://colinks.coordinape.com',
+      target: webAppURL('colinks') + coLinksPaths.wizardStart,
+    },
+    {
+      title: 'Try @givebot',
+      action: 'link',
+      target:
+        'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag',
     },
   ],
 };

@@ -21,18 +21,18 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="persona-1.jpg" />
+      <FrameBgImage src="error.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)',
+              'radial-gradient(circle at 25% 0%, #12FAA6 0%, #E71392 80%)',
             opacity: 0.7,
           }}
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Help Frame</div>
+          <div tw="flex items-center grow justify-center">Hrmmmm</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
