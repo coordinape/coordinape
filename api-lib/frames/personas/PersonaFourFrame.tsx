@@ -6,6 +6,7 @@ import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { coLinksPaths } from '../../../src/routes/paths.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
+import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,
@@ -18,6 +19,10 @@ import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
+  const {
+    numGiveSent: giverTotalGiven,
+    numGiveReceived: receiverTotalReceived,
+  } = await fetchProfileInfo(viewerProfile?.id);
 
   return (
     <FrameWrapper>
@@ -39,7 +44,25 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ width: 80, height: 80 }}
           />
         </FrameHeadline>
-        <FrameFooter>TODO: STATS</FrameFooter>
+        <FrameFooter>
+          <div tw="flex flex-col items-center">
+            <span>
+              GIVE given:
+              <span style={{ fontWeight: 600, marginLeft: 12 }}>
+                {giverTotalGiven}
+              </span>
+            </span>
+            <span>
+              GIVE received:
+              <span style={{ fontWeight: 600, marginLeft: 12 }}>
+                {receiverTotalReceived}
+              </span>
+            </span>
+            <span style={{ fontSize: 36, opacity: 0.8 }}>
+              View all your stats at CoLinks.xyz
+            </span>
+          </div>
+        </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
