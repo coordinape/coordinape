@@ -40,7 +40,7 @@ const imageNode = async (params: Record<string, string>) => {
         <FrameFooter>
           Send 5 GIVE
           <br />
-          to level up more, bruhv
+          to level up more.
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
