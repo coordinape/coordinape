@@ -4,7 +4,6 @@ export const PROMPTS = [
   'What’s the biggest win you’ve had this week?',
   'What’s an exciting idea you wish was more widely understood?',
   'What’s the most exciting tech you have come across lately?',
-  "What's your spirit animal?",
   'What is the best professional advice you ever received?',
   'What’s new and emerging that no one really is talking about enough?',
   'What are three things you can’t work without?',
