@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 
 import { useWalletStatus } from 'features/auth';
-import { chain } from 'features/cosoul/chains';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
@@ -22,7 +21,6 @@ export const QUERY_KEY_COLINKS = 'coLinks';
 export const CoLinksWizard = () => {
   const { data } = useCoLinksNavQuery();
   const { chainId, account } = useWeb3React();
-  const onCorrectChain = chainId === Number(chain.chainId);
   const { address } = useWalletStatus();
   const navigate = useNavigate();
   const hasCoSoul = !!data?.profile.cosoul;
@@ -174,7 +172,6 @@ export const CoLinksWizard = () => {
             <WizardSteps
               progress={{
                 address,
-                onCorrectChain: onCorrectChain,
                 hasName,
                 hasRep,
                 hasCoSoul,
@@ -197,7 +194,6 @@ export const CoLinksWizard = () => {
               <WizardList
                 progress={{
                   address,
-                  onCorrectChain: onCorrectChain,
                   hasName,
                   hasRep,
                   hasCoSoul,

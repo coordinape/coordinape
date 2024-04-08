@@ -1,6 +1,7 @@
 import { BigNumber } from 'ethers';
 
 import { IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
+import { isFeatureEnabled } from '../../config/features';
 
 const optimism = {
   chainId: '0xa',
@@ -46,8 +47,9 @@ const localhost = {
 // production: optimism
 // staging: optimismSepolia
 // localhost: localhost ganache
-export const chain = IN_PRODUCTION
-  ? optimism
-  : IN_PREVIEW
-    ? optimismSepolia
-    : localhost;
+export const chain =
+  isFeatureEnabled('test_decent') || IN_PRODUCTION
+    ? optimism
+    : IN_PREVIEW
+      ? optimismSepolia
+      : localhost;

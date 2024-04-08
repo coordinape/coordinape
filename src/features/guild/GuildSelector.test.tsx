@@ -10,7 +10,7 @@ import { TestWrapper } from '../../utils/testing';
 import { GuildInfoWithMembership } from './guild-api';
 import { GuildSelector } from './GuildSelector';
 
-global.fetch = vi.fn();
+vi.spyOn(global, 'fetch').mockImplementation(vi.fn());
 
 const Harness = ({
   guild_id,

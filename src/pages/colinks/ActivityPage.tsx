@@ -56,7 +56,6 @@ const CoLinksActivityPageContents = ({
   const bumpPromptOffset = () => {
     setPromptOffset(prev => prev + 1);
   };
-
   return (
     <TwoColumnSmallRightLayout
       css={{
