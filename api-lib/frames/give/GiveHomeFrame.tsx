@@ -33,7 +33,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
     give.target_profile_public.id
   );
   const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
-  const randomArtNumber = Math.floor(Math.random() * 5) + 1;
+  const randomArtNumber = (give.id % 5) + 1;
 
   return (
     <FrameWrapper>

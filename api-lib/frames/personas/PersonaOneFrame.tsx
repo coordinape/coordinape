@@ -42,7 +42,7 @@ const imageNode = async (params: Record<string, string>) => {
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
-            style={{ width: 70, height: 70 }}
+            style={{ width: 80, height: 80 }}
           />
         </FrameHeadline>
         <FrameFooter>
