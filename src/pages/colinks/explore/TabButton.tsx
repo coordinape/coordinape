@@ -12,6 +12,7 @@ export const enum Tab {
   INTERESTS,
   REPLIES,
   MOST_GIVE,
+  MOST_GIVE_GIVEN,
 }
 
 const TabButton = ({
