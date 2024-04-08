@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { LeaderboardMostGive } from 'features/colinks/LeaderboardMostGive';
-import { LeaderboardMostGiveGiven } from 'features/colinks/LeaderboardMostGiveGiven';
+import { LeaderboardMostGiven } from 'features/colinks/LeaderboardMostGiven';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { Helmet } from 'react-helmet';
 import { NavLink } from 'react-router-dom';
@@ -37,7 +37,7 @@ export const ExplorePage = () => {
   const TabHoldingMost = makeTab(Tab.MOST_HOLDING, 'Holding Most Links');
   const TabHighestRepScore = makeTab(Tab.MOST_REPUTABLE, 'Highest Rep Score');
   const TabMostGive = makeTab(Tab.MOST_GIVE, 'Most GIVE Received');
-  const TabMostGiveReceived = makeTab(Tab.MOST_GIVE_GIVEN, 'Most GIVE Given');
+  const TabMostGiven = makeTab(Tab.MOST_GIVEN, 'Most GIVE Given');
 
   return (
     <SingleColumnLayout>
@@ -80,7 +80,7 @@ export const ExplorePage = () => {
                 <TabHoldingMost />
                 <TabHighestRepScore />
                 <TabMostGive />
-                <TabMostGiveReceived />
+                <TabMostGiven />
               </Flex>
               <Flex css={{ justifyContent: 'flex-end', flexShrink: 0 }}>
                 <TabLink currentTab={currentTab} />
@@ -126,9 +126,9 @@ export const ExplorePage = () => {
                 </Flex>
               </Flex>
             )}
-            {currentTab === Tab.MOST_GIVE_GIVEN && (
+            {currentTab === Tab.MOST_GIVEN && (
               <Flex column css={{ gap: '$md' }}>
-                <LeaderboardMostGiveGiven limit={5} />
+                <LeaderboardMostGiven limit={5} />
                 <Flex column css={{ alignItems: 'flex-end' }}>
                   <TabLink currentTab={currentTab} />
                 </Flex>
@@ -203,7 +203,9 @@ const TabLink = ({ currentTab }: { currentTab: Tab }) => {
               ? coLinksPaths.exploreNewest
               : currentTab === Tab.MOST_GIVE
                 ? coLinksPaths.exploreMostGive
-                : coLinksPaths.exploreRepScore
+                : currentTab === Tab.MOST_GIVEN
+                  ? coLinksPaths.exploreMostGiven
+                  : coLinksPaths.exploreRepScore
       }
       semibold
       h2

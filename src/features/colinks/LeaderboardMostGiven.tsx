@@ -8,11 +8,7 @@ import { coLinksMemberSelector } from '../../pages/colinks/explore/CoLinksMember
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
-export const LeaderboardMostGiveGiven = ({
-  limit = 100,
-}: {
-  limit?: number;
-}) => {
+export const LeaderboardMostGiven = ({ limit = 100 }: { limit?: number }) => {
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
     [QUERY_KEY_COLINKS, 'leaderboard', 'most_given'],
