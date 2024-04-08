@@ -9597,6 +9597,16 @@ export const AllTypesProps: Record<string, any> = {
     where: 'profiles_private_bool_exp',
   },
   profiles_public: {
+    colinks_given: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
+    colinks_given_aggregate: {
+      distinct_on: 'colinks_gives_select_column',
+      order_by: 'colinks_gives_order_by',
+      where: 'colinks_gives_bool_exp',
+    },
     colinks_gives: {
       distinct_on: 'colinks_gives_select_column',
       order_by: 'colinks_gives_order_by',
@@ -9659,6 +9669,8 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profiles_public_bool_exp',
     address: 'String_comparison_exp',
     avatar: 'String_comparison_exp',
+    colinks_given: 'colinks_gives_bool_exp',
+    colinks_given_aggregate: 'colinks_gives_aggregate_bool_exp',
     colinks_gives: 'colinks_gives_bool_exp',
     colinks_gives_aggregate: 'colinks_gives_aggregate_bool_exp',
     cosoul: 'cosouls_bool_exp',
@@ -9683,6 +9695,7 @@ export const AllTypesProps: Record<string, any> = {
     website: 'String_comparison_exp',
   },
   profiles_public_insert_input: {
+    colinks_given: 'colinks_gives_arr_rel_insert_input',
     colinks_gives: 'colinks_gives_arr_rel_insert_input',
     cosoul: 'cosouls_obj_rel_insert_input',
     created_at: 'timestamp',
@@ -9703,6 +9716,7 @@ export const AllTypesProps: Record<string, any> = {
   profiles_public_order_by: {
     address: 'order_by',
     avatar: 'order_by',
+    colinks_given_aggregate: 'colinks_gives_aggregate_order_by',
     colinks_gives_aggregate: 'colinks_gives_aggregate_order_by',
     cosoul: 'cosouls_order_by',
     created_at: 'order_by',
@@ -10403,7 +10417,6 @@ export const AllTypesProps: Record<string, any> = {
     poap_holders_by_pk: {
       id: 'bigint',
     },
-    price_per_share: {},
     private_stream_visibility: {
       distinct_on: 'private_stream_visibility_select_column',
       order_by: 'private_stream_visibility_order_by',
@@ -20240,6 +20253,8 @@ export const ReturnTypes: Record<string, any> = {
   profiles_public: {
     address: 'String',
     avatar: 'String',
+    colinks_given: 'colinks_gives',
+    colinks_given_aggregate: 'colinks_gives_aggregate',
     colinks_gives: 'colinks_gives',
     colinks_gives_aggregate: 'colinks_gives_aggregate',
     cosoul: 'cosouls',
@@ -20586,7 +20601,6 @@ export const ReturnTypes: Record<string, any> = {
     poap_holders: 'poap_holders',
     poap_holders_aggregate: 'poap_holders_aggregate',
     poap_holders_by_pk: 'poap_holders',
-    price_per_share: 'Float',
     private_stream_visibility: 'private_stream_visibility',
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
@@ -22174,7 +22188,6 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     org_id: 'bigint',
     organization: 'organizations',
-    price_per_share: 'Float',
     profile: 'profiles',
     simple_token_address: 'String',
     symbol: 'String',

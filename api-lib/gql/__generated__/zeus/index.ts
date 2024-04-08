@@ -25468,6 +25468,52 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    colinks_given?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_given_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     colinks_gives?: [
       {
         /** distinct select on columns */
@@ -25760,6 +25806,11 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    colinks_given?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+    colinks_given_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     colinks_gives?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     colinks_gives_aggregate?:
       | ValueTypes['colinks_gives_aggregate_bool_exp']
@@ -25808,6 +25859,10 @@ export type ValueTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined | null;
     avatar?: string | undefined | null;
+    colinks_given?:
+      | ValueTypes['colinks_gives_arr_rel_insert_input']
+      | undefined
+      | null;
     colinks_gives?:
       | ValueTypes['colinks_gives_arr_rel_insert_input']
       | undefined
@@ -25881,6 +25936,10 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    colinks_given_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
     colinks_gives_aggregate?:
       | ValueTypes['colinks_gives_aggregate_order_by']
       | undefined
@@ -28676,10 +28735,6 @@ export type ValueTypes = {
     poap_holders_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['poap_holders'],
-    ];
-    price_per_share?: [
-      { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`,
     ];
     private_stream_visibility?: [
       {
@@ -38988,7 +39043,6 @@ export type ValueTypes = {
     org_id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
-    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -50459,6 +50513,10 @@ export type ModelTypes = {
     address?: string | undefined;
     avatar?: string | undefined;
     /** An array relationship */
+    colinks_given: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_given_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
@@ -51028,7 +51086,6 @@ export type ModelTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** An aggregate relationship */
@@ -53716,7 +53773,6 @@ export type ModelTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -73123,6 +73179,10 @@ export type GraphQLTypes = {
     address?: string | undefined;
     avatar?: string | undefined;
     /** An array relationship */
+    colinks_given: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_given_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
@@ -73196,6 +73256,10 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    colinks_given?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_given_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     colinks_gives?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_bool_exp']
@@ -73231,6 +73295,9 @@ export type GraphQLTypes = {
   ['profiles_public_insert_input']: {
     address?: string | undefined;
     avatar?: string | undefined;
+    colinks_given?:
+      | GraphQLTypes['colinks_gives_arr_rel_insert_input']
+      | undefined;
     colinks_gives?:
       | GraphQLTypes['colinks_gives_arr_rel_insert_input']
       | undefined;
@@ -73295,6 +73362,9 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    colinks_given_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_order_by']
       | undefined;
@@ -73910,7 +73980,6 @@ export type GraphQLTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** An aggregate relationship */
@@ -78410,7 +78479,6 @@ export type GraphQLTypes = {
     org_id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -79743,7 +79811,7 @@ export const enum claims_update_column {
 /** unique or primary key constraints on table "colinks_gives" */
 export const enum colinks_gives_constraint {
   colinks_gives_pkey = 'colinks_gives_pkey',
-  colinks_gives_profile_id_target_profile_id_activity_id_key = 'colinks_gives_profile_id_target_profile_id_activity_id_key',
+  colinks_gives_target_profile_id_activity_id_profile_id_cast_has = 'colinks_gives_target_profile_id_activity_id_profile_id_cast_has',
 }
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {

@@ -15,12 +15,12 @@ export const LeaderboardMostGiveGiven = ({
 }) => {
   const currentAddress = useConnectedAddress(true);
   const { data: leaders } = useQuery(
-    [QUERY_KEY_COLINKS, 'leaderboard', 'most_give_given'],
+    [QUERY_KEY_COLINKS, 'leaderboard', 'most_given'],
     async () => {
-      const { most_give_given } = await client.query(
+      const { most_given } = await client.query(
         {
           __alias: {
-            most_give_given: {
+            most_given: {
               profiles_public: [
                 {
                   where: {
@@ -31,7 +31,7 @@ export const LeaderboardMostGiveGiven = ({
                   },
                   order_by: [
                     {
-                      colinks_gives_aggregate: {
+                      colinks_given_aggregate: {
                         count: order_by.desc_nulls_last,
                       },
                       name: order_by.desc,
@@ -45,10 +45,10 @@ export const LeaderboardMostGiveGiven = ({
           },
         },
         {
-          operationName: 'coLinks_leaderboard_mostGive @cached(ttl: 30)',
+          operationName: 'coLinks_leaderboard_mostGiven @cached(ttl: 30)',
         }
       );
-      return most_give_given;
+      return most_given;
     }
   );
   return <Leaderboard leaders={leaders} />;
