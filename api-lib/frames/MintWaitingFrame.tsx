@@ -23,18 +23,18 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="mint-success.jpg" />
+      <FrameBgImage src="minting.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 25% 0%, #1AE322 0%, #6C07D1 80%)',
+              'radial-gradient(circle at 25% 0%, #0DE78B 0%, #7908D2 80%)',
             opacity: 0.7,
           }}
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">CoSoul Minted</div>
+          <div tw="flex items-center grow justify-center">Minting...</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -42,9 +42,9 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          Your CoSoul is still Minting
+          Your CoSoul is still minting.
           <br />
-          Refresh to Check Again
+          Refresh to check again.
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
