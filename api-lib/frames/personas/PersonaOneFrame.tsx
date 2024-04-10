@@ -21,6 +21,7 @@ import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { MintSuccessFrame } from '../MintSuccessFrame.tsx';
+import { MintWaitingFrame } from '../MintWaitingFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -63,6 +64,8 @@ const mintCoSoul = async (mintToAddr: string, profileId: number) => {
 
     await minted(mintToAddr, tx.hash, tokenId, profileId, false);
   } catch (e) {
+    // hey maybe its already minted
+
     console.error('Error minting CoSoul', e);
     return false;
   }
@@ -70,11 +73,26 @@ const mintCoSoul = async (mintToAddr: string, profileId: number) => {
 };
 
 const onPost = async (info: FramePostInfo) => {
-  const success = await mintCoSoul(info.profile.address, info.profile.id);
-  if (!success) {
+  // lets try to mint for 2 seconds then return a waiting frame
+  const timeout = new Promise(resolve =>
+    setTimeout(() => resolve('timeout'), 2000)
+  );
+
+  // Attempt to mint CoSoul, racing against the timeout
+  const result = await Promise.race([
+    mintCoSoul(info.profile.address, info.profile.id),
+    timeout,
+  ]);
+
+  if (result === 'timeout') {
+    // If the mintCoSoul function takes longer than 2 seconds
+    return MintWaitingFrame;
+  } else if (!result) {
+    // If mintCoSoul completes but returns a falsy value indicating failure
     return ErrorFrame('Error minting CoSoul');
   }
 
+  // If mintCoSoul succeeds before the timeout
   return MintSuccessFrame;
 };
 
