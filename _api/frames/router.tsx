@@ -59,7 +59,7 @@ export const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 
 // this forces all the image paths to be bundled/traced
-export const getImagePaths = (name: string) =>
+export const getImagePath = (name: string) =>
   join(process.cwd(), 'public', 'imgs', 'frames', `${name}.jpg`);
 
 const createFont = (name: string, file: string) => {
@@ -74,6 +74,17 @@ const createFont = (name: string, file: string) => {
     name: name,
     data: fontData,
   };
+};
+
+export const createImage = (file: string) => {
+  let imageData: ArrayBuffer;
+  if (IS_LOCAL_ENV) {
+    imageData = readFileSync(getImagePath(file));
+  } else {
+    imageData = readFileSync(join(__dirname, `./${file}.ttf`));
+  }
+
+  return imageData;
 };
 
 export const loadFonts = (): FontOptions[] => {
