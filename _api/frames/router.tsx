@@ -58,6 +58,10 @@ interface FontOptions {
 export const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 
+// this forces all the image paths to be bundled/traced
+export const getImagePaths = (name: string) =>
+  join(process.cwd(), 'public', 'imgs', 'frames', `${name}.jpg`);
+
 const createFont = (name: string, file: string) => {
   let fontData: ArrayBuffer;
   if (IS_LOCAL_ENV) {
@@ -84,21 +88,21 @@ export const loadFonts = (): FontOptions[] => {
         weight: 400,
         style: 'normal',
       },
-      {
-        ...createFont('Denim', 'Denim-RegularItalic'),
-        weight: 400,
-        style: 'italic',
-      },
+      // {
+      //   ...createFont('Denim', 'Denim-RegularItalic'),
+      //   weight: 400,
+      //   style: 'italic',
+      // },
       {
         ...createFont('Denim', 'Denim-SemiBold'),
         weight: 600,
         style: 'normal',
       },
-      {
-        ...createFont('Denim', 'Denim-SemiBoldItalic'),
-        weight: 600,
-        style: 'italic',
-      },
+      // {
+      //   ...createFont('Denim', 'Denim-SemiBoldItalic'),
+      //   weight: 600,
+      //   style: 'italic',
+      // },
     ];
     const endTime = Date.now();
     // eslint-disable-next-line no-console
