@@ -27,7 +27,7 @@ const imageNode = async (params: Record<string, string>) => {
         <FrameBodyGradient
           gradientStyles={{
             background:
-              'radial-gradient(circle at 25% 0%, #1AE322 0%, #6C07D1 80%)',
+              'radial-gradient(circle at 25% 0%, #0DE78B 0%, #7908D2 80%)',
             opacity: 0.7,
           }}
         />
