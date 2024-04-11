@@ -135,6 +135,10 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
       profile_level: level,
       give_id: give.id,
       clicker_relation: relation,
+      giver_id: give.giver_profile_public.id,
+      receiver_id: give.target_profile_public.id,
+      giver_name: give.giver_profile_public.name,
+      receiver_name: give.target_profile_public.name,
     },
   });
 
