@@ -119,6 +119,13 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   // Enter the Levels persona app
   const level = await getLevelForViewer(info.profile.id);
 
+  const relation =
+    info.profile.id === give.giver_profile_public.id
+      ? 'giver'
+      : info.profile.id === give.target_profile_public.id
+        ? 'receiver'
+        : 'other';
+
   await insertInteractionEvents({
     event_type: 'home_frame_click',
     profile_id: info.profile.id,
@@ -126,6 +133,8 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
       give_bot: true,
       frame: 'give',
       profile_level: level,
+      give_id: give.id,
+      clicker_relation: relation,
     },
   });
 
