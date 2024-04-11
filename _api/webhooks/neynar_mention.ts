@@ -34,15 +34,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         parent_hash,
         mentioned_profiles,
         text,
-        timestamp: { cast_created_at },
+        timestamp: cast_created_at,
         author: { fid: author_fid, username: author_username },
       },
     } = req.body;
 
-    // log delay from cast_created_at until now
     const delay = Date.now() - new Date(cast_created_at).getTime();
     // eslint-disable-next-line no-console
-    console.log(`Webhook Delay from Cast creation: ${delay}ms`);
+    console.log(`Webhook delay from cast creation: ${delay} ms`);
 
     const giver_profile = await findOrCreateProfileByFid(author_fid);
 
