@@ -44,7 +44,7 @@ const imageNode = async (params: Record<string, string>) => {
         <FrameFooter>
           Your CoSoul is still minting.
           <br />
-          Refresh to check again.
+          Tap `&apos;Check Mint Progress`&apos; to re-check.
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
@@ -84,7 +84,7 @@ export const MintWaitingFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Refresh Mint Progress',
+      title: 'Check Mint Progress',
       action: 'post',
       onPost,
     },
