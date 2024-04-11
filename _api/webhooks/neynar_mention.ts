@@ -86,9 +86,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     if (receiver_profile.id === giver_profile.id) {
-      await publishCast(`@${author_username} You can't give to yourself.`, {
-        replyTo: hash,
-      });
+      await publishCast(
+        `@${author_username} GIVE can only be given to others!`,
+        {
+          replyTo: hash,
+        }
+      );
       res.status(200).send({ success: true });
       return;
     }
@@ -96,7 +99,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // can't give to Givebot
     if (receiver_profile.id === (await getGiveBotProfileId())) {
       await publishCast(
-        `@${author_username} Appreciate it, but you can't give to @Givebot.`,
+        `@${author_username} Thanks, but I'm just a bot! Give to people by replying to a cast with @givebot or cast @givebot @user #skilltag (tag optional)`,
         {
           replyTo: hash,
         }
