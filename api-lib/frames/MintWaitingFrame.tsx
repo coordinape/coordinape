@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Frame } from '../../_api/frames/router.tsx';
 import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
-import { webAppURL } from '../../src/config/webAppURL.ts';
-import { coLinksPaths } from '../../src/routes/paths.ts';
+import { adminClient } from '../gql/adminClient.ts';
 
+import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
 import {
@@ -16,13 +16,14 @@ import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient.tsx';
 import { FrameFooter } from './layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from './layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
+import { MintSuccessFrame } from './MintSuccessFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="mint-success.jpg" />
+      <FrameBgImage src="minting.jpg" />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
@@ -33,7 +34,7 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">CoSoul Minted</div>
+          <div tw="flex items-center grow justify-center">Minting...</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -41,31 +42,51 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          Level up more
+          Your CoSoul is still minting.
           <br />
-          by joining CoLinks and giving GIVE
+          Refresh to check again.
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
 };
 
-export const MintSuccessFrame: Frame = {
-  id: 'cosoul_mint_success',
+const onPost = async (info: FramePostInfo) => {
+  // check for mint status
+  // TODO: is there any way to handle errors here? IDK!!!!!!!
+  const { cosouls } = await adminClient.query(
+    {
+      cosouls: [
+        {
+          where: {
+            address: { _ilike: info.profile.address },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'mintWaitingFrame__getMintStatus',
+    }
+  );
+  if (cosouls.length > 0) {
+    return MintSuccessFrame;
+  }
+  return MintWaitingFrame;
+};
+
+export const MintWaitingFrame: Frame = {
+  id: 'cosoul_mint_waiting',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Join CoLinks',
-      action: 'link',
-      target: webAppURL('colinks') + coLinksPaths.wizardStart,
-    },
-    {
-      title: 'Try @givebot',
-      action: 'link',
-      target:
-        'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag',
+      title: 'Refresh Mint Progress',
+      action: 'post',
+      onPost,
     },
   ],
 };
