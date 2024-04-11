@@ -25,6 +25,16 @@ export const RenderFrameMeta = ({
   const postURL = getPostUrl(frame, params);
   const buttons = frame.buttons;
 
+  const redirectURL = webAppURL('colinks');
+
+  const redirectScript = {
+    __html: `
+    window.onload = function() {
+      window.location.href = ${redirectURL};
+    };
+    `,
+  };
+
   const content: React.JSX.Element = (
     <html lang="en">
       <head>
@@ -46,10 +56,11 @@ export const RenderFrameMeta = ({
         <meta property="fc:frame:image" content={imgSrc} />
         <meta property="fc:frame:image:aspect_ratio" content="1:1" />
         <title>Farcaster Frame</title>
+        <script dangerouslySetInnerHTML={redirectScript}></script>
       </head>
       <body>
         <h1>Redirecting to CoLinks...</h1>
-        <script>window.location.href = {webAppURL('colinks')};</script>
+        <script>window.location.href = ;</script>
       </body>
     </html>
   );
