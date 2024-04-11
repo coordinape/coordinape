@@ -4,10 +4,11 @@ import { VercelResponse } from '@vercel/node';
 import { renderToString } from 'react-dom/server';
 
 import { Frame } from '../../_api/frames/router.tsx';
+import { webAppURL } from '../../src/config/webAppURL.ts';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { FrameButton } from './FrameButton.tsx';
-import { getPostUrl, getImgSrc } from './routingUrls.ts';
+import { getImgSrc, getPostUrl } from './routingUrls.ts';
 
 export const RenderFrameMeta = ({
   frame,
@@ -47,7 +48,8 @@ export const RenderFrameMeta = ({
         <title>Farcaster Frame</title>
       </head>
       <body>
-        <h1>This is just a frame yall</h1>
+        <h1>Redirecting to CoLinks...</h1>
+        <script>window.location.href = {webAppURL('colinks')};</script>
       </body>
     </html>
   );
