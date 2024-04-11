@@ -7,6 +7,7 @@ import {
   getMintInfoFromReceipt,
   mintCoSoulForAddress,
 } from '../../../src/features/cosoul/api/cosoul.ts';
+import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
@@ -84,11 +85,24 @@ const onPost = async (info: FramePostInfo) => {
     timeout,
   ]);
 
+  await insertInteractionEvents({
+    event_type: 'frame_cosoul_mint',
+    profile_id: info.profile.id,
+    data: {
+      give_bot: true,
+      frame: 'persona1',
+    },
+  });
+
   if (result === 'timeout') {
     // If the mintCoSoul function takes longer than 2 seconds
+    // eslint-disable-next-line no-console
+    console.log('CoSoul Frame Mint timeout occurred');
     return MintWaitingFrame;
   } else if (!result) {
     // If mintCoSoul completes but returns a falsy value indicating failure
+    // eslint-disable-next-line no-console
+    console.log('CoSoul Frame Mint error occurred');
     return ErrorFrame('Error minting CoSoul');
   }
 
