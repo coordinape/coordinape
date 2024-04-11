@@ -86,6 +86,7 @@ const createFont = (name: string, file: string) => {
 };
 
 export const createImage = (fileNameWithExt: string) => {
+  console.log(`createImage.${fileNameWithExt}.start`);
   let imageData: ArrayBuffer;
   const file = fileNameWithExt.replace('.jpg', '');
   if (IS_LOCAL_ENV) {
@@ -93,7 +94,8 @@ export const createImage = (fileNameWithExt: string) => {
   } else {
     imageData = readFileSync(join(__dirname, `./${file}.jpg`));
   }
-  console.log('returning imgData', { imageData });
+  // console.log('returning imgData', { imageData });
+  console.log(`createImage.${fileNameWithExt}.done`);
   return imageData;
 };
 
