@@ -41,11 +41,7 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ width: 80, height: 80 }}
           />
         </FrameHeadline>
-        <FrameFooter>
-          Your CoSoul is still minting.
-          <br />
-          Tap `&apos;Check Mint Progress`&apos; to re-check.
-        </FrameFooter>
+        <FrameFooter>Your CoSoul is still minting.</FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
