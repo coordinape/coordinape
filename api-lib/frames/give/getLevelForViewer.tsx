@@ -1,9 +1,17 @@
 import { fetchProfileInfo } from './fetchProfileInfo.tsx';
 
 export const getLevelForViewer = async (viewerProfileId: number) => {
-  const { hasSentGive, hasReceivedGive, hasCoSoul, linksHeld, numGiveSent } =
-    await fetchProfileInfo(viewerProfileId);
+  const info = await fetchProfileInfo(viewerProfileId);
+  return getLevelFromInfo(info);
+};
 
+export const getLevelFromInfo = ({
+  hasSentGive,
+  hasReceivedGive,
+  hasCoSoul,
+  numGiveSent,
+  linksHeld,
+}: Awaited<ReturnType<typeof fetchProfileInfo>>) => {
   // These are the rules for the general levels
   // if (giveReceived == false && giveSent == false) {
   //   // you are at least level 0

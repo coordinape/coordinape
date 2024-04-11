@@ -21,20 +21,25 @@ import { PersonaZeroFrame } from '../personas/PersonaZeroFrame.tsx';
 
 import { fetchProfileInfo } from './fetchProfileInfo.tsx';
 import { getContextFromParams } from './getContextFromParams.ts';
-import { getLevelForViewer } from './getLevelForViewer.tsx';
+import { getLevelForViewer, getLevelFromInfo } from './getLevelForViewer.tsx';
 import { giveResourceIdentifier } from './giveResourceIdentifier.ts';
 
 const homeFrameImageNode = async (params: Record<string, string>) => {
+  // eslint-disable-next-line no-console
+  console.log('homeFrameImageNode.start');
   const { give } = await getContextFromParams(params);
-  const { numGiveSent: giverTotalGiven } = await fetchProfileInfo(
-    give.giver_profile_public.id
-  );
+  const giverInfo = await fetchProfileInfo(give.giver_profile_public.id);
+
+  const { numGiveSent: giverTotalGiven } = giverInfo;
+
   const { numGiveReceived: receiverTotalReceived } = await fetchProfileInfo(
     give.target_profile_public.id
   );
-  const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
+  const giverLevel = getLevelFromInfo(giverInfo);
   const randomArtNumber = (give.id % 5) + 1;
 
+  // eslint-disable-next-line no-console
+  console.log('homeFrameImageNode.return frame');
   return (
     <FrameWrapper>
       <FrameBgImage src={`frontdoor-${giverLevel}-${randomArtNumber}.jpg`} />

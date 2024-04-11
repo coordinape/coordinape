@@ -276,6 +276,8 @@ const addFrame = (frame: Frame) => {
     `/img/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
     'GET',
     async (_req, res, params) => {
+      // eslint-disable-next-line no-console
+      console.log('image begin');
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
         height: 1000,
@@ -288,7 +290,11 @@ const addFrame = (frame: Frame) => {
         res.setHeader('Expires', '0');
       }
       res.setHeader('Content-Type', 'image/png');
+      // eslint-disable-next-line no-console
+      console.log('streaming the response.start');
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
+      // eslint-disable-next-line no-console
+      console.log('streaming the response.done');
     }
   );
 };
