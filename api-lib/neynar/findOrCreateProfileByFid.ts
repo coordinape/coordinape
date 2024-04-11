@@ -17,8 +17,9 @@ const findProfileByAddresses = async (addresses: string[]) => {
           },
         },
         {
-          address: true,
           id: true,
+          address: true,
+          name: true,
           cosoul: {
             id: true,
           },
@@ -106,6 +107,7 @@ const createProfile = async (
         {
           id: true,
           address: true,
+          name: true,
         },
       ],
     },
