@@ -30,6 +30,14 @@ import { PersonaThreeFrame } from '../../api-lib/frames/personas/PersonaThreeFra
 import { PersonaTwoFrame } from '../../api-lib/frames/personas/PersonaTwoFrame.tsx';
 import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame.tsx';
 
+// 1 hour
+const maxAge = 60 * 60;
+
+const CACHE_CONTENT = `max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
+const DISABLE_CACHING = false;
+// no caching:
+// const CACHE_CONTENT =  'no-store, no-cache, must-revalidate, max-age=0'
+
 type PathWithHandler = {
   path: Path;
   handler: (
@@ -242,10 +250,7 @@ const addFrame = (frame: Frame) => {
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
       'GET',
       (_req, res, params) => {
-        res.setHeader(
-          'Cache-Control',
-          'no-store, no-cache, must-revalidate, max-age=0'
-        );
+        res.setHeader('Cache-Control', CACHE_CONTENT);
         res.setHeader('Content-Type', 'text/html');
         RenderFrameMeta({ frame, res, params });
       }
@@ -260,10 +265,7 @@ const addFrame = (frame: Frame) => {
       // do things
       // actually parse the post????
       const info = await getFramePostInfo(req);
-      res.setHeader(
-        'Cache-Control',
-        'no-store, no-cache, must-revalidate, max-age=0'
-      );
+      res.setHeader('Cache-Control', CACHE_CONTENT);
       return await handleButton(frame, params, info, res);
     }
   );
@@ -279,17 +281,11 @@ const addFrame = (frame: Frame) => {
         width: 1000,
         fonts,
       });
-      // no cache
-      //
-      //Cache-Control: no-store, no-cache, must-revalidate, max-age=0
-      // Pragma: no-cache
-      // Expires: 0
-      res.setHeader(
-        'Cache-Control',
-        'no-store, no-cache, must-revalidate, max-age=0'
-      );
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
+      res.setHeader('Cache-Control', CACHE_CONTENT);
+      if (DISABLE_CACHING) {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      }
       res.setHeader('Content-Type', 'image/png');
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
     }

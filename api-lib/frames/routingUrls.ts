@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 import { Frame } from '../../_api/frames/router.tsx';
 import { webAppURL } from '../../src/config/webAppURL';
 
@@ -20,7 +18,7 @@ export const getImgSrc = (
   const error_message: string | undefined = params['error_message'];
 
   const imgParams = {
-    ts: DateTime.now().valueOf().toString(),
+    //ts: DateTime.now().valueOf().toString(),
     ...(error_message && { error_message: error_message }),
     ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
   };
