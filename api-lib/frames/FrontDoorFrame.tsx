@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Frame } from '../../_api/frames/router';
+import { insertInteractionEvents } from '../gql/mutations';
 
 import { FramePostInfo } from './_getFramePostInfo';
 import { staticResourceIdentifier } from './_staticResourceIdentifier';
@@ -53,6 +54,16 @@ const imageNode = async () => {
 const onPost = async (info: FramePostInfo) => {
   // Enter the Levels persona app
   const level = await getLevelForViewer(info.profile.id);
+
+  await insertInteractionEvents({
+    event_type: 'home_frame_click',
+    profile_id: info.profile.id,
+    data: {
+      give_bot: true,
+      frame: 'front_door',
+      profile_level: level,
+    },
+  });
 
   // route each level to its respective Persona
   if (level === 1) {

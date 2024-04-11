@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
+import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { NotFoundError } from '../../HttpError.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import {
@@ -118,8 +119,17 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   // Enter the Levels persona app
   const level = await getLevelForViewer(info.profile.id);
 
-  // route each level to its respective Persona
+  await insertInteractionEvents({
+    event_type: 'home_frame_click',
+    profile_id: info.profile.id,
+    data: {
+      give_bot: true,
+      frame: 'give',
+      profile_level: level,
+    },
+  });
 
+  // route each level to its respective Persona
   if (level === 1) {
     return PersonaOneFrame;
   } else if (level === 2) {
