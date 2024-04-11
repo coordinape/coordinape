@@ -22,6 +22,7 @@ import { ErrorFrame } from '../../api-lib/frames/ErrorFrame.tsx';
 import { RenderFrameMeta } from '../../api-lib/frames/FrameMeta.tsx';
 import { FrontDoor } from '../../api-lib/frames/FrontDoorFrame.tsx';
 import { GiveHomeFrame } from '../../api-lib/frames/give/GiveHomeFrame.tsx';
+import { GiveHomeFrame2 } from '../../api-lib/frames/give/GiveHomeFrame2.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
 import { MintWaitingFrame } from '../../api-lib/frames/MintWaitingFrame.tsx';
@@ -321,6 +322,7 @@ const handleButton = async (
 };
 
 addFrame(GiveHomeFrame);
+addFrame(GiveHomeFrame2);
 addFrame(PersonaZeroFrame);
 addFrame(PersonaOneFrame);
 addFrame(PersonaTwoFrame);
