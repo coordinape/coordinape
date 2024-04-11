@@ -34,9 +34,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         parent_hash,
         mentioned_profiles,
         text,
+        timestamp: { cast_created_at },
         author: { fid: author_fid, username: author_username },
       },
     } = req.body;
+
+    // log delay from cast_created_at until now
+    const delay = Date.now() - new Date(cast_created_at).getTime();
+    // eslint-disable-next-line no-console
+    console.log(`Webhook Delay from Cast creation: ${delay}ms`);
 
     const giver_profile = await findOrCreateProfileByFid(author_fid);
 
@@ -145,6 +151,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       skill
     );
 
+    // PRE-CACHE farme and image by calling the URL
+    await fetch(getFrameUrl('give', giveId), {
+      signal: AbortSignal.timeout(10000),
+    });
+    await fetch(getFrameImgUrl('give', giveId), {
+      signal: AbortSignal.timeout(10000),
+    });
+
     // TODO: change this to no message
     await publishCast(`GIVE Delivered`, {
       replyTo: hash,
@@ -193,6 +207,15 @@ const parseSkill = (text: string) => {
 
 export const getFrameUrl = (frameId: string, resourceId?: number) => {
   let url = `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
+
+  if (resourceId) {
+    url += `/${resourceId}`;
+  }
+  return url;
+};
+
+export const getFrameImgUrl = (frameId: string, resourceId?: number) => {
+  let url = `${FRAME_ROUTER_URL_BASE}/img/${frameId}`;
 
   if (resourceId) {
     url += `/${resourceId}`;
