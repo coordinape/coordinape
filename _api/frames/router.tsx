@@ -281,7 +281,7 @@ const addFrame = (frame: Frame) => {
       // eslint-disable-next-line no-console
       console.log('image begin');
       const ir = new ImageResponse(await frame.imageNode(params), {
-        // debug: true,
+        debug: true,
         height: 1000,
         width: 1000,
         fonts,
