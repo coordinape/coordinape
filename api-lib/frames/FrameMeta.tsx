@@ -25,6 +25,12 @@ export const RenderFrameMeta = ({
   const postURL = getPostUrl(frame, params);
   const buttons = frame.buttons;
 
+  const scriptContent = `
+    <script type="text/javascript">
+      window.location.href = "${webAppURL('colinks')}";
+    </script>
+ `;
+
   const content: React.JSX.Element = (
     <html lang="en">
       <head>
@@ -46,10 +52,10 @@ export const RenderFrameMeta = ({
         <meta property="fc:frame:image" content={imgSrc} />
         <meta property="fc:frame:image:aspect_ratio" content="1:1" />
         <title>Farcaster Frame</title>
+        <div dangerouslySetInnerHTML={{ __html: scriptContent }} />;
       </head>
       <body>
         <h1>Redirecting to CoLinks...</h1>
-        <script>window.location.href = {webAppURL('colinks')};</script>
       </body>
     </html>
   );
