@@ -4436,6 +4436,7 @@ columns and relationships of "colinks_gives"
 """
 type colinks_gives {
   activity_id: bigint
+  cast_hash: String
   created_at: timestamptz!
 
   """
@@ -4540,6 +4541,7 @@ input colinks_gives_bool_exp {
   _not: colinks_gives_bool_exp
   _or: [colinks_gives_bool_exp!]
   activity_id: bigint_comparison_exp
+  cast_hash: String_comparison_exp
   created_at: timestamptz_comparison_exp
   give_skill: skills_bool_exp
   giver_profile_public: profiles_public_bool_exp
@@ -4556,6 +4558,7 @@ aggregate max on columns
 """
 type colinks_gives_max_fields {
   activity_id: bigint
+  cast_hash: String
   created_at: timestamptz
   id: Int
   profile_id: bigint
@@ -4569,6 +4572,7 @@ order by max() on columns of table "colinks_gives"
 """
 input colinks_gives_max_order_by {
   activity_id: order_by
+  cast_hash: order_by
   created_at: order_by
   id: order_by
   profile_id: order_by
@@ -4582,6 +4586,7 @@ aggregate min on columns
 """
 type colinks_gives_min_fields {
   activity_id: bigint
+  cast_hash: String
   created_at: timestamptz
   id: Int
   profile_id: bigint
@@ -4595,6 +4600,7 @@ order by min() on columns of table "colinks_gives"
 """
 input colinks_gives_min_order_by {
   activity_id: order_by
+  cast_hash: order_by
   created_at: order_by
   id: order_by
   profile_id: order_by
@@ -4623,6 +4629,7 @@ Ordering options when selecting data from "colinks_gives".
 """
 input colinks_gives_order_by {
   activity_id: order_by
+  cast_hash: order_by
   created_at: order_by
   give_skill: skills_order_by
   giver_profile_public: profiles_public_order_by
@@ -4649,6 +4656,11 @@ enum colinks_gives_select_column {
   column name
   """
   activity_id
+
+  """
+  column name
+  """
+  cast_hash
 
   """
   column name
@@ -4768,6 +4780,7 @@ Initial value of the column from where the streaming should start
 """
 input colinks_gives_stream_cursor_value_input {
   activity_id: bigint
+  cast_hash: String
   created_at: timestamptz
   id: Int
   profile_id: bigint
@@ -16436,6 +16449,66 @@ type profiles_public {
   """
   An array relationship
   """
+  colinks_given(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_given_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  An array relationship
+  """
   colinks_gives(
     """
     distinct select on columns
@@ -16703,6 +16776,8 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  colinks_given: colinks_gives_bool_exp
+  colinks_given_aggregate: colinks_gives_aggregate_bool_exp
   colinks_gives: colinks_gives_bool_exp
   colinks_gives_aggregate: colinks_gives_aggregate_bool_exp
   cosoul: cosouls_bool_exp
@@ -16731,6 +16806,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  colinks_given_aggregate: colinks_gives_aggregate_order_by
   colinks_gives_aggregate: colinks_gives_aggregate_order_by
   cosoul: cosouls_order_by
   created_at: order_by
@@ -18946,7 +19022,6 @@ type query_root {
   fetch data from the table: "poap_holders" using primary key columns
   """
   poap_holders_by_pk(id: bigint!): poap_holders
-  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship
@@ -27708,7 +27783,6 @@ type vaults {
   An object relationship
   """
   organization: organizations!
-  price_per_share: Float!
 
   """
   An object relationship

@@ -8355,9 +8355,9 @@ enum colinks_gives_constraint {
   colinks_gives_pkey
 
   """
-  unique or primary key constraint on columns "profile_id", "activity_id", "target_profile_id"
+  unique or primary key constraint on columns "profile_id", "cast_hash", "activity_id", "target_profile_id"
   """
-  colinks_gives_profile_id_target_profile_id_activity_id_key
+  colinks_gives_target_profile_id_activity_id_profile_id_cast_has
 }
 
 """
@@ -36517,6 +36517,66 @@ type profiles_public {
   """
   An array relationship
   """
+  colinks_given(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_given_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  An array relationship
+  """
   colinks_gives(
     """
     distinct select on columns
@@ -36880,6 +36940,8 @@ input profiles_public_bool_exp {
   _or: [profiles_public_bool_exp!]
   address: String_comparison_exp
   avatar: String_comparison_exp
+  colinks_given: colinks_gives_bool_exp
+  colinks_given_aggregate: colinks_gives_aggregate_bool_exp
   colinks_gives: colinks_gives_bool_exp
   colinks_gives_aggregate: colinks_gives_aggregate_bool_exp
   cosoul: cosouls_bool_exp
@@ -36910,6 +36972,7 @@ input type for inserting data into table "profiles_public"
 input profiles_public_insert_input {
   address: String
   avatar: String
+  colinks_given: colinks_gives_arr_rel_insert_input
   colinks_gives: colinks_gives_arr_rel_insert_input
   cosoul: cosouls_obj_rel_insert_input
   created_at: timestamp
@@ -36978,6 +37041,7 @@ Ordering options when selecting data from "profiles_public".
 input profiles_public_order_by {
   address: order_by
   avatar: order_by
+  colinks_given_aggregate: colinks_gives_aggregate_order_by
   colinks_gives_aggregate: colinks_gives_aggregate_order_by
   cosoul: cosouls_order_by
   created_at: order_by
@@ -41003,7 +41067,6 @@ type query_root {
   fetch data from the table: "poap_holders" using primary key columns
   """
   poap_holders_by_pk(id: bigint!): poap_holders
-  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship
@@ -55742,7 +55805,6 @@ type vaults {
   An object relationship
   """
   organization: organizations!
-  price_per_share: Float!
 
   """
   An object relationship

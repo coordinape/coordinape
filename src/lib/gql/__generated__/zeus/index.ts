@@ -3759,6 +3759,7 @@ export type ValueTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
     give_skill?: ValueTypes['skills'];
@@ -3859,6 +3860,7 @@ export type ValueTypes = {
     _not?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    cast_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     give_skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     giver_profile_public?:
@@ -3878,6 +3880,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -3889,6 +3892,7 @@ export type ValueTypes = {
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -3899,6 +3903,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -3910,6 +3915,7 @@ export type ValueTypes = {
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -3928,6 +3934,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     give_skill?: ValueTypes['skills_order_by'] | undefined | null;
     giver_profile_public?:
@@ -4009,6 +4016,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
+    cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -12066,6 +12074,52 @@ export type ValueTypes = {
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
     avatar?: boolean | `@${string}`;
+    colinks_given?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_given_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     colinks_gives?: [
       {
         /** distinct select on columns */
@@ -12273,6 +12327,11 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
     address?: ValueTypes['String_comparison_exp'] | undefined | null;
     avatar?: ValueTypes['String_comparison_exp'] | undefined | null;
+    colinks_given?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+    colinks_given_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     colinks_gives?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     colinks_gives_aggregate?:
       | ValueTypes['colinks_gives_aggregate_bool_exp']
@@ -12316,6 +12375,10 @@ export type ValueTypes = {
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
     avatar?: ValueTypes['order_by'] | undefined | null;
+    colinks_given_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
     colinks_gives_aggregate?:
       | ValueTypes['colinks_gives_aggregate_order_by']
       | undefined
@@ -13852,10 +13915,6 @@ export type ValueTypes = {
     poap_holders_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['poap_holders'],
-    ];
-    price_per_share?: [
-      { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`,
     ];
     private_stream_visibility?: [
       {
@@ -19932,7 +19991,6 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
-    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -21327,6 +21385,7 @@ export type ModelTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     give_skill?: GraphQLTypes['skills'] | undefined;
@@ -21377,6 +21436,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -21389,6 +21449,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -24471,6 +24532,10 @@ export type ModelTypes = {
     address?: string | undefined;
     avatar?: string | undefined;
     /** An array relationship */
+    colinks_given: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_given_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
@@ -24724,7 +24789,6 @@ export type ModelTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** fetch data from the table: "private_stream_visibility" using primary key columns */
@@ -26150,7 +26214,6 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -28809,6 +28872,7 @@ export type GraphQLTypes = {
   ['colinks_gives']: {
     __typename: 'colinks_gives';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
     give_skill?: GraphQLTypes['skills'] | undefined;
@@ -28889,6 +28953,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    cast_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
@@ -28905,6 +28970,7 @@ export type GraphQLTypes = {
   ['colinks_gives_max_fields']: {
     __typename: 'colinks_gives_max_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -28915,6 +28981,7 @@ export type GraphQLTypes = {
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -28926,6 +28993,7 @@ export type GraphQLTypes = {
   ['colinks_gives_min_fields']: {
     __typename: 'colinks_gives_min_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -28936,6 +29004,7 @@ export type GraphQLTypes = {
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -28954,6 +29023,7 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
@@ -29031,6 +29101,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -35250,6 +35321,10 @@ export type GraphQLTypes = {
     address?: string | undefined;
     avatar?: string | undefined;
     /** An array relationship */
+    colinks_given: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_given_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
@@ -35287,6 +35362,10 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
     address?: GraphQLTypes['String_comparison_exp'] | undefined;
     avatar?: GraphQLTypes['String_comparison_exp'] | undefined;
+    colinks_given?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_given_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     colinks_gives?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_bool_exp']
@@ -35318,6 +35397,9 @@ export type GraphQLTypes = {
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
     avatar?: GraphQLTypes['order_by'] | undefined;
+    colinks_given_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_order_by']
       | undefined;
@@ -35640,7 +35722,6 @@ export type GraphQLTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** fetch data from the table: "private_stream_visibility" using primary key columns */
@@ -38173,7 +38254,6 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
-    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -38676,6 +38756,7 @@ export const enum claims_update_column {
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {
   activity_id = 'activity_id',
+  cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
   profile_id = 'profile_id',
