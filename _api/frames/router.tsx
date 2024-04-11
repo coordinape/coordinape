@@ -34,7 +34,7 @@ import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame
 // 1 hour
 const maxAge = 60 * 60;
 
-const CACHE_CONTENT = `max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
+const CACHE_CONTENT = `s-maxage=${maxAge} max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
 const DISABLE_CACHING = false;
 // no caching:
 // const CACHE_CONTENT =  'no-store, no-cache, must-revalidate, max-age=0'
