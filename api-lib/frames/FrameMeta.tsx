@@ -26,7 +26,7 @@ export const RenderFrameMeta = ({
 
   const scriptContent = `
     <script type="text/javascript">
-      window.location.href = "https://docs.coordinape.com/colinks/";
+      window.location.href = "https://docs.coordinape.com/colinks/give";
     </script>
  `;
 
