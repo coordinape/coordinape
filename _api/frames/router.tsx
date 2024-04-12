@@ -278,8 +278,8 @@ const addFrame = (frame: Frame) => {
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
-        height: 700,
-        width: 700,
+        height: 1000,
+        width: 1000,
         fonts,
       });
       res.setHeader('Cache-Control', CACHE_CONTENT);
