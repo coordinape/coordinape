@@ -5,6 +5,7 @@ import { Frame } from '../../_api/frames/router.tsx';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
 import { FrameBgImage } from './layoutFragments/FrameBgImage.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
+import { TRY_GIVEBOT_INTENT } from './routingUrls.ts';
 
 const imageNode = async () => {
   return (
@@ -65,7 +66,7 @@ const imageNode = async () => {
           </span>
         </div>
         <div tw="flex flex-col items-center">
-          <span>See this info again</span>
+          <span>{`GIVE Matters! Recognize friends' skills and build onchain reputation.`}</span>
           <span
             style={{
               background: 'white',
@@ -91,9 +92,14 @@ export const HelpFrame: Frame = {
   // TODO: change this
   buttons: [
     {
+      title: 'Learn More',
+      action: 'link',
+      target: 'https://docs.coordinape.com/colinks/give',
+    },
+    {
       title: 'Try @givebot',
       action: 'link',
-      target: 'https://warpcast.com/~/compose?text=@givebot',
+      target: TRY_GIVEBOT_INTENT,
     },
   ],
 };

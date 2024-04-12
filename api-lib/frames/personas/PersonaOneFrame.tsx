@@ -117,7 +117,7 @@ export const PersonaOneFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Send me a CoSoul',
+      title: 'Send me a CoSoul NFT',
       action: 'post',
       onPost: onPost,
     },

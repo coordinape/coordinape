@@ -50,7 +50,7 @@ const imageNode = async (params: Record<string, string>) => {
           >
             Welcome, {viewerProfile?.name}!
             <br />
-            Get started by Sending GIVE.
+            Get started by sending one of your 15 GIVE.
           </div>
         </FrameFooter>
       </FrameBody>
@@ -65,7 +65,7 @@ export const PersonaZeroFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Try @givebot',
+      title: 'How do I GIVE?',
       action: 'post',
       onPost: async () => HelpFrame,
     },
