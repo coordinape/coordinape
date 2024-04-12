@@ -13,10 +13,12 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
+import { TRY_GIVEBOT_INTENT } from '../MintSuccessFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
 
+  // TODO: Show how many GIV  E left to level up
   return (
     <FrameWrapper>
       <FrameBgImage src="persona-2.jpg" />
@@ -56,7 +58,7 @@ export const PersonaTwoFrame: Frame = {
     {
       title: 'Try @givebot',
       action: 'link',
-      target: 'https://warpcast.com/~/compose?text=@givebot',
+      target: TRY_GIVEBOT_INTENT,
     },
   ],
 };

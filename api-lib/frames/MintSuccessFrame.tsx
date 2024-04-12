@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Frame } from '../../_api/frames/router.tsx';
 import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
-import { webAppURL } from '../../src/config/webAppURL.ts';
-import { coLinksPaths } from '../../src/routes/paths.ts';
+import { insertInteractionEvents } from '../gql/mutations.ts';
 
+import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { getLevelForViewer } from './give/getLevelForViewer.tsx';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,
@@ -16,9 +17,19 @@ import { FrameBodyGradient } from './layoutFragments/FrameBodyGradient.tsx';
 import { FrameFooter } from './layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from './layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
+import { PersonaFourFrame } from './personas/PersonaFourFrame.tsx';
+import { PersonaOneFrame } from './personas/PersonaOneFrame.tsx';
+import { PersonaThreeFrame } from './personas/PersonaThreeFrame.tsx';
+import { PersonaTwoFrame } from './personas/PersonaTwoFrame.tsx';
+import { PersonaZeroFrame } from './personas/PersonaZeroFrame.tsx';
+
+export const TRY_GIVEBOT_INTENT =
+  'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
+
+  // TODO: calculate the number of GIVE left to level up
 
   return (
     <FrameWrapper>
@@ -41,13 +52,42 @@ const imageNode = async (params: Record<string, string>) => {
           />
         </FrameHeadline>
         <FrameFooter>
-          Level up more
+          Level up
           <br />
-          by joining CoLinks and giving GIVE
+          by giving more GIVE
         </FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
+};
+
+const onPost = async (info: FramePostInfo) => {
+  // Enter the Levels persona app
+  const level = await getLevelForViewer(info.profile.id);
+
+  await insertInteractionEvents({
+    event_type: 'post_mint_click',
+    profile_id: info.profile.id,
+    data: {
+      give_bot: true,
+      frame: 'give',
+      profile_level: level,
+      clicker_name: info.profile.name,
+    },
+  });
+
+  // route each level to its respective Persona
+  if (level === 1) {
+    return PersonaOneFrame;
+  } else if (level === 2) {
+    return PersonaTwoFrame;
+  } else if (level === 3) {
+    return PersonaThreeFrame;
+  } else if (level === 4) {
+    return PersonaFourFrame;
+  } else {
+    return PersonaZeroFrame;
+  }
 };
 
 export const MintSuccessFrame: Frame = {
@@ -57,15 +97,9 @@ export const MintSuccessFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Join CoLinks',
-      action: 'link',
-      target: webAppURL('colinks') + coLinksPaths.wizardStart,
-    },
-    {
-      title: 'Try @givebot',
-      action: 'link',
-      target:
-        'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag',
+      title: 'Level Up',
+      action: 'post',
+      onPost,
     },
   ],
 };
