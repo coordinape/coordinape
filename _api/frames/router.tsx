@@ -252,7 +252,10 @@ const addFrame = (frame: Frame) => {
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
       'GET',
       (_req, res, params) => {
-        if (!DISABLE_CACHING) {
+        if (DISABLE_CACHING) {
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        } else {
           res.setHeader('Cache-Control', CACHE_CONTENT);
         }
         res.setHeader('Content-Type', 'text/html');
@@ -269,7 +272,11 @@ const addFrame = (frame: Frame) => {
       // do things
       // actually parse the post????
       const info = await getFramePostInfo(req);
-      if (!DISABLE_CACHING) {
+
+      if (DISABLE_CACHING) {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else {
         res.setHeader('Cache-Control', CACHE_CONTENT);
       }
       return await handleButton(frame, params, info, res);
