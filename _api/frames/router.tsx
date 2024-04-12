@@ -35,7 +35,6 @@ import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame
 const maxAge = 60 * 60;
 
 const CACHE_CONTENT = `s-maxage=${maxAge} max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
-const DISABLE_CACHING = false;
 
 // no caching:
 // const CACHE_CONTENT =  'no-store, no-cache, must-revalidate, max-age=0'
@@ -252,7 +251,12 @@ const addFrame = (frame: Frame) => {
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
       'GET',
       (_req, res, params) => {
-        res.setHeader('Cache-Control', CACHE_CONTENT);
+        if (IS_LOCAL_ENV) {
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        } else {
+          res.setHeader('Cache-Control', CACHE_CONTENT);
+        }
         res.setHeader('Content-Type', 'text/html');
         RenderFrameMeta({ frame, res, params });
       }
@@ -267,7 +271,13 @@ const addFrame = (frame: Frame) => {
       // do things
       // actually parse the post????
       const info = await getFramePostInfo(req);
-      res.setHeader('Cache-Control', CACHE_CONTENT);
+
+      if (IS_LOCAL_ENV) {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else {
+        res.setHeader('Cache-Control', CACHE_CONTENT);
+      }
       return await handleButton(frame, params, info, res);
     }
   );
@@ -283,10 +293,11 @@ const addFrame = (frame: Frame) => {
         width: 1000,
         fonts,
       });
-      res.setHeader('Cache-Control', CACHE_CONTENT);
-      if (DISABLE_CACHING) {
+      if (IS_LOCAL_ENV) {
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
+      } else {
+        res.setHeader('Cache-Control', CACHE_CONTENT);
       }
       res.setHeader('Content-Type', 'image/png');
       Readable.fromWeb(ir.body as ReadableStream<any>).pipe(res);
