@@ -92,6 +92,11 @@ export const HelpFrame: Frame = {
   // TODO: change this
   buttons: [
     {
+      title: 'Learn More',
+      action: 'link',
+      target: 'https://docs.coordinape.com/colinks/give',
+    },
+    {
       title: 'Try @givebot',
       action: 'link',
       target: TRY_GIVEBOT_INTENT,

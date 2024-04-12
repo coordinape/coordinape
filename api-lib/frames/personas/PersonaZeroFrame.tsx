@@ -50,7 +50,7 @@ const imageNode = async (params: Record<string, string>) => {
           >
             Welcome, {viewerProfile?.name}!
             <br />
-            Get started by Sending GIVE.
+            Get started by sending one of your 15 GIVE.
           </div>
         </FrameFooter>
       </FrameBody>

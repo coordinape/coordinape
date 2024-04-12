@@ -4,7 +4,6 @@ import { VercelResponse } from '@vercel/node';
 import { renderToString } from 'react-dom/server';
 
 import { Frame } from '../../_api/frames/router.tsx';
-import { webAppURL } from '../../src/config/webAppURL.ts';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { FrameButton } from './FrameButton.tsx';
@@ -27,7 +26,7 @@ export const RenderFrameMeta = ({
 
   const scriptContent = `
     <script type="text/javascript">
-      window.location.href = "${webAppURL('colinks')}";
+      window.location.href = "https://docs.coordinape.com/colinks/";
     </script>
  `;
 
