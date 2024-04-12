@@ -36,6 +36,7 @@ const maxAge = 60 * 60;
 
 const CACHE_CONTENT = `s-maxage=${maxAge} max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
 const DISABLE_CACHING = false;
+
 // no caching:
 // const CACHE_CONTENT =  'no-store, no-cache, must-revalidate, max-age=0'
 
@@ -278,8 +279,8 @@ const addFrame = (frame: Frame) => {
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
-        height: 700,
-        width: 700,
+        height: 1000,
+        width: 1000,
         fonts,
       });
       res.setHeader('Cache-Control', CACHE_CONTENT);

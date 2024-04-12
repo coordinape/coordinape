@@ -65,7 +65,7 @@ export const PersonaZeroFrame: Frame = {
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {
-      title: 'Try @givebot',
+      title: 'How do I GIVE?',
       action: 'post',
       onPost: async () => HelpFrame,
     },

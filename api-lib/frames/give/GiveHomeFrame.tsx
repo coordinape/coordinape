@@ -164,7 +164,7 @@ export const GiveHomeFrame: Frame = {
   imageNode: homeFrameImageNode,
   buttons: [
     {
-      title: 'Get GIVE',
+      title: 'Get GIVE • Load my Profile',
       action: 'post',
       onPost: onPost,
     },

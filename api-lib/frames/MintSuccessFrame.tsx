@@ -23,9 +23,6 @@ import { PersonaThreeFrame } from './personas/PersonaThreeFrame.tsx';
 import { PersonaTwoFrame } from './personas/PersonaTwoFrame.tsx';
 import { PersonaZeroFrame } from './personas/PersonaZeroFrame.tsx';
 
-export const TRY_GIVEBOT_INTENT =
-  'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag';
-
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
 
