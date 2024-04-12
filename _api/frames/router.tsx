@@ -35,7 +35,6 @@ import { PersonaZeroFrame } from '../../api-lib/frames/personas/PersonaZeroFrame
 const maxAge = 60 * 60;
 
 const CACHE_CONTENT = `s-maxage=${maxAge} max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
-const DISABLE_CACHING = false;
 
 // no caching:
 // const CACHE_CONTENT =  'no-store, no-cache, must-revalidate, max-age=0'
@@ -252,7 +251,7 @@ const addFrame = (frame: Frame) => {
       `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
       'GET',
       (_req, res, params) => {
-        if (DISABLE_CACHING) {
+        if (IS_LOCAL_ENV) {
           res.setHeader('Pragma', 'no-cache');
           res.setHeader('Expires', '0');
         } else {
@@ -273,7 +272,7 @@ const addFrame = (frame: Frame) => {
       // actually parse the post????
       const info = await getFramePostInfo(req);
 
-      if (DISABLE_CACHING) {
+      if (IS_LOCAL_ENV) {
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
       } else {
@@ -294,7 +293,7 @@ const addFrame = (frame: Frame) => {
         width: 1000,
         fonts,
       });
-      if (DISABLE_CACHING) {
+      if (IS_LOCAL_ENV) {
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
       } else {
