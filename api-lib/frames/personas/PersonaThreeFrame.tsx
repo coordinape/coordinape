@@ -1,23 +1,25 @@
 import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
-import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { coLinksPaths } from '../../../src/routes/paths.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
-import {
-  FrameBgImage,
-  IMAGE_URL_BASE,
-} from '../layoutFragments/FrameBgImage.tsx';
+import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
+import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
+import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
+  const {
+    numGiveSent: giverTotalGiven,
+    numGiveReceived: receiverTotalReceived,
+  } = await fetchProfileInfo(viewerProfile?.id);
 
   return (
     <FrameWrapper>
@@ -31,12 +33,11 @@ const imageNode = async (params: Record<string, string>) => {
           }}
         />
         <FrameHeadline>
-          <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Level 3</div>
-          <img
-            alt="gem"
-            src={IMAGE_URL_BASE + 'GemWhite.png'}
-            style={{ width: 80, height: 80 }}
+          <FramePersonaHeadline
+            avatar={viewerProfile?.avatar}
+            giverTotalGiven={giverTotalGiven}
+            receiverTotalReceived={receiverTotalReceived}
+            level="3"
           />
         </FrameHeadline>
         <FrameFooter>
