@@ -83,12 +83,10 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
         </Text>
         <Panel neutral>
           <Text inline size="small" css={{ textAlign: 'center' }}>
-            Please deposit at least{' '}
-            <Text inline semibold>
-              0.05-0.1 ETH
-            </Text>
-            <br />
-            to your Optimism wallet
+            CoLinks is built on the Optimism blockchain (OP), and requires a
+            little bit of ETH on Optimism for gas to get started. We&apos;ve
+            made it easy and super cheap, especially if you&apos;re moving from
+            another L2 (eg. Base, Arbitrum).
           </Text>
           <Flex column css={{ mt: '$sm' }}>
             {defaultAvailableChains.includes(chainId as ChainId) &&
