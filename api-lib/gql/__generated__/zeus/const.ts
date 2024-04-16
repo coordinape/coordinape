@@ -7827,6 +7827,8 @@ export const AllTypesProps: Record<string, any> = {
     reaction_id: 'bigint_comparison_exp',
     reply: 'replies_bool_exp',
     reply_id: 'Int_comparison_exp',
+    second_actor_profile_id: 'bigint_comparison_exp',
+    second_actor_public_profile: 'profiles_public_bool_exp',
   },
   notifications_constraint: true,
   notifications_inc_input: {
@@ -7834,6 +7836,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_joined_id: 'bigint',
     profile_id: 'bigint',
     reaction_id: 'bigint',
+    second_actor_profile_id: 'bigint',
   },
   notifications_insert_input: {
     actor_profile_id: 'bigint',
@@ -7851,6 +7854,8 @@ export const AllTypesProps: Record<string, any> = {
     reaction: 'reactions_obj_rel_insert_input',
     reaction_id: 'bigint',
     reply: 'replies_obj_rel_insert_input',
+    second_actor_profile_id: 'bigint',
+    second_actor_public_profile: 'profiles_public_obj_rel_insert_input',
   },
   notifications_on_conflict: {
     constraint: 'notifications_constraint',
@@ -7878,6 +7883,8 @@ export const AllTypesProps: Record<string, any> = {
     reaction_id: 'order_by',
     reply: 'replies_order_by',
     reply_id: 'order_by',
+    second_actor_profile_id: 'order_by',
+    second_actor_public_profile: 'profiles_public_order_by',
   },
   notifications_pk_columns_input: {},
   notifications_select_column: true,
@@ -7888,6 +7895,7 @@ export const AllTypesProps: Record<string, any> = {
     link_tx_hash: 'citext',
     profile_id: 'bigint',
     reaction_id: 'bigint',
+    second_actor_profile_id: 'bigint',
   },
   notifications_stream_cursor_input: {
     initial_value: 'notifications_stream_cursor_value_input',
@@ -7900,6 +7908,7 @@ export const AllTypesProps: Record<string, any> = {
     link_tx_hash: 'citext',
     profile_id: 'bigint',
     reaction_id: 'bigint',
+    second_actor_profile_id: 'bigint',
   },
   notifications_update_column: true,
   notifications_updates: {
@@ -18823,6 +18832,8 @@ export const ReturnTypes: Record<string, any> = {
     reaction_id: 'bigint',
     reply: 'replies',
     reply_id: 'Int',
+    second_actor_profile_id: 'bigint',
+    second_actor_public_profile: 'profiles_public',
   },
   notifications_aggregate: {
     aggregate: 'notifications_aggregate_fields',
@@ -18851,6 +18862,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_max_fields: {
     actor_profile_id: 'bigint',
@@ -18864,6 +18876,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     reaction_id: 'bigint',
     reply_id: 'Int',
+    second_actor_profile_id: 'bigint',
   },
   notifications_min_fields: {
     actor_profile_id: 'bigint',
@@ -18877,6 +18890,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     reaction_id: 'bigint',
     reply_id: 'Int',
+    second_actor_profile_id: 'bigint',
   },
   notifications_mutation_response: {
     affected_rows: 'Int',
@@ -18892,6 +18906,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_stddev_pop_fields: {
     actor_profile_id: 'Float',
@@ -18903,6 +18918,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_stddev_samp_fields: {
     actor_profile_id: 'Float',
@@ -18914,6 +18930,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_sum_fields: {
     actor_profile_id: 'bigint',
@@ -18925,6 +18942,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     reaction_id: 'bigint',
     reply_id: 'Int',
+    second_actor_profile_id: 'bigint',
   },
   notifications_var_pop_fields: {
     actor_profile_id: 'Float',
@@ -18936,6 +18954,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_var_samp_fields: {
     actor_profile_id: 'Float',
@@ -18947,6 +18966,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   notifications_variance_fields: {
     actor_profile_id: 'Float',
@@ -18958,6 +18978,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     reaction_id: 'Float',
     reply_id: 'Float',
+    second_actor_profile_id: 'Float',
   },
   org_members: {
     created_at: 'timestamp',

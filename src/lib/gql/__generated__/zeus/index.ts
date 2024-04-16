@@ -9608,6 +9608,8 @@ export type ValueTypes = {
     /** An object relationship */
     reply?: ValueTypes['replies'];
     reply_id?: boolean | `@${string}`;
+    /** An object relationship */
+    second_actor_public_profile?: ValueTypes['profiles_public'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "notifications" */
@@ -9680,6 +9682,10 @@ export type ValueTypes = {
     reaction_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     reply?: ValueTypes['replies_bool_exp'] | undefined | null;
     reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    second_actor_public_profile?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ['notifications_max_fields']: AliasType<{
@@ -9733,6 +9739,10 @@ export type ValueTypes = {
     reaction_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['replies_order_by'] | undefined | null;
     reply_id?: ValueTypes['order_by'] | undefined | null;
+    second_actor_public_profile?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "notifications" */
   ['notifications_select_column']: notifications_select_column;
@@ -23634,6 +23644,8 @@ export type ModelTypes = {
     /** An object relationship */
     reply?: GraphQLTypes['replies'] | undefined;
     reply_id?: number | undefined;
+    /** An object relationship */
+    second_actor_public_profile?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** aggregated selection of "notifications" */
   ['notifications_aggregate']: {
@@ -33354,6 +33366,8 @@ export type GraphQLTypes = {
     /** An object relationship */
     reply?: GraphQLTypes['replies'] | undefined;
     reply_id?: number | undefined;
+    /** An object relationship */
+    second_actor_public_profile?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** aggregated selection of "notifications" */
   ['notifications_aggregate']: {
@@ -33412,6 +33426,9 @@ export type GraphQLTypes = {
     reaction_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reply?: GraphQLTypes['replies_bool_exp'] | undefined;
     reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    second_actor_public_profile?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
   };
   /** aggregate max on columns */
   ['notifications_max_fields']: {
@@ -33461,6 +33478,9 @@ export type GraphQLTypes = {
     reaction_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['replies_order_by'] | undefined;
     reply_id?: GraphQLTypes['order_by'] | undefined;
+    second_actor_public_profile?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
   };
   /** select columns of table "notifications" */
   ['notifications_select_column']: notifications_select_column;

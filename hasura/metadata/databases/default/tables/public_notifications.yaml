@@ -59,6 +59,15 @@ object_relationships:
   - name: reply
     using:
       foreign_key_constraint_on: reply_id
+  - name: second_actor_public_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          second_actor_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
 select_permissions:
   - role: user
     permission:

@@ -57,6 +57,12 @@ const fetchNotifications = async () => {
             address: true,
             id: true,
           },
+          second_actor_public_profile: {
+            avatar: true,
+            name: true,
+            address: true,
+            id: true,
+          },
           reaction: {
             reaction: true,
             profile_id: true,
@@ -131,6 +137,9 @@ const fetchNotifications = async () => {
 type Notification = Awaited<ReturnType<typeof fetchNotifications>>[number];
 
 export type Actor = NonNullable<Notification['actor_profile_public']>;
+export type SecondActor = NonNullable<
+  Notification['second_actor_public_profile']
+>;
 export type Profile = NonNullable<Notification['profile']>;
 export type LinkTx = NonNullable<Notification['link_tx']>;
 export type Reply = NonNullable<Notification['reply']>;
@@ -223,7 +232,11 @@ export const NotificationsPage = () => {
             }
             if (n.reply) {
               content = (
-                <Reply reply={n.reply} actor={n.actor_profile_public} />
+                <Reply
+                  reply={n.reply}
+                  actor={n.actor_profile_public}
+                  secondActor={n.second_actor_public_profile}
+                />
               );
             } else if (n.mention_reply) {
               content = (
@@ -331,7 +344,15 @@ export const MentionReply = ({
     </NotificationItem>
   );
 };
-export const Reply = ({ reply, actor }: { reply: Reply; actor?: Actor }) => {
+export const Reply = ({
+  reply,
+  actor,
+  secondActor,
+}: {
+  reply: Reply;
+  actor?: Actor;
+  secondActor?: SecondActor;
+}) => {
   return (
     <NotificationItem>
       <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
@@ -367,7 +388,31 @@ export const Reply = ({ reply, actor }: { reply: Reply; actor?: Actor }) => {
                 textDecoration: 'none',
               }}
             >
-              <Text size="small">replied to your post</Text>
+              {secondActor?.id ? (
+                secondActor.id === actor?.id ? (
+                  <Text size="small">replied to their post </Text>
+                ) : (
+                  <Text size="small" css={{ whiteSpace: 'pre' }}>
+                    replied to a post by{' '}
+                    <Link
+                      as={NavLink}
+                      css={{
+                        display: 'inline',
+                        alignItems: 'center',
+                        gap: '$xs',
+                        mr: '$xs',
+                      }}
+                      to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+                    >
+                      <Text inline semibold size="small">
+                        {secondActor?.name}
+                      </Text>
+                    </Link>
+                  </Text>
+                )
+              ) : (
+                <Text size="small">replied to your post</Text>
+              )}
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
               </Text>

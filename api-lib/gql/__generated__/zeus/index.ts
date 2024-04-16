@@ -20519,6 +20519,9 @@ export type ValueTypes = {
     /** An object relationship */
     reply?: ValueTypes['replies'];
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    second_actor_public_profile?: ValueTypes['profiles_public'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "notifications" */
@@ -20562,6 +20565,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
@@ -20595,6 +20599,14 @@ export type ValueTypes = {
     reaction_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     reply?: ValueTypes['replies_bool_exp'] | undefined | null;
     reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    second_actor_profile_id?:
+      | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
+    second_actor_public_profile?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
   };
   /** unique or primary key constraints on table "notifications" */
   ['notifications_constraint']: notifications_constraint;
@@ -20609,6 +20621,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
+    second_actor_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "notifications" */
   ['notifications_insert_input']: {
@@ -20644,6 +20657,11 @@ export type ValueTypes = {
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply?: ValueTypes['replies_obj_rel_insert_input'] | undefined | null;
     reply_id?: number | undefined | null;
+    second_actor_profile_id?: ValueTypes['bigint'] | undefined | null;
+    second_actor_public_profile?:
+      | ValueTypes['profiles_public_obj_rel_insert_input']
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ['notifications_max_fields']: AliasType<{
@@ -20658,6 +20676,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate min on columns */
@@ -20673,6 +20692,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** response of any mutation on the table "notifications" */
@@ -20717,6 +20737,11 @@ export type ValueTypes = {
     reaction_id?: ValueTypes['order_by'] | undefined | null;
     reply?: ValueTypes['replies_order_by'] | undefined | null;
     reply_id?: ValueTypes['order_by'] | undefined | null;
+    second_actor_profile_id?: ValueTypes['order_by'] | undefined | null;
+    second_actor_public_profile?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
   };
   /** primary key columns input for table: notifications */
   ['notifications_pk_columns_input']: {
@@ -20737,6 +20762,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
+    second_actor_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate stddev on columns */
   ['notifications_stddev_fields']: AliasType<{
@@ -20749,6 +20775,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
@@ -20762,6 +20789,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
@@ -20775,6 +20803,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Streaming cursor of the table "notifications" */
@@ -20797,6 +20826,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     reaction_id?: ValueTypes['bigint'] | undefined | null;
     reply_id?: number | undefined | null;
+    second_actor_profile_id?: ValueTypes['bigint'] | undefined | null;
   };
   /** aggregate sum on columns */
   ['notifications_sum_fields']: AliasType<{
@@ -20809,6 +20839,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** update columns of table "notifications" */
@@ -20832,6 +20863,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
@@ -20845,6 +20877,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
@@ -20858,6 +20891,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     reaction_id?: boolean | `@${string}`;
     reply_id?: boolean | `@${string}`;
+    second_actor_profile_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['numeric']: unknown;
@@ -48284,6 +48318,9 @@ export type ModelTypes = {
     /** An object relationship */
     reply?: GraphQLTypes['replies'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    second_actor_public_profile?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** aggregated selection of "notifications" */
   ['notifications_aggregate']: {
@@ -48315,6 +48352,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
   ['notifications_bool_exp']: GraphQLTypes['notifications_bool_exp'];
@@ -48337,6 +48375,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['notifications_min_fields']: {
@@ -48351,6 +48390,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** response of any mutation on the table "notifications" */
   ['notifications_mutation_response']: {
@@ -48380,6 +48420,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['notifications_stddev_pop_fields']: {
@@ -48392,6 +48433,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['notifications_stddev_samp_fields']: {
@@ -48404,6 +48446,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** Streaming cursor of the table "notifications" */
   ['notifications_stream_cursor_input']: GraphQLTypes['notifications_stream_cursor_input'];
@@ -48420,6 +48463,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "notifications" */
   ['notifications_update_column']: GraphQLTypes['notifications_update_column'];
@@ -48435,6 +48479,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['notifications_var_samp_fields']: {
@@ -48447,6 +48492,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['notifications_variance_fields']: {
@@ -48459,6 +48505,7 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -69018,6 +69065,9 @@ export type GraphQLTypes = {
     /** An object relationship */
     reply?: GraphQLTypes['replies'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    second_actor_public_profile?: GraphQLTypes['profiles_public'] | undefined;
   };
   /** aggregated selection of "notifications" */
   ['notifications_aggregate']: {
@@ -69052,6 +69102,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "notifications". All fields are combined with a logical 'AND'. */
   ['notifications_bool_exp']: {
@@ -69080,6 +69131,10 @@ export type GraphQLTypes = {
     reaction_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     reply?: GraphQLTypes['replies_bool_exp'] | undefined;
     reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    second_actor_public_profile?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
   };
   /** unique or primary key constraints on table "notifications" */
   ['notifications_constraint']: notifications_constraint;
@@ -69094,6 +69149,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "notifications" */
   ['notifications_insert_input']: {
@@ -69123,6 +69179,10 @@ export type GraphQLTypes = {
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply?: GraphQLTypes['replies_obj_rel_insert_input'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
+    second_actor_public_profile?:
+      | GraphQLTypes['profiles_public_obj_rel_insert_input']
+      | undefined;
   };
   /** aggregate max on columns */
   ['notifications_max_fields']: {
@@ -69138,6 +69198,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate min on columns */
   ['notifications_min_fields']: {
@@ -69153,6 +69214,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** response of any mutation on the table "notifications" */
   ['notifications_mutation_response']: {
@@ -69192,6 +69254,10 @@ export type GraphQLTypes = {
     reaction_id?: GraphQLTypes['order_by'] | undefined;
     reply?: GraphQLTypes['replies_order_by'] | undefined;
     reply_id?: GraphQLTypes['order_by'] | undefined;
+    second_actor_profile_id?: GraphQLTypes['order_by'] | undefined;
+    second_actor_public_profile?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
   };
   /** primary key columns input for table: notifications */
   ['notifications_pk_columns_input']: {
@@ -69212,6 +69278,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate stddev on columns */
   ['notifications_stddev_fields']: {
@@ -69225,6 +69292,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['notifications_stddev_pop_fields']: {
@@ -69238,6 +69306,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['notifications_stddev_samp_fields']: {
@@ -69251,6 +69320,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** Streaming cursor of the table "notifications" */
   ['notifications_stream_cursor_input']: {
@@ -69272,6 +69342,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** aggregate sum on columns */
   ['notifications_sum_fields']: {
@@ -69285,6 +69356,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     reaction_id?: GraphQLTypes['bigint'] | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "notifications" */
   ['notifications_update_column']: notifications_update_column;
@@ -69308,6 +69380,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['notifications_var_samp_fields']: {
@@ -69321,6 +69394,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['notifications_variance_fields']: {
@@ -69334,6 +69408,7 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reaction_id?: number | undefined;
     reply_id?: number | undefined;
+    second_actor_profile_id?: number | undefined;
   };
   ['numeric']: any;
   /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
@@ -80581,6 +80656,7 @@ export const enum notifications_select_column {
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',
+  second_actor_profile_id = 'second_actor_profile_id',
 }
 /** update columns of table "notifications" */
 export const enum notifications_update_column {
@@ -80595,6 +80671,7 @@ export const enum notifications_update_column {
   profile_id = 'profile_id',
   reaction_id = 'reaction_id',
   reply_id = 'reply_id',
+  second_actor_profile_id = 'second_actor_profile_id',
 }
 /** column ordering options */
 export const enum order_by {

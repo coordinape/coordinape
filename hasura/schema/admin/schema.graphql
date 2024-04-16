@@ -29255,6 +29255,12 @@ type notifications {
   """
   reply: replies
   reply_id: Int
+  second_actor_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  second_actor_public_profile: profiles_public
 }
 
 """
@@ -29295,6 +29301,7 @@ type notifications_avg_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29324,6 +29331,8 @@ input notifications_bool_exp {
   reaction_id: bigint_comparison_exp
   reply: replies_bool_exp
   reply_id: Int_comparison_exp
+  second_actor_profile_id: bigint_comparison_exp
+  second_actor_public_profile: profiles_public_bool_exp
 }
 
 """
@@ -29349,6 +29358,7 @@ input notifications_inc_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29375,6 +29385,8 @@ input notifications_insert_input {
   reaction_id: bigint
   reply: replies_obj_rel_insert_input
   reply_id: Int
+  second_actor_profile_id: bigint
+  second_actor_public_profile: profiles_public_obj_rel_insert_input
 }
 
 """
@@ -29392,6 +29404,7 @@ type notifications_max_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29409,6 +29422,7 @@ type notifications_min_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29459,6 +29473,8 @@ input notifications_order_by {
   reaction_id: order_by
   reply: replies_order_by
   reply_id: order_by
+  second_actor_profile_id: order_by
+  second_actor_public_profile: profiles_public_order_by
 }
 
 """
@@ -29526,6 +29542,11 @@ enum notifications_select_column {
   column name
   """
   reply_id
+
+  """
+  column name
+  """
+  second_actor_profile_id
 }
 
 """
@@ -29543,6 +29564,7 @@ input notifications_set_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29558,6 +29580,7 @@ type notifications_stddev_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29573,6 +29596,7 @@ type notifications_stddev_pop_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29588,6 +29612,7 @@ type notifications_stddev_samp_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29620,6 +29645,7 @@ input notifications_stream_cursor_value_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29635,6 +29661,7 @@ type notifications_sum_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  second_actor_profile_id: bigint
 }
 
 """
@@ -29695,6 +29722,11 @@ enum notifications_update_column {
   column name
   """
   reply_id
+
+  """
+  column name
+  """
+  second_actor_profile_id
 }
 
 input notifications_updates {
@@ -29727,6 +29759,7 @@ type notifications_var_pop_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29742,6 +29775,7 @@ type notifications_var_samp_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 """
@@ -29757,6 +29791,7 @@ type notifications_variance_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  second_actor_profile_id: Float
 }
 
 scalar numeric

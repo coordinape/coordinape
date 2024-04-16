@@ -4182,6 +4182,7 @@ export const AllTypesProps: Record<string, any> = {
     reaction_id: 'bigint_comparison_exp',
     reply: 'replies_bool_exp',
     reply_id: 'Int_comparison_exp',
+    second_actor_public_profile: 'profiles_public_bool_exp',
   },
   notifications_order_by: {
     actor_profile_public: 'profiles_public_order_by',
@@ -4202,6 +4203,7 @@ export const AllTypesProps: Record<string, any> = {
     reaction_id: 'order_by',
     reply: 'replies_order_by',
     reply_id: 'order_by',
+    second_actor_public_profile: 'profiles_public_order_by',
   },
   notifications_select_column: true,
   notifications_stream_cursor_input: {
@@ -10014,6 +10016,7 @@ export const ReturnTypes: Record<string, any> = {
     reaction_id: 'bigint',
     reply: 'replies',
     reply_id: 'Int',
+    second_actor_public_profile: 'profiles_public',
   },
   notifications_aggregate: {
     aggregate: 'notifications_aggregate_fields',

@@ -12841,6 +12841,11 @@ type notifications {
   """
   reply: replies
   reply_id: Int
+
+  """
+  An object relationship
+  """
+  second_actor_public_profile: profiles_public
 }
 
 """
@@ -12906,6 +12911,7 @@ input notifications_bool_exp {
   reaction_id: bigint_comparison_exp
   reply: replies_bool_exp
   reply_id: Int_comparison_exp
+  second_actor_public_profile: profiles_public_bool_exp
 }
 
 """
@@ -12960,6 +12966,7 @@ input notifications_order_by {
   reaction_id: order_by
   reply: replies_order_by
   reply_id: order_by
+  second_actor_public_profile: profiles_public_order_by
 }
 
 """
