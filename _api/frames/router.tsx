@@ -295,8 +295,8 @@ const addFrame = (frame: Frame) => {
         // debug: true,
         ...(frame.aspectRatio === '1.91:1'
           ? {
-              height: 1146,
-              width: 600,
+              height: 600,
+              width: 1146,
             }
           : {
               height: 1000,

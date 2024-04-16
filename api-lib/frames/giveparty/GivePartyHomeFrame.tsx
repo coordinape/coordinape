@@ -6,14 +6,8 @@ import { insertCoLinksGive } from '../../insertCoLinksGive.ts';
 import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { ErrorFrameImage } from '../ErrorFrame.tsx';
-import {
-  FrameBgImage,
-  IMAGE_URL_BASE,
-} from '../layoutFragments/FrameBgImage.tsx';
-import { FrameBody } from '../layoutFragments/FrameBody.tsx';
+import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
-import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
-import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 import { getContextFromParams } from './getContextFromParams.ts';
@@ -40,20 +34,19 @@ const givePartyImageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src={`tacos.jpg`} />
-      <FrameBody>
-        <FrameBodyGradient
-          gradientStyles={{
-            background:
-              'radial-gradient(circle at 25% 0%, #E31A1A 0%, #790066 80%)',
-            opacity: 0.7,
-          }}
-        />
-        <FrameHeadline>
-          <div tw="flex items-center grow justify-center">
-            its a give party yall big up the people who are good at stuff
-          </div>
-          <div tw="flex items-center grow justify-center">
+      <FrameBodyGradient
+        gradientStyles={{
+          background:
+            'radial-gradient(circle at 25% 0%, #E31A1A 0%, #790066 80%)',
+        }}
+      />
+      <div
+        tw="flex h-full items-center text-center"
+        style={{ fontSize: 60, fontWeight: 600 }}
+      >
+        <div tw="flex flex-col" style={{ gap: 60 }}>
+          its a give party yall big up the people who are good at stuff
+          <div tw="flex items-center justify-center">
             <img
               alt="gem"
               src={IMAGE_URL_BASE + 'GemWhite.png'}
@@ -61,42 +54,22 @@ const givePartyImageNode = async (params: Record<string, string>) => {
             />
             <span>#{skill}</span>
           </div>
-        </FrameHeadline>
-        <FrameFooter>
+        </div>
+        {error_message && (
           <div
-            tw="flex w-full items-center justify-between"
-            style={{ fontWeight: 400 }}
+            tw="flex w-full text-center justify-center"
+            style={{
+              background: 'black',
+              padding: 20,
+              position: 'absolute',
+              bottom: 0,
+              fontSize: 40,
+            }}
           >
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <span style={{ fontWeight: 600 }}>its a party bro</span>
-            </div>
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'flex-end',
-              }}
-            >
-              <span style={{ fontWeight: 600 }}>party time</span>
-            </div>
+            {error_message}
           </div>
-          {error_message && (
-            <div
-              style={{
-                display: 'flex',
-                fontSize: '32px',
-                background: 'red',
-                width: '100%',
-                padding: '8px',
-                fontWeight: 600,
-                marginTop: '24px',
-              }}
-            >
-              <span>{error_message}</span>
-            </div>
-          )}
-        </FrameFooter>
-      </FrameBody>
+        )}
+      </div>
     </FrameWrapper>
   );
 };
