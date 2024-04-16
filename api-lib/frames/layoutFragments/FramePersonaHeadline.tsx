@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { OGAvatar } from '../../../_api/og/OGAvatar';
+import { MAX_GIVE } from '../../../src/features/points/getAvailablePoints';
 
 import { IMAGE_URL_BASE } from './FrameBgImage';
 
@@ -29,6 +30,9 @@ export const FramePersonaHeadline = ({
             <span style={{ fontWeight: 400 }}>GIVE Available</span>
             <span style={{ fontWeight: 600, marginLeft: 12 }}>
               {giveAvailable}
+            </span>
+            <span style={{ fontWeight: 400, marginLeft: 10 }}>
+              of {MAX_GIVE}
             </span>
           </div>
         </div>
