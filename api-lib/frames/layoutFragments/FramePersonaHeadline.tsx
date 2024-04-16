@@ -8,11 +8,13 @@ export const FramePersonaHeadline = ({
   avatar,
   giverTotalGiven,
   receiverTotalReceived,
+  giveAvailable,
   level,
 }: {
   avatar?: string;
   giverTotalGiven: number;
   receiverTotalReceived: number;
+  giveAvailable?: number;
   level: string;
 }) => {
   return (
@@ -21,10 +23,17 @@ export const FramePersonaHeadline = ({
         <div tw="flex items-center">
           <OGAvatar avatar={avatar} />
         </div>
-        <div tw="flex items-center" style={{ fontSize: 55 }}>
-          Level {level}
+        <div tw="flex flex-col" style={{ fontSize: 38, lineHeight: 1, gap: 5 }}>
+          <div tw="flex">Level {level}</div>
+          <div tw="flex leading-none">
+            <span style={{ fontWeight: 400 }}>GIVE Available</span>
+            <span style={{ fontWeight: 600, marginLeft: 12 }}>
+              {giveAvailable}
+            </span>
+          </div>
         </div>
       </div>
+
       <div tw="flex items-center" style={{ gap: 20 }}>
         <div
           tw="flex flex-col items-end"

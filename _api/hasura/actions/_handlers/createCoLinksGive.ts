@@ -168,5 +168,7 @@ export const fetchPoints = async (profileId: number) => {
     profiles_by_pk.points_checkpointed_at
   );
 
-  return { points, canGive: points >= POINTS_PER_GIVE };
+  const give = points ? Math.floor(points / POINTS_PER_GIVE) : undefined;
+
+  return { points, give, canGive: points >= POINTS_PER_GIVE };
 };
