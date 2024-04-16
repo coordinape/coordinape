@@ -18,7 +18,7 @@ import { FrameHeadline } from './layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
 import { TRY_GIVEBOT_INTENT } from './routingUrls.ts';
 
-const imageNode = async (params: Record<string, string>) => {
+export const ErrorFrameImage = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
   const { error_message } = params;
 
@@ -55,7 +55,7 @@ const imageNode = async (params: Record<string, string>) => {
 export const ErrorFrame = (message?: string): Frame => ({
   id: 'error_frame',
   homeFrame: false,
-  imageNode: imageNode,
+  imageNode: ErrorFrameImage,
   errorMessage: message,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [

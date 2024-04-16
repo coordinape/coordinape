@@ -45,6 +45,9 @@ export const RenderFrameMeta = ({
             target={button.target}
           />
         ))}
+        {frame.inputText && (
+          <meta name="fc:frame:input:text" content={frame.inputText(params)} />
+        )}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={imgSrc} />
         <meta property="og:image" content={imgSrc} />

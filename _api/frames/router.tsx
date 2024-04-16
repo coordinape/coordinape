@@ -22,6 +22,9 @@ import { ErrorFrame } from '../../api-lib/frames/ErrorFrame.tsx';
 import { RenderFrameMeta } from '../../api-lib/frames/FrameMeta.tsx';
 import { FrontDoor } from '../../api-lib/frames/FrontDoorFrame.tsx';
 import { GiveHomeFrame } from '../../api-lib/frames/give/GiveHomeFrame.tsx';
+import { GivePartyHomeFrame } from '../../api-lib/frames/giveparty/GivePartyHomeFrame.tsx';
+import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
+import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
 import { MintWaitingFrame } from '../../api-lib/frames/MintWaitingFrame.tsx';
@@ -93,7 +96,6 @@ export const createImage = (fileNameWithExt: string) => {
   } else {
     imageData = readFileSync(join(__dirname, `./${file}.jpg`));
   }
-  console.log('returning imgData', { imageData });
   return imageData;
 };
 
@@ -231,6 +233,7 @@ export type Frame = {
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
   errorMessage?: string;
+  inputText?: (params: Record<string, string>) => string;
 };
 
 export type Button = {
@@ -336,3 +339,8 @@ addFrame(MintWaitingFrame);
 addFrame(ErrorFrame());
 addFrame(HelpFrame);
 addFrame(FrontDoor);
+
+// GiveParty
+addFrame(GivePartyHomeFrame());
+addFrame(JoinedPartyFrame);
+addFrame(PartyHelpFrame);
