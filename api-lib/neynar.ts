@@ -1,12 +1,13 @@
 import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-import { EmbeddedCast } from '@neynar/nodejs-sdk/build/neynar-api/v2';
+import { EmbedUrl } from '@neynar/nodejs-sdk/build/neynar-api/v2';
 
 import { NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
+import { postToWarpcast } from './warpcast';
 
 const client = new NeynarAPIClient(NEYNAR_API_KEY);
 
 type PublishCastOptions = {
-  embeds?: EmbeddedCast[];
+  embeds?: EmbedUrl[];
   replyTo?: string;
   channelId?: string;
 };
@@ -26,6 +27,29 @@ export const publishCast = async (
   options: PublishCastOptions
 ) => {
   try {
+    // Try to publish the cast via Warpcast API, catch errors and publish via Neynar
+    try {
+      let embeds: string[] = [];
+
+      if (options.embeds) {
+        embeds = options.embeds.map(embed => embed.url);
+      }
+
+      const response = await postToWarpcast({
+        text: text,
+        embeds: embeds,
+        parent_hash: options.replyTo,
+      });
+
+      return response;
+    } catch (err) {
+      console.error(
+        'Warpcast posting failed with err: ',
+        err,
+        '\nFalling back to Neynar...'
+      );
+    }
+
     const response = await client.publishCast(
       NEYNAR_BOT_SIGNER_UUID,
       text,

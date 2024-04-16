@@ -162,3 +162,7 @@ export const NEYNAR_BOT_SIGNER_UUID: string = getEnvValue(
   'NEYNAR_BOT_SIGNER_UUID',
   'neynar_bot_signer_uuid'
 );
+export const WARPCAST_GIVEBOT_AUTH: string = getEnvValue(
+  'WARPCAST_GIVEBOT_AUTH',
+  'warpcast_givebot_auth_default'
+);
