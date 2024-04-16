@@ -85,6 +85,7 @@ const imageNode = async () => {
 
 export const PartyHelpFrame: Frame = {
   id: 'party.help',
+  aspectRatio: '1.91:1',
   homeFrame: true,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,

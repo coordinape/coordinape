@@ -234,6 +234,7 @@ export type Frame = {
   resourceIdentifier: ResourceIdentifier;
   errorMessage?: string;
   inputText?: (params: Record<string, string>) => string;
+  aspectRatio?: '1:1' | '1.91:1' | undefined;
 };
 
 export type Button = {
@@ -292,8 +293,15 @@ const addFrame = (frame: Frame) => {
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
-        height: 1000,
-        width: 1000,
+        ...(frame.aspectRatio === '1.91:1'
+          ? {
+              height: 1146,
+              width: 600,
+            }
+          : {
+              height: 1000,
+              width: 1000,
+            }),
         fonts,
       });
       if (IS_LOCAL_ENV) {

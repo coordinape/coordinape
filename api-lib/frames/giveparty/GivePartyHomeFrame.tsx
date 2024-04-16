@@ -171,6 +171,7 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
 
 export const GivePartyHomeFrame = (errorMessage?: string): Frame => ({
   id: 'give.party',
+  aspectRatio: '1.91:1',
   homeFrame: true,
   resourceIdentifier: skillResourceIdentifier,
   errorMessage: errorMessage,

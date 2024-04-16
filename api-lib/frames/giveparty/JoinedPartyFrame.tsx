@@ -62,6 +62,7 @@ const imageNode = async (params: Record<string, string>) => {
 
 export const JoinedPartyFrame: Frame = {
   id: 'joined.party',
+  aspectRatio: '1.91:1',
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
