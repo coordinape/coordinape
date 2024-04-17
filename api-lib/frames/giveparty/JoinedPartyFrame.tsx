@@ -3,13 +3,10 @@ import React from 'react';
 import { Frame } from '../../../_api/frames/router.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
-import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
-import { FrameBody } from '../layoutFragments/FrameBody.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
-import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
-import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
+import { PartyText } from '../layoutFragments/PartyText.tsx';
 
 import { onSendGIVEPost } from './onSendGIVEPost.tsx';
 import { PartyHelpFrame } from './PartyHelpFrame.tsx';
@@ -24,39 +21,34 @@ const imageNode = async (params: Record<string, string>) => {
 
   return (
     <FrameWrapper>
-      <FrameBgImage src="margaritas.jpg" />
-      <FrameBody>
-        <FrameBodyGradient
-          gradientStyles={{
-            background:
-              'radial-gradient(circle at 25% 0%, #135A95 0%, #092031 80%)',
-            opacity: 0.7,
+      <FrameBodyGradient
+        gradientStyles={{
+          background:
+            'radial-gradient(circle at 25% 10%, #6315BF 30%, #00AEF9 80%)',
+        }}
+      />
+      <div
+        tw="flex flex-col h-full w-full items-start justify-between"
+        style={{ padding: 30, gap: 30 }}
+      >
+        <div
+          tw="w-full h-full flex flex-col"
+          style={{
+            padding: '20px 32px',
+            fontSize: 80,
           }}
+        >
+          Now it&apos;s a party!
+          <br />
+          You gave a GIVE to <PartyText text={`@singer`} />
+        </div>
+        <FramePersonaHeadline
+          avatar={viewerProfile?.avatar}
+          giverTotalGiven={giverTotalGiven}
+          receiverTotalReceived={receiverTotalReceived}
+          level="0"
         />
-        <FrameHeadline>
-          <FramePersonaHeadline
-            avatar={viewerProfile?.avatar}
-            giverTotalGiven={giverTotalGiven}
-            receiverTotalReceived={receiverTotalReceived}
-            level="0"
-          />
-        </FrameHeadline>
-        <FrameFooter>
-          {' '}
-          <div
-            tw="w-full flex flex-col text-center justify-center items-center"
-            style={{
-              height: 230,
-              padding: '20px 32px',
-              fontSize: 46,
-            }}
-          >
-            Cool nice GIVE!
-            <br />
-            Uhhhhhhhhh something else now
-          </div>
-        </FrameFooter>
-      </FrameBody>
+      </div>
     </FrameWrapper>
   );
 };
