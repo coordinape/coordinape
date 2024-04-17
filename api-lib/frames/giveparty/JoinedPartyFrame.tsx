@@ -28,23 +28,22 @@ const imageNode = async (params: Record<string, string>) => {
         }}
       />
       <div
-        tw="flex flex-col h-full w-full items-start justify-between"
+        tw="flex flex-col h-full w-full justify-between"
         style={{ padding: 30 }}
       >
         <div
-          tw="flex flex-col overflow-x-auto flex flex-col"
+          tw="flex flex-col"
           style={{
-            padding: '20px 32px',
             fontSize: 80,
             gap: 25,
             lineHeight: 1,
+            padding: 10,
           }}
         >
           <div tw="flex">Now it&apos;s a party!</div>
-          <div tw="flex flex-col" style={{ gap: 15 }}>
-            <span>You gave a GIVE to</span> <PartyText text={`@User`} />
-          </div>
+          <PartyText text="GIVE Delivered" />
         </div>
+        <div style={{ fontSize: 60, opacity: 0.9 }}>Want to give more?</div>
         <FramePersonaHeadline
           avatar={viewerProfile?.avatar}
           giverTotalGiven={giverTotalGiven}
