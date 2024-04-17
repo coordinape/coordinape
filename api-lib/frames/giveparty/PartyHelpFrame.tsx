@@ -2,81 +2,45 @@ import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
-import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
+import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { TRY_GIVEBOT_INTENT } from '../routingUrls.ts';
 
 const imageNode = async () => {
   return (
     <FrameWrapper>
-      <FrameBgImage src="help.jpg" />
-      <div
-        tw="w-full grow flex flex-col text-center justify-center items-center"
-        style={{
-          fontSize: 40,
-          fontWeight: 600,
-          gap: 20,
+      <FrameBodyGradient
+        gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 0%, #ABC3C3 0%, #939393 80%)',
+            'radial-gradient(circle at 25% 0%, #27A2AA 30%, #068522 100%)',
         }}
-      >
-        <div tw="flex flex-col items-center">
-          <span>Reply to any cast with</span>
-          <div tw="flex items-center">
+      />
+      <div tw="flex h-full w-full items-center" style={{ padding: 30 }}>
+        <div
+          tw="flex flex-col w-full items-center justify-center text-center"
+          style={{
+            padding: '20px 32px',
+            fontSize: 80,
+            gap: 40,
+            lineHeight: 1,
+          }}
+        >
+          <span>Starting a GIVE Party</span>
+          <div tw="flex flex-col items-center" style={{ gap: 10 }}>
+            <span style={{ fontSize: 40 }}>Cast with</span>
             <span
               style={{
                 background: '#111111',
-                padding: '8px 25px',
+                padding: '10px 25px 15px',
                 borderRadius: 8,
                 marginTop: 8,
                 color: 'white',
+                fontSize: 52,
               }}
             >
-              @givebot
-            </span>
-            <span style={{ margin: '0 20px', fontWeight: 400, fontSize: 32 }}>
-              OR
-            </span>
-            <span
-              style={{
-                background: '#111111',
-                padding: '8px 25px',
-                borderRadius: 8,
-                marginTop: 8,
-                color: 'white',
-              }}
-            >
-              @givebot #skillTag
+              give.party/some-praiseworthy-skill
             </span>
           </div>
-        </div>
-        <div tw="flex flex-col items-center">
-          <span>Or Cast with</span>
-          <span
-            style={{
-              background: '#111111',
-              padding: '8px 25px',
-              borderRadius: 8,
-              marginTop: 8,
-              color: 'white',
-            }}
-          >
-            @givebot @receiverName #skillTag
-          </span>
-        </div>
-        <div tw="flex flex-col items-center">
-          <span>{`GIVE Matters! Recognize friends' skills and build onchain reputation.`}</span>
-          <span
-            style={{
-              background: 'white',
-              padding: '8px 25px',
-              borderRadius: 8,
-              marginTop: 8,
-              color: '#111111',
-            }}
-          >
-            @givebot help
-          </span>
         </div>
       </div>
     </FrameWrapper>

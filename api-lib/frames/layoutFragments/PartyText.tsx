@@ -8,7 +8,7 @@ export const PartyText = ({ text }: { text: string }) => {
         style={{
           color: '#7647FF',
           opacity: 0.75,
-          left: -16,
+          left: -14,
           top: 0,
         }}
       >
