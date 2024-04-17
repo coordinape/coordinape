@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
+import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { coLinksPaths } from '../../../src/routes/paths.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
@@ -20,6 +21,7 @@ const imageNode = async (params: Record<string, string>) => {
     numGiveSent: giverTotalGiven,
     numGiveReceived: receiverTotalReceived,
   } = await fetchProfileInfo(viewerProfile?.id);
+  const { give } = await fetchPoints(viewerProfile?.id);
 
   return (
     <FrameWrapper>
@@ -37,6 +39,7 @@ const imageNode = async (params: Record<string, string>) => {
             avatar={viewerProfile?.avatar}
             giverTotalGiven={giverTotalGiven}
             receiverTotalReceived={receiverTotalReceived}
+            giveAvailable={give}
             level="4"
           />
         </FrameHeadline>
