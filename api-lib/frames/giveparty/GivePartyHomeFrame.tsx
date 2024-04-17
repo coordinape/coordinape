@@ -26,7 +26,7 @@ const givePartyImageNode = async (params: Record<string, string>) => {
       <FrameBodyGradient
         gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 0%, #7516BF 0%, #00AEF9 80%)',
+            'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
         }}
       />
       <div

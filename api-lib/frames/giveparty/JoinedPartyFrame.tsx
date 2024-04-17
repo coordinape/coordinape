@@ -24,7 +24,7 @@ const imageNode = async (params: Record<string, string>) => {
       <FrameBodyGradient
         gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 10%, #6315BF 30%, #00AEF9 80%)',
+            'radial-gradient(circle at 25% 0%, #8C1EFF 30%, #FF1FFF 100%)',
         }}
       />
       <div
@@ -40,7 +40,7 @@ const imageNode = async (params: Record<string, string>) => {
         >
           Now it&apos;s a party!
           <br />
-          You gave a GIVE to <PartyText text={`@singer`} />
+          You gave a GIVE to <PartyText text={`[@user]`} />
         </div>
         <FramePersonaHeadline
           avatar={viewerProfile?.avatar}
