@@ -2,7 +2,7 @@ import React from 'react';
 
 export const PartyText = ({ text }: { text: string }) => {
   return (
-    <span tw="relative whitespace-norwap " style={{ fontSize: 90 }}>
+    <span tw="inline-flex relative whitespace-norwap " style={{ fontSize: 90 }}>
       <span
         tw="absolute"
         style={{
