@@ -1,9 +1,11 @@
 import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
+import { getFrameUrl } from '../../../_api/webhooks/neynar_mention.ts';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { insertCoLinksGive } from '../../insertCoLinksGive.ts';
 import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
+import { publishCast } from '../../neynar.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { ErrorFrameImage } from '../ErrorFrame.tsx';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
@@ -107,19 +109,27 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
     return GivePartyHomeFrame('Invalid Username: ' + inputText);
   }
 
+  const cleanedUsername = cleanUsernameText(inputText);
+
   // lookup/create the target user
   // TODO: handle this not working
   let target_profile: Awaited<ReturnType<typeof findOrCreateProfileByUsername>>;
   try {
-    target_profile = await findOrCreateProfileByUsername(inputText);
+    target_profile = await findOrCreateProfileByUsername(cleanedUsername);
   } catch (e: any) {
     return GivePartyHomeFrame(`Can't find user: ${inputText}`);
   }
 
+  let giveId;
   try {
     // TODO: there is points validation that needs to happen here, the mention webhook does it
     // TODO: handle failure of this
-    await insertCoLinksGive(info.profile, target_profile, cast_hash, skill);
+    giveId = await insertCoLinksGive(
+      info.profile,
+      target_profile,
+      cast_hash,
+      skill
+    );
   } catch (e: any) {
     return GivePartyHomeFrame('Failed to give: ' + e.message);
   }
@@ -130,6 +140,7 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
     data: {
       give_party: true,
       frame: 'give.party',
+      give_id: giveId,
       giver_id: info.profile.id,
       giver_name: info.profile.name,
       receiver_id: target_profile.id,
@@ -138,7 +149,13 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
     },
   });
 
-  // TODO: send a reply cast
+  // TODO: pre-cache give frames? make a helper for all this ?
+  // TODO: Uncomment when testing with real casts
+  // await publishCast(`GIVE Delivered`, {
+  //   replyTo: cast_hash,
+  //   embeds: [{ url: getFrameUrl('give', giveId) }],
+  // });
+
   return JoinedPartyFrame;
 };
 
@@ -160,3 +177,7 @@ export const GivePartyHomeFrame = (errorMessage?: string): Frame => ({
     },
   ],
 });
+
+const cleanUsernameText = (input: string): string => {
+  return input.trim().replace(/^@/g, '');
+};
