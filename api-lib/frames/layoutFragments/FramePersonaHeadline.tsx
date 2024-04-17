@@ -25,7 +25,9 @@ export const FramePersonaHeadline = ({
           <OGAvatar avatar={avatar} />
         </div>
         <div tw="flex flex-col" style={{ fontSize: 38, lineHeight: 1, gap: 5 }}>
-          <div tw="flex">Level {level}</div>
+          <div tw="flex" style={{ fontWeight: 600 }}>
+            Level {level}
+          </div>
           <div tw="flex leading-none">
             <span style={{ fontWeight: 400 }}>GIVE Available</span>
             <span style={{ fontWeight: 600, marginLeft: 12 }}>
