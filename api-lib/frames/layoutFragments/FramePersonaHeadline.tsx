@@ -15,7 +15,7 @@ export const FramePersonaHeadline = ({
   avatar?: string;
   giverTotalGiven: number;
   receiverTotalReceived: number;
-  giveAvailable?: number;
+  giveAvailable: number;
   level: string;
 }) => {
   return (
