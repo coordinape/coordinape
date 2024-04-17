@@ -101,6 +101,19 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           <div tw="flex">on Farcaster?</div>
         </div>
 
+        {error_message && (
+          <div
+            tw="flex w-full text-center justify-center"
+            style={{
+              background: '#FF5FFF',
+              color: 'black',
+              padding: 10,
+              fontSize: 40,
+            }}
+          >
+            {error_message}
+          </div>
+        )}
         <div tw="flex justify-between">
           <div
             tw="flex"
@@ -120,20 +133,6 @@ const givePartyImageNode = async (params: Record<string, string>) => {
             />
           </div>
         </div>
-        {error_message && (
-          <div
-            tw="flex w-full text-center justify-center"
-            style={{
-              background: 'black',
-              padding: 20,
-              position: 'absolute',
-              bottom: 0,
-              fontSize: 40,
-            }}
-          >
-            {error_message}
-          </div>
-        )}
       </div>
     </FrameWrapper>
   );
