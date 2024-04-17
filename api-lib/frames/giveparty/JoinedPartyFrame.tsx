@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
-import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';
@@ -12,7 +11,9 @@ import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
+import { onSendGIVEPost } from './onSendGIVEPost.tsx';
 import { PartyHelpFrame } from './PartyHelpFrame.tsx';
+import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -60,17 +61,29 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
+// TODO: this needs design
 export const JoinedPartyFrame: Frame = {
   id: 'joined.party',
   aspectRatio: '1.91:1',
   homeFrame: false,
   imageNode: imageNode,
-  resourceIdentifier: staticResourceIdentifier,
+  resourceIdentifier: skillResourceIdentifier,
+  inputText: () => {
+    return `Enter a Farcaster @username`;
+  },
   buttons: [
     {
       title: 'How do I Start a Party?',
       action: 'post',
       onPost: async () => PartyHelpFrame,
+    },
+    {
+      title: 'Send Give',
+      action: 'post',
+      onPost: async (info, params) => {
+        return onSendGIVEPost(info, params);
+        // return GivePartyHomeFrame('');
+      },
     },
   ],
 };
