@@ -22,6 +22,11 @@ import { ErrorFrame } from '../../api-lib/frames/ErrorFrame.tsx';
 import { RenderFrameMeta } from '../../api-lib/frames/FrameMeta.tsx';
 import { FrontDoor } from '../../api-lib/frames/FrontDoorFrame.tsx';
 import { GiveHomeFrame } from '../../api-lib/frames/give/GiveHomeFrame.tsx';
+import { GivePartyHomeFrame } from '../../api-lib/frames/giveparty/GivePartyHomeFrame.tsx';
+import { GivePartyMintCoSoulFrame } from '../../api-lib/frames/giveparty/GivePartyMintCoSoulFrame.tsx';
+import { GivePartyMintWaitingFrame } from '../../api-lib/frames/giveparty/GivePartyMintWaitingFrame.tsx';
+import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
+import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
 import { MintWaitingFrame } from '../../api-lib/frames/MintWaitingFrame.tsx';
@@ -93,7 +98,6 @@ export const createImage = (fileNameWithExt: string) => {
   } else {
     imageData = readFileSync(join(__dirname, `./${file}.jpg`));
   }
-  console.log('returning imgData', { imageData });
   return imageData;
 };
 
@@ -231,6 +235,8 @@ export type Frame = {
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
   errorMessage?: string;
+  inputText?: (params: Record<string, string>) => string;
+  aspectRatio?: '1:1' | '1.91:1' | undefined;
 };
 
 export type Button = {
@@ -289,8 +295,15 @@ const addFrame = (frame: Frame) => {
     async (_req, res, params) => {
       const ir = new ImageResponse(await frame.imageNode(params), {
         // debug: true,
-        height: 1000,
-        width: 1000,
+        ...(frame.aspectRatio === '1.91:1'
+          ? {
+              height: 600,
+              width: 1146,
+            }
+          : {
+              height: 1000,
+              width: 1000,
+            }),
         fonts,
       });
       if (IS_LOCAL_ENV) {
@@ -336,3 +349,10 @@ addFrame(MintWaitingFrame);
 addFrame(ErrorFrame());
 addFrame(HelpFrame);
 addFrame(FrontDoor);
+
+// GiveParty
+addFrame(GivePartyHomeFrame());
+addFrame(JoinedPartyFrame);
+addFrame(PartyHelpFrame);
+addFrame(GivePartyMintCoSoulFrame);
+addFrame(GivePartyMintWaitingFrame);

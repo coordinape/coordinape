@@ -16,5 +16,6 @@ export type FrameMessage = {
   timestamp: number;
   network: number;
   buttonIndex: number;
+  inputText?: string;
   castId: { fid: number; hash: string };
 };

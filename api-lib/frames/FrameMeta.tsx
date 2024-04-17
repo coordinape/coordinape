@@ -45,11 +45,17 @@ export const RenderFrameMeta = ({
             target={button.target}
           />
         ))}
+        {frame.inputText && (
+          <meta name="fc:frame:input:text" content={frame.inputText(params)} />
+        )}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:image" content={imgSrc} />
         <meta property="og:image" content={imgSrc} />
         <meta property="fc:frame:image" content={imgSrc} />
-        <meta property="fc:frame:image:aspect_ratio" content="1:1" />
+        <meta
+          property="fc:frame:image:aspect_ratio"
+          content={frame.aspectRatio === '1.91:1' ? '1.91:1' : '1:1'}
+        />
         <title>Farcaster Frame</title>
         <div dangerouslySetInnerHTML={{ __html: scriptContent }} />;
       </head>

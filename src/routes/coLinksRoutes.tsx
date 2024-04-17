@@ -43,6 +43,7 @@ import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
+import { GiveParty } from 'pages/GiveParty';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -65,6 +66,9 @@ export const coLinksRoutes = [
       path={coLinksPaths.authenticate(':token')}
       element={<AuthenticatePage />}
     />
+  </Route>,
+  <Route key={'giveparty'}>
+    <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
   </Route>,
   <Route
     key="splashLayout"

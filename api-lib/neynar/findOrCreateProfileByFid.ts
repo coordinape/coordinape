@@ -4,7 +4,7 @@ import assert from 'assert';
 import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
-import { fetchUserByFid } from '../neynar.ts';
+import { fetchUserByFid, fetchUserByUsername } from '../neynar.ts';
 
 const INITIAL_POINTS = MAX_POINTS_CAP * 0.6; // start with 15 gives
 const findProfileByAddresses = async (addresses: string[]) => {
@@ -34,9 +34,24 @@ const findProfileByAddresses = async (addresses: string[]) => {
   );
   return profiles.pop();
 };
+
+export const findOrCreateProfileByUsername = async (username: string) => {
+  const fc_profile = await fetchUserByUsername(username);
+  // The two diff types of User are not interchangeable because of v1 vs v2, so we need to lookup w/ v2
+  return findOrCreateProfileByFid(fc_profile.fid);
+};
+
 export const findOrCreateProfileByFid = async (fid: number) => {
   const fc_profile = await fetchUserByFid(fid);
+  return findOrCreateUser(fc_profile);
+};
 
+const findOrCreateUser = async (fc_profile: {
+  username: string;
+  pfp_url: string;
+  custody_address: string;
+  verified_addresses: { eth_addresses: string[] };
+}) => {
   const potential_addresses = [
     fc_profile.custody_address,
     ...fc_profile.verified_addresses.eth_addresses,
@@ -58,6 +73,7 @@ export const findOrCreateProfileByFid = async (fid: number) => {
     );
   }
 };
+
 const createProfile = async (
   address: string,
   preferred_name: string,

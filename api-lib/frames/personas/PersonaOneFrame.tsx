@@ -61,7 +61,7 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
-const mintCoSoul = async (mintToAddr: string, profileId: number) => {
+export const mintCoSoul = async (mintToAddr: string, profileId: number) => {
   try {
     const tx = await mintCoSoulForAddress(mintToAddr);
     const txReceipt = await tx.wait();

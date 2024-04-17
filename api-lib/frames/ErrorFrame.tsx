@@ -18,7 +18,7 @@ import { FrameHeadline } from './layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
 import { TRY_GIVEBOT_INTENT } from './routingUrls.ts';
 
-const imageNode = async (params: Record<string, string>) => {
+export const ErrorFrameImage = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
   const { error_message } = params;
 
@@ -35,18 +35,14 @@ const imageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={viewerProfile?.avatar} />
-          <div tw="flex items-center grow justify-center">Hrmmm...</div>
+          <div tw="flex items-center grow justify-center">Error</div>
           <img
             alt="gem"
             src={IMAGE_URL_BASE + 'GemWhite.png'}
             style={{ width: 80, height: 80 }}
           />
         </FrameHeadline>
-        <FrameFooter>
-          You got an error
-          <br />
-          {error_message && `: ${error_message}`}
-        </FrameFooter>
+        <FrameFooter>{error_message && `${error_message}`}</FrameFooter>
       </FrameBody>
     </FrameWrapper>
   );
@@ -55,7 +51,7 @@ const imageNode = async (params: Record<string, string>) => {
 export const ErrorFrame = (message?: string): Frame => ({
   id: 'error_frame',
   homeFrame: false,
-  imageNode: imageNode,
+  imageNode: ErrorFrameImage,
   errorMessage: message,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [

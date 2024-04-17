@@ -21,6 +21,19 @@ export const fetchUserByFid = async (fid: number) => {
   }
 };
 
+export const fetchUserByUsername = async (username: string) => {
+  try {
+    const response = await client.lookupUserByUsername(username);
+    return response.result.user;
+  } catch (err) {
+    console.error(
+      'Got an error from Neynar attempting lookupUserByUsername',
+      err
+    );
+    throw err;
+  }
+};
+
 export const publishCast = async (
   text: string,
   options: PublishCastOptions

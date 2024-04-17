@@ -54,24 +54,7 @@ const imageNode = async (params: Record<string, string>) => {
 const onPost = async (info: FramePostInfo) => {
   // check for mint status
   // TODO: is there any way to handle errors here? IDK!!!!!!!
-  const { cosouls } = await adminClient.query(
-    {
-      cosouls: [
-        {
-          where: {
-            address: { _ilike: info.profile.address },
-          },
-        },
-        {
-          id: true,
-        },
-      ],
-    },
-    {
-      operationName: 'mintWaitingFrame__getMintStatus',
-    }
-  );
-  if (cosouls.length > 0) {
+  if (await isMintingDone(info.profile.address)) {
     return MintSuccessFrame;
   }
   return MintWaitingFrame;
@@ -89,4 +72,25 @@ export const MintWaitingFrame: Frame = {
       onPost,
     },
   ],
+};
+
+export const isMintingDone = async (address: string) => {
+  const { cosouls } = await adminClient.query(
+    {
+      cosouls: [
+        {
+          where: {
+            address: { _ilike: address },
+          },
+        },
+        {
+          id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'mintWaitingFrame__getMintStatus',
+    }
+  );
+  return cosouls.length > 0;
 };

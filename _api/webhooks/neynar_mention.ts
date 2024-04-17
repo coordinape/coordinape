@@ -4,15 +4,12 @@ import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { fetchProfileInfo } from '../../api-lib/frames/give/fetchProfileInfo.tsx';
 import { FRAME_ROUTER_URL_BASE } from '../../api-lib/frames/routingUrls.ts';
-import { insertInteractionEvents } from '../../api-lib/gql/mutations';
 import { errorResponse } from '../../api-lib/HttpError';
+import { insertCoLinksGive } from '../../api-lib/insertCoLinksGive.ts';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
-import {
-  checkPointsAndCreateGive,
-  fetchPoints,
-} from '../hasura/actions/_handlers/createCoLinksGive';
+import { fetchPoints } from '../hasura/actions/_handlers/createCoLinksGive';
 
 const BOT_FID = 389267;
 const DO_NOT_REPLY_FIDS = [BOT_FID];
@@ -175,34 +172,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     return errorResponse(res, error);
   }
 }
-
-const insertCoLinksGive = async (
-  giver_profile: any,
-  receiver_profile: any,
-  hash: string,
-  skill?: string
-) => {
-  const { newPoints, giveId } = await checkPointsAndCreateGive(
-    giver_profile.id,
-    receiver_profile.id,
-    {
-      cast_hash: hash,
-      skill: skill,
-    }
-  );
-
-  await insertInteractionEvents({
-    event_type: 'colinks_give_create',
-    profile_id: giver_profile.id,
-    data: {
-      hostname: 'farcaster_bot',
-      cast_hash: hash,
-      new_points_balance: newPoints,
-    },
-  });
-
-  return giveId;
-};
 
 const parseSkill = (text: string) => {
   const skillMatch = text.match(/#(\w+)/);
