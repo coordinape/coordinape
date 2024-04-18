@@ -73,7 +73,7 @@ export const JoinedPartyFrame: Frame = {
     {
       title: 'How 2 Party?',
       action: 'post',
-      onPost: async () => PartyHelpFrame,
+      onPost: async () => PartyHelpFrame(),
     },
     {
       title: 'Send Give',

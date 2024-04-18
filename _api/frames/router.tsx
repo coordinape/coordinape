@@ -27,6 +27,7 @@ import { GivePartyMintCoSoulFrame } from '../../api-lib/frames/giveparty/GivePar
 import { GivePartyMintWaitingFrame } from '../../api-lib/frames/giveparty/GivePartyMintWaitingFrame.tsx';
 import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
 import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
+import { PartyStartFrame } from '../../api-lib/frames/giveparty/PartyStartedFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
 import { MintWaitingFrame } from '../../api-lib/frames/MintWaitingFrame.tsx';
@@ -244,7 +245,7 @@ export type Button = {
   title: string;
   action: 'post' | 'link';
   // only use target for external links
-  target?: string;
+  target?: string | ((params: Record<string, string>) => string);
   // only use onPost for post
   onPost?: (
     info: FramePostInfo,
@@ -354,6 +355,7 @@ addFrame(FrontDoor);
 // GiveParty
 addFrame(GivePartyHomeFrame());
 addFrame(JoinedPartyFrame);
-addFrame(PartyHelpFrame);
+addFrame(PartyHelpFrame());
 addFrame(GivePartyMintCoSoulFrame);
 addFrame(GivePartyMintWaitingFrame);
+addFrame(PartyStartFrame(''));

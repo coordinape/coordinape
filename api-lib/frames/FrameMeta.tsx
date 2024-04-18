@@ -43,6 +43,7 @@ export const RenderFrameMeta = ({
             title={button.title}
             action={button.action}
             target={button.target}
+            params={params}
           />
         ))}
         {frame.inputText && (
