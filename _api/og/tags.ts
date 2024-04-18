@@ -3,7 +3,6 @@ import { escape } from 'html-escaper';
 
 import { decodeToken } from '../../api-lib/colinks/share';
 import { webAppURL } from '../../src/config/webAppURL';
-import { START_A_PARTY_INTENT } from '../../src/routes/paths.ts';
 
 import { getBigQuestionInfo } from './getBigQuestionInfo';
 import { getPostInfo } from './getPostInfo';
@@ -30,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL('colinks')}/api/frames/router/img/party.help`,
         path,
         twitter_card: 'summary_large_image',
-        postURL: `${webAppURL('colinks')}/api/frames/router/meta/party.help`,
+        postURL: `${webAppURL('colinks')}/api/frames/router/post/party.help`,
       })
     );
   }
@@ -188,26 +187,26 @@ const buildGivePartyFrameTags = ({
 />
 //         TODO BUTTONS
 /*
- {
-      title: 'Learn More',
-      action: 'link',
-      target: 'https://docs.coordinape.com/colinks/give',
-    },
-    {
-      title: 'Start a Party',
-      action: 'link',
-      target: START_A_PARTY_INTENT,
-    },
+   {
+        title: 'Start the Party',
+        action: 'post',
+        onPost: prepareParty,
+      },
+      {
+        title: 'Learn More',
+        action: 'link',
+        target: 'https://give.party',
+      },
  */
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
-<meta name="fc:frame:button:1" content="Learn More" />
-<meta name="fc:frame:button:1:action" content="link" />
-<meta name="fc:frame:button:1:target"} content="https://docs.coordinape.com/colinks/give"/>
 
-<meta name="fc:frame:button:2" content="Start a Party" />
+<meta name="fc:frame:button:1" content="Start the Party" />
+<meta name="fc:frame:button:1:action" content="post" />
+
+<meta name="fc:frame:button:2" content="Learn More" />
 <meta name="fc:frame:button:2:action" content="link" />
-<meta name="fc:frame:button:2:target"} content="${START_A_PARTY_INTENT}"/>
+<meta name="fc:frame:button:2:target" content="https://give.party"/>
 
 
 <meta property="og:image" content="${escape(image)}" />
