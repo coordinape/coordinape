@@ -342,7 +342,7 @@ export const GiveParty = () => {
                 lineHeight: 1.2,
               }}
             >
-              <li>Cast the URL</li>
+              <li>Cast the URL to start a Give Party</li>
               <li>
                 Anyone on Farcaster can use the frame to name people who they
                 think are awesome at that skill.
@@ -355,7 +355,6 @@ export const GiveParty = () => {
                 GIVE will be sent by Coordinape to create a map of this skill
                 party.
               </li>
-              <li>&#x2026;</li>
               <li>
                 <PartyDisplayText text="Party" />
               </li>
