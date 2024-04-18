@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { GemCoOutline } from 'icons/__generated';
 import {
   EXTERNAL_URL_BLOG,
@@ -8,6 +10,36 @@ import { Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 export const GiveParty = () => {
+  const words = [
+    'a-skill-to-celebrate',
+    'design',
+    'leadership',
+    'humor',
+    'inspiration',
+  ];
+  const [wordIndex, setWordIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [charIndex, setCharIndex] = useState(0);
+
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+
+    if (charIndex < currentWord.length) {
+      const timer = setTimeout(() => {
+        setDisplayedText(displayedText + currentWord[charIndex]);
+        setCharIndex(charIndex + 1);
+      }, 50); // Adjust speed of typing here
+      return () => clearTimeout(timer);
+    } else {
+      const nextWordTimer = setTimeout(() => {
+        setWordIndex((wordIndex + 1) % words.length);
+        setDisplayedText('');
+        setCharIndex(0);
+      }, 2000); // Adjust pause between words here
+      return () => clearTimeout(nextWordTimer);
+    }
+  }, [charIndex, displayedText, wordIndex, words]);
+
   return (
     <>
       <Flex
@@ -74,6 +106,8 @@ export const GiveParty = () => {
               </Text>
             </Flex>
           </Link>
+          <PartyDisplayText text={`#${displayedText}`} />
+          <Flex>frame....</Flex>
           <Text
             h1
             display
