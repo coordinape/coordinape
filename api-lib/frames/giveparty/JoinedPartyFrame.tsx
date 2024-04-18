@@ -64,6 +64,7 @@ export const JoinedPartyFrame: Frame = {
   aspectRatio: '1.91:1',
   homeFrame: false,
   imageNode: imageNode,
+  noCache: true,
   resourceIdentifier: skillResourceIdentifier,
   clickURL: 'https://give.party',
   inputText: () => {
