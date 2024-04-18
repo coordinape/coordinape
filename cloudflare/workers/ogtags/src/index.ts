@@ -33,6 +33,7 @@ export default {
 			const tagResponse = await fetch(apiURL, {
 				headers: {
 					'X-Original-Path': originalPath,
+					'X-Original-Host': url.hostname,
 					...originalRequest.headers,
 				},
 				signal: controller.signal,

@@ -3,6 +3,7 @@ import { escape } from 'html-escaper';
 
 import { decodeToken } from '../../api-lib/colinks/share';
 import { webAppURL } from '../../src/config/webAppURL';
+import { START_A_PARTY_INTENT } from '../../src/routes/paths.ts';
 
 import { getBigQuestionInfo } from './getBigQuestionInfo';
 import { getPostInfo } from './getPostInfo';
@@ -14,9 +15,24 @@ const appDescription = `CoLinks is a network of professionals and friends in the
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const path = req.headers['x-original-path'] as string;
+  // const hostname = req.headers['x-original-host'] as string;
 
   if (!path) {
     return res.status(400).json({ message: 'Missing x-original-path header' });
+  }
+
+  // Show the give.party landing frame
+  if (path === '/giveparty') {
+    return res.send(
+      buildGivePartyFrameTags({
+        title: `give.party`,
+        description: `give.party by Coordinape`,
+        image: `${webAppURL('colinks')}/api/frames/router/img/party.help`,
+        path,
+        twitter_card: 'summary_large_image',
+        postURL: `${webAppURL('colinks')}/api/frames/router/meta/party.help`,
+      })
+    );
   }
 
   if (path.startsWith('/0x')) {
@@ -143,6 +159,74 @@ const buildTags = ({
 <meta name="twitter:image" content="${escape(image)}" />
 <meta name="twitter:url" content="${escape(appURL + path)}" />
 <meta name="twitter:card" content="${twitter_card}" />
+<meta name="description" content="${escape(title)}" />
+`;
+};
+
+const buildGivePartyFrameTags = ({
+  title,
+  description,
+  image,
+  path,
+  twitter_card,
+  postURL,
+}: {
+  title: string;
+  description: string;
+  image: string;
+  path: string;
+  postURL: string;
+  twitter_card: 'summary_large_image' | 'summary';
+}) => {
+  return `
+<meta property="fc:frame" content="vNext" />
+<meta property="fc:frame:post_url" content="${postURL}" />
+<meta property="fc:frame:image" content="${image}" />
+<meta
+  property="fc:frame:image:aspect_ratio"
+  content={'1.91:1'}
+/>
+//         TODO BUTTONS
+/*
+ {
+      title: 'Learn More',
+      action: 'link',
+      target: 'https://docs.coordinape.com/colinks/give',
+    },
+    {
+      title: 'Start a Party',
+      action: 'link',
+      target: START_A_PARTY_INTENT,
+    },
+ */
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="CoLinks" />
+<meta name="fc:frame:button:1" content="Learn More" />
+<meta name="fc:frame:button:1:action" content="link" />
+<meta name="fc:frame:button:1:target"} content="https://docs.coordinape.com/colinks/give"/>
+
+<meta name="fc:frame:button:2" content="Start a Party" />
+<meta name="fc:frame:button:2:action" content="link" />
+<meta name="fc:frame:button:2:target"} content="${START_A_PARTY_INTENT}"/>
+
+
+<meta property="og:image" content="${escape(image)}" />
+<meta name="twitter:image" content="${escape(image)}" />
+
+<meta property="og:url" content="${escape(appURL + path)}" />
+<meta name="twitter:url" content="${escape(appURL + path)}" />
+<meta name="twitter:card" content="${twitter_card}" />
+
+<meta name="description" content="${escape(description)}"/>
+<meta property="og:description" content="${escape(
+    description ?? 'Member of CoLinks'
+  )}" />
+<meta name="twitter:description" content="${escape(
+    description ?? 'Member of CoLinks'
+  )}"/>
+
+<meta property="og:title" content="${escape(title)}" />
+<meta name="twitter:title" content="${escape(title)}" />
 <meta name="description" content="${escape(title)}" />
 `;
 };
