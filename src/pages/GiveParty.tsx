@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
+import copy from 'copy-to-clipboard';
+import { disabledStyle } from 'stitches.config';
 import { z } from 'zod';
 
-import { GemCoOutline } from 'icons/__generated';
+import { useToast } from 'hooks';
+import { Copy, GemCoOutline, Wand } from 'icons/__generated';
 import { EXTERNAL_URL_BLOG, EXTERNAL_URL_DOCS_GIVE } from 'routes/paths';
-import { Flex, Link, Text, TextField } from 'ui';
+import { Button, Flex, Link, Text, TextField } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 export const GiveParty = () => {
@@ -55,6 +58,16 @@ export const GiveParty = () => {
     setSkill(value);
   };
 
+  const { showDefault } = useToast();
+
+  const copyToClip = () => {
+    copy(`https://give.party/${skill}`);
+    showDefault(`Copied URL to clipboard`, {
+      toastId: 'copyCode',
+      updateId: 'copyCode',
+    });
+  };
+
   return (
     <>
       <Flex
@@ -83,58 +96,11 @@ export const GiveParty = () => {
             gap: 30,
           }}
         >
-          <Link href={startPartyUrl} target="_blank">
-            <Flex
-              css={{
-                background:
-                  'radial-gradient(circle at 15% 0%, #031c5d 20%, #6e00c3 100%)',
-                padding: '10px 15px',
-                borderRadius: 10,
-              }}
-            >
-              <Text
-                h2
-                display
-                css={{
-                  fontWeight: 'normal',
-                  display: 'flex',
-                  alignItems: 'baseline',
-                  gap: '.1em',
-                  paddingBottom: '6px',
-                  border: '2px solid',
-                  borderImageSlice: '1',
-                  borderWidth: '2px',
-                  borderImageSource:
-                    'linear-gradient(to right, rgb(15, 243, 210), rgb(0 107 255))',
-                  borderLeft: '0',
-                  borderRight: '0',
-                  borderTop: '0',
-                  flexWrap: 'wrap',
-                  fontSize: 32,
-                  '@md': {
-                    fontSize: 32,
-                    fontWeight: '$semibold',
-                  },
-                  '@tablet': {
-                    fontSize: 32,
-                    fontWeight: '$semibold',
-                  },
-                  '@sm': {
-                    fontSize: 15,
-                    fontWeight: '$semibold',
-                  },
-                }}
-              >
-                <span>https://give.party/</span>
-                <PartyDisplayText text="{a-skill-to-celebrate}" />
-              </Text>
-            </Flex>
-          </Link>
           <Flex
             column
             css={{
               width: '100%',
-              aspectRatio: '2 / .8',
+              aspectRatio: '2 / .7',
               borderRadius: 10,
               p: '$md',
               background:
@@ -142,7 +108,7 @@ export const GiveParty = () => {
               justifyContent: 'space-between',
               outline: '8px solid rgba(0,0,0,0.4)',
               '@sm': {
-                minHeight: '280px',
+                minHeight: '240px',
               },
             }}
           >
@@ -183,25 +149,12 @@ export const GiveParty = () => {
             </Flex>
             <Flex
               style={{
-                justifyContent: 'space-between',
+                justifyContent: 'flex-end',
                 alignItems: 'center',
                 flexWrap: 'wrap',
                 gap: 10,
               }}
             >
-              <Text
-                css={{
-                  fontWeight: 400,
-                  fontSize: 22,
-                  '@sm': {
-                    fontSize: 16,
-                  },
-                }}
-              >
-                Enter a name below, we&apos;ll send
-                <br />
-                them a GIVE on your behalf
-              </Text>
               <Flex
                 css={{
                   alignItems: 'center',
@@ -212,7 +165,7 @@ export const GiveParty = () => {
                   css={{
                     fontSize: 38,
                     '@sm': {
-                      fontSize: 28,
+                      fontSize: 32,
                     },
                   }}
                 >
@@ -222,30 +175,155 @@ export const GiveParty = () => {
               </Flex>
             </Flex>
           </Flex>
-          <Text
-            display
+          <Flex column css={{ mt: '$lg', gap: '$md', width: '100%' }}>
+            <Text display as="label" variant="label" css={{ fontSize: 38 }}>
+              Start Your Own GIVE Party!
+            </Text>
+            <TextField
+              css={{
+                width: '100%',
+                background: 'rgba(0,0,0,0.6)',
+                outline: errors
+                  ? '8px solid rgb(255 0 155 / 34%)'
+                  : '8px solid rgba(0,0,0,0.2)',
+                padding: '$sm $md',
+                fontSize: '$large',
+                border: 'none',
+                // fontWeight: '$semibold',
+              }}
+              value={skill}
+              placeholder={'Enter a skill to celebrate'}
+              onChange={e => validate(e.target.value)}
+            ></TextField>
+            {errors && (
+              <Text
+                tag
+                css={{
+                  background: 'rgb(255 0 155 / 34%)',
+                  padding: '$sm',
+                }}
+              >
+                {errors}
+              </Text>
+            )}
+          </Flex>
+          {skill && !errors && (
+            <>
+              <Link
+                href={startPartyUrl}
+                target="_blank"
+                css={{ width: '100%' }}
+              >
+                <Flex
+                  css={{
+                    background:
+                      'radial-gradient(circle at 15% 0%, #031c5d 20%, #6e00c3 100%)',
+                    padding: '10px 15px',
+                    borderRadius: 10,
+                    width: '100%',
+                    // outline: '8px solid rgba(0,0,0,0.2)',
+                    position: 'relative',
+                  }}
+                >
+                  <Text
+                    h2
+                    display
+                    css={{
+                      fontWeight: 'normal',
+                      display: 'flex',
+                      alignItems: 'baseline',
+                      gap: '.1em',
+                      paddingBottom: '6px',
+                      border: '2px solid',
+                      borderImageSlice: '1',
+                      borderWidth: '2px',
+                      borderImageSource:
+                        'linear-gradient(to right, rgb(15, 243, 210), rgb(0 107 255))',
+                      borderLeft: '0',
+                      borderRight: '0',
+                      borderTop: '0',
+                      flexWrap: 'wrap',
+                      fontSize: 32,
+                      '@md': {
+                        fontSize: 32,
+                        fontWeight: '$semibold',
+                      },
+                      '@tablet': {
+                        fontSize: 32,
+                        fontWeight: '$semibold',
+                      },
+                      '@sm': {
+                        fontSize: 15,
+                        fontWeight: '$semibold',
+                      },
+                    }}
+                  >
+                    <span>https://give.party/</span>
+                    <PartyDisplayText
+                      text={skill ? skill : 'a-skill-to-celebrate'}
+                    />
+                  </Text>
+                </Flex>
+              </Link>
+            </>
+          )}
+          <Flex css={{ mt: '-$sm', gap: '$md' }}>
+            <Button
+              as={Link}
+              href={startPartyUrl}
+              target="_blank"
+              rel="noreferrer"
+              css={{
+                ...((!skill || errors) && {
+                  ...disabledStyle,
+                }),
+              }}
+            >
+              <Wand fa size={'md'} /> Cast in Farcaster
+            </Button>
+            <Button
+              disabled={skill && !errors ? false : true}
+              onClick={copyToClip}
+            >
+              <Copy size={'md'} /> Copy URL
+            </Button>
+          </Flex>
+
+          <Flex
+            column
             css={{
-              fontWeight: 400,
-              letterSpacing: -1,
-              lineHeight: 1.1,
-              fontSize: 45,
+              mt: '$3xl',
+              pt: '$3xl',
+              pb: '$1xl',
+              borderTop: '1px solid #00000033',
+              gap: '20px',
             }}
           >
-            When it comes to creating onchain reputation, we mean business.
-          </Text>
-          <Text
-            display
-            css={{
-              fontWeight: 600,
-              letterSpacing: -1,
-              lineHeight: 1.1,
-              fontSize: 45,
-            }}
-          >
-            And when we mean business,
-            <br />
-            we mean party!
-          </Text>
+            <Text
+              h2
+              display
+              css={{
+                fontWeight: 400,
+                letterSpacing: -1,
+                lineHeight: 1.1,
+              }}
+            >
+              When it comes to creating onchain reputation, we mean business.
+            </Text>
+            <Text
+              h2
+              display
+              css={{
+                fontWeight: 600,
+                letterSpacing: -1,
+                lineHeight: 1.1,
+              }}
+            >
+              And when we mean business,
+              <br />
+              we mean party!
+            </Text>
+          </Flex>
           <Flex
             column
             css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
@@ -254,63 +332,44 @@ export const GiveParty = () => {
               {' '}
               How does this work?
             </Text>
-            <Flex
-              css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
-            >
-              <Text h2 display>
-                <TextField
-                  css={{ fontSize: 18 }}
-                  value={skill}
-                  placeholder={'Enter a skill'}
-                  onChange={e => validate(e.target.value)}
-                ></TextField>
-                <Text>{errors}</Text>
-              </Text>
-            </Flex>
             <ul
               style={{
                 padding: '0 1em',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 10,
-                fontSize: 18,
+                fontSize: 22,
+                lineHeight: 1.2,
               }}
             >
               <li>
-                {skill ? (
-                  <>
-                    Cast the URL{' '}
-                    <Link href={startPartyUrl} target="_blank">
-                      <span
-                        style={{
-                          background:
-                            'radial-gradient(circle at 15% 0%, rgb(38 63 219 / 72%) 20%, rgb(187 12 191 / 67%) 100%)',
-                          padding: '2px 4px',
-                          borderRadius: '4px',
-                          fontWeight: 600,
-                        }}
-                      >
-                        {startPartyUrl}
-                      </span>{' '}
-                    </Link>
-                    on Farcaster to create a custom frame.
-                    <br />
-                    <span
-                      style={{
-                        fontSize: '.9em',
-                        marginTop: 5,
-                        display: 'block',
-                      }}
-                    >
-                      (Replace <b>&apos;&#x7B; a-skill &#x7D;&apos;</b> with a
-                      skill of your choosing)
-                    </span>
-                  </>
-                ) : (
-                  <>
-                    <Text h2>Choose a skill</Text>
-                  </>
-                )}
+                Cast the URL{' '}
+                <Link href={startPartyUrl} target="_blank">
+                  <span
+                    style={{
+                      background:
+                        'radial-gradient(circle at 15% 0%, rgb(4 13 73 / 72%) 20%, rgb(105 5 108 / 67%) 100%)',
+                      padding: '2px 4px',
+                      borderRadius: '4px',
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    http://give.party/&#x7B; a-skill &#x7D;
+                  </span>{' '}
+                </Link>
+                on Farcaster to create a custom frame.
+                <br />
+                <span
+                  style={{
+                    fontSize: '.8em',
+                    marginTop: 5,
+                    display: 'block',
+                  }}
+                >
+                  (Replace <b>&apos;&#x7B; a-skill &#x7D;&apos;</b> with a skill
+                  of your choosing)
+                </span>
               </li>
               <li>
                 Anyone on Farcaster can use the frame to name people who they
