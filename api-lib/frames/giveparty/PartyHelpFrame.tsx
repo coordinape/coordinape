@@ -30,10 +30,16 @@ const imageNode = async (params: Record<string, string>) => {
             lineHeight: 1,
           }}
         >
-          <span>Start a GIVE Party</span>
-          <div tw="flex flex-col items-center" style={{ gap: 10 }}>
+          <div
+            tw="flex flex-col items-center"
+            style={{ gap: 16, fontSize: 80 }}
+          >
+            <span style={{ fontWeight: 600 }}>Kick off a GIVE Party!</span>
             <span style={{ fontSize: 48 }}>
-              🥳 Enter a skill to celebrate below 🥳
+              Celebrate people for a skill you care about.
+            </span>
+            <span style={{ fontSize: 48 }}>
+              Party Starters get Rep Points, too.
             </span>
             {/*<span style={{ fontSize: 40 }}>Cast with</span>*/}
             {/*<span*/}

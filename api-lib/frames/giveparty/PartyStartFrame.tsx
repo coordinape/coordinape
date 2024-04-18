@@ -30,7 +30,7 @@ const imageNode = async (params: Record<string, string>) => {
         >
           <div
             tw="flex flex-col overflow-x-auto"
-            style={{ gap: 20, lineHeight: 1 }}
+            style={{ gap: 20, lineHeight: 1, fontWeight: 600 }}
           >
             <div tw="flex">Your</div>
             <PartyText text={`#${skill}`} />
