@@ -4,7 +4,7 @@ import { Frame } from '../../../_api/frames/router.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
-import { TRY_GIVEBOT_INTENT } from '../routingUrls.ts';
+import { START_A_PARTY_INTENT } from '../routingUrls.ts';
 
 const imageNode = async () => {
   return (
@@ -38,7 +38,7 @@ const imageNode = async () => {
                 fontSize: 52,
               }}
             >
-              give.party/some-praiseworthy-skill
+              https://give.party/a-skill-to-celebrate
             </span>
           </div>
         </div>
@@ -61,9 +61,9 @@ export const PartyHelpFrame: Frame = {
       target: 'https://docs.coordinape.com/colinks/give',
     },
     {
-      title: 'Try @givebot',
+      title: 'Start a Party',
       action: 'link',
-      target: TRY_GIVEBOT_INTENT,
+      target: START_A_PARTY_INTENT,
     },
   ],
 };

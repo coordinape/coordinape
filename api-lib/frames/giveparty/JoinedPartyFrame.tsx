@@ -40,6 +40,7 @@ const imageNode = async (params: Record<string, string>) => {
             gap: 25,
             lineHeight: 1,
             padding: 10,
+            fontWeight: 600,
           }}
         >
           <div tw="flex">Now it&apos;s a party!</div>
@@ -70,7 +71,7 @@ export const JoinedPartyFrame: Frame = {
   },
   buttons: [
     {
-      title: 'How do I Start a Party?',
+      title: 'How 2 Party?',
       action: 'post',
       onPost: async () => PartyHelpFrame,
     },

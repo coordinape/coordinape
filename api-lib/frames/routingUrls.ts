@@ -10,6 +10,8 @@ export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`
 
 export const TRY_GIVEBOT_INTENT =
   'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag';
+export const START_A_PARTY_INTENT =
+  'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 
 export const getPostUrl = (frame: Frame, params: Record<string, string>) => {
   return `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath(frame, params)}`;
