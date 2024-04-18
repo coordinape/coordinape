@@ -5,6 +5,7 @@ import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLink
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
+import { PartyHelpFrame } from '../giveparty/PartyHelpFrame.tsx';
 import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
@@ -63,6 +64,11 @@ export const PersonaTwoFrame: Frame = {
       title: 'Try @givebot',
       action: 'link',
       target: TRY_GIVEBOT_INTENT,
+    },
+    {
+      title: 'How 2 Party?',
+      action: 'post',
+      onPost: async () => PartyHelpFrame(),
     },
   ],
 };

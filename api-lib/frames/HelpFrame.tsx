@@ -3,9 +3,9 @@ import React from 'react';
 import { Frame } from '../../_api/frames/router.tsx';
 
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { PartyHelpFrame } from './giveparty/PartyHelpFrame.tsx';
 import { FrameBgImage } from './layoutFragments/FrameBgImage.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';
-import { TRY_GIVEBOT_INTENT } from './routingUrls.ts';
 
 const imageNode = async () => {
   return (
@@ -97,9 +97,9 @@ export const HelpFrame: Frame = {
       target: 'https://docs.coordinape.com/colinks/give',
     },
     {
-      title: 'Try @givebot',
-      action: 'link',
-      target: TRY_GIVEBOT_INTENT,
+      title: 'How 2 Party?',
+      action: 'post',
+      onPost: async () => PartyHelpFrame(),
     },
   ],
 };
