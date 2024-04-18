@@ -1,12 +1,16 @@
 import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
+import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
-import { START_A_PARTY_INTENT } from '../routingUrls.ts';
 
-const imageNode = async () => {
+import { validateAndCleanSkill } from './onSendGIVEPost.tsx';
+import { PartyStartFrame } from './PartyStartFrame.tsx';
+
+const imageNode = async (params: Record<string, string>) => {
+  const { error_message } = params;
   return (
     <FrameWrapper>
       <FrameBodyGradient
@@ -25,46 +29,84 @@ const imageNode = async () => {
             lineHeight: 1,
           }}
         >
-          <span>Starting a GIVE Party</span>
+          <span>Start a GIVE Party</span>
           <div tw="flex flex-col items-center" style={{ gap: 10 }}>
-            <span style={{ fontSize: 40 }}>Cast with</span>
-            <span
+            <span style={{ fontSize: 48 }}>
+              🥳 Enter a skill to celebrate below 🥳
+            </span>
+            {/*<span style={{ fontSize: 40 }}>Cast with</span>*/}
+            {/*<span*/}
+            {/*  style={{*/}
+            {/*    background: '#111111',*/}
+            {/*    padding: '10px 25px 15px',*/}
+            {/*    borderRadius: 8,*/}
+            {/*    marginTop: 8,*/}
+            {/*    color: 'white',*/}
+            {/*    fontSize: 52,*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  https://give.party/a-skill-to-celebrate*/}
+            {/*</span>*/}
+          </div>
+          {error_message && (
+            <div
+              tw="flex w-full text-center justify-center"
               style={{
-                background: '#111111',
-                padding: '10px 25px 15px',
-                borderRadius: 8,
-                marginTop: 8,
-                color: 'white',
-                fontSize: 52,
+                background: '#FF5FFF',
+                color: 'black',
+                padding: 10,
+                fontSize: 40,
               }}
             >
-              https://give.party/a-skill-to-celebrate
-            </span>
-          </div>
+              {error_message}
+            </div>
+          )}
         </div>
       </div>
     </FrameWrapper>
   );
 };
 
-export const PartyHelpFrame: Frame = {
-  id: 'party.help',
-  aspectRatio: '1.91:1',
-  homeFrame: true,
-  imageNode: imageNode,
-  resourceIdentifier: staticResourceIdentifier,
-  clickURL: 'https://give.party',
-  // TODO: change this
-  buttons: [
-    {
-      title: 'Learn More',
-      action: 'link',
-      target: 'https://docs.coordinape.com/colinks/give',
+const prepareParty = async (
+  info: FramePostInfo,
+  params: Record<string, string>
+) => {
+  let skill = info.message.inputText;
+  if (!skill) {
+    return PartyHelpFrame('No skill provided');
+  }
+  try {
+    skill = validateAndCleanSkill(skill);
+  } catch (e: any) {
+    return PartyHelpFrame(e.message);
+  }
+  params['skill'] = skill;
+  return PartyStartFrame(skill);
+};
+
+export const PartyHelpFrame = (error_message?: string): Frame => {
+  return {
+    id: 'party.help',
+    aspectRatio: '1.91:1',
+    homeFrame: true,
+    imageNode: imageNode,
+    resourceIdentifier: staticResourceIdentifier,
+    errorMessage: error_message,
+    clickURL: 'https://give.party',
+    inputText: () => {
+      return `Enter a skill to celebrate`;
     },
-    {
-      title: 'Start a Party',
-      action: 'link',
-      target: START_A_PARTY_INTENT,
-    },
-  ],
+    buttons: [
+      {
+        title: 'Start the Party',
+        action: 'post',
+        onPost: prepareParty,
+      },
+      {
+        title: 'Learn More',
+        action: 'link',
+        target: 'https://give.party',
+      },
+    ],
+  };
 };

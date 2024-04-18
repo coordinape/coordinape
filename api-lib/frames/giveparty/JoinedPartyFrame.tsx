@@ -71,17 +71,17 @@ export const JoinedPartyFrame: Frame = {
   },
   buttons: [
     {
-      title: 'How 2 Party?',
-      action: 'post',
-      onPost: async () => PartyHelpFrame,
-    },
-    {
-      title: 'Send Give',
+      title: 'Send GIVE 🎁',
       action: 'post',
       onPost: async (info, params) => {
         return onSendGIVEPost(info, params);
         // return GivePartyHomeFrame('');
       },
+    },
+    {
+      title: 'How 2 Party?',
+      action: 'post',
+      onPost: async () => PartyHelpFrame(),
     },
   ],
 };
