@@ -4,6 +4,7 @@ import { Frame } from '../../../_api/frames/router.tsx';
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
+import { getLevelForViewer } from '../give/getLevelForViewer.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
@@ -20,6 +21,7 @@ const imageNode = async (params: Record<string, string>) => {
     numGiveReceived: receiverTotalReceived,
   } = await fetchProfileInfo(viewerProfile?.id);
   const { give } = await fetchPoints(viewerProfile?.id);
+  const level = await getLevelForViewer(viewerProfile?.id);
 
   return (
     <FrameWrapper>
@@ -52,7 +54,7 @@ const imageNode = async (params: Record<string, string>) => {
           giverTotalGiven={giverTotalGiven}
           receiverTotalReceived={receiverTotalReceived}
           giveAvailable={give}
-          level="0"
+          level={level ? level.toString() : ''}
         />
       </div>
     </FrameWrapper>
