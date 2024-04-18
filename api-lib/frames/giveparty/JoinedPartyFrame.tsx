@@ -54,7 +54,7 @@ const imageNode = async (params: Record<string, string>) => {
           giverTotalGiven={giverTotalGiven}
           receiverTotalReceived={receiverTotalReceived}
           giveAvailable={give}
-          level={level ? level.toString() : ''}
+          level={level.toString()}
         />
       </div>
     </FrameWrapper>
