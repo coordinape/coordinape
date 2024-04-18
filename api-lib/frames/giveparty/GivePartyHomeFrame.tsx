@@ -87,6 +87,7 @@ export const GivePartyHomeFrame = (errorMessage?: string): Frame => ({
   homeFrame: true,
   resourceIdentifier: skillResourceIdentifier,
   errorMessage: errorMessage,
+  clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
   inputText: () => {
     return `Enter a Farcaster @username`;
