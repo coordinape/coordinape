@@ -117,6 +117,7 @@ const onPost = async (info: FramePostInfo) => {
 export const PersonaOneFrame: Frame = {
   id: 'persona1',
   homeFrame: false,
+  noCache: true,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [

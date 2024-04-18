@@ -58,6 +58,7 @@ export const PersonaTwoFrame: Frame = {
   id: 'persona2',
   homeFrame: false,
   imageNode: imageNode,
+  noCache: true,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {

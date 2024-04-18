@@ -66,6 +66,7 @@ export const PersonaZeroFrame: Frame = {
   id: 'persona0',
   homeFrame: false,
   imageNode: imageNode,
+  noCache: true,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
     {

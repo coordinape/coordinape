@@ -56,6 +56,7 @@ const imageNode = async (params: Record<string, string>) => {
 export const PersonaThreeFrame: Frame = {
   id: 'persona3',
   homeFrame: false,
+  noCache: true,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
   buttons: [
