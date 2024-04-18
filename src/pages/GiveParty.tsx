@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 
+import { z } from 'zod';
+
 import { GemCoOutline } from 'icons/__generated';
-import {
-  EXTERNAL_URL_BLOG,
-  EXTERNAL_URL_DOCS_GIVE,
-  START_A_PARTY_INTENT,
-} from 'routes/paths';
-import { Flex, Link, Text } from 'ui';
+import { EXTERNAL_URL_BLOG, EXTERNAL_URL_DOCS_GIVE } from 'routes/paths';
+import { Flex, Link, Text, TextField } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 export const GiveParty = () => {
@@ -14,6 +12,19 @@ export const GiveParty = () => {
   const [wordIndex, setWordIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [charIndex, setCharIndex] = useState(0);
+  const [skill, setSkill] = useState<string | undefined>(undefined);
+  const [errors, setErrors] = useState<string | undefined>(undefined);
+
+  const startPartyUrl = `https://warpcast.com/~/compose?text=https://give.party/${skill}&embeds[]=https://give.party/${skill}`;
+
+  const skillSchema = z
+    .string()
+    .trim()
+    .min(1, { message: 'Skill must not be empty' })
+    .max(32, { message: 'Skill is max 32 characters' })
+    .regex(/^[^\s]*$/, {
+      message: 'Skill must not contain any spaces.',
+    });
 
   useEffect(() => {
     const currentWord = words[wordIndex];
@@ -33,6 +44,16 @@ export const GiveParty = () => {
       return () => clearTimeout(nextWordTimer);
     }
   }, [charIndex, displayedText, wordIndex, words]);
+
+  const validate = (value: string) => {
+    const result = skillSchema.safeParse(value);
+    if (!result.success) {
+      setErrors(result.error.issues[0].message);
+    } else {
+      setErrors(undefined);
+    }
+    setSkill(value);
+  };
 
   return (
     <>
@@ -62,7 +83,7 @@ export const GiveParty = () => {
             gap: 30,
           }}
         >
-          <Link href={START_A_PARTY_INTENT} target="_blank">
+          <Link href={startPartyUrl} target="_blank">
             <Flex
               css={{
                 background:
@@ -231,6 +252,19 @@ export const GiveParty = () => {
               {' '}
               How does this work?
             </Text>
+            <Flex
+              css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
+            >
+              <Text h2 display>
+                <TextField
+                  css={{ fontSize: 18 }}
+                  value={skill}
+                  placeholder={'Enter a skill'}
+                  onChange={e => validate(e.target.value)}
+                ></TextField>
+                <Text>{errors}</Text>
+              </Text>
+            </Flex>
             <ul
               style={{
                 padding: '0 1em',
@@ -241,28 +275,40 @@ export const GiveParty = () => {
               }}
             >
               <li>
-                Cast the URL{' '}
-                <Link href={START_A_PARTY_INTENT} target="_blank">
-                  <span
-                    style={{
-                      background:
-                        'radial-gradient(circle at 15% 0%, rgb(38 63 219 / 72%) 20%, rgb(187 12 191 / 67%) 100%)',
-                      padding: '2px 4px',
-                      borderRadius: '4px',
-                      fontWeight: 600,
-                    }}
-                  >
-                    https://give.party/&#x7B; a-skill &#x7D;
-                  </span>{' '}
-                </Link>
-                on Farcaster to create a custom frame.
-                <br />
-                <span
-                  style={{ fontSize: '.9em', marginTop: 5, display: 'block' }}
-                >
-                  (Replace <b>&apos;&#x7B; a-skill &#x7D;&apos;</b> with a skill
-                  of your choosing)
-                </span>
+                {skill ? (
+                  <>
+                    Cast the URL{' '}
+                    <Link href={startPartyUrl} target="_blank">
+                      <span
+                        style={{
+                          background:
+                            'radial-gradient(circle at 15% 0%, rgb(38 63 219 / 72%) 20%, rgb(187 12 191 / 67%) 100%)',
+                          padding: '2px 4px',
+                          borderRadius: '4px',
+                          fontWeight: 600,
+                        }}
+                      >
+                        {startPartyUrl}
+                      </span>{' '}
+                    </Link>
+                    on Farcaster to create a custom frame.
+                    <br />
+                    <span
+                      style={{
+                        fontSize: '.9em',
+                        marginTop: 5,
+                        display: 'block',
+                      }}
+                    >
+                      (Replace <b>&apos;&#x7B; a-skill &#x7D;&apos;</b> with a
+                      skill of your choosing)
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <Text h2>Choose a skill</Text>
+                  </>
+                )}
               </li>
               <li>
                 Anyone on Farcaster can use the frame to name people who they
