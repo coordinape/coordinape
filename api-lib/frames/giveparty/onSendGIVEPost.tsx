@@ -97,6 +97,10 @@ export const onSendGIVEPost = async (
     return GivePartyHomeFrame(`Can't find user: ${inputText}`);
   }
 
+  if (target_profile.id === info.profile.id) {
+    return GivePartyHomeFrame(`You can't GIVE to yourself!`);
+  }
+
   const { canGive } = await fetchPoints(info.profile.id);
   if (!canGive) {
     const { hasCoSoul } = await fetchProfileInfo(info.profile.id);
