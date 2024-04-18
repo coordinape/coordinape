@@ -54,7 +54,7 @@ export const PartyStartFrame = (skill: string): Frame => {
     clickURL: 'https://give.party',
     buttons: [
       {
-        title: 'Cast the Party',
+        title: 'Cast your Party',
         action: 'link',
         target: START_A_PARTY_INTENT(skill),
       },
