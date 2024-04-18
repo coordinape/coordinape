@@ -29,7 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         image: `${webAppURL('colinks')}/api/frames/router/img/party.help`,
         path,
         twitter_card: 'summary_large_image',
-        postURL: `${webAppURL('colinks')}/api/frames/router/meta/party.help`,
+        postURL: `${webAppURL('colinks')}/api/frames/router/post/party.help`,
       })
     );
   }
