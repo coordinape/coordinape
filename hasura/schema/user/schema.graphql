@@ -15974,6 +15974,7 @@ type profiles {
     """
     where: invite_codes_bool_exp
   ): invite_codes_aggregate!
+  invited_by: bigint
   last_read_notification_id: Int
   links: Int!
   links_held: Int!
@@ -16214,6 +16215,7 @@ input profiles_bool_exp {
   invite_code_sent_at: timestamptz_comparison_exp
   invite_codes: invite_codes_bool_exp
   invite_codes_aggregate: invite_codes_aggregate_bool_exp
+  invited_by: bigint_comparison_exp
   last_read_notification_id: Int_comparison_exp
   links: Int_comparison_exp
   links_held: Int_comparison_exp
@@ -16284,6 +16286,7 @@ input profiles_order_by {
   invite_code_requested_at: order_by
   invite_code_sent_at: order_by
   invite_codes_aggregate: invite_codes_aggregate_order_by
+  invited_by: order_by
   last_read_notification_id: order_by
   links: order_by
   links_held: order_by
@@ -17011,6 +17014,11 @@ enum profiles_select_column {
   """
   column name
   """
+  invited_by
+
+  """
+  column name
+  """
   last_read_notification_id
 
   """
@@ -17082,6 +17090,7 @@ input profiles_set_input {
   description: String
   discord_username: String
   github_username: String
+  invite_code_redeemed_at: timestamptz
   last_read_notification_id: Int
   medium_username: String
   product_emails: Boolean
@@ -17126,6 +17135,7 @@ input profiles_stream_cursor_value_input {
   invite_code_redeemed_at: timestamptz
   invite_code_requested_at: timestamptz
   invite_code_sent_at: timestamptz
+  invited_by: bigint
   last_read_notification_id: Int
   links: Int
   links_held: Int

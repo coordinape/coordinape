@@ -11672,6 +11672,7 @@ export type ValueTypes = {
       },
       ValueTypes['invite_codes_aggregate'],
     ];
+    invited_by?: boolean | `@${string}`;
     last_read_notification_id?: boolean | `@${string}`;
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
@@ -11883,6 +11884,7 @@ export type ValueTypes = {
       | ValueTypes['invite_codes_aggregate_bool_exp']
       | undefined
       | null;
+    invited_by?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     last_read_notification_id?:
       | ValueTypes['Int_comparison_exp']
       | undefined
@@ -11964,6 +11966,7 @@ export type ValueTypes = {
       | ValueTypes['invite_codes_aggregate_order_by']
       | undefined
       | null;
+    invited_by?: ValueTypes['order_by'] | undefined | null;
     last_read_notification_id?: ValueTypes['order_by'] | undefined | null;
     links?: ValueTypes['order_by'] | undefined | null;
     links_held?: ValueTypes['order_by'] | undefined | null;
@@ -12449,6 +12452,7 @@ export type ValueTypes = {
     description?: string | undefined | null;
     discord_username?: string | undefined | null;
     github_username?: string | undefined | null;
+    invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     medium_username?: string | undefined | null;
     product_emails?: boolean | undefined | null;
@@ -12482,6 +12486,7 @@ export type ValueTypes = {
     invite_code_redeemed_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_requested_at?: ValueTypes['timestamptz'] | undefined | null;
     invite_code_sent_at?: ValueTypes['timestamptz'] | undefined | null;
+    invited_by?: ValueTypes['bigint'] | undefined | null;
     last_read_notification_id?: number | undefined | null;
     links?: number | undefined | null;
     links_held?: number | undefined | null;
@@ -24453,6 +24458,7 @@ export type ModelTypes = {
     invite_codes: Array<GraphQLTypes['invite_codes']>;
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
+    invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
     links_held: number;
@@ -35082,6 +35088,7 @@ export type GraphQLTypes = {
     invite_codes: Array<GraphQLTypes['invite_codes']>;
     /** An aggregate relationship */
     invite_codes_aggregate: GraphQLTypes['invite_codes_aggregate'];
+    invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links: number;
     links_held: number;
@@ -35154,6 +35161,7 @@ export type GraphQLTypes = {
     invite_codes_aggregate?:
       | GraphQLTypes['invite_codes_aggregate_bool_exp']
       | undefined;
+    invited_by?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     last_read_notification_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -35219,6 +35227,7 @@ export type GraphQLTypes = {
     invite_codes_aggregate?:
       | GraphQLTypes['invite_codes_aggregate_order_by']
       | undefined;
+    invited_by?: GraphQLTypes['order_by'] | undefined;
     last_read_notification_id?: GraphQLTypes['order_by'] | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
     links_held?: GraphQLTypes['order_by'] | undefined;
@@ -35463,6 +35472,7 @@ export type GraphQLTypes = {
     description?: string | undefined;
     discord_username?: string | undefined;
     github_username?: string | undefined;
+    invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     last_read_notification_id?: number | undefined;
     medium_username?: string | undefined;
     product_emails?: boolean | undefined;
@@ -35496,6 +35506,7 @@ export type GraphQLTypes = {
     invite_code_redeemed_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_requested_at?: GraphQLTypes['timestamptz'] | undefined;
     invite_code_sent_at?: GraphQLTypes['timestamptz'] | undefined;
+    invited_by?: GraphQLTypes['bigint'] | undefined;
     last_read_notification_id?: number | undefined;
     links?: number | undefined;
     links_held?: number | undefined;
@@ -39263,6 +39274,7 @@ export const enum profiles_select_column {
   invite_code_redeemed_at = 'invite_code_redeemed_at',
   invite_code_requested_at = 'invite_code_requested_at',
   invite_code_sent_at = 'invite_code_sent_at',
+  invited_by = 'invited_by',
   last_read_notification_id = 'last_read_notification_id',
   links = 'links',
   links_held = 'links_held',

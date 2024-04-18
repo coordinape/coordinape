@@ -5,7 +5,6 @@ import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
 
-import { REQUIRE_INVITE_CODE } from '../../../pages/colinks/LaunchPage';
 import { coLinksPaths } from '../../../routes/paths';
 import { useCoLinksNavQuery } from '../useCoLinksNavQuery';
 import { GlobalUi } from 'components/GlobalUi';
@@ -146,7 +145,7 @@ export const CoLinksWizard = () => {
     checkEthDenverInvitee;
 
   useEffect(() => {
-    if (data?.profile && REQUIRE_INVITE_CODE) {
+    if (data?.profile) {
       if (
         !data.profile.invite_code_redeemed_at
         // !data.profile.invite_code_requested_at

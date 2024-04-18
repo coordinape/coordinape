@@ -16,8 +16,6 @@ import { Button, Flex, Panel, Text } from '../../ui';
 import { useAuthStore } from '../auth';
 import { QUERY_KEY_COLINKS_NAV } from '../colinks/useCoLinksNavQuery';
 
-import { WaitListForm } from './WaitListForm';
-
 export const panelStyles = {
   gap: '$md',
   p: '$lg',
@@ -69,6 +67,7 @@ export const RedeemInviteCode = ({
             invite_code_redeemed_at: true,
             invite_code_requested_at: true,
             invite_code_sent_at: true,
+            invited_by: true,
           },
         ],
       },
@@ -80,6 +79,7 @@ export const RedeemInviteCode = ({
       redeemed: !!profiles_by_pk?.invite_code_redeemed_at,
       requested: !!profiles_by_pk?.invite_code_requested_at,
       code_sent: !!profiles_by_pk?.invite_code_sent_at,
+      invited: !!profiles_by_pk?.invited_by,
     };
   });
 
@@ -113,6 +113,36 @@ export const RedeemInviteCode = ({
     }
   };
 
+  const updateRedeemedAt = async () => {
+    try {
+      setLoading(true);
+      const { update_profiles_by_pk } = await client.mutate(
+        {
+          update_profiles_by_pk: [
+            {
+              pk_columns: { id: profileId },
+              _set: { invite_code_redeemed_at: 'now()' },
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+        { operationName: 'redeemInviteCode' }
+      );
+      if (update_profiles_by_pk?.id) {
+        queryClient.invalidateQueries([INVITE_REDEEM_QUERY_KEY]);
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS_NAV]);
+      } else {
+        showError('failed to update invite code redemption date');
+      }
+    } catch (e) {
+      showError(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (data?.redeemed) {
       setRedeemedInviteCode(true);
@@ -129,7 +159,9 @@ export const RedeemInviteCode = ({
         <Panel success css={{ width: '100%' }}>
           <Text semibold css={{ gap: '$sm' }}>
             <Check color={'complete'} />
-            Successfully redeemed invite code.
+            {data.invited
+              ? 'Successfully redeemed invite code.'
+              : 'Successfully joined CoLinks.'}
           </Text>
         </Panel>
       </Flex>
@@ -162,6 +194,12 @@ export const RedeemInviteCode = ({
             >
               Have an Invite Code?
             </Text>
+            <Text
+              variant="label"
+              css={{ color: inviteCodeFormActive ? '$text' : '$secondaryText' }}
+            >
+              (Code is optional)
+            </Text>
             <FormInputField
               key="code_field"
               inputProps={{
@@ -188,13 +226,17 @@ export const RedeemInviteCode = ({
           </Button>
         </Panel>
       </form>
-      <OrBar css={{ my: '$xs' }}>Or Join the Wait List</OrBar>
-      <WaitListForm
-        codeSent={data.code_sent}
-        requested={data.requested}
-        inviteCodeFormActive={inviteCodeFormActive}
-        setInviteCodeFormActive={setInviteCodeFormActive}
-      />
+      <OrBar css={{ my: '$xs' }}>Or Join without Invite Code</OrBar>
+      <Button
+        type="button"
+        color="cta"
+        fullWidth
+        onClick={async () => {
+          await updateRedeemedAt();
+        }}
+      >
+        Join
+      </Button>
     </Flex>
   );
 };
