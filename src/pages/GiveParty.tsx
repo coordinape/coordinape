@@ -355,7 +355,7 @@ export const GiveParty = () => {
                       whiteSpace: 'nowrap',
                     }}
                   >
-                    http://give.party/&#x7B; a-skill &#x7D;
+                    https://give.party/&#x7B; a-skill &#x7D;
                   </span>{' '}
                 </Link>
                 on Farcaster to create a custom frame.
