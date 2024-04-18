@@ -10,13 +10,7 @@ import { Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 export const GiveParty = () => {
-  const words = [
-    'a-skill-to-celebrate',
-    'design',
-    'leadership',
-    'humor',
-    'inspiration',
-  ];
+  const words = ['design', 'leadership', 'humor', 'inspiration', 'yolo-ing'];
   const [wordIndex, setWordIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
   const [charIndex, setCharIndex] = useState(0);
@@ -95,6 +89,15 @@ export const GiveParty = () => {
                   borderRight: '0',
                   borderTop: '0',
                   flexWrap: 'wrap',
+                  fontSize: 32,
+                  '@md': {
+                    fontSize: 30,
+                    fontWeight: '$semibold',
+                  },
+                  '@tablet': {
+                    fontSize: 30,
+                    fontWeight: '$semibold',
+                  },
                   '@sm': {
                     fontSize: 15,
                     fontWeight: '$semibold',
@@ -106,8 +109,98 @@ export const GiveParty = () => {
               </Text>
             </Flex>
           </Link>
-          <PartyDisplayText text={`#${displayedText}`} />
-          <Flex>frame....</Flex>
+          <Flex
+            column
+            css={{
+              width: '100%',
+              aspectRatio: '2 / .8',
+              borderRadius: 10,
+              p: '$md',
+              background:
+                'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
+              justifyContent: 'space-between',
+              outline: '8px solid rgba(0,0,0,0.4)',
+              '@sm': {
+                minHeight: '280px',
+              },
+            }}
+          >
+            <Flex column style={{ gap: 5 }}>
+              <Text
+                semibold
+                css={{
+                  fontSize: 36,
+                  '@sm': {
+                    fontSize: 30,
+                  },
+                }}
+              >
+                Who is great at
+              </Text>
+              <Text
+                semibold
+                css={{
+                  fontSize: 36,
+                  '@sm': {
+                    fontSize: 30,
+                  },
+                }}
+              >
+                <PartyDisplayText text={`#${displayedText}`} />
+              </Text>
+              <Text
+                semibold
+                css={{
+                  fontSize: 36,
+                  '@sm': {
+                    fontSize: 30,
+                  },
+                }}
+              >
+                on Farcaster
+              </Text>
+            </Flex>
+            <Flex
+              style={{
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: 10,
+              }}
+            >
+              <Text
+                css={{
+                  fontWeight: 400,
+                  fontSize: 22,
+                  '@sm': {
+                    fontSize: 16,
+                  },
+                }}
+              >
+                Enter a name below, we&apos;ll send
+                <br />
+                them a GIVE on your behalf
+              </Text>
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  gap: 10,
+                }}
+              >
+                <Text
+                  css={{
+                    fontSize: 38,
+                    '@sm': {
+                      fontSize: 28,
+                    },
+                  }}
+                >
+                  give.party
+                </Text>
+                <GemCoOutline size="2xl" fa />
+              </Flex>
+            </Flex>
+          </Flex>
           <Text
             h1
             display
