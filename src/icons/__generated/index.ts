@@ -150,6 +150,7 @@ export { default as UnCheckedRadio } from './UnCheckedRadio';
 export { default as UserFill } from './UserFill';
 export { default as User } from './User';
 export { default as Users } from './Users';
+export { default as Wand } from './Wand';
 export { default as XSquare } from './XSquare';
 export { default as X } from './X';
 export { default as Zap } from './Zap';
