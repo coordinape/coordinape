@@ -112,11 +112,11 @@ export const GiveParty = () => {
                   flexWrap: 'wrap',
                   fontSize: 32,
                   '@md': {
-                    fontSize: 30,
+                    fontSize: 32,
                     fontWeight: '$semibold',
                   },
                   '@tablet': {
-                    fontSize: 30,
+                    fontSize: 32,
                     fontWeight: '$semibold',
                   },
                   '@sm': {
@@ -223,26 +223,28 @@ export const GiveParty = () => {
             </Flex>
           </Flex>
           <Text
-            h1
             display
             css={{
               fontWeight: 400,
               letterSpacing: -1,
               lineHeight: 1.1,
+              fontSize: 45,
             }}
           >
             When it comes to creating onchain reputation, we mean business.
           </Text>
           <Text
-            h1
             display
             css={{
               fontWeight: 600,
               letterSpacing: -1,
               lineHeight: 1.1,
+              fontSize: 45,
             }}
           >
-            And when we mean business, we mean party!
+            And when we mean business,
+            <br />
+            we mean party!
           </Text>
           <Flex
             column
@@ -313,6 +315,10 @@ export const GiveParty = () => {
               <li>
                 Anyone on Farcaster can use the frame to name people who they
                 think are awesome at that skill.
+              </li>
+              <li>
+                Party Starters will get Coordinape Rep Points for their parties!
+                Every party gets a little, really big parties get a lot.
               </li>
               <li>
                 GIVE will be sent by Coordinape to create a map of this skill
