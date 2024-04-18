@@ -237,6 +237,7 @@ export type Frame = {
   errorMessage?: string;
   inputText?: (params: Record<string, string>) => string;
   aspectRatio?: '1:1' | '1.91:1' | undefined;
+  clickURL?: string;
 };
 
 export type Button = {

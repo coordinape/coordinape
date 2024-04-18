@@ -184,7 +184,7 @@ const buildGivePartyFrameTags = ({
 <meta property="fc:frame:image" content="${image}" />
 <meta
   property="fc:frame:image:aspect_ratio"
-  content={'1.91:1'}
+  content="1.91:1"
 />
 //         TODO BUTTONS
 /*

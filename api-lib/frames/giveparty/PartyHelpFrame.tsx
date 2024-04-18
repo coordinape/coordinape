@@ -53,6 +53,7 @@ export const PartyHelpFrame: Frame = {
   homeFrame: true,
   imageNode: imageNode,
   resourceIdentifier: staticResourceIdentifier,
+  clickURL: 'https://give.party',
   // TODO: change this
   buttons: [
     {

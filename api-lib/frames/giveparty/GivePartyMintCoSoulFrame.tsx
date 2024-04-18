@@ -81,6 +81,7 @@ export const GivePartyMintCoSoulFrame: Frame = {
   aspectRatio: '1.91:1',
   homeFrame: false,
   imageNode: imageNode,
+  clickURL: 'https://give.party',
   resourceIdentifier: skillResourceIdentifier,
   buttons: [
     {

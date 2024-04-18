@@ -65,6 +65,7 @@ export const JoinedPartyFrame: Frame = {
   homeFrame: false,
   imageNode: imageNode,
   resourceIdentifier: skillResourceIdentifier,
+  clickURL: 'https://give.party',
   inputText: () => {
     return `Enter a Farcaster @username`;
   },
