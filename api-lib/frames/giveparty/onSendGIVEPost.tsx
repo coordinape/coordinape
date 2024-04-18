@@ -130,6 +130,7 @@ export const onSendGIVEPost = async (
       give_id: giveId,
       giver_id: info.profile.id,
       giver_name: info.profile.name,
+      cast_hash: cast_hash,
       receiver_id: target_profile.id,
       receiver_name: target_profile.name,
       skill,
