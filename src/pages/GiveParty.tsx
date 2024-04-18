@@ -33,7 +33,7 @@ export const GiveParty = () => {
             maxWidth: 800,
             marginTop: 50,
             alignItems: 'flex-start',
-            gap: 20,
+            gap: 30,
           }}
         >
           <Link href={START_A_PARTY_INTENT} target="_blank">
@@ -63,6 +63,10 @@ export const GiveParty = () => {
                   borderRight: '0',
                   borderTop: '0',
                   flexWrap: 'wrap',
+                  '@sm': {
+                    fontSize: 15,
+                    fontWeight: '$semibold',
+                  },
                 }}
               >
                 <span>https://give.party/</span>
@@ -156,7 +160,16 @@ export const GiveParty = () => {
               width: '100%',
             }}
           >
-            <GemCoOutline size="2xl" fa css={{ mb: '$xl' }} />
+            <Flex
+              css={{
+                alignItems: 'center',
+                mb: '$xl',
+                gap: 10,
+              }}
+            >
+              <GemCoOutline size="2xl" fa />
+              <Text css={{ fontSize: 26 }}>give.party</Text>
+            </Flex>
             <Text h2>Wanna know more?</Text>
             <Flex
               column
