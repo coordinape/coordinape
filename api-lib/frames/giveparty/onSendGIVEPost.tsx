@@ -99,22 +99,18 @@ export const onSendGIVEPost = async (
 
   const { canGive } = await fetchPoints(info.profile.id);
   if (!canGive) {
-    const { hasCoSoul, linksHeld } = await fetchProfileInfo(info.profile.id);
+    const { hasCoSoul } = await fetchProfileInfo(info.profile.id);
     if (!hasCoSoul) {
       return GivePartyMintCoSoulFrame;
       // return GivePartyHomeFrame(`Mint CoSoul!`);
-    } else if (linksHeld === 0) {
-      // TODO: earn more GIVE by joining CoLinks Frame
+    } /* else if (linksHeld === 0) {
       return GivePartyHomeFrame(`Join CoLinks!`);
-    } else {
+    } */ else {
       return GivePartyHomeFrame(`You're out of GIVE! Wait until it recharges.`);
     }
   }
   let giveId;
   try {
-    // TODO: canhazgive?
-    // TODO: there is points validation that needs to happen here, the mention webhook does it
-    // TODO: handle failure of this
     giveId = await insertCoLinksGive(
       info.profile,
       target_profile,
