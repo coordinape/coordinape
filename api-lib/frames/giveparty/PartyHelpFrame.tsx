@@ -7,7 +7,7 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 import { validateAndCleanSkill } from './onSendGIVEPost.tsx';
-import { PartyStartFrame } from './PartyStartedFrame.tsx';
+import { PartyStartFrame } from './PartyStartFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { error_message } = params;
@@ -105,7 +105,7 @@ export const PartyHelpFrame = (error_message?: string): Frame => {
       {
         title: 'Learn More',
         action: 'link',
-        target: 'https://docs.coordinape.com/colinks/give',
+        target: 'https://give.party',
       },
     ],
   };
