@@ -185,19 +185,6 @@ const buildGivePartyFrameTags = ({
   property="fc:frame:image:aspect_ratio"
   content="1.91:1"
 />
-//         TODO BUTTONS
-/*
-   {
-        title: 'Start the Party',
-        action: 'post',
-        onPost: prepareParty,
-      },
-      {
-        title: 'Learn More',
-        action: 'link',
-        target: 'https://give.party',
-      },
- */
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
 
