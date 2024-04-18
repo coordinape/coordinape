@@ -201,6 +201,8 @@ const buildGivePartyFrameTags = ({
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="CoLinks" />
 
+<meta name="fc:frame:input:text" content="Enter a skill to celebrate" />
+
 <meta name="fc:frame:button:1" content="Start the Party" />
 <meta name="fc:frame:button:1:action" content="post" />
 
