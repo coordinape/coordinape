@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Frame } from '../../../_api/frames/router.tsx';
+import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
@@ -81,7 +82,37 @@ const prepareParty = async (
     return PartyHelpFrame(e.message);
   }
   params['skill'] = skill;
+
+  const timeout = new Promise(resolve =>
+    setTimeout(() => resolve('timeout'), 100)
+  );
+
+  await Promise.race([
+    fetch(getFrameUrl('give.party', skill)),
+    fetch(getFrameImgUrl('give.party', skill)),
+    timeout,
+  ]);
+
   return PartyStartFrame(skill);
+};
+
+const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
+const getFrameUrl = (frameId: string, resourceId?: string) => {
+  let url = `${FRAME_ROUTER_URL_BASE}/meta/${frameId}`;
+
+  if (resourceId) {
+    url += `/${resourceId}`;
+  }
+  return url;
+};
+
+const getFrameImgUrl = (frameId: string, resourceId?: string) => {
+  let url = `${FRAME_ROUTER_URL_BASE}/img/${frameId}`;
+
+  if (resourceId) {
+    url += `/${resourceId}`;
+  }
+  return url;
 };
 
 export const PartyHelpFrame = (error_message?: string): Frame => {
