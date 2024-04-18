@@ -1,4 +1,9 @@
-import { EXTERNAL_URL_BLOG, EXTERNAL_URL_DOCS_GIVE } from 'routes/paths';
+import { GemCoOutline } from 'icons/__generated';
+import {
+  EXTERNAL_URL_BLOG,
+  EXTERNAL_URL_DOCS_GIVE,
+  START_A_PARTY_INTENT,
+} from 'routes/paths';
 import { Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
@@ -31,38 +36,40 @@ export const GiveParty = () => {
             gap: 20,
           }}
         >
-          <Flex
-            css={{
-              background:
-                'radial-gradient(circle at 15% 0%, #031c5d 20%, #6e00c3 100%)',
-              padding: '10px 15px',
-              borderRadius: 10,
-            }}
-          >
-            <Text
-              h2
-              display
+          <Link href={START_A_PARTY_INTENT} target="_blank">
+            <Flex
               css={{
-                fontWeight: 'normal',
-                display: 'flex',
-                alignItems: 'baseline',
-                gap: '.1em',
-                paddingBottom: '6px',
-                border: '2px solid',
-                borderImageSlice: '1',
-                borderWidth: '2px',
-                borderImageSource:
-                  'linear-gradient(to right, rgb(15, 243, 210), rgb(0 107 255))',
-                borderLeft: '0',
-                borderRight: '0',
-                borderTop: '0',
-                flexWrap: 'wrap',
+                background:
+                  'radial-gradient(circle at 15% 0%, #031c5d 20%, #6e00c3 100%)',
+                padding: '10px 15px',
+                borderRadius: 10,
               }}
             >
-              <span>https://give.party/</span>
-              <PartyDisplayText text="{a-skill-to-celebrate}" />
-            </Text>
-          </Flex>
+              <Text
+                h2
+                display
+                css={{
+                  fontWeight: 'normal',
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  gap: '.1em',
+                  paddingBottom: '6px',
+                  border: '2px solid',
+                  borderImageSlice: '1',
+                  borderWidth: '2px',
+                  borderImageSource:
+                    'linear-gradient(to right, rgb(15, 243, 210), rgb(0 107 255))',
+                  borderLeft: '0',
+                  borderRight: '0',
+                  borderTop: '0',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <span>https://give.party/</span>
+                <PartyDisplayText text="{a-skill-to-celebrate}" />
+              </Text>
+            </Flex>
+          </Link>
           <Text
             h1
             display
@@ -104,17 +111,19 @@ export const GiveParty = () => {
             >
               <li>
                 Cast the URL{' '}
-                <span
-                  style={{
-                    background:
-                      'radial-gradient(circle at 15% 0%, rgb(38 63 219 / 72%) 20%, rgb(134 12 191 / 67%) 100%)',
-                    padding: '2px 4px',
-                    borderRadius: '4px',
-                    fontWeight: 600,
-                  }}
-                >
-                  https://give.party/&#x7B; a-skill &#x7D;
-                </span>{' '}
+                <Link href={START_A_PARTY_INTENT} target="_blank">
+                  <span
+                    style={{
+                      background:
+                        'radial-gradient(circle at 15% 0%, rgb(38 63 219 / 72%) 20%, rgb(187 12 191 / 67%) 100%)',
+                      padding: '2px 4px',
+                      borderRadius: '4px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    https://give.party/&#x7B; a-skill &#x7D;
+                  </span>{' '}
+                </Link>
                 on Farcaster to create a custom frame.
                 <br />
                 <span
@@ -147,6 +156,7 @@ export const GiveParty = () => {
               width: '100%',
             }}
           >
+            <GemCoOutline size="2xl" fa css={{ mb: '$xl' }} />
             <Text h2>Wanna know more?</Text>
             <Flex
               column

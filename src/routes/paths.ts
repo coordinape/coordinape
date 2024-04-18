@@ -2,6 +2,8 @@ import type { Location } from 'react-router-dom';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
 export const EXTERNAL_URL_BLOG = 'https://coordinape.com/blog';
+export const START_A_PARTY_INTENT =
+  'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 export const EXTERNAL_URL_DOCS_GIVE =
   'https://docs.coordinape.com/colinks/give';
 export const EXTERNAL_URL_DOCS_COLINKS =
