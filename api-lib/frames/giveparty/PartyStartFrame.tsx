@@ -15,27 +15,28 @@ const imageNode = async (params: Record<string, string>) => {
       <FrameBodyGradient
         gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 0%, #27A2AA 30%, #068522 100%)',
+            'radial-gradient(circle at 25% 0%, #A007B9 30%, #F5A408 100%)',
         }}
       />
-      <div tw="flex h-full w-full items-center" style={{ padding: 30 }}>
+      <div tw="flex h-full w-full items-center">
         <div
           tw="flex flex-col w-full items-center justify-center text-center"
           style={{
-            padding: '20px 32px',
             fontSize: 80,
-            gap: 40,
             lineHeight: 1,
           }}
         >
           <div
             tw="flex flex-col overflow-x-auto"
-            style={{ gap: 20, lineHeight: 1, fontWeight: 600 }}
+            style={{ gap: 10, lineHeight: 1, fontWeight: 600, marginTop: -30 }}
           >
             <div tw="flex">Your</div>
             <PartyText text={`#${skill}`} />
             <div tw="flex" style={{ marginTop: 10 }}>
               party is ready to go!
+            </div>
+            <div tw="flex" style={{ marginTop: 20 }}>
+              🥳
             </div>
           </div>
         </div>

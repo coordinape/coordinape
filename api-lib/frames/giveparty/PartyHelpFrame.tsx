@@ -17,7 +17,7 @@ const imageNode = async (params: Record<string, string>) => {
       <FrameBodyGradient
         gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 0%, #27A2AA 30%, #068522 100%)',
+            'radial-gradient(circle at 25% 0%, #A0B907 30%, #F5A408 100%)',
         }}
       />
       <div tw="flex h-full w-full items-center" style={{ padding: 30 }}>
