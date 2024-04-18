@@ -342,35 +342,7 @@ export const GiveParty = () => {
                 lineHeight: 1.2,
               }}
             >
-              <li>
-                Cast the URL{' '}
-                <Link href={startPartyUrl} target="_blank">
-                  <span
-                    style={{
-                      background:
-                        'radial-gradient(circle at 15% 0%, rgb(4 13 73 / 72%) 20%, rgb(105 5 108 / 67%) 100%)',
-                      padding: '2px 4px',
-                      borderRadius: '4px',
-                      fontWeight: 600,
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    https://give.party/&#x7B; a-skill &#x7D;
-                  </span>{' '}
-                </Link>
-                on Farcaster to create a custom frame.
-                <br />
-                <span
-                  style={{
-                    fontSize: '.8em',
-                    marginTop: 5,
-                    display: 'block',
-                  }}
-                >
-                  (Replace <b>&apos;&#x7B; a-skill &#x7D;&apos;</b> with a skill
-                  of your choosing)
-                </span>
-              </li>
+              <li>Cast the URL</li>
               <li>
                 Anyone on Farcaster can use the frame to name people who they
                 think are awesome at that skill.
