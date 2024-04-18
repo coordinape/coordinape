@@ -26,7 +26,9 @@ export const getImgSrc = (
   const error_message: string | undefined = params['error_message'];
 
   const imgParams = {
-    ...(IS_LOCAL_ENV ? { ts: DateTime.now().valueOf().toString() } : {}),
+    ...(IS_LOCAL_ENV || frame.noCache
+      ? { ts: DateTime.now().valueOf().toString() }
+      : {}),
     ...(error_message && { error_message: error_message }),
     ...(viewer_profile_id && { viewer_profile_id: viewer_profile_id }),
   };
