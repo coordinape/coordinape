@@ -8,12 +8,15 @@ import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
 import { getContextFromParams } from './getContextFromParams.ts';
+import { getRandomColor, gradientArray } from './JoinedPartyFrame.tsx';
 import { onSendGIVEPost, validateAndCleanSkill } from './onSendGIVEPost.tsx';
 import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
 const givePartyImageNode = async (params: Record<string, string>) => {
   let { skill } = await getContextFromParams(params);
   const { error_message } = params;
+
+  const randomGradient = getRandomColor(gradientArray);
 
   try {
     skill = validateAndCleanSkill(skill);
@@ -25,8 +28,7 @@ const givePartyImageNode = async (params: Record<string, string>) => {
     <FrameWrapper>
       <FrameBodyGradient
         gradientStyles={{
-          background:
-            'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
+          background: randomGradient,
         }}
       />
       <div

@@ -4,6 +4,7 @@ import { Frame } from '../../../_api/frames/router.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
+import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
@@ -17,50 +18,38 @@ const imageNode = async (params: Record<string, string>) => {
       <FrameBodyGradient
         gradientStyles={{
           background:
-            'radial-gradient(circle at 25% 0%, #A0B907 30%, #F5A408 100%)',
+            'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
         }}
       />
-      <div tw="flex h-full w-full items-center" style={{ padding: 30 }}>
+      <div
+        tw="flex flex-col h-full justify-between"
+        style={{ fontSize: 85, fontWeight: 600, padding: '50px 40px' }}
+      >
         <div
-          tw="flex flex-col w-full items-center justify-center text-center"
-          style={{
-            padding: '20px 32px',
-            fontSize: 80,
-            gap: 40,
-            lineHeight: 1,
-          }}
+          tw="flex flex-col overflow-x-auto"
+          style={{ marginTop: 40, gap: 20, lineHeight: 1 }}
         >
+          <div tw="flex" style={{ marginBottom: 10 }}>
+            Kick off a GIVE Party!
+          </div>
           <div
-            tw="flex flex-col items-center"
-            style={{ gap: 16, fontSize: 80 }}
+            tw="flex"
+            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
           >
-            <span style={{ fontWeight: 600 }}>Kick off a GIVE Party!</span>
-            <span style={{ fontSize: 48 }}>
-              Celebrate people for a skill you care about.
-            </span>
-            <span style={{ fontSize: 48 }}>
-              Party Starters get Rep Points, too.
-            </span>
-            {/*<span style={{ fontSize: 40 }}>Cast with</span>*/}
-            {/*<span*/}
-            {/*  style={{*/}
-            {/*    background: '#111111',*/}
-            {/*    padding: '10px 25px 15px',*/}
-            {/*    borderRadius: 8,*/}
-            {/*    marginTop: 8,*/}
-            {/*    color: 'white',*/}
-            {/*    fontSize: 52,*/}
-            {/*  }}*/}
-            {/*>*/}
-            {/*  https://give.party/a-skill-to-celebrate*/}
-            {/*</span>*/}
+            Celebrate people for a skill you care about.
+          </div>
+          <div
+            tw="flex"
+            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
+          >
+            Party Starters get Rep Points, too
           </div>
           {error_message && (
             <div
               tw="flex w-full text-center justify-center"
               style={{
-                background: '#FF5FFF',
-                color: 'black',
+                background: 'rgba(0,0,0,0.4)',
+                color: '#FF5FFF',
                 padding: 10,
                 fontSize: 40,
               }}
@@ -68,6 +57,28 @@ const imageNode = async (params: Record<string, string>) => {
               {error_message}
             </div>
           )}
+        </div>
+        <div tw="flex justify-between">
+          <div
+            tw="flex"
+            style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
+          >
+            <div tw="flex flex-col">
+              <span>Enter a skill below,</span>
+              <span>we&apos;ll start your party.</span>
+            </div>
+          </div>
+          <div
+            tw="flex items-center"
+            style={{ fontSize: 70, fontWeight: 400, gap: 20 }}
+          >
+            <span>give.party</span>
+            <img
+              alt="gem"
+              src={IMAGE_URL_BASE + 'GemWhite.png'}
+              style={{ width: 90, height: 90 }}
+            />
+          </div>
         </div>
       </div>
     </FrameWrapper>
