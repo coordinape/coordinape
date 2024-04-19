@@ -37,7 +37,7 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           tw="flex flex-col overflow-x-auto"
           style={{ gap: 20, lineHeight: 1 }}
         >
-          <div tw="flex">Who is great at</div>
+          <div tw="flex">Who is{skill === 'based' ? '' : ' great at'}</div>
           <PartyText text={`#${skill}`} />
           <div tw="flex" style={{ marginTop: 10 }}>
             on Farcaster?
