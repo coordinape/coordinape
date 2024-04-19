@@ -80,7 +80,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
                 style={{
                   fontSize: 34,
                   background: 'rgba(0,0,0,0.4)',
-                  padding: '6px 15px',
+                  padding: '6px 14px 6px 15px',
                   borderRadius: 8,
                 }}
               >
