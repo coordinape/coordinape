@@ -22,6 +22,18 @@ export function getRandomColor(colors: string[]): string {
   const randomIndex = Math.floor(Math.random() * colors.length);
   return colors[randomIndex];
 }
+export const gradientArray = [
+  'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
+  'radial-gradient(circle at 25% 0%, #C528AC 30%, #09B5B5 100%)',
+  'radial-gradient(circle at 25% 0%, #09B5B5 30%, #FF1FFF 100%)',
+  'radial-gradient(circle at 25% 0%, #129AD5 30%, #B40CEF 100%)',
+  'radial-gradient(circle at 25% 0%, #E96DD5 30%, #5200FF 100%)',
+  'radial-gradient(circle at 25% 0%, #00B489 30%, #AE01FF 100%)',
+  'radial-gradient(circle at 25% 0%, #9E3DFF 30%, #86ABF1 100%)',
+  'radial-gradient(circle at 25% 0%, #4C55AB 30%, #FF5FFF 100%)',
+  'radial-gradient(circle at 25% 0%, #00B393 30%, #19C8FF 100%)',
+];
+const randomGradient = getRandomColor(gradientArray);
 
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
@@ -31,19 +43,6 @@ const imageNode = async (params: Record<string, string>) => {
   } = await fetchProfileInfo(viewerProfile?.id);
   const { give } = await fetchPoints(viewerProfile?.id);
   const level = await getLevelForViewer(viewerProfile?.id);
-
-  const gradientArray = [
-    'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
-    'radial-gradient(circle at 25% 0%, #C528AC 30%, #09B5B5 100%)',
-    'radial-gradient(circle at 25% 0%, #09B5B5 30%, #FF1FFF 100%)',
-    'radial-gradient(circle at 25% 0%, #129AD5 30%, #B40CEF 100%)',
-    'radial-gradient(circle at 25% 0%, #E96DD5 30%, #5200FF 100%)',
-    'radial-gradient(circle at 25% 0%, #00B489 30%, #AE01FF 100%)',
-    'radial-gradient(circle at 25% 0%, #9E3DFF 30%, #86ABF1 100%)',
-    'radial-gradient(circle at 25% 0%, #4C55AB 30%, #FF5FFF 100%)',
-    'radial-gradient(circle at 25% 0%, #00B393 30%, #19C8FF 100%)',
-  ];
-  const randomGradient = getRandomColor(gradientArray);
 
   return (
     <FrameWrapper>

@@ -6,16 +6,17 @@ import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 import { START_A_PARTY_INTENT } from '../routingUrls.ts';
 
+import { getRandomColor, gradientArray } from './JoinedPartyFrame.tsx';
 import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
 const imageNode = async (params: Record<string, string>) => {
   const { skill } = params;
+  const randomGradient = getRandomColor(gradientArray);
   return (
     <FrameWrapper>
       <FrameBodyGradient
         gradientStyles={{
-          background:
-            'radial-gradient(circle at 25% 0%, #A007B9 30%, #F5A408 100%)',
+          background: randomGradient,
         }}
       />
       <div tw="flex h-full w-full items-center">
