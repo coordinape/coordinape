@@ -26,7 +26,7 @@ export const NewestMemberPage = () => {
         <InfiniteMembersList
           queryKey={['NEWEST_MEMBERS']}
           where={{}}
-          orderBy={[{ joined_colinks_at: order_by.desc }]}
+          orderBy={[{ joined_colinks_at: order_by.desc_nulls_last }]}
           includeRank={true}
         />
       </Flex>
