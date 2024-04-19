@@ -14,6 +14,19 @@ import { onSendGIVEPost } from './onSendGIVEPost.tsx';
 import { PartyHelpFrame } from './PartyHelpFrame.tsx';
 import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
+function getRandomColor(colors: string[]): string {
+  // Ensure the array is not empty
+  if (colors.length === 0) {
+    throw new Error('The color array is empty.');
+  }
+
+  // Get a random index from the array
+  const randomIndex = Math.floor(Math.random() * colors.length);
+
+  // Return the color at the random index
+  return colors[randomIndex];
+}
+
 const imageNode = async (params: Record<string, string>) => {
   const { viewerProfile } = await getViewerFromParams(params);
   const {
@@ -23,12 +36,25 @@ const imageNode = async (params: Record<string, string>) => {
   const { give } = await fetchPoints(viewerProfile?.id);
   const level = await getLevelForViewer(viewerProfile?.id);
 
+  // Example usage:
+  const gradientArray = [
+    'radial-gradient(circle at 25% 0%, #8C1EFF 30%, #FF1FFF 100%)',
+    'radial-gradient(circle at 25% 0%, #E31AC2 30%, #09B5B5 100%)',
+    'radial-gradient(circle at 25% 0%, #09B5B5 30%, #FF1FFF 100%)',
+    'radial-gradient(circle at 25% 0%, #00AEF9 30%, #EDFF1F 100%)',
+    'radial-gradient(circle at 25% 0%, #E3C212 30%, #FF8A00 100%)',
+    'radial-gradient(circle at 25% 0%, #00B489 30%, #DBFF01 100%)',
+    'radial-gradient(circle at 25% 0%, #FF3D83 30%, #4B00C6 100%)',
+    'radial-gradient(circle at 25% 0%, #4C55AB 30%, #FF5FFF 100%)',
+    'radial-gradient(circle at 25% 0%, #FFB800 30%, #62FF01 100%)',
+  ];
+  const randomGradient = getRandomColor(gradientArray);
+
   return (
     <FrameWrapper>
       <FrameBodyGradient
         gradientStyles={{
-          background:
-            'radial-gradient(circle at 25% 0%, #8C1EFF 30%, #FF1FFF 100%)',
+          background: randomGradient,
         }}
       />
       <div
