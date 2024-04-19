@@ -122,7 +122,7 @@ export const GiveParty = () => {
                   },
                 }}
               >
-                Who is great at
+                Who is{skill === 'based' ? '' : ' great at'}
               </Text>
               <Text
                 semibold
