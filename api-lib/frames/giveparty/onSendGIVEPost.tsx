@@ -27,7 +27,7 @@ const usernameSchema = z
     message: 'Username must not contain any spaces.',
   })
   .min(1, { message: 'Username must not be empty' })
-  .max(17, { message: 'Username is max 17 characters' });
+  .max(24, { message: 'Username is max 24 characters' });
 
 const skillTrim = z
   .string()
