@@ -78,7 +78,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
                   position: 'absolute',
                   bottom: -47,
                   fontSize: 34,
-                  background: 'rgba(20,20,20,0.8)',
+                  background: 'rgba(45,45,60,0.75)',
                   padding: '8px 24px 8px 25px',
                   borderRadius: 99,
                 }}
