@@ -58,14 +58,34 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
         />
         <FrameHeadline>
           <OGAvatar avatar={give.giver_profile_public.avatar} />
-          <div tw="flex items-center grow justify-center">
-            +1
-            <img
-              alt="gem"
-              src={IMAGE_URL_BASE + 'GemWhite.png'}
-              style={{ width: 70, height: 70, margin: '0 20px' }}
-            />
-            <span>GIVE</span>
+
+          <div
+            tw="flex flex-col items-center grow justify-center relative"
+            style={{ lineHeight: 1, gap: 8 }}
+          >
+            <div tw="flex items-center grow justify-center" style={{ gap: 20 }}>
+              +1
+              <img
+                alt="gem"
+                src={IMAGE_URL_BASE + 'GemWhite.png'}
+                style={{ width: 70, height: 70 }}
+              />
+              <span>GIVE</span>
+            </div>
+            {give.skill && (
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: -47,
+                  fontSize: 34,
+                  background: 'rgba(20,20,20,0.8)',
+                  padding: '8px 24px 8px 25px',
+                  borderRadius: 99,
+                }}
+              >
+                #{give.skill}
+              </span>
+            )}
           </div>
           <OGAvatar avatar={give.target_profile_public.avatar} />
         </FrameHeadline>
