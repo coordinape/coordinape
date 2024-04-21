@@ -24,6 +24,21 @@ object_relationships:
           name: profiles_public
           schema: public
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - activity_id
+        - profile_id
+        - target_profile_id
+        - id
+        - cast_hash
+        - created_at
+        - updated_at
+        - skill
+      filter: {}
+      limit: 100
+      allow_aggregations: true
+    comment: ""
   - role: user
     permission:
       columns:

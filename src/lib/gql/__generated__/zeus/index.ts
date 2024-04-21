@@ -13921,6 +13921,10 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['poap_holders'],
     ];
+    price_per_share?: [
+      { chain_id: number; token_address?: string | undefined | null },
+      boolean | `@${string}`,
+    ];
     private_stream_visibility?: [
       {
         /** distinct select on columns */
@@ -19996,6 +20000,7 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     /** An object relationship */
     organization?: ValueTypes['organizations'];
+    price_per_share?: boolean | `@${string}`;
     /** An object relationship */
     profile?: ValueTypes['profiles'];
     simple_token_address?: boolean | `@${string}`;
@@ -24795,6 +24800,7 @@ export type ModelTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
+    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** fetch data from the table: "private_stream_visibility" using primary key columns */
@@ -26220,6 +26226,7 @@ export type ModelTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
@@ -35733,6 +35740,7 @@ export type GraphQLTypes = {
     poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** fetch data from the table: "poap_holders" using primary key columns */
     poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
+    price_per_share: number;
     /** An array relationship */
     private_stream_visibility: Array<GraphQLTypes['private_stream_visibility']>;
     /** fetch data from the table: "private_stream_visibility" using primary key columns */
@@ -38265,6 +38273,7 @@ export type GraphQLTypes = {
     id: GraphQLTypes['bigint'];
     /** An object relationship */
     organization: GraphQLTypes['organizations'];
+    price_per_share: number;
     /** An object relationship */
     profile: GraphQLTypes['profiles'];
     simple_token_address: string;
