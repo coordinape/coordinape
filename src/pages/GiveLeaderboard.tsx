@@ -106,7 +106,7 @@ export const GiveLeaderboard = () => {
             flexFlow: 'column nowrap',
           }}
         >
-          <Flex column css={{ alignItems: 'center' }}>
+          <Flex column css={{ alignItems: 'center', paddingTop: '100px' }}>
             <Flex row css={{ gap: '$md' }}>
               <Text css={{ color: '#FFFFFF' }} size={'large'}>
                 give.party
