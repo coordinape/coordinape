@@ -677,6 +677,54 @@ export type ValueTypes = {
     /** does the column match the given SQL regular expression */
     _similar?: ValueTypes['citext'] | undefined | null;
   };
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    skill?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: {
+    _and?: Array<ValueTypes['colinks_give_count_bool_exp']> | undefined | null;
+    _not?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['colinks_give_count_bool_exp']> | undefined | null;
+    gives?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    gives_last_24_hours?:
+      | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
+    gives_last_30_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    gives_last_7_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: {
+    gives?: ValueTypes['order_by'] | undefined | null;
+    gives_last_24_hours?: ValueTypes['order_by'] | undefined | null;
+    gives_last_30_days?: ValueTypes['order_by'] | undefined | null;
+    gives_last_7_days?: ValueTypes['order_by'] | undefined | null;
+    skill?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: colinks_give_count_select_column;
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['colinks_give_count_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: {
+    gives?: ValueTypes['bigint'] | undefined | null;
+    gives_last_24_hours?: ValueTypes['bigint'] | undefined | null;
+    gives_last_30_days?: ValueTypes['bigint'] | undefined | null;
+    gives_last_7_days?: ValueTypes['bigint'] | undefined | null;
+    skill?: ValueTypes['citext'] | undefined | null;
+  };
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -857,6 +905,29 @@ export type ValueTypes = {
   /** column ordering options */
   ['order_by']: order_by;
   ['query_root']: AliasType<{
+    colinks_give_count?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
+    ];
     colinks_gives?: [
       {
         /** distinct select on columns */
@@ -911,6 +982,42 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['subscription_root']: AliasType<{
+    colinks_give_count?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
+    ];
+    colinks_give_count_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['colinks_give_count_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
+    ];
     colinks_gives?: [
       {
         /** distinct select on columns */
@@ -997,6 +1104,24 @@ export type ModelTypes = {
   ['citext']: any;
   /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
   ['citext_comparison_exp']: GraphQLTypes['citext_comparison_exp'];
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: GraphQLTypes['colinks_give_count_bool_exp'];
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: GraphQLTypes['colinks_give_count_order_by'];
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: GraphQLTypes['colinks_give_count_select_column'];
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: GraphQLTypes['colinks_give_count_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: GraphQLTypes['colinks_give_count_stream_cursor_value_input'];
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
@@ -1120,6 +1245,8 @@ export type ModelTypes = {
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
   ['query_root']: {
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
     /** fetch data from the table: "colinks_gives" */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** fetch aggregated fields from the table: "colinks_gives" */
@@ -1129,6 +1256,10 @@ export type ModelTypes = {
     price_per_share: number;
   };
   ['subscription_root']: {
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch data from the table in a streaming manner: "colinks_give_count" */
+    colinks_give_count_stream: Array<GraphQLTypes['colinks_give_count']>;
     /** fetch data from the table: "colinks_gives" */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** fetch aggregated fields from the table: "colinks_gives" */
@@ -1233,6 +1364,51 @@ export type GraphQLTypes = {
     _regex?: GraphQLTypes['citext'] | undefined;
     /** does the column match the given SQL regular expression */
     _similar?: GraphQLTypes['citext'] | undefined;
+  };
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: {
+    __typename: 'colinks_give_count';
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: {
+    _and?: Array<GraphQLTypes['colinks_give_count_bool_exp']> | undefined;
+    _not?: GraphQLTypes['colinks_give_count_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['colinks_give_count_bool_exp']> | undefined;
+    gives?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: {
+    gives?: GraphQLTypes['order_by'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['order_by'] | undefined;
+    gives_last_30_days?: GraphQLTypes['order_by'] | undefined;
+    gives_last_7_days?: GraphQLTypes['order_by'] | undefined;
+    skill?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: colinks_give_count_select_column;
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['colinks_give_count_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
   };
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
@@ -1406,6 +1582,8 @@ export type GraphQLTypes = {
   ['order_by']: order_by;
   ['query_root']: {
     __typename: 'query_root';
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
     /** fetch data from the table: "colinks_gives" */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** fetch aggregated fields from the table: "colinks_gives" */
@@ -1416,6 +1594,10 @@ export type GraphQLTypes = {
   };
   ['subscription_root']: {
     __typename: 'subscription_root';
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch data from the table in a streaming manner: "colinks_give_count" */
+    colinks_give_count_stream: Array<GraphQLTypes['colinks_give_count']>;
     /** fetch data from the table: "colinks_gives" */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** fetch aggregated fields from the table: "colinks_gives" */
@@ -1439,6 +1621,14 @@ export type GraphQLTypes = {
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
   };
 };
+/** select columns of table "colinks_give_count" */
+export const enum colinks_give_count_select_column {
+  gives = 'gives',
+  gives_last_24_hours = 'gives_last_24_hours',
+  gives_last_30_days = 'gives_last_30_days',
+  gives_last_7_days = 'gives_last_7_days',
+  skill = 'skill',
+}
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {
   activity_id = 'activity_id',

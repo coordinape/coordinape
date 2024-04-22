@@ -183,6 +183,98 @@ input citext_comparison_exp {
 }
 
 """
+columns and relationships of "colinks_give_count"
+"""
+type colinks_give_count {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
+Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'.
+"""
+input colinks_give_count_bool_exp {
+  _and: [colinks_give_count_bool_exp!]
+  _not: colinks_give_count_bool_exp
+  _or: [colinks_give_count_bool_exp!]
+  gives: bigint_comparison_exp
+  gives_last_24_hours: bigint_comparison_exp
+  gives_last_30_days: bigint_comparison_exp
+  gives_last_7_days: bigint_comparison_exp
+  skill: citext_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "colinks_give_count".
+"""
+input colinks_give_count_order_by {
+  gives: order_by
+  gives_last_24_hours: order_by
+  gives_last_30_days: order_by
+  gives_last_7_days: order_by
+  skill: order_by
+}
+
+"""
+select columns of table "colinks_give_count"
+"""
+enum colinks_give_count_select_column {
+  """
+  column name
+  """
+  gives
+
+  """
+  column name
+  """
+  gives_last_24_hours
+
+  """
+  column name
+  """
+  gives_last_30_days
+
+  """
+  column name
+  """
+  gives_last_7_days
+
+  """
+  column name
+  """
+  skill
+}
+
+"""
+Streaming cursor of the table "colinks_give_count"
+"""
+input colinks_give_count_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: colinks_give_count_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input colinks_give_count_stream_cursor_value_input {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
 columns and relationships of "colinks_gives"
 """
 type colinks_gives {
@@ -486,6 +578,36 @@ enum order_by {
 
 type query_root {
   """
+  fetch data from the table: "colinks_give_count"
+  """
+  colinks_give_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
+
+  """
   fetch data from the table: "colinks_gives"
   """
   colinks_gives(
@@ -553,6 +675,56 @@ type query_root {
 }
 
 type subscription_root {
+  """
+  fetch data from the table: "colinks_give_count"
+  """
+  colinks_give_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
+
+  """
+  fetch data from the table in a streaming manner: "colinks_give_count"
+  """
+  colinks_give_count_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [colinks_give_count_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
+
   """
   fetch data from the table: "colinks_gives"
   """

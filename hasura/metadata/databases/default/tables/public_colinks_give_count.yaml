@@ -1,0 +1,15 @@
+table:
+  name: colinks_give_count
+  schema: public
+select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - gives
+        - gives_last_24_hours
+        - gives_last_30_days
+        - gives_last_7_days
+        - skill
+      filter: {}
+      limit: 98
+    comment: ""

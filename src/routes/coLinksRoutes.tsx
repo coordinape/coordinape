@@ -39,6 +39,7 @@ import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePag
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
+import { GiveLeaderboard } from '../pages/GiveLeaderboard';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
@@ -69,6 +70,9 @@ export const coLinksRoutes = [
   </Route>,
   <Route key={'giveparty'}>
     <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
+  </Route>,
+  <Route key={'giveboard'}>
+    <Route path={coLinksPaths.giveBoard} element={<GiveLeaderboard />} />
   </Route>,
   <Route
     key="splashLayout"

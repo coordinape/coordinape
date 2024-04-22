@@ -6139,6 +6139,166 @@ export type ValueTypes = {
     new_amount?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    skill?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "colinks_give_count" */
+  ['colinks_give_count_aggregate']: AliasType<{
+    aggregate?: ValueTypes['colinks_give_count_aggregate_fields'];
+    nodes?: ValueTypes['colinks_give_count'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "colinks_give_count" */
+  ['colinks_give_count_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['colinks_give_count_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['colinks_give_count_max_fields'];
+    min?: ValueTypes['colinks_give_count_min_fields'];
+    stddev?: ValueTypes['colinks_give_count_stddev_fields'];
+    stddev_pop?: ValueTypes['colinks_give_count_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['colinks_give_count_stddev_samp_fields'];
+    sum?: ValueTypes['colinks_give_count_sum_fields'];
+    var_pop?: ValueTypes['colinks_give_count_var_pop_fields'];
+    var_samp?: ValueTypes['colinks_give_count_var_samp_fields'];
+    variance?: ValueTypes['colinks_give_count_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['colinks_give_count_avg_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: {
+    _and?: Array<ValueTypes['colinks_give_count_bool_exp']> | undefined | null;
+    _not?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['colinks_give_count_bool_exp']> | undefined | null;
+    gives?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    gives_last_24_hours?:
+      | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
+    gives_last_30_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    gives_last_7_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['colinks_give_count_max_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    skill?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['colinks_give_count_min_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    skill?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: {
+    gives?: ValueTypes['order_by'] | undefined | null;
+    gives_last_24_hours?: ValueTypes['order_by'] | undefined | null;
+    gives_last_30_days?: ValueTypes['order_by'] | undefined | null;
+    gives_last_7_days?: ValueTypes['order_by'] | undefined | null;
+    skill?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: colinks_give_count_select_column;
+  /** aggregate stddev on columns */
+  ['colinks_give_count_stddev_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['colinks_give_count_stddev_pop_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['colinks_give_count_stddev_samp_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['colinks_give_count_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: {
+    gives?: ValueTypes['bigint'] | undefined | null;
+    gives_last_24_hours?: ValueTypes['bigint'] | undefined | null;
+    gives_last_30_days?: ValueTypes['bigint'] | undefined | null;
+    gives_last_7_days?: ValueTypes['bigint'] | undefined | null;
+    skill?: ValueTypes['citext'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['colinks_give_count_sum_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_pop on columns */
+  ['colinks_give_count_var_pop_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['colinks_give_count_var_samp_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['colinks_give_count_variance_fields']: AliasType<{
+    gives?: boolean | `@${string}`;
+    gives_last_24_hours?: boolean | `@${string}`;
+    gives_last_30_days?: boolean | `@${string}`;
+    gives_last_7_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
@@ -26777,6 +26937,52 @@ export type ValueTypes = {
       ValueTypes['claims_aggregate'],
     ];
     claims_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['claims']];
+    colinks_give_count?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
+    ];
+    colinks_give_count_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count_aggregate'],
+    ];
     colinks_gives?: [
       {
         /** distinct select on columns */
@@ -32055,6 +32261,65 @@ export type ValueTypes = {
         where?: ValueTypes['claims_bool_exp'] | undefined | null;
       },
       ValueTypes['claims'],
+    ];
+    colinks_give_count?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
+    ];
+    colinks_give_count_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_give_count_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_give_count_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count_aggregate'],
+    ];
+    colinks_give_count_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['colinks_give_count_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['colinks_give_count_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_give_count'],
     ];
     colinks_gives?: [
       {
@@ -42165,6 +42430,119 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "claims" */
   ['claims_variance_order_by']: GraphQLTypes['claims_variance_order_by'];
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** aggregated selection of "colinks_give_count" */
+  ['colinks_give_count_aggregate']: {
+    aggregate?: GraphQLTypes['colinks_give_count_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['colinks_give_count']>;
+  };
+  /** aggregate fields of "colinks_give_count" */
+  ['colinks_give_count_aggregate_fields']: {
+    avg?: GraphQLTypes['colinks_give_count_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['colinks_give_count_max_fields'] | undefined;
+    min?: GraphQLTypes['colinks_give_count_min_fields'] | undefined;
+    stddev?: GraphQLTypes['colinks_give_count_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['colinks_give_count_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['colinks_give_count_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['colinks_give_count_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['colinks_give_count_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['colinks_give_count_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['colinks_give_count_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['colinks_give_count_avg_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: GraphQLTypes['colinks_give_count_bool_exp'];
+  /** aggregate max on columns */
+  ['colinks_give_count_max_fields']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['colinks_give_count_min_fields']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: GraphQLTypes['colinks_give_count_order_by'];
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: GraphQLTypes['colinks_give_count_select_column'];
+  /** aggregate stddev on columns */
+  ['colinks_give_count_stddev_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['colinks_give_count_stddev_pop_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['colinks_give_count_stddev_samp_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: GraphQLTypes['colinks_give_count_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: GraphQLTypes['colinks_give_count_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['colinks_give_count_sum_fields']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['colinks_give_count_var_pop_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['colinks_give_count_var_samp_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['colinks_give_count_variance_fields']: {
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
@@ -50844,6 +51222,10 @@ export type ModelTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch aggregated fields from the table: "colinks_give_count" */
+    colinks_give_count_aggregate: GraphQLTypes['colinks_give_count_aggregate'];
     /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
@@ -52075,6 +52457,12 @@ export type ModelTypes = {
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch aggregated fields from the table: "colinks_give_count" */
+    colinks_give_count_aggregate: GraphQLTypes['colinks_give_count_aggregate'];
+    /** fetch data from the table in a streaming manner: "colinks_give_count" */
+    colinks_give_count_stream: Array<GraphQLTypes['colinks_give_count']>;
     /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
@@ -58775,6 +59163,158 @@ export type GraphQLTypes = {
     index?: GraphQLTypes['order_by'] | undefined;
     new_amount?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** columns and relationships of "colinks_give_count" */
+  ['colinks_give_count']: {
+    __typename: 'colinks_give_count';
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** aggregated selection of "colinks_give_count" */
+  ['colinks_give_count_aggregate']: {
+    __typename: 'colinks_give_count_aggregate';
+    aggregate?: GraphQLTypes['colinks_give_count_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['colinks_give_count']>;
+  };
+  /** aggregate fields of "colinks_give_count" */
+  ['colinks_give_count_aggregate_fields']: {
+    __typename: 'colinks_give_count_aggregate_fields';
+    avg?: GraphQLTypes['colinks_give_count_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['colinks_give_count_max_fields'] | undefined;
+    min?: GraphQLTypes['colinks_give_count_min_fields'] | undefined;
+    stddev?: GraphQLTypes['colinks_give_count_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['colinks_give_count_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['colinks_give_count_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['colinks_give_count_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['colinks_give_count_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['colinks_give_count_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['colinks_give_count_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['colinks_give_count_avg_fields']: {
+    __typename: 'colinks_give_count_avg_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'. */
+  ['colinks_give_count_bool_exp']: {
+    _and?: Array<GraphQLTypes['colinks_give_count_bool_exp']> | undefined;
+    _not?: GraphQLTypes['colinks_give_count_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['colinks_give_count_bool_exp']> | undefined;
+    gives?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['colinks_give_count_max_fields']: {
+    __typename: 'colinks_give_count_max_fields';
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['colinks_give_count_min_fields']: {
+    __typename: 'colinks_give_count_min_fields';
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** Ordering options when selecting data from "colinks_give_count". */
+  ['colinks_give_count_order_by']: {
+    gives?: GraphQLTypes['order_by'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['order_by'] | undefined;
+    gives_last_30_days?: GraphQLTypes['order_by'] | undefined;
+    gives_last_7_days?: GraphQLTypes['order_by'] | undefined;
+    skill?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "colinks_give_count" */
+  ['colinks_give_count_select_column']: colinks_give_count_select_column;
+  /** aggregate stddev on columns */
+  ['colinks_give_count_stddev_fields']: {
+    __typename: 'colinks_give_count_stddev_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['colinks_give_count_stddev_pop_fields']: {
+    __typename: 'colinks_give_count_stddev_pop_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['colinks_give_count_stddev_samp_fields']: {
+    __typename: 'colinks_give_count_stddev_samp_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** Streaming cursor of the table "colinks_give_count" */
+  ['colinks_give_count_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['colinks_give_count_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['colinks_give_count_stream_cursor_value_input']: {
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+    skill?: GraphQLTypes['citext'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['colinks_give_count_sum_fields']: {
+    __typename: 'colinks_give_count_sum_fields';
+    gives?: GraphQLTypes['bigint'] | undefined;
+    gives_last_24_hours?: GraphQLTypes['bigint'] | undefined;
+    gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['colinks_give_count_var_pop_fields']: {
+    __typename: 'colinks_give_count_var_pop_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['colinks_give_count_var_samp_fields']: {
+    __typename: 'colinks_give_count_var_samp_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['colinks_give_count_variance_fields']: {
+    __typename: 'colinks_give_count_variance_fields';
+    gives?: number | undefined;
+    gives_last_24_hours?: number | undefined;
+    gives_last_30_days?: number | undefined;
+    gives_last_7_days?: number | undefined;
   };
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
@@ -73740,6 +74280,10 @@ export type GraphQLTypes = {
     claims_aggregate: GraphQLTypes['claims_aggregate'];
     /** fetch data from the table: "claims" using primary key columns */
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch aggregated fields from the table: "colinks_give_count" */
+    colinks_give_count_aggregate: GraphQLTypes['colinks_give_count_aggregate'];
     /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
@@ -75554,6 +76098,12 @@ export type GraphQLTypes = {
     claims_by_pk?: GraphQLTypes['claims'] | undefined;
     /** fetch data from the table in a streaming manner: "claims" */
     claims_stream: Array<GraphQLTypes['claims']>;
+    /** fetch data from the table: "colinks_give_count" */
+    colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
+    /** fetch aggregated fields from the table: "colinks_give_count" */
+    colinks_give_count_aggregate: GraphQLTypes['colinks_give_count_aggregate'];
+    /** fetch data from the table in a streaming manner: "colinks_give_count" */
+    colinks_give_count_stream: Array<GraphQLTypes['colinks_give_count']>;
     /** An array relationship */
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
@@ -79816,6 +80366,14 @@ export const enum claims_update_column {
   proof = 'proof',
   txHash = 'txHash',
   updated_at = 'updated_at',
+}
+/** select columns of table "colinks_give_count" */
+export const enum colinks_give_count_select_column {
+  gives = 'gives',
+  gives_last_24_hours = 'gives_last_24_hours',
+  gives_last_30_days = 'gives_last_30_days',
+  gives_last_7_days = 'gives_last_7_days',
+  skill = 'skill',
 }
 /** unique or primary key constraints on table "colinks_gives" */
 export const enum colinks_gives_constraint {

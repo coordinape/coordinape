@@ -35,6 +35,35 @@ export const AllTypesProps: Record<string, any> = {
     _regex: 'citext',
     _similar: 'citext',
   },
+  colinks_give_count_bool_exp: {
+    _and: 'colinks_give_count_bool_exp',
+    _not: 'colinks_give_count_bool_exp',
+    _or: 'colinks_give_count_bool_exp',
+    gives: 'bigint_comparison_exp',
+    gives_last_24_hours: 'bigint_comparison_exp',
+    gives_last_30_days: 'bigint_comparison_exp',
+    gives_last_7_days: 'bigint_comparison_exp',
+    skill: 'citext_comparison_exp',
+  },
+  colinks_give_count_order_by: {
+    gives: 'order_by',
+    gives_last_24_hours: 'order_by',
+    gives_last_30_days: 'order_by',
+    gives_last_7_days: 'order_by',
+    skill: 'order_by',
+  },
+  colinks_give_count_select_column: true,
+  colinks_give_count_stream_cursor_input: {
+    initial_value: 'colinks_give_count_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  colinks_give_count_stream_cursor_value_input: {
+    gives: 'bigint',
+    gives_last_24_hours: 'bigint',
+    gives_last_30_days: 'bigint',
+    gives_last_7_days: 'bigint',
+    skill: 'citext',
+  },
   colinks_gives_aggregate_fields: {
     count: {
       columns: 'colinks_gives_select_column',
@@ -79,6 +108,11 @@ export const AllTypesProps: Record<string, any> = {
   cursor_ordering: true,
   order_by: true,
   query_root: {
+    colinks_give_count: {
+      distinct_on: 'colinks_give_count_select_column',
+      order_by: 'colinks_give_count_order_by',
+      where: 'colinks_give_count_bool_exp',
+    },
     colinks_gives: {
       distinct_on: 'colinks_gives_select_column',
       order_by: 'colinks_gives_order_by',
@@ -93,6 +127,15 @@ export const AllTypesProps: Record<string, any> = {
     price_per_share: {},
   },
   subscription_root: {
+    colinks_give_count: {
+      distinct_on: 'colinks_give_count_select_column',
+      order_by: 'colinks_give_count_order_by',
+      where: 'colinks_give_count_bool_exp',
+    },
+    colinks_give_count_stream: {
+      cursor: 'colinks_give_count_stream_cursor_input',
+      where: 'colinks_give_count_bool_exp',
+    },
     colinks_gives: {
       distinct_on: 'colinks_gives_select_column',
       order_by: 'colinks_gives_order_by',
@@ -126,6 +169,13 @@ export const ReturnTypes: Record<string, any> = {
   cached: {
     ttl: 'Int',
     refresh: 'Boolean',
+  },
+  colinks_give_count: {
+    gives: 'bigint',
+    gives_last_24_hours: 'bigint',
+    gives_last_30_days: 'bigint',
+    gives_last_7_days: 'bigint',
+    skill: 'citext',
   },
   colinks_gives: {
     activity_id: 'bigint',
@@ -223,12 +273,15 @@ export const ReturnTypes: Record<string, any> = {
     target_profile_id: 'Float',
   },
   query_root: {
+    colinks_give_count: 'colinks_give_count',
     colinks_gives: 'colinks_gives',
     colinks_gives_aggregate: 'colinks_gives_aggregate',
     colinks_gives_by_pk: 'colinks_gives',
     price_per_share: 'Float',
   },
   subscription_root: {
+    colinks_give_count: 'colinks_give_count',
+    colinks_give_count_stream: 'colinks_give_count',
     colinks_gives: 'colinks_gives',
     colinks_gives_aggregate: 'colinks_gives_aggregate',
     colinks_gives_by_pk: 'colinks_gives',
