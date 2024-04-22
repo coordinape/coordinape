@@ -117,12 +117,11 @@ export const minted = async (
 
   const syncedAt = insert_cosouls_one.synced_at;
   const staleSync =
-    dontSync ||
     !syncedAt ||
     DateTime.fromISO(syncedAt).plus({ days: PGIVE_SYNC_DURATION_DAYS }) <
       DateTime.now();
 
-  if (staleSync) {
+  if (staleSync && !dontSync) {
     await syncPGive(address, tokenId);
   }
 };

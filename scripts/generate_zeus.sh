@@ -72,7 +72,7 @@ generate admin $ADMIN_PATH -h x-hasura-admin-secret:$HASURA_GRAPHQL_ADMIN_SECRET
 sleep 12
 generate user $USER_PATH -h x-hasura-role:user -h "authorization:generate" --graphql hasura/schema/user
 sleep 12
-generate user $ANON_PATH -h x-hasura-role:anon --graphql hasura/schema/anon
+generate anon $ANON_PATH -h "authorization:anon" --graphql hasura/schema/anon
 
 
 # fix formatting of generated files

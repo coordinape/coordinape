@@ -55,6 +55,22 @@ array_relationships:
         remote_table:
           name: claims
           schema: public
+  - name: colinks_gives_received
+    using:
+      foreign_key_constraint_on:
+        column: target_profile_id
+        table:
+          name: colinks_gives
+          schema: public
+  - name: colinks_gives_sent
+    using:
+      manual_configuration:
+        column_mapping:
+          id: profile_id
+        insertion_order: null
+        remote_table:
+          name: colinks_gives
+          schema: public
   - name: distributions
     using:
       foreign_key_constraint_on:
