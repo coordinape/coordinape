@@ -45,6 +45,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
+    if (req.headers?.authorization === 'anon') {
+      res.status(200).json({
+        'X-Hasura-Role': 'anon',
+      });
+      return;
+    }
+
     assert(req.headers?.authorization, 'No token was provided');
     const { prefix, tokenHash } = parseAuthHeader(req.headers.authorization);
 

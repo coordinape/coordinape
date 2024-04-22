@@ -19032,6 +19032,7 @@ type query_root {
   fetch data from the table: "poap_holders" using primary key columns
   """
   poap_holders_by_pk(id: bigint!): poap_holders
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship
@@ -27793,6 +27794,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship

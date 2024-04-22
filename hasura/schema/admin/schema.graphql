@@ -8212,6 +8212,225 @@ input claims_variance_order_by {
 }
 
 """
+columns and relationships of "colinks_give_count"
+"""
+type colinks_give_count {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
+aggregated selection of "colinks_give_count"
+"""
+type colinks_give_count_aggregate {
+  aggregate: colinks_give_count_aggregate_fields
+  nodes: [colinks_give_count!]!
+}
+
+"""
+aggregate fields of "colinks_give_count"
+"""
+type colinks_give_count_aggregate_fields {
+  avg: colinks_give_count_avg_fields
+  count(columns: [colinks_give_count_select_column!], distinct: Boolean): Int!
+  max: colinks_give_count_max_fields
+  min: colinks_give_count_min_fields
+  stddev: colinks_give_count_stddev_fields
+  stddev_pop: colinks_give_count_stddev_pop_fields
+  stddev_samp: colinks_give_count_stddev_samp_fields
+  sum: colinks_give_count_sum_fields
+  var_pop: colinks_give_count_var_pop_fields
+  var_samp: colinks_give_count_var_samp_fields
+  variance: colinks_give_count_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type colinks_give_count_avg_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+Boolean expression to filter rows from the table "colinks_give_count". All fields are combined with a logical 'AND'.
+"""
+input colinks_give_count_bool_exp {
+  _and: [colinks_give_count_bool_exp!]
+  _not: colinks_give_count_bool_exp
+  _or: [colinks_give_count_bool_exp!]
+  gives: bigint_comparison_exp
+  gives_last_24_hours: bigint_comparison_exp
+  gives_last_30_days: bigint_comparison_exp
+  gives_last_7_days: bigint_comparison_exp
+  skill: citext_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type colinks_give_count_max_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
+aggregate min on columns
+"""
+type colinks_give_count_min_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
+Ordering options when selecting data from "colinks_give_count".
+"""
+input colinks_give_count_order_by {
+  gives: order_by
+  gives_last_24_hours: order_by
+  gives_last_30_days: order_by
+  gives_last_7_days: order_by
+  skill: order_by
+}
+
+"""
+select columns of table "colinks_give_count"
+"""
+enum colinks_give_count_select_column {
+  """
+  column name
+  """
+  gives
+
+  """
+  column name
+  """
+  gives_last_24_hours
+
+  """
+  column name
+  """
+  gives_last_30_days
+
+  """
+  column name
+  """
+  gives_last_7_days
+
+  """
+  column name
+  """
+  skill
+}
+
+"""
+aggregate stddev on columns
+"""
+type colinks_give_count_stddev_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type colinks_give_count_stddev_pop_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type colinks_give_count_stddev_samp_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+Streaming cursor of the table "colinks_give_count"
+"""
+input colinks_give_count_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: colinks_give_count_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input colinks_give_count_stream_cursor_value_input {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+}
+
+"""
+aggregate sum on columns
+"""
+type colinks_give_count_sum_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type colinks_give_count_var_pop_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type colinks_give_count_var_samp_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type colinks_give_count_variance_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+}
+
+"""
 columns and relationships of "colinks_gives"
 """
 type colinks_gives {
@@ -38549,6 +38768,66 @@ type query_root {
   claims_by_pk(id: bigint!): claims
 
   """
+  fetch data from the table: "colinks_give_count"
+  """
+  colinks_give_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_give_count"
+  """
+  colinks_give_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): colinks_give_count_aggregate!
+
+  """
   An array relationship
   """
   colinks_gives(
@@ -41067,6 +41346,7 @@ type query_root {
   fetch data from the table: "poap_holders" using primary key columns
   """
   poap_holders_by_pk(id: bigint!): poap_holders
+  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship
@@ -45880,6 +46160,86 @@ type subscription_root {
     """
     where: claims_bool_exp
   ): [claims!]!
+
+  """
+  fetch data from the table: "colinks_give_count"
+  """
+  colinks_give_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_give_count"
+  """
+  colinks_give_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_give_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_give_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): colinks_give_count_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "colinks_give_count"
+  """
+  colinks_give_count_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [colinks_give_count_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: colinks_give_count_bool_exp
+  ): [colinks_give_count!]!
 
   """
   An array relationship
@@ -55805,6 +56165,7 @@ type vaults {
   An object relationship
   """
   organization: organizations!
+  price_per_share: Float!
 
   """
   An object relationship
