@@ -41,7 +41,7 @@ const makeThunder = (headers = {}) =>
         method: 'POST',
         headers: {
           'Hasura-Client-Name': 'web',
-          'x-hasura-role': 'anon',
+          Authorization: 'anon',
           ...headers,
         },
       },

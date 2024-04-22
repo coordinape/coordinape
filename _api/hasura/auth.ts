@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    if (req.headers?.['x-hasura-role'] === 'anon') {
+    if (req.headers?.authorization === 'anon') {
       res.status(200).json({
         'X-Hasura-Role': 'anon',
       });
