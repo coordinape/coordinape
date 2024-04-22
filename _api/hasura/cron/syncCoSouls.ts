@@ -109,8 +109,17 @@ export async function isHistoricalPGiveFinished() {
 }
 
 const getCoSoulsToUpdate = async () => {
+  // usually we sync once per month, and make sure we don't sync again
   const previousMonth = DateTime.local().minus({ months: 1 });
   const endOfPreviousMonth = previousMonth.endOf('month');
+
+  // this month (4/24) we have a near-end-of-month checkpoint because we finally implemented bringing CoLinks GIVE into PGIVE
+  const useMidMonth = DateTime.local() < DateTime.fromISO('2022-05-01');
+
+  // sync again in 4/24 to include CoLinks GIVE in PGIVE
+  const syncAtCheckpoint = useMidMonth
+    ? DateTime.fromISO('2022-04-22')
+    : endOfPreviousMonth;
 
   const { cosouls } = await adminClient.query(
     {
@@ -132,7 +141,7 @@ const getCoSoulsToUpdate = async () => {
               },
               {
                 checked_at: {
-                  _lt: endOfPreviousMonth.toISO(),
+                  _lt: syncAtCheckpoint.toISO(),
                 },
               },
             ],
