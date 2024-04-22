@@ -62,17 +62,28 @@ export const GiveLeaderboard = () => {
 
   const [sortedData, setSortedData] = useState<typeof data>(undefined);
 
+  const skillCompare = (a: any, b: any) => {
+    if (!a && !b) {
+      return 0;
+    } else if (!a && b) {
+      return -1;
+    } else if (a && !b) {
+      return 1;
+    }
+    return a.skill.localeCompare(b.skill);
+  };
+
   useEffect(() => {
     if (data) {
       data.sort((a, b) => {
         if (sort === 'skill') {
-          return a.skill.localeCompare(b.skill);
+          return skillCompare(a, b);
         }
         const diff = b[sort] - a[sort];
         if (diff !== 0) {
           return diff;
         }
-        return a.skill.localeCompare(b.skill);
+        return skillCompare(a, b);
       });
       setSortedData(desc ? [...data] : [...data].reverse());
     }
@@ -152,7 +163,7 @@ export const GiveLeaderboard = () => {
               {sortedData &&
                 sortedData.map(skill => (
                   <Row key={skill.skill}>
-                    <Column>{skill.rank}</Column>
+                    <Column>#{skill.rank}</Column>
                     <Column>
                       <Text
                         tag
