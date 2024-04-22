@@ -19,8 +19,38 @@ export const getLocalPGIVE = async (address: string) => {
       operationName: 'getLocalPGive',
     }
   );
-  return Math.floor(
+
+  // ALSO ADD colinks_GIVE
+  const { colinks_gives_aggregate } = await adminClient.query(
+    {
+      colinks_gives_aggregate: [
+        {
+          where: {
+            created_at: {
+              // This is because we are only counting GIVE in PGIVE starting in April 2024
+              // The GIVE must have occured after april first to count
+              _gt: '2024-04-01',
+            },
+            target_profile_public: {
+              address: {
+                _ilike: address,
+              },
+            },
+          },
+        },
+        { aggregate: { count: [{}, true] } },
+      ],
+    },
+    {
+      operationName: 'getLocalColinksGIVE',
+    }
+  );
+
+  const coLinksGIVEs = colinks_gives_aggregate.aggregate?.count ?? 0;
+
+  const epochPGIVE = Math.floor(
     // @ts-ignore
     (member_epoch_pgives_aggregate.aggregate?.sum as any).normalized_pgive ?? 0
   );
+  return epochPGIVE + coLinksGIVEs;
 };

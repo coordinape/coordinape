@@ -31,6 +31,7 @@ import {
   setOnChainPGIVE,
 } from '../src/features/cosoul/api/cosoul';
 // uncomment and change this to import your own repl code
+import { getLocalPGIVE } from '../src/features/cosoul/api/pgive.ts';
 import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
 
 import { init as initOrgMembership } from './repl/org_membership';
@@ -59,6 +60,7 @@ const init = async () => {
     // generateRandomMnemonics,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
+    getLocalPGIVE,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };
