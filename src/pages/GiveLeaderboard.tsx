@@ -91,7 +91,6 @@ export const GiveLeaderboard = () => {
           alignItems: 'center',
           position: 'fixed',
           overflow: 'scroll',
-          paddingTop: 100,
           paddingBottom: 100,
           '*': {
             color: 'white',
@@ -203,7 +202,7 @@ const Row = ({
               cursor: 'pointer',
               top: 0,
               fontWeight: '700',
-              backgroundColor: '#343a4033',
+              backgroundColor: '#343a4099',
               minHeight: '50px',
             }
           : {}),
