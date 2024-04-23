@@ -30,6 +30,21 @@ export const GiveParty = () => {
     });
 
   useEffect(() => {
+    // Change safari header bar color
+    const metaThemeColor = document.querySelector(
+      'meta[name="theme-color"]'
+    ) as HTMLMetaElement;
+    const barColor = '#5507E7';
+    metaThemeColor.content = barColor;
+    // Revert to original value on unmount
+    return () => {
+      if (metaThemeColor) {
+        metaThemeColor.content = '#000000';
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const currentWord = words[wordIndex];
 
     if (charIndex < currentWord.length) {
@@ -75,6 +90,7 @@ export const GiveParty = () => {
         css={{
           height: '100vh',
           width: '100%',
+          borderTop: '1px solid #4906C7',
           background:
             'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
           alignItems: 'center',
