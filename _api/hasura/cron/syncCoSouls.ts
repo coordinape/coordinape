@@ -170,7 +170,8 @@ const syncCoSoulToken = async (
 ) => {
   if (totalPGIVE > 0) {
     totalPGIVE = Math.floor(totalPGIVE);
-    await setOnChainPGIVE(tokenId, totalPGIVE);
+    const tx = await setOnChainPGIVE(tokenId, totalPGIVE);
+    await tx.wait();
     console.log(
       'set PGIVE on chain for tokenId: ' +
         tokenId +
