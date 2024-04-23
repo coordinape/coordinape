@@ -13,7 +13,10 @@ import { minted } from '../actions/_handlers/syncCoSoul';
 const LIMIT = 9;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
-  const profiles = await profilesToMint();
+  let profiles = await giversToMint('giver');
+  if (profiles.length === 0) {
+    profiles = await giversToMint('receiver');
+  }
 
   console.log('Profiles to mint: ', profiles.length);
   console.log({ profiles });
@@ -83,7 +86,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   }
 }
 
-export async function profilesToMint() {
+export async function giversToMint(who: 'giver' | 'receiver') {
   // get all addresses that have colinks_give but not yet a cosoul
   const { profiles } = await adminClient.query(
     {
@@ -94,18 +97,17 @@ export async function profilesToMint() {
             cosoul_mint_error: {
               _is_null: true,
             },
-            _or: [
-              {
-                colinks_gives_received_aggregate: {
-                  count: { predicate: { _gt: 0 } },
-                },
-              },
-              {
-                colinks_gives_sent_aggregate: {
-                  count: { predicate: { _gt: 0 } },
-                },
-              },
-            ],
+            ...(who === 'receiver'
+              ? {
+                  colinks_gives_received_aggregate: {
+                    count: { predicate: { _gt: 0 } },
+                  },
+                }
+              : {
+                  colinks_gives_sent_aggregate: {
+                    count: { predicate: { _gt: 0 } },
+                  },
+                }),
           },
           order_by: [{ created_at: order_by.desc }],
           limit: LIMIT,
