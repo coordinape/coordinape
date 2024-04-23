@@ -20,6 +20,7 @@ import {
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';
 import { POINTS_PER_GIVE } from '../../../../src/features/points/getAvailablePoints';
+import { DISABLE_SYNC_ON_CHAIN } from '../../cron/syncCoSouls.ts';
 
 import { getInviter } from './redeemInviteCode';
 
@@ -117,12 +118,11 @@ export const minted = async (
 
   const syncedAt = insert_cosouls_one.synced_at;
   const staleSync =
-    dontSync ||
     !syncedAt ||
     DateTime.fromISO(syncedAt).plus({ days: PGIVE_SYNC_DURATION_DAYS }) <
       DateTime.now();
 
-  if (staleSync) {
+  if (staleSync && !dontSync) {
     await syncPGive(address, tokenId);
   }
 };
@@ -198,7 +198,10 @@ async function syncPGive(address: string, tokenId: number) {
     // proceed with setting on-chain pgive
   }
   // set pgive after because this triggers a metadata update + fetch from OpenSea
-  await setOnChainPGIVE(tokenId, pgive);
+  // TODO: re-enable when super-mint is done
+  if (!DISABLE_SYNC_ON_CHAIN) {
+    await setOnChainPGIVE(tokenId, pgive);
+  }
 }
 
 export const addGiveToProfile = async (profileId: number, amount: number) => {

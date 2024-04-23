@@ -24595,11 +24595,104 @@ export type ValueTypes = {
       },
       ValueTypes['claims_aggregate'],
     ];
+    colinks_gives_received?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_gives_received_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
+    colinks_gives_sent?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_gives_sent_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     colinks_notification_emails?: boolean | `@${string}`;
     colinks_product_emails?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     description_embedding?: boolean | `@${string}`;
@@ -25066,6 +25159,22 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_bool_exp']
       | undefined
       | null;
+    colinks_gives_received?:
+      | ValueTypes['colinks_gives_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_received_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_sent?:
+      | ValueTypes['colinks_gives_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_sent_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     colinks_notification_emails?:
       | ValueTypes['Boolean_comparison_exp']
       | undefined
@@ -25076,6 +25185,7 @@ export type ValueTypes = {
       | null;
     connector?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    cosoul_mint_error?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     description_embedding?:
@@ -25201,10 +25311,19 @@ export type ValueTypes = {
     bio?: string | undefined | null;
     chat_id?: string | undefined | null;
     claims?: ValueTypes['claims_arr_rel_insert_input'] | undefined | null;
+    colinks_gives_received?:
+      | ValueTypes['colinks_gives_arr_rel_insert_input']
+      | undefined
+      | null;
+    colinks_gives_sent?:
+      | ValueTypes['colinks_gives_arr_rel_insert_input']
+      | undefined
+      | null;
     colinks_notification_emails?: boolean | undefined | null;
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -25271,6 +25390,7 @@ export type ValueTypes = {
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     device_login_token?: boolean | `@${string}`;
@@ -25307,6 +25427,7 @@ export type ValueTypes = {
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     device_login_token?: boolean | `@${string}`;
@@ -25371,10 +25492,19 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_order_by']
       | undefined
       | null;
+    colinks_gives_received_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
+    colinks_gives_sent_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
     colinks_notification_emails?: ValueTypes['order_by'] | undefined | null;
     colinks_product_emails?: ValueTypes['order_by'] | undefined | null;
     connector?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    cosoul_mint_error?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     description_embedding?: ValueTypes['order_by'] | undefined | null;
@@ -26233,6 +26363,7 @@ export type ValueTypes = {
     colinks_notification_emails?: boolean | undefined | null;
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -26316,6 +26447,7 @@ export type ValueTypes = {
     colinks_notification_emails?: boolean | undefined | null;
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -50587,11 +50719,20 @@ export type ModelTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An array relationship */
+    colinks_gives_received: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_received_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
+    colinks_gives_sent: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_sent_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     colinks_notification_emails: boolean;
     colinks_product_emails: boolean;
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -50705,6 +50846,7 @@ export type ModelTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -50740,6 +50882,7 @@ export type ModelTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73107,11 +73250,20 @@ export type GraphQLTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An array relationship */
+    colinks_gives_received: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_received_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
+    colinks_gives_sent: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_sent_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     colinks_notification_emails: boolean;
     colinks_product_emails: boolean;
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -73228,12 +73380,21 @@ export type GraphQLTypes = {
     chat_id?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
+    colinks_gives_received?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_gives_received_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
+    colinks_gives_sent?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_gives_sent_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     colinks_notification_emails?:
       | GraphQLTypes['Boolean_comparison_exp']
       | undefined;
     colinks_product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     connector?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    cosoul_mint_error?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     description_embedding?: GraphQLTypes['vector_comparison_exp'] | undefined;
@@ -73331,10 +73492,17 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     claims?: GraphQLTypes['claims_arr_rel_insert_input'] | undefined;
+    colinks_gives_received?:
+      | GraphQLTypes['colinks_gives_arr_rel_insert_input']
+      | undefined;
+    colinks_gives_sent?:
+      | GraphQLTypes['colinks_gives_arr_rel_insert_input']
+      | undefined;
     colinks_notification_emails?: boolean | undefined;
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -73394,6 +73562,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73430,6 +73599,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73489,10 +73659,17 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['order_by'] | undefined;
     chat_id?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
+    colinks_gives_received_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
+    colinks_gives_sent_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     colinks_notification_emails?: GraphQLTypes['order_by'] | undefined;
     colinks_product_emails?: GraphQLTypes['order_by'] | undefined;
     connector?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    cosoul_mint_error?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     description_embedding?: GraphQLTypes['order_by'] | undefined;
@@ -74038,6 +74215,7 @@ export type GraphQLTypes = {
     colinks_notification_emails?: boolean | undefined;
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -74121,6 +74299,7 @@ export type GraphQLTypes = {
     colinks_notification_emails?: boolean | undefined;
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -81507,6 +81686,7 @@ export const enum profiles_select_column {
   colinks_notification_emails = 'colinks_notification_emails',
   colinks_product_emails = 'colinks_product_emails',
   connector = 'connector',
+  cosoul_mint_error = 'cosoul_mint_error',
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',
@@ -81547,6 +81727,7 @@ export const enum profiles_update_column {
   colinks_notification_emails = 'colinks_notification_emails',
   colinks_product_emails = 'colinks_product_emails',
   connector = 'connector',
+  cosoul_mint_error = 'cosoul_mint_error',
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',

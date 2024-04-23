@@ -11544,6 +11544,98 @@ export type ValueTypes = {
       },
       ValueTypes['claims_aggregate'],
     ];
+    colinks_gives_received?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_gives_received_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
+    colinks_gives_sent?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives'],
+    ];
+    colinks_gives_sent_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['colinks_gives_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['colinks_gives_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
+      },
+      ValueTypes['colinks_gives_aggregate'],
+    ];
     colinks_notification_emails?: boolean | `@${string}`;
     colinks_product_emails?: boolean | `@${string}`;
     /** An object relationship */
@@ -11846,6 +11938,22 @@ export type ValueTypes = {
       | ValueTypes['claims_aggregate_bool_exp']
       | undefined
       | null;
+    colinks_gives_received?:
+      | ValueTypes['colinks_gives_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_received_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_sent?:
+      | ValueTypes['colinks_gives_bool_exp']
+      | undefined
+      | null;
+    colinks_gives_sent_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_bool_exp']
+      | undefined
+      | null;
     colinks_notification_emails?:
       | ValueTypes['Boolean_comparison_exp']
       | undefined
@@ -11940,6 +12048,14 @@ export type ValueTypes = {
     bio?: ValueTypes['order_by'] | undefined | null;
     claims_aggregate?:
       | ValueTypes['claims_aggregate_order_by']
+      | undefined
+      | null;
+    colinks_gives_received_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
+      | undefined
+      | null;
+    colinks_gives_sent_aggregate?:
+      | ValueTypes['colinks_gives_aggregate_order_by']
       | undefined
       | null;
     colinks_notification_emails?: ValueTypes['order_by'] | undefined | null;
@@ -24440,6 +24556,14 @@ export type ModelTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An array relationship */
+    colinks_gives_received: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_received_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
+    colinks_gives_sent: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_sent_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     colinks_notification_emails: boolean;
     colinks_product_emails: boolean;
     /** An object relationship */
@@ -35072,6 +35196,14 @@ export type GraphQLTypes = {
     claims: Array<GraphQLTypes['claims']>;
     /** An aggregate relationship */
     claims_aggregate: GraphQLTypes['claims_aggregate'];
+    /** An array relationship */
+    colinks_gives_received: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_received_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An array relationship */
+    colinks_gives_sent: Array<GraphQLTypes['colinks_gives']>;
+    /** An aggregate relationship */
+    colinks_gives_sent_aggregate: GraphQLTypes['colinks_gives_aggregate'];
     colinks_notification_emails: boolean;
     colinks_product_emails: boolean;
     /** An object relationship */
@@ -35139,6 +35271,14 @@ export type GraphQLTypes = {
     bio?: GraphQLTypes['String_comparison_exp'] | undefined;
     claims?: GraphQLTypes['claims_bool_exp'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_bool_exp'] | undefined;
+    colinks_gives_received?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_gives_received_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
+    colinks_gives_sent?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
+    colinks_gives_sent_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_bool_exp']
+      | undefined;
     colinks_notification_emails?:
       | GraphQLTypes['Boolean_comparison_exp']
       | undefined;
@@ -35215,6 +35355,12 @@ export type GraphQLTypes = {
     background?: GraphQLTypes['order_by'] | undefined;
     bio?: GraphQLTypes['order_by'] | undefined;
     claims_aggregate?: GraphQLTypes['claims_aggregate_order_by'] | undefined;
+    colinks_gives_received_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
+    colinks_gives_sent_aggregate?:
+      | GraphQLTypes['colinks_gives_aggregate_order_by']
+      | undefined;
     colinks_notification_emails?: GraphQLTypes['order_by'] | undefined;
     colinks_product_emails?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
