@@ -11,6 +11,7 @@ const address = faker.unique(faker.finance.ethereumAddress);
 
 vi.mock('./../../src/features/cosoul/art/screenshot.ts', () => ({
   screenshotCoSoul: vi.fn(),
+  storeCoSoulImage: vi.fn(),
 }));
 
 const burn_req = {
