@@ -56,6 +56,7 @@ export const getTokenId = async (address: string) => {
 
   // see if they have any CoSoul tokens
   const balanceOfBN = await contract.balanceOf(address);
+  console.log('balanceOf: ', balanceOfBN);
   const balanceOf = balanceOfBN.toNumber();
   console.log('balanceOf: ', balanceOf);
   // if they don't have a balance there is nothing more to do
