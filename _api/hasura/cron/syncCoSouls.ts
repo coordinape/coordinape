@@ -28,7 +28,7 @@ type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 // This should only process each CoSoul once per month
 async function handler(req: VercelRequest, res: VercelResponse) {
   const success = await syncCoSouls();
-  res.status(200).json(success);
+  return res.status(200).json(success);
 }
 
 export async function syncCoSouls() {
