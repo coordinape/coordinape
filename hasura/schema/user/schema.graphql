@@ -15868,6 +15868,66 @@ type profiles {
     """
     where: colinks_gives_bool_exp
   ): colinks_gives_aggregate!
+
+  """
+  An array relationship
+  """
+  colinks_gives_sent(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_gives_sent_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
   colinks_notification_emails: Boolean!
   colinks_product_emails: Boolean!
 
@@ -16260,6 +16320,8 @@ input profiles_bool_exp {
   claims_aggregate: claims_aggregate_bool_exp
   colinks_gives_received: colinks_gives_bool_exp
   colinks_gives_received_aggregate: colinks_gives_aggregate_bool_exp
+  colinks_gives_sent: colinks_gives_bool_exp
+  colinks_gives_sent_aggregate: colinks_gives_aggregate_bool_exp
   colinks_notification_emails: Boolean_comparison_exp
   colinks_product_emails: Boolean_comparison_exp
   cosoul: cosouls_bool_exp
@@ -16334,6 +16396,7 @@ input profiles_order_by {
   bio: order_by
   claims_aggregate: claims_aggregate_order_by
   colinks_gives_received_aggregate: colinks_gives_aggregate_order_by
+  colinks_gives_sent_aggregate: colinks_gives_aggregate_order_by
   colinks_notification_emails: order_by
   colinks_product_emails: order_by
   cosoul: cosouls_order_by

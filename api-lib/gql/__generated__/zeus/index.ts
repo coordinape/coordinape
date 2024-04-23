@@ -24692,6 +24692,7 @@ export type ValueTypes = {
     connector?: boolean | `@${string}`;
     /** An object relationship */
     cosoul?: ValueTypes['cosouls'];
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     description_embedding?: boolean | `@${string}`;
@@ -25184,6 +25185,7 @@ export type ValueTypes = {
       | null;
     connector?: ValueTypes['String_comparison_exp'] | undefined | null;
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    cosoul_mint_error?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     description_embedding?:
@@ -25321,6 +25323,7 @@ export type ValueTypes = {
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
     cosoul?: ValueTypes['cosouls_obj_rel_insert_input'] | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -25387,6 +25390,7 @@ export type ValueTypes = {
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     device_login_token?: boolean | `@${string}`;
@@ -25423,6 +25427,7 @@ export type ValueTypes = {
     bio?: boolean | `@${string}`;
     chat_id?: boolean | `@${string}`;
     connector?: boolean | `@${string}`;
+    cosoul_mint_error?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     device_login_token?: boolean | `@${string}`;
@@ -25499,6 +25504,7 @@ export type ValueTypes = {
     colinks_product_emails?: ValueTypes['order_by'] | undefined | null;
     connector?: ValueTypes['order_by'] | undefined | null;
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    cosoul_mint_error?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     description_embedding?: ValueTypes['order_by'] | undefined | null;
@@ -26357,6 +26363,7 @@ export type ValueTypes = {
     colinks_notification_emails?: boolean | undefined | null;
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -26440,6 +26447,7 @@ export type ValueTypes = {
     colinks_notification_emails?: boolean | undefined | null;
     colinks_product_emails?: boolean | undefined | null;
     connector?: string | undefined | null;
+    cosoul_mint_error?: string | undefined | null;
     created_at?: ValueTypes['timestamp'] | undefined | null;
     description?: string | undefined | null;
     description_embedding?: ValueTypes['vector'] | undefined | null;
@@ -50724,6 +50732,7 @@ export type ModelTypes = {
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -50837,6 +50846,7 @@ export type ModelTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -50872,6 +50882,7 @@ export type ModelTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73252,6 +73263,7 @@ export type GraphQLTypes = {
     connector?: string | undefined;
     /** An object relationship */
     cosoul?: GraphQLTypes['cosouls'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at: GraphQLTypes['timestamp'];
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -73382,6 +73394,7 @@ export type GraphQLTypes = {
     colinks_product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     connector?: GraphQLTypes['String_comparison_exp'] | undefined;
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    cosoul_mint_error?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     description_embedding?: GraphQLTypes['vector_comparison_exp'] | undefined;
@@ -73489,6 +73502,7 @@ export type GraphQLTypes = {
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
     cosoul?: GraphQLTypes['cosouls_obj_rel_insert_input'] | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -73548,6 +73562,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73584,6 +73599,7 @@ export type GraphQLTypes = {
     bio?: string | undefined;
     chat_id?: string | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     device_login_token?: GraphQLTypes['uuid'] | undefined;
@@ -73653,6 +73669,7 @@ export type GraphQLTypes = {
     colinks_product_emails?: GraphQLTypes['order_by'] | undefined;
     connector?: GraphQLTypes['order_by'] | undefined;
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    cosoul_mint_error?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     description_embedding?: GraphQLTypes['order_by'] | undefined;
@@ -74198,6 +74215,7 @@ export type GraphQLTypes = {
     colinks_notification_emails?: boolean | undefined;
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -74281,6 +74299,7 @@ export type GraphQLTypes = {
     colinks_notification_emails?: boolean | undefined;
     colinks_product_emails?: boolean | undefined;
     connector?: string | undefined;
+    cosoul_mint_error?: string | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     description_embedding?: GraphQLTypes['vector'] | undefined;
@@ -80539,7 +80558,6 @@ export const enum colinks_give_count_select_column {
 export const enum colinks_gives_constraint {
   colinks_gives_pkey = 'colinks_gives_pkey',
   colinks_gives_target_profile_id_activity_id_profile_id_cast_has = 'colinks_gives_target_profile_id_activity_id_profile_id_cast_has',
-  colinks_gives_target_profile_id_activity_id_profile_id_key = 'colinks_gives_target_profile_id_activity_id_profile_id_key',
 }
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {
@@ -81668,6 +81686,7 @@ export const enum profiles_select_column {
   colinks_notification_emails = 'colinks_notification_emails',
   colinks_product_emails = 'colinks_product_emails',
   connector = 'connector',
+  cosoul_mint_error = 'cosoul_mint_error',
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',
@@ -81708,6 +81727,7 @@ export const enum profiles_update_column {
   colinks_notification_emails = 'colinks_notification_emails',
   colinks_product_emails = 'colinks_product_emails',
   connector = 'connector',
+  cosoul_mint_error = 'cosoul_mint_error',
   created_at = 'created_at',
   description = 'description',
   description_embedding = 'description_embedding',

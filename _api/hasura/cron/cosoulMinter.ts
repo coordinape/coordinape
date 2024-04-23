@@ -39,6 +39,26 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
         success++;
       } catch (e: any) {
         errors++;
+        await adminClient.mutate(
+          {
+            update_profiles_by_pk: [
+              {
+                _set: {
+                  cosoul_mint_error: e.message,
+                },
+                pk_columns: {
+                  id: p.id,
+                },
+              },
+              {
+                __typename: true,
+              },
+            ],
+          },
+          {
+            operationName: 'cron_cosoulMinter__minted__error',
+          }
+        );
         console.error(
           'Error while minting cosoul for address: ',
           p.address,
@@ -70,6 +90,9 @@ export async function profilesToMint() {
         {
           where: {
             _not: { cosoul: {} },
+            cosoul_mint_error: {
+              _is_null: true,
+            },
             _or: [
               {
                 colinks_gives_received_aggregate: {

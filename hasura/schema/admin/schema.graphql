@@ -8577,11 +8577,6 @@ enum colinks_gives_constraint {
   unique or primary key constraint on columns "profile_id", "cast_hash", "activity_id", "target_profile_id"
   """
   colinks_gives_target_profile_id_activity_id_profile_id_cast_has
-
-  """
-  unique or primary key constraint on columns "profile_id", "activity_id", "target_profile_id"
-  """
-  colinks_gives_target_profile_id_activity_id_profile_id_key
 }
 
 """
@@ -35676,6 +35671,7 @@ type profiles {
   An object relationship
   """
   cosoul: cosouls
+  cosoul_mint_error: String
   created_at: timestamp!
   description: String
   description_embedding: vector
@@ -36264,6 +36260,7 @@ input profiles_bool_exp {
   colinks_product_emails: Boolean_comparison_exp
   connector: String_comparison_exp
   cosoul: cosouls_bool_exp
+  cosoul_mint_error: String_comparison_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
   description_embedding: vector_comparison_exp
@@ -36375,6 +36372,7 @@ input profiles_insert_input {
   colinks_product_emails: Boolean
   connector: String
   cosoul: cosouls_obj_rel_insert_input
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -36426,6 +36424,7 @@ type profiles_max_fields {
   bio: String
   chat_id: String
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   device_login_token: uuid
@@ -36464,6 +36463,7 @@ type profiles_min_fields {
   bio: String
   chat_id: String
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   device_login_token: uuid
@@ -36546,6 +36546,7 @@ input profiles_order_by {
   colinks_product_emails: order_by
   connector: order_by
   cosoul: cosouls_order_by
+  cosoul_mint_error: order_by
   created_at: order_by
   description: order_by
   description_embedding: order_by
@@ -37640,6 +37641,11 @@ enum profiles_select_column {
   """
   column name
   """
+  cosoul_mint_error
+
+  """
+  column name
+  """
   created_at
 
   """
@@ -37791,6 +37797,7 @@ input profiles_set_input {
   colinks_notification_emails: Boolean
   colinks_product_emails: Boolean
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -37891,6 +37898,7 @@ input profiles_stream_cursor_value_input {
   colinks_notification_emails: Boolean
   colinks_product_emails: Boolean
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -37983,6 +37991,11 @@ enum profiles_update_column {
   column name
   """
   connector
+
+  """
+  column name
+  """
+  cosoul_mint_error
 
   """
   column name
