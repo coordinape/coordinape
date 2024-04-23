@@ -13,9 +13,9 @@ import { minted } from '../actions/_handlers/syncCoSoul';
 const LIMIT = 9;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
-  let profiles = await giversToMint('giver');
+  let profiles = await giversToMint('receiver');
   if (profiles.length === 0) {
-    profiles = await giversToMint('receiver');
+    profiles = await giversToMint('giver');
   }
 
   console.log('Profiles to mint: ', profiles.length);
