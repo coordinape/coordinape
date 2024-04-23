@@ -3,11 +3,8 @@ import React from 'react';
 export const PartyText = ({ text }: { text: string }) => {
   return (
     <span
-      tw="inline-flex relative whitespace-norwap "
-      style={{
-        fontSize: 90,
-        whiteSpace: 'nowrap',
-      }}
+      tw="inline-flex relative"
+      style={{ fontSize: 90, whiteSpace: 'nowrap' }}
     >
       <span
         tw="absolute"
