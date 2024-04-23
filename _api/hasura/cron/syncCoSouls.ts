@@ -51,6 +51,7 @@ export async function syncCoSouls() {
   // update each one on-chain if needed, otherwise just update the checked_at column
   const updated = [];
   const errors = [];
+  const ignored = [];
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
@@ -68,7 +69,13 @@ export async function syncCoSouls() {
       if (!DISABLE_SYNC_ON_CHAIN) {
         success = await updateCoSoulOnChain(cosoul, localPGIVE);
       }
+      if (success) {
+        updated.push(cosoul.id);
+      } else {
+        errors.push(cosoul.id);
+      }
     } else {
+      ignored.push(cosoul.id);
       console.log(
         'No need to update on-chain PGIVE for tokenId',
         cosoul.token_id,
@@ -77,20 +84,16 @@ export async function syncCoSouls() {
         'onChainPGIVE:',
         onChainPGIVE
       );
-
       // update repScore on chain if needed
 
       // just update the checked at
       await updateCheckedAt(cosoul.id);
     }
-    if (success) {
-      updated.push(cosoul.id);
-    } else {
-      errors.push(cosoul.id);
-    }
   }
   const message = `${cosouls.length} CoSouls updated`;
-  return { message, updated, errors };
+  const status = { message, updated, errors, ignored };
+  console.log(status);
+  return status;
 }
 
 export async function isHistoricalPGiveFinished() {
@@ -132,6 +135,7 @@ const getCoSoulsToUpdate = async () => {
               id: {
                 _is_null: false,
               },
+              colinks_gives_received: {},
             },
             _or: [
               {
