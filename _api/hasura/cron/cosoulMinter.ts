@@ -10,15 +10,17 @@ import {
 } from '../../../src/features/cosoul/api/cosoul';
 import { minted } from '../actions/_handlers/syncCoSoul';
 
-const LIMIT = 6;
+const LIMIT = 3;
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(_req: VercelRequest, res: VercelResponse) {
   const profiles = await profilesToMint();
 
   console.log('Profiles to mint: ', profiles.length);
   console.log({ profiles });
 
   try {
+    let errors = 0;
+    let success = 0;
     for (const p of profiles) {
       try {
         console.log('Minting CoSouls for address: ', p.address);
@@ -34,7 +36,9 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           ' for address: ',
           p.address
         );
+        success++;
       } catch (e: any) {
+        errors++;
         console.error(
           'Error while minting cosoul for address: ',
           p.address,
@@ -46,6 +50,8 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     res.status(200).json({
       success: true,
       minted: profiles.length,
+      errorsCount: errors,
+      successCount: success,
     });
   } catch (e: any) {
     console.error('Error while minting cosouls', e);
