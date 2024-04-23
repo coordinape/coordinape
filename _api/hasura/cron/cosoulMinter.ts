@@ -67,6 +67,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       }
     }
 
+    console.log('Minting complete', { success, errors });
     res.status(200).json({
       success: true,
       minted: profiles.length,
