@@ -114,11 +114,11 @@ const getCoSoulsToUpdate = async () => {
   const endOfPreviousMonth = previousMonth.endOf('month');
 
   // this month (4/24) we have a near-end-of-month checkpoint because we finally implemented bringing CoLinks GIVE into PGIVE
-  const useMidMonth = DateTime.local() < DateTime.fromISO('2022-05-01');
+  const useMidMonth = DateTime.local() < DateTime.fromISO('2024-05-01');
 
   // sync again in 4/24 to include CoLinks GIVE in PGIVE
   const syncAtCheckpoint = useMidMonth
-    ? DateTime.fromISO('2022-04-22')
+    ? DateTime.fromISO('2024-04-22')
     : endOfPreviousMonth;
 
   const { cosouls } = await adminClient.query(
