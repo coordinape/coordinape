@@ -61,6 +61,5 @@ export async function storeCoSoulImage(tokenId: number) {
     return result;
   } catch (e: any) {
     console.error('failed to screenshot CoSoul ' + tokenId, e);
-    // proceed with setting on-chain pgive
   }
 }
