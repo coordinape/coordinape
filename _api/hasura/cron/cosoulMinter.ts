@@ -10,7 +10,7 @@ import {
 } from '../../../src/features/cosoul/api/cosoul';
 import { minted } from '../actions/_handlers/syncCoSoul';
 
-const LIMIT = 3;
+const LIMIT = 6;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   const profiles = await profilesToMint();
