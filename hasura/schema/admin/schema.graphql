@@ -35543,6 +35543,126 @@ type profiles {
     """
     where: claims_bool_exp
   ): claims_aggregate!
+
+  """
+  An array relationship
+  """
+  colinks_gives_received(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_gives_received_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  An array relationship
+  """
+  colinks_gives_sent(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_gives_sent_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
   colinks_notification_emails: Boolean!
   colinks_product_emails: Boolean!
   connector: String
@@ -35551,6 +35671,7 @@ type profiles {
   An object relationship
   """
   cosoul: cosouls
+  cosoul_mint_error: String
   created_at: timestamp!
   description: String
   description_embedding: vector
@@ -36131,10 +36252,15 @@ input profiles_bool_exp {
   chat_id: String_comparison_exp
   claims: claims_bool_exp
   claims_aggregate: claims_aggregate_bool_exp
+  colinks_gives_received: colinks_gives_bool_exp
+  colinks_gives_received_aggregate: colinks_gives_aggregate_bool_exp
+  colinks_gives_sent: colinks_gives_bool_exp
+  colinks_gives_sent_aggregate: colinks_gives_aggregate_bool_exp
   colinks_notification_emails: Boolean_comparison_exp
   colinks_product_emails: Boolean_comparison_exp
   connector: String_comparison_exp
   cosoul: cosouls_bool_exp
+  cosoul_mint_error: String_comparison_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
   description_embedding: vector_comparison_exp
@@ -36240,10 +36366,13 @@ input profiles_insert_input {
   bio: String
   chat_id: String
   claims: claims_arr_rel_insert_input
+  colinks_gives_received: colinks_gives_arr_rel_insert_input
+  colinks_gives_sent: colinks_gives_arr_rel_insert_input
   colinks_notification_emails: Boolean
   colinks_product_emails: Boolean
   connector: String
   cosoul: cosouls_obj_rel_insert_input
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -36295,6 +36424,7 @@ type profiles_max_fields {
   bio: String
   chat_id: String
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   device_login_token: uuid
@@ -36333,6 +36463,7 @@ type profiles_min_fields {
   bio: String
   chat_id: String
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   device_login_token: uuid
@@ -36409,10 +36540,13 @@ input profiles_order_by {
   bio: order_by
   chat_id: order_by
   claims_aggregate: claims_aggregate_order_by
+  colinks_gives_received_aggregate: colinks_gives_aggregate_order_by
+  colinks_gives_sent_aggregate: colinks_gives_aggregate_order_by
   colinks_notification_emails: order_by
   colinks_product_emails: order_by
   connector: order_by
   cosoul: cosouls_order_by
+  cosoul_mint_error: order_by
   created_at: order_by
   description: order_by
   description_embedding: order_by
@@ -37507,6 +37641,11 @@ enum profiles_select_column {
   """
   column name
   """
+  cosoul_mint_error
+
+  """
+  column name
+  """
   created_at
 
   """
@@ -37658,6 +37797,7 @@ input profiles_set_input {
   colinks_notification_emails: Boolean
   colinks_product_emails: Boolean
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -37758,6 +37898,7 @@ input profiles_stream_cursor_value_input {
   colinks_notification_emails: Boolean
   colinks_product_emails: Boolean
   connector: String
+  cosoul_mint_error: String
   created_at: timestamp
   description: String
   description_embedding: vector
@@ -37850,6 +37991,11 @@ enum profiles_update_column {
   column name
   """
   connector
+
+  """
+  column name
+  """
+  cosoul_mint_error
 
   """
   column name

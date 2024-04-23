@@ -14,7 +14,7 @@ const optimism = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('1000000000'),
+    maxFeePerGas: BigNumber.from('100000000'),
     maxPriorityFeePerGas: BigNumber.from('500'),
   },
 };
