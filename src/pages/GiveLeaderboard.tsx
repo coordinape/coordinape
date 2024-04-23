@@ -63,11 +63,11 @@ export const GiveLeaderboard = () => {
   const [sortedData, setSortedData] = useState<typeof data>(undefined);
 
   const skillCompare = (a: any, b: any) => {
-    if (!a && !b) {
+    if (!a.skill && !b.skill) {
       return 0;
-    } else if (!a && b) {
+    } else if (!a.skill && b.skill) {
       return -1;
-    } else if (a && !b) {
+    } else if (a.skill && !b.skill) {
       return 1;
     }
     return a.skill.localeCompare(b.skill);
