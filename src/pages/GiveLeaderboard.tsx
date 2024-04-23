@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { CSS } from '@stitches/react';
 import { useQuery } from 'react-query';
 
 import { order_by } from '../lib/anongql/__generated__/zeus';
@@ -103,6 +104,9 @@ export const GiveLeaderboard = () => {
           position: 'fixed',
           overflow: 'scroll',
           paddingBottom: 100,
+          '@sm': {
+            fontSize: '$xs',
+          },
           '*': {
             color: 'white',
           },
@@ -115,9 +119,12 @@ export const GiveLeaderboard = () => {
             margin: 'auto',
             gap: '$2xl',
             flexFlow: 'column nowrap',
+            '@md': {
+              width: '96%',
+            },
           }}
         >
-          <Flex column css={{ alignItems: 'center', paddingTop: '100px' }}>
+          <Flex column css={{ alignItems: 'center', paddingTop: '80px' }}>
             <Flex row css={{ gap: '$md' }}>
               <Text css={{ color: '#FFFFFF' }} size={'large'}>
                 give.party
@@ -133,7 +140,8 @@ export const GiveLeaderboard = () => {
           <Flex
             css={{
               padding: '16px',
-              backgroundColor: '#464d5533',
+              backgroundColor: 'rgb(8 18 29 / 25%)',
+              borderRadius: '$2',
               // border: 'solid 1px #424a51',
             }}
           >
@@ -147,8 +155,23 @@ export const GiveLeaderboard = () => {
               }}
             >
               <Row header={true}>
-                <Column onClick={() => setSort('rank')}>Rank</Column>
-                <Column onClick={() => setSort('skill')}>Skill</Column>
+                <Column
+                  onClick={() => setSort('rank')}
+                  css={{ maxWidth: '4rem' }}
+                >
+                  Rank
+                </Column>
+                <Column
+                  onClick={() => setSort('skill')}
+                  css={{
+                    minWidth: '15rem',
+                    '@md': {
+                      minWidth: '12rem',
+                    },
+                  }}
+                >
+                  Skill
+                </Column>
                 <Column onClick={() => setSort('gives')}>Total GIVEs</Column>
                 <Column onClick={() => setSort('gives_last_24_hours')}>
                   Last 24 Hrs
@@ -163,18 +186,31 @@ export const GiveLeaderboard = () => {
               {sortedData &&
                 sortedData.map(skill => (
                   <Row key={skill.skill}>
-                    <Column>#{skill.rank}</Column>
-                    <Column>
+                    <Column css={{ maxWidth: '4rem' }}>#{skill.rank}</Column>
+                    <Column
+                      css={{
+                        minWidth: '15rem',
+                        '@md': {
+                          minWidth: '12rem',
+                        },
+                      }}
+                    >
                       <Text
                         tag
                         size="small"
-                        color="complete"
-                        css={{ gap: '$xs' }}
+                        css={{
+                          gap: '$xs',
+                          background: 'rgb(0 143 94 / 83%)',
+                          span: {
+                            color: 'white',
+                            '@sm': {
+                              fontSize: '$xs',
+                            },
+                          },
+                        }}
                       >
-                        {/*<GemCoOutline fa size={'md'} css={{ color: '$text' }} />*/}
-                        <Text css={{ color: '$text', ...skillTextStyle }}>
-                          {skill.skill}
-                        </Text>
+                        <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
+                        <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
                       </Text>
                     </Column>
                     <Column>{skill.gives}</Column>
@@ -194,9 +230,11 @@ export const GiveLeaderboard = () => {
 const Row = ({
   children,
   header,
+  css,
 }: {
   children: React.ReactNode;
   header?: boolean;
+  css?: CSS;
 }) => {
   return (
     <Flex
@@ -204,7 +242,7 @@ const Row = ({
         width: '100%',
         flexFlow: 'row nowrap',
         alignItems: 'stretch',
-        borderBottom: 'solid 1px #727272',
+        borderBottom: 'solid 1px rgba(0,0,0,0.2)',
         fontWeight: '300',
         ...(header
           ? {
@@ -213,10 +251,21 @@ const Row = ({
               cursor: 'pointer',
               top: 0,
               fontWeight: '700',
-              backgroundColor: '#343a4099',
+              borderRadius: '$2',
+              background:
+                'radial-gradient(circle at 25% 0%, rgb(48 21 128) 20%, rgb(79 5 65) 100%)',
               minHeight: '50px',
+              '@xs': {
+                '.column': {
+                  writingMode: 'vertical-lr',
+                  transform: 'rotate(180deg)',
+                  p: '$sm',
+                  alignItems: 'flex-end',
+                },
+              },
             }
           : {}),
+        ...css,
       }}
     >
       {children}
@@ -227,25 +276,29 @@ const Row = ({
 const Column = ({
   children,
   onClick,
+  css,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
+  css?: CSS;
 }) => {
   return (
     <Flex
+      className="column"
       css={{
         flex: 2,
         padding: '10px',
-        wordBreak: 'break-all',
         display: 'flex',
         color: 'white',
         alignItems: 'center',
+        overflow: 'hidden',
         '@sm': {
           flex: 1,
         },
         '@lg': {
           flex: 3,
         },
+        ...css,
       }}
       onClick={onClick}
     >
