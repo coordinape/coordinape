@@ -27,8 +27,8 @@ let contract: CoSoul;
 let snapshotId: string;
 let mainAccount: string;
 let secondAccount: string;
-let mainTokenId: Awaited<ReturnType<typeof cosoulApi.getTokenId>>;
-let secondTokenId: Awaited<ReturnType<typeof cosoulApi.getTokenId>>;
+let mainTokenId: number | undefined;
+let secondTokenId: number | undefined;
 let accounts: string[];
 let user: any;
 let user2: any;
@@ -38,29 +38,39 @@ let secondTx: Awaited<ReturnType<typeof contract.mint>>;
 const req = {
   headers: { verification_key: process.env.HASURA_EVENT_SECRET },
 } as unknown as VercelRequest;
+
 const res: any = { status: vi.fn(() => res), json: vi.fn() };
+
 describe('syncCoSouls cron', () => {
   beforeEach(async () => {
     vi.spyOn(syncCosouls, 'isHistoricalPGiveFinished').mockResolvedValue(true);
     vi.spyOn(cosoulApi, 'setOnChainPGIVE');
     vi.spyOn(cosoulApi, 'setBatchOnChainPGIVE');
+
     snapshotId = await takeSnapshot();
+
     accounts = await provider().listAccounts();
+
     mainAccount = accounts[0];
     const mainProfile = await createProfile(adminClient, {
       address: mainAccount,
     });
     user = await createUser(adminClient, { profile_id: mainProfile.id });
+
     contract = (await Contracts.fromProvider(provider())).cosoul;
+
     mainTx = await contract.mint();
     mainTokenId = await cosoulApi.getTokenId(mainAccount);
+
     secondAccount = accounts[1];
     const secondProfile = await createProfile(adminClient, {
       address: secondAccount,
     });
     user2 = await createUser(adminClient, { profile_id: secondProfile.id });
+
     secondTx = await cosoulApi.mintCoSoulForAddress(secondAccount);
     secondTokenId = await cosoulApi.getTokenId(secondAccount);
+
     console.log('mainTokenId', mainTokenId);
     console.log('secondTokenId', secondTokenId);
 
