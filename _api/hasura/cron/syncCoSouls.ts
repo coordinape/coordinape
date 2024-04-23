@@ -27,7 +27,13 @@ type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 // This cron ensures that on-chain pgive reflects our local pgive state.
 // This should only process each CoSoul once per month
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const success = await syncCoSouls();
+  let success;
+  try {
+    success = await syncCoSouls();
+  } catch (e: any) {
+    errorLog(`Error in syncCoSouls cron: ${e}`);
+    return res.status(500).json({ success: false, error: e.message });
+  }
   return res.status(200).json(success);
 }
 
