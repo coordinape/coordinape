@@ -17,7 +17,7 @@ import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
 Settings.defaultZone = 'utc';
 
 // TODO: re-enable when super-mint is done
-export const DISABLE_SYNC_ON_CHAIN = true;
+export const DISABLE_SYNC_ON_CHAIN = false;
 
 const LIMIT_USERS_TO_SYNC = 10;
 
