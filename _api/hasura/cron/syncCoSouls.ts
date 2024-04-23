@@ -172,7 +172,7 @@ const syncCoSoulToken = async (
   if (totalPGIVE > 0) {
     totalPGIVE = Math.floor(totalPGIVE);
     const tx = await setOnChainPGIVE(tokenId, totalPGIVE);
-    await tx.wait()
+    await tx.wait();
     console.log(
       'set PGIVE on chain for tokenId: ' +
         tokenId +
@@ -199,8 +199,8 @@ const syncCoSoulToken = async (
           },
           _set: {
             pgive: totalPGIVE,
-            checked_at: new Date().toISOString(),
-            synced_at: new Date().toISOString(),
+            checked_at: 'now()',
+            synced_at: 'now()',
           },
         },
         {
@@ -217,15 +217,15 @@ const syncCoSoulToken = async (
   );
 };
 
-const syncPatchCoSoulToken = async (
+const syncBatchCoSoulToken = async (
   updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) => {
-  let payload = paddedHex(PGIVE_SLOT, 2, true); //1byte for slot
+  let payload = paddedHex(PGIVE_SLOT, 2, true); // 1byte for slot
   const successMessages = [];
   for (const { cosoul, localPGIVE } of updatedCosouls) {
     if (localPGIVE > 0) {
       const pGIVE = Math.floor(localPGIVE);
-      //four bytes for pgive and four bytes for tokenId
+      // four bytes for pgive and four bytes for tokenId
       payload += getPayload(pGIVE, cosoul.token_id);
       successMessages.push(
         `set PGIVE on chain for tokenId: ${cosoul.token_id} address: ${cosoul.address} to ${localPGIVE}`
@@ -239,11 +239,11 @@ const syncPatchCoSoulToken = async (
       );
     }
   }
+  // payload is only 0x00 if no pgive needs to be updated on chain
   if (payload.length > 4) {
-    // 0x and one byte for slot 0x00
-    //if only one needs to be updated on chain, we can use setOnChainPGIVE
+    // if only one needs to be updated on chain, we can use setOnChainPGIVE
+    // 0x00 (4 chracters) plus 4 bytes (8 chracters) for pgive and 4 bytes (8 chracters) for tokenId
     if (payload.length === 20) {
-      //0x00 plus 4 bytes for pgive and 4 bytes for tokenId
       const tx = await setOnChainPGIVE(
         updatedCosouls[0].cosoul.token_id,
         updatedCosouls[0].localPGIVE
@@ -268,8 +268,8 @@ const syncPatchCoSoulToken = async (
                 },
                 _set: {
                   pgive: localPGIVE,
-                  checked_at: new Date().toISOString(),
-                  synced_at: new Date().toISOString(),
+                  checked_at: 'now()',
+                  synced_at: 'now()',
                 },
               },
               {
@@ -313,7 +313,7 @@ async function updateCoSoulOnChain(
         updatedCosouls[0].cosoul.token_id
       );
     } else {
-      await syncPatchCoSoulToken(updatedCosouls);
+      await syncBatchCoSoulToken(updatedCosouls);
     }
     return true;
   } catch (e: any) {
@@ -323,7 +323,7 @@ async function updateCoSoulOnChain(
       (accumulator, currentValue, currentIndex) =>
         accumulator +
         `[Cosoul ${currentIndex} with id: ${currentValue.cosoul.id}, tokenId: ${currentValue.cosoul.token_id}, address: 
-      ${currentValue.cosoul.address} ,and targetPIVE: ${currentValue.localPGIVE}]`,
+      ${currentValue.cosoul.address}, and targetPIVE: ${currentValue.localPGIVE}]`,
       ''
     );
     errorLog(

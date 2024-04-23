@@ -7,7 +7,30 @@ import { ethers } from 'hardhat';
 import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
-import { getPayload, paddedHex } from '../utils/payload';
+
+const paddedHex = (
+  n: number,
+  length: number = 8,
+  prefix: boolean = false
+): string => {
+  const _hex = n.toString(16); // convert number to hexadecimal
+  const hexLen = _hex.length;
+  const extra = '0'.repeat(length - hexLen);
+  let pre = '0x';
+  if (!prefix) {
+    pre = '';
+  }
+  if (hexLen === length) {
+    return pre + _hex;
+  } else if (hexLen < length) {
+    return pre + extra + _hex;
+  } else {
+    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+  }
+};
+
+const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);
 
 chai.use(solidity);
 const { expect } = chai;
