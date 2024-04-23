@@ -6,6 +6,7 @@ import { uploadImage } from '../../../../api-lib/s3';
 import { webAppURL } from '../../../config/webAppURL';
 
 const BASE_URL = webAppURL('cosoul') + '/cosoul/image/';
+const DISABLE_SCREENSHOTS = true;
 
 export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
   const local = !process.env.VERCEL;
@@ -42,10 +43,24 @@ export async function screenshotCoSoul(tokenId: number): Promise<Buffer> {
 }
 
 export async function storeCoSoulImage(tokenId: number) {
-  // no-op in CI and if local flag set
-  if (process.env.CI) return;
-  if (process.env.NO_COSOUL_SCREENSHOTS) return;
+  try {
+    // no-op in CI and if local flag set
+    if (process.env.CI) return;
+    if (process.env.NO_COSOUL_SCREENSHOTS || DISABLE_SCREENSHOTS) return;
 
-  const buffer = await screenshotCoSoul(tokenId);
-  return await uploadImage(`cosoul/screenshots/${tokenId}.png`, buffer);
+    // eslint-disable-next-line no-console
+    console.log('attempting to save screenshot for tokenId:', tokenId);
+
+    const buffer = await screenshotCoSoul(tokenId);
+    const result = await uploadImage(
+      `cosoul/screenshots/${tokenId}.png`,
+      buffer
+    );
+    // eslint-disable-next-line no-console
+    console.log('saved screenshot for tokenId:', tokenId);
+    return result;
+  } catch (e: any) {
+    console.error('failed to screenshot CoSoul ' + tokenId, e);
+    // proceed with setting on-chain pgive
+  }
 }

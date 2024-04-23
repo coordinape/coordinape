@@ -187,16 +187,8 @@ async function syncPGive(address: string, tokenId: number) {
     }
   );
   // this might take a while and might need to be handled in a separate process
-  try {
-    // eslint-disable-next-line no-console
-    console.log('attempting to save screenshot for tokenId:', tokenId);
-    await storeCoSoulImage(tokenId);
-    // eslint-disable-next-line no-console
-    console.log('saved screenshot for tokenId:', tokenId);
-  } catch (e: any) {
-    console.error('failed to screenshot CoSoul ' + tokenId, e);
-    // proceed with setting on-chain pgive
-  }
+  await storeCoSoulImage(tokenId);
+
   // set pgive after because this triggers a metadata update + fetch from OpenSea
   // TODO: re-enable when super-mint is done
   if (!DISABLE_SYNC_ON_CHAIN) {
