@@ -9,6 +9,10 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getOnChainPGIVE,
+  getPayload,
+  paddedHex,
+  PGIVE_SLOT,
+  setBatchOnChainPGIVE,
   setOnChainPGIVE,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
@@ -19,15 +23,21 @@ Settings.defaultZone = 'utc';
 // TODO: re-enable when super-mint is done
 export const DISABLE_SYNC_ON_CHAIN = false;
 
-const LIMIT_USERS_TO_SYNC = 10;
+const LIMIT_USERS_TO_SYNC = 11; // 11 means 88 bytes payload and 1 for slot. that's to fill 3 bytes32
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 
 // This cron ensures that on-chain pgive reflects our local pgive state.
 // This should only process each CoSoul once per month
 async function handler(req: VercelRequest, res: VercelResponse) {
-  const success = await syncCoSouls();
-  res.status(200).json(success);
+  let success;
+  try {
+    success = await syncCoSouls();
+  } catch (e: any) {
+    errorLog(`Error in syncCoSouls cron: ${e}`);
+    return res.status(500).json({ success: false, error: e.message });
+  }
+  return res.status(200).json(success);
 }
 
 export async function syncCoSouls() {
@@ -55,7 +65,6 @@ export async function syncCoSouls() {
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
     const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
-    let success = true;
     if (localPGIVE !== onChainPGIVE) {
       // update the screenshot
       // this might take a while and might need to be handled in a separate process
@@ -65,15 +74,7 @@ export async function syncCoSouls() {
         console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
         // proceed with setting on-chain pgive
       }
-      // TODO: re-enable when super-mint is done
-      if (!DISABLE_SYNC_ON_CHAIN) {
-        success = await updateCoSoulOnChain(cosoul, localPGIVE);
-      }
-      if (success) {
-        updated.push(cosoul.id);
-      } else {
-        errors.push(cosoul.id);
-      }
+      updated.push({ cosoul, localPGIVE });
     } else {
       ignored.push(cosoul.id);
       console.log(
@@ -90,7 +91,17 @@ export async function syncCoSouls() {
       await updateCheckedAt(cosoul.id);
     }
   }
-  const message = `${cosouls.length} CoSouls updated`;
+  let success = true;
+  if (updated.length > 0) {
+    // TODO: re-enable when super-mint is done
+    if (!DISABLE_SYNC_ON_CHAIN) {
+      success = await updateCoSoulOnChain(updated);
+    }
+  }
+  if (!success) {
+    errors.push(...updated.map(({ cosoul }) => cosoul.id));
+  }
+  const message = `${updated.length} CoSouls updated`;
   const status = { message, updated, errors, ignored };
   console.log(status);
   return status;
@@ -205,8 +216,8 @@ const syncCoSoulToken = async (
           },
           _set: {
             pgive: totalPGIVE,
-            checked_at: new Date().toISOString(),
-            synced_at: new Date().toISOString(),
+            checked_at: 'now()',
+            synced_at: 'now()',
           },
         },
         {
@@ -223,24 +234,118 @@ const syncCoSoulToken = async (
   );
 };
 
-async function updateCoSoulOnChain(cosoul: CoSoul, totalPGIVE: number) {
+const syncBatchCoSoulToken = async (
+  updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
+) => {
+  let payload = paddedHex(PGIVE_SLOT, 2, true); // 1byte for slot
+  const successMessages = [];
+  for (const { cosoul, localPGIVE } of updatedCosouls) {
+    if (localPGIVE > 0) {
+      const pGIVE = Math.floor(localPGIVE);
+      // four bytes for pgive and four bytes for tokenId
+      payload += getPayload(pGIVE, cosoul.token_id);
+      successMessages.push(
+        `set PGIVE on chain for tokenId: ${cosoul.token_id} address: ${cosoul.address} to ${localPGIVE}`
+      );
+    } else {
+      console.log(
+        'skipping setting on-chain PGIVE because it is 0 for tokenId: ' +
+          cosoul.token_id +
+          ' address: ' +
+          cosoul.address
+      );
+    }
+  }
+  // payload is only 0x00 if no pgive needs to be updated on chain
+  if (payload.length > 4) {
+    // if only one needs to be updated on chain, we can use setOnChainPGIVE
+    // 0x00 (4 chracters) plus 4 bytes (8 chracters) for pgive and 4 bytes (8 chracters) for tokenId
+    if (payload.length === 20) {
+      const tx = await setOnChainPGIVE(
+        updatedCosouls[0].cosoul.token_id,
+        updatedCosouls[0].localPGIVE
+      );
+      await tx.wait();
+    } else {
+      const tx = await setBatchOnChainPGIVE(payload);
+      await tx.wait();
+    }
+    successMessages.forEach(msg => console.log(msg));
+  }
+
+  await Promise.allSettled(
+    updatedCosouls.map(async ({ cosoul, localPGIVE }) => {
+      try {
+        await adminClient.mutate(
+          {
+            update_cosouls_by_pk: [
+              {
+                pk_columns: {
+                  id: cosoul.id,
+                },
+                _set: {
+                  pgive: localPGIVE,
+                  checked_at: 'now()',
+                  synced_at: 'now()',
+                },
+              },
+              {
+                id: true,
+              },
+            ],
+          },
+          {
+            operationName: 'cron__updateCoSoulCache',
+          }
+        );
+        console.log(
+          'Updated CoSoul with address: ' +
+            cosoul.address +
+            ' to tokenId: ' +
+            cosoul.token_id
+        );
+      } catch (e: unknown) {
+        const message =
+          'Error updating Cosoul with addesss ' +
+          cosoul.address +
+          ' to tokenId: ' +
+          cosoul.token_id;
+        console.error(message);
+        if (e instanceof Error) throw new Error(message);
+      }
+      return;
+    })
+  );
+};
+
+async function updateCoSoulOnChain(
+  updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
+) {
   try {
-    await syncCoSoulToken(
-      cosoul.id,
-      cosoul.address,
-      totalPGIVE,
-      cosoul.token_id
-    );
+    if (updatedCosouls.length === 1) {
+      await syncCoSoulToken(
+        updatedCosouls[0].cosoul.id,
+        updatedCosouls[0].cosoul.address,
+        updatedCosouls[0].localPGIVE,
+        updatedCosouls[0].cosoul.token_id
+      );
+    } else {
+      await syncBatchCoSoulToken(updatedCosouls);
+    }
     return true;
   } catch (e: any) {
     // don't ruin the whole thing, this might be an on-chain issue or temporary setback
     // TODO: send this to sentry
+    const failedBatch = updatedCosouls.reduce(
+      (accumulator, currentValue, currentIndex) =>
+        accumulator +
+        `[Cosoul ${currentIndex} with id: ${currentValue.cosoul.id}, tokenId: ${currentValue.cosoul.token_id}, address: 
+      ${currentValue.cosoul.address}, and targetPIVE: ${currentValue.localPGIVE}]`,
+      ''
+    );
     errorLog(
-      `error syncing cosoul id: ${cosoul.id} tokenId: ${
-        cosoul.token_id
-      } address: ${cosoul.address}}, ${
-        e.message ? e.message : e
-      } with targetPIVE: ${totalPGIVE}`
+      `error syncing cosouls list ${failedBatch}
+      ${e.message ? e.message : e}`
     );
     return false;
   }

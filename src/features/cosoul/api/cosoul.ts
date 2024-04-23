@@ -1,13 +1,37 @@
 import { TransactionReceipt } from '@ethersproject/providers';
-import { BigNumber, ethers, Wallet } from 'ethers';
+import { BigNumber, BytesLike, ethers, Wallet } from 'ethers';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
 import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
 
-const PGIVE_SLOT = 0;
+export const PGIVE_SLOT = 0;
 export const PGIVE_SYNC_DURATION_DAYS = 30;
+
+export const paddedHex = (
+  n: number,
+  length: number = 8,
+  prefix: boolean = false
+): string => {
+  const _hex = n.toString(16); // convert number to hexadecimal
+  const hexLen = _hex.length;
+  const extra = '0'.repeat(length - hexLen);
+  let pre = '0x';
+  if (!prefix) {
+    pre = '';
+  }
+  if (hexLen === length) {
+    return pre + _hex;
+  } else if (hexLen < length) {
+    return pre + extra + _hex;
+  } else {
+    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+  }
+};
+
+export const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);
 
 function getCoSoulContract() {
   const chainId = Number(chain.chainId);
@@ -33,7 +57,7 @@ export const getTokenId = async (address: string) => {
   // see if they have any CoSoul tokens
   const balanceOfBN = await contract.balanceOf(address);
   const balanceOf = balanceOfBN.toNumber();
-
+  console.log('balanceOf: ', balanceOf);
   // if they don't have a balance there is nothing more to do
   if (balanceOf === 0) {
     return undefined;
@@ -63,6 +87,13 @@ export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
   const gasSettings = chain.gasSettings;
 
   return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
+};
+
+// set the on-chain PGIVE balance for multiple tokens
+export const setBatchOnChainPGIVE = async (data: BytesLike) => {
+  const contract = getSignedCoSoulContract();
+  const gasSettings = chain.gasSettings;
+  return await contract.batchSetSlot_UfO(data, gasSettings);
 };
 
 export const mintCoSoulForAddress = async (address: string) => {
