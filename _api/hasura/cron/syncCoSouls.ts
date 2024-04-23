@@ -95,7 +95,7 @@ export async function syncCoSouls() {
   if (!success)
     errors.push(...updated.map(({ cosoul }) => cosoul.id));
   }
-  const message = `${cosouls.length} CoSouls updated`;
+  const message = `${updated.length} CoSouls updated`;
   const status = { message, updated, errors, ignored };
   console.log(status);
   return status;
