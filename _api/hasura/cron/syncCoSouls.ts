@@ -20,7 +20,7 @@ import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
 
 Settings.defaultZone = 'utc';
 
-const LIMIT_USERS_TO_SYNC = 10;
+const LIMIT_USERS_TO_SYNC = 11;
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 
