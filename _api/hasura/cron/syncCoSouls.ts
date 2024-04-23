@@ -16,6 +16,9 @@ import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
 
 Settings.defaultZone = 'utc';
 
+// TODO: re-enable when super-mint is done
+export const DISABLE_SYNC_ON_CHAIN = true;
+
 const LIMIT_USERS_TO_SYNC = 10;
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
@@ -61,7 +64,10 @@ export async function syncCoSouls() {
         console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
         // proceed with setting on-chain pgive
       }
-      success = await updateCoSoulOnChain(cosoul, localPGIVE);
+      // TODO: re-enable when super-mint is done
+      if (!DISABLE_SYNC_ON_CHAIN) {
+        success = await updateCoSoulOnChain(cosoul, localPGIVE);
+      }
     } else {
       console.log(
         'No need to update on-chain PGIVE for tokenId',
