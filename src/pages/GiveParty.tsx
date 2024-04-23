@@ -34,8 +34,7 @@ export const GiveParty = () => {
     const metaThemeColor = document.querySelector(
       'meta[name="theme-color"]'
     ) as HTMLMetaElement;
-    const barColor = '#5507E7';
-    metaThemeColor.content = barColor;
+    metaThemeColor.content = '#5507E7';
     // Revert to original value on unmount
     return () => {
       if (metaThemeColor) {
