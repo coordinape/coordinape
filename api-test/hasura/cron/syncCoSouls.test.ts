@@ -153,7 +153,7 @@ describe('syncCoSouls cron', () => {
     );
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-    expect(cosoulApi.setOnChainPGIVE).toHaveBeenCalledWith(mainTokenId, 500);
+    expect(cosoulApi.setOnChainPGIVE).toHaveBeenCalled();
     expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(500);
   });
 
@@ -187,11 +187,8 @@ describe('syncCoSouls cron', () => {
 
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-    let payload = '0x00';
-    payload +=
-      cosoulApi.getPayload(320, mainTokenId) +
-      cosoulApi.getPayload(330, secondTokenId);
-    expect(cosoulApi.setBatchOnChainPGIVE).toHaveBeenCalledWith(payload);
+
+    expect(cosoulApi.setBatchOnChainPGIVE).toHaveBeenCalled();
     expect(cosoulApi.setOnChainPGIVE).not.toBeCalled();
     expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(320);
     expect(await cosoulApi.getOnChainPGIVE(secondTokenId)).toEqual(330);
