@@ -7,11 +7,12 @@ import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
 import { shortenAddressWithFrontLength } from '../utils';
-import { GemCoOutline } from 'icons/__generated';
 import { Avatar, Flex, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
+import { PartyBody } from './GiveParty/PartyBody';
+import { PartyHeader } from './GiveParty/PartyHeader';
 
 type sortBy =
   | 'gives'
@@ -95,20 +96,6 @@ export const GiveSkillLeaderboard = () => {
   };
 
   useEffect(() => {
-    // Change safari header bar color
-    const metaThemeColor = document.querySelector(
-      'meta[name="theme-color"]'
-    ) as HTMLMetaElement;
-    metaThemeColor.content = '#5507E7';
-    // Revert to original value on unmount
-    return () => {
-      if (metaThemeColor) {
-        metaThemeColor.content = '#000000';
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     if (data) {
       data.sort((a, b) => {
         if (sort === 'name') {
@@ -126,177 +113,132 @@ export const GiveSkillLeaderboard = () => {
 
   return (
     <>
-      <Flex
-        key={sort}
-        column
-        css={{
-          height: '100vh',
-          width: '100%',
-          borderTop: '1px solid #4906C7',
-          background:
-            'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
-          alignItems: 'center',
-          position: 'fixed',
-          overflow: 'scroll',
-          paddingBottom: 100,
-          '@sm': {
-            fontSize: '$xs',
-          },
-          '*': {
-            color: 'white',
-          },
-        }}
-      >
+      <PartyBody>
+        <PartyHeader />
+
+        {/*Content*/}
         <Flex
           css={{
-            position: 'relative',
-            width: '80%',
-            margin: 'auto',
-            gap: '$2xl',
-            flexFlow: 'column nowrap',
-            '@md': {
-              width: '96%',
+            padding: '16px',
+            backgroundColor: 'rgb(8 18 29 / 25%)',
+            borderRadius: '$2',
+            // border: 'solid 1px #424a51',
+            '@tablet': {
+              p: '12px 8px',
             },
           }}
         >
-          <Flex column css={{ alignItems: 'center', paddingTop: '80px' }}>
-            <Flex row css={{ gap: '$md' }}>
-              <Text css={{ color: '#FFFFFF' }} size={'large'}>
-                give.party
-              </Text>
-              <GemCoOutline size="2xl" fa />
-              <Text css={{ color: '#FFFFFF' }} size={'large'}>
-                leaderboard
-              </Text>
-            </Flex>
-          </Flex>
-
-          {/*Content*/}
+          {/*Table*/}
           <Flex
             css={{
-              padding: '16px',
-              backgroundColor: 'rgb(8 18 29 / 25%)',
-              borderRadius: '$2',
-              // border: 'solid 1px #424a51',
-              '@tablet': {
-                p: '12px 8px',
-              },
+              width: '100%',
+              flexFlow: 'column',
+              alignItems: 'flex-start',
+              color: 'white',
             }}
           >
-            {/*Table*/}
-            <Flex
+            <Text
+              h2
               css={{
                 width: '100%',
-                flexFlow: 'column',
-                alignItems: 'flex-start',
-                color: 'white',
+                justifyContent: 'center',
+                m: '$xs 0 $md',
               }}
             >
-              <Text
-                h2
+              <PartyDisplayText text={`#${skill}`} />
+            </Text>
+            <GiveLeaderboardRow header={true}>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('rank')}
+                css={{ maxWidth: '4rem' }}
+              >
+                Rank
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('name')}
                 css={{
-                  width: '100%',
-                  justifyContent: 'center',
-                  m: '$xs 0 $md',
+                  minWidth: '15rem',
+                  '@md': {
+                    minWidth: '10rem',
+                  },
                 }}
               >
-                <PartyDisplayText text={`#${skill}`} />
-              </Text>
-              <GiveLeaderboardRow header={true}>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('rank')}
-                  css={{ maxWidth: '4rem' }}
-                >
-                  Rank
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('name')}
-                  css={{
-                    minWidth: '15rem',
-                    '@md': {
-                      minWidth: '10rem',
-                    },
-                  }}
-                >
-                  Member
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn onClick={() => setSort('gives')}>
-                  Total GIVEs
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_24_hours')}
-                >
-                  Last 24 Hrs
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_7_days')}
-                >
-                  Last 7 Days
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_30_days')}
-                >
-                  Last 30 Days
-                </GiveLeaderboardColumn>
-              </GiveLeaderboardRow>
-              {sortedData &&
-                sortedData.map(member => (
-                  <GiveLeaderboardRow key={member.profile?.address}>
-                    <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
-                      #{member.rank}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn
+                Member
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn onClick={() => setSort('gives')}>
+                Total GIVEs
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_24_hours')}
+              >
+                Last 24 Hrs
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_7_days')}
+              >
+                Last 7 Days
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_30_days')}
+              >
+                Last 30 Days
+              </GiveLeaderboardColumn>
+            </GiveLeaderboardRow>
+            {sortedData &&
+              sortedData.map(member => (
+                <GiveLeaderboardRow key={member.profile?.address}>
+                  <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
+                    #{member.rank}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn
+                    css={{
+                      minWidth: '15rem',
+                      '@md': {
+                        minWidth: '10rem',
+                      },
+                    }}
+                  >
+                    <Flex
+                      as={NavLink}
+                      to={coLinksPaths.profile(member.profile?.address ?? '')}
+                      row
                       css={{
-                        minWidth: '15rem',
-                        '@md': {
-                          minWidth: '10rem',
-                        },
+                        alignItems: 'center',
+                        gap: '$sm',
+                        textDecoration: 'none',
                       }}
                     >
-                      <Flex
-                        as={NavLink}
-                        to={coLinksPaths.profile(member.profile?.address ?? '')}
-                        row
-                        css={{
-                          alignItems: 'center',
-                          gap: '$sm',
-                          textDecoration: 'none',
-                        }}
-                      >
-                        <Avatar
-                          size={'xs'}
-                          name={member.profile?.name}
-                          path={member.profile?.avatar}
-                        />
-                        <Flex column>
-                          <Text size="medium">{member.profile?.name}</Text>
-                          <Text size={'xs'}>
-                            {shortenAddressWithFrontLength(
-                              member.profile?.address ?? '',
-                              10
-                            )}
-                          </Text>
-                        </Flex>
+                      <Avatar
+                        size={'xs'}
+                        name={member.profile?.name}
+                        path={member.profile?.avatar}
+                      />
+                      <Flex column>
+                        <Text size="medium">{member.profile?.name}</Text>
+                        <Text size={'xs'}>
+                          {shortenAddressWithFrontLength(
+                            member.profile?.address ?? '',
+                            10
+                          )}
+                        </Text>
                       </Flex>
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {member.gives}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {member.gives_last_24_hours}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {member.gives_last_7_days}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {member.gives_last_30_days}
-                    </GiveLeaderboardColumn>
-                  </GiveLeaderboardRow>
-                ))}
-            </Flex>
+                    </Flex>
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>{member.gives}</GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {member.gives_last_24_hours}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {member.gives_last_7_days}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {member.gives_last_30_days}
+                  </GiveLeaderboardColumn>
+                </GiveLeaderboardRow>
+              ))}
           </Flex>
         </Flex>
-      </Flex>
+      </PartyBody>
     </>
   );
 };

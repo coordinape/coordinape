@@ -11,6 +11,9 @@ import { skillTextStyle } from '../stitches.config';
 import { GemCoOutline } from 'icons/__generated';
 import { Flex, Text } from 'ui';
 
+import { PartyBody } from './GiveParty/PartyBody';
+import { PartyHeader } from './GiveParty/PartyHeader';
+
 type sortBy =
   | 'gives'
   | 'rank'
@@ -111,159 +114,116 @@ export const GiveLeaderboard = () => {
 
   return (
     <>
-      <Flex
-        key={sort}
-        column
-        css={{
-          height: '100vh',
-          width: '100%',
-          borderTop: '1px solid #4906C7',
-          background:
-            'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
-          alignItems: 'center',
-          position: 'fixed',
-          overflow: 'scroll',
-          paddingBottom: 100,
-          '@sm': {
-            fontSize: '$xs',
-          },
-          '*': {
-            color: 'white',
-          },
-        }}
-      >
+      <PartyBody>
+        <PartyHeader />
+
+        {/*Content*/}
         <Flex
           css={{
-            position: 'relative',
-            width: '80%',
-            margin: 'auto',
-            gap: '$2xl',
-            flexFlow: 'column nowrap',
-            '@md': {
-              width: '96%',
-            },
+            padding: '10px',
+            backgroundColor: 'rgb(8 18 29 / 25%)',
+            borderRadius: '$2',
+            // border: 'solid 1px #424a51',
           }}
         >
-          <Flex column css={{ alignItems: 'center', paddingTop: '80px' }}>
-            <Flex row css={{ gap: '$md' }}>
-              <Text css={{ color: '#FFFFFF' }} size={'large'}>
-                give.party
-              </Text>
-              <GemCoOutline size="2xl" fa />
-              <Text css={{ color: '#FFFFFF' }} size={'large'}>
-                leaderboard
-              </Text>
-            </Flex>
-          </Flex>
-
-          {/*Content*/}
+          {/*Table*/}
           <Flex
             css={{
-              padding: '10px',
-              backgroundColor: 'rgb(8 18 29 / 25%)',
-              borderRadius: '$2',
-              // border: 'solid 1px #424a51',
+              width: '100%',
+              flexFlow: 'column',
+              alignItems: 'flex-start',
+              color: 'white',
             }}
           >
-            {/*Table*/}
-            <Flex
-              css={{
-                width: '100%',
-                flexFlow: 'column',
-                alignItems: 'flex-start',
-                color: 'white',
-              }}
-            >
-              <GiveLeaderboardRow header={true}>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('rank')}
-                  css={{ maxWidth: '4rem' }}
-                >
-                  Rank
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('skill')}
-                  css={{
-                    minWidth: '15rem',
-                    '@md': {
-                      minWidth: '12rem',
-                      // flexGrow: 1,
-                    },
-                  }}
-                >
-                  Skill
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn onClick={() => setSort('gives')}>
-                  Total GIVEs
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_24_hours')}
-                >
-                  Last 24 Hrs
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_7_days')}
-                >
-                  Last 7 Days
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn
-                  onClick={() => setSort('gives_last_30_days')}
-                >
-                  Last 30 Days
-                </GiveLeaderboardColumn>
-              </GiveLeaderboardRow>
-              {sortedData &&
-                sortedData.map(skill => (
-                  <GiveLeaderboardRow key={skill.skill}>
-                    <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
-                      #{skill.rank}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn
+            <GiveLeaderboardRow header={true}>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('rank')}
+                css={{ maxWidth: '4rem' }}
+              >
+                Rank
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('skill')}
+                css={{
+                  minWidth: '15rem',
+                  '@md': {
+                    minWidth: '12rem',
+                    // flexGrow: 1,
+                  },
+                }}
+              >
+                Skill
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn onClick={() => setSort('gives')}>
+                Total GIVEs
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_24_hours')}
+              >
+                Last 24 Hrs
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_7_days')}
+              >
+                Last 7 Days
+              </GiveLeaderboardColumn>
+              <GiveLeaderboardColumn
+                onClick={() => setSort('gives_last_30_days')}
+              >
+                Last 30 Days
+              </GiveLeaderboardColumn>
+            </GiveLeaderboardRow>
+            {sortedData &&
+              sortedData.map(skill => (
+                <GiveLeaderboardRow key={skill.skill}>
+                  <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
+                    #{skill.rank}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn
+                    css={{
+                      minWidth: '15rem',
+                      '@md': {
+                        minWidth: '12rem',
+                        // flexGrow: 1,
+                      },
+                    }}
+                  >
+                    <Text
+                      as={NavLink}
+                      to={coLinksPaths.giveBoardSkill(skill.skill)}
+                      tag
+                      size="small"
                       css={{
-                        minWidth: '15rem',
-                        '@md': {
-                          minWidth: '12rem',
-                          // flexGrow: 1,
+                        gap: '$xs',
+                        background: 'rgb(0 143 94 / 83%)',
+                        textDecoration: 'none',
+                        span: {
+                          color: 'white',
+                          '@sm': {
+                            fontSize: '$xs',
+                          },
                         },
                       }}
                     >
-                      <Text
-                        as={NavLink}
-                        to={coLinksPaths.giveBoardSkill(skill.skill)}
-                        tag
-                        size="small"
-                        css={{
-                          gap: '$xs',
-                          background: 'rgb(0 143 94 / 83%)',
-                          textDecoration: 'none',
-                          span: {
-                            color: 'white',
-                            '@sm': {
-                              fontSize: '$xs',
-                            },
-                          },
-                        }}
-                      >
-                        <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
-                        <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
-                      </Text>
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>{skill.gives}</GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {skill.gives_last_24_hours}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {skill.gives_last_7_days}
-                    </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>
-                      {skill.gives_last_30_days}
-                    </GiveLeaderboardColumn>
-                  </GiveLeaderboardRow>
-                ))}
-            </Flex>
+                      <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
+                      <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
+                    </Text>
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>{skill.gives}</GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {skill.gives_last_24_hours}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {skill.gives_last_7_days}
+                  </GiveLeaderboardColumn>
+                  <GiveLeaderboardColumn>
+                    {skill.gives_last_30_days}
+                  </GiveLeaderboardColumn>
+                </GiveLeaderboardRow>
+              ))}
           </Flex>
         </Flex>
-      </Flex>
+      </PartyBody>
     </>
   );
 };
