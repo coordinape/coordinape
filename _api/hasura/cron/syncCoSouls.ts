@@ -131,9 +131,6 @@ const getCoSoulsToUpdate = async () => {
         {
           limit: LIMIT_USERS_TO_SYNC,
           where: {
-            // TODO: this should be temporary, we aren't 100% sure why this is getting set in db before sync
-            // but we want to speed things up
-            pgive: { _gt: 0 },
             // only update pgive of users who have profiles
             profile: {
               id: {
