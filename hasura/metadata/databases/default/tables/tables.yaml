@@ -15,6 +15,7 @@
 - "!include public_claims.yaml"
 - "!include public_colinks_give_count.yaml"
 - "!include public_colinks_gives.yaml"
+- "!include public_colinks_gives_skill_count.yaml"
 - "!include public_contribution_count.yaml"
 - "!include public_contributions.yaml"
 - "!include public_cosouls.yaml"

@@ -281,10 +281,20 @@ type colinks_gives {
   activity_id: bigint
   cast_hash: String
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  giver_profile_public: profiles_public
   id: Int!
   profile_id: bigint!
   skill: citext
   target_profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
   updated_at: timestamptz!
 }
 
@@ -294,6 +304,17 @@ aggregated selection of "colinks_gives"
 type colinks_gives_aggregate {
   aggregate: colinks_gives_aggregate_fields
   nodes: [colinks_gives!]!
+}
+
+input colinks_gives_aggregate_bool_exp {
+  count: colinks_gives_aggregate_bool_exp_count
+}
+
+input colinks_gives_aggregate_bool_exp_count {
+  arguments: [colinks_gives_select_column!]
+  distinct: Boolean
+  filter: colinks_gives_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -314,6 +335,23 @@ type colinks_gives_aggregate_fields {
 }
 
 """
+order by aggregate values of table "colinks_gives"
+"""
+input colinks_gives_aggregate_order_by {
+  avg: colinks_gives_avg_order_by
+  count: order_by
+  max: colinks_gives_max_order_by
+  min: colinks_gives_min_order_by
+  stddev: colinks_gives_stddev_order_by
+  stddev_pop: colinks_gives_stddev_pop_order_by
+  stddev_samp: colinks_gives_stddev_samp_order_by
+  sum: colinks_gives_sum_order_by
+  var_pop: colinks_gives_var_pop_order_by
+  var_samp: colinks_gives_var_samp_order_by
+  variance: colinks_gives_variance_order_by
+}
+
+"""
 aggregate avg on columns
 """
 type colinks_gives_avg_fields {
@@ -321,6 +359,16 @@ type colinks_gives_avg_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by avg() on columns of table "colinks_gives"
+"""
+input colinks_gives_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -333,10 +381,12 @@ input colinks_gives_bool_exp {
   activity_id: bigint_comparison_exp
   cast_hash: String_comparison_exp
   created_at: timestamptz_comparison_exp
+  giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
   target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
 }
 
@@ -355,6 +405,20 @@ type colinks_gives_max_fields {
 }
 
 """
+order by max() on columns of table "colinks_gives"
+"""
+input colinks_gives_max_order_by {
+  activity_id: order_by
+  cast_hash: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type colinks_gives_min_fields {
@@ -369,9 +433,9 @@ type colinks_gives_min_fields {
 }
 
 """
-Ordering options when selecting data from "colinks_gives".
+order by min() on columns of table "colinks_gives"
 """
-input colinks_gives_order_by {
+input colinks_gives_min_order_by {
   activity_id: order_by
   cast_hash: order_by
   created_at: order_by
@@ -379,6 +443,22 @@ input colinks_gives_order_by {
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "colinks_gives".
+"""
+input colinks_gives_order_by {
+  activity_id: order_by
+  cast_hash: order_by
+  created_at: order_by
+  giver_profile_public: profiles_public_order_by
+  id: order_by
+  profile_id: order_by
+  skill: order_by
+  target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
   updated_at: order_by
 }
 
@@ -428,6 +508,114 @@ enum colinks_gives_select_column {
 }
 
 """
+columns and relationships of "colinks_gives_skill_count"
+"""
+type colinks_gives_skill_count {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
+}
+
+"""
+Boolean expression to filter rows from the table "colinks_gives_skill_count". All fields are combined with a logical 'AND'.
+"""
+input colinks_gives_skill_count_bool_exp {
+  _and: [colinks_gives_skill_count_bool_exp!]
+  _not: colinks_gives_skill_count_bool_exp
+  _or: [colinks_gives_skill_count_bool_exp!]
+  gives: bigint_comparison_exp
+  gives_last_24_hours: bigint_comparison_exp
+  gives_last_30_days: bigint_comparison_exp
+  gives_last_7_days: bigint_comparison_exp
+  skill: citext_comparison_exp
+  target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
+}
+
+"""
+Ordering options when selecting data from "colinks_gives_skill_count".
+"""
+input colinks_gives_skill_count_order_by {
+  gives: order_by
+  gives_last_24_hours: order_by
+  gives_last_30_days: order_by
+  gives_last_7_days: order_by
+  skill: order_by
+  target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
+}
+
+"""
+select columns of table "colinks_gives_skill_count"
+"""
+enum colinks_gives_skill_count_select_column {
+  """
+  column name
+  """
+  gives
+
+  """
+  column name
+  """
+  gives_last_24_hours
+
+  """
+  column name
+  """
+  gives_last_30_days
+
+  """
+  column name
+  """
+  gives_last_7_days
+
+  """
+  column name
+  """
+  skill
+
+  """
+  column name
+  """
+  target_profile_id
+}
+
+"""
+Streaming cursor of the table "colinks_gives_skill_count"
+"""
+input colinks_gives_skill_count_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: colinks_gives_skill_count_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input colinks_gives_skill_count_stream_cursor_value_input {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+}
+
+"""
 aggregate stddev on columns
 """
 type colinks_gives_stddev_fields {
@@ -435,6 +623,16 @@ type colinks_gives_stddev_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -448,6 +646,16 @@ type colinks_gives_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type colinks_gives_stddev_samp_fields {
@@ -455,6 +663,16 @@ type colinks_gives_stddev_samp_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -497,6 +715,16 @@ type colinks_gives_sum_fields {
 }
 
 """
+order by sum() on columns of table "colinks_gives"
+"""
+input colinks_gives_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate var_pop on columns
 """
 type colinks_gives_var_pop_fields {
@@ -504,6 +732,16 @@ type colinks_gives_var_pop_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -517,6 +755,16 @@ type colinks_gives_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "colinks_gives"
+"""
+input colinks_gives_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type colinks_gives_variance_fields {
@@ -524,6 +772,16 @@ type colinks_gives_variance_fields {
   id: Float
   profile_id: Float
   target_profile_id: Float
+}
+
+"""
+order by variance() on columns of table "colinks_gives"
+"""
+input colinks_gives_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  target_profile_id: order_by
 }
 
 """
@@ -576,6 +834,287 @@ enum order_by {
   desc_nulls_last
 }
 
+"""
+columns and relationships of "profiles_public"
+"""
+type profiles_public {
+  address: String
+  avatar: String
+
+  """
+  An array relationship
+  """
+  colinks_given(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_given_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+
+  """
+  An array relationship
+  """
+  colinks_gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  colinks_gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+  created_at: timestamp
+  description: String
+  id: bigint
+  joined_colinks_at: timestamptz
+  links: Int
+  links_held: Int
+  name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
+  website: String
+}
+
+"""
+Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'.
+"""
+input profiles_public_bool_exp {
+  _and: [profiles_public_bool_exp!]
+  _not: profiles_public_bool_exp
+  _or: [profiles_public_bool_exp!]
+  address: String_comparison_exp
+  avatar: String_comparison_exp
+  colinks_given: colinks_gives_bool_exp
+  colinks_given_aggregate: colinks_gives_aggregate_bool_exp
+  colinks_gives: colinks_gives_bool_exp
+  colinks_gives_aggregate: colinks_gives_aggregate_bool_exp
+  created_at: timestamp_comparison_exp
+  description: String_comparison_exp
+  id: bigint_comparison_exp
+  joined_colinks_at: timestamptz_comparison_exp
+  links: Int_comparison_exp
+  links_held: Int_comparison_exp
+  name: citext_comparison_exp
+  post_count: bigint_comparison_exp
+  post_count_last_30_days: bigint_comparison_exp
+  website: String_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "profiles_public".
+"""
+input profiles_public_order_by {
+  address: order_by
+  avatar: order_by
+  colinks_given_aggregate: colinks_gives_aggregate_order_by
+  colinks_gives_aggregate: colinks_gives_aggregate_order_by
+  created_at: order_by
+  description: order_by
+  id: order_by
+  joined_colinks_at: order_by
+  links: order_by
+  links_held: order_by
+  name: order_by
+  post_count: order_by
+  post_count_last_30_days: order_by
+  website: order_by
+}
+
+"""
+select columns of table "profiles_public"
+"""
+enum profiles_public_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  avatar
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  joined_colinks_at
+
+  """
+  column name
+  """
+  links
+
+  """
+  column name
+  """
+  links_held
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  post_count
+
+  """
+  column name
+  """
+  post_count_last_30_days
+
+  """
+  column name
+  """
+  website
+}
+
+"""
+Streaming cursor of the table "profiles_public"
+"""
+input profiles_public_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profiles_public_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profiles_public_stream_cursor_value_input {
+  address: String
+  avatar: String
+  created_at: timestamp
+  description: String
+  id: bigint
+  joined_colinks_at: timestamptz
+  links: Int
+  links_held: Int
+  name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
+  website: String
+}
+
 type query_root {
   """
   fetch data from the table: "colinks_give_count"
@@ -608,7 +1147,7 @@ type query_root {
   ): [colinks_give_count!]!
 
   """
-  fetch data from the table: "colinks_gives"
+  An array relationship
   """
   colinks_gives(
     """
@@ -638,7 +1177,7 @@ type query_root {
   ): [colinks_gives!]!
 
   """
-  fetch aggregated fields from the table: "colinks_gives"
+  An aggregate relationship
   """
   colinks_gives_aggregate(
     """
@@ -671,7 +1210,67 @@ type query_root {
   fetch data from the table: "colinks_gives" using primary key columns
   """
   colinks_gives_by_pk(id: Int!): colinks_gives
+
+  """
+  fetch data from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
   price_per_share(chain_id: Int!, token_address: String): Float!
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
 }
 
 type subscription_root {
@@ -726,7 +1325,7 @@ type subscription_root {
   ): [colinks_give_count!]!
 
   """
-  fetch data from the table: "colinks_gives"
+  An array relationship
   """
   colinks_gives(
     """
@@ -756,7 +1355,7 @@ type subscription_root {
   ): [colinks_gives!]!
 
   """
-  fetch aggregated fields from the table: "colinks_gives"
+  An aggregate relationship
   """
   colinks_gives_aggregate(
     """
@@ -791,6 +1390,56 @@ type subscription_root {
   colinks_gives_by_pk(id: Int!): colinks_gives
 
   """
+  fetch data from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
+
+  """
+  fetch data from the table in a streaming manner: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [colinks_gives_skill_count_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
+
+  """
   fetch data from the table in a streaming manner: "colinks_gives"
   """
   colinks_gives_stream(
@@ -809,6 +1458,73 @@ type subscription_root {
     """
     where: colinks_gives_bool_exp
   ): [colinks_gives!]!
+
+  """
+  fetch data from the table: "profiles_public"
+  """
+  profiles_public(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
+
+  """
+  fetch data from the table in a streaming manner: "profiles_public"
+  """
+  profiles_public_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profiles_public_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): [profiles_public!]!
+}
+
+scalar timestamp
+
+"""
+Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
 }
 
 scalar timestamptz
