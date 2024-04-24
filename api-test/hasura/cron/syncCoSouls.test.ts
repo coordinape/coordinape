@@ -136,6 +136,21 @@ describe('syncCoSouls cron', () => {
     await restoreSnapshot(snapshotId);
   });
 
+  afterAll(async () => {
+    await adminClient.mutate(
+      {
+        delete_cosouls: [
+          {
+            where: {},
+          },
+          // something needs to be returned in the mutation
+          { __typename: true, affected_rows: true },
+        ],
+      },
+      { operationName: 'test__DeleteCosouls' }
+    );
+  });
+
   test('updates pgive for one user on chain using setOnChainPGIVE', async () => {
     assert(mainTokenId);
     await adminClient.mutate(
