@@ -16,9 +16,6 @@ import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
 
 Settings.defaultZone = 'utc';
 
-// TODO: re-enable when super-mint is done
-export const DISABLE_SYNC_ON_CHAIN = false;
-
 const LIMIT_USERS_TO_SYNC = 10;
 
 type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
@@ -65,10 +62,8 @@ export async function syncCoSouls() {
         console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
         // proceed with setting on-chain pgive
       }
-      // TODO: re-enable when super-mint is done
-      if (!DISABLE_SYNC_ON_CHAIN) {
-        success = await updateCoSoulOnChain(cosoul, localPGIVE);
-      }
+      success = await updateCoSoulOnChain(cosoul, localPGIVE);
+
       if (success) {
         updated.push(cosoul.id);
       } else {
@@ -112,18 +107,10 @@ export async function isHistoricalPGiveFinished() {
 }
 
 const getCoSoulsToUpdate = async () => {
-  // usually we sync once per month, and make sure we don't sync again
   const previousMonth = DateTime.local().minus({ months: 1 });
   const endOfPreviousMonth = previousMonth.endOf('month');
 
-  // this month (4/24) we have a near-end-of-month checkpoint because we finally implemented bringing CoLinks GIVE into PGIVE
-  // TODO: enable this when we are done w/ the new ones
-  const useMidMonth = false; //DateTime.local() < DateTime.fromISO('2024-05-01');
-
-  // sync again in 4/24 to include CoLinks GIVE in PGIVE
-  const syncAtCheckpoint = useMidMonth
-    ? DateTime.fromISO('2024-04-22')
-    : endOfPreviousMonth;
+  const syncAtCheckpoint = endOfPreviousMonth;
 
   const { cosouls } = await adminClient.query(
     {
