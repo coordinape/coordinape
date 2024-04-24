@@ -88,7 +88,7 @@ describe('syncCoSouls cron', () => {
       },
       { operationName: 'syncCoSoul__deleteMembersEpochPGive' }
     );
-
+    console.log('mainAccount', mainAccount);
     await adminClient.mutate(
       {
         insert_cosouls: [
@@ -99,12 +99,14 @@ describe('syncCoSouls cron', () => {
                 token_id: mainTokenId,
                 address: mainAccount,
                 checked_at: null,
+                pgive: 1,
               },
               {
                 created_tx_hash: secondTx.hash,
                 token_id: secondTokenId,
                 address: secondAccount,
                 checked_at: null,
+                pgive: 1,
               },
             ],
             on_conflict: {
@@ -114,6 +116,7 @@ describe('syncCoSouls cron', () => {
                 cosouls_update_column.created_tx_hash,
                 cosouls_update_column.address,
                 cosouls_update_column.checked_at,
+                cosouls_update_column.pgive,
               ],
             },
           },
@@ -153,7 +156,7 @@ describe('syncCoSouls cron', () => {
     );
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-    expect(cosoulApi.setOnChainPGIVE).toHaveBeenCalled();
+    expect(cosoulApi.setOnChainPGIVE).toHaveBeenCalledWith(mainTokenId, 500);
     expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(500);
   });
 
@@ -187,8 +190,11 @@ describe('syncCoSouls cron', () => {
 
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-
-    expect(cosoulApi.setBatchOnChainPGIVE).toHaveBeenCalled();
+    let payload = '0x00';
+    payload +=
+      cosoulApi.getPayload(320, mainTokenId) +
+      cosoulApi.getPayload(330, secondTokenId);
+    expect(cosoulApi.setBatchOnChainPGIVE).toHaveBeenCalledWith(payload);
     expect(cosoulApi.setOnChainPGIVE).not.toBeCalled();
     expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(320);
     expect(await cosoulApi.getOnChainPGIVE(secondTokenId)).toEqual(330);
