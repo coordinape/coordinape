@@ -48,6 +48,11 @@ export const GiveSkillLeaderboard = () => {
               {
                 gives: order_by.desc_nulls_last,
               },
+              {
+                target_profile_public: {
+                  name: order_by.asc_nulls_last,
+                },
+              },
             ],
             limit: 100,
           },

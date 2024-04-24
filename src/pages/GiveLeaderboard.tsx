@@ -41,6 +41,9 @@ export const GiveLeaderboard = () => {
               {
                 gives: order_by.desc_nulls_last,
               },
+              {
+                skill: order_by.asc_nulls_last,
+              },
             ],
             limit: 100,
           },
