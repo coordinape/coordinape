@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { CSS } from '@stitches/react';
 import { useQuery } from 'react-query';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
-import { skillTextStyle } from '../stitches.config';
+import { shortenAddressWithFrontLength } from '../utils';
 import { GemCoOutline } from 'icons/__generated';
-import { Flex, Text } from 'ui';
+import { Avatar, Flex, Text } from 'ui';
+
+import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 
 type sortBy =
   | 'gives'
@@ -17,9 +18,10 @@ type sortBy =
   | 'gives_last_24_hours'
   | 'gives_last_7_days'
   | 'gives_last_30_days'
-  | 'skill';
+  | 'name';
 
-export const GiveLeaderboard = () => {
+export const GiveSkillLeaderboard = () => {
+  const { skill } = useParams();
   const [sort, setSortRaw] = useState<sortBy>('gives');
   const [desc, setDesc] = useState<boolean>(true);
 
@@ -33,10 +35,15 @@ export const GiveLeaderboard = () => {
   };
 
   const { data } = useQuery(['give_leaderboard'], async () => {
-    const { colinks_give_count } = await anonClient.query(
+    const { colinks_gives_skill_count } = await anonClient.query(
       {
-        colinks_give_count: [
+        colinks_gives_skill_count: [
           {
+            where: {
+              skill: {
+                _ilike: skill,
+              },
+            },
             order_by: [
               {
                 gives: order_by.desc_nulls_last,
@@ -45,7 +52,11 @@ export const GiveLeaderboard = () => {
             limit: 100,
           },
           {
-            skill: true,
+            target_profile_public: {
+              name: true,
+              avatar: true,
+              address: true,
+            },
             gives: true,
             gives_last_24_hours: true,
             gives_last_7_days: true,
@@ -57,23 +68,24 @@ export const GiveLeaderboard = () => {
         operationName: 'getGiveLeaderboard',
       }
     );
-    return colinks_give_count.map((skill, rank) => ({
-      ...skill,
+    return colinks_gives_skill_count.map((user, rank) => ({
+      profile: user.target_profile_public,
+      ...user,
       rank: rank + 1,
     }));
   });
 
   const [sortedData, setSortedData] = useState<typeof data>(undefined);
 
-  const skillCompare = (a: any, b: any) => {
-    if (!a.skill && !b.skill) {
+  const nameCompare = (a: string, b: string) => {
+    if (!a && !b) {
       return 0;
-    } else if (!a.skill && b.skill) {
+    } else if (!a && b) {
       return -1;
-    } else if (a.skill && !b.skill) {
+    } else if (a && !b) {
       return 1;
     }
-    return a.skill.localeCompare(b.skill);
+    return a.localeCompare(b);
   };
 
   useEffect(() => {
@@ -93,14 +105,14 @@ export const GiveLeaderboard = () => {
   useEffect(() => {
     if (data) {
       data.sort((a, b) => {
-        if (sort === 'skill') {
-          return skillCompare(a, b);
+        if (sort === 'name') {
+          return nameCompare(a.profile?.name ?? '', b.profile?.name ?? '');
         }
         const diff = b[sort] - a[sort];
         if (diff !== 0) {
           return diff;
         }
-        return skillCompare(a, b);
+        return nameCompare(a.profile?.name ?? '', b.profile?.name ?? '');
       });
       setSortedData(desc ? [...data] : [...data].reverse());
     }
@@ -179,7 +191,7 @@ export const GiveLeaderboard = () => {
                   Rank
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn
-                  onClick={() => setSort('skill')}
+                  onClick={() => setSort('name')}
                   css={{
                     minWidth: '15rem',
                     '@md': {
@@ -187,10 +199,10 @@ export const GiveLeaderboard = () => {
                     },
                   }}
                 >
-                  Skill
+                  Member
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn onClick={() => setSort('gives')}>
-                  Total GIVEs
+                  Total #{skill} GIVEs
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn
                   onClick={() => setSort('gives_last_24_hours')}
@@ -209,10 +221,10 @@ export const GiveLeaderboard = () => {
                 </GiveLeaderboardColumn>
               </GiveLeaderboardRow>
               {sortedData &&
-                sortedData.map(skill => (
-                  <GiveLeaderboardRow key={skill.skill}>
+                sortedData.map(member => (
+                  <GiveLeaderboardRow key={member.profile?.address}>
                     <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
-                      #{skill.rank}
+                      #{member.rank}
                     </GiveLeaderboardColumn>
                     <GiveLeaderboardColumn
                       css={{
@@ -222,36 +234,43 @@ export const GiveLeaderboard = () => {
                         },
                       }}
                     >
-                      <Text
+                      <Flex
                         as={NavLink}
-                        to={coLinksPaths.giveBoardSkill(skill.skill)}
-                        tag
-                        size="small"
+                        to={coLinksPaths.profile(member.profile?.address ?? '')}
+                        row
                         css={{
-                          gap: '$xs',
-                          background: 'rgb(0 143 94 / 83%)',
+                          alignItems: 'center',
+                          gap: '$sm',
                           textDecoration: 'none',
-                          span: {
-                            color: 'white',
-                            '@sm': {
-                              fontSize: '$xs',
-                            },
-                          },
                         }}
                       >
-                        <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
-                        <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
-                      </Text>
+                        <Avatar
+                          size={'xs'}
+                          name={member.profile?.name}
+                          path={member.profile?.avatar}
+                        />
+                        <Flex column>
+                          <Text size="medium">{member.profile?.name}</Text>
+                          <Text size={'xs'}>
+                            {shortenAddressWithFrontLength(
+                              member.profile?.address ?? '',
+                              10
+                            )}
+                          </Text>
+                        </Flex>
+                      </Flex>
                     </GiveLeaderboardColumn>
-                    <GiveLeaderboardColumn>{skill.gives}</GiveLeaderboardColumn>
                     <GiveLeaderboardColumn>
-                      {skill.gives_last_24_hours}
+                      {member.gives}
                     </GiveLeaderboardColumn>
                     <GiveLeaderboardColumn>
-                      {skill.gives_last_7_days}
+                      {member.gives_last_24_hours}
                     </GiveLeaderboardColumn>
                     <GiveLeaderboardColumn>
-                      {skill.gives_last_30_days}
+                      {member.gives_last_7_days}
+                    </GiveLeaderboardColumn>
+                    <GiveLeaderboardColumn>
+                      {member.gives_last_30_days}
                     </GiveLeaderboardColumn>
                   </GiveLeaderboardRow>
                 ))}
@@ -260,85 +279,5 @@ export const GiveLeaderboard = () => {
         </Flex>
       </Flex>
     </>
-  );
-};
-
-export const GiveLeaderboardRow = ({
-  children,
-  header,
-  css,
-}: {
-  children: React.ReactNode;
-  header?: boolean;
-  css?: CSS;
-}) => {
-  return (
-    <Flex
-      css={{
-        width: '100%',
-        flexFlow: 'row nowrap',
-        alignItems: 'stretch',
-        borderBottom: 'solid 1px rgba(0,0,0,0.2)',
-        fontWeight: '300',
-        ...(header
-          ? {
-              border: 'none',
-              position: 'sticky',
-              cursor: 'pointer',
-              top: 0,
-              fontWeight: '700',
-              borderRadius: '$2',
-              background:
-                'radial-gradient(circle at 25% 0%, rgb(48 21 128) 20%, rgb(79 5 65) 100%)',
-              minHeight: '50px',
-              '@xs': {
-                '.column': {
-                  writingMode: 'vertical-lr',
-                  transform: 'rotate(180deg)',
-                  p: '$sm',
-                  alignItems: 'flex-end',
-                },
-              },
-            }
-          : {}),
-        ...css,
-      }}
-    >
-      {children}
-    </Flex>
-  );
-};
-
-export const GiveLeaderboardColumn = ({
-  children,
-  onClick,
-  css,
-}: {
-  children: React.ReactNode;
-  onClick?: () => void;
-  css?: CSS;
-}) => {
-  return (
-    <Flex
-      className="column"
-      css={{
-        flex: 2,
-        padding: '10px',
-        display: 'flex',
-        color: 'white',
-        alignItems: 'center',
-        overflow: 'hidden',
-        '@sm': {
-          flex: 1,
-        },
-        '@lg': {
-          flex: 3,
-        },
-        ...css,
-      }}
-      onClick={onClick}
-    >
-      {children}
-    </Flex>
   );
 };

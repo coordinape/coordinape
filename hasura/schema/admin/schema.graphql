@@ -8782,6 +8782,254 @@ input colinks_gives_set_input {
 }
 
 """
+columns and relationships of "colinks_gives_skill_count"
+"""
+type colinks_gives_skill_count {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
+}
+
+"""
+aggregated selection of "colinks_gives_skill_count"
+"""
+type colinks_gives_skill_count_aggregate {
+  aggregate: colinks_gives_skill_count_aggregate_fields
+  nodes: [colinks_gives_skill_count!]!
+}
+
+"""
+aggregate fields of "colinks_gives_skill_count"
+"""
+type colinks_gives_skill_count_aggregate_fields {
+  avg: colinks_gives_skill_count_avg_fields
+  count(
+    columns: [colinks_gives_skill_count_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: colinks_gives_skill_count_max_fields
+  min: colinks_gives_skill_count_min_fields
+  stddev: colinks_gives_skill_count_stddev_fields
+  stddev_pop: colinks_gives_skill_count_stddev_pop_fields
+  stddev_samp: colinks_gives_skill_count_stddev_samp_fields
+  sum: colinks_gives_skill_count_sum_fields
+  var_pop: colinks_gives_skill_count_var_pop_fields
+  var_samp: colinks_gives_skill_count_var_samp_fields
+  variance: colinks_gives_skill_count_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type colinks_gives_skill_count_avg_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "colinks_gives_skill_count". All fields are combined with a logical 'AND'.
+"""
+input colinks_gives_skill_count_bool_exp {
+  _and: [colinks_gives_skill_count_bool_exp!]
+  _not: colinks_gives_skill_count_bool_exp
+  _or: [colinks_gives_skill_count_bool_exp!]
+  gives: bigint_comparison_exp
+  gives_last_24_hours: bigint_comparison_exp
+  gives_last_30_days: bigint_comparison_exp
+  gives_last_7_days: bigint_comparison_exp
+  skill: citext_comparison_exp
+  target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
+}
+
+"""
+aggregate max on columns
+"""
+type colinks_gives_skill_count_max_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type colinks_gives_skill_count_min_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+}
+
+"""
+Ordering options when selecting data from "colinks_gives_skill_count".
+"""
+input colinks_gives_skill_count_order_by {
+  gives: order_by
+  gives_last_24_hours: order_by
+  gives_last_30_days: order_by
+  gives_last_7_days: order_by
+  skill: order_by
+  target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
+}
+
+"""
+select columns of table "colinks_gives_skill_count"
+"""
+enum colinks_gives_skill_count_select_column {
+  """
+  column name
+  """
+  gives
+
+  """
+  column name
+  """
+  gives_last_24_hours
+
+  """
+  column name
+  """
+  gives_last_30_days
+
+  """
+  column name
+  """
+  gives_last_7_days
+
+  """
+  column name
+  """
+  skill
+
+  """
+  column name
+  """
+  target_profile_id
+}
+
+"""
+aggregate stddev on columns
+"""
+type colinks_gives_skill_count_stddev_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type colinks_gives_skill_count_stddev_pop_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type colinks_gives_skill_count_stddev_samp_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+Streaming cursor of the table "colinks_gives_skill_count"
+"""
+input colinks_gives_skill_count_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: colinks_gives_skill_count_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input colinks_gives_skill_count_stream_cursor_value_input {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  skill: citext
+  target_profile_id: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type colinks_gives_skill_count_sum_fields {
+  gives: bigint
+  gives_last_24_hours: bigint
+  gives_last_30_days: bigint
+  gives_last_7_days: bigint
+  target_profile_id: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type colinks_gives_skill_count_var_pop_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type colinks_gives_skill_count_var_samp_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type colinks_gives_skill_count_variance_fields {
+  gives: Float
+  gives_last_24_hours: Float
+  gives_last_30_days: Float
+  gives_last_7_days: Float
+  target_profile_id: Float
+}
+
+"""
 aggregate stddev on columns
 """
 type colinks_gives_stddev_fields {
@@ -39039,6 +39287,66 @@ type query_root {
   colinks_gives_by_pk(id: Int!): colinks_gives
 
   """
+  fetch data from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): colinks_gives_skill_count_aggregate!
+
+  """
   fetch data from the table: "contribution_count"
   """
   contribution_count(
@@ -46451,6 +46759,86 @@ type subscription_root {
   fetch data from the table: "colinks_gives" using primary key columns
   """
   colinks_gives_by_pk(id: Int!): colinks_gives
+
+  """
+  fetch data from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
+
+  """
+  fetch aggregated fields from the table: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_skill_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_skill_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): colinks_gives_skill_count_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "colinks_gives_skill_count"
+  """
+  colinks_gives_skill_count_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [colinks_gives_skill_count_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_skill_count_bool_exp
+  ): [colinks_gives_skill_count!]!
 
   """
   fetch data from the table in a streaming manner: "colinks_gives"

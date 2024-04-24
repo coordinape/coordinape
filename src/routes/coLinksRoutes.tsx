@@ -40,6 +40,7 @@ import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { GiveLeaderboard } from '../pages/GiveLeaderboard';
+import { GiveSkillLeaderboard } from '../pages/GiveSkillLeaderboard';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
@@ -74,6 +75,13 @@ export const coLinksRoutes = [
   <Route key={'giveboard'}>
     <Route path={coLinksPaths.giveBoard} element={<GiveLeaderboard />} />
   </Route>,
+  <Route key={'giveboard'}>
+    <Route
+      path={coLinksPaths.giveBoardSkill(':skill')}
+      element={<GiveSkillLeaderboard />}
+    />
+  </Route>,
+
   <Route
     key="splashLayout"
     element={

@@ -1,0 +1,26 @@
+table:
+  name: colinks_gives_skill_count
+  schema: public
+object_relationships:
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target_profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - gives
+        - gives_last_24_hours
+        - gives_last_30_days
+        - gives_last_7_days
+        - target_profile_id
+        - skill
+      filter: {}
+      limit: 100
+    comment: ""

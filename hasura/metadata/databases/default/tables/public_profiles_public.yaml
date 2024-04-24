@@ -76,6 +76,24 @@ array_relationships:
           name: profile_skills
           schema: public
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - id
+        - post_count
+        - post_count_last_30_days
+        - address
+        - avatar
+        - website
+        - links
+        - links_held
+        - description
+        - created_at
+        - joined_colinks_at
+        - name
+      filter: {}
+      limit: 1
+    comment: ""
   - role: user
     permission:
       columns:
