@@ -58,3 +58,18 @@ export const validateFrame = async (messageBytesInHex: string) => {
     castReactionContext: true,
   });
 };
+
+export const generateWarpCastUrl = async (cast_hash: string) => {
+  const castInfo = await client.lookUpCastByHashOrWarpcastUrl(
+    cast_hash,
+    'hash'
+  );
+  const username = castInfo.cast.author.username;
+
+  // shorten cast hash to first 10 characters
+  const shortHash = cast_hash.slice(0, 10);
+  const url = `https://warpcast.com/${username}/${shortHash}`;
+  // eslint-disable-next-line no-console
+  console.log({ url });
+  return url;
+};

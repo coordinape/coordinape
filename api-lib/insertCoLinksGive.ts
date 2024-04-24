@@ -27,6 +27,8 @@ export const checkPointsAndCreateGive = async (
 
   const newPoints = points - POINTS_PER_GIVE;
 
+  const warpCastUrl = await generateWarpCastUrl(payload.cast_hash);
+
   const { insert_colinks_gives_one } = await adminClient.mutate(
     {
       insert_colinks_gives_one: [
