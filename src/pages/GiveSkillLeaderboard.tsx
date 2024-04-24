@@ -9,6 +9,7 @@ import { coLinksPaths } from '../routes/paths';
 import { shortenAddressWithFrontLength } from '../utils';
 import { GemCoOutline } from 'icons/__generated';
 import { Avatar, Flex, Text } from 'ui';
+import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 
@@ -177,6 +178,9 @@ export const GiveSkillLeaderboard = () => {
               backgroundColor: 'rgb(8 18 29 / 25%)',
               borderRadius: '$2',
               // border: 'solid 1px #424a51',
+              '@tablet': {
+                p: '12px 8px',
+              },
             }}
           >
             {/*Table*/}
@@ -188,6 +192,16 @@ export const GiveSkillLeaderboard = () => {
                 color: 'white',
               }}
             >
+              <Text
+                h2
+                css={{
+                  width: '100%',
+                  justifyContent: 'center',
+                  m: '$xs 0 $md',
+                }}
+              >
+                <PartyDisplayText text={`#${skill}`} />
+              </Text>
               <GiveLeaderboardRow header={true}>
                 <GiveLeaderboardColumn
                   onClick={() => setSort('rank')}
@@ -200,14 +214,14 @@ export const GiveSkillLeaderboard = () => {
                   css={{
                     minWidth: '15rem',
                     '@md': {
-                      minWidth: '12rem',
+                      minWidth: '10rem',
                     },
                   }}
                 >
                   Member
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn onClick={() => setSort('gives')}>
-                  Total #{skill} GIVEs
+                  Total GIVEs
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn
                   onClick={() => setSort('gives_last_24_hours')}
@@ -235,7 +249,7 @@ export const GiveSkillLeaderboard = () => {
                       css={{
                         minWidth: '15rem',
                         '@md': {
-                          minWidth: '12rem',
+                          minWidth: '10rem',
                         },
                       }}
                     >

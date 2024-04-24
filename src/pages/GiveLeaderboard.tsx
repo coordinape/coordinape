@@ -159,7 +159,7 @@ export const GiveLeaderboard = () => {
           {/*Content*/}
           <Flex
             css={{
-              padding: '16px',
+              padding: '10px',
               backgroundColor: 'rgb(8 18 29 / 25%)',
               borderRadius: '$2',
               // border: 'solid 1px #424a51',
@@ -187,6 +187,7 @@ export const GiveLeaderboard = () => {
                     minWidth: '15rem',
                     '@md': {
                       minWidth: '12rem',
+                      // flexGrow: 1,
                     },
                   }}
                 >
@@ -222,6 +223,7 @@ export const GiveLeaderboard = () => {
                         minWidth: '15rem',
                         '@md': {
                           minWidth: '12rem',
+                          // flexGrow: 1,
                         },
                       }}
                     >
@@ -291,6 +293,7 @@ export const GiveLeaderboardRow = ({
               top: 0,
               fontWeight: '700',
               borderRadius: '$2',
+              zIndex: 2,
               background:
                 'radial-gradient(circle at 25% 0%, rgb(48 21 128) 20%, rgb(79 5 65) 100%)',
               minHeight: '50px',
@@ -326,16 +329,16 @@ export const GiveLeaderboardColumn = ({
       className="column"
       css={{
         flex: 2,
-        padding: '10px',
+        padding: '8px',
         display: 'flex',
         color: 'white',
         alignItems: 'center',
         overflow: 'hidden',
-        '@sm': {
-          flex: 1,
-        },
         '@lg': {
           flex: 3,
+        },
+        '@sm': {
+          flex: 6,
         },
         ...css,
       }}
