@@ -343,7 +343,7 @@ const updateCheckedAt = async (id: number) =>
             id,
           },
           _set: {
-            checked_at: DateTime.local().toISO(),
+            checked_at: 'now()',
           },
         },
         {

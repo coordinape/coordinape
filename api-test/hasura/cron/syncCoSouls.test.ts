@@ -1,7 +1,6 @@
 vi.mock('puppeteer-core', () => {
   return { default: {} };
 });
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import type { CoSoul } from '@coordinape/contracts/typechain';
@@ -71,9 +70,6 @@ describe('syncCoSouls cron', () => {
     secondTx = await cosoulApi.mintCoSoulForAddress(secondAccount);
     secondTokenId = await cosoulApi.getTokenId(secondAccount);
 
-    console.log('mainTokenId', mainTokenId);
-    console.log('secondTokenId', secondTokenId);
-
     await adminClient.mutate(
       {
         delete_member_epoch_pgives: [
@@ -96,12 +92,14 @@ describe('syncCoSouls cron', () => {
                 token_id: mainTokenId,
                 address: mainAccount,
                 checked_at: null,
+                pgive: 1,
               },
               {
                 created_tx_hash: secondTx.hash,
                 token_id: secondTokenId,
                 address: secondAccount,
                 checked_at: null,
+                pgive: 1,
               },
             ],
             on_conflict: {
@@ -111,6 +109,7 @@ describe('syncCoSouls cron', () => {
                 cosouls_update_column.created_tx_hash,
                 cosouls_update_column.address,
                 cosouls_update_column.checked_at,
+                cosouls_update_column.pgive,
               ],
             },
           },
@@ -128,6 +127,21 @@ describe('syncCoSouls cron', () => {
   afterEach(async () => {
     vi.clearAllMocks();
     await restoreSnapshot(snapshotId);
+  });
+
+  afterAll(async () => {
+    await adminClient.mutate(
+      {
+        delete_cosouls: [
+          {
+            where: {},
+          },
+          // something needs to be returned in the mutation
+          { __typename: true, affected_rows: true },
+        ],
+      },
+      { operationName: 'test__DeleteCosouls' }
+    );
   });
 
   test('updates pgive for one user on chain using setOnChainPGIVE', async () => {
