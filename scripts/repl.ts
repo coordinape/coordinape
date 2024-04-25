@@ -22,7 +22,7 @@ import {
   sendEpochStartedEmail,
 } from '../api-lib/email/postmark';
 import { adminClient as client } from '../api-lib/gql/adminClient';
-import { publishCast } from '../api-lib/neynar';
+import { publishCast, generateWarpCastUrl } from '../api-lib/neynar';
 import { genPgives } from '../api-lib/pgives';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import {
@@ -61,6 +61,7 @@ const init = async () => {
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
     getLocalPGIVE,
+    generateWarpCastUrl,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };

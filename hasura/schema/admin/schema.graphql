@@ -8457,6 +8457,7 @@ type colinks_gives {
   """
   target_profile_public: profiles_public
   updated_at: timestamptz!
+  warpcast_url: String
 }
 
 """
@@ -8562,6 +8563,7 @@ input colinks_gives_bool_exp {
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
+  warpcast_url: String_comparison_exp
 }
 
 """
@@ -8577,6 +8579,11 @@ enum colinks_gives_constraint {
   unique or primary key constraint on columns "profile_id", "cast_hash", "activity_id", "target_profile_id"
   """
   colinks_gives_target_profile_id_activity_id_profile_id_cast_has
+
+  """
+  unique or primary key constraint on columns "profile_id", "activity_id", "target_profile_id"
+  """
+  colinks_gives_target_profile_id_activity_id_profile_id_key
 }
 
 """
@@ -8604,6 +8611,7 @@ input colinks_gives_insert_input {
   target_profile_id: bigint
   target_profile_public: profiles_public_obj_rel_insert_input
   updated_at: timestamptz
+  warpcast_url: String
 }
 
 """
@@ -8618,6 +8626,7 @@ type colinks_gives_max_fields {
   skill: citext
   target_profile_id: bigint
   updated_at: timestamptz
+  warpcast_url: String
 }
 
 """
@@ -8632,6 +8641,7 @@ input colinks_gives_max_order_by {
   skill: order_by
   target_profile_id: order_by
   updated_at: order_by
+  warpcast_url: order_by
 }
 
 """
@@ -8646,6 +8656,7 @@ type colinks_gives_min_fields {
   skill: citext
   target_profile_id: bigint
   updated_at: timestamptz
+  warpcast_url: String
 }
 
 """
@@ -8660,6 +8671,7 @@ input colinks_gives_min_order_by {
   skill: order_by
   target_profile_id: order_by
   updated_at: order_by
+  warpcast_url: order_by
 }
 
 """
@@ -8713,6 +8725,7 @@ input colinks_gives_order_by {
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
   updated_at: order_by
+  warpcast_url: order_by
 }
 
 """
@@ -8765,6 +8778,11 @@ enum colinks_gives_select_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  warpcast_url
 }
 
 """
@@ -8779,6 +8797,7 @@ input colinks_gives_set_input {
   skill: citext
   target_profile_id: bigint
   updated_at: timestamptz
+  warpcast_url: String
 }
 
 """
@@ -9116,6 +9135,7 @@ input colinks_gives_stream_cursor_value_input {
   skill: citext
   target_profile_id: bigint
   updated_at: timestamptz
+  warpcast_url: String
 }
 
 """
@@ -9181,6 +9201,11 @@ enum colinks_gives_update_column {
   column name
   """
   updated_at
+
+  """
+  column name
+  """
+  warpcast_url
 }
 
 input colinks_gives_updates {

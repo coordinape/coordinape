@@ -2214,6 +2214,7 @@ export const AllTypesProps: Record<string, any> = {
     target_profile_id: 'bigint_comparison_exp',
     target_profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
+    warpcast_url: 'String_comparison_exp',
   },
   colinks_gives_constraint: true,
   colinks_gives_inc_input: {
@@ -2241,6 +2242,7 @@ export const AllTypesProps: Record<string, any> = {
     skill: 'order_by',
     target_profile_id: 'order_by',
     updated_at: 'order_by',
+    warpcast_url: 'order_by',
   },
   colinks_gives_min_order_by: {
     activity_id: 'order_by',
@@ -2251,6 +2253,7 @@ export const AllTypesProps: Record<string, any> = {
     skill: 'order_by',
     target_profile_id: 'order_by',
     updated_at: 'order_by',
+    warpcast_url: 'order_by',
   },
   colinks_gives_obj_rel_insert_input: {
     data: 'colinks_gives_insert_input',
@@ -2273,6 +2276,7 @@ export const AllTypesProps: Record<string, any> = {
     target_profile_id: 'order_by',
     target_profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
+    warpcast_url: 'order_by',
   },
   colinks_gives_pk_columns_input: {},
   colinks_gives_select_column: true,
@@ -15700,6 +15704,7 @@ export const ReturnTypes: Record<string, any> = {
     target_profile_id: 'bigint',
     target_profile_public: 'profiles_public',
     updated_at: 'timestamptz',
+    warpcast_url: 'String',
   },
   colinks_gives_aggregate: {
     aggregate: 'colinks_gives_aggregate_fields',
@@ -15733,6 +15738,7 @@ export const ReturnTypes: Record<string, any> = {
     skill: 'citext',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    warpcast_url: 'String',
   },
   colinks_gives_min_fields: {
     activity_id: 'bigint',
@@ -15743,6 +15749,7 @@ export const ReturnTypes: Record<string, any> = {
     skill: 'citext',
     target_profile_id: 'bigint',
     updated_at: 'timestamptz',
+    warpcast_url: 'String',
   },
   colinks_gives_mutation_response: {
     affected_rows: 'Int',

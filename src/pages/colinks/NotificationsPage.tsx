@@ -95,6 +95,7 @@ const fetchNotifications = async () => {
             skill: true,
             activity_id: true,
             cast_hash: true,
+            warpcast_url: true,
             giver_profile_public: {
               avatar: true,
               name: true,
@@ -758,7 +759,10 @@ const ColinksGiveFCNotification = ({
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
           <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
-              href={`https://warpcast.com/~/conversations/${give.cast_hash}`}
+              href={
+                `${give.warpcast_url}` ??
+                `https://warpcast.com/~/conversations/${give.cast_hash}`
+              }
               target="_blank"
               rel="noreferrer"
             >
