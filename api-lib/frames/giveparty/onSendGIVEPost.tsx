@@ -153,18 +153,19 @@ export const onSendGIVEPost = async (
     );
 
     // update warpcast_url on give with bot response hash
-    const warpcastUrl = generateWarpCastUrl(resp.hash);
+    const warpcastUrl = await generateWarpCastUrl(resp.hash);
 
     await adminClient.mutate(
       {
         update_colinks_gives_by_pk: [
           {
-            pk_columns: {
-              id: giveId,
-            },
+            pk_columns: { id: giveId },
             _set: {
               warpcast_url: warpcastUrl,
             },
+          },
+          {
+            __typename: true,
           },
         ],
       },
