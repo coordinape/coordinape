@@ -26,6 +26,7 @@ import { GivePartyHomeFrame } from '../../api-lib/frames/giveparty/GivePartyHome
 import { GivePartyMintCoSoulFrame } from '../../api-lib/frames/giveparty/GivePartyMintCoSoulFrame.tsx';
 import { GivePartyMintWaitingFrame } from '../../api-lib/frames/giveparty/GivePartyMintWaitingFrame.tsx';
 import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
+import { LeaderboardFrame } from '../../api-lib/frames/giveparty/LeaderboardFrame.tsx';
 import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { PartyStartFrame } from '../../api-lib/frames/giveparty/PartyStartFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
@@ -360,3 +361,4 @@ addFrame(PartyHelpFrame());
 addFrame(GivePartyMintCoSoulFrame);
 addFrame(GivePartyMintWaitingFrame);
 addFrame(PartyStartFrame(''));
+addFrame(LeaderboardFrame);
