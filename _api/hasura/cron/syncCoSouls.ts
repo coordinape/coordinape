@@ -92,7 +92,7 @@ export async function syncCoSouls() {
   if (updated.length > 0) {
     success = await updateCoSoulOnChain(updated);
   }
-  if (!success)
+  if (!success) {
     errors.push(...updated.map(({ cosoul }) => cosoul.id));
   }
   const message = `${updated.length} CoSouls updated`;
