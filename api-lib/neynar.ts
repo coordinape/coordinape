@@ -68,8 +68,5 @@ export const generateWarpCastUrl = async (cast_hash: string) => {
 
   // shorten cast hash to first 10 characters
   const shortHash = cast_hash.slice(0, 10);
-  const url = `https://warpcast.com/${username}/${shortHash}`;
-  // eslint-disable-next-line no-console
-  console.log({ url });
-  return url;
+  return `https://warpcast.com/${username}/${shortHash}`;
 };
