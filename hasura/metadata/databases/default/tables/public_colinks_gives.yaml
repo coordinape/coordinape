@@ -50,6 +50,7 @@ select_permissions:
         - skill
         - target_profile_id
         - updated_at
+        - warpcast_url
       filter: {}
       allow_aggregations: true
     comment: ""
