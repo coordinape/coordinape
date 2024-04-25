@@ -1,10 +1,16 @@
 import React from 'react';
 
-export const PartyText = ({ text }: { text: string }) => {
+export const PartyText = ({
+  text,
+  fontSize = 90,
+}: {
+  text: string;
+  fontSize?: number;
+}) => {
   return (
     <span
       tw="inline-flex relative"
-      style={{ fontSize: 90, whiteSpace: 'nowrap' }}
+      style={{ fontSize: fontSize, whiteSpace: 'nowrap' }}
     >
       <span
         tw="absolute"
