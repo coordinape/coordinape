@@ -82,7 +82,7 @@ export const onSendGIVEPost = async (
   let username = inputText;
 
   if (!username) {
-    return GivePartyHomeFrame('Provider a username to GIVE to');
+    return GivePartyHomeFrame('Provide a username to GIVE to');
   }
 
   try {
