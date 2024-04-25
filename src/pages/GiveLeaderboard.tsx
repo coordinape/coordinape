@@ -261,7 +261,7 @@ export const GiveLeaderboardRow = ({
                 '.column': {
                   writingMode: 'vertical-lr',
                   transform: 'rotate(180deg)',
-                  p: '$sm',
+                  p: '9px 5px',
                   alignItems: 'flex-end',
                 },
               },
