@@ -760,7 +760,7 @@ const ColinksGiveFCNotification = ({
           <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Link
               href={
-                `${give.warpcast_url}` ??
+                (give.warpcast_url as string) ??
                 `https://warpcast.com/~/conversations/${give.cast_hash}`
               }
               target="_blank"
