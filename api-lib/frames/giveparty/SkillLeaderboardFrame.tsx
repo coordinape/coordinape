@@ -8,6 +8,7 @@ import {
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { getSkillLeaderboardFromParams } from '../getSkillLeaderboardFromParams.ts';
+import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
@@ -39,9 +40,22 @@ const ImageNode = async (params: Record<string, string>) => {
             tw="flex flex-col justify-center items-center text-center"
             style={{ gap: 2 }}
           >
-            <span style={{ fontSize: 65, lineHeight: 1 }}>give.party</span>
+            <img
+              alt="gem"
+              src={IMAGE_URL_BASE + 'GemWhite.png'}
+              style={{ width: 70, height: 70 }}
+            />
+            <span
+              style={{
+                fontSize: 70,
+                lineHeight: 1,
+                fontWeight: 400,
+                marginBottom: 20,
+              }}
+            >
+              give.party
+            </span>
             <PartyText text={`#${skill}`} fontSize={70} />
-            <span style={{ fontSize: 65, lineHeight: 1 }}>leaderboard</span>
           </div>
           <div tw="flex flex-col" style={{ gap: 30, marginTop: 40 }}>
             {leaderboard &&
