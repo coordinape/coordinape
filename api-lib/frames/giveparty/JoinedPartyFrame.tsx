@@ -66,7 +66,7 @@ const imageNode = async (params: Record<string, string>) => {
             fontWeight: 600,
           }}
         >
-          <div tw="flex">Now it&apos;s a pxarty!</div>
+          <div tw="flex">Now it&apos;s a party!</div>
           <PartyText text="GIVE Delivered" />
         </div>
         <div style={{ fontSize: 60, opacity: 0.9 }}>Want to give more?</div>

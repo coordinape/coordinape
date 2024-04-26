@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
+import {
+  Frame,
+  ResourceIdentifierWithParams,
+} from '../../../_api/frames/router.tsx';
 import { ErrorFrameImage } from '../ErrorFrame.tsx';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
@@ -83,11 +86,21 @@ const givePartyImageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const GivePartyHomeFrame = (errorMessage?: string): Frame => ({
+export const GivePartyHomeFrame = (
+  errorMessage?: string,
+  skill?: string
+): Frame => ({
   id: 'give.party',
   aspectRatio: '1.91:1',
   homeFrame: true,
-  resourceIdentifier: skillResourceIdentifier,
+  resourceIdentifier: ResourceIdentifierWithParams(
+    skillResourceIdentifier,
+    skill
+      ? {
+          skill,
+        }
+      : {}
+  ),
   errorMessage: errorMessage,
   clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
