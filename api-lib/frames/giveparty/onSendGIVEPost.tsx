@@ -86,16 +86,18 @@ export const onSendGIVEPost = async (
   }
 
   try {
-    validateAndCleanUsername(username);
+    username = validateAndCleanUsername(username);
   } catch (e: any) {
     return GivePartyHomeFrame('Invalid Username: ' + e.message);
   }
+
+  let fcUserName = username;
 
   // lookup/create the target user
   let target_profile: Awaited<ReturnType<typeof findOrCreateProfileByUsername>>;
   try {
     target_profile = await findOrCreateProfileByUsername(username);
-    username = target_profile.fc_username;
+    fcUserName = target_profile.fc_username;
   } catch (e: any) {
     return GivePartyHomeFrame(`Can't find user: ${inputText}`);
   }
@@ -147,7 +149,7 @@ export const onSendGIVEPost = async (
   // TODO: pre-cache give frames? make a helper for all this ?
   if (!IS_LOCAL_ENV) {
     const resp = await publishCast(
-      `GIVE Delivered to @${username} for #${skill}`,
+      `GIVE Delivered to @${fcUserName} for #${skill}`,
       {
         replyTo: cast_hash,
         embeds: [{ url: getFrameUrl('give', giveId) }],
