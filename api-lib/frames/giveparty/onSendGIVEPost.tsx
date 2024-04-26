@@ -19,6 +19,7 @@ import { JoinedPartyFrame } from './JoinedPartyFrame.tsx';
 const usernameTrim = z
   .string()
   .trim()
+  .toLowerCase()
   .transform(v => v.replace(/^@/g, ''));
 
 const usernameSchema = z
@@ -81,11 +82,11 @@ export const onSendGIVEPost = async (
   let username = inputText;
 
   if (!username) {
-    return GivePartyHomeFrame('Provider a username to GIVE to');
+    return GivePartyHomeFrame('Provide a username to GIVE to');
   }
 
   try {
-    username = validateAndCleanUsername(username);
+    validateAndCleanUsername(username);
   } catch (e: any) {
     return GivePartyHomeFrame('Invalid Username: ' + e.message);
   }
@@ -94,6 +95,7 @@ export const onSendGIVEPost = async (
   let target_profile: Awaited<ReturnType<typeof findOrCreateProfileByUsername>>;
   try {
     target_profile = await findOrCreateProfileByUsername(username);
+    username = target_profile.fc_username;
   } catch (e: any) {
     return GivePartyHomeFrame(`Can't find user: ${inputText}`);
   }
