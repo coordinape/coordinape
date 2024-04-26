@@ -59,7 +59,7 @@ const findOrCreateUser = async (fc_profile: {
   const profile = await findProfileByAddresses(potential_addresses);
 
   if (profile) {
-    return { ...profile, fc_username: fc_profile.username };
+    return profile;
   } else {
     console.log('No profile found for addresses', potential_addresses);
     const address = potential_addresses.pop();
@@ -132,6 +132,6 @@ const createProfile = async (
     }
   );
   assert(insert_profiles_one, "panic: adding profile didn't succeed");
-  return { ...insert_profiles_one, fc_username: preferred_name };
+  return insert_profiles_one;
 };
 const FC_BOT_CONNECTOR = 'farcaster-bot-created';
