@@ -42,7 +42,7 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
           position: 'relative',
           width: '80%',
           margin: 'auto',
-          gap: '$2xl',
+          gap: '$1xl',
           flexFlow: 'column nowrap',
           '@md': {
             width: '96%',

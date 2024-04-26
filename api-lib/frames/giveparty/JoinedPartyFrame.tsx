@@ -12,6 +12,7 @@ import { PartyText } from '../layoutFragments/PartyText.tsx';
 
 import { onSendGIVEPost } from './onSendGIVEPost.tsx';
 import { PartyHelpFrame } from './PartyHelpFrame.tsx';
+import { SkillLeaderboardFrame } from './SkillLeaderboardFrame.tsx';
 import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
 export function getRandomColor(colors: string[]): string {
@@ -65,7 +66,7 @@ const imageNode = async (params: Record<string, string>) => {
             fontWeight: 600,
           }}
         >
-          <div tw="flex">Now it&apos;s a party!</div>
+          <div tw="flex">Now it&apos;s a pxarty!</div>
           <PartyText text="GIVE Delivered" />
         </div>
         <div style={{ fontSize: 60, opacity: 0.9 }}>Want to give more?</div>
@@ -105,6 +106,13 @@ export const JoinedPartyFrame: Frame = {
       title: 'How 2 Party?',
       action: 'post',
       onPost: async () => PartyHelpFrame(),
+    },
+    {
+      title: 'Leaderboard',
+      action: 'post',
+      onPost: async (_info, params) => {
+        return SkillLeaderboardFrame(params.skill);
+      },
     },
   ],
 };

@@ -32,20 +32,6 @@ export const GiveParty = () => {
     });
 
   useEffect(() => {
-    // Change safari header bar color
-    const metaThemeColor = document.querySelector(
-      'meta[name="theme-color"]'
-    ) as HTMLMetaElement;
-    metaThemeColor.content = '#5507E7';
-    // Revert to original value on unmount
-    return () => {
-      if (metaThemeColor) {
-        metaThemeColor.content = '#000000';
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     const currentWord = words[wordIndex];
 
     if (charIndex < currentWord.length) {

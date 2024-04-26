@@ -28,6 +28,7 @@ import { GivePartyMintWaitingFrame } from '../../api-lib/frames/giveparty/GivePa
 import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
 import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { PartyStartFrame } from '../../api-lib/frames/giveparty/PartyStartFrame.tsx';
+import { SkillLeaderboardFrame } from '../../api-lib/frames/giveparty/SkillLeaderboardFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
 import { MintWaitingFrame } from '../../api-lib/frames/MintWaitingFrame.tsx';
@@ -224,6 +225,19 @@ const addPath = (
 // - onPost -> Does Things, and redirects/returns a Frame???
 // - externalLink
 
+export const ResourceIdentifierWithParams = (
+  ri: ResourceIdentifier,
+  preloadParams: Record<string, string>
+): ResourceIdentifier => {
+  const r: ResourceIdentifier = {
+    resourcePathExpression: ri.resourcePathExpression,
+    getResourceId: (params: Record<string, string>) => {
+      return ri.getResourceId({ ...params, ...preloadParams });
+    },
+  };
+  return r;
+};
+
 export type ResourceIdentifier = {
   resourcePathExpression: string;
   getResourceId: (params: Record<string, string>) => string;
@@ -360,3 +374,4 @@ addFrame(PartyHelpFrame());
 addFrame(GivePartyMintCoSoulFrame);
 addFrame(GivePartyMintWaitingFrame);
 addFrame(PartyStartFrame(''));
+addFrame(SkillLeaderboardFrame());

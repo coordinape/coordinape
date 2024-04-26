@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { webAppURL } from '../config/webAppURL';
+import { Wand } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
+import { disabledStyle } from '../stitches.config';
 import { shortenAddressWithFrontLength } from '../utils';
-import { Avatar, Flex, Text } from 'ui';
+import { Avatar, Button, Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
@@ -111,10 +114,30 @@ export const GiveSkillLeaderboard = () => {
     }
   }, [data, sort, desc]);
 
+  const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
   return (
     <>
       <PartyBody>
         <PartyHeader />
+        <Flex
+          css={{
+            justifyContent: 'center',
+          }}
+        >
+          <Button
+            as={Link}
+            href={castLeaderboardUrl}
+            target="_blank"
+            rel="noreferrer"
+            css={{
+              ...(!skill && {
+                ...disabledStyle,
+              }),
+            }}
+          >
+            <Wand fa size={'md'} /> Cast in Farcaster
+          </Button>
+        </Flex>
 
         {/*Content*/}
         <Flex
