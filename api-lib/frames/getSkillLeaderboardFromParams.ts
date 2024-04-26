@@ -4,17 +4,8 @@ import assert from 'assert';
 import { order_by } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
 
-export const getSkillLeaderboardFromParams = async (
-  params: Record<string, string>
-) => {
-  const skill = 'project-management';
-
-  let leaderboard;
-
-  if (skill) {
-    leaderboard = await getSkillLeaderboard(skill);
-  }
-
+export const getSkillLeaderboardFromParams = async (skill: string) => {
+  const leaderboard = await getSkillLeaderboard(skill);
   return { ...(leaderboard && { leaderboard }) };
 };
 

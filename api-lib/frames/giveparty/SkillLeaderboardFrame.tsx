@@ -1,18 +1,22 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
+import {
+  Frame,
+  ResourceIdentifierWithParams,
+} from '../../../_api/frames/router.tsx';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
-import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { getSkillLeaderboardFromParams } from '../getSkillLeaderboardFromParams.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
+import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
+
 const ImageNode = async (params: Record<string, string>) => {
-  const skill = 'project-management';
-  const { leaderboard } = await getSkillLeaderboardFromParams(params);
+  const { skill } = params;
+  const { leaderboard } = await getSkillLeaderboardFromParams(skill);
   return (
     <FrameWrapper>
       <FrameBodyGradient
@@ -62,17 +66,25 @@ const ImageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const LeaderboardFrame: Frame = {
-  id: 'leaderboard',
-  homeFrame: true,
-  imageNode: ImageNode,
-  noCache: true,
-  resourceIdentifier: staticResourceIdentifier,
-  buttons: [
-    {
-      title: 'View Leaderboard',
-      action: 'link',
-      target: webAppURL('colinks') + '/giveboard',
-    },
-  ],
+export const SkillLeaderboardFrame = (skill?: string): Frame => {
+  return {
+    id: 'skill.leaderboard',
+    homeFrame: true,
+    imageNode: ImageNode,
+    noCache: true,
+    resourceIdentifier: ResourceIdentifierWithParams(
+      skillResourceIdentifier,
+      skill ? { skill } : {}
+    ),
+    buttons: [
+      {
+        title: 'Full Leaderboard',
+        action: 'link',
+        target: params =>
+          webAppURL('colinks') +
+          '/giveboard/' +
+          encodeURIComponent(params.skill),
+      },
+    ],
+  };
 };
