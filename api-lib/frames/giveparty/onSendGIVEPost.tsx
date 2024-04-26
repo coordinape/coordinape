@@ -3,10 +3,11 @@ import { z, ZodError } from 'zod';
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { getFrameUrl } from '../../../_api/webhooks/neynar_mention.ts';
 import { IS_LOCAL_ENV } from '../../config.ts';
+import { adminClient } from '../../gql/adminClient.ts';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { insertCoLinksGive } from '../../insertCoLinksGive.ts';
 import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
-import { publishCast } from '../../neynar.ts';
+import { generateWarpCastUrl, publishCast } from '../../neynar.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 
@@ -143,10 +144,35 @@ export const onSendGIVEPost = async (
 
   // TODO: pre-cache give frames? make a helper for all this ?
   if (!IS_LOCAL_ENV) {
-    await publishCast(`GIVE Delivered to @${username} for #${skill}`, {
-      replyTo: cast_hash,
-      embeds: [{ url: getFrameUrl('give', giveId) }],
-    });
+    const resp = await publishCast(
+      `GIVE Delivered to @${username} for #${skill}`,
+      {
+        replyTo: cast_hash,
+        embeds: [{ url: getFrameUrl('give', giveId) }],
+      }
+    );
+
+    // update warpcast_url on give with bot response hash
+    const warpcastUrl = await generateWarpCastUrl(resp.hash);
+
+    await adminClient.mutate(
+      {
+        update_colinks_gives_by_pk: [
+          {
+            pk_columns: { id: giveId },
+            _set: {
+              warpcast_url: warpcastUrl,
+            },
+          },
+          {
+            __typename: true,
+          },
+        ],
+      },
+      {
+        operationName: 'updateGives_with_warpcast_url',
+      }
+    );
   }
 
   return JoinedPartyFrame;
