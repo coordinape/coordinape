@@ -19,6 +19,7 @@ import { JoinedPartyFrame } from './JoinedPartyFrame.tsx';
 const usernameTrim = z
   .string()
   .trim()
+  .toLowerCase()
   .transform(v => v.replace(/^@/g, ''));
 
 const usernameSchema = z
@@ -81,7 +82,7 @@ export const onSendGIVEPost = async (
   let username = inputText;
 
   if (!username) {
-    return GivePartyHomeFrame('Provider a username to GIVE to');
+    return GivePartyHomeFrame('Provide a username to GIVE to');
   }
 
   try {
@@ -90,10 +91,13 @@ export const onSendGIVEPost = async (
     return GivePartyHomeFrame('Invalid Username: ' + e.message);
   }
 
+  let fcUserName = username;
+
   // lookup/create the target user
   let target_profile: Awaited<ReturnType<typeof findOrCreateProfileByUsername>>;
   try {
     target_profile = await findOrCreateProfileByUsername(username);
+    fcUserName = target_profile.fc_username;
   } catch (e: any) {
     return GivePartyHomeFrame(`Can't find user: ${inputText}`);
   }
@@ -145,7 +149,7 @@ export const onSendGIVEPost = async (
   // TODO: pre-cache give frames? make a helper for all this ?
   if (!IS_LOCAL_ENV) {
     const resp = await publishCast(
-      `GIVE Delivered to @${username} for #${skill}`,
+      `GIVE Delivered to @${fcUserName} for #${skill}`,
       {
         replyTo: cast_hash,
         embeds: [{ url: getFrameUrl('give', giveId) }],
