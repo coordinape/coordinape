@@ -13,6 +13,7 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
+import { GivePartyHomeFrame } from './GivePartyHomeFrame.tsx';
 import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
 
 const ImageNode = async (params: Record<string, string>) => {
@@ -91,6 +92,13 @@ export const SkillLeaderboardFrame = (skill?: string): Frame => {
       skill ? { skill } : {}
     ),
     buttons: [
+      {
+        title: 'GIVE',
+        action: 'post',
+        onPost: async (_info, params) => {
+          return GivePartyHomeFrame(undefined, params.skill);
+        },
+      },
       {
         title: 'Full Leaderboard',
         action: 'link',
