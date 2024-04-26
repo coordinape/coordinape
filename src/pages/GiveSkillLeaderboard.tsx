@@ -119,20 +119,25 @@ export const GiveSkillLeaderboard = () => {
     <>
       <PartyBody>
         <PartyHeader />
-
-        <Button
-          as={Link}
-          href={castLeaderboardUrl}
-          target="_blank"
-          rel="noreferrer"
+        <Flex
           css={{
-            ...(!skill && {
-              ...disabledStyle,
-            }),
+            justifyContent: 'center',
           }}
         >
-          <Wand fa size={'md'} /> Cast in Farcaster
-        </Button>
+          <Button
+            as={Link}
+            href={castLeaderboardUrl}
+            target="_blank"
+            rel="noreferrer"
+            css={{
+              ...(!skill && {
+                ...disabledStyle,
+              }),
+            }}
+          >
+            <Wand fa size={'md'} /> Cast in Farcaster
+          </Button>
+        </Flex>
 
         {/*Content*/}
         <Flex
