@@ -7,6 +7,8 @@ import { errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_DEVELOPMENT } from '../../../src/config/env';
 
+import { unverifyUserEmail } from './colinksNotificationEmails';
+
 export const isRejected = (
   response: PromiseSettledResult<unknown>
 ): response is PromiseRejectedResult => response.status === 'rejected';
@@ -82,7 +84,7 @@ async function getEligibleUsersWithEmails(big_question_id: number) {
   );
 
   // eslint-disable-next-line no-console
-  console.log(`found ${profiles.length} profiles this batch`, profiles);
+  console.log(`found ${profiles.length} profiles this batch`, [profiles]);
   return profiles;
 }
 
@@ -138,14 +140,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           console.log('no email for profile', { profile });
           return;
         }
-
-        await sendEmailAndUpdateProfile({
-          profileId: profile.id,
-          email: profile.emails[0].email,
-          bigQuestionId: big_question.id,
-          bigQuestionPrompt: big_question.prompt,
-        });
-        return;
+        try {
+          await sendEmailAndUpdateProfile({
+            profileId: profile.id,
+            email: profile.emails[0].email,
+            bigQuestionId: big_question.id,
+            bigQuestionPrompt: big_question.prompt,
+          });
+          return;
+        } catch (e) {
+          if (e instanceof Error && e.message.includes('spam complaint')) {
+            unverifyUserEmail({
+              profileId: profile.id,
+              email: profile.emails[0].email,
+            });
+          }
+          return Promise.reject(e);
+        }
       })
     );
     const errors = responses.filter(isRejected);
