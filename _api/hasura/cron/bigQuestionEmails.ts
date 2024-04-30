@@ -84,7 +84,7 @@ async function getEligibleUsersWithEmails(big_question_id: number) {
   );
 
   // eslint-disable-next-line no-console
-  console.log(`found ${profiles.length} profiles this batch`, [profiles]);
+  console.log(`found ${profiles.length} profiles this batch`, profiles);
   return profiles;
 }
 
