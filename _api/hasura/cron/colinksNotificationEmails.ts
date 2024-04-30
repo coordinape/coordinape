@@ -91,7 +91,7 @@ export async function unverifyUserEmail({
             verified_at: null,
           },
         },
-        { affected_rows: true, returning: { email: true } },
+        { affected_rows: true },
       ],
     },
     { operationName: 'colinksNotificationEmail__unverifyUserEmail' }
