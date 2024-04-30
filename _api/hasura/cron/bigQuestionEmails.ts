@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 
 import { sendCoLinksBigQuestionEmail } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
+import { BaseHttpError, errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_DEVELOPMENT } from '../../../src/config/env';
 
@@ -149,7 +149,7 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           });
           return;
         } catch (e) {
-          if (e instanceof Error && e.message.includes('spam complaint')) {
+          if (e instanceof BaseHttpError && e.httpStatus === 406) {
             unverifyUserEmail({
               profileId: profile.id,
               email: profile.emails[0].email,
