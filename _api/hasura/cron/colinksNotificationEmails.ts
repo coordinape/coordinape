@@ -94,7 +94,7 @@ export async function unverifyUserEmail({
         { affected_rows: true, returning: { email: true } },
       ],
     },
-    { operationName: 'bigQuestionEmails__unverifyUserEmail' }
+    { operationName: 'colinksNotificationEmail__unverifyUserEmail' }
   );
 }
 
