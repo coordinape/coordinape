@@ -222,13 +222,14 @@ export const ContributionRow = ({
               </Flex>
             </>
           )}
-          {(focus || displayComments) && (
-            <RepliesBox
-              activityId={activity.id}
-              activityActorId={activity.actor_profile_public.id}
-              setEditingReply={setEditingReply}
-            />
-          )}
+          {(activity.private_stream || !!activity.big_question) &&
+            (focus || displayComments) && (
+              <RepliesBox
+                activityId={activity.id}
+                activityActorId={activity.actor_profile_public.id}
+                setEditingReply={setEditingReply}
+              />
+            )}
         </Flex>
       </Flex>
     </Flex>
