@@ -1,6 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { uniq } from 'lodash-es';
 
+import { replies_select_column } from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
@@ -43,6 +44,21 @@ const handleInsert = async (
     });
   });
 
+  const involvedProfileIds = await getProfilesFromReplies(id, [
+    profile_id,
+    ...mentionedProfileIds,
+  ]);
+  involvedProfileIds.map(async involvedProfileId => {
+    if (involvedProfileId !== activity_actor_id) {
+      await createReplyNotification({
+        activity_actor_id: involvedProfileId, //inserted as profile_id, the person who will get the notification
+        profile_id, // inserted as activity_actor_id, the replier
+        created_at,
+        id,
+      });
+    }
+  });
+
   // no duplicate notifications if mentioned the original post creator
   // no mentions of self
   if (
@@ -53,13 +69,15 @@ const handleInsert = async (
       message: `no notification for replies you send/mention yourself`,
     });
   }
+
   await createReplyNotification({
     activity_actor_id,
     profile_id,
     created_at,
     id,
   });
-  res.status(200).json({
+
+  return res.status(200).json({
     message: `replies notification recorded`,
   });
 };
@@ -147,6 +165,36 @@ export const lookupMentionedNames = async (
 
   // TODO: lookup private_stream_visibility
   return profiles.map(profile => profile.id);
+};
+
+const getProfilesFromReplies = async (
+  reply_id: number,
+  mentionedProfileIds: number[]
+): Promise<number[]> => {
+  const { replies_by_pk } = await adminClient.query(
+    {
+      replies_by_pk: [
+        {
+          id: reply_id,
+        },
+        {
+          activity: {
+            replies: [
+              {
+                where: { profile_id: { _nin: mentionedProfileIds } },
+                distinct_on: [replies_select_column.profile_id],
+              },
+              { profile_id: true },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getOtherProfilesFromReplies',
+    }
+  );
+  return replies_by_pk?.activity.replies.map(reply => reply.profile_id) || [];
 };
 
 const createReplyNotification = async ({
