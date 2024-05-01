@@ -22,7 +22,7 @@ export const PartyHeader = () => {
           as={AppLink}
           to={coLinksPaths.giveParty}
           color="transparent"
-          css={{ ...buttonStyle, marginLeft: '17px' }}
+          css={{ ...buttonStyle, marginLeft: '28px' }}
         >
           give.party
         </Button>

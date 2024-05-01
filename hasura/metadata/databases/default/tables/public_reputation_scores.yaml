@@ -2,6 +2,25 @@ table:
   name: reputation_scores
   schema: public
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - profile_id
+        - colinks_engagement_score
+        - email_score
+        - github_score
+        - invite_score
+        - linkedin_score
+        - links_score
+        - pgive_score
+        - poap_score
+        - total_score
+        - twitter_score
+        - created_at
+        - updated_at
+      filter: {}
+      limit: 1
+    comment: ""
   - role: user
     permission:
       columns:

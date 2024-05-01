@@ -6,6 +6,15 @@ object_relationships:
     using:
       foreign_key_constraint_on: profile_id
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - id
+        - profile_id
+        - username
+      filter: {}
+      limit: 1
+    comment: ""
   - role: user
     permission:
       columns:

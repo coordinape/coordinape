@@ -40,6 +40,14 @@ insert_permissions:
         - skill_name
     comment: ""
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - profile_id
+        - skill_name
+      filter: {}
+      limit: 11
+    comment: ""
   - role: user
     permission:
       columns:

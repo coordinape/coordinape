@@ -1,7 +1,7 @@
 import { ComponentProps } from 'react';
 
 import { ActivityAvatar } from 'features/activities/ActivityAvatar';
-import { client } from 'lib/gql/client';
+import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
@@ -30,7 +30,7 @@ export const GiveReceived = ({
   const { data: profileId } = useQuery(
     ['give_received_lookup_profile_id', address],
     async () => {
-      const { profiles_public } = await client.query(
+      const { profiles_public } = await anonClient.query(
         {
           profiles_public: [
             {
@@ -57,7 +57,7 @@ export const GiveReceived = ({
   const { data } = useQuery(
     ['give_received', profileId],
     async () => {
-      const { colinks_gives } = await client.query(
+      const { colinks_gives } = await anonClient.query(
         {
           colinks_gives: [
             {
@@ -103,20 +103,13 @@ export const GiveReceived = ({
         size={size}
         color={'secondary'}
         title={'GIVE Received'}
-        semibold
         css={{
           gap: size === 'xs' ? '$xs' : '$sm',
-          cursor: 'pointer',
           whiteSpace: 'nowrap',
-          '&:hover': {
-            color: '$linkHover',
-            'svg path': {
-              fill: '$linkHover',
-            },
-          },
         }}
       >
-        <GemCoOutline fa /> {data.length}
+        <GemCoOutline fa />
+        <Text semibold>{data.length}</Text>
       </Text>
     );
   }

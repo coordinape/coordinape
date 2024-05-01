@@ -34,6 +34,7 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
         },
         '*': {
           color: 'white',
+          path: { fill: 'white' },
         },
       }}
     >
