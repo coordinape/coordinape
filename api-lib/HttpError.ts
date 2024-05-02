@@ -33,7 +33,7 @@ interface HttpError extends Error {
   causeMessage?: string;
 }
 
-class BaseHttpError extends Error implements HttpError {
+export class BaseHttpError extends Error implements HttpError {
   causeMessage?: string;
   constructor(message: string, cause?: any) {
     super(message);

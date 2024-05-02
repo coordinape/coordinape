@@ -2,6 +2,7 @@ import { webAppURL } from '../../src/config/webAppURL';
 import { coLinksPaths } from '../../src/routes/paths';
 import { POSTMARK_SERVER_TOKEN } from '../config';
 import { adminClient } from '../gql/adminClient';
+import { BaseHttpError } from '../HttpError';
 
 import { EmailType, genToken } from './unsubscribe';
 
@@ -344,10 +345,14 @@ async function sendEmail(
       TemplateModel: { ...BASE_INPUT, ...templateModel },
     }),
   });
-  // TODO: better error handling
+
   if (!response.ok) {
-    console.error(await response.text());
-    throw new Error('failed to send email');
+    const errorBody = await response.text();
+    const error = new BaseHttpError('failed to send email');
+    error.message += `: ${errorBody}`;
+    error.httpStatus = JSON.parse(errorBody).ErrorCode ?? response.status;
+    console.error(error);
+    throw error;
   }
   return response;
 }

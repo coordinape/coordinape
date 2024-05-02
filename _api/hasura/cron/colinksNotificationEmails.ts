@@ -3,7 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { sendCoLinksNotificationsEmail } from '../../../api-lib/email/postmark';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
+import { BaseHttpError, errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { isRejected } from '../../../src/common-lib/epochs';
 import { IN_DEVELOPMENT } from '../../../src/config/env';
@@ -72,6 +72,32 @@ async function getColinksUsersWithEmails() {
   return profiles;
 }
 
+export async function unverifyUserEmail({
+  profileId,
+  email,
+}: {
+  profileId: number;
+  email: string;
+}) {
+  await adminClient.mutate(
+    {
+      update_emails: [
+        {
+          where: {
+            profile_id: { _eq: profileId },
+            email: { _eq: email },
+          },
+          _set: {
+            verified_at: null,
+          },
+        },
+        { affected_rows: true },
+      ],
+    },
+    { operationName: 'colinksNotificationEmail__unverifyUserEmail' }
+  );
+}
+
 async function getLastUnreadNotification({
   profileId,
   lastReadNotificationId,
@@ -123,13 +149,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           lastUnreadNotificationId >
             (profile.last_emailed_notification_id ?? -1)
         ) {
-          await sendEmailAndUpdateProfile({
-            profileId: profile.id,
-            email: profile.emails[0].email,
-            notificationId: lastUnreadNotificationId,
-          });
+          try {
+            await sendEmailAndUpdateProfile({
+              profileId: profile.id,
+              email: profile.emails[0].email,
+              notificationId: lastUnreadNotificationId,
+            });
+            return;
+          } catch (e) {
+            if (e instanceof BaseHttpError && e.httpStatus === 406) {
+              unverifyUserEmail({
+                profileId: profile.id,
+                email: profile.emails[0].email,
+              });
+            }
+            return Promise.reject(e);
+          }
         }
-        return;
       })
     );
     const errors = responses.filter(isRejected);

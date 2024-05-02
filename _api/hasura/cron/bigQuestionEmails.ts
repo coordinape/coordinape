@@ -3,9 +3,11 @@ import { DateTime } from 'luxon';
 
 import { sendCoLinksBigQuestionEmail } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { errorResponse } from '../../../api-lib/HttpError';
+import { BaseHttpError, errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { IN_DEVELOPMENT } from '../../../src/config/env';
+
+import { unverifyUserEmail } from './colinksNotificationEmails';
 
 export const isRejected = (
   response: PromiseSettledResult<unknown>
@@ -138,14 +140,23 @@ async function handler(req: VercelRequest, res: VercelResponse) {
           console.log('no email for profile', { profile });
           return;
         }
-
-        await sendEmailAndUpdateProfile({
-          profileId: profile.id,
-          email: profile.emails[0].email,
-          bigQuestionId: big_question.id,
-          bigQuestionPrompt: big_question.prompt,
-        });
-        return;
+        try {
+          await sendEmailAndUpdateProfile({
+            profileId: profile.id,
+            email: profile.emails[0].email,
+            bigQuestionId: big_question.id,
+            bigQuestionPrompt: big_question.prompt,
+          });
+          return;
+        } catch (e) {
+          if (e instanceof BaseHttpError && e.httpStatus === 406) {
+            unverifyUserEmail({
+              profileId: profile.id,
+              email: profile.emails[0].email,
+            });
+          }
+          return Promise.reject(e);
+        }
       })
     );
     const errors = responses.filter(isRejected);
