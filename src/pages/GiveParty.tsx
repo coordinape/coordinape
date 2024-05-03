@@ -6,11 +6,16 @@ import { z } from 'zod';
 
 import { useToast } from 'hooks';
 import { Copy, GemCoOutline, Wand } from 'icons/__generated';
-import { EXTERNAL_URL_BLOG, EXTERNAL_URL_DOCS_GIVE } from 'routes/paths';
-import { Button, Flex, Link, Text, TextField } from 'ui';
+import {
+  EXTERNAL_URL_BLOG,
+  EXTERNAL_URL_DOCS_GIVE,
+  coLinksPaths,
+} from 'routes/paths';
+import { AppLink, Button, Flex, Link, Text, TextField } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { PartyBody } from './GiveParty/PartyBody';
+import { partyNavButtonStyle } from './GiveParty/PartyNav';
 
 export const GiveParty = () => {
   const words = ['design', 'leadership', 'humor', 'inspiration', 'yolo-ing'];
@@ -271,7 +276,6 @@ export const GiveParty = () => {
             <Copy size={'md'} /> Copy URL
           </Button>
         </Flex>
-
         <Flex
           column
           css={{
@@ -280,6 +284,7 @@ export const GiveParty = () => {
             pb: '$1xl',
             borderTop: '1px solid #00000033',
             gap: '20px',
+            alignItems: 'flex-start',
           }}
         >
           <Text
@@ -306,6 +311,17 @@ export const GiveParty = () => {
             <br />
             we mean party!
           </Text>
+          <Button
+            as={AppLink}
+            to={coLinksPaths.giveBoard}
+            color="transparent"
+            css={{
+              ...partyNavButtonStyle,
+              mt: '$sm',
+            }}
+          >
+            leaderboard
+          </Button>
         </Flex>
         <Flex
           column

@@ -55,7 +55,7 @@ export const PartyGiveReceived = ({ profileId }: { profileId: number }) => {
   if (!data) return null;
 
   return (
-    <Flex css={{ gap: '$lg' }}>
+    <Flex css={{ columnGap: '$lg', rowGap: '$sm', flexWrap: 'wrap' }}>
       <Text
         size="medium"
         color={'secondary'}

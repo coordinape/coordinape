@@ -7,7 +7,7 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
-import { Flex, Text } from 'ui';
+import { Button, Flex, Text } from 'ui';
 
 import { PartyBody } from './PartyBody';
 import { PartyHeader } from './PartyHeader';
@@ -50,19 +50,31 @@ export const PartyProfile = () => {
 
           <Flex column css={{ gap: '$md', alignItems: 'center' }}>
             <PartyProfileHeader profile={targetProfile} />
-            <Flex>
+            <Flex css={{ gap: '$md' }}>
+              <Button>Buy Link</Button>
+              <Button>Cast Profile on Farcaster</Button>
+            </Flex>
+            <Flex
+              css={{
+                width: '100%',
+                gap: '$md',
+                '@xs': {
+                  flexDirection: 'column-reverse',
+                  alignItems: 'center',
+                },
+              }}
+            >
               <PartyProfileGives profileId={targetProfile.id} />
               <Flex
                 column
                 css={{
                   gap: '$lg',
                   width: `${artWidthMobile}`,
-                  '@tablet': {
-                    display: 'none',
-                  },
                 }}
               >
-                {cosoul && <CoSoulItem cosoul={cosoul} exploreView={false} />}
+                {cosoul && (
+                  <CoSoulItem cosoul={cosoul} exploreView={false} artOnly />
+                )}
               </Flex>
             </Flex>
           </Flex>

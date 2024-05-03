@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react';
 import { groupAndSortGive } from 'features/points/PostGives';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { Flex, Text } from '../../ui';
+import { GemCoOutline } from 'icons/__generated';
 import {
   GiveLeaderboardColumn,
   GiveLeaderboardRow,
 } from 'pages/GiveLeaderboard';
+import { coLinksPaths } from 'routes/paths';
 
-type sortBy = 'gives' | 'rank' | 'name';
+type sortBy = 'gives' | 'skill';
 
 export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
   const [sort, setSortRaw] = useState<sortBy>('gives');
@@ -58,6 +61,35 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
     }
   );
 
+  const [sortedData, setSortedData] = useState<typeof data>(undefined);
+
+  const skillCompare = (a: any, b: any) => {
+    if (!a.skill && !b.skill) {
+      return 0;
+    } else if (!a.skill && b.skill) {
+      return -1;
+    } else if (a.skill && !b.skill) {
+      return 1;
+    }
+    return a.skill.localeCompare(b.skill);
+  };
+
+  useEffect(() => {
+    if (data) {
+      data.sort((a, b) => {
+        if (sort === 'skill') {
+          return skillCompare(a, b);
+        }
+        const diff = b.gives.length - a.gives.length;
+        if (diff !== 0) {
+          return diff;
+        }
+        return skillCompare(a, b);
+      });
+      setSortedData(desc ? [...data] : [...data].reverse());
+    }
+  }, [data, sort, desc]);
+
   return (
     <>
       {/*Table*/}
@@ -71,7 +103,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
       >
         <GiveLeaderboardRow header={true}>
           <GiveLeaderboardColumn
-            onClick={() => setSort('name')}
+            onClick={() => setSort('skill')}
             css={{
               minWidth: '15rem',
               '@md': {
@@ -85,8 +117,8 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
             GIVE
           </GiveLeaderboardColumn>
         </GiveLeaderboardRow>
-        {data !== undefined &&
-          data.map(skill => (
+        {sortedData &&
+          sortedData.map(skill => (
             <GiveLeaderboardRow key={skill.skill}>
               <GiveLeaderboardColumn
                 css={{
@@ -96,20 +128,26 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
                   },
                 }}
               >
-                <Flex
-                  // as={NavLink}
-                  // to={coLinksPaths.profile(member.profile?.address ?? '')}
-                  row
+                <Text
+                  as={NavLink}
+                  to={coLinksPaths.giveBoardSkill(skill.skill)}
+                  tag
+                  size="small"
                   css={{
-                    alignItems: 'center',
-                    gap: '$sm',
+                    gap: '$xs',
+                    background: 'rgb(0 143 94 / 83%)',
                     textDecoration: 'none',
+                    span: {
+                      color: 'white',
+                      '@sm': {
+                        fontSize: '$xs',
+                      },
+                    },
                   }}
                 >
-                  <Flex column>
-                    <Text size="medium">{skill.skill}</Text>
-                  </Flex>
-                </Flex>
+                  <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
+                  <Text size="medium">{skill.skill}</Text>
+                </Text>
               </GiveLeaderboardColumn>
               <GiveLeaderboardColumn>
                 {skill.gives.length}
