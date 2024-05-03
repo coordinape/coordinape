@@ -1,21 +1,40 @@
+import { order_by } from '../../gql/__generated__/zeus';
 import { adminClient } from '../../gql/adminClient.ts';
 
-export const fetchProfileInfo = async (viewerProfileId: number) => {
+export const fetchProfileInfo = async (profileId: number) => {
   const {
     hasSentGive,
     hasReceivedGive,
     viewerProfile,
     numGiveSent,
     numGiveReceived,
+    topSkills,
   } = await adminClient.query(
     {
       __alias: {
+        topSkills: {
+          colinks_gives_skill_count: [
+            {
+              limit: 5,
+              order_by: [{ gives: order_by.desc_nulls_last }],
+              where: {
+                target_profile_id: {
+                  _eq: profileId,
+                },
+              },
+            },
+            {
+              skill: true,
+              gives: true,
+            },
+          ],
+        },
         hasSentGive: {
           colinks_gives: [
             {
               where: {
                 profile_id: {
-                  _eq: viewerProfileId,
+                  _eq: profileId,
                 },
               },
               limit: 1,
@@ -30,7 +49,7 @@ export const fetchProfileInfo = async (viewerProfileId: number) => {
             {
               where: {
                 target_profile_id: {
-                  _eq: viewerProfileId,
+                  _eq: profileId,
                 },
               },
               limit: 1,
@@ -42,7 +61,7 @@ export const fetchProfileInfo = async (viewerProfileId: number) => {
         },
         viewerProfile: {
           profiles_by_pk: [
-            { id: Number(viewerProfileId) },
+            { id: Number(profileId) },
             {
               cosoul: {
                 id: true,
@@ -57,7 +76,7 @@ export const fetchProfileInfo = async (viewerProfileId: number) => {
             {
               where: {
                 profile_id: {
-                  _eq: viewerProfileId,
+                  _eq: profileId,
                 },
               },
             },
@@ -69,7 +88,7 @@ export const fetchProfileInfo = async (viewerProfileId: number) => {
             {
               where: {
                 target_profile_id: {
-                  _eq: viewerProfileId,
+                  _eq: profileId,
                 },
               },
             },
@@ -99,5 +118,6 @@ export const fetchProfileInfo = async (viewerProfileId: number) => {
     linksHeld: viewerProfile?.links_held || 0,
     numGiveSent: numGiveSent?.aggregate?.count || 0,
     numGiveReceived: numGiveReceived?.aggregate?.count || 0,
+    topSkills,
   };
 };
