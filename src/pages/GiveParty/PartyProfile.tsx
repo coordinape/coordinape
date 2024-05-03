@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
-import { artWidth, artWidthMobile } from 'features/cosoul';
+import { artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';

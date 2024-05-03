@@ -6,6 +6,11 @@ import {
   ResourceIdentifierWithParams,
 } from '../../../_api/frames/router.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
+import {
+  PublicProfile,
+  fetchCoLinksProfile,
+  fetchProfileInfo,
+} from '../give/fetchProfileInfo.tsx';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
@@ -15,6 +20,13 @@ import { addressResourceIdentifier } from './addressResourceIdentifier.ts';
 
 const ImageNode = async (params: Record<string, string>) => {
   const { address } = params;
+  const data = await fetchCoLinksProfile(address!);
+  const targetProfile = data as PublicProfile;
+  const {
+    numGiveSent: giverTotalGiven,
+    numGiveReceived: receiverTotalReceived,
+  } = await fetchProfileInfo(targetProfile?.id);
+  // const { give } = await fetchPoints(viewerProfile?.id);
   return (
     <FrameWrapper>
       <FrameBodyGradient
@@ -33,6 +45,11 @@ const ImageNode = async (params: Record<string, string>) => {
             gap: 5,
           }}
         >
+          {targetProfile.name}
+          rep{targetProfile.reputation_score.total_score}
+          links{targetProfile.links}
+          given{giverTotalGiven}
+          received{receiverTotalReceived}
           <div
             tw="flex flex-col justify-center items-center text-center"
             style={{ gap: 2 }}
