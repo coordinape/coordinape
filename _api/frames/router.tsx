@@ -28,6 +28,7 @@ import { GivePartyMintWaitingFrame } from '../../api-lib/frames/giveparty/GivePa
 import { JoinedPartyFrame } from '../../api-lib/frames/giveparty/JoinedPartyFrame.tsx';
 import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { PartyStartFrame } from '../../api-lib/frames/giveparty/PartyStartFrame.tsx';
+import { ProfileFrame } from '../../api-lib/frames/giveparty/ProfileFrame.tsx';
 import { SkillLeaderboardFrame } from '../../api-lib/frames/giveparty/SkillLeaderboardFrame.tsx';
 import { HelpFrame } from '../../api-lib/frames/HelpFrame.tsx';
 import { MintSuccessFrame } from '../../api-lib/frames/MintSuccessFrame.tsx';
@@ -375,3 +376,4 @@ addFrame(GivePartyMintCoSoulFrame);
 addFrame(GivePartyMintWaitingFrame);
 addFrame(PartyStartFrame(''));
 addFrame(SkillLeaderboardFrame());
+addFrame(ProfileFrame());
