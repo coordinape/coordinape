@@ -2,7 +2,7 @@ import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { artWidthMobile } from 'features/cosoul/constants';
 
 import { CoSoul } from '../../features/colinks/fetchCoSouls';
-import { Box } from '../../ui';
+import { Box, Flex, Text } from 'ui';
 
 export const CoSoulItemParty = ({ cosoul }: { cosoul: CoSoul }) => {
   const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
@@ -26,6 +26,26 @@ export const CoSoulItemParty = ({ cosoul }: { cosoul: CoSoul }) => {
         position: 'relative',
       }}
     >
+      <Flex
+        column
+        css={{
+          background:
+            'linear-gradient(0.36turn, rgb(54 126 1), rgb(46 1 132) 70%)',
+          px: '$sm',
+          pt: '$xs',
+          pb: '$sm',
+          borderBottomLeftRadius: 0,
+          borderBottomRightRadius: 0,
+          alignItems: 'center',
+        }}
+      >
+        <Text semibold css={{ fontSize: 26 }}>
+          {repScore}
+        </Text>
+        <Text size="small" css={{ opacity: 0.8 }}>
+          Onchain Rep Score
+        </Text>
+      </Flex>
       <Box
         css={{
           width: '100%',
@@ -41,7 +61,6 @@ export const CoSoulItemParty = ({ cosoul }: { cosoul: CoSoul }) => {
             mixBlendMode: 'overlay',
           }}
         />
-
         <CoSoulArt
           pGive={cosoul.pgive}
           address={cosoul.address}

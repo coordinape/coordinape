@@ -5,6 +5,7 @@ import { AppLink, Button, Flex } from 'ui';
 
 export const partyNavButtonStyle = {
   fontSize: '$h1',
+  minWidth: '7em',
   fontWeight: '$normal',
   border: '1px solid rgb(255 255 255 / 20%)',
   px: '$md',

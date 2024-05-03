@@ -208,12 +208,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
       {profile.description && (
         <Flex
           css={{
-            mt: '$xs',
+            mt: '$sm',
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <Text css={{ textAlign: 'center' }}>{profile.description}</Text>
+          <Text css={{ textAlign: 'center', opacity: 0.8 }}>
+            {profile.description}
+          </Text>
         </Flex>
       )}
     </Flex>

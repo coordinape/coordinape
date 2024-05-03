@@ -44,14 +44,19 @@ export const PartyProfile = () => {
             backgroundColor: 'rgb(8 18 29 / 25%)',
             borderRadius: '$2',
             margin: 'auto',
-            width: `calc(${artWidthMobile} + 200px)`,
+            width: `calc(${artWidthMobile} + 140px)`,
+            '@xs': {
+              width: `calc(${artWidthMobile} + 30px)`,
+            },
           }}
         >
           {fetchCoLinksProfileIsLoading && '...loading'}
 
           <Flex column css={{ gap: '$md', alignItems: 'center' }}>
             <PartyProfileHeader profile={targetProfile} />
-            <Flex css={{ gap: '$md' }}>
+            <Flex
+              css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}
+            >
               <Button>
                 {' '}
                 <Links fa />
@@ -79,10 +84,15 @@ export const PartyProfile = () => {
               <Flex
                 column
                 css={{
-                  gap: '$lg',
+                  gap: '$sm',
                   width: `${artWidthMobile}`,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                 }}
               >
+                <Text semibold css={{ fontSize: 30, color: '#ffffffa8' }}>
+                  CoSoul
+                </Text>
                 {cosoul && <CoSoulItemParty cosoul={cosoul} />}
               </Flex>
             </Flex>
