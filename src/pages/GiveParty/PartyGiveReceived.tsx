@@ -6,7 +6,7 @@ import { GemCoOutline } from 'icons/__generated';
 
 export const PartyGiveReceived = ({ profileId }: { profileId: number }) => {
   const { data } = useQuery(
-    ['give_received', profileId],
+    ['party_give_received', profileId],
     async () => {
       const { numGiveReceived, numGiveSent } = await anonClient.query(
         {

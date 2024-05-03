@@ -4,10 +4,11 @@ import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
 import { artWidth, artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
 import { Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
+import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Text } from 'ui';
 
 import { PartyBody } from './PartyBody';
@@ -57,7 +58,10 @@ export const PartyProfile = () => {
             <Flex
               css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}
             >
-              <Button>
+              <Button
+                as={NavLink}
+                to={coLinksPaths.profile(targetProfile?.address ?? '')}
+              >
                 {' '}
                 <Links fa />
                 <Text medium css={{ ml: '$xs' }}>
