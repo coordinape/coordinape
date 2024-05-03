@@ -63,7 +63,17 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
     return;
   }
   return (
-    <Flex column css={{ gap: '$sm', flexGrow: 1, width: '100%' }}>
+    <Flex
+      column
+      css={{
+        gap: '$sm',
+        flexGrow: 1,
+        width: '100%',
+        mb: '$sm',
+        pb: '$md',
+        borderBottom: '1px solid #00000033',
+      }}
+    >
       <Flex
         css={{
           justifyContent: 'space-between',
@@ -73,8 +83,8 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
           flexWrap: 'wrap',
         }}
       >
-        <Flex alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
-          <Flex column css={{ mr: '$md' }}>
+        <Flex column alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
+          <Flex column css={{ mb: '$sm' }}>
             <Avatar
               size="xl"
               name={profile.name}
@@ -82,11 +92,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
               margin="none"
             />
           </Flex>
-          <Flex column css={{ gap: '$sm' }}>
+          <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
             <Text h2 display>
               {profile.name}
             </Text>
-            <Flex column css={{ gap: '$sm', flexWrap: 'wrap' }}>
+            <Flex
+              column
+              css={{ gap: '$sm', flexWrap: 'wrap', alignItems: 'center' }}
+            >
               <PartyStats
                 profileId={profile.id}
                 links={profile.links ?? 0}
@@ -163,7 +176,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+      <Flex
+        css={{
+          gap: '$sm',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         {details?.skills.map(s => (
           <Text
             key={s}
@@ -186,8 +206,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
       </Flex>
 
       {profile.description && (
-        <Flex css={{ mt: '$xs' }}>
-          <Text color="secondary">{profile.description}</Text>
+        <Flex
+          css={{
+            mt: '$xs',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text css={{ textAlign: 'center' }}>{profile.description}</Text>
         </Flex>
       )}
     </Flex>

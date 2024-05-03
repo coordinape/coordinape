@@ -1,12 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
-import { artWidthMobile } from 'features/cosoul';
+import { artWidth, artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
+import { Links, Wand } from 'icons/__generated';
+import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
 import { Button, Flex, Text } from 'ui';
 
 import { PartyBody } from './PartyBody';
@@ -43,7 +44,7 @@ export const PartyProfile = () => {
             backgroundColor: 'rgb(8 18 29 / 25%)',
             borderRadius: '$2',
             margin: 'auto',
-            maxWidth: 800,
+            width: `calc(${artWidthMobile} + 200px)`,
           }}
         >
           {fetchCoLinksProfileIsLoading && '...loading'}
@@ -51,17 +52,27 @@ export const PartyProfile = () => {
           <Flex column css={{ gap: '$md', alignItems: 'center' }}>
             <PartyProfileHeader profile={targetProfile} />
             <Flex css={{ gap: '$md' }}>
-              <Button>Buy Link</Button>
-              <Button>Cast Profile on Farcaster</Button>
+              <Button>
+                {' '}
+                <Links fa />
+                <Text medium css={{ ml: '$xs' }}>
+                  Buy CoLink
+                </Text>
+              </Button>
+              <Button>
+                <Wand fa />
+                <Text medium css={{ ml: '$xs' }}>
+                  Cast Profile on Farcaster
+                </Text>
+              </Button>
             </Flex>
             <Flex
+              column
               css={{
                 width: '100%',
+                mt: '$sm',
                 gap: '$md',
-                '@xs': {
-                  flexDirection: 'column-reverse',
-                  alignItems: 'center',
-                },
+                alignItems: 'center',
               }}
             >
               <PartyProfileGives profileId={targetProfile.id} />
@@ -72,9 +83,7 @@ export const PartyProfile = () => {
                   width: `${artWidthMobile}`,
                 }}
               >
-                {cosoul && (
-                  <CoSoulItem cosoul={cosoul} exploreView={false} artOnly />
-                )}
+                {cosoul && <CoSoulItemParty cosoul={cosoul} />}
               </Flex>
             </Flex>
           </Flex>

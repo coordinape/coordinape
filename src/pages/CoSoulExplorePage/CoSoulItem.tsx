@@ -11,11 +11,9 @@ import { AppLink, Avatar, Box, Flex, Image, Text } from '../../ui';
 export const CoSoulItem = ({
   cosoul,
   exploreView = true,
-  artOnly = false,
 }: {
   cosoul: CoSoul;
   exploreView?: boolean;
-  artOnly?: boolean;
 }) => {
   const coLinksSite = useIsCoLinksSite();
   const repScore = cosoul.profile_public?.reputation_score?.total_score || 0;
@@ -89,128 +87,127 @@ export const CoSoulItem = ({
             />
           )}
         </Box>
-        {!artOnly && (
+
+        <Flex
+          column
+          css={{
+            width: '100%',
+            background:
+              repScore && repScore > tier1
+                ? `linear-gradient(.15turn, color-mix(in srgb, ${tierColor} 40%, $surface), color-mix(in srgb, ${tierColor} 20%, $surface))`
+                : '$surface',
+          }}
+        >
           <Flex
             column
             css={{
-              width: '100%',
-              background:
-                repScore && repScore > tier1
-                  ? `linear-gradient(.15turn, color-mix(in srgb, ${tierColor} 40%, $surface), color-mix(in srgb, ${tierColor} 20%, $surface))`
-                  : '$surface',
+              p: '$sm $md',
+              gap: '$xs',
             }}
           >
             <Flex
-              column
               css={{
-                p: '$sm $md',
-                gap: '$xs',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                color: '$text',
               }}
             >
-              <Flex
-                css={{
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  color: '$text',
-                }}
-              >
-                {exploreView && (
-                  <Flex
-                    css={{
-                      gap: '$sm',
-                      alignItems: 'center',
-                      flexGrow: 0,
-                      flexShrink: 1,
-                      color: '$text',
-                    }}
-                  >
-                    <Avatar
-                      path={cosoul.profile_public?.avatar}
-                      size="small"
-                      name={cosoul.profile_public?.name ?? 'New'}
-                    />
-                    {/*TODO: if the name is long here this doesn't properly shrink */}
-                    <Text
-                      ellipsis
-                      size="small"
-                      semibold
-                      css={{ flexGrow: 0, flexShrink: 1 }}
-                    >
-                      {abbreviateString(
-                        cosoul.profile_public?.name ?? 'Anon',
-                        14
-                      )}
-                    </Text>
-                  </Flex>
-                )}
+              {exploreView && (
                 <Flex
                   css={{
+                    gap: '$sm',
                     alignItems: 'center',
-                    flexShrink: 0,
-                    width: exploreView ? undefined : '100%',
-                    rowGap: '$xs',
-                    columnGap: '$md',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
+                    flexGrow: 0,
+                    flexShrink: 1,
+                    color: '$text',
                   }}
                 >
-                  {exploreView ? (
-                    <Flex
-                      css={{
-                        p: '$sm',
-                        width: '100%',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                      }}
-                    >
-                      {cosoul.holders !== 0 && (
-                        <Text tag size="xs" color="complete">
-                          <Users />
-                          {cosoul.holders}
-                        </Text>
-                      )}
-                    </Flex>
-                  ) : (
-                    <>
-                      <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                        <Text size={'xs'}>Rep</Text>
-                        <Text semibold>{repScore ?? 0}</Text>
-                      </Flex>
-                      <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                        <Text size={'xs'}>Holders</Text>
-                        <Text semibold>{cosoul.holders ?? 0}</Text>
-                      </Flex>
-                      <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                        <Text size={'xs'}>Posts</Text>
-                        <Text semibold>
-                          {cosoul.profile_public?.post_count ?? 0}
-                        </Text>
-                      </Flex>
-                      <Flex css={{ gap: '$xs', alignItems: 'center' }}>
-                        <Text size={'xs'}>Posts/30d</Text>
-                        <Text semibold>
-                          {cosoul.profile_public?.post_count_last_30_days ?? 0}
-                        </Text>
-                      </Flex>
-                    </>
-                  )}
+                  <Avatar
+                    path={cosoul.profile_public?.avatar}
+                    size="small"
+                    name={cosoul.profile_public?.name ?? 'New'}
+                  />
+                  {/*TODO: if the name is long here this doesn't properly shrink */}
+                  <Text
+                    ellipsis
+                    size="small"
+                    semibold
+                    css={{ flexGrow: 0, flexShrink: 1 }}
+                  >
+                    {abbreviateString(
+                      cosoul.profile_public?.name ?? 'Anon',
+                      14
+                    )}
+                  </Text>
                 </Flex>
-              </Flex>
-              {!exploreView && (
-                <Text
-                  css={{
-                    width: '100%',
-                    color: '$cta',
-                    fontSize: '$xs',
-                    justifyContent: 'center',
-                  }}
-                >
-                  View Details
-                </Text>
               )}
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  flexShrink: 0,
+                  width: exploreView ? undefined : '100%',
+                  rowGap: '$xs',
+                  columnGap: '$md',
+                  justifyContent: 'center',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {exploreView ? (
+                  <Flex
+                    css={{
+                      p: '$sm',
+                      width: '100%',
+                      justifyContent: 'space-between',
+                      alignItems: 'flex-start',
+                    }}
+                  >
+                    {cosoul.holders !== 0 && (
+                      <Text tag size="xs" color="complete">
+                        <Users />
+                        {cosoul.holders}
+                      </Text>
+                    )}
+                  </Flex>
+                ) : (
+                  <>
+                    <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                      <Text size={'xs'}>Rep</Text>
+                      <Text semibold>{repScore ?? 0}</Text>
+                    </Flex>
+                    <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                      <Text size={'xs'}>Holders</Text>
+                      <Text semibold>{cosoul.holders ?? 0}</Text>
+                    </Flex>
+                    <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                      <Text size={'xs'}>Posts</Text>
+                      <Text semibold>
+                        {cosoul.profile_public?.post_count ?? 0}
+                      </Text>
+                    </Flex>
+                    <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                      <Text size={'xs'}>Posts/30d</Text>
+                      <Text semibold>
+                        {cosoul.profile_public?.post_count_last_30_days ?? 0}
+                      </Text>
+                    </Flex>
+                  </>
+                )}
+              </Flex>
             </Flex>
+            {!exploreView && (
+              <Text
+                css={{
+                  width: '100%',
+                  color: '$cta',
+                  fontSize: '$xs',
+                  justifyContent: 'center',
+                }}
+              >
+                View Details
+              </Text>
+            )}
           </Flex>
-        )}
+        </Flex>
       </Box>
     </AppLink>
   );

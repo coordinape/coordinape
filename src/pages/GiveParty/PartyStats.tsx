@@ -23,6 +23,7 @@ export const PartyStats = ({
         alignItems: 'center',
         rowGap: '$sm',
         columnGap: '$lg',
+        justifyContent: 'center',
       }}
     >
       <Text
