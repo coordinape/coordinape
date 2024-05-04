@@ -12,6 +12,9 @@ export const partyNavButtonStyle = {
   '&:hover': {
     borderColor: 'white',
   },
+  '@xs': {
+    fontSize: '$h2',
+  },
 };
 
 export const PartyNav = ({ css }: { css?: CSS }) => {

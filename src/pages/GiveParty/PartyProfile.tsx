@@ -6,10 +6,11 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { webAppURL } from 'config/webAppURL';
 import { Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
 import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, Text } from 'ui';
+import { Button, Flex, Link, Text } from 'ui';
 
 import { PartyBody } from './PartyBody';
 import { PartyHeader } from './PartyHeader';
@@ -31,6 +32,7 @@ export const PartyProfile = () => {
     }
   );
   const targetProfile = data as PublicProfile;
+  const castProfileUrl = `https://warpcast.com/~/compose?text=https://give.party/${address}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/giveparty.profile/${encodeURIComponent(address ?? '')}`;
   if (!targetProfile) return;
   return (
     <>
@@ -68,7 +70,7 @@ export const PartyProfile = () => {
                   Buy CoLink
                 </Text>
               </Button>
-              <Button>
+              <Button as={Link} href={castProfileUrl}>
                 <Wand fa />
                 <Text medium css={{ ml: '$xs' }}>
                   Cast Profile on Farcaster

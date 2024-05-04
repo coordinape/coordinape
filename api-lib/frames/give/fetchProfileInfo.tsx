@@ -15,7 +15,7 @@ export const fetchProfileInfo = async (profileId: number) => {
         topSkills: {
           colinks_gives_skill_count: [
             {
-              limit: 5,
+              limit: 4,
               order_by: [{ gives: order_by.desc_nulls_last }],
               where: {
                 target_profile_id: {
@@ -121,3 +121,41 @@ export const fetchProfileInfo = async (profileId: number) => {
     topSkills,
   };
 };
+
+export const fetchCoLinksProfile = async (address: string) => {
+  const { profiles_public } = await adminClient.query(
+    {
+      profiles_public: [
+        {
+          where: {
+            address: {
+              _ilike: address,
+            },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          avatar: true,
+          address: true,
+          website: true,
+          links: true,
+          description: true,
+          reputation_score: {
+            total_score: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'coLinks_profile',
+    }
+  );
+  const profile = profiles_public.pop();
+
+  return profile ? profile : null;
+};
+
+export type PublicProfile = NonNullable<
+  Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
+>;

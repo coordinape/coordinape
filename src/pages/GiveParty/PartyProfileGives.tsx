@@ -5,6 +5,7 @@ import { groupAndSortGive } from 'features/points/PostGives';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import { Flex, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
@@ -105,10 +106,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
           <GiveLeaderboardColumn
             onClick={() => setSort('skill')}
             css={{
-              minWidth: '15rem',
-              '@md': {
-                minWidth: '10rem',
-              },
+              minWidth: '16rem',
             }}
           >
             Skill
@@ -122,10 +120,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
             <GiveLeaderboardRow key={skill.skill}>
               <GiveLeaderboardColumn
                 css={{
-                  minWidth: '15rem',
-                  '@md': {
-                    minWidth: '10rem',
-                  },
+                  minWidth: '16rem',
                 }}
               >
                 <Text
@@ -146,7 +141,9 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
                   }}
                 >
                   <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
-                  <Text size="medium">{skill.skill}</Text>
+                  <Text size="medium" css={{ ...skillTextStyle }}>
+                    {skill.skill}
+                  </Text>
                 </Text>
               </GiveLeaderboardColumn>
               <GiveLeaderboardColumn>
