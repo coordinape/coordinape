@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
+import { Frame } from '../frames.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';

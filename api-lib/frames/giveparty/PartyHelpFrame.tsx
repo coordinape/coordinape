@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
+import { Frame } from '../frames.ts';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';

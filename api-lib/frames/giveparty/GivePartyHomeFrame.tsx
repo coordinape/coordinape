@@ -1,10 +1,7 @@
 import React from 'react';
 
-import {
-  Frame,
-  ResourceIdentifierWithParams,
-} from '../../../_api/frames/router.tsx';
 import { ErrorFrameImage } from '../ErrorFrame.tsx';
+import { Frame, ResourceIdentifierWithParams } from '../frames.ts';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';

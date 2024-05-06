@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 
-import { Frame } from '../../_api/frames/router.tsx';
 import { webAppURL } from '../../src/config/webAppURL';
 import { IS_LOCAL_ENV } from '../config.ts';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
+import { Frame } from './frames.ts';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 

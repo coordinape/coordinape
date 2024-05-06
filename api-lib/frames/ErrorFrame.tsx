@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Frame } from '../../_api/frames/router.tsx';
 import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
 
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { Frame } from './frames.ts';
 import { PartyHelpFrame } from './giveparty/PartyHelpFrame.tsx';
 import {
   FrameBgImage,

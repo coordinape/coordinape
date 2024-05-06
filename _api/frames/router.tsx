@@ -7,7 +7,6 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { Readable } from 'node:stream';
 import { ReadableStream } from 'node:stream/web';
-import React from 'react';
 
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { ImageResponse } from '@vercel/og';
@@ -20,6 +19,7 @@ import {
 } from '../../api-lib/frames/_getFramePostInfo.tsx';
 import { ErrorFrame } from '../../api-lib/frames/ErrorFrame.tsx';
 import { RenderFrameMeta } from '../../api-lib/frames/FrameMeta.tsx';
+import { Frame } from '../../api-lib/frames/frames.ts';
 import { FrontDoor } from '../../api-lib/frames/FrontDoorFrame.tsx';
 import { GiveHomeFrame } from '../../api-lib/frames/give/GiveHomeFrame.tsx';
 import { GivePartyHomeFrame } from '../../api-lib/frames/giveparty/GivePartyHomeFrame.tsx';
@@ -76,6 +76,7 @@ export const getPath = (name: string) =>
   join(process.cwd(), 'public', 'fonts', `${name}.ttf`);
 
 // this forces all the image paths to be bundled/traced
+// don't delete this, even if it isn't used
 export const getImagePath = (name: string) =>
   join(process.cwd(), 'public', 'imgs', 'frames', `${name}.jpg`);
 
@@ -93,6 +94,7 @@ const createFont = (name: string, file: string) => {
   };
 };
 
+// don't delete this, even if it isn't used
 export const createImage = (fileNameWithExt: string) => {
   let imageData: ArrayBuffer;
   const file = fileNameWithExt.replace('.jpg', '');
@@ -225,49 +227,6 @@ const addPath = (
 // Buttons
 // - onPost -> Does Things, and redirects/returns a Frame???
 // - externalLink
-
-export const ResourceIdentifierWithParams = (
-  ri: ResourceIdentifier,
-  preloadParams: Record<string, string>
-): ResourceIdentifier => {
-  const r: ResourceIdentifier = {
-    resourcePathExpression: ri.resourcePathExpression,
-    getResourceId: (params: Record<string, string>) => {
-      return ri.getResourceId({ ...params, ...preloadParams });
-    },
-  };
-  return r;
-};
-
-export type ResourceIdentifier = {
-  resourcePathExpression: string;
-  getResourceId: (params: Record<string, string>) => string;
-};
-
-export type Frame = {
-  buttons: Button[];
-  imageNode: (params: Record<string, string>) => Promise<React.JSX.Element>;
-  id: string;
-  homeFrame: boolean;
-  resourceIdentifier: ResourceIdentifier;
-  errorMessage?: string;
-  inputText?: (params: Record<string, string>) => string;
-  aspectRatio?: '1:1' | '1.91:1' | undefined;
-  clickURL?: string;
-  noCache?: boolean;
-};
-
-export type Button = {
-  title: string;
-  action: 'post' | 'link';
-  // only use target for external links
-  target?: string | ((params: Record<string, string>) => string);
-  // only use onPost for post
-  onPost?: (
-    info: FramePostInfo,
-    params: Record<string, string>
-  ) => Promise<Frame>;
-};
 
 const addFrame = (frame: Frame) => {
   if (frame.homeFrame) {

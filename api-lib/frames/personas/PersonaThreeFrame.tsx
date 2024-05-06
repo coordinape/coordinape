@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
 import { coLinksPaths } from '../../../src/routes/paths.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
+import { Frame } from '../frames.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';

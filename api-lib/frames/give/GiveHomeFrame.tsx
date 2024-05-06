@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { NotFoundError } from '../../HttpError.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
+import { Frame } from '../frames.ts';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,

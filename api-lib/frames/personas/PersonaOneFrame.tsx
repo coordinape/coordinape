@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { minted } from '../../../_api/hasura/actions/_handlers/syncCoSoul.ts';
 import {
@@ -12,6 +11,7 @@ import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { ErrorFrame } from '../ErrorFrame.tsx';
+import { Frame } from '../frames.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBody } from '../layoutFragments/FrameBody.tsx';
