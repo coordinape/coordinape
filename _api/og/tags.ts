@@ -29,6 +29,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       frame: PartyHelpFrame(),
       res,
       params: {},
+      onlyMetaTags: true,
     });
     return;
   }
@@ -40,6 +41,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       frame: ProfileFrame(address),
       res,
       params: { address },
+      onlyMetaTags: true,
     });
     return;
   }
