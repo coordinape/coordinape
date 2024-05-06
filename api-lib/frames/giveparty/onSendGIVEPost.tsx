@@ -157,26 +157,30 @@ export const onSendGIVEPost = async (
     );
 
     // update warpcast_url on give with bot response hash
-    const warpcastUrl = await generateWarpCastUrl(resp.hash);
+    try {
+      const warpcastUrl = await generateWarpCastUrl(resp.hash);
 
-    await adminClient.mutate(
-      {
-        update_colinks_gives_by_pk: [
-          {
-            pk_columns: { id: giveId },
-            _set: {
-              warpcast_url: warpcastUrl,
+      await adminClient.mutate(
+        {
+          update_colinks_gives_by_pk: [
+            {
+              pk_columns: { id: giveId },
+              _set: {
+                warpcast_url: warpcastUrl,
+              },
             },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      },
-      {
-        operationName: 'updateGives_with_warpcast_url',
-      }
-    );
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'updateGives_with_warpcast_url',
+        }
+      );
+    } catch (e: any) {
+      console.error('Failed to generate and set warpcast_url:', e);
+    }
   }
 
   return JoinedPartyFrame;
