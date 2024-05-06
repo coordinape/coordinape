@@ -1,11 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
-import {
-  Frame,
-  ResourceIdentifierWithParams,
-} from '../../../_api/frames/router.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { Frame, ResourceIdentifierWithParams } from '../frames.ts';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';

@@ -3,10 +3,9 @@ import React from 'react';
 import { VercelResponse } from '@vercel/node';
 import { renderToString } from 'react-dom/server';
 
-import { Frame } from '../../_api/frames/router.tsx';
-
 import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { FrameButton } from './FrameButton.tsx';
+import { Frame } from './frames.ts';
 import { getImgSrc, getPostUrl } from './routingUrls.ts';
 
 export const RenderFrameMeta = ({

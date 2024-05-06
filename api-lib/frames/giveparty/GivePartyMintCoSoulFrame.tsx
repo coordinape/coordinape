@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { ErrorFrame } from '../ErrorFrame.tsx';
+import { Frame } from '../frames.ts';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { mintCoSoul } from '../personas/PersonaOneFrame.tsx';

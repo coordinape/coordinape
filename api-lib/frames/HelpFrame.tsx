@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { Frame } from '../../_api/frames/router.tsx';
-
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { Frame } from './frames.ts';
 import { PartyHelpFrame } from './giveparty/PartyHelpFrame.tsx';
 import { FrameBgImage } from './layoutFragments/FrameBgImage.tsx';
 import { FrameWrapper } from './layoutFragments/FrameWrapper.tsx';

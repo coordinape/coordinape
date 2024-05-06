@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { Frame } from '../../_api/frames/router.tsx';
 import { OGAvatar } from '../../_api/og/OGAvatar.tsx';
 import { adminClient } from '../gql/adminClient.ts';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
 import { getViewerFromParams } from './_getViewerFromParams.ts';
 import { staticResourceIdentifier } from './_staticResourceIdentifier.ts';
+import { Frame } from './frames.ts';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,

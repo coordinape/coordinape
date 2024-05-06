@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { Frame } from '../../_api/frames/router';
 import { insertInteractionEvents } from '../gql/mutations';
 
 import { FramePostInfo } from './_getFramePostInfo';
 import { staticResourceIdentifier } from './_staticResourceIdentifier';
+import { Frame } from './frames.ts';
 import { getLevelForViewer } from './give/getLevelForViewer';
 import { FrameBgImage, IMAGE_URL_BASE } from './layoutFragments/FrameBgImage';
 import { FrameBody } from './layoutFragments/FrameBody';
