@@ -8,8 +8,8 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { prefetchFrame } from '../prefetchFrame.ts';
 
-import { validateAndCleanSkill } from './checkAndInsertGive.ts';
-import { PartyStartFrame } from './PartyStartFrame.tsx';
+import { validateAndCleanUsername } from './checkAndInsertGive.ts';
+import { SurprisePartyStartFrame } from './SurprisePartyStartFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { error_message } = params;
@@ -30,13 +30,13 @@ const imageNode = async (params: Record<string, string>) => {
           style={{ marginTop: 40, gap: 20, lineHeight: 1 }}
         >
           <div tw="flex" style={{ marginBottom: 10 }}>
-            Kick off a GIVE Party!
+            Kick off a Surprise Party!
           </div>
           <div
             tw="flex"
             style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
           >
-            Celebrate people for a skill you care about.
+            Celebrate someone for ??.
           </div>
           <div
             tw="flex"
@@ -64,7 +64,7 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
           >
             <div tw="flex flex-col">
-              <span>Enter a skill below,</span>
+              <span>Enter a Farcaster username below,</span>
               <span>we&apos;ll start your party.</span>
             </div>
           </div>
@@ -89,25 +89,25 @@ const prepareParty = async (
   info: FramePostInfo,
   params: Record<string, string>
 ) => {
-  let skill = info.message.inputText;
-  if (!skill) {
-    return PartyHelpFrame('No skill provided');
+  let username = info.message.inputText;
+  if (!username) {
+    return SurprisePartyHelpFrame('No skill provided');
   }
   try {
-    skill = validateAndCleanSkill(skill);
+    username = validateAndCleanUsername(username);
   } catch (e: any) {
-    return PartyHelpFrame(e.message);
+    return SurprisePartyHelpFrame(e.message);
   }
-  params['skill'] = skill;
+  params['username'] = username;
 
-  const f = PartyStartFrame(skill);
-  await prefetchFrame(f, skill);
+  const f = SurprisePartyStartFrame(username);
+  await prefetchFrame(f, username);
   return f;
 };
 
-export const PartyHelpFrame = (error_message?: string): Frame => {
+export const SurprisePartyHelpFrame = (error_message?: string): Frame => {
   return {
-    id: 'party.help',
+    id: 'surprise.party.help',
     aspectRatio: '1.91:1',
     homeFrame: true,
     imageNode: imageNode,
@@ -115,7 +115,7 @@ export const PartyHelpFrame = (error_message?: string): Frame => {
     errorMessage: error_message,
     clickURL: 'https://give.party',
     inputText: () => {
-      return `Enter a skill to celebrate`;
+      return `Enter a username to celebrate`;
     },
     buttons: [
       {

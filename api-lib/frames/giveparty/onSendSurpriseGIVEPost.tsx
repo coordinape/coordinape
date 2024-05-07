@@ -2,19 +2,20 @@ import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { isFrame } from '../frames.ts';
 
 import { checkAndInsertGive } from './checkAndInsertGive.ts';
-import { getContextFromParams } from './getContextFromParams.ts';
-import { GivePartyHomeFrame } from './GivePartyHomeFrame.tsx';
-import { JoinedPartyFrame } from './JoinedPartyFrame.tsx';
+import { getSurpriseContextFromParams } from './getSurpriseContextFromParams.ts';
+import { JoinedSurprisePartyFrame } from './JoinedSurprisePartyFrame.tsx';
+import { SurprisePartyHomeFrame } from './SurprisePartyHomeFrame.tsx';
 
-export const onSendGIVEPost = async (
+export const onSendSurpriseGIVEPost = async (
   info: FramePostInfo,
   params: Record<string, string>
 ) => {
   // who are you? which frame to return
-  const { skill } = await getContextFromParams(params);
+  const { username: target_username } =
+    await getSurpriseContextFromParams(params);
 
   const {
-    inputText: target_username,
+    inputText: skill,
     castId: { hash: cast_hash },
   } = info.message;
 
@@ -24,8 +25,8 @@ export const onSendGIVEPost = async (
     if (isFrame(e)) {
       return e;
     }
-    return GivePartyHomeFrame(e.message);
+    return SurprisePartyHomeFrame(e.message);
   }
 
-  return JoinedPartyFrame;
+  return JoinedSurprisePartyFrame;
 };

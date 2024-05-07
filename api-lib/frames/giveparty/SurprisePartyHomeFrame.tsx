@@ -7,22 +7,22 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
-import { validateAndCleanSkill } from './checkAndInsertGive.ts';
-import { getContextFromParams } from './getContextFromParams.ts';
+import { validateAndCleanUsername } from './checkAndInsertGive.ts';
+import { getSurpriseContextFromParams } from './getSurpriseContextFromParams.ts';
 import { getRandomColor, gradientArray } from './JoinedPartyFrame.tsx';
-import { onSendGIVEPost } from './onSendGIVEPost.tsx';
-import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
+import { onSendSurpriseGIVEPost } from './onSendSurpriseGIVEPost.tsx';
+import { usernameResourceIdentifier } from './usernameResourceIdentifier.ts';
 
 const givePartyImageNode = async (params: Record<string, string>) => {
-  let { skill } = await getContextFromParams(params);
+  let { username } = await getSurpriseContextFromParams(params);
   const { error_message } = params;
 
   const randomGradient = getRandomColor(gradientArray);
 
   try {
-    skill = validateAndCleanSkill(skill);
+    username = validateAndCleanUsername(username);
   } catch (e: any) {
-    return ErrorFrameImage({ error_message: 'Invalid Skill: ' + e.message });
+    return ErrorFrameImage({ error_message: 'Invalid username: ' + e.message });
   }
 
   return (
@@ -40,10 +40,10 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           tw="flex flex-col overflow-x-auto"
           style={{ gap: 20, lineHeight: 1 }}
         >
-          <div tw="flex">Who is{skill === 'based' ? '' : ' great at'}</div>
-          <PartyText text={`#${skill}`} />
+          <div tw="flex">What is</div>
+          <PartyText text={`@${username}`} />
           <div tw="flex" style={{ marginTop: 10 }}>
-            on Farcaster?
+            great at?
           </div>
         </div>
 
@@ -65,7 +65,7 @@ const givePartyImageNode = async (params: Record<string, string>) => {
             tw="flex"
             style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
           >
-            Enter a name below, we&apos;ll send them a GIVE on your behalf
+            Enter a skill below, we&apos;ll send them a GIVE on your behalf
           </div>
           <div
             tw="flex items-center"
@@ -84,18 +84,18 @@ const givePartyImageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const GivePartyHomeFrame = (
+export const SurprisePartyHomeFrame = (
   errorMessage?: string,
-  skill?: string
+  username?: string
 ): Frame => ({
-  id: 'give.party',
+  id: 'surprise.party',
   aspectRatio: '1.91:1',
   homeFrame: true,
   resourceIdentifier: ResourceIdentifierWithParams(
-    skillResourceIdentifier,
-    skill
+    usernameResourceIdentifier,
+    username
       ? {
-          skill,
+          username,
         }
       : {}
   ),
@@ -103,13 +103,13 @@ export const GivePartyHomeFrame = (
   clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
   inputText: () => {
-    return `Enter a Farcaster @username`;
+    return `Enter a skill`;
   },
   buttons: [
     {
       title: 'Send Give',
       action: 'post',
-      onPost: onSendGIVEPost,
+      onPost: onSendSurpriseGIVEPost,
     },
   ],
 });
