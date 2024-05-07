@@ -32,6 +32,11 @@ export type Frame = {
   clickURL?: string;
   noCache?: boolean;
 };
+
+export const isFrame = (o: any): o is Frame => {
+  return o && typeof o.id === 'string' && typeof o.imageNode === 'function';
+};
+
 export type Button = {
   title: string;
   action: 'post' | 'link';

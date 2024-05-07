@@ -8,7 +8,6 @@ import {
   skills_update_column,
 } from './gql/__generated__/zeus';
 import { adminClient } from './gql/adminClient.ts';
-import { insertInteractionEvents } from './gql/mutations.ts';
 import { UnprocessableError } from './HttpError.ts';
 
 export const checkPointsAndCreateGive = async (
@@ -88,15 +87,5 @@ export const insertCoLinksGive = async (
     }
   );
 
-  await insertInteractionEvents({
-    event_type: 'colinks_give_create',
-    profile_id: giver_profile.id,
-    data: {
-      hostname: 'farcaster_bot',
-      cast_hash: hash,
-      new_points_balance: newPoints,
-    },
-  });
-
-  return giveId;
+  return { giveId, newPoints };
 };

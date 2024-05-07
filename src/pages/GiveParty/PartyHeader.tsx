@@ -15,6 +15,12 @@ const buttonStyle = {
 };
 
 export const PartyHeader = () => {
+  const selectedStyle = {
+    borderColor: 'rgba(0,0,0,0.15) !important',
+    background: 'rgba(0,0,0,0.15) !important',
+    cursor: 'default',
+    pointerEvents: 'none',
+  };
   return (
     <Flex column css={{ alignItems: 'center', gap: '$md', pt: '$lg' }}>
       <Flex row css={{ gap: '$md' }}>
@@ -22,7 +28,11 @@ export const PartyHeader = () => {
           as={AppLink}
           to={coLinksPaths.giveParty}
           color="transparent"
-          css={{ ...buttonStyle, marginLeft: '17px' }}
+          css={{
+            ...buttonStyle,
+            marginLeft: '17px',
+            ...(location.pathname == '/giveparty' && selectedStyle),
+          }}
         >
           give.party
         </Button>
@@ -35,12 +45,7 @@ export const PartyHeader = () => {
           color="transparent"
           css={{
             ...buttonStyle,
-            ...(location.pathname == '/giveboard' && {
-              borderColor: 'rgba(0,0,0,0.15) !important',
-              background: 'rgba(0,0,0,0.15) !important',
-              cursor: 'default',
-              pointerEvents: 'none',
-            }),
+            ...(location.pathname == '/giveboard' && selectedStyle),
           }}
         >
           leaderboard

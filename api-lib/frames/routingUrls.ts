@@ -13,6 +13,9 @@ export const TRY_GIVEBOT_INTENT =
 export const START_A_PARTY_INTENT = (skill: string) =>
   `https://warpcast.com/~/compose?text=Give%20Party!&embeds[]=https://give.party/${skill}`;
 
+export const START_A_SURPRISE_PARTY_INTENT = (username: string) =>
+  `https://warpcast.com/~/compose?text=Surprise%20Party!&embeds[]=https://give.party/surprise/${username}`;
+
 export const getPostUrl = (frame: Frame, params: Record<string, string>) => {
   return `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath(frame, params)}`;
 };
