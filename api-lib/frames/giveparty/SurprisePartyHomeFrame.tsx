@@ -119,7 +119,6 @@ export const SurprisePartyHomeFrame = (
   clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
   inputText: () => {
-    //
     return `Enter skill (based, design, etc)`;
   },
   buttons: [

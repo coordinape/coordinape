@@ -103,10 +103,7 @@ export const checkAndInsertGive = async (
     const { hasCoSoul } = await fetchProfileInfo(info.profile.id);
     if (!hasCoSoul) {
       throw GivePartyMintCoSoulFrame;
-      // return GivePartyHomeFrame(`Mint CoSoul!`);
-    } /* else if (linksHeld === 0) {
-      return GivePartyHomeFrame(`Join CoLinks!`);
-    } */ else {
+    } else {
       throw new Error(`You're out of GIVE! Wait until it recharges.`);
     }
   }
@@ -139,7 +136,6 @@ export const checkAndInsertGive = async (
     },
   });
 
-  // TODO: pre-cache give frames? make a helper for all this ?
   if (!IS_LOCAL_ENV) {
     const resp = await publishCast(
       `GIVE Delivered to @${fcUserName} for #${skill}`,

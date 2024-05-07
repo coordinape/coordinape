@@ -129,12 +129,14 @@ export const GiveParty = () => {
           >
             <li>Cast the URL to start a Give Party or Surprise Party</li>
             <li>
-              <strong>Give Party</strong> - Anyone on Farcaster can use the
-              frame to name people who they think are awesome at that skill.
+              <strong>Give Party</strong> - Celebrate a skill. Anyone on
+              Farcaster can use the frame to name people who they think are
+              awesome at that skill.
             </li>
             <li>
-              <strong>Surprise Party </strong> - Anyone on Farcaster can use the
-              frame to celebrate the skills of a specific user.
+              <strong>Surprise Party </strong> - Celebrate an individual. Anyone
+              on Farcaster can use the frame to celebrate the skills of a
+              specific user.
             </li>
             <li>
               Party Starters will get Coordinape Rep Points for their parties!

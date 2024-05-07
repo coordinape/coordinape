@@ -46,13 +46,6 @@ const imageNode = async (params: Record<string, string>) => {
             <span style={{ fontWeight: 600 }}>GIVE</span>
             <span style={{ opacity: 0.85 }}>for skills they appreciate.</span>
           </div>
-          {/*<div*/}
-          {/*  tw="flex"*/}
-          {/*  style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}*/}
-          {/*>*/}
-          {/*  People can send them GIVE for skills they appreciate in the Surprise*/}
-          {/*  Party.*/}
-          {/*</div>*/}
           {error_message && (
             <div
               tw="flex w-full text-center justify-center"
