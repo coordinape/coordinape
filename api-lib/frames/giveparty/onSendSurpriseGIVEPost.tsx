@@ -20,7 +20,13 @@ export const onSendSurpriseGIVEPost = async (
   } = info.message;
 
   try {
-    await checkAndInsertGive(info, cast_hash, target_username, skill);
+    await checkAndInsertGive(
+      info,
+      cast_hash,
+      SurprisePartyHomeFrame().id,
+      target_username,
+      skill
+    );
   } catch (e: any) {
     if (isFrame(e)) {
       return e;

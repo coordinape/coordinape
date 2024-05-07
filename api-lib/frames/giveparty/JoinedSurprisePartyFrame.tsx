@@ -94,7 +94,7 @@ export const JoinedSurprisePartyFrame: Frame = {
   resourceIdentifier: usernameResourceIdentifier,
   clickURL: 'https://give.party',
   inputText: () => {
-    return `Enter a skill`;
+    return `Enter another skill`;
   },
   buttons: [
     {
@@ -105,7 +105,7 @@ export const JoinedSurprisePartyFrame: Frame = {
       },
     },
     {
-      title: 'How 2 Party?',
+      title: 'New Surprise 🎉',
       action: 'post',
       onPost: async () => SurprisePartyHelpFrame(),
     },

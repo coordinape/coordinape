@@ -33,11 +33,18 @@ const imageNode = async (params: Record<string, string>) => {
           >
             <div tw="flex">Your</div>
             <PartyText text={`@${username}`} />
-            <div tw="flex" style={{ marginTop: 10 }}>
-              party is ready to go!
-            </div>
-            <div tw="flex" style={{ marginTop: 20 }}>
-              🥳
+            <div tw="flex flex-row items-center" style={{ gap: 64 }}>
+              <div tw="flex flex-col">
+                <div tw="flex" style={{ marginTop: 10 }}>
+                  surprise party
+                </div>
+                <div tw="flex" style={{ marginTop: 10 }}>
+                  is ready to go!
+                </div>
+              </div>
+              <div tw="flex" style={{ marginTop: 20, fontSize: 128 }}>
+                🥳
+              </div>
             </div>
           </div>
         </div>
@@ -56,7 +63,7 @@ export const SurprisePartyStartFrame = (username: string): Frame => {
     clickURL: 'https://give.party',
     buttons: [
       {
-        title: 'Cast your Party',
+        title: '🔊 Cast your Party',
         action: 'link',
         target: START_A_SURPRISE_PARTY_INTENT(username),
       },

@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { Frame } from '../frames.ts';
@@ -30,20 +31,28 @@ const imageNode = async (params: Record<string, string>) => {
           style={{ marginTop: 40, gap: 20, lineHeight: 1 }}
         >
           <div tw="flex" style={{ marginBottom: 10 }}>
-            Kick off a Surprise Party!
+            Celebrate a Friend!
           </div>
           <div
             tw="flex"
-            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
+            style={{
+              fontSize: 46,
+              fontWeight: 400,
+              lineHeight: 1.5,
+              gap: '0.3em',
+            }}
           >
-            Celebrate someone for ??.
+            <span style={{ opacity: 0.85 }}>Let people send them</span>
+            <span style={{ fontWeight: 600 }}>GIVE</span>
+            <span style={{ opacity: 0.85 }}>for skills they appreciate.</span>
           </div>
-          <div
-            tw="flex"
-            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
-          >
-            Party Starters get Rep Points, too
-          </div>
+          {/*<div*/}
+          {/*  tw="flex"*/}
+          {/*  style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}*/}
+          {/*>*/}
+          {/*  People can send them GIVE for skills they appreciate in the Surprise*/}
+          {/*  Party.*/}
+          {/*</div>*/}
           {error_message && (
             <div
               tw="flex w-full text-center justify-center"
@@ -64,7 +73,7 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
           >
             <div tw="flex flex-col">
-              <span>Enter a Farcaster username below,</span>
+              <span>Enter a username below,</span>
               <span>we&apos;ll start your party.</span>
             </div>
           </div>
@@ -100,6 +109,13 @@ const prepareParty = async (
   }
   params['username'] = username;
 
+  // make sure real farcaster user
+  try {
+    await findOrCreateProfileByUsername(username);
+  } catch (e: any) {
+    return SurprisePartyHelpFrame(`Can't find user: ${username}`);
+  }
+
   const f = SurprisePartyStartFrame(username);
   await prefetchFrame(f, username);
   return f;
@@ -119,7 +135,7 @@ export const SurprisePartyHelpFrame = (error_message?: string): Frame => {
     },
     buttons: [
       {
-        title: 'Start the Party',
+        title: 'Start the Party 🚀',
         action: 'post',
         onPost: prepareParty,
       },

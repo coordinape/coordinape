@@ -40,10 +40,26 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           tw="flex flex-col overflow-x-auto"
           style={{ gap: 20, lineHeight: 1 }}
         >
-          <div tw="flex">What is</div>
-          <PartyText text={`@${username}`} />
-          <div tw="flex" style={{ marginTop: 10 }}>
-            great at?
+          <div tw="flex">{`It's a Surprise Party for`}</div>
+          <div tw="flex flex-row" style={{ gap: 36 }}>
+            <PartyText text={`@${username}`} />
+            {/*<PartyText text={`!!!`} />*/}
+          </div>
+          <div
+            tw="flex"
+            style={{
+              marginTop: 10,
+              fontSize: 54,
+              fontWeight: 400,
+              lineHeight: 1.5,
+              gap: '0.3em',
+            }}
+          >
+            <span style={{ opacity: 0.85 }}>Send them</span>
+            <span style={{ fontWeight: 600 }}>GIVE</span>
+            <span style={{ opacity: 0.85 }}>
+              for the skills you appreciate!
+            </span>
           </div>
         </div>
 
@@ -103,11 +119,12 @@ export const SurprisePartyHomeFrame = (
   clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
   inputText: () => {
-    return `Enter a skill`;
+    //
+    return `Enter skill (based, design, etc)`;
   },
   buttons: [
     {
-      title: 'Send Give',
+      title: 'Send GIVE 🎁',
       action: 'post',
       onPost: onSendSurpriseGIVEPost,
     },

@@ -107,7 +107,7 @@ export const GivePartyHomeFrame = (
   },
   buttons: [
     {
-      title: 'Send Give',
+      title: 'Send GIVE 🎁',
       action: 'post',
       onPost: onSendGIVEPost,
     },

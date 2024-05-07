@@ -18,7 +18,7 @@ const skillTrim = z
   .trim()
   .transform(v => v.replace(/^#/g, ''));
 
-const skillSchema = z
+export const skillSchema = z
   .string()
   .trim()
   .min(1, { message: 'Skill must not be empty' })
@@ -63,6 +63,7 @@ export const validateAndCleanSkill = (skill: string): string => {
 export const checkAndInsertGive = async (
   info: FramePostInfo,
   cast_hash: string,
+  frameId: string,
   target_username?: string,
   skill?: string
 ) => {
@@ -111,12 +112,13 @@ export const checkAndInsertGive = async (
   }
   let giveId;
   try {
-    giveId = await insertCoLinksGive(
+    const { giveId: gid } = await insertCoLinksGive(
       info.profile,
       target_profile,
       cast_hash,
       skill
     );
+    giveId = gid;
   } catch (e: any) {
     throw new Error('Failed to give: ' + e.message);
   }
@@ -126,7 +128,7 @@ export const checkAndInsertGive = async (
     profile_id: info.profile.id,
     data: {
       give_party: true,
-      frame: 'give.party',
+      frame: frameId,
       give_id: giveId,
       giver_id: info.profile.id,
       giver_name: info.profile.name,
