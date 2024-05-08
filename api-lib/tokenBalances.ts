@@ -68,7 +68,7 @@ export const updateTokenBalanceForAddress = async (
 
   const balBN = await getTokenBalance(token, address);
 
-  return await adminClient.mutate(
+  const { insert_token_balances_one } = await adminClient.mutate(
     {
       insert_token_balances_one: [
         {
@@ -98,4 +98,6 @@ export const updateTokenBalanceForAddress = async (
       operationName: 'alchemyTokenTransfer__insert_token_balances_upsert',
     }
   );
+
+  return insert_token_balances_one;
 };

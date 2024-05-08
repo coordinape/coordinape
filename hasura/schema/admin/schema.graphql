@@ -52961,7 +52961,7 @@ Balances of tokens for given address, chain, contract
 """
 type token_balances {
   address: citext!
-  balance: String!
+  balance: numeric!
   chain: String!
   contract: String!
   created_at: timestamptz!
@@ -53000,6 +53000,7 @@ type token_balances_aggregate_fields {
 aggregate avg on columns
 """
 type token_balances_avg_fields {
+  balance: Float
   id: Float
 }
 
@@ -53011,7 +53012,7 @@ input token_balances_bool_exp {
   _not: token_balances_bool_exp
   _or: [token_balances_bool_exp!]
   address: citext_comparison_exp
-  balance: String_comparison_exp
+  balance: numeric_comparison_exp
   chain: String_comparison_exp
   contract: String_comparison_exp
   created_at: timestamptz_comparison_exp
@@ -53040,6 +53041,7 @@ enum token_balances_constraint {
 input type for incrementing numeric columns in table "token_balances"
 """
 input token_balances_inc_input {
+  balance: numeric
   id: bigint
 }
 
@@ -53048,7 +53050,7 @@ input type for inserting data into table "token_balances"
 """
 input token_balances_insert_input {
   address: citext
-  balance: String
+  balance: numeric
   chain: String
   contract: String
   created_at: timestamptz
@@ -53063,7 +53065,7 @@ aggregate max on columns
 """
 type token_balances_max_fields {
   address: citext
-  balance: String
+  balance: numeric
   chain: String
   contract: String
   created_at: timestamptz
@@ -53078,7 +53080,7 @@ aggregate min on columns
 """
 type token_balances_min_fields {
   address: citext
-  balance: String
+  balance: numeric
   chain: String
   contract: String
   created_at: timestamptz
@@ -53189,7 +53191,7 @@ input type for updating data in table "token_balances"
 """
 input token_balances_set_input {
   address: citext
-  balance: String
+  balance: numeric
   chain: String
   contract: String
   created_at: timestamptz
@@ -53203,6 +53205,7 @@ input token_balances_set_input {
 aggregate stddev on columns
 """
 type token_balances_stddev_fields {
+  balance: Float
   id: Float
 }
 
@@ -53210,6 +53213,7 @@ type token_balances_stddev_fields {
 aggregate stddev_pop on columns
 """
 type token_balances_stddev_pop_fields {
+  balance: Float
   id: Float
 }
 
@@ -53217,6 +53221,7 @@ type token_balances_stddev_pop_fields {
 aggregate stddev_samp on columns
 """
 type token_balances_stddev_samp_fields {
+  balance: Float
   id: Float
 }
 
@@ -53240,7 +53245,7 @@ Initial value of the column from where the streaming should start
 """
 input token_balances_stream_cursor_value_input {
   address: citext
-  balance: String
+  balance: numeric
   chain: String
   contract: String
   created_at: timestamptz
@@ -53254,6 +53259,7 @@ input token_balances_stream_cursor_value_input {
 aggregate sum on columns
 """
 type token_balances_sum_fields {
+  balance: numeric
   id: bigint
 }
 
@@ -53328,6 +53334,7 @@ input token_balances_updates {
 aggregate var_pop on columns
 """
 type token_balances_var_pop_fields {
+  balance: Float
   id: Float
 }
 
@@ -53335,6 +53342,7 @@ type token_balances_var_pop_fields {
 aggregate var_samp on columns
 """
 type token_balances_var_samp_fields {
+  balance: Float
   id: Float
 }
 
@@ -53342,6 +53350,7 @@ type token_balances_var_samp_fields {
 aggregate variance on columns
 """
 type token_balances_variance_fields {
+  balance: Float
   id: Float
 }
 

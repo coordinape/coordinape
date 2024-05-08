@@ -12859,7 +12859,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'token_balances_bool_exp',
     _or: 'token_balances_bool_exp',
     address: 'citext_comparison_exp',
-    balance: 'String_comparison_exp',
+    balance: 'numeric_comparison_exp',
     chain: 'String_comparison_exp',
     contract: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
@@ -12870,10 +12870,12 @@ export const AllTypesProps: Record<string, any> = {
   },
   token_balances_constraint: true,
   token_balances_inc_input: {
+    balance: 'numeric',
     id: 'bigint',
   },
   token_balances_insert_input: {
     address: 'citext',
+    balance: 'numeric',
     created_at: 'timestamptz',
     id: 'bigint',
     last_checked_at: 'timestamptz',
@@ -12901,6 +12903,7 @@ export const AllTypesProps: Record<string, any> = {
   token_balances_select_column: true,
   token_balances_set_input: {
     address: 'citext',
+    balance: 'numeric',
     created_at: 'timestamptz',
     id: 'bigint',
     last_checked_at: 'timestamptz',
@@ -12912,6 +12915,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   token_balances_stream_cursor_value_input: {
     address: 'citext',
+    balance: 'numeric',
     created_at: 'timestamptz',
     id: 'bigint',
     last_checked_at: 'timestamptz',
@@ -22038,7 +22042,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   token_balances: {
     address: 'citext',
-    balance: 'String',
+    balance: 'numeric',
     chain: 'String',
     contract: 'String',
     created_at: 'timestamptz',
@@ -22065,11 +22069,12 @@ export const ReturnTypes: Record<string, any> = {
     variance: 'token_balances_variance_fields',
   },
   token_balances_avg_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_max_fields: {
     address: 'citext',
-    balance: 'String',
+    balance: 'numeric',
     chain: 'String',
     contract: 'String',
     created_at: 'timestamptz',
@@ -22080,7 +22085,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   token_balances_min_fields: {
     address: 'citext',
-    balance: 'String',
+    balance: 'numeric',
     chain: 'String',
     contract: 'String',
     created_at: 'timestamptz',
@@ -22094,24 +22099,31 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'token_balances',
   },
   token_balances_stddev_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_stddev_pop_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_stddev_samp_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_sum_fields: {
+    balance: 'numeric',
     id: 'bigint',
   },
   token_balances_var_pop_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_var_samp_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_balances_variance_fields: {
+    balance: 'Float',
     id: 'Float',
   },
   token_gifts: {
