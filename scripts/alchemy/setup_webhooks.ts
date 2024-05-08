@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 // TODO: Make script idempotent (delete then create) webhooks with Alchemy
 
@@ -29,11 +30,11 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('OPT_MAINNET - TEST | Aave ERC20 Transfer events', options, {
+createWebhook('OPT_MAINNET - STAGING | Aave ERC20 Transfer events', options, {
   network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
   webhook_url:
-    'https://24f4-149-22-84-64.ngrok-free.app/api/webhooks/alchemy_token_transfers',
+    'https://colinks.costaging.co/api/webhooks/alchemy_token_transfers',
   graphql_query: {
     skip_empty_messages: true,
     query: `
