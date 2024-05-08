@@ -1,4 +1,4 @@
-CREATE TABLE "public"."token_balances" ("id" bigserial NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "address" citext NOT NULL, "chain" text NOT NULL, "contract" text NOT NULL, "symbol" text NOT NULL, "balance" bigint NOT NULL DEFAULT 0, "last_checked_at" timestamptz, PRIMARY KEY ("id") );COMMENT ON TABLE "public"."token_balances" IS E'Balances of tokens for given address, chain, contract';
+CREATE TABLE "public"."token_balances" ("id" bigserial NOT NULL, "created_at" timestamptz NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), "address" citext NOT NULL, "chain" text NOT NULL, "contract" text NOT NULL, "symbol" text NOT NULL, "balance" numeric NOT NULL DEFAULT 0, "last_checked_at" timestamptz, PRIMARY KEY ("id") );COMMENT ON TABLE "public"."token_balances" IS E'Balances of tokens for given address, chain, contract';
 CREATE OR REPLACE FUNCTION "public"."set_current_timestamp_updated_at"()
 RETURNS TRIGGER AS $$
 DECLARE

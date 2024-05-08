@@ -37260,7 +37260,6 @@ export type ValueTypes = {
   }>;
   /** aggregate avg on columns */
   ['token_balances_avg_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -37270,7 +37269,7 @@ export type ValueTypes = {
     _not?: ValueTypes['token_balances_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['token_balances_bool_exp']> | undefined | null;
     address?: ValueTypes['citext_comparison_exp'] | undefined | null;
-    balance?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    balance?: ValueTypes['String_comparison_exp'] | undefined | null;
     chain?: ValueTypes['String_comparison_exp'] | undefined | null;
     contract?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -37286,13 +37285,12 @@ export type ValueTypes = {
   ['token_balances_constraint']: token_balances_constraint;
   /** input type for incrementing numeric columns in table "token_balances" */
   ['token_balances_inc_input']: {
-    balance?: ValueTypes['bigint'] | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
   };
   /** input type for inserting data into table "token_balances" */
   ['token_balances_insert_input']: {
     address?: ValueTypes['citext'] | undefined | null;
-    balance?: ValueTypes['bigint'] | undefined | null;
+    balance?: string | undefined | null;
     chain?: string | undefined | null;
     contract?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -37362,7 +37360,7 @@ export type ValueTypes = {
   /** input type for updating data in table "token_balances" */
   ['token_balances_set_input']: {
     address?: ValueTypes['citext'] | undefined | null;
-    balance?: ValueTypes['bigint'] | undefined | null;
+    balance?: string | undefined | null;
     chain?: string | undefined | null;
     contract?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -37373,19 +37371,16 @@ export type ValueTypes = {
   };
   /** aggregate stddev on columns */
   ['token_balances_stddev_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_pop on columns */
   ['token_balances_stddev_pop_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate stddev_samp on columns */
   ['token_balances_stddev_samp_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -37399,7 +37394,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['token_balances_stream_cursor_value_input']: {
     address?: ValueTypes['citext'] | undefined | null;
-    balance?: ValueTypes['bigint'] | undefined | null;
+    balance?: string | undefined | null;
     chain?: string | undefined | null;
     contract?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -37410,7 +37405,6 @@ export type ValueTypes = {
   };
   /** aggregate sum on columns */
   ['token_balances_sum_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -37426,19 +37420,16 @@ export type ValueTypes = {
   };
   /** aggregate var_pop on columns */
   ['token_balances_var_pop_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate var_samp on columns */
   ['token_balances_var_samp_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregate variance on columns */
   ['token_balances_variance_fields']: AliasType<{
-    balance?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -54205,7 +54196,7 @@ export type ModelTypes = {
   /** Balances of tokens for given address, chain, contract */
   ['token_balances']: {
     address: GraphQLTypes['citext'];
-    balance: GraphQLTypes['bigint'];
+    balance: string;
     chain: string;
     contract: string;
     created_at: GraphQLTypes['timestamptz'];
@@ -54235,7 +54226,6 @@ export type ModelTypes = {
   };
   /** aggregate avg on columns */
   ['token_balances_avg_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'. */
@@ -54249,7 +54239,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['token_balances_max_fields']: {
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -54261,7 +54251,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['token_balances_min_fields']: {
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -54289,17 +54279,14 @@ export type ModelTypes = {
   ['token_balances_set_input']: GraphQLTypes['token_balances_set_input'];
   /** aggregate stddev on columns */
   ['token_balances_stddev_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['token_balances_stddev_pop_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['token_balances_stddev_samp_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "token_balances" */
@@ -54308,7 +54295,6 @@ export type ModelTypes = {
   ['token_balances_stream_cursor_value_input']: GraphQLTypes['token_balances_stream_cursor_value_input'];
   /** aggregate sum on columns */
   ['token_balances_sum_fields']: {
-    balance?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "token_balances" */
@@ -54316,17 +54302,14 @@ export type ModelTypes = {
   ['token_balances_updates']: GraphQLTypes['token_balances_updates'];
   /** aggregate var_pop on columns */
   ['token_balances_var_pop_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['token_balances_var_samp_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['token_balances_variance_fields']: {
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** GIVE allocations made by circle members for completed epochs */
@@ -78416,7 +78399,7 @@ export type GraphQLTypes = {
   ['token_balances']: {
     __typename: 'token_balances';
     address: GraphQLTypes['citext'];
-    balance: GraphQLTypes['bigint'];
+    balance: string;
     chain: string;
     contract: string;
     created_at: GraphQLTypes['timestamptz'];
@@ -78449,7 +78432,6 @@ export type GraphQLTypes = {
   /** aggregate avg on columns */
   ['token_balances_avg_fields']: {
     __typename: 'token_balances_avg_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'. */
@@ -78458,7 +78440,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['token_balances_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['token_balances_bool_exp']> | undefined;
     address?: GraphQLTypes['citext_comparison_exp'] | undefined;
-    balance?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    balance?: GraphQLTypes['String_comparison_exp'] | undefined;
     chain?: GraphQLTypes['String_comparison_exp'] | undefined;
     contract?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -78471,13 +78453,12 @@ export type GraphQLTypes = {
   ['token_balances_constraint']: token_balances_constraint;
   /** input type for incrementing numeric columns in table "token_balances" */
   ['token_balances_inc_input']: {
-    balance?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** input type for inserting data into table "token_balances" */
   ['token_balances_insert_input']: {
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -78490,7 +78471,7 @@ export type GraphQLTypes = {
   ['token_balances_max_fields']: {
     __typename: 'token_balances_max_fields';
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -78503,7 +78484,7 @@ export type GraphQLTypes = {
   ['token_balances_min_fields']: {
     __typename: 'token_balances_min_fields';
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -78547,7 +78528,7 @@ export type GraphQLTypes = {
   /** input type for updating data in table "token_balances" */
   ['token_balances_set_input']: {
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -78559,19 +78540,16 @@ export type GraphQLTypes = {
   /** aggregate stddev on columns */
   ['token_balances_stddev_fields']: {
     __typename: 'token_balances_stddev_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_pop on columns */
   ['token_balances_stddev_pop_fields']: {
     __typename: 'token_balances_stddev_pop_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate stddev_samp on columns */
   ['token_balances_stddev_samp_fields']: {
     __typename: 'token_balances_stddev_samp_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** Streaming cursor of the table "token_balances" */
@@ -78584,7 +78562,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['token_balances_stream_cursor_value_input']: {
     address?: GraphQLTypes['citext'] | undefined;
-    balance?: GraphQLTypes['bigint'] | undefined;
+    balance?: string | undefined;
     chain?: string | undefined;
     contract?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -78596,7 +78574,6 @@ export type GraphQLTypes = {
   /** aggregate sum on columns */
   ['token_balances_sum_fields']: {
     __typename: 'token_balances_sum_fields';
-    balance?: GraphQLTypes['bigint'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
   };
   /** update columns of table "token_balances" */
@@ -78612,19 +78589,16 @@ export type GraphQLTypes = {
   /** aggregate var_pop on columns */
   ['token_balances_var_pop_fields']: {
     __typename: 'token_balances_var_pop_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate var_samp on columns */
   ['token_balances_var_samp_fields']: {
     __typename: 'token_balances_var_samp_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** aggregate variance on columns */
   ['token_balances_variance_fields']: {
     __typename: 'token_balances_variance_fields';
-    balance?: number | undefined;
     id?: number | undefined;
   };
   /** GIVE allocations made by circle members for completed epochs */

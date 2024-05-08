@@ -29,20 +29,24 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
-  network: 'OPT_SEPOLIA',
+createWebhook('OPT_MAINNET - TEST | Aave ERC20 Transfer events', options, {
+  network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
-  webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
+  webhook_url:
+    'https://24f4-149-22-84-64.ngrok-free.app/api/webhooks/alchemy_token_transfers',
   graphql_query: {
     skip_empty_messages: true,
     query: `
-# Get all Transfer event logs for the CoSoul contract
+# Get all Transfer event logs for the Aave ERC20 contract
 {
   block {
     hash
-    logs(filter: {addresses: ["${deploymentInfo['11155420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: ["0x76FB31fb4af56892A25e32cFC43De717950c9278"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
+      account {
+        address
+      }
       transaction{
         hash
         index
@@ -60,6 +64,38 @@ createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
 `.trim(),
   },
 });
+
+// createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
+//   network: 'OPT_SEPOLIA',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the CoSoul contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["${deploymentInfo['11155420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
 
 // createWebhook('OPT_MAINNET - CoSoul Transfer events', options, {
 //   network: 'OPT_MAINNET',
