@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { BigNumber, Contract } from 'ethers';
 
@@ -20,17 +18,18 @@ export type TokenTransferTx = {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    // const signature = req.headers['x-alchemy-signature'] as string;
-    // assert(signature, 'Missing signature');
+    const signature = req.headers['x-alchemy-signature'] as string;
+    assert(signature, 'Missing signature');
 
-    // const signingKey = process.env
-    //   .TOKEN_TRANSFER_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
-    // assert(signingKey, 'Missing alchemy signing key for token transfers');
+    // TODO: if multiple webhooks for different chains this will be different...
+    const signingKey = process.env
+      .TOKEN_TRANSFER_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
+    assert(signingKey, 'Missing alchemy signing key for token transfers');
 
-    // if (!(await isValidSignature(req, signature, signingKey))) {
-    //   res.status(400).send('Webhook signature not valid');
-    //   return;
-    // }
+    if (!(await isValidSignature(req, signature, signingKey))) {
+      res.status(400).send('Webhook signature not valid');
+      return;
+    }
 
     const payload = req.body;
 
@@ -47,8 +46,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     for (const log of logs) {
       const contract_address = log.account.address;
+      // eslint-disable-next-line no-console
       console.log('Processing log for contract:', contract_address, log);
-      console.log({ contract_address });
 
       const contract = getTokenContract(contract_address);
       if (!contract) {
