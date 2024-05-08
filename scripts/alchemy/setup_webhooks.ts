@@ -6,6 +6,8 @@ import assert from 'assert';
 
 import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
 
+import { TOKENS } from '../../api-lib/tokenBalances';
+
 const api_token = process.env.ALCHEMY_API_TOKEN;
 assert(api_token, 'Missing ALCHEMY_API_TOKEN');
 
@@ -42,7 +44,7 @@ createWebhook('OPT_MAINNET - STAGING | Aave ERC20 Transfer events', options, {
 {
   block {
     hash
-    logs(filter: {addresses: ["0x76FB31fb4af56892A25e32cFC43De717950c9278"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: ["${TOKENS.find(t => t.symbol == 'AAVE')?.contract}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
       account {
