@@ -40,7 +40,7 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           tw="flex flex-col overflow-x-auto"
           style={{ gap: 20, lineHeight: 1 }}
         >
-          <div tw="flex">{`It's a Surprise Party for`}</div>
+          <div tw="flex">{`It's a GIVE Party for`}</div>
           <div tw="flex flex-row" style={{ gap: 36 }}>
             <PartyText text={`@${username}`} />
             {/*<PartyText text={`!!!`} />*/}
