@@ -36,7 +36,7 @@ const imageNode = async (params: Record<string, string>) => {
             <div tw="flex flex-row items-center" style={{ gap: 64 }}>
               <div tw="flex flex-col">
                 <div tw="flex" style={{ marginTop: 10 }}>
-                  surprise party
+                  GIVE party
                 </div>
                 <div tw="flex" style={{ marginTop: 10 }}>
                   is ready to go!
