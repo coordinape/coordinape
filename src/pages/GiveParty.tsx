@@ -61,14 +61,14 @@ export const GiveParty = () => {
             // outlined={true}
             css={{ opacity: activeTab === 'surpriseParty' ? 1.0 : 0.5 }}
           >
-            Surprise Party
+            Individual Party
           </Button>
           <Button
             onClick={() => setActiveTab('giveParty')}
             // outlined={true}
             css={{ opacity: activeTab === 'giveParty' ? 1.0 : 0.5 }}
           >
-            Give Party
+            Skill Party
           </Button>
         </Flex>
         {activeTab === 'surpriseParty' && <StartSurpriseParty />}
@@ -127,15 +127,15 @@ export const GiveParty = () => {
               lineHeight: 1.2,
             }}
           >
-            <li>Cast the URL to start a Give Party or Surprise Party</li>
+            <li>Cast the URL to start a GIVE Party</li>
             <li>
-              <strong>Give Party</strong> - Celebrate a skill. Anyone on
+              <strong>Skill Party</strong> - Celebrate a skill. Anyone on
               Farcaster can use the frame to name people who they think are
               awesome at that skill.
             </li>
             <li>
-              <strong>Surprise Party </strong> - Celebrate an individual. Anyone
-              on Farcaster can use the frame to celebrate the skills of a
+              <strong>Individual Party </strong> - Celebrate an individual.
+              Anyone on Farcaster can use the frame to celebrate the skills of a
               specific user.
             </li>
             <li>
@@ -511,7 +511,7 @@ const StartSurpriseParty = () => {
               },
             }}
           >
-            {`It's a Surprise Party for`}
+            {`It's a GIVE Party for`}
           </Text>
           <Text
             semibold
@@ -566,7 +566,7 @@ const StartSurpriseParty = () => {
       </Flex>
       <Flex column css={{ mt: '$lg', gap: '$md', width: '100%' }}>
         <Text display as="label" variant="label" css={{ fontSize: 38 }}>
-          Start Your Own Surprise Party!
+          Start your own GIVE party for a Friend!
         </Text>
         <TextField
           css={{
