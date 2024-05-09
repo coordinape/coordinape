@@ -1,3 +1,5 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { BigNumber, Contract } from 'ethers';
 
