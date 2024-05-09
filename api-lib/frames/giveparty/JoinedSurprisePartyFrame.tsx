@@ -95,7 +95,7 @@ export const JoinedSurprisePartyFrame: Frame = {
       },
     },
     {
-      title: 'New Surprise 🎉',
+      title: 'New Party 🎉',
       action: 'post',
       onPost: async () => SurprisePartyHelpFrame(),
     },
