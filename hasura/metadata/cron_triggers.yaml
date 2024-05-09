@@ -33,19 +33,6 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: ''
-- name: cosoulMinter
-  webhook: '{{HASURA_API_BASE_URL}}/cron/cosoulMinter'
-  schedule: '* * * * *'
-  include_in_metadata: true
-  payload: {}
-  retry_conf:
-    num_retries: 0
-    retry_interval_seconds: 10
-    timeout_seconds: 240
-    tolerance_seconds: 21600
-  headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
 - name: dailyReportEmail
   webhook: '{{HASURA_API_BASE_URL}}/cron/dailyReportEmail'
   schedule: 0 5 * * *
