@@ -1,12 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
-import {
-  Frame,
-  ResourceIdentifierWithParams,
-} from '../../../_api/frames/router.tsx';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
+import { Frame, ResourceIdentifierWithParams } from '../frames.ts';
 import {
   PublicProfile,
   fetchCoLinksProfile,

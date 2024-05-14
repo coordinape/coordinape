@@ -4,6 +4,7 @@ import { getGiveBotProfileId } from '../../api-lib/colinks/helperAccounts.ts';
 import { IS_LOCAL_ENV } from '../../api-lib/config';
 import { fetchProfileInfo } from '../../api-lib/frames/give/fetchProfileInfo.tsx';
 import { FRAME_ROUTER_URL_BASE } from '../../api-lib/frames/routingUrls.ts';
+import { insertInteractionEvents } from '../../api-lib/gql/mutations.ts';
 import { errorResponse } from '../../api-lib/HttpError';
 import { insertCoLinksGive } from '../../api-lib/insertCoLinksGive.ts';
 import { publishCast } from '../../api-lib/neynar';
@@ -145,12 +146,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const skill = parseSkill(text);
 
-    const giveId = await insertCoLinksGive(
+    const { newPoints, giveId } = await insertCoLinksGive(
       giver_profile,
       receiver_profile,
       hash,
       skill
     );
+
+    await insertInteractionEvents({
+      event_type: 'givebot_give',
+      profile_id: giver_profile.id,
+      data: {
+        hostname: 'farcaster_bot',
+        cast_hash: hash,
+        new_points_balance: newPoints,
+        target_profile_id: receiver_profile.id,
+        target_profile_name: receiver_profile.name,
+      },
+    });
 
     // PRE-CACHE farme and image by calling the URL
     await fetch(getFrameUrl('give', giveId), {

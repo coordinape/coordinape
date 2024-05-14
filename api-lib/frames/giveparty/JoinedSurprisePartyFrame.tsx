@@ -10,10 +10,11 @@ import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.ts
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
-import { onSendGIVEPost } from './onSendGIVEPost.tsx';
-import { PartyHelpFrame } from './PartyHelpFrame.tsx';
-import { SkillLeaderboardFrame } from './SkillLeaderboardFrame.tsx';
-import { skillResourceIdentifier } from './skillResourceIdentifier.ts';
+import { getSurpriseContextFromParams } from './getSurpriseContextFromParams.ts';
+import { gradientArray } from './JoinedPartyFrame.tsx';
+import { onSendSurpriseGIVEPost } from './onSendSurpriseGIVEPost.tsx';
+import { SurprisePartyHelpFrame } from './SurprisePartyHelpFrame.tsx';
+import { usernameResourceIdentifier } from './usernameResourceIdentifier.ts';
 
 export function getRandomColor(colors: string[]): string {
   // Ensure the array is not empty
@@ -23,20 +24,10 @@ export function getRandomColor(colors: string[]): string {
   const randomIndex = Math.floor(Math.random() * colors.length);
   return colors[randomIndex];
 }
-export const gradientArray = [
-  'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
-  'radial-gradient(circle at 25% 0%, #C528AC 30%, #09B5B5 100%)',
-  'radial-gradient(circle at 25% 0%, #09B5B5 30%, #FF1FFF 100%)',
-  'radial-gradient(circle at 25% 0%, #129AD5 30%, #B40CEF 100%)',
-  'radial-gradient(circle at 25% 0%, #E96DD5 30%, #5200FF 100%)',
-  'radial-gradient(circle at 25% 0%, #00B489 30%, #AE01FF 100%)',
-  'radial-gradient(circle at 25% 0%, #9E3DFF 30%, #86ABF1 100%)',
-  'radial-gradient(circle at 25% 0%, #4C55AB 30%, #FF5FFF 100%)',
-  'radial-gradient(circle at 25% 0%, #00B393 30%, #19C8FF 100%)',
-];
 const randomGradient = getRandomColor(gradientArray);
 
 const imageNode = async (params: Record<string, string>) => {
+  const { username } = await getSurpriseContextFromParams(params);
   const { viewerProfile } = await getViewerFromParams(params);
   const {
     numGiveSent: giverTotalGiven,
@@ -69,7 +60,9 @@ const imageNode = async (params: Record<string, string>) => {
           <div tw="flex">Now it&apos;s a party!</div>
           <PartyText text="GIVE Delivered" />
         </div>
-        <div style={{ fontSize: 60, opacity: 0.9 }}>Want to give more?</div>
+        <div style={{ fontSize: 60, opacity: 0.9, display: 'flex' }}>
+          Want to give @{username} more?
+        </div>
         <FramePersonaHeadline
           avatar={viewerProfile?.avatar}
           giverTotalGiven={giverTotalGiven}
@@ -82,37 +75,45 @@ const imageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const JoinedPartyFrame: Frame = {
-  id: 'joined.party',
+export const JoinedSurprisePartyFrame: Frame = {
+  id: 'joined.surprise.party',
   aspectRatio: '1.91:1',
   homeFrame: false,
   imageNode: imageNode,
   noCache: true,
-  resourceIdentifier: skillResourceIdentifier,
+  resourceIdentifier: usernameResourceIdentifier,
   clickURL: 'https://give.party',
   inputText: () => {
-    return `Enter a Farcaster @username`;
+    return `Enter another skill`;
   },
   buttons: [
     {
       title: 'Send GIVE 🎁',
       action: 'post',
       onPost: async (info, params) => {
-        return onSendGIVEPost(info, params);
-        // return GivePartyHomeFrame('');
+        return onSendSurpriseGIVEPost(info, params);
       },
     },
     {
-      title: 'How 2 Party?',
+      title: 'New Party 🎉',
       action: 'post',
-      onPost: async () => PartyHelpFrame(),
+      onPost: async () => SurprisePartyHelpFrame(),
     },
-    {
-      title: 'Leaderboard',
-      action: 'post',
-      onPost: async (_info, params) => {
-        return SkillLeaderboardFrame(params.skill);
-      },
-    },
+    // TODO: what is the leaderboard equiv here? we don't have skill available
+    // {
+    //   title: 'Leaderboard',
+    //   action: 'post',
+    //   onPost: async (_info, params) => {
+    //     return SkillLeaderboardFrame(params.skill);
+    //   },
+    // },
+    // TODO: profile frame is address based, we don't have address here
+    // {
+    //   title: 'Profile',
+    //   action: 'post',
+    //   onPost: async (_info, params) => {
+    //     return ProfileFrame
+    //   },
+    // },
   ],
 };

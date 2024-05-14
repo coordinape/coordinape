@@ -82,6 +82,14 @@ const fetchNotifications = async () => {
             created_at: true,
             reply: true,
             activity_id: true,
+            activity: {
+              actor_profile_public: {
+                id: true,
+                name: true,
+                avatar: true,
+                address: true,
+              },
+            },
           },
           invited_profile_public: {
             avatar: true,
@@ -224,7 +232,12 @@ export const NotificationsPage = () => {
             }
             if (n.reply) {
               content = (
-                <Reply reply={n.reply} actor={n.actor_profile_public} />
+                <Reply
+                  reply={n.reply}
+                  actor={n.actor_profile_public}
+                  threadCreator={n.reply.activity.actor_profile_public}
+                  profileId={profileId}
+                />
               );
             } else if (n.mention_reply) {
               content = (
@@ -332,7 +345,17 @@ export const MentionReply = ({
     </NotificationItem>
   );
 };
-export const Reply = ({ reply, actor }: { reply: Reply; actor?: Actor }) => {
+export const Reply = ({
+  reply,
+  actor,
+  threadCreator,
+  profileId,
+}: {
+  reply: Reply;
+  actor?: Actor;
+  threadCreator?: Actor;
+  profileId: number;
+}) => {
   return (
     <NotificationItem>
       <Flex key={reply.id} css={{ alignItems: 'flex-start', gap: '$sm' }}>
@@ -368,7 +391,33 @@ export const Reply = ({ reply, actor }: { reply: Reply; actor?: Actor }) => {
                 textDecoration: 'none',
               }}
             >
-              <Text size="small">replied to your post</Text>
+              {threadCreator?.id !== profileId ? (
+                threadCreator?.id === actor?.id ? (
+                  <Text size="small">replied to their post </Text>
+                ) : (
+                  <Text size="small" css={{ whiteSpace: 'pre' }}>
+                    replied to a post by{' '}
+                    <Link
+                      as={NavLink}
+                      css={{
+                        display: 'inline',
+                        alignItems: 'center',
+                        gap: '$xs',
+                        mr: '$xs',
+                      }}
+                      to={coLinksPaths.profile(
+                        threadCreator?.address ?? 'FIXME'
+                      )}
+                    >
+                      <Text inline semibold size="small">
+                        {threadCreator?.name}
+                      </Text>
+                    </Link>
+                  </Text>
+                )
+              ) : (
+                <Text size="small">replied to your post</Text>
+              )}
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(reply.created_at).toLocal().toRelative()}
               </Text>

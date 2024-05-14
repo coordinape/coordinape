@@ -1,10 +1,10 @@
 import { DateTime } from 'luxon';
 
-import { Frame } from '../../_api/frames/router.tsx';
 import { webAppURL } from '../../src/config/webAppURL';
 import { IS_LOCAL_ENV } from '../config.ts';
 
 import { FramePostInfo } from './_getFramePostInfo.tsx';
+import { Frame } from './frames.ts';
 
 export const FRAME_ROUTER_URL_BASE = `${webAppURL('colinks')}/api/frames/router`;
 
@@ -12,6 +12,9 @@ export const TRY_GIVEBOT_INTENT =
   'https://warpcast.com/~/compose?text=@givebot @receiverName %23skillTag';
 export const START_A_PARTY_INTENT = (skill: string) =>
   `https://warpcast.com/~/compose?text=Give%20Party!&embeds[]=https://give.party/${skill}`;
+
+export const START_A_SURPRISE_PARTY_INTENT = (username: string) =>
+  `https://warpcast.com/~/compose?text=Surprise%20Party!&embeds[]=https://give.party/surprise/${username}`;
 
 export const getPostUrl = (frame: Frame, params: Record<string, string>) => {
   return `${FRAME_ROUTER_URL_BASE}/post/${frame.id}${resourcePath(frame, params)}`;

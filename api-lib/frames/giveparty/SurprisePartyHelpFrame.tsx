@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { Frame } from '../frames.ts';
@@ -8,8 +9,8 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { prefetchFrame } from '../prefetchFrame.ts';
 
-import { validateAndCleanSkill } from './checkAndInsertGive.ts';
-import { PartyStartFrame } from './PartyStartFrame.tsx';
+import { validateAndCleanUsername } from './checkAndInsertGive.ts';
+import { SurprisePartyStartFrame } from './SurprisePartyStartFrame.tsx';
 
 const imageNode = async (params: Record<string, string>) => {
   const { error_message } = params;
@@ -30,19 +31,20 @@ const imageNode = async (params: Record<string, string>) => {
           style={{ marginTop: 40, gap: 20, lineHeight: 1 }}
         >
           <div tw="flex" style={{ marginBottom: 10 }}>
-            Kick off a GIVE Party!
+            Celebrate a Friend!
           </div>
           <div
             tw="flex"
-            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
+            style={{
+              fontSize: 46,
+              fontWeight: 400,
+              lineHeight: 1.5,
+              gap: '0.3em',
+            }}
           >
-            Celebrate people for a skill you care about.
-          </div>
-          <div
-            tw="flex"
-            style={{ fontSize: 46, fontWeight: 400, opacity: 0.85 }}
-          >
-            Party Starters get Rep Points, too
+            <span style={{ opacity: 0.85 }}>Let people send them</span>
+            <span style={{ fontWeight: 600 }}>GIVE</span>
+            <span style={{ opacity: 0.85 }}>for skills they appreciate.</span>
           </div>
           {error_message && (
             <div
@@ -64,7 +66,7 @@ const imageNode = async (params: Record<string, string>) => {
             style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
           >
             <div tw="flex flex-col">
-              <span>Enter a skill below,</span>
+              <span>Enter a username below,</span>
               <span>we&apos;ll start your party.</span>
             </div>
           </div>
@@ -89,25 +91,32 @@ const prepareParty = async (
   info: FramePostInfo,
   params: Record<string, string>
 ) => {
-  let skill = info.message.inputText;
-  if (!skill) {
-    return PartyHelpFrame('No skill provided');
+  let username = info.message.inputText;
+  if (!username) {
+    return SurprisePartyHelpFrame('No skill provided');
   }
   try {
-    skill = validateAndCleanSkill(skill);
+    username = validateAndCleanUsername(username);
   } catch (e: any) {
-    return PartyHelpFrame(e.message);
+    return SurprisePartyHelpFrame(e.message);
   }
-  params['skill'] = skill;
+  params['username'] = username;
 
-  const f = PartyStartFrame(skill);
-  await prefetchFrame(f, skill);
+  // make sure real farcaster user
+  try {
+    await findOrCreateProfileByUsername(username);
+  } catch (e: any) {
+    return SurprisePartyHelpFrame(`Can't find user: ${username}`);
+  }
+
+  const f = SurprisePartyStartFrame(username);
+  await prefetchFrame(f, username);
   return f;
 };
 
-export const PartyHelpFrame = (error_message?: string): Frame => {
+export const SurprisePartyHelpFrame = (error_message?: string): Frame => {
   return {
-    id: 'party.help',
+    id: 'surprise.party.help',
     aspectRatio: '1.91:1',
     homeFrame: true,
     imageNode: imageNode,
@@ -115,11 +124,11 @@ export const PartyHelpFrame = (error_message?: string): Frame => {
     errorMessage: error_message,
     clickURL: 'https://give.party',
     inputText: () => {
-      return `Enter a skill to celebrate`;
+      return `Enter a username to celebrate`;
     },
     buttons: [
       {
-        title: 'Start the Party',
+        title: 'Start the Party 🚀',
         action: 'post',
         onPost: prepareParty,
       },

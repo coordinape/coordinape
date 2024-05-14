@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Frame } from '../../../_api/frames/router.tsx';
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
+import { Frame } from '../frames.ts';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
 import { PartyHelpFrame } from '../giveparty/PartyHelpFrame.tsx';
 import { FrameBgImage } from '../layoutFragments/FrameBgImage.tsx';

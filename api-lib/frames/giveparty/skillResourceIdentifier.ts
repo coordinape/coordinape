@@ -1,4 +1,4 @@
-import { ResourceIdentifier } from '../../../_api/frames/router';
+import { ResourceIdentifier } from '../frames.ts';
 
 export const skillResourceIdentifier: ResourceIdentifier = {
   resourcePathExpression: '/:skill',
