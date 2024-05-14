@@ -30,7 +30,7 @@ export const CoSoulItemParty = ({ cosoul }: { cosoul: CoSoul }) => {
         column
         css={{
           background:
-            'linear-gradient(0.36turn, rgb(54 126 1), rgb(46 1 132) 70%)',
+            'linear-gradient(0.36turn, rgb(89 12 233), rgb(46 1 132) 70%)',
           px: '$sm',
           pt: '$xs',
           pb: '$sm',

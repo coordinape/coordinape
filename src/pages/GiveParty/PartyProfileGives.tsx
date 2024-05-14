@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from 'react';
 
+import { ActivityAvatar } from 'features/activities/ActivityAvatar';
 import { groupAndSortGive } from 'features/points/PostGives';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
-import { Flex, Text } from '../../ui';
-import { GemCoOutline } from 'icons/__generated';
+import { Flex, Text, Popover, PopoverContent, PopoverTrigger } from '../../ui';
+import { GemCoOutline, Users } from 'icons/__generated';
 import {
   GiveLeaderboardColumn,
   GiveLeaderboardRow,
@@ -47,6 +48,12 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
               skill: true,
               profile_id: true,
               activity_id: true,
+              giver_profile_public: {
+                name: true,
+                id: true,
+                address: true,
+                avatar: true,
+              },
             },
           ],
         },
@@ -93,7 +100,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
 
   return (
     <>
-      {/*Table*/}
+      {/* Table */}
       <Flex
         css={{
           width: '100%',
@@ -114,43 +121,94 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
           <GiveLeaderboardColumn onClick={() => setSort('gives')}>
             GIVE
           </GiveLeaderboardColumn>
+          <GiveLeaderboardColumn>Givers</GiveLeaderboardColumn>
         </GiveLeaderboardRow>
         {sortedData &&
-          sortedData.map(skill => (
-            <GiveLeaderboardRow key={skill.skill}>
-              <GiveLeaderboardColumn
-                css={{
-                  minWidth: '16rem',
-                }}
-              >
-                <Text
-                  as={NavLink}
-                  to={coLinksPaths.giveBoardSkill(skill.skill)}
-                  tag
-                  size="small"
+          sortedData.map(skill => {
+            const seenNames = new Set<string>();
+            const uniqueGives = skill.gives.filter(give => {
+              const name = give.giver_profile_public?.name;
+              if (name && !seenNames.has(name)) {
+                seenNames.add(name);
+                return true;
+              }
+              return false;
+            });
+
+            return (
+              <GiveLeaderboardRow key={skill.skill}>
+                <GiveLeaderboardColumn
                   css={{
-                    gap: '$xs',
-                    background: 'rgb(0 143 94 / 83%)',
-                    textDecoration: 'none',
-                    span: {
-                      color: 'white',
-                      '@sm': {
-                        fontSize: '$xs',
-                      },
-                    },
+                    minWidth: '16rem',
                   }}
                 >
-                  <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
-                  <Text size="medium" css={{ ...skillTextStyle }}>
-                    {skill.skill}
+                  <Text
+                    as={NavLink}
+                    to={coLinksPaths.giveBoardSkill(skill.skill)}
+                    tag
+                    size="small"
+                    css={{
+                      gap: '$xs',
+                      background: 'rgb(0 143 94 / 83%)',
+                      textDecoration: 'none',
+                      span: {
+                        color: 'white',
+                        '@sm': {
+                          fontSize: '$xs',
+                        },
+                      },
+                    }}
+                  >
+                    <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
+                    <Text size="medium" css={{ ...skillTextStyle }}>
+                      {skill.skill}
+                    </Text>
                   </Text>
-                </Text>
-              </GiveLeaderboardColumn>
-              <GiveLeaderboardColumn>
-                {skill.gives.length}
-              </GiveLeaderboardColumn>
-            </GiveLeaderboardRow>
-          ))}
+                </GiveLeaderboardColumn>
+                <GiveLeaderboardColumn>
+                  {skill.gives.length}
+                </GiveLeaderboardColumn>
+                <GiveLeaderboardColumn>
+                  <Popover>
+                    <PopoverTrigger css={{ cursor: 'pointer' }}>
+                      <Users fa />
+                    </PopoverTrigger>
+                    <PopoverContent css={{ background: 'black', p: '$sm $md' }}>
+                      <Flex column css={{ gap: '$sm' }}>
+                        {uniqueGives.map(
+                          give =>
+                            give.giver_profile_public && (
+                              <Flex
+                                key={give.giver_profile_public.address}
+                                css={{ alignItems: 'center', gap: '$sm' }}
+                              >
+                                <>
+                                  <ActivityAvatar
+                                    size="xs"
+                                    profile={give.giver_profile_public}
+                                  />
+                                  <Text
+                                    size="small"
+                                    semibold
+                                    css={{ textDecoration: 'none' }}
+                                    as={NavLink}
+                                    to={coLinksPaths.partyProfile(
+                                      give.giver_profile_public.address || ''
+                                    )}
+                                  >
+                                    {give.giver_profile_public?.name}
+                                  </Text>
+                                </>
+                              </Flex>
+                            )
+                        )}
+                      </Flex>
+                    </PopoverContent>
+                  </Popover>
+                </GiveLeaderboardColumn>
+              </GiveLeaderboardRow>
+            );
+          })}
       </Flex>
     </>
   );

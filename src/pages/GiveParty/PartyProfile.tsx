@@ -96,9 +96,6 @@ export const PartyProfile = () => {
                   alignItems: 'center',
                 }}
               >
-                <Text semibold css={{ fontSize: 30, color: '#ffffffa8' }}>
-                  CoSoul
-                </Text>
                 {cosoul && <CoSoulItemParty cosoul={cosoul} />}
               </Flex>
             </Flex>
