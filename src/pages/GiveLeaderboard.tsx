@@ -217,10 +217,12 @@ export const GiveLeaderboard = () => {
 export const GiveLeaderboardRow = ({
   children,
   header,
+  rotateHeader = false,
   css,
 }: {
   children: React.ReactNode;
   header?: boolean;
+  rotateHeader?: boolean;
   css?: CSS;
 }) => {
   return (
@@ -245,10 +247,12 @@ export const GiveLeaderboardRow = ({
               minHeight: '50px',
               '@xs': {
                 '.column': {
-                  writingMode: 'vertical-lr',
-                  transform: 'rotate(180deg)',
-                  p: '9px 5px',
-                  alignItems: 'flex-end',
+                  ...(rotateHeader && {
+                    writingMode: 'vertical-lr',
+                    transform: 'rotate(180deg)',
+                    p: '9px 5px',
+                    alignItems: 'flex-end',
+                  }),
                 },
               },
             }

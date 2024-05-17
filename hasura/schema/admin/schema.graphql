@@ -8579,11 +8579,6 @@ enum colinks_gives_constraint {
   unique or primary key constraint on columns "profile_id", "cast_hash", "activity_id", "target_profile_id"
   """
   colinks_gives_target_profile_id_activity_id_profile_id_cast_has
-
-  """
-  unique or primary key constraint on columns "profile_id", "activity_id", "target_profile_id"
-  """
-  colinks_gives_target_profile_id_activity_id_profile_id_key
 }
 
 """

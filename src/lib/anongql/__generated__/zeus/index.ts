@@ -1101,10 +1101,539 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** local db copy of last synced on-chain cosoul data */
+  ['cosouls']: AliasType<{
+    address?: boolean | `@${string}`;
+    checked_at?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    created_tx_hash?: boolean | `@${string}`;
+    held_links?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    held_links_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
+    id?: boolean | `@${string}`;
+    link_holders?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    link_holders_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
+    pgive?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    synced_at?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: {
+    _and?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
+    _not?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['cosouls_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    checked_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    created_tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
+    held_links?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    held_links_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    link_holders?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holders_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    checked_at?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    created_tx_hash?: ValueTypes['order_by'] | undefined | null;
+    held_links_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    link_holders_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    pgive?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    synced_at?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: cosouls_select_column;
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['cosouls_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    checked_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    created_tx_hash?: string | undefined | null;
+    id?: number | undefined | null;
+    pgive?: number | undefined | null;
+    synced_at?: ValueTypes['timestamptz'] | undefined | null;
+    token_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['github_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['github_accounts_bool_exp']> | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: github_accounts_select_column;
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['github_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_accounts_stream_cursor_value_input']: {
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
+  ['link_holders']: AliasType<{
+    amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    /** An object relationship */
+    holder_cosoul?: ValueTypes['cosouls'];
+    target?: boolean | `@${string}`;
+    /** An object relationship */
+    target_cosoul?: ValueTypes['cosouls'];
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: AliasType<{
+    aggregate?: ValueTypes['link_holders_aggregate_fields'];
+    nodes?: ValueTypes['link_holders'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['link_holders_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['link_holders_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['link_holders_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['link_holders_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['link_holders_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['link_holders_max_fields'];
+    min?: ValueTypes['link_holders_min_fields'];
+    stddev?: ValueTypes['link_holders_stddev_fields'];
+    stddev_pop?: ValueTypes['link_holders_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['link_holders_stddev_samp_fields'];
+    sum?: ValueTypes['link_holders_sum_fields'];
+    var_pop?: ValueTypes['link_holders_var_pop_fields'];
+    var_samp?: ValueTypes['link_holders_var_samp_fields'];
+    variance?: ValueTypes['link_holders_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: {
+    avg?: ValueTypes['link_holders_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['link_holders_max_order_by'] | undefined | null;
+    min?: ValueTypes['link_holders_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['link_holders_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['link_holders_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['link_holders_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['link_holders_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['link_holders_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['link_holders_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['link_holders_variance_order_by'] | undefined | null;
+  };
+  /** aggregate avg on columns */
+  ['link_holders_avg_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: {
+    _and?: Array<ValueTypes['link_holders_bool_exp']> | undefined | null;
+    _not?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['link_holders_bool_exp']> | undefined | null;
+    amount?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    holder?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    holder_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    target?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    target_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['link_holders_max_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['link_holders_min_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    holder_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    target_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: link_holders_select_column;
+  /** aggregate stddev on columns */
+  ['link_holders_stddev_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['link_holders_stddev_pop_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['link_holders_stddev_samp_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['link_holders_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['link_holders_stream_cursor_value_input']: {
+    amount?: number | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['link_holders_sum_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_pop on columns */
+  ['link_holders_var_pop_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['link_holders_var_samp_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['link_holders_variance_fields']: AliasType<{
+    amount?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: {
+    amount?: ValueTypes['order_by'] | undefined | null;
+  };
   /** column ordering options */
   ['order_by']: order_by;
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    skill_name?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: {
+    avg?: ValueTypes['profile_skills_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['profile_skills_max_order_by'] | undefined | null;
+    min?: ValueTypes['profile_skills_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['profile_skills_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['profile_skills_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['profile_skills_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['profile_skills_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['profile_skills_var_pop_order_by'] | undefined | null;
+    var_samp?:
+      | ValueTypes['profile_skills_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['profile_skills_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: {
+    _and?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
+    _not?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    skill_name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    skill_name?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: profile_skills_select_column;
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profile_skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: {
+    profile_id?: number | undefined | null;
+    skill_name?: ValueTypes['citext'] | undefined | null;
+  };
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: AliasType<{
     address?: boolean | `@${string}`;
@@ -1201,15 +1730,134 @@ export type ValueTypes = {
       },
       ValueTypes['colinks_gives_aggregate'],
     ];
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     joined_colinks_at?: boolean | `@${string}`;
+    link_holder?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    link_holder_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
+    link_target?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    link_target_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
     links?: boolean | `@${string}`;
     links_held?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     post_count?: boolean | `@${string}`;
     post_count_last_30_days?: boolean | `@${string}`;
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
+    /** An object relationship */
+    reputation_score?: ValueTypes['reputation_scores'];
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1230,11 +1878,22 @@ export type ValueTypes = {
       | ValueTypes['colinks_gives_aggregate_bool_exp']
       | undefined
       | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     joined_colinks_at?:
       | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    link_holder?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
+      | undefined
+      | null;
+    link_target?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_bool_exp']
       | undefined
       | null;
     links?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -1243,6 +1902,11 @@ export type ValueTypes = {
     post_count?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     post_count_last_30_days?:
       | ValueTypes['bigint_comparison_exp']
+      | undefined
+      | null;
+    profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
@@ -1259,15 +1923,32 @@ export type ValueTypes = {
       | ValueTypes['colinks_gives_aggregate_order_by']
       | undefined
       | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
     joined_colinks_at?: ValueTypes['order_by'] | undefined | null;
+    link_holder_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
+    link_target_aggregate?:
+      | ValueTypes['link_holders_aggregate_order_by']
+      | undefined
+      | null;
     links?: ValueTypes['order_by'] | undefined | null;
     links_held?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     post_count?: ValueTypes['order_by'] | undefined | null;
     post_count_last_30_days?: ValueTypes['order_by'] | undefined | null;
+    profile_skills_aggregate?:
+      | ValueTypes['profile_skills_aggregate_order_by']
+      | undefined
+      | null;
+    reputation_score?:
+      | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
     website?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "profiles_public" */
@@ -1391,9 +2072,137 @@ export type ValueTypes = {
       },
       ValueTypes['colinks_gives_skill_count'],
     ];
+    cosouls?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls'],
+    ];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
+    github_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_accounts'],
+    ];
+    github_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_accounts'],
+    ];
+    link_holders?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    link_holders_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
+    link_holders_by_pk?: [
+      { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
+      ValueTypes['link_holders'],
+    ];
     price_per_share?: [
       { chain_id: number; token_address?: string | undefined | null },
       boolean | `@${string}`,
+    ];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
+    profile_skills_by_pk?: [
+      { profile_id: number; skill_name: ValueTypes['citext'] },
+      ValueTypes['profile_skills'],
     ];
     profiles_public?: [
       {
@@ -1418,8 +2227,142 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_public'],
     ];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores'],
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores'],
+    ];
+    twitter_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_accounts'],
+    ];
+    twitter_accounts_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_accounts'],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: AliasType<{
+    colinks_engagement_score?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    email_score?: boolean | `@${string}`;
+    github_score?: boolean | `@${string}`;
+    invite_score?: boolean | `@${string}`;
+    linkedin_score?: boolean | `@${string}`;
+    links_score?: boolean | `@${string}`;
+    pgive_score?: boolean | `@${string}`;
+    poap_score?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    total_score?: boolean | `@${string}`;
+    twitter_score?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    _not?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['reputation_scores_bool_exp']> | undefined | null;
+    colinks_engagement_score?:
+      | ValueTypes['Int_comparison_exp']
+      | undefined
+      | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    linkedin_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    links_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    colinks_engagement_score?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    email_score?: ValueTypes['order_by'] | undefined | null;
+    github_score?: ValueTypes['order_by'] | undefined | null;
+    invite_score?: ValueTypes['order_by'] | undefined | null;
+    linkedin_score?: ValueTypes['order_by'] | undefined | null;
+    links_score?: ValueTypes['order_by'] | undefined | null;
+    pgive_score?: ValueTypes['order_by'] | undefined | null;
+    poap_score?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    total_score?: ValueTypes['order_by'] | undefined | null;
+    twitter_score?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    email_score?: number | undefined | null;
+    github_score?: number | undefined | null;
+    invite_score?: number | undefined | null;
+    linkedin_score?: number | undefined | null;
+    links_score?: number | undefined | null;
+    pgive_score?: number | undefined | null;
+    poap_score?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    total_score?: number | undefined | null;
+    twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
   ['subscription_root']: AliasType<{
     colinks_give_count?: [
       {
@@ -1557,6 +2500,178 @@ export type ValueTypes = {
       },
       ValueTypes['colinks_gives'],
     ];
+    cosouls?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['cosouls_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['cosouls_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls'],
+    ];
+    cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
+    cosouls_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['cosouls_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+      },
+      ValueTypes['cosouls'],
+    ];
+    github_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['github_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['github_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_accounts'],
+    ];
+    github_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['github_accounts'],
+    ];
+    github_accounts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['github_accounts_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['github_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['github_accounts'],
+    ];
+    link_holders?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    link_holders_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders_aggregate'],
+    ];
+    link_holders_by_pk?: [
+      { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
+      ValueTypes['link_holders'],
+    ];
+    link_holders_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['link_holders_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['link_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_holders'],
+    ];
+    profile_skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
+    profile_skills_by_pk?: [
+      { profile_id: number; skill_name: ValueTypes['citext'] },
+      ValueTypes['profile_skills'],
+    ];
+    profile_skills_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profile_skills_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_skills'],
+    ];
     profiles_public?: [
       {
         /** distinct select on columns */
@@ -1591,6 +2706,82 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_public'],
     ];
+    reputation_scores?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['reputation_scores_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['reputation_scores_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores'],
+    ];
+    reputation_scores_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['reputation_scores'],
+    ];
+    reputation_scores_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['reputation_scores_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['reputation_scores_bool_exp'] | undefined | null;
+      },
+      ValueTypes['reputation_scores'],
+    ];
+    twitter_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['twitter_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['twitter_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_accounts'],
+    ];
+    twitter_accounts_by_pk?: [
+      { profile_id: number },
+      ValueTypes['twitter_accounts'],
+    ];
+    twitter_accounts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['twitter_accounts_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['twitter_accounts'],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   ['timestamp']: unknown;
@@ -1618,6 +2809,43 @@ export type ValueTypes = {
     _lte?: ValueTypes['timestamptz'] | undefined | null;
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
+  };
+  /** twitter accounts connected to profiles */
+  ['twitter_accounts']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['twitter_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['twitter_accounts_bool_exp']> | undefined | null;
+    id?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: twitter_accounts_select_column;
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['twitter_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_accounts_stream_cursor_value_input']: {
+    id?: string | undefined | null;
+    profile_id?: number | undefined | null;
+    username?: string | undefined | null;
   };
 };
 
@@ -1817,10 +3045,206 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "colinks_gives" */
   ['colinks_gives_variance_order_by']: GraphQLTypes['colinks_gives_variance_order_by'];
+  /** local db copy of last synced on-chain cosoul data */
+  ['cosouls']: {
+    address: GraphQLTypes['citext'];
+    checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
+    /** An array relationship */
+    held_links: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    held_links_aggregate: GraphQLTypes['link_holders_aggregate'];
+    id: number;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    pgive?: number | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: GraphQLTypes['cosouls_bool_exp'];
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: GraphQLTypes['cosouls_order_by'];
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: GraphQLTypes['cosouls_select_column'];
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: GraphQLTypes['cosouls_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: GraphQLTypes['cosouls_stream_cursor_value_input'];
   /** ordering argument of a cursor */
   ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: {
+    profile_id: GraphQLTypes['bigint'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: GraphQLTypes['github_accounts_bool_exp'];
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: GraphQLTypes['github_accounts_order_by'];
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: GraphQLTypes['github_accounts_select_column'];
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: GraphQLTypes['github_accounts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['github_accounts_stream_cursor_value_input']: GraphQLTypes['github_accounts_stream_cursor_value_input'];
+  /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
+  ['link_holders']: {
+    amount: number;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    target: GraphQLTypes['citext'];
+    /** An object relationship */
+    target_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: {
+    aggregate?: GraphQLTypes['link_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_holders']>;
+  };
+  ['link_holders_aggregate_bool_exp']: GraphQLTypes['link_holders_aggregate_bool_exp'];
+  ['link_holders_aggregate_bool_exp_count']: GraphQLTypes['link_holders_aggregate_bool_exp_count'];
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: {
+    avg?: GraphQLTypes['link_holders_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['link_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['link_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: GraphQLTypes['link_holders_aggregate_order_by'];
+  /** aggregate avg on columns */
+  ['link_holders_avg_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: GraphQLTypes['link_holders_avg_order_by'];
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: GraphQLTypes['link_holders_bool_exp'];
+  /** aggregate max on columns */
+  ['link_holders_max_fields']: {
+    amount?: number | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: GraphQLTypes['link_holders_max_order_by'];
+  /** aggregate min on columns */
+  ['link_holders_min_fields']: {
+    amount?: number | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: GraphQLTypes['link_holders_min_order_by'];
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: GraphQLTypes['link_holders_order_by'];
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: GraphQLTypes['link_holders_select_column'];
+  /** aggregate stddev on columns */
+  ['link_holders_stddev_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: GraphQLTypes['link_holders_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['link_holders_stddev_pop_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: GraphQLTypes['link_holders_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['link_holders_stddev_samp_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: GraphQLTypes['link_holders_stddev_samp_order_by'];
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: GraphQLTypes['link_holders_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['link_holders_stream_cursor_value_input']: GraphQLTypes['link_holders_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['link_holders_sum_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: GraphQLTypes['link_holders_sum_order_by'];
+  /** aggregate var_pop on columns */
+  ['link_holders_var_pop_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: GraphQLTypes['link_holders_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['link_holders_var_samp_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: GraphQLTypes['link_holders_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['link_holders_variance_fields']: {
+    amount?: number | undefined;
+  };
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: GraphQLTypes['link_holders_variance_order_by'];
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: {
+    profile_id: number;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    skill_name: GraphQLTypes['citext'];
+  };
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: GraphQLTypes['profile_skills_aggregate_order_by'];
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: GraphQLTypes['profile_skills_avg_order_by'];
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: GraphQLTypes['profile_skills_bool_exp'];
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: GraphQLTypes['profile_skills_max_order_by'];
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: GraphQLTypes['profile_skills_min_order_by'];
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: GraphQLTypes['profile_skills_order_by'];
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: GraphQLTypes['profile_skills_select_column'];
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: GraphQLTypes['profile_skills_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: GraphQLTypes['profile_skills_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: GraphQLTypes['profile_skills_stddev_samp_order_by'];
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: GraphQLTypes['profile_skills_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: GraphQLTypes['profile_skills_stream_cursor_value_input'];
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: GraphQLTypes['profile_skills_sum_order_by'];
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: GraphQLTypes['profile_skills_var_pop_order_by'];
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: GraphQLTypes['profile_skills_var_samp_order_by'];
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: GraphQLTypes['profile_skills_variance_order_by'];
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
     address?: string | undefined;
@@ -1833,15 +3257,29 @@ export type ModelTypes = {
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
     links?: number | undefined;
     links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -1865,10 +3303,62 @@ export type ModelTypes = {
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
     /** fetch data from the table: "colinks_gives_skill_count" */
     colinks_gives_skill_count: Array<GraphQLTypes['colinks_gives_skill_count']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
     price_per_share: number;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
   };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email_score: number;
+    github_score: number;
+    invite_score: number;
+    linkedin_score: number;
+    links_score: number;
+    pgive_score: number;
+    poap_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: GraphQLTypes['reputation_scores_bool_exp'];
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: GraphQLTypes['reputation_scores_order_by'];
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: GraphQLTypes['reputation_scores_select_column'];
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
   ['subscription_root']: {
     /** fetch data from the table: "colinks_give_count" */
     colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
@@ -1888,10 +3378,48 @@ export type ModelTypes = {
     >;
     /** fetch data from the table in a streaming manner: "colinks_gives" */
     colinks_gives_stream: Array<GraphQLTypes['colinks_gives']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table in a streaming manner: "cosouls" */
+    cosouls_stream: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_accounts" */
+    github_accounts_stream: Array<GraphQLTypes['github_accounts']>;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_holders" */
+    link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_skills" */
+    profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch data from the table in a streaming manner: "profiles_public" */
     profiles_public_stream: Array<GraphQLTypes['profiles_public']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_accounts" */
+    twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -1899,6 +3427,22 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
+  /** twitter accounts connected to profiles */
+  ['twitter_accounts']: {
+    id: string;
+    profile_id: number;
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: GraphQLTypes['twitter_accounts_bool_exp'];
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: GraphQLTypes['twitter_accounts_order_by'];
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: GraphQLTypes['twitter_accounts_select_column'];
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: GraphQLTypes['twitter_accounts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_accounts_stream_cursor_value_input']: GraphQLTypes['twitter_accounts_stream_cursor_value_input'];
 };
 
 export type GraphQLTypes = {
@@ -2377,10 +3921,420 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** local db copy of last synced on-chain cosoul data */
+  ['cosouls']: {
+    __typename: 'cosouls';
+    address: GraphQLTypes['citext'];
+    checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    created_tx_hash: string;
+    /** An array relationship */
+    held_links: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    held_links_aggregate: GraphQLTypes['link_holders_aggregate'];
+    id: number;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    pgive?: number | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "cosouls". All fields are combined with a logical 'AND'. */
+  ['cosouls_bool_exp']: {
+    _and?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
+    _not?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['cosouls_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    checked_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    created_tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
+    held_links?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    held_links_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    link_holders?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holders_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "cosouls". */
+  ['cosouls_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    checked_at?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    created_tx_hash?: GraphQLTypes['order_by'] | undefined;
+    held_links_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    link_holders_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    pgive?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    synced_at?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "cosouls" */
+  ['cosouls_select_column']: cosouls_select_column;
+  /** Streaming cursor of the table "cosouls" */
+  ['cosouls_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['cosouls_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['cosouls_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    created_tx_hash?: string | undefined;
+    id?: number | undefined;
+    pgive?: number | undefined;
+    synced_at?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  /** columns and relationships of "github_accounts" */
+  ['github_accounts']: {
+    __typename: 'github_accounts';
+    profile_id: GraphQLTypes['bigint'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "github_accounts". All fields are combined with a logical 'AND'. */
+  ['github_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['github_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['github_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['github_accounts_bool_exp']> | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "github_accounts". */
+  ['github_accounts_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "github_accounts" */
+  ['github_accounts_select_column']: github_accounts_select_column;
+  /** Streaming cursor of the table "github_accounts" */
+  ['github_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['github_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['github_accounts_stream_cursor_value_input']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    username?: string | undefined;
+  };
+  /** tracks the amount of keys an address holds in a given subject. updated with data from the key_tx table */
+  ['link_holders']: {
+    __typename: 'link_holders';
+    amount: number;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    target: GraphQLTypes['citext'];
+    /** An object relationship */
+    target_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "link_holders" */
+  ['link_holders_aggregate']: {
+    __typename: 'link_holders_aggregate';
+    aggregate?: GraphQLTypes['link_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['link_holders']>;
+  };
+  ['link_holders_aggregate_bool_exp']: {
+    count?: GraphQLTypes['link_holders_aggregate_bool_exp_count'] | undefined;
+  };
+  ['link_holders_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['link_holders_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "link_holders" */
+  ['link_holders_aggregate_fields']: {
+    __typename: 'link_holders_aggregate_fields';
+    avg?: GraphQLTypes['link_holders_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['link_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['link_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "link_holders" */
+  ['link_holders_aggregate_order_by']: {
+    avg?: GraphQLTypes['link_holders_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['link_holders_max_order_by'] | undefined;
+    min?: GraphQLTypes['link_holders_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['link_holders_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['link_holders_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['link_holders_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['link_holders_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['link_holders_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['link_holders_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['link_holders_variance_order_by'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['link_holders_avg_fields']: {
+    __typename: 'link_holders_avg_fields';
+    amount?: number | undefined;
+  };
+  /** order by avg() on columns of table "link_holders" */
+  ['link_holders_avg_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "link_holders". All fields are combined with a logical 'AND'. */
+  ['link_holders_bool_exp']: {
+    _and?: Array<GraphQLTypes['link_holders_bool_exp']> | undefined;
+    _not?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['link_holders_bool_exp']> | undefined;
+    amount?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    holder?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    target?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    target_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['link_holders_max_fields']: {
+    __typename: 'link_holders_max_fields';
+    amount?: number | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by max() on columns of table "link_holders" */
+  ['link_holders_max_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['link_holders_min_fields']: {
+    __typename: 'link_holders_min_fields';
+    amount?: number | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "link_holders" */
+  ['link_holders_min_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "link_holders". */
+  ['link_holders_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    holder_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    target_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "link_holders" */
+  ['link_holders_select_column']: link_holders_select_column;
+  /** aggregate stddev on columns */
+  ['link_holders_stddev_fields']: {
+    __typename: 'link_holders_stddev_fields';
+    amount?: number | undefined;
+  };
+  /** order by stddev() on columns of table "link_holders" */
+  ['link_holders_stddev_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['link_holders_stddev_pop_fields']: {
+    __typename: 'link_holders_stddev_pop_fields';
+    amount?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "link_holders" */
+  ['link_holders_stddev_pop_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['link_holders_stddev_samp_fields']: {
+    __typename: 'link_holders_stddev_samp_fields';
+    amount?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "link_holders" */
+  ['link_holders_stddev_samp_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "link_holders" */
+  ['link_holders_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['link_holders_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['link_holders_stream_cursor_value_input']: {
+    amount?: number | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['link_holders_sum_fields']: {
+    __typename: 'link_holders_sum_fields';
+    amount?: number | undefined;
+  };
+  /** order by sum() on columns of table "link_holders" */
+  ['link_holders_sum_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['link_holders_var_pop_fields']: {
+    __typename: 'link_holders_var_pop_fields';
+    amount?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "link_holders" */
+  ['link_holders_var_pop_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['link_holders_var_samp_fields']: {
+    __typename: 'link_holders_var_samp_fields';
+    amount?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "link_holders" */
+  ['link_holders_var_samp_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['link_holders_variance_fields']: {
+    __typename: 'link_holders_variance_fields';
+    amount?: number | undefined;
+  };
+  /** order by variance() on columns of table "link_holders" */
+  ['link_holders_variance_order_by']: {
+    amount?: GraphQLTypes['order_by'] | undefined;
+  };
   /** column ordering options */
   ['order_by']: order_by;
+  /** columns and relationships of "profile_skills" */
+  ['profile_skills']: {
+    __typename: 'profile_skills';
+    profile_id: number;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    skill_name: GraphQLTypes['citext'];
+  };
+  /** order by aggregate values of table "profile_skills" */
+  ['profile_skills_aggregate_order_by']: {
+    avg?: GraphQLTypes['profile_skills_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['profile_skills_max_order_by'] | undefined;
+    min?: GraphQLTypes['profile_skills_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['profile_skills_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['profile_skills_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profile_skills_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['profile_skills_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['profile_skills_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['profile_skills_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['profile_skills_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "profile_skills" */
+  ['profile_skills_avg_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profile_skills". All fields are combined with a logical 'AND'. */
+  ['profile_skills_bool_exp']: {
+    _and?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
+    _not?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    skill_name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "profile_skills" */
+  ['profile_skills_max_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "profile_skills" */
+  ['profile_skills_min_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "profile_skills". */
+  ['profile_skills_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    skill_name?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "profile_skills" */
+  ['profile_skills_select_column']: profile_skills_select_column;
+  /** order by stddev() on columns of table "profile_skills" */
+  ['profile_skills_stddev_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "profile_skills" */
+  ['profile_skills_stddev_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "profile_skills" */
+  ['profile_skills_stddev_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "profile_skills" */
+  ['profile_skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profile_skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_skills_stream_cursor_value_input']: {
+    profile_id?: number | undefined;
+    skill_name?: GraphQLTypes['citext'] | undefined;
+  };
+  /** order by sum() on columns of table "profile_skills" */
+  ['profile_skills_sum_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "profile_skills" */
+  ['profile_skills_var_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "profile_skills" */
+  ['profile_skills_var_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "profile_skills" */
+  ['profile_skills_variance_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "profiles_public" */
   ['profiles_public']: {
     __typename: 'profiles_public';
@@ -2394,15 +4348,29 @@ export type GraphQLTypes = {
     colinks_gives: Array<GraphQLTypes['colinks_gives']>;
     /** An aggregate relationship */
     colinks_gives_aggregate: GraphQLTypes['colinks_gives_aggregate'];
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    link_holder: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holder_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** An array relationship */
+    link_target: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_target_aggregate: GraphQLTypes['link_holders_aggregate'];
     links?: number | undefined;
     links_held?: number | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** An object relationship */
+    reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -2420,15 +4388,26 @@ export type GraphQLTypes = {
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_bool_exp']
       | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
+    link_target?: GraphQLTypes['link_holders_bool_exp'] | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_bool_exp']
+      | undefined;
     links?: GraphQLTypes['Int_comparison_exp'] | undefined;
     links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     post_count?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -2441,15 +4420,26 @@ export type GraphQLTypes = {
     colinks_gives_aggregate?:
       | GraphQLTypes['colinks_gives_aggregate_order_by']
       | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     joined_colinks_at?: GraphQLTypes['order_by'] | undefined;
+    link_holder_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
+    link_target_aggregate?:
+      | GraphQLTypes['link_holders_aggregate_order_by']
+      | undefined;
     links?: GraphQLTypes['order_by'] | undefined;
     links_held?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     post_count?: GraphQLTypes['order_by'] | undefined;
     post_count_last_30_days?: GraphQLTypes['order_by'] | undefined;
+    profile_skills_aggregate?:
+      | GraphQLTypes['profile_skills_aggregate_order_by']
+      | undefined;
+    reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     website?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
@@ -2488,9 +4478,112 @@ export type GraphQLTypes = {
     colinks_gives_by_pk?: GraphQLTypes['colinks_gives'] | undefined;
     /** fetch data from the table: "colinks_gives_skill_count" */
     colinks_gives_skill_count: Array<GraphQLTypes['colinks_gives_skill_count']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
     price_per_share: number;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+  };
+  /** columns and relationships of "reputation_scores" */
+  ['reputation_scores']: {
+    __typename: 'reputation_scores';
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email_score: number;
+    github_score: number;
+    invite_score: number;
+    linkedin_score: number;
+    links_score: number;
+    pgive_score: number;
+    poap_score: number;
+    profile_id: GraphQLTypes['bigint'];
+    total_score: number;
+    twitter_score: number;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "reputation_scores". All fields are combined with a logical 'AND'. */
+  ['reputation_scores_bool_exp']: {
+    _and?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    _not?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['reputation_scores_bool_exp']> | undefined;
+    colinks_engagement_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    linkedin_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    links_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "reputation_scores". */
+  ['reputation_scores_order_by']: {
+    colinks_engagement_score?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    email_score?: GraphQLTypes['order_by'] | undefined;
+    github_score?: GraphQLTypes['order_by'] | undefined;
+    invite_score?: GraphQLTypes['order_by'] | undefined;
+    linkedin_score?: GraphQLTypes['order_by'] | undefined;
+    links_score?: GraphQLTypes['order_by'] | undefined;
+    pgive_score?: GraphQLTypes['order_by'] | undefined;
+    poap_score?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    total_score?: GraphQLTypes['order_by'] | undefined;
+    twitter_score?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "reputation_scores" */
+  ['reputation_scores_select_column']: reputation_scores_select_column;
+  /** Streaming cursor of the table "reputation_scores" */
+  ['reputation_scores_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['reputation_scores_stream_cursor_value_input']: {
+    colinks_engagement_score?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    email_score?: number | undefined;
+    github_score?: number | undefined;
+    invite_score?: number | undefined;
+    linkedin_score?: number | undefined;
+    links_score?: number | undefined;
+    pgive_score?: number | undefined;
+    poap_score?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    total_score?: number | undefined;
+    twitter_score?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
   ['subscription_root']: {
     __typename: 'subscription_root';
@@ -2512,10 +4605,48 @@ export type GraphQLTypes = {
     >;
     /** fetch data from the table in a streaming manner: "colinks_gives" */
     colinks_gives_stream: Array<GraphQLTypes['colinks_gives']>;
+    /** fetch data from the table: "cosouls" */
+    cosouls: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "cosouls" using primary key columns */
+    cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table in a streaming manner: "cosouls" */
+    cosouls_stream: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "github_accounts" */
+    github_accounts: Array<GraphQLTypes['github_accounts']>;
+    /** fetch data from the table: "github_accounts" using primary key columns */
+    github_accounts_by_pk?: GraphQLTypes['github_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "github_accounts" */
+    github_accounts_stream: Array<GraphQLTypes['github_accounts']>;
+    /** An array relationship */
+    link_holders: Array<GraphQLTypes['link_holders']>;
+    /** An aggregate relationship */
+    link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
+    /** fetch data from the table: "link_holders" using primary key columns */
+    link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_holders" */
+    link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** An array relationship */
+    profile_skills: Array<GraphQLTypes['profile_skills']>;
+    /** fetch data from the table: "profile_skills" using primary key columns */
+    profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_skills" */
+    profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
     /** fetch data from the table in a streaming manner: "profiles_public" */
     profiles_public_stream: Array<GraphQLTypes['profiles_public']>;
+    /** fetch data from the table: "reputation_scores" */
+    reputation_scores: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "reputation_scores" using primary key columns */
+    reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table in a streaming manner: "reputation_scores" */
+    reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "twitter_accounts" */
+    twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
+    /** fetch data from the table: "twitter_accounts" using primary key columns */
+    twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "twitter_accounts" */
+    twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -2542,6 +4673,43 @@ export type GraphQLTypes = {
     _lte?: GraphQLTypes['timestamptz'] | undefined;
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
+  };
+  /** twitter accounts connected to profiles */
+  ['twitter_accounts']: {
+    __typename: 'twitter_accounts';
+    id: string;
+    profile_id: number;
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "twitter_accounts". All fields are combined with a logical 'AND'. */
+  ['twitter_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['twitter_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['twitter_accounts_bool_exp']> | undefined;
+    id?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "twitter_accounts". */
+  ['twitter_accounts_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "twitter_accounts" */
+  ['twitter_accounts_select_column']: twitter_accounts_select_column;
+  /** Streaming cursor of the table "twitter_accounts" */
+  ['twitter_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['twitter_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['twitter_accounts_stream_cursor_value_input']: {
+    id?: string | undefined;
+    profile_id?: number | undefined;
+    username?: string | undefined;
   };
 };
 /** select columns of table "colinks_give_count" */
@@ -2572,10 +4740,34 @@ export const enum colinks_gives_skill_count_select_column {
   skill = 'skill',
   target_profile_id = 'target_profile_id',
 }
+/** select columns of table "cosouls" */
+export const enum cosouls_select_column {
+  address = 'address',
+  checked_at = 'checked_at',
+  created_at = 'created_at',
+  created_tx_hash = 'created_tx_hash',
+  id = 'id',
+  pgive = 'pgive',
+  synced_at = 'synced_at',
+  token_id = 'token_id',
+  updated_at = 'updated_at',
+}
 /** ordering argument of a cursor */
 export const enum cursor_ordering {
   ASC = 'ASC',
   DESC = 'DESC',
+}
+/** select columns of table "github_accounts" */
+export const enum github_accounts_select_column {
+  profile_id = 'profile_id',
+  username = 'username',
+}
+/** select columns of table "link_holders" */
+export const enum link_holders_select_column {
+  amount = 'amount',
+  holder = 'holder',
+  target = 'target',
+  updated_at = 'updated_at',
 }
 /** column ordering options */
 export const enum order_by {
@@ -2585,6 +4777,11 @@ export const enum order_by {
   desc = 'desc',
   desc_nulls_first = 'desc_nulls_first',
   desc_nulls_last = 'desc_nulls_last',
+}
+/** select columns of table "profile_skills" */
+export const enum profile_skills_select_column {
+  profile_id = 'profile_id',
+  skill_name = 'skill_name',
 }
 /** select columns of table "profiles_public" */
 export const enum profiles_public_select_column {
@@ -2600,4 +4797,26 @@ export const enum profiles_public_select_column {
   post_count = 'post_count',
   post_count_last_30_days = 'post_count_last_30_days',
   website = 'website',
+}
+/** select columns of table "reputation_scores" */
+export const enum reputation_scores_select_column {
+  colinks_engagement_score = 'colinks_engagement_score',
+  created_at = 'created_at',
+  email_score = 'email_score',
+  github_score = 'github_score',
+  invite_score = 'invite_score',
+  linkedin_score = 'linkedin_score',
+  links_score = 'links_score',
+  pgive_score = 'pgive_score',
+  poap_score = 'poap_score',
+  profile_id = 'profile_id',
+  total_score = 'total_score',
+  twitter_score = 'twitter_score',
+  updated_at = 'updated_at',
+}
+/** select columns of table "twitter_accounts" */
+export const enum twitter_accounts_select_column {
+  id = 'id',
+  profile_id = 'profile_id',
+  username = 'username',
 }

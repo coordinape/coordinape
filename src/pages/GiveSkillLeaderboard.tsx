@@ -223,7 +223,9 @@ export const GiveSkillLeaderboard = () => {
                   >
                     <Flex
                       as={NavLink}
-                      to={coLinksPaths.profile(member.profile?.address ?? '')}
+                      to={coLinksPaths.partyProfile(
+                        member.profile?.address ?? ''
+                      )}
                       row
                       css={{
                         alignItems: 'center',

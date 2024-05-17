@@ -1,3 +1,5 @@
+import { anonClient } from 'lib/anongql/anonClient';
+
 import { Selector, ValueTypes } from '../../lib/gql/__generated__/zeus';
 import { client } from '../../lib/gql/client';
 
@@ -60,7 +62,7 @@ export const fetchCoSouls = async (
 };
 
 export const fetchCoSoul = async (address: string) => {
-  const { cosouls } = await client.query(
+  const { cosouls } = await anonClient.query(
     {
       cosouls: [
         {

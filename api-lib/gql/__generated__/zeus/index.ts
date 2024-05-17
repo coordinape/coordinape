@@ -81237,7 +81237,6 @@ export const enum colinks_give_count_select_column {
 export const enum colinks_gives_constraint {
   colinks_gives_pkey = 'colinks_gives_pkey',
   colinks_gives_target_profile_id_activity_id_profile_id_cast_has = 'colinks_gives_target_profile_id_activity_id_profile_id_cast_has',
-  colinks_gives_target_profile_id_activity_id_profile_id_key = 'colinks_gives_target_profile_id_activity_id_profile_id_key',
 }
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {

@@ -29,11 +29,9 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
         position: 'fixed',
         overflow: 'scroll',
         paddingBottom: 100,
-        '@sm': {
-          fontSize: '$xs',
-        },
         '*': {
           color: 'white',
+          path: { fill: 'white' },
         },
       }}
     >
@@ -42,7 +40,7 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
           position: 'relative',
           width: '80%',
           margin: 'auto',
-          gap: '$1xl',
+          gap: '$xl',
           flexFlow: 'column nowrap',
           '@md': {
             width: '96%',

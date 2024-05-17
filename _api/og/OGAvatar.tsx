@@ -3,7 +3,13 @@ import React from 'react';
 const DEFAULT_AVATAR =
   'https://coordinape-prod.s3.amazonaws.com/default_profile.jpg';
 
-export const OGAvatar = ({ avatar }: { avatar?: string }) => {
+export const OGAvatar = ({
+  avatar,
+  size = 95,
+}: {
+  avatar?: string;
+  size?: number;
+}) => {
   return (
     <div
       style={{
@@ -15,8 +21,8 @@ export const OGAvatar = ({ avatar }: { avatar?: string }) => {
     >
       <img
         alt="avatar"
-        height={95}
-        width={95}
+        height={size}
+        width={size}
         src={
           avatar
             ? (avatar.startsWith('http') ? '' : process.env.VITE_S3_BASE_URL) +

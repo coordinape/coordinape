@@ -87,6 +87,7 @@ export const CoSoulItem = ({
             />
           )}
         </Box>
+
         <Flex
           column
           css={{

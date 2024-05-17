@@ -17,6 +17,7 @@ import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { currentPrompt } from '../ActivityPage';
 import {
   ExternalLink,
+  Eye,
   Github,
   Plus,
   Settings,
@@ -212,6 +213,17 @@ export const CoLinksProfileHeader = ({
             </Flex>
           </Flex>
           <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
+            <Button
+              as={AppLink}
+              color="neutral"
+              outlined
+              size="small"
+              to={coLinksPaths.partyProfile(targetAddress)}
+              target="_blank"
+            >
+              <Eye />
+              Public Profile
+            </Button>
             {isCurrentUser ? (
               <Button
                 as={AppLink}
@@ -247,7 +259,9 @@ export const CoLinksProfileHeader = ({
               Muted
             </Text>
           )}
-          {details?.skills.map(s => <SkillTag key={s} skill={s} />)}
+          {details?.skills.map(s => (
+            <SkillTag key={s} skill={s} css={{ background: '$surface' }} />
+          ))}
         </Flex>
         {profile.address && (
           <Flex css={{ gap: '$sm' }}>
