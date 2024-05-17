@@ -4,7 +4,7 @@ import { coLinksPaths } from 'routes/paths';
 import { AppLink, Button, Flex } from 'ui';
 
 export const partyNavButtonStyle = {
-  fontSize: '$h1',
+  fontSize: 20,
   minWidth: '7em',
   fontWeight: '$normal',
   border: '1px solid rgb(255 255 255 / 20%)',

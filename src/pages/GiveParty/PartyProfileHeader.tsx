@@ -3,6 +3,7 @@ import { order_by } from 'lib/anongql/__generated__/zeus';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
+import { OrBar } from 'components/OrBar';
 import { ExternalLink, Github, Twitter } from 'icons/__generated';
 import { Avatar, Flex, Link, Text } from 'ui';
 
@@ -176,35 +177,49 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex
-        css={{
-          gap: '$sm',
-          flexWrap: 'wrap',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        {details?.skills.map(s => (
-          <Text
-            key={s}
-            tag
+      {details?.skills && (
+        <>
+          <Flex
             css={{
-              gap: '$xs',
-              background: 'rgb(0 143 94 / 83%)',
-              textDecoration: 'none',
-              span: {
-                color: 'white',
-                '@sm': {
-                  fontSize: '$xs',
-                },
-              },
+              justifyContent: 'center',
             }}
           >
-            {s}
-          </Text>
-        ))}
-      </Flex>
-
+            <OrBar>
+              <Text css={{ fontWeight: '$normal', fontSize: '$medium' }}>
+                Skills Bio
+              </Text>
+            </OrBar>
+          </Flex>
+          <Flex
+            css={{
+              gap: '$sm',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {details?.skills.map(s => (
+              <Text
+                key={s}
+                tag
+                css={{
+                  gap: '$xs',
+                  background: '#00000054',
+                  textDecoration: 'none',
+                  color: 'rgb(41 235 131)',
+                  span: {
+                    '@sm': {
+                      fontSize: '$xs',
+                    },
+                  },
+                }}
+              >
+                {s}
+              </Text>
+            ))}
+          </Flex>
+        </>
+      )}
       {profile.description && (
         <Flex
           css={{

@@ -125,14 +125,23 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
         </GiveLeaderboardRow>
         {sortedData &&
           sortedData.map(skill => {
-            const seenNames = new Set<string>();
-            const uniqueGives = skill.gives.filter(give => {
+            const seenNames = new Map<
+              string,
+              { count: number; profile: any }
+            >();
+            skill.gives.forEach(give => {
               const name = give.giver_profile_public?.name;
-              if (name && !seenNames.has(name)) {
-                seenNames.add(name);
-                return true;
+              if (name) {
+                const entry = seenNames.get(name);
+                if (!entry) {
+                  seenNames.set(name, {
+                    count: 1,
+                    profile: give.giver_profile_public,
+                  });
+                } else {
+                  entry.count += 1;
+                }
               }
-              return false;
             });
 
             return (
@@ -175,32 +184,31 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
                     </PopoverTrigger>
                     <PopoverContent css={{ background: 'black', p: '$sm $md' }}>
                       <Flex column css={{ gap: '$sm' }}>
-                        {uniqueGives.map(
-                          give =>
-                            give.giver_profile_public && (
-                              <Flex
-                                key={give.giver_profile_public.address}
-                                css={{ alignItems: 'center', gap: '$sm' }}
-                              >
-                                <>
-                                  <ActivityAvatar
-                                    size="xs"
-                                    profile={give.giver_profile_public}
-                                  />
-                                  <Text
-                                    size="small"
-                                    semibold
-                                    css={{ textDecoration: 'none' }}
-                                    as={NavLink}
-                                    to={coLinksPaths.partyProfile(
-                                      give.giver_profile_public.address || ''
-                                    )}
-                                  >
-                                    {give.giver_profile_public?.name}
+                        {Array.from(seenNames.entries()).map(
+                          ([name, { count, profile }]) => (
+                            <Flex
+                              key={profile.address}
+                              css={{ alignItems: 'center', gap: '$sm' }}
+                            >
+                              <>
+                                <ActivityAvatar size="xs" profile={profile} />
+                                <Text
+                                  size="small"
+                                  semibold
+                                  css={{ textDecoration: 'none' }}
+                                  as={NavLink}
+                                  to={coLinksPaths.partyProfile(
+                                    profile.address || ''
+                                  )}
+                                >
+                                  {name}
+                                  <Text css={{ ml: '$xs' }}>
+                                    &times;{count}
                                   </Text>
-                                </>
-                              </Flex>
-                            )
+                                </Text>
+                              </>
+                            </Flex>
+                          )
                         )}
                       </Flex>
                     </PopoverContent>

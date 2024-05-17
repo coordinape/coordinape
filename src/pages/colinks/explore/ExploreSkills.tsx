@@ -26,7 +26,7 @@ export const ExploreSkills = () => {
                   skill={skill}
                   size={'large'}
                   active
-                  css={{ mb: '-2px' }}
+                  css={{ mb: '-2px', span: { maxWidth: 300 } }}
                 />
               )}
             </Flex>
