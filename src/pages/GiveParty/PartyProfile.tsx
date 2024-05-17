@@ -32,7 +32,8 @@ export const PartyProfile = () => {
     }
   );
   const targetProfile = data as PublicProfile;
-  const castProfileUrl = `https://warpcast.com/~/compose?text=https://give.party/${address}&embeds[]=https://give.party/${address}`;
+  const appURL = webAppURL('colinks');
+  const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
   if (!targetProfile) return;
   return (
     <>
