@@ -3,11 +3,11 @@ import React from 'react';
 
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { webAppURL } from '../../../src/config/webAppURL.ts';
-import { Frame, ResourceIdentifierWithParams } from '../frames.ts';
+import { Button, Frame, ResourceIdentifierWithParams } from '../frames.ts';
 import {
-  PublicProfile,
   fetchCoLinksProfile,
   fetchProfileInfo,
+  PublicProfile,
 } from '../give/fetchProfileInfo.tsx';
 import { IMAGE_URL_BASE } from '../layoutFragments/FrameBgImage.tsx';
 import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
@@ -160,7 +160,25 @@ const ImageNode = async (params: Record<string, string>) => {
   );
 };
 
-export const ProfileFrame = (address?: string): Frame => {
+// TODO: i had to make these functions because the params weren't updating properly? i dont get it -g
+const castButton = (address: string): Button => ({
+  title: '🔊 Cast My Profile',
+  action: 'link',
+  target: () => {
+    return `https://warpcast.com/~/compose?text=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}&embeds[]=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}`;
+  },
+});
+
+// TODO: i had to make these functions because the params weren't updating properly? i dont get it -g
+const myProfileButton: Button = {
+  title: 'My Profile',
+  action: 'post',
+  onPost: async info => {
+    return ProfileFrame(info.profile.address, true);
+  },
+};
+
+export const ProfileFrame = (address?: string, showMe?: boolean): Frame => {
   return {
     id: 'giveparty.profile',
     homeFrame: true,
@@ -171,13 +189,14 @@ export const ProfileFrame = (address?: string): Frame => {
       address ? { address } : {}
     ),
     buttons: [
+      ...(showMe && address ? [castButton(address)] : [myProfileButton]),
       {
-        title: 'View Profile',
+        title: 'Full Profile',
         action: 'link',
         target: params =>
           webAppURL('colinks') +
           '/giveparty/' +
-          encodeURIComponent(params.address),
+          encodeURIComponent(address ?? params.address),
       },
     ],
   };
