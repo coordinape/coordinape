@@ -19,6 +19,21 @@ directive @cached(
 ) on QUERY
 
 """
+Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'.
+"""
+input Boolean_comparison_exp {
+  _eq: Boolean
+  _gt: Boolean
+  _gte: Boolean
+  _in: [Boolean!]
+  _is_null: Boolean
+  _lt: Boolean
+  _lte: Boolean
+  _neq: Boolean
+  _nin: [Boolean!]
+}
+
+"""
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
 input Int_comparison_exp {
@@ -285,6 +300,11 @@ type colinks_gives {
   """
   An object relationship
   """
+  give_skill: skills
+
+  """
+  An object relationship
+  """
   giver_profile_public: profiles_public
   id: Int!
   profile_id: bigint!
@@ -381,6 +401,7 @@ input colinks_gives_bool_exp {
   activity_id: bigint_comparison_exp
   cast_hash: String_comparison_exp
   created_at: timestamptz_comparison_exp
+  give_skill: skills_bool_exp
   giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
   profile_id: bigint_comparison_exp
@@ -453,6 +474,7 @@ input colinks_gives_order_by {
   activity_id: order_by
   cast_hash: order_by
   created_at: order_by
+  give_skill: skills_order_by
   giver_profile_public: profiles_public_order_by
   id: order_by
   profile_id: order_by
@@ -516,6 +538,11 @@ type colinks_gives_skill_count {
   gives_last_30_days: bigint
   gives_last_7_days: bigint
   skill: citext
+
+  """
+  An object relationship
+  """
+  skill_info: skills
   target_profile_id: bigint
 
   """
@@ -536,6 +563,7 @@ input colinks_gives_skill_count_bool_exp {
   gives_last_30_days: bigint_comparison_exp
   gives_last_7_days: bigint_comparison_exp
   skill: citext_comparison_exp
+  skill_info: skills_bool_exp
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
 }
@@ -549,6 +577,7 @@ input colinks_gives_skill_count_order_by {
   gives_last_30_days: order_by
   gives_last_7_days: order_by
   skill: order_by
+  skill_info: skills_order_by
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
 }
@@ -1472,6 +1501,11 @@ type profile_skills {
   An object relationship
   """
   profile_public: profiles_public
+
+  """
+  An object relationship
+  """
+  skill: skills
   skill_name: citext!
 }
 
@@ -1508,6 +1542,7 @@ input profile_skills_bool_exp {
   _or: [profile_skills_bool_exp!]
   profile_id: Int_comparison_exp
   profile_public: profiles_public_bool_exp
+  skill: skills_bool_exp
   skill_name: citext_comparison_exp
 }
 
@@ -1533,6 +1568,7 @@ Ordering options when selecting data from "profile_skills".
 input profile_skills_order_by {
   profile_id: order_by
   profile_public: profiles_public_order_by
+  skill: skills_order_by
   skill_name: order_by
 }
 
@@ -2439,6 +2475,41 @@ type query_root {
   reputation_scores_by_pk(profile_id: bigint!): reputation_scores
 
   """
+  fetch data from the table: "skills"
+  """
+  skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
+
+  """
+  fetch data from the table: "skills" using primary key columns
+  """
+  skills_by_pk(name: citext!): skills
+
+  """
   fetch data from the table: "twitter_accounts"
   """
   twitter_accounts(
@@ -2635,6 +2706,105 @@ input reputation_scores_stream_cursor_value_input {
   profile_id: bigint
   total_score: Int
   twitter_score: Int
+  updated_at: timestamptz
+}
+
+"""
+columns and relationships of "skills"
+"""
+type skills {
+  count: Int!
+  created_at: timestamptz!
+  hidden: Boolean!
+  name: citext!
+
+  """
+  An object relationship
+  """
+  profile_skills: profile_skills
+  updated_at: timestamptz!
+}
+
+"""
+Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'.
+"""
+input skills_bool_exp {
+  _and: [skills_bool_exp!]
+  _not: skills_bool_exp
+  _or: [skills_bool_exp!]
+  count: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  hidden: Boolean_comparison_exp
+  name: citext_comparison_exp
+  profile_skills: profile_skills_bool_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "skills".
+"""
+input skills_order_by {
+  count: order_by
+  created_at: order_by
+  hidden: order_by
+  name: order_by
+  profile_skills: profile_skills_order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "skills"
+"""
+enum skills_select_column {
+  """
+  column name
+  """
+  count
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  hidden
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+Streaming cursor of the table "skills"
+"""
+input skills_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: skills_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input skills_stream_cursor_value_input {
+  count: Int
+  created_at: timestamptz
+  hidden: Boolean
+  name: citext
   updated_at: timestamptz
 }
 
@@ -3178,6 +3348,61 @@ type subscription_root {
     """
     where: reputation_scores_bool_exp
   ): [reputation_scores!]!
+
+  """
+  fetch data from the table: "skills"
+  """
+  skills(
+    """
+    distinct select on columns
+    """
+    distinct_on: [skills_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [skills_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
+
+  """
+  fetch data from the table: "skills" using primary key columns
+  """
+  skills_by_pk(name: citext!): skills
+
+  """
+  fetch data from the table in a streaming manner: "skills"
+  """
+  skills_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [skills_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: skills_bool_exp
+  ): [skills!]!
 
   """
   fetch data from the table: "twitter_accounts"

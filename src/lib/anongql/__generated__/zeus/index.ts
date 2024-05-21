@@ -587,6 +587,18 @@ type ZEUS_INTERFACES = never;
 type ZEUS_UNIONS = never;
 
 export type ValueTypes = {
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ['Boolean_comparison_exp']: {
+    _eq?: boolean | undefined | null;
+    _gt?: boolean | undefined | null;
+    _gte?: boolean | undefined | null;
+    _in?: Array<boolean> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: boolean | undefined | null;
+    _lte?: boolean | undefined | null;
+    _neq?: boolean | undefined | null;
+    _nin?: Array<boolean> | undefined | null;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined | null;
@@ -731,6 +743,8 @@ export type ValueTypes = {
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
+    give_skill?: ValueTypes['skills'];
+    /** An object relationship */
     giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
@@ -829,6 +843,7 @@ export type ValueTypes = {
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     cast_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    give_skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     giver_profile_public?:
       | ValueTypes['profiles_public_bool_exp']
       | undefined
@@ -894,6 +909,7 @@ export type ValueTypes = {
     activity_id?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    give_skill?: ValueTypes['skills_order_by'] | undefined | null;
     giver_profile_public?:
       | ValueTypes['profiles_public_order_by']
       | undefined
@@ -917,6 +933,8 @@ export type ValueTypes = {
     gives_last_30_days?: boolean | `@${string}`;
     gives_last_7_days?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
+    /** An object relationship */
+    skill_info?: ValueTypes['skills'];
     target_profile_id?: boolean | `@${string}`;
     /** An object relationship */
     target_profile_public?: ValueTypes['profiles_public'];
@@ -941,6 +959,7 @@ export type ValueTypes = {
     gives_last_30_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     gives_last_7_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    skill_info?: ValueTypes['skills_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     target_profile_public?:
       | ValueTypes['profiles_public_bool_exp']
@@ -954,6 +973,7 @@ export type ValueTypes = {
     gives_last_30_days?: ValueTypes['order_by'] | undefined | null;
     gives_last_7_days?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
+    skill_info?: ValueTypes['skills_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_public?:
       | ValueTypes['profiles_public_order_by']
@@ -1534,6 +1554,8 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
     profile_public?: ValueTypes['profiles_public'];
+    /** An object relationship */
+    skill?: ValueTypes['skills'];
     skill_name?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -1574,6 +1596,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['profile_skills_bool_exp']> | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    skill?: ValueTypes['skills_bool_exp'] | undefined | null;
     skill_name?: ValueTypes['citext_comparison_exp'] | undefined | null;
   };
   /** order by max() on columns of table "profile_skills" */
@@ -1590,6 +1613,7 @@ export type ValueTypes = {
   ['profile_skills_order_by']: {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    skill?: ValueTypes['skills_order_by'] | undefined | null;
     skill_name?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "profile_skills" */
@@ -2254,6 +2278,30 @@ export type ValueTypes = {
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['reputation_scores'],
     ];
+    skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills'],
+    ];
+    skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
     twitter_accounts?: [
       {
         /** distinct select on columns */
@@ -2361,6 +2409,55 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** columns and relationships of "skills" */
+  ['skills']: AliasType<{
+    count?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_skills?: ValueTypes['profile_skills'];
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: {
+    _and?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
+    _not?: ValueTypes['skills_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
+    count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: {
+    count?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "skills" */
+  ['skills_select_column']: skills_select_column;
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: {
+    count?: number | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    hidden?: boolean | undefined | null;
+    name?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
   ['subscription_root']: AliasType<{
@@ -2744,6 +2841,41 @@ export type ValueTypes = {
       },
       ValueTypes['reputation_scores'],
     ];
+    skills?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['skills_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['skills_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills'],
+    ];
+    skills_by_pk?: [{ name: ValueTypes['citext'] }, ValueTypes['skills']];
+    skills_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['skills_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['skills_bool_exp'] | undefined | null;
+      },
+      ValueTypes['skills'],
+    ];
     twitter_accounts?: [
       {
         /** distinct select on columns */
@@ -2850,6 +2982,8 @@ export type ValueTypes = {
 };
 
 export type ModelTypes = {
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
@@ -2883,6 +3017,8 @@ export type ModelTypes = {
     activity_id?: GraphQLTypes['bigint'] | undefined;
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    give_skill?: GraphQLTypes['skills'] | undefined;
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
@@ -2964,6 +3100,8 @@ export type ModelTypes = {
     gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    skill_info?: GraphQLTypes['skills'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
@@ -3211,6 +3349,8 @@ export type ModelTypes = {
     profile_id: number;
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
   /** order by aggregate values of table "profile_skills" */
@@ -3328,6 +3468,10 @@ export type ModelTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
     /** fetch data from the table: "twitter_accounts" */
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
@@ -3359,6 +3503,26 @@ export type ModelTypes = {
   ['reputation_scores_stream_cursor_input']: GraphQLTypes['reputation_scores_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['reputation_scores_stream_cursor_value_input']: GraphQLTypes['reputation_scores_stream_cursor_value_input'];
+  /** columns and relationships of "skills" */
+  ['skills']: {
+    count: number;
+    created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
+    name: GraphQLTypes['citext'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: GraphQLTypes['skills_bool_exp'];
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: GraphQLTypes['skills_order_by'];
+  /** select columns of table "skills" */
+  ['skills_select_column']: GraphQLTypes['skills_select_column'];
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: GraphQLTypes['skills_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: GraphQLTypes['skills_stream_cursor_value_input'];
   ['subscription_root']: {
     /** fetch data from the table: "colinks_give_count" */
     colinks_give_count: Array<GraphQLTypes['colinks_give_count']>;
@@ -3414,6 +3578,12 @@ export type ModelTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "skills" */
+    skills_stream: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "twitter_accounts" */
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
@@ -3446,6 +3616,18 @@ export type ModelTypes = {
 };
 
 export type GraphQLTypes = {
+  /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
+  ['Boolean_comparison_exp']: {
+    _eq?: boolean | undefined;
+    _gt?: boolean | undefined;
+    _gte?: boolean | undefined;
+    _in?: Array<boolean> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: boolean | undefined;
+    _lte?: boolean | undefined;
+    _neq?: boolean | undefined;
+    _nin?: Array<boolean> | undefined;
+  };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: {
     _eq?: number | undefined;
@@ -3588,6 +3770,8 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
+    give_skill?: GraphQLTypes['skills'] | undefined;
+    /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
     profile_id: GraphQLTypes['bigint'];
@@ -3666,6 +3850,7 @@ export type GraphQLTypes = {
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     cast_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -3727,6 +3912,7 @@ export type GraphQLTypes = {
     activity_id?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -3747,6 +3933,8 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    skill_info?: GraphQLTypes['skills'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
@@ -3763,6 +3951,7 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    skill_info?: GraphQLTypes['skills_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_bool_exp']
@@ -3775,6 +3964,7 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['order_by'] | undefined;
     gives_last_7_days?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
+    skill_info?: GraphQLTypes['skills_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_order_by']
@@ -4246,6 +4436,8 @@ export type GraphQLTypes = {
     profile_id: number;
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An object relationship */
+    skill?: GraphQLTypes['skills'] | undefined;
     skill_name: GraphQLTypes['citext'];
   };
   /** order by aggregate values of table "profile_skills" */
@@ -4275,6 +4467,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['profile_skills_bool_exp']> | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     skill_name?: GraphQLTypes['citext_comparison_exp'] | undefined;
   };
   /** order by max() on columns of table "profile_skills" */
@@ -4291,6 +4484,7 @@ export type GraphQLTypes = {
   ['profile_skills_order_by']: {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    skill?: GraphQLTypes['skills_order_by'] | undefined;
     skill_name?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profile_skills" */
@@ -4503,6 +4697,10 @@ export type GraphQLTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
     /** fetch data from the table: "twitter_accounts" */
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
@@ -4585,6 +4783,55 @@ export type GraphQLTypes = {
     twitter_score?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** columns and relationships of "skills" */
+  ['skills']: {
+    __typename: 'skills';
+    count: number;
+    created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
+    name: GraphQLTypes['citext'];
+    /** An object relationship */
+    profile_skills?: GraphQLTypes['profile_skills'] | undefined;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** Boolean expression to filter rows from the table "skills". All fields are combined with a logical 'AND'. */
+  ['skills_bool_exp']: {
+    _and?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
+    _not?: GraphQLTypes['skills_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
+    count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "skills". */
+  ['skills_order_by']: {
+    count?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "skills" */
+  ['skills_select_column']: skills_select_column;
+  /** Streaming cursor of the table "skills" */
+  ['skills_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['skills_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['skills_stream_cursor_value_input']: {
+    count?: number | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    hidden?: boolean | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** fetch data from the table: "colinks_give_count" */
@@ -4641,6 +4888,12 @@ export type GraphQLTypes = {
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
     /** fetch data from the table in a streaming manner: "reputation_scores" */
     reputation_scores_stream: Array<GraphQLTypes['reputation_scores']>;
+    /** fetch data from the table: "skills" */
+    skills: Array<GraphQLTypes['skills']>;
+    /** fetch data from the table: "skills" using primary key columns */
+    skills_by_pk?: GraphQLTypes['skills'] | undefined;
+    /** fetch data from the table in a streaming manner: "skills" */
+    skills_stream: Array<GraphQLTypes['skills']>;
     /** fetch data from the table: "twitter_accounts" */
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
@@ -4812,6 +5065,14 @@ export const enum reputation_scores_select_column {
   profile_id = 'profile_id',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
+  updated_at = 'updated_at',
+}
+/** select columns of table "skills" */
+export const enum skills_select_column {
+  count = 'count',
+  created_at = 'created_at',
+  hidden = 'hidden',
+  name = 'name',
   updated_at = 'updated_at',
 }
 /** select columns of table "twitter_accounts" */

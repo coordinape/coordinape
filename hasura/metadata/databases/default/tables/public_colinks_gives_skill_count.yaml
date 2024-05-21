@@ -2,6 +2,15 @@ table:
   name: colinks_gives_skill_count
   schema: public
 object_relationships:
+  - name: skill_info
+    using:
+      manual_configuration:
+        column_mapping:
+          skill: name
+        insertion_order: null
+        remote_table:
+          name: skills
+          schema: public
   - name: target_profile_public
     using:
       manual_configuration:

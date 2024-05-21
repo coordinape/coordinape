@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export const AllTypesProps: Record<string, any> = {
+  Boolean_comparison_exp: {},
   Int_comparison_exp: {},
   String_comparison_exp: {},
   bigint: 'String',
@@ -103,6 +104,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_id: 'bigint_comparison_exp',
     cast_hash: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
+    give_skill: 'skills_bool_exp',
     giver_profile_public: 'profiles_public_bool_exp',
     id: 'Int_comparison_exp',
     profile_id: 'bigint_comparison_exp',
@@ -135,6 +137,7 @@ export const AllTypesProps: Record<string, any> = {
     activity_id: 'order_by',
     cast_hash: 'order_by',
     created_at: 'order_by',
+    give_skill: 'skills_order_by',
     giver_profile_public: 'profiles_public_order_by',
     id: 'order_by',
     profile_id: 'order_by',
@@ -153,6 +156,7 @@ export const AllTypesProps: Record<string, any> = {
     gives_last_30_days: 'bigint_comparison_exp',
     gives_last_7_days: 'bigint_comparison_exp',
     skill: 'citext_comparison_exp',
+    skill_info: 'skills_bool_exp',
     target_profile_id: 'bigint_comparison_exp',
     target_profile_public: 'profiles_public_bool_exp',
   },
@@ -162,6 +166,7 @@ export const AllTypesProps: Record<string, any> = {
     gives_last_30_days: 'order_by',
     gives_last_7_days: 'order_by',
     skill: 'order_by',
+    skill_info: 'skills_order_by',
     target_profile_id: 'order_by',
     target_profile_public: 'profiles_public_order_by',
   },
@@ -433,6 +438,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'profile_skills_bool_exp',
     profile_id: 'Int_comparison_exp',
     profile_public: 'profiles_public_bool_exp',
+    skill: 'skills_bool_exp',
     skill_name: 'citext_comparison_exp',
   },
   profile_skills_max_order_by: {
@@ -446,6 +452,7 @@ export const AllTypesProps: Record<string, any> = {
   profile_skills_order_by: {
     profile_id: 'order_by',
     profile_public: 'profiles_public_order_by',
+    skill: 'skills_order_by',
     skill_name: 'order_by',
   },
   profile_skills_select_column: true,
@@ -658,6 +665,14 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_by_pk: {
       profile_id: 'bigint',
     },
+    skills: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_by_pk: {
+      name: 'citext',
+    },
     twitter_accounts: {
       distinct_on: 'twitter_accounts_select_column',
       order_by: 'twitter_accounts_order_by',
@@ -706,6 +721,35 @@ export const AllTypesProps: Record<string, any> = {
   reputation_scores_stream_cursor_value_input: {
     created_at: 'timestamptz',
     profile_id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  skills_bool_exp: {
+    _and: 'skills_bool_exp',
+    _not: 'skills_bool_exp',
+    _or: 'skills_bool_exp',
+    count: 'Int_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    hidden: 'Boolean_comparison_exp',
+    name: 'citext_comparison_exp',
+    profile_skills: 'profile_skills_bool_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  skills_order_by: {
+    count: 'order_by',
+    created_at: 'order_by',
+    hidden: 'order_by',
+    name: 'order_by',
+    profile_skills: 'profile_skills_order_by',
+    updated_at: 'order_by',
+  },
+  skills_select_column: true,
+  skills_stream_cursor_input: {
+    initial_value: 'skills_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  skills_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    name: 'citext',
     updated_at: 'timestamptz',
   },
   subscription_root: {
@@ -815,6 +859,18 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'reputation_scores_stream_cursor_input',
       where: 'reputation_scores_bool_exp',
     },
+    skills: {
+      distinct_on: 'skills_select_column',
+      order_by: 'skills_order_by',
+      where: 'skills_bool_exp',
+    },
+    skills_by_pk: {
+      name: 'citext',
+    },
+    skills_stream: {
+      cursor: 'skills_stream_cursor_input',
+      where: 'skills_bool_exp',
+    },
     twitter_accounts: {
       distinct_on: 'twitter_accounts_select_column',
       order_by: 'twitter_accounts_order_by',
@@ -885,6 +941,7 @@ export const ReturnTypes: Record<string, any> = {
     activity_id: 'bigint',
     cast_hash: 'String',
     created_at: 'timestamptz',
+    give_skill: 'skills',
     giver_profile_public: 'profiles_public',
     id: 'Int',
     profile_id: 'bigint',
@@ -942,6 +999,7 @@ export const ReturnTypes: Record<string, any> = {
     gives_last_30_days: 'bigint',
     gives_last_7_days: 'bigint',
     skill: 'citext',
+    skill_info: 'skills',
     target_profile_id: 'bigint',
     target_profile_public: 'profiles_public',
   },
@@ -1071,6 +1129,7 @@ export const ReturnTypes: Record<string, any> = {
   profile_skills: {
     profile_id: 'Int',
     profile_public: 'profiles_public',
+    skill: 'skills',
     skill_name: 'citext',
   },
   profiles_public: {
@@ -1117,6 +1176,8 @@ export const ReturnTypes: Record<string, any> = {
     profiles_public: 'profiles_public',
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
+    skills: 'skills',
+    skills_by_pk: 'skills',
     twitter_accounts: 'twitter_accounts',
     twitter_accounts_by_pk: 'twitter_accounts',
   },
@@ -1133,6 +1194,14 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'bigint',
     total_score: 'Int',
     twitter_score: 'Int',
+    updated_at: 'timestamptz',
+  },
+  skills: {
+    count: 'Int',
+    created_at: 'timestamptz',
+    hidden: 'Boolean',
+    name: 'citext',
+    profile_skills: 'profile_skills',
     updated_at: 'timestamptz',
   },
   subscription_root: {
@@ -1162,6 +1231,9 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
     reputation_scores_stream: 'reputation_scores',
+    skills: 'skills',
+    skills_by_pk: 'skills',
+    skills_stream: 'skills',
     twitter_accounts: 'twitter_accounts',
     twitter_accounts_by_pk: 'twitter_accounts',
     twitter_accounts_stream: 'twitter_accounts',
