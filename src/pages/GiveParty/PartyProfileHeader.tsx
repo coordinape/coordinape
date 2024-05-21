@@ -108,7 +108,9 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                 score={profile.reputation_score?.total_score ?? 0}
                 size={'medium'}
               />
-              <Flex css={{ gap: '$md' }}>
+              <Flex
+                css={{ gap: '$sm', flexWrap: 'wrap', justifyContent: 'center' }}
+              >
                 {details?.github && (
                   <Flex
                     as={Link}
@@ -117,8 +119,9 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     rel="noreferrer"
                     css={{
                       alignItems: 'center',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
                       gap: '$xs',
-                      fontWeight: '$semibold',
                       '&:hover': {
                         textDecoration: 'underline',
                       },
@@ -135,8 +138,9 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     rel="noreferrer"
                     css={{
                       alignItems: 'center',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
                       gap: '$xs',
-                      fontWeight: '$medium',
                       '&:hover': {
                         textDecoration: 'underline',
                       },
@@ -155,6 +159,8 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
                       'svg path': {
                         fill: 'none',
                       },
