@@ -2,6 +2,7 @@ import { abbreviateString } from 'abbreviateString';
 import { order_by } from 'lib/anongql/__generated__/zeus';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
+import { skillTextStyle } from 'stitches.config';
 
 import { OrBar } from 'components/OrBar';
 import { ExternalLink, Github, Twitter } from 'icons/__generated';
@@ -107,7 +108,9 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                 score={profile.reputation_score?.total_score ?? 0}
                 size={'medium'}
               />
-              <Flex>
+              <Flex
+                css={{ gap: '$sm', flexWrap: 'wrap', justifyContent: 'center' }}
+              >
                 {details?.github && (
                   <Flex
                     as={Link}
@@ -116,13 +119,11 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     rel="noreferrer"
                     css={{
                       alignItems: 'center',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
                       gap: '$xs',
-                      fontWeight: '$semibold',
                       '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
+                        textDecoration: 'underline',
                       },
                     }}
                   >
@@ -137,13 +138,11 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     rel="noreferrer"
                     css={{
                       alignItems: 'center',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
                       gap: '$xs',
-                      fontWeight: '$medium',
                       '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
+                        textDecoration: 'underline',
                       },
                     }}
                   >
@@ -160,8 +159,13 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
+                      'svg path': {
+                        fill: 'none',
+                      },
                       '&:hover': {
-                        color: '$linkHover',
+                        textDecoration: 'underline',
                       },
                     }}
                   >
@@ -203,12 +207,13 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                 key={s}
                 tag
                 css={{
+                  ...skillTextStyle,
                   gap: '$xs',
                   background: '#00000054',
                   textDecoration: 'none',
                   color: 'rgb(41 235 131)',
                   span: {
-                    '@sm': {
+                    '@xs': {
                       fontSize: '$xs',
                     },
                   },

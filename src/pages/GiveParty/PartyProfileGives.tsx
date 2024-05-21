@@ -113,7 +113,10 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
           <GiveLeaderboardColumn
             onClick={() => setSort('skill')}
             css={{
-              minWidth: '16rem',
+              minWidth: '15rem',
+              '@xs': {
+                minWidth: '12rem',
+              },
             }}
           >
             Skill
@@ -148,7 +151,10 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
               <GiveLeaderboardRow key={skill.skill}>
                 <GiveLeaderboardColumn
                   css={{
-                    minWidth: '16rem',
+                    minWidth: '15rem',
+                    '@xs': {
+                      minWidth: '12rem',
+                    },
                   }}
                 >
                   <Text
@@ -163,7 +169,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
                       span: {
                         color: 'white',
                         '@sm': {
-                          fontSize: '$xs',
+                          fontSize: '$xs !important',
                         },
                       },
                     }}
