@@ -160,6 +160,7 @@ const ImageNode = async (params: Record<string, string>) => {
   );
 };
 
+// TODO: i had to make these functions because the params weren't updating properly? i dont get it -g
 const castButton = (address: string): Button => ({
   title: '🔊 Cast My Profile',
   action: 'link',
@@ -168,6 +169,7 @@ const castButton = (address: string): Button => ({
   },
 });
 
+// TODO: i had to make these functions because the params weren't updating properly? i dont get it -g
 const myProfileButton: Button = {
   title: 'My Profile',
   action: 'post',
