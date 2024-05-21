@@ -21,6 +21,11 @@ export const fetchProfileInfo = async (profileId: number) => {
                 target_profile_id: {
                   _eq: profileId,
                 },
+                skill_info: {
+                  hidden: {
+                    _eq: false,
+                  },
+                },
               },
             },
             {

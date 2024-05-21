@@ -19,11 +19,23 @@ insert_permissions:
         - name
     comment: ""
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - hidden
+        - count
+        - created_at
+        - updated_at
+        - name
+      filter: {}
+      limit: 1
+    comment: ""
   - role: user
     permission:
       columns:
         - count
         - created_at
+        - hidden
         - name
         - updated_at
       filter: {}

@@ -6574,6 +6574,8 @@ export type ValueTypes = {
     gives_last_30_days?: boolean | `@${string}`;
     gives_last_7_days?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
+    /** An object relationship */
+    skill_info?: ValueTypes['skills'];
     target_profile_id?: boolean | `@${string}`;
     /** An object relationship */
     target_profile_public?: ValueTypes['profiles_public'];
@@ -6637,6 +6639,7 @@ export type ValueTypes = {
     gives_last_30_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     gives_last_7_days?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    skill_info?: ValueTypes['skills_bool_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     target_profile_public?:
       | ValueTypes['profiles_public_bool_exp']
@@ -6670,6 +6673,7 @@ export type ValueTypes = {
     gives_last_30_days?: ValueTypes['order_by'] | undefined | null;
     gives_last_7_days?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
+    skill_info?: ValueTypes['skills_order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
     target_profile_public?:
       | ValueTypes['profiles_public_order_by']
@@ -31805,6 +31809,7 @@ export type ValueTypes = {
   ['skills']: AliasType<{
     count?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
     profile_skills?: ValueTypes['profile_skills'];
@@ -31850,6 +31855,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
     count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -31864,6 +31870,7 @@ export type ValueTypes = {
   ['skills_insert_input']: {
     count?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    hidden?: boolean | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     profile_skills?:
       | ValueTypes['profile_skills_obj_rel_insert_input']
@@ -31911,6 +31918,7 @@ export type ValueTypes = {
   ['skills_order_by']: {
     count?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -31925,6 +31933,7 @@ export type ValueTypes = {
   ['skills_set_input']: {
     count?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    hidden?: boolean | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -31954,6 +31963,7 @@ export type ValueTypes = {
   ['skills_stream_cursor_value_input']: {
     count?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    hidden?: boolean | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -43109,6 +43119,8 @@ export type ModelTypes = {
     gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    skill_info?: GraphQLTypes['skills'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
@@ -52870,6 +52882,7 @@ export type ModelTypes = {
   ['skills']: {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
     name: GraphQLTypes['citext'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
@@ -60177,6 +60190,8 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['bigint'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
+    /** An object relationship */
+    skill_info?: GraphQLTypes['skills'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
@@ -60237,6 +60252,7 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     gives_last_7_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    skill_info?: GraphQLTypes['skills_bool_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_bool_exp']
@@ -60269,6 +60285,7 @@ export type GraphQLTypes = {
     gives_last_30_days?: GraphQLTypes['order_by'] | undefined;
     gives_last_7_days?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
+    skill_info?: GraphQLTypes['skills_order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_order_by']
@@ -76684,6 +76701,7 @@ export type GraphQLTypes = {
     __typename: 'skills';
     count: number;
     created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
     name: GraphQLTypes['citext'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
@@ -76722,6 +76740,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
     count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -76736,6 +76755,7 @@ export type GraphQLTypes = {
   ['skills_insert_input']: {
     count?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    hidden?: boolean | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     profile_skills?:
       | GraphQLTypes['profile_skills_obj_rel_insert_input']
@@ -76782,6 +76802,7 @@ export type GraphQLTypes = {
   ['skills_order_by']: {
     count?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -76796,6 +76817,7 @@ export type GraphQLTypes = {
   ['skills_set_input']: {
     count?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    hidden?: boolean | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -76825,6 +76847,7 @@ export type GraphQLTypes = {
   ['skills_stream_cursor_value_input']: {
     count?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    hidden?: boolean | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -82546,6 +82569,7 @@ export const enum skills_constraint {
 export const enum skills_select_column {
   count = 'count',
   created_at = 'created_at',
+  hidden = 'hidden',
   name = 'name',
   updated_at = 'updated_at',
 }
@@ -82553,6 +82577,7 @@ export const enum skills_select_column {
 export const enum skills_update_column {
   count = 'count',
   created_at = 'created_at',
+  hidden = 'hidden',
   name = 'name',
   updated_at = 'updated_at',
 }

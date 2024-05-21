@@ -6354,6 +6354,7 @@ export const AllTypesProps: Record<string, any> = {
     _or: 'skills_bool_exp',
     count: 'Int_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
+    hidden: 'Boolean_comparison_exp',
     name: 'citext_comparison_exp',
     profile_skills: 'profile_skills_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
@@ -6375,6 +6376,7 @@ export const AllTypesProps: Record<string, any> = {
   skills_order_by: {
     count: 'order_by',
     created_at: 'order_by',
+    hidden: 'order_by',
     name: 'order_by',
     profile_skills: 'profile_skills_order_by',
     updated_at: 'order_by',
@@ -10935,6 +10937,7 @@ export const ReturnTypes: Record<string, any> = {
   skills: {
     count: 'Int',
     created_at: 'timestamptz',
+    hidden: 'Boolean',
     name: 'citext',
     profile_skills: 'profile_skills',
     updated_at: 'timestamptz',

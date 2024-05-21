@@ -15502,6 +15502,7 @@ export type ValueTypes = {
   ['skills']: AliasType<{
     count?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    hidden?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
     /** An object relationship */
     profile_skills?: ValueTypes['profile_skills'];
@@ -15515,6 +15516,7 @@ export type ValueTypes = {
     _or?: Array<ValueTypes['skills_bool_exp']> | undefined | null;
     count?: ValueTypes['Int_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    hidden?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -15553,6 +15555,7 @@ export type ValueTypes = {
   ['skills_order_by']: {
     count?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    hidden?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
     profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -15570,6 +15573,7 @@ export type ValueTypes = {
   ['skills_stream_cursor_value_input']: {
     count?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
+    hidden?: boolean | undefined | null;
     name?: ValueTypes['citext'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
   };
@@ -25386,6 +25390,7 @@ export type ModelTypes = {
   ['skills']: {
     count: number;
     created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
     name: GraphQLTypes['citext'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
@@ -36689,6 +36694,7 @@ export type GraphQLTypes = {
     __typename: 'skills';
     count: number;
     created_at: GraphQLTypes['timestamptz'];
+    hidden: boolean;
     name: GraphQLTypes['citext'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
@@ -36701,6 +36707,7 @@ export type GraphQLTypes = {
     _or?: Array<GraphQLTypes['skills_bool_exp']> | undefined;
     count?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    hidden?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -36738,6 +36745,7 @@ export type GraphQLTypes = {
   ['skills_order_by']: {
     count?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    hidden?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -36755,6 +36763,7 @@ export type GraphQLTypes = {
   ['skills_stream_cursor_value_input']: {
     count?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
+    hidden?: boolean | undefined;
     name?: GraphQLTypes['citext'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
@@ -39524,6 +39533,7 @@ export const enum skills_constraint {
 export const enum skills_select_column {
   count = 'count',
   created_at = 'created_at',
+  hidden = 'hidden',
   name = 'name',
   updated_at = 'updated_at',
 }

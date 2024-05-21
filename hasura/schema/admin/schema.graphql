@@ -8804,6 +8804,11 @@ type colinks_gives_skill_count {
   gives_last_30_days: bigint
   gives_last_7_days: bigint
   skill: citext
+
+  """
+  An object relationship
+  """
+  skill_info: skills
   target_profile_id: bigint
 
   """
@@ -8863,6 +8868,7 @@ input colinks_gives_skill_count_bool_exp {
   gives_last_30_days: bigint_comparison_exp
   gives_last_7_days: bigint_comparison_exp
   skill: citext_comparison_exp
+  skill_info: skills_bool_exp
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
 }
@@ -8900,6 +8906,7 @@ input colinks_gives_skill_count_order_by {
   gives_last_30_days: order_by
   gives_last_7_days: order_by
   skill: order_by
+  skill_info: skills_order_by
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
 }
@@ -45396,6 +45403,7 @@ columns and relationships of "skills"
 type skills {
   count: Int!
   created_at: timestamptz!
+  hidden: Boolean!
   name: citext!
 
   """
@@ -45446,6 +45454,7 @@ input skills_bool_exp {
   _or: [skills_bool_exp!]
   count: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  hidden: Boolean_comparison_exp
   name: citext_comparison_exp
   profile_skills: profile_skills_bool_exp
   updated_at: timestamptz_comparison_exp
@@ -45474,6 +45483,7 @@ input type for inserting data into table "skills"
 input skills_insert_input {
   count: Int
   created_at: timestamptz
+  hidden: Boolean
   name: citext
   profile_skills: profile_skills_obj_rel_insert_input
   updated_at: timestamptz
@@ -45541,6 +45551,7 @@ Ordering options when selecting data from "skills".
 input skills_order_by {
   count: order_by
   created_at: order_by
+  hidden: order_by
   name: order_by
   profile_skills: profile_skills_order_by
   updated_at: order_by
@@ -45570,6 +45581,11 @@ enum skills_select_column {
   """
   column name
   """
+  hidden
+
+  """
+  column name
+  """
   name
 
   """
@@ -45584,6 +45600,7 @@ input type for updating data in table "skills"
 input skills_set_input {
   count: Int
   created_at: timestamptz
+  hidden: Boolean
   name: citext
   updated_at: timestamptz
 }
@@ -45630,6 +45647,7 @@ Initial value of the column from where the streaming should start
 input skills_stream_cursor_value_input {
   count: Int
   created_at: timestamptz
+  hidden: Boolean
   name: citext
   updated_at: timestamptz
 }
@@ -45654,6 +45672,11 @@ enum skills_update_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  hidden
 
   """
   column name

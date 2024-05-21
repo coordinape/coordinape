@@ -21298,6 +21298,7 @@ columns and relationships of "skills"
 type skills {
   count: Int!
   created_at: timestamptz!
+  hidden: Boolean!
   name: citext!
 
   """
@@ -21316,6 +21317,7 @@ input skills_bool_exp {
   _or: [skills_bool_exp!]
   count: Int_comparison_exp
   created_at: timestamptz_comparison_exp
+  hidden: Boolean_comparison_exp
   name: citext_comparison_exp
   profile_skills: profile_skills_bool_exp
   updated_at: timestamptz_comparison_exp
@@ -21381,6 +21383,7 @@ Ordering options when selecting data from "skills".
 input skills_order_by {
   count: order_by
   created_at: order_by
+  hidden: order_by
   name: order_by
   profile_skills: profile_skills_order_by
   updated_at: order_by
@@ -21399,6 +21402,11 @@ enum skills_select_column {
   column name
   """
   created_at
+
+  """
+  column name
+  """
+  hidden
 
   """
   column name
@@ -21432,6 +21440,7 @@ Initial value of the column from where the streaming should start
 input skills_stream_cursor_value_input {
   count: Int
   created_at: timestamptz
+  hidden: Boolean
   name: citext
   updated_at: timestamptz
 }
