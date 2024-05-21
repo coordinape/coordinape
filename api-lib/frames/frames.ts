@@ -9,7 +9,8 @@ export const ResourceIdentifierWithParams = (
   const r: ResourceIdentifier = {
     resourcePathExpression: ri.resourcePathExpression,
     getResourceId: (params: Record<string, string>) => {
-      return ri.getResourceId({ ...params, ...preloadParams });
+      const p = { ...params, ...preloadParams };
+      return ri.getResourceId(p);
     },
   };
   return r;
