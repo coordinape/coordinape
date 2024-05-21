@@ -165,13 +165,16 @@ const castButton = (address: string): Button => ({
   title: '🔊 Cast My Profile',
   action: 'link',
   target: () => {
-    return `https://warpcast.com/~/compose?text=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}&embeds[]=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}`;
+    const msg = `Check out my @coordinape GIVE profile 👀
+It shows GIVE activity, top skills, and onchain Rep.
+Grab yours in this handy frame  👇🏼`;
+    return `https://warpcast.com/~/compose?text=${encodeURIComponent(msg)}&embeds[]=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}`;
   },
 });
 
 // TODO: i had to make these functions because the params weren't updating properly? i dont get it -g
 const myProfileButton: Button = {
-  title: 'My Profile',
+  title: 'Show My Profile',
   action: 'post',
   onPost: async info => {
     return ProfileFrame(info.profile.address, true);
