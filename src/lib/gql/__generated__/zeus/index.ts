@@ -8131,6 +8131,17 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['reactions'],
     ];
+    delete_replies_reactions?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['replies_reactions_bool_exp'];
+      },
+      ValueTypes['replies_reactions_mutation_response'],
+    ];
+    delete_replies_reactions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['replies_reactions'],
+    ];
     delete_twitter_accounts?: [
       {
         /** filter the rows which have to be deleted */
@@ -8466,6 +8477,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
       },
       ValueTypes['replies'],
+    ];
+    insert_replies_reactions?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['replies_reactions_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['replies_reactions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['replies_reactions_mutation_response'],
+    ];
+    insert_replies_reactions_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['replies_reactions_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['replies_reactions_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['replies_reactions'],
     ];
     insert_skills?: [
       {
@@ -14273,6 +14308,56 @@ export type ValueTypes = {
       ValueTypes['replies_aggregate'],
     ];
     replies_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['replies']];
+    replies_reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions'],
+    ];
+    replies_reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions_aggregate'],
+    ];
+    replies_reactions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['replies_reactions'],
+    ];
     reputation_scores?: [
       {
         /** distinct select on columns */
@@ -15246,6 +15331,12 @@ export type ValueTypes = {
     returning?: ValueTypes['replies'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: {
+    data: ValueTypes['replies_insert_input'];
+    /** upsert condition */
+    on_conflict?: ValueTypes['replies_on_conflict'] | undefined | null;
+  };
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: {
     constraint: ValueTypes['replies_constraint'];
@@ -15274,6 +15365,197 @@ export type ValueTypes = {
   ['replies_pk_columns_input']: {
     id: ValueTypes['bigint'];
   };
+  /** columns and relationships of "replies_reactions" */
+  ['replies_reactions']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    reaction?: boolean | `@${string}`;
+    /** An object relationship */
+    reply?: ValueTypes['replies'];
+    reply_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "replies_reactions" */
+  ['replies_reactions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['replies_reactions_aggregate_fields'];
+    nodes?: ValueTypes['replies_reactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "replies_reactions" */
+  ['replies_reactions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['replies_reactions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['replies_reactions_max_fields'];
+    min?: ValueTypes['replies_reactions_min_fields'];
+    stddev?: ValueTypes['replies_reactions_stddev_fields'];
+    stddev_pop?: ValueTypes['replies_reactions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['replies_reactions_stddev_samp_fields'];
+    sum?: ValueTypes['replies_reactions_sum_fields'];
+    var_pop?: ValueTypes['replies_reactions_var_pop_fields'];
+    var_samp?: ValueTypes['replies_reactions_var_samp_fields'];
+    variance?: ValueTypes['replies_reactions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['replies_reactions_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
+  ['replies_reactions_bool_exp']: {
+    _and?: Array<ValueTypes['replies_reactions_bool_exp']> | undefined | null;
+    _not?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['replies_reactions_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    reaction?: ValueTypes['String_comparison_exp'] | undefined | null;
+    reply?: ValueTypes['replies_bool_exp'] | undefined | null;
+    reply_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "replies_reactions" */
+  ['replies_reactions_constraint']: replies_reactions_constraint;
+  /** input type for inserting data into table "replies_reactions" */
+  ['replies_reactions_insert_input']: {
+    reaction?: string | undefined | null;
+    reply?: ValueTypes['replies_obj_rel_insert_input'] | undefined | null;
+    reply_id?: number | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['replies_reactions_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['replies_reactions_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reaction?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "replies_reactions" */
+  ['replies_reactions_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['replies_reactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "replies_reactions" */
+  ['replies_reactions_on_conflict']: {
+    constraint: ValueTypes['replies_reactions_constraint'];
+    update_columns: Array<ValueTypes['replies_reactions_update_column']>;
+    where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "replies_reactions". */
+  ['replies_reactions_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    reaction?: ValueTypes['order_by'] | undefined | null;
+    reply?: ValueTypes['replies_order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "replies_reactions" */
+  ['replies_reactions_select_column']: replies_reactions_select_column;
+  /** aggregate stddev on columns */
+  ['replies_reactions_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['replies_reactions_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['replies_reactions_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "replies_reactions" */
+  ['replies_reactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['replies_reactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['replies_reactions_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    profile_id?: number | undefined | null;
+    reaction?: string | undefined | null;
+    reply_id?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['replies_reactions_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
+  ['replies_reactions_update_column']: replies_reactions_update_column;
+  /** aggregate var_pop on columns */
+  ['replies_reactions_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['replies_reactions_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['replies_reactions_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    reply_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
   /** input type for updating data in table "replies" */
@@ -17791,6 +18073,67 @@ export type ValueTypes = {
       ValueTypes['replies_aggregate'],
     ];
     replies_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['replies']];
+    replies_reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions'],
+    ];
+    replies_reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions_aggregate'],
+    ];
+    replies_reactions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['replies_reactions'],
+    ];
+    replies_reactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['replies_reactions_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions'],
+    ];
     replies_stream?: [
       {
         /** maximum number of rows returned in a single batch */
@@ -23183,6 +23526,14 @@ export type ModelTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "replies_reactions" */
+    delete_replies_reactions?:
+      | GraphQLTypes['replies_reactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "replies_reactions" */
+    delete_replies_reactions_by_pk?:
+      | GraphQLTypes['replies_reactions']
+      | undefined;
     /** delete data from the table: "twitter_accounts" */
     delete_twitter_accounts?:
       | GraphQLTypes['twitter_accounts_mutation_response']
@@ -23283,6 +23634,14 @@ export type ModelTypes = {
     insert_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** insert a single row into the table: "replies" */
     insert_replies_one?: GraphQLTypes['replies'] | undefined;
+    /** insert data into the table: "replies_reactions" */
+    insert_replies_reactions?:
+      | GraphQLTypes['replies_reactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "replies_reactions" */
+    insert_replies_reactions_one?:
+      | GraphQLTypes['replies_reactions']
+      | undefined;
     /** insert data into the table: "skills" */
     insert_skills?: GraphQLTypes['skills_mutation_response'] | undefined;
     /** insert a single row into the table: "skills" */
@@ -24970,6 +25329,12 @@ export type ModelTypes = {
     replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "replies" using primary key columns */
     replies_by_pk?: GraphQLTypes['replies'] | undefined;
+    /** fetch data from the table: "replies_reactions" */
+    replies_reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** fetch aggregated fields from the table: "replies_reactions" */
+    replies_reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
+    /** fetch data from the table: "replies_reactions" using primary key columns */
+    replies_reactions_by_pk?: GraphQLTypes['replies_reactions'] | undefined;
     /** fetch data from the table: "reputation_scores" */
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
@@ -25278,12 +25643,143 @@ export type ModelTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['replies']>;
   };
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: GraphQLTypes['replies_obj_rel_insert_input'];
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: GraphQLTypes['replies_on_conflict'];
   /** Ordering options when selecting data from "replies". */
   ['replies_order_by']: GraphQLTypes['replies_order_by'];
   /** primary key columns input for table: replies */
   ['replies_pk_columns_input']: GraphQLTypes['replies_pk_columns_input'];
+  /** columns and relationships of "replies_reactions" */
+  ['replies_reactions']: {
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: number;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    reaction: string;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "replies_reactions" */
+  ['replies_reactions_aggregate']: {
+    aggregate?: GraphQLTypes['replies_reactions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['replies_reactions']>;
+  };
+  /** aggregate fields of "replies_reactions" */
+  ['replies_reactions_aggregate_fields']: {
+    avg?: GraphQLTypes['replies_reactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['replies_reactions_max_fields'] | undefined;
+    min?: GraphQLTypes['replies_reactions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['replies_reactions_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['replies_reactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['replies_reactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['replies_reactions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['replies_reactions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['replies_reactions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['replies_reactions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['replies_reactions_avg_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
+  ['replies_reactions_bool_exp']: GraphQLTypes['replies_reactions_bool_exp'];
+  /** unique or primary key constraints on table "replies_reactions" */
+  ['replies_reactions_constraint']: GraphQLTypes['replies_reactions_constraint'];
+  /** input type for inserting data into table "replies_reactions" */
+  ['replies_reactions_insert_input']: GraphQLTypes['replies_reactions_insert_input'];
+  /** aggregate max on columns */
+  ['replies_reactions_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reaction?: string | undefined;
+    reply_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['replies_reactions_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reaction?: string | undefined;
+    reply_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "replies_reactions" */
+  ['replies_reactions_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['replies_reactions']>;
+  };
+  /** on_conflict condition type for table "replies_reactions" */
+  ['replies_reactions_on_conflict']: GraphQLTypes['replies_reactions_on_conflict'];
+  /** Ordering options when selecting data from "replies_reactions". */
+  ['replies_reactions_order_by']: GraphQLTypes['replies_reactions_order_by'];
+  /** select columns of table "replies_reactions" */
+  ['replies_reactions_select_column']: GraphQLTypes['replies_reactions_select_column'];
+  /** aggregate stddev on columns */
+  ['replies_reactions_stddev_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['replies_reactions_stddev_pop_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['replies_reactions_stddev_samp_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "replies_reactions" */
+  ['replies_reactions_stream_cursor_input']: GraphQLTypes['replies_reactions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['replies_reactions_stream_cursor_value_input']: GraphQLTypes['replies_reactions_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['replies_reactions_sum_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
+  ['replies_reactions_update_column']: GraphQLTypes['replies_reactions_update_column'];
+  /** aggregate var_pop on columns */
+  ['replies_reactions_var_pop_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['replies_reactions_var_samp_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['replies_reactions_variance_fields']: {
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
   /** select columns of table "replies" */
   ['replies_select_column']: GraphQLTypes['replies_select_column'];
   /** input type for updating data in table "replies" */
@@ -25758,6 +26254,14 @@ export type ModelTypes = {
     replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "replies" using primary key columns */
     replies_by_pk?: GraphQLTypes['replies'] | undefined;
+    /** fetch data from the table: "replies_reactions" */
+    replies_reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** fetch aggregated fields from the table: "replies_reactions" */
+    replies_reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
+    /** fetch data from the table: "replies_reactions" using primary key columns */
+    replies_reactions_by_pk?: GraphQLTypes['replies_reactions'] | undefined;
+    /** fetch data from the table in a streaming manner: "replies_reactions" */
+    replies_reactions_stream: Array<GraphQLTypes['replies_reactions']>;
     /** fetch data from the table in a streaming manner: "replies" */
     replies_stream: Array<GraphQLTypes['replies']>;
     /** fetch data from the table: "reputation_scores" */
@@ -32593,6 +33097,14 @@ export type GraphQLTypes = {
     delete_reactions?: GraphQLTypes['reactions_mutation_response'] | undefined;
     /** delete single row from the table: "reactions" */
     delete_reactions_by_pk?: GraphQLTypes['reactions'] | undefined;
+    /** delete data from the table: "replies_reactions" */
+    delete_replies_reactions?:
+      | GraphQLTypes['replies_reactions_mutation_response']
+      | undefined;
+    /** delete single row from the table: "replies_reactions" */
+    delete_replies_reactions_by_pk?:
+      | GraphQLTypes['replies_reactions']
+      | undefined;
     /** delete data from the table: "twitter_accounts" */
     delete_twitter_accounts?:
       | GraphQLTypes['twitter_accounts_mutation_response']
@@ -32693,6 +33205,14 @@ export type GraphQLTypes = {
     insert_replies?: GraphQLTypes['replies_mutation_response'] | undefined;
     /** insert a single row into the table: "replies" */
     insert_replies_one?: GraphQLTypes['replies'] | undefined;
+    /** insert data into the table: "replies_reactions" */
+    insert_replies_reactions?:
+      | GraphQLTypes['replies_reactions_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "replies_reactions" */
+    insert_replies_reactions_one?:
+      | GraphQLTypes['replies_reactions']
+      | undefined;
     /** insert data into the table: "skills" */
     insert_skills?: GraphQLTypes['skills_mutation_response'] | undefined;
     /** insert a single row into the table: "skills" */
@@ -35941,6 +36461,12 @@ export type GraphQLTypes = {
     replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "replies" using primary key columns */
     replies_by_pk?: GraphQLTypes['replies'] | undefined;
+    /** fetch data from the table: "replies_reactions" */
+    replies_reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** fetch aggregated fields from the table: "replies_reactions" */
+    replies_reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
+    /** fetch data from the table: "replies_reactions" using primary key columns */
+    replies_reactions_by_pk?: GraphQLTypes['replies_reactions'] | undefined;
     /** fetch data from the table: "reputation_scores" */
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
@@ -36441,6 +36967,12 @@ export type GraphQLTypes = {
     /** data from the rows affected by the mutation */
     returning: Array<GraphQLTypes['replies']>;
   };
+  /** input type for inserting object relation for remote table "replies" */
+  ['replies_obj_rel_insert_input']: {
+    data: GraphQLTypes['replies_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['replies_on_conflict'] | undefined;
+  };
   /** on_conflict condition type for table "replies" */
   ['replies_on_conflict']: {
     constraint: GraphQLTypes['replies_constraint'];
@@ -36467,6 +36999,192 @@ export type GraphQLTypes = {
   /** primary key columns input for table: replies */
   ['replies_pk_columns_input']: {
     id: GraphQLTypes['bigint'];
+  };
+  /** columns and relationships of "replies_reactions" */
+  ['replies_reactions']: {
+    __typename: 'replies_reactions';
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile?: GraphQLTypes['profiles'] | undefined;
+    profile_id: number;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    reaction: string;
+    /** An object relationship */
+    reply?: GraphQLTypes['replies'] | undefined;
+    reply_id: number;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "replies_reactions" */
+  ['replies_reactions_aggregate']: {
+    __typename: 'replies_reactions_aggregate';
+    aggregate?: GraphQLTypes['replies_reactions_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['replies_reactions']>;
+  };
+  /** aggregate fields of "replies_reactions" */
+  ['replies_reactions_aggregate_fields']: {
+    __typename: 'replies_reactions_aggregate_fields';
+    avg?: GraphQLTypes['replies_reactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['replies_reactions_max_fields'] | undefined;
+    min?: GraphQLTypes['replies_reactions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['replies_reactions_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['replies_reactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['replies_reactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['replies_reactions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['replies_reactions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['replies_reactions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['replies_reactions_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['replies_reactions_avg_fields']: {
+    __typename: 'replies_reactions_avg_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
+  ['replies_reactions_bool_exp']: {
+    _and?: Array<GraphQLTypes['replies_reactions_bool_exp']> | undefined;
+    _not?: GraphQLTypes['replies_reactions_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['replies_reactions_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    reaction?: GraphQLTypes['String_comparison_exp'] | undefined;
+    reply?: GraphQLTypes['replies_bool_exp'] | undefined;
+    reply_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "replies_reactions" */
+  ['replies_reactions_constraint']: replies_reactions_constraint;
+  /** input type for inserting data into table "replies_reactions" */
+  ['replies_reactions_insert_input']: {
+    reaction?: string | undefined;
+    reply?: GraphQLTypes['replies_obj_rel_insert_input'] | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate max on columns */
+  ['replies_reactions_max_fields']: {
+    __typename: 'replies_reactions_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reaction?: string | undefined;
+    reply_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['replies_reactions_min_fields']: {
+    __typename: 'replies_reactions_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reaction?: string | undefined;
+    reply_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** response of any mutation on the table "replies_reactions" */
+  ['replies_reactions_mutation_response']: {
+    __typename: 'replies_reactions_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['replies_reactions']>;
+  };
+  /** on_conflict condition type for table "replies_reactions" */
+  ['replies_reactions_on_conflict']: {
+    constraint: GraphQLTypes['replies_reactions_constraint'];
+    update_columns: Array<GraphQLTypes['replies_reactions_update_column']>;
+    where?: GraphQLTypes['replies_reactions_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "replies_reactions". */
+  ['replies_reactions_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    reaction?: GraphQLTypes['order_by'] | undefined;
+    reply?: GraphQLTypes['replies_order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "replies_reactions" */
+  ['replies_reactions_select_column']: replies_reactions_select_column;
+  /** aggregate stddev on columns */
+  ['replies_reactions_stddev_fields']: {
+    __typename: 'replies_reactions_stddev_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['replies_reactions_stddev_pop_fields']: {
+    __typename: 'replies_reactions_stddev_pop_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['replies_reactions_stddev_samp_fields']: {
+    __typename: 'replies_reactions_stddev_samp_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "replies_reactions" */
+  ['replies_reactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['replies_reactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['replies_reactions_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reaction?: string | undefined;
+    reply_id?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['replies_reactions_sum_fields']: {
+    __typename: 'replies_reactions_sum_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
+  ['replies_reactions_update_column']: replies_reactions_update_column;
+  /** aggregate var_pop on columns */
+  ['replies_reactions_var_pop_fields']: {
+    __typename: 'replies_reactions_var_pop_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['replies_reactions_var_samp_fields']: {
+    __typename: 'replies_reactions_var_samp_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['replies_reactions_variance_fields']: {
+    __typename: 'replies_reactions_variance_fields';
+    id?: number | undefined;
+    profile_id?: number | undefined;
+    reply_id?: number | undefined;
   };
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
@@ -37105,6 +37823,14 @@ export type GraphQLTypes = {
     replies_aggregate: GraphQLTypes['replies_aggregate'];
     /** fetch data from the table: "replies" using primary key columns */
     replies_by_pk?: GraphQLTypes['replies'] | undefined;
+    /** fetch data from the table: "replies_reactions" */
+    replies_reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** fetch aggregated fields from the table: "replies_reactions" */
+    replies_reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
+    /** fetch data from the table: "replies_reactions" using primary key columns */
+    replies_reactions_by_pk?: GraphQLTypes['replies_reactions'] | undefined;
+    /** fetch data from the table in a streaming manner: "replies_reactions" */
+    replies_reactions_stream: Array<GraphQLTypes['replies_reactions']>;
     /** fetch data from the table in a streaming manner: "replies" */
     replies_stream: Array<GraphQLTypes['replies']>;
     /** fetch data from the table: "reputation_scores" */
@@ -39493,6 +40219,24 @@ export const enum reactions_update_column {
 /** unique or primary key constraints on table "replies" */
 export const enum replies_constraint {
   replies_pkey = 'replies_pkey',
+}
+/** unique or primary key constraints on table "replies_reactions" */
+export const enum replies_reactions_constraint {
+  replies_reactions_pkey = 'replies_reactions_pkey',
+  replies_reactions_profile_id_reply_id_reaction_key = 'replies_reactions_profile_id_reply_id_reaction_key',
+}
+/** select columns of table "replies_reactions" */
+export const enum replies_reactions_select_column {
+  created_at = 'created_at',
+  id = 'id',
+  profile_id = 'profile_id',
+  reaction = 'reaction',
+  reply_id = 'reply_id',
+  updated_at = 'updated_at',
+}
+/** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
+export const enum replies_reactions_update_column {
+  _PLACEHOLDER = '_PLACEHOLDER',
 }
 /** select columns of table "replies" */
 export const enum replies_select_column {

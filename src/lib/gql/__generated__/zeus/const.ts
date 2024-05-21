@@ -3460,6 +3460,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_reactions_by_pk: {
       id: 'bigint',
     },
+    delete_replies_reactions: {
+      where: 'replies_reactions_bool_exp',
+    },
+    delete_replies_reactions_by_pk: {
+      id: 'bigint',
+    },
     delete_twitter_accounts: {
       where: 'twitter_accounts_bool_exp',
     },
@@ -3584,6 +3590,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_replies_one: {
       object: 'replies_insert_input',
       on_conflict: 'replies_on_conflict',
+    },
+    insert_replies_reactions: {
+      objects: 'replies_reactions_insert_input',
+      on_conflict: 'replies_reactions_on_conflict',
+    },
+    insert_replies_reactions_one: {
+      object: 'replies_reactions_insert_input',
+      on_conflict: 'replies_reactions_on_conflict',
     },
     insert_skills: {
       objects: 'skills_insert_input',
@@ -5878,6 +5892,19 @@ export const AllTypesProps: Record<string, any> = {
     replies_by_pk: {
       id: 'bigint',
     },
+    replies_reactions: {
+      distinct_on: 'replies_reactions_select_column',
+      order_by: 'replies_reactions_order_by',
+      where: 'replies_reactions_bool_exp',
+    },
+    replies_reactions_aggregate: {
+      distinct_on: 'replies_reactions_select_column',
+      order_by: 'replies_reactions_order_by',
+      where: 'replies_reactions_bool_exp',
+    },
+    replies_reactions_by_pk: {
+      id: 'bigint',
+    },
     reputation_scores: {
       distinct_on: 'reputation_scores_select_column',
       order_by: 'reputation_scores_order_by',
@@ -6220,6 +6247,10 @@ export const AllTypesProps: Record<string, any> = {
     reply: 'order_by',
     updated_at: 'order_by',
   },
+  replies_obj_rel_insert_input: {
+    data: 'replies_insert_input',
+    on_conflict: 'replies_on_conflict',
+  },
   replies_on_conflict: {
     constraint: 'replies_constraint',
     update_columns: 'replies_update_column',
@@ -6242,6 +6273,56 @@ export const AllTypesProps: Record<string, any> = {
   replies_pk_columns_input: {
     id: 'bigint',
   },
+  replies_reactions_aggregate_fields: {
+    count: {
+      columns: 'replies_reactions_select_column',
+    },
+  },
+  replies_reactions_bool_exp: {
+    _and: 'replies_reactions_bool_exp',
+    _not: 'replies_reactions_bool_exp',
+    _or: 'replies_reactions_bool_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'bigint_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'Int_comparison_exp',
+    profile_public: 'profiles_public_bool_exp',
+    reaction: 'String_comparison_exp',
+    reply: 'replies_bool_exp',
+    reply_id: 'Int_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  replies_reactions_constraint: true,
+  replies_reactions_insert_input: {
+    reply: 'replies_obj_rel_insert_input',
+  },
+  replies_reactions_on_conflict: {
+    constraint: 'replies_reactions_constraint',
+    update_columns: 'replies_reactions_update_column',
+    where: 'replies_reactions_bool_exp',
+  },
+  replies_reactions_order_by: {
+    created_at: 'order_by',
+    id: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+    profile_public: 'profiles_public_order_by',
+    reaction: 'order_by',
+    reply: 'replies_order_by',
+    reply_id: 'order_by',
+    updated_at: 'order_by',
+  },
+  replies_reactions_select_column: true,
+  replies_reactions_stream_cursor_input: {
+    initial_value: 'replies_reactions_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  replies_reactions_stream_cursor_value_input: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    updated_at: 'timestamptz',
+  },
+  replies_reactions_update_column: true,
   replies_select_column: true,
   replies_set_input: {
     deleted_at: 'timestamptz',
@@ -7026,6 +7107,23 @@ export const AllTypesProps: Record<string, any> = {
     },
     replies_by_pk: {
       id: 'bigint',
+    },
+    replies_reactions: {
+      distinct_on: 'replies_reactions_select_column',
+      order_by: 'replies_reactions_order_by',
+      where: 'replies_reactions_bool_exp',
+    },
+    replies_reactions_aggregate: {
+      distinct_on: 'replies_reactions_select_column',
+      order_by: 'replies_reactions_order_by',
+      where: 'replies_reactions_bool_exp',
+    },
+    replies_reactions_by_pk: {
+      id: 'bigint',
+    },
+    replies_reactions_stream: {
+      cursor: 'replies_reactions_stream_cursor_input',
+      where: 'replies_reactions_bool_exp',
     },
     replies_stream: {
       cursor: 'replies_stream_cursor_input',
@@ -9775,6 +9873,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_profile_skills_by_pk: 'profile_skills',
     delete_reactions: 'reactions_mutation_response',
     delete_reactions_by_pk: 'reactions',
+    delete_replies_reactions: 'replies_reactions_mutation_response',
+    delete_replies_reactions_by_pk: 'replies_reactions',
     delete_twitter_accounts: 'twitter_accounts_mutation_response',
     delete_twitter_accounts_by_pk: 'twitter_accounts',
     endEpoch: 'EpochResponse',
@@ -9813,6 +9913,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_reactions_one: 'reactions',
     insert_replies: 'replies_mutation_response',
     insert_replies_one: 'replies',
+    insert_replies_reactions: 'replies_reactions_mutation_response',
+    insert_replies_reactions_one: 'replies_reactions',
     insert_skills: 'skills_mutation_response',
     insert_skills_one: 'skills',
     linkDiscordCircle: 'LinkDiscordCircleResponse',
@@ -10694,6 +10796,9 @@ export const ReturnTypes: Record<string, any> = {
     replies: 'replies',
     replies_aggregate: 'replies_aggregate',
     replies_by_pk: 'replies',
+    replies_reactions: 'replies_reactions',
+    replies_reactions_aggregate: 'replies_reactions_aggregate',
+    replies_reactions_by_pk: 'replies_reactions',
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
     searchCosouls: 'SearchCosoulsOutput',
@@ -10876,6 +10981,94 @@ export const ReturnTypes: Record<string, any> = {
   replies_mutation_response: {
     affected_rows: 'Int',
     returning: 'replies',
+  },
+  replies_reactions: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile: 'profiles',
+    profile_id: 'Int',
+    profile_public: 'profiles_public',
+    reaction: 'String',
+    reply: 'replies',
+    reply_id: 'Int',
+    updated_at: 'timestamptz',
+  },
+  replies_reactions_aggregate: {
+    aggregate: 'replies_reactions_aggregate_fields',
+    nodes: 'replies_reactions',
+  },
+  replies_reactions_aggregate_fields: {
+    avg: 'replies_reactions_avg_fields',
+    count: 'Int',
+    max: 'replies_reactions_max_fields',
+    min: 'replies_reactions_min_fields',
+    stddev: 'replies_reactions_stddev_fields',
+    stddev_pop: 'replies_reactions_stddev_pop_fields',
+    stddev_samp: 'replies_reactions_stddev_samp_fields',
+    sum: 'replies_reactions_sum_fields',
+    var_pop: 'replies_reactions_var_pop_fields',
+    var_samp: 'replies_reactions_var_samp_fields',
+    variance: 'replies_reactions_variance_fields',
+  },
+  replies_reactions_avg_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_max_fields: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'Int',
+    reaction: 'String',
+    reply_id: 'Int',
+    updated_at: 'timestamptz',
+  },
+  replies_reactions_min_fields: {
+    created_at: 'timestamptz',
+    id: 'bigint',
+    profile_id: 'Int',
+    reaction: 'String',
+    reply_id: 'Int',
+    updated_at: 'timestamptz',
+  },
+  replies_reactions_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'replies_reactions',
+  },
+  replies_reactions_stddev_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_stddev_pop_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_stddev_samp_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_sum_fields: {
+    id: 'bigint',
+    profile_id: 'Int',
+    reply_id: 'Int',
+  },
+  replies_reactions_var_pop_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_var_samp_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
+  },
+  replies_reactions_variance_fields: {
+    id: 'Float',
+    profile_id: 'Float',
+    reply_id: 'Float',
   },
   replies_stddev_fields: {
     activity_actor_id: 'Float',
@@ -11102,6 +11295,10 @@ export const ReturnTypes: Record<string, any> = {
     replies: 'replies',
     replies_aggregate: 'replies_aggregate',
     replies_by_pk: 'replies',
+    replies_reactions: 'replies_reactions',
+    replies_reactions_aggregate: 'replies_reactions_aggregate',
+    replies_reactions_by_pk: 'replies_reactions',
+    replies_reactions_stream: 'replies_reactions',
     replies_stream: 'replies',
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
