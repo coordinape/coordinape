@@ -20764,6 +20764,66 @@ type replies {
   An object relationship
   """
   profile_public: profiles_public
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): [replies_reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): replies_reactions_aggregate!
   reply: String!
   updated_at: timestamptz!
 }
@@ -20858,6 +20918,8 @@ input replies_bool_exp {
   profile: profiles_bool_exp
   profile_id: Int_comparison_exp
   profile_public: profiles_public_bool_exp
+  reactions: replies_reactions_bool_exp
+  reactions_aggregate: replies_reactions_aggregate_bool_exp
   reply: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
@@ -20878,6 +20940,7 @@ input type for inserting data into table "replies"
 input replies_insert_input {
   activity_actor_id: Int
   activity_id: Int
+  reactions: replies_reactions_arr_rel_insert_input
   reply: String
 }
 
@@ -20987,6 +21050,7 @@ input replies_order_by {
   profile: profiles_order_by
   profile_id: order_by
   profile_public: profiles_public_order_by
+  reactions_aggregate: replies_reactions_aggregate_order_by
   reply: order_by
   updated_at: order_by
 }
@@ -21033,6 +21097,17 @@ type replies_reactions_aggregate {
   nodes: [replies_reactions!]!
 }
 
+input replies_reactions_aggregate_bool_exp {
+  count: replies_reactions_aggregate_bool_exp_count
+}
+
+input replies_reactions_aggregate_bool_exp_count {
+  arguments: [replies_reactions_select_column!]
+  distinct: Boolean
+  filter: replies_reactions_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "replies_reactions"
 """
@@ -21051,12 +21126,50 @@ type replies_reactions_aggregate_fields {
 }
 
 """
+order by aggregate values of table "replies_reactions"
+"""
+input replies_reactions_aggregate_order_by {
+  avg: replies_reactions_avg_order_by
+  count: order_by
+  max: replies_reactions_max_order_by
+  min: replies_reactions_min_order_by
+  stddev: replies_reactions_stddev_order_by
+  stddev_pop: replies_reactions_stddev_pop_order_by
+  stddev_samp: replies_reactions_stddev_samp_order_by
+  sum: replies_reactions_sum_order_by
+  var_pop: replies_reactions_var_pop_order_by
+  var_samp: replies_reactions_var_samp_order_by
+  variance: replies_reactions_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "replies_reactions"
+"""
+input replies_reactions_arr_rel_insert_input {
+  data: [replies_reactions_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: replies_reactions_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type replies_reactions_avg_fields {
   id: Float
   profile_id: Float
   reply_id: Float
+}
+
+"""
+order by avg() on columns of table "replies_reactions"
+"""
+input replies_reactions_avg_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
 }
 
 """
@@ -21114,6 +21227,18 @@ type replies_reactions_max_fields {
 }
 
 """
+order by max() on columns of table "replies_reactions"
+"""
+input replies_reactions_max_order_by {
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  reply_id: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type replies_reactions_min_fields {
@@ -21123,6 +21248,18 @@ type replies_reactions_min_fields {
   reaction: String
   reply_id: Int
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "replies_reactions"
+"""
+input replies_reactions_min_order_by {
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  reply_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -21209,6 +21346,15 @@ type replies_reactions_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type replies_reactions_stddev_pop_fields {
@@ -21218,12 +21364,30 @@ type replies_reactions_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_pop_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type replies_reactions_stddev_samp_fields {
   id: Float
   profile_id: Float
   reply_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_samp_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
 }
 
 """
@@ -21263,6 +21427,15 @@ type replies_reactions_sum_fields {
 }
 
 """
+order by sum() on columns of table "replies_reactions"
+"""
+input replies_reactions_sum_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
 placeholder for update columns of table "replies_reactions" (current role has no relevant permissions)
 """
 enum replies_reactions_update_column {
@@ -21282,6 +21455,15 @@ type replies_reactions_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "replies_reactions"
+"""
+input replies_reactions_var_pop_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type replies_reactions_var_samp_fields {
@@ -21291,12 +21473,30 @@ type replies_reactions_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "replies_reactions"
+"""
+input replies_reactions_var_samp_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type replies_reactions_variance_fields {
   id: Float
   profile_id: Float
   reply_id: Float
+}
+
+"""
+order by variance() on columns of table "replies_reactions"
+"""
+input replies_reactions_variance_order_by {
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
 }
 
 """

@@ -15179,6 +15179,52 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
     profile_public?: ValueTypes['profiles_public'];
+    reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions'],
+    ];
+    reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['replies_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['replies_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['replies_reactions_aggregate'],
+    ];
     reply?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -15266,6 +15312,11 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
     profile_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    reactions?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['replies_reactions_aggregate_bool_exp']
+      | undefined
+      | null;
     reply?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
@@ -15275,6 +15326,10 @@ export type ValueTypes = {
   ['replies_insert_input']: {
     activity_actor_id?: number | undefined | null;
     activity_id?: number | undefined | null;
+    reactions?:
+      | ValueTypes['replies_reactions_arr_rel_insert_input']
+      | undefined
+      | null;
     reply?: string | undefined | null;
   };
   /** aggregate max on columns */
@@ -15358,6 +15413,10 @@ export type ValueTypes = {
     profile?: ValueTypes['profiles_order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['replies_reactions_aggregate_order_by']
+      | undefined
+      | null;
     reply?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
@@ -15387,6 +15446,21 @@ export type ValueTypes = {
     nodes?: ValueTypes['replies_reactions'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['replies_reactions_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['replies_reactions_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['replies_reactions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['replies_reactions_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['replies_reactions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "replies_reactions" */
   ['replies_reactions_aggregate_fields']: AliasType<{
     avg?: ValueTypes['replies_reactions_avg_fields'];
@@ -15411,6 +15485,44 @@ export type ValueTypes = {
     variance?: ValueTypes['replies_reactions_variance_fields'];
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "replies_reactions" */
+  ['replies_reactions_aggregate_order_by']: {
+    avg?: ValueTypes['replies_reactions_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['replies_reactions_max_order_by'] | undefined | null;
+    min?: ValueTypes['replies_reactions_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['replies_reactions_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['replies_reactions_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['replies_reactions_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['replies_reactions_sum_order_by'] | undefined | null;
+    var_pop?:
+      | ValueTypes['replies_reactions_var_pop_order_by']
+      | undefined
+      | null;
+    var_samp?:
+      | ValueTypes['replies_reactions_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['replies_reactions_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** input type for inserting array relation for remote table "replies_reactions" */
+  ['replies_reactions_arr_rel_insert_input']: {
+    data: Array<ValueTypes['replies_reactions_insert_input']>;
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes['replies_reactions_on_conflict']
+      | undefined
+      | null;
+  };
   /** aggregate avg on columns */
   ['replies_reactions_avg_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -15418,6 +15530,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by avg() on columns of table "replies_reactions" */
+  ['replies_reactions_avg_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
   ['replies_reactions_bool_exp']: {
     _and?: Array<ValueTypes['replies_reactions_bool_exp']> | undefined | null;
@@ -15451,6 +15569,15 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by max() on columns of table "replies_reactions" */
+  ['replies_reactions_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate min on columns */
   ['replies_reactions_min_fields']: AliasType<{
     created_at?: boolean | `@${string}`;
@@ -15461,6 +15588,15 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by min() on columns of table "replies_reactions" */
+  ['replies_reactions_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reaction?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
   /** response of any mutation on the table "replies_reactions" */
   ['replies_reactions_mutation_response']: AliasType<{
     /** number of rows affected by the mutation */
@@ -15496,6 +15632,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_pop on columns */
   ['replies_reactions_stddev_pop_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -15503,6 +15645,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate stddev_samp on columns */
   ['replies_reactions_stddev_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -15510,6 +15658,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by stddev_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "replies_reactions" */
   ['replies_reactions_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -15533,6 +15687,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by sum() on columns of table "replies_reactions" */
+  ['replies_reactions_sum_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
   ['replies_reactions_update_column']: replies_reactions_update_column;
   /** aggregate var_pop on columns */
@@ -15542,6 +15702,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_var_pop_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate var_samp on columns */
   ['replies_reactions_var_samp_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -15549,6 +15715,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by var_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_var_samp_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** aggregate variance on columns */
   ['replies_reactions_variance_fields']: AliasType<{
     id?: boolean | `@${string}`;
@@ -15556,6 +15728,12 @@ export type ValueTypes = {
     reply_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by variance() on columns of table "replies_reactions" */
+  ['replies_reactions_variance_order_by']: {
+    id?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    reply_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
   /** input type for updating data in table "replies" */
@@ -25569,6 +25747,10 @@ export type ModelTypes = {
     profile_id: number;
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
     reply: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
@@ -25671,6 +25853,8 @@ export type ModelTypes = {
     aggregate?: GraphQLTypes['replies_reactions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['replies_reactions']>;
   };
+  ['replies_reactions_aggregate_bool_exp']: GraphQLTypes['replies_reactions_aggregate_bool_exp'];
+  ['replies_reactions_aggregate_bool_exp_count']: GraphQLTypes['replies_reactions_aggregate_bool_exp_count'];
   /** aggregate fields of "replies_reactions" */
   ['replies_reactions_aggregate_fields']: {
     avg?: GraphQLTypes['replies_reactions_avg_fields'] | undefined;
@@ -25689,12 +25873,18 @@ export type ModelTypes = {
     var_samp?: GraphQLTypes['replies_reactions_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['replies_reactions_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "replies_reactions" */
+  ['replies_reactions_aggregate_order_by']: GraphQLTypes['replies_reactions_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "replies_reactions" */
+  ['replies_reactions_arr_rel_insert_input']: GraphQLTypes['replies_reactions_arr_rel_insert_input'];
   /** aggregate avg on columns */
   ['replies_reactions_avg_fields']: {
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by avg() on columns of table "replies_reactions" */
+  ['replies_reactions_avg_order_by']: GraphQLTypes['replies_reactions_avg_order_by'];
   /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
   ['replies_reactions_bool_exp']: GraphQLTypes['replies_reactions_bool_exp'];
   /** unique or primary key constraints on table "replies_reactions" */
@@ -25710,6 +25900,8 @@ export type ModelTypes = {
     reply_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "replies_reactions" */
+  ['replies_reactions_max_order_by']: GraphQLTypes['replies_reactions_max_order_by'];
   /** aggregate min on columns */
   ['replies_reactions_min_fields']: {
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -25719,6 +25911,8 @@ export type ModelTypes = {
     reply_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by min() on columns of table "replies_reactions" */
+  ['replies_reactions_min_order_by']: GraphQLTypes['replies_reactions_min_order_by'];
   /** response of any mutation on the table "replies_reactions" */
   ['replies_reactions_mutation_response']: {
     /** number of rows affected by the mutation */
@@ -25738,18 +25932,24 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_order_by']: GraphQLTypes['replies_reactions_stddev_order_by'];
   /** aggregate stddev_pop on columns */
   ['replies_reactions_stddev_pop_fields']: {
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_pop_order_by']: GraphQLTypes['replies_reactions_stddev_pop_order_by'];
   /** aggregate stddev_samp on columns */
   ['replies_reactions_stddev_samp_fields']: {
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by stddev_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_samp_order_by']: GraphQLTypes['replies_reactions_stddev_samp_order_by'];
   /** Streaming cursor of the table "replies_reactions" */
   ['replies_reactions_stream_cursor_input']: GraphQLTypes['replies_reactions_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
@@ -25760,6 +25960,8 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by sum() on columns of table "replies_reactions" */
+  ['replies_reactions_sum_order_by']: GraphQLTypes['replies_reactions_sum_order_by'];
   /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
   ['replies_reactions_update_column']: GraphQLTypes['replies_reactions_update_column'];
   /** aggregate var_pop on columns */
@@ -25768,18 +25970,24 @@ export type ModelTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_var_pop_order_by']: GraphQLTypes['replies_reactions_var_pop_order_by'];
   /** aggregate var_samp on columns */
   ['replies_reactions_var_samp_fields']: {
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_var_samp_order_by']: GraphQLTypes['replies_reactions_var_samp_order_by'];
   /** aggregate variance on columns */
   ['replies_reactions_variance_fields']: {
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by variance() on columns of table "replies_reactions" */
+  ['replies_reactions_variance_order_by']: GraphQLTypes['replies_reactions_variance_order_by'];
   /** select columns of table "replies" */
   ['replies_select_column']: GraphQLTypes['replies_select_column'];
   /** input type for updating data in table "replies" */
@@ -36823,6 +37031,10 @@ export type GraphQLTypes = {
     profile_id: number;
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['replies_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['replies_reactions_aggregate'];
     reply: string;
     updated_at: GraphQLTypes['timestamptz'];
   };
@@ -36902,6 +37114,10 @@ export type GraphQLTypes = {
     profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
     profile_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    reactions?: GraphQLTypes['replies_reactions_bool_exp'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['replies_reactions_aggregate_bool_exp']
+      | undefined;
     reply?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
@@ -36911,6 +37127,9 @@ export type GraphQLTypes = {
   ['replies_insert_input']: {
     activity_actor_id?: number | undefined;
     activity_id?: number | undefined;
+    reactions?:
+      | GraphQLTypes['replies_reactions_arr_rel_insert_input']
+      | undefined;
     reply?: string | undefined;
   };
   /** aggregate max on columns */
@@ -36993,6 +37212,9 @@ export type GraphQLTypes = {
     profile?: GraphQLTypes['profiles_order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['replies_reactions_aggregate_order_by']
+      | undefined;
     reply?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
@@ -37022,6 +37244,19 @@ export type GraphQLTypes = {
     aggregate?: GraphQLTypes['replies_reactions_aggregate_fields'] | undefined;
     nodes: Array<GraphQLTypes['replies_reactions']>;
   };
+  ['replies_reactions_aggregate_bool_exp']: {
+    count?:
+      | GraphQLTypes['replies_reactions_aggregate_bool_exp_count']
+      | undefined;
+  };
+  ['replies_reactions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<GraphQLTypes['replies_reactions_select_column']>
+      | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['replies_reactions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
   /** aggregate fields of "replies_reactions" */
   ['replies_reactions_aggregate_fields']: {
     __typename: 'replies_reactions_aggregate_fields';
@@ -37041,12 +37276,42 @@ export type GraphQLTypes = {
     var_samp?: GraphQLTypes['replies_reactions_var_samp_fields'] | undefined;
     variance?: GraphQLTypes['replies_reactions_variance_fields'] | undefined;
   };
+  /** order by aggregate values of table "replies_reactions" */
+  ['replies_reactions_aggregate_order_by']: {
+    avg?: GraphQLTypes['replies_reactions_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['replies_reactions_max_order_by'] | undefined;
+    min?: GraphQLTypes['replies_reactions_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['replies_reactions_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['replies_reactions_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['replies_reactions_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['replies_reactions_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['replies_reactions_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['replies_reactions_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['replies_reactions_variance_order_by'] | undefined;
+  };
+  /** input type for inserting array relation for remote table "replies_reactions" */
+  ['replies_reactions_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['replies_reactions_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['replies_reactions_on_conflict'] | undefined;
+  };
   /** aggregate avg on columns */
   ['replies_reactions_avg_fields']: {
     __typename: 'replies_reactions_avg_fields';
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "replies_reactions" */
+  ['replies_reactions_avg_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'. */
   ['replies_reactions_bool_exp']: {
@@ -37081,6 +37346,15 @@ export type GraphQLTypes = {
     reply_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
   };
+  /** order by max() on columns of table "replies_reactions" */
+  ['replies_reactions_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate min on columns */
   ['replies_reactions_min_fields']: {
     __typename: 'replies_reactions_min_fields';
@@ -37090,6 +37364,15 @@ export type GraphQLTypes = {
     reaction?: string | undefined;
     reply_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "replies_reactions" */
+  ['replies_reactions_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reaction?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** response of any mutation on the table "replies_reactions" */
   ['replies_reactions_mutation_response']: {
@@ -37126,6 +37409,12 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by stddev() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_pop on columns */
   ['replies_reactions_stddev_pop_fields']: {
     __typename: 'replies_reactions_stddev_pop_fields';
@@ -37133,12 +37422,24 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by stddev_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate stddev_samp on columns */
   ['replies_reactions_stddev_samp_fields']: {
     __typename: 'replies_reactions_stddev_samp_fields';
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_stddev_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Streaming cursor of the table "replies_reactions" */
   ['replies_reactions_stream_cursor_input']: {
@@ -37163,6 +37464,12 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by sum() on columns of table "replies_reactions" */
+  ['replies_reactions_sum_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** placeholder for update columns of table "replies_reactions" (current role has no relevant permissions) */
   ['replies_reactions_update_column']: replies_reactions_update_column;
   /** aggregate var_pop on columns */
@@ -37172,6 +37479,12 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by var_pop() on columns of table "replies_reactions" */
+  ['replies_reactions_var_pop_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate var_samp on columns */
   ['replies_reactions_var_samp_fields']: {
     __typename: 'replies_reactions_var_samp_fields';
@@ -37179,12 +37492,24 @@ export type GraphQLTypes = {
     profile_id?: number | undefined;
     reply_id?: number | undefined;
   };
+  /** order by var_samp() on columns of table "replies_reactions" */
+  ['replies_reactions_var_samp_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** aggregate variance on columns */
   ['replies_reactions_variance_fields']: {
     __typename: 'replies_reactions_variance_fields';
     id?: number | undefined;
     profile_id?: number | undefined;
     reply_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "replies_reactions" */
+  ['replies_reactions_variance_order_by']: {
+    id?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    reply_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "replies" */
   ['replies_select_column']: replies_select_column;
