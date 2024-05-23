@@ -16,8 +16,59 @@ import { ConfirmationModal } from 'components/ConfirmationModal';
 import { Text } from 'ui';
 
 import { ReplyForm } from './ReplyForm';
+import { ReplyReactionBar } from './ReplyReactionBar';
 
 export const QUERY_KEY_REPLIES = 'query-key-replies';
+
+const fetchReplies = async (activityId: number) => {
+  const { replies } = await client.query(
+    {
+      replies: [
+        {
+          where: { activity_id: { _eq: activityId } },
+          order_by: [{ created_at: order_by.asc }],
+        },
+        {
+          id: true,
+          reply: true,
+          updated_at: true,
+          reactions: [
+            {},
+            {
+              id: true,
+              reaction: true,
+              profile: {
+                name: true,
+                id: true,
+              },
+            },
+          ],
+          profile_public: {
+            id: true,
+            name: true,
+            address: true,
+            avatar: true,
+            cosoul: {
+              id: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'fetchReplies',
+    }
+  );
+  return replies;
+};
+
+export type Reply = Awaited<ReturnType<typeof fetchReplies>>[number];
+type ValidReply = Required<Reply> & {
+  profile_public: {
+    name: string;
+    address: string;
+  };
+};
 
 export const RepliesBox = ({
   activityId,
@@ -30,45 +81,6 @@ export const RepliesBox = ({
 }) => {
   const profileId = useAuthStore(state => state.profileId);
 
-  const fetchReplies = async () => {
-    const { replies } = await client.query(
-      {
-        replies: [
-          {
-            where: { activity_id: { _eq: activityId } },
-            order_by: [{ created_at: order_by.asc }],
-          },
-          {
-            id: true,
-            reply: true,
-            updated_at: true,
-            profile_public: {
-              id: true,
-              name: true,
-              address: true,
-              avatar: true,
-              cosoul: {
-                id: true,
-              },
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'fetchReplies',
-      }
-    );
-    return replies;
-  };
-
-  type Reply = Awaited<ReturnType<typeof fetchReplies>>[number];
-  type ValidReply = Required<Reply> & {
-    profile_public: {
-      name: string;
-      address: string;
-    };
-  };
-
   const queryClient = useQueryClient();
 
   const IsValidReply = (r: Reply): r is ValidReply => {
@@ -77,7 +89,7 @@ export const RepliesBox = ({
   const { data: replies } = useQuery(
     [QUERY_KEY_REPLIES, activityId],
     async () => {
-      const resp = await fetchReplies();
+      const resp = await fetchReplies(activityId);
       return resp.filter(IsValidReply);
     }
   );
@@ -170,6 +182,11 @@ export const RepliesBox = ({
                     render
                     source={reply.reply}
                     css={{ cursor: 'auto', mt: '0' }}
+                  />
+                  <ReplyReactionBar
+                    replyId={reply.id}
+                    reactions={reply.reactions}
+                    drawer={false}
                   />
                 </Flex>
               </Flex>
