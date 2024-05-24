@@ -14,6 +14,7 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 
 import { addressResourceIdentifier } from './addressResourceIdentifier.ts';
+import { ProfileGiveFrame } from './ProfileGiveFrame.tsx';
 
 const ImageNode = async (params: Record<string, string>) => {
   const { address } = params;
@@ -200,6 +201,11 @@ export const ProfileFrame = (address?: string, showMe?: boolean): Frame => {
           webAppURL('colinks') +
           '/giveparty/' +
           encodeURIComponent(address ?? params.address),
+      },
+      {
+        title: 'Give',
+        action: 'post',
+        onPost: async () => ProfileGiveFrame(),
       },
     ],
   };

@@ -30,6 +30,7 @@ import { JoinedSurprisePartyFrame } from '../../api-lib/frames/giveparty/JoinedS
 import { PartyHelpFrame } from '../../api-lib/frames/giveparty/PartyHelpFrame.tsx';
 import { PartyStartFrame } from '../../api-lib/frames/giveparty/PartyStartFrame.tsx';
 import { ProfileFrame } from '../../api-lib/frames/giveparty/ProfileFrame.tsx';
+import { ProfileGiveFrame } from '../../api-lib/frames/giveparty/ProfileGiveFrame.tsx';
 import { SkillLeaderboardFrame } from '../../api-lib/frames/giveparty/SkillLeaderboardFrame.tsx';
 import { SurprisePartyHelpFrame } from '../../api-lib/frames/giveparty/SurprisePartyHelpFrame.tsx';
 import { SurprisePartyHomeFrame } from '../../api-lib/frames/giveparty/SurprisePartyHomeFrame.tsx';
@@ -335,6 +336,7 @@ addFrame(FrontDoor);
 addFrame(GivePartyHomeFrame());
 addFrame(JoinedPartyFrame);
 addFrame(PartyHelpFrame());
+addFrame(ProfileGiveFrame());
 addFrame(GivePartyMintCoSoulFrame);
 addFrame(GivePartyMintWaitingFrame);
 addFrame(PartyStartFrame(''));
