@@ -31,10 +31,12 @@ export const ReplyReactionBar = ({
   reactions,
   drawer,
   replyId,
+  activityId,
 }: {
   reactions: Reaction[];
   drawer?: boolean;
   replyId: number;
+  activityId: number;
 }) => {
   const myProfileId = useAuthStore(state => state.profileId);
   const [currentReactions, setCurrentReactions] =
@@ -102,7 +104,11 @@ export const ReplyReactionBar = ({
 
   const addReaction = (reaction: string) => {
     setTimeout(() => {
-      createReplyReaction({ reply_id: replyId, reaction });
+      createReplyReaction({
+        reply_id: replyId,
+        reaction,
+        activity_id: activityId,
+      });
     }, 500);
   };
 

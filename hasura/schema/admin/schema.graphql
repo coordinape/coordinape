@@ -29920,6 +29920,12 @@ type notifications {
   """
   reply: replies
   reply_id: Int
+
+  """
+  An object relationship
+  """
+  reply_reaction: replies_reactions
+  reply_reaction_id: bigint
 }
 
 """
@@ -29960,6 +29966,7 @@ type notifications_avg_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -29989,6 +29996,8 @@ input notifications_bool_exp {
   reaction_id: bigint_comparison_exp
   reply: replies_bool_exp
   reply_id: Int_comparison_exp
+  reply_reaction: replies_reactions_bool_exp
+  reply_reaction_id: bigint_comparison_exp
 }
 
 """
@@ -30014,6 +30023,7 @@ input notifications_inc_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30040,6 +30050,8 @@ input notifications_insert_input {
   reaction_id: bigint
   reply: replies_obj_rel_insert_input
   reply_id: Int
+  reply_reaction: replies_reactions_obj_rel_insert_input
+  reply_reaction_id: bigint
 }
 
 """
@@ -30057,6 +30069,7 @@ type notifications_max_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30074,6 +30087,7 @@ type notifications_min_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30124,6 +30138,8 @@ input notifications_order_by {
   reaction_id: order_by
   reply: replies_order_by
   reply_id: order_by
+  reply_reaction: replies_reactions_order_by
+  reply_reaction_id: order_by
 }
 
 """
@@ -30191,6 +30207,11 @@ enum notifications_select_column {
   column name
   """
   reply_id
+
+  """
+  column name
+  """
+  reply_reaction_id
 }
 
 """
@@ -30208,6 +30229,7 @@ input notifications_set_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30223,6 +30245,7 @@ type notifications_stddev_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -30238,6 +30261,7 @@ type notifications_stddev_pop_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -30253,6 +30277,7 @@ type notifications_stddev_samp_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -30285,6 +30310,7 @@ input notifications_stream_cursor_value_input {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30300,6 +30326,7 @@ type notifications_sum_fields {
   profile_id: bigint
   reaction_id: bigint
   reply_id: Int
+  reply_reaction_id: bigint
 }
 
 """
@@ -30360,6 +30387,11 @@ enum notifications_update_column {
   column name
   """
   reply_id
+
+  """
+  column name
+  """
+  reply_reaction_id
 }
 
 input notifications_updates {
@@ -30392,6 +30424,7 @@ type notifications_var_pop_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -30407,6 +30440,7 @@ type notifications_var_samp_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 """
@@ -30422,6 +30456,7 @@ type notifications_variance_fields {
   profile_id: Float
   reaction_id: Float
   reply_id: Float
+  reply_reaction_id: Float
 }
 
 scalar numeric
@@ -44665,6 +44700,11 @@ input replies_pk_columns_input {
 columns and relationships of "replies_reactions"
 """
 type replies_reactions {
+  """
+  An object relationship
+  """
+  activity: activities
+  activity_id: Int!
   created_at: timestamptz!
   id: bigint!
 
@@ -44757,6 +44797,7 @@ input replies_reactions_arr_rel_insert_input {
 aggregate avg on columns
 """
 type replies_reactions_avg_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -44766,6 +44807,7 @@ type replies_reactions_avg_fields {
 order by avg() on columns of table "replies_reactions"
 """
 input replies_reactions_avg_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -44778,6 +44820,8 @@ input replies_reactions_bool_exp {
   _and: [replies_reactions_bool_exp!]
   _not: replies_reactions_bool_exp
   _or: [replies_reactions_bool_exp!]
+  activity: activities_bool_exp
+  activity_id: Int_comparison_exp
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
   profile: profiles_bool_exp
@@ -44808,6 +44852,7 @@ enum replies_reactions_constraint {
 input type for incrementing numeric columns in table "replies_reactions"
 """
 input replies_reactions_inc_input {
+  activity_id: Int
   id: bigint
   profile_id: Int
   reply_id: Int
@@ -44817,6 +44862,8 @@ input replies_reactions_inc_input {
 input type for inserting data into table "replies_reactions"
 """
 input replies_reactions_insert_input {
+  activity: activities_obj_rel_insert_input
+  activity_id: Int
   created_at: timestamptz
   id: bigint
   profile: profiles_obj_rel_insert_input
@@ -44832,6 +44879,7 @@ input replies_reactions_insert_input {
 aggregate max on columns
 """
 type replies_reactions_max_fields {
+  activity_id: Int
   created_at: timestamptz
   id: bigint
   profile_id: Int
@@ -44844,6 +44892,7 @@ type replies_reactions_max_fields {
 order by max() on columns of table "replies_reactions"
 """
 input replies_reactions_max_order_by {
+  activity_id: order_by
   created_at: order_by
   id: order_by
   profile_id: order_by
@@ -44856,6 +44905,7 @@ input replies_reactions_max_order_by {
 aggregate min on columns
 """
 type replies_reactions_min_fields {
+  activity_id: Int
   created_at: timestamptz
   id: bigint
   profile_id: Int
@@ -44868,6 +44918,7 @@ type replies_reactions_min_fields {
 order by min() on columns of table "replies_reactions"
 """
 input replies_reactions_min_order_by {
+  activity_id: order_by
   created_at: order_by
   id: order_by
   profile_id: order_by
@@ -44892,6 +44943,18 @@ type replies_reactions_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "replies_reactions"
+"""
+input replies_reactions_obj_rel_insert_input {
+  data: replies_reactions_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: replies_reactions_on_conflict
+}
+
+"""
 on_conflict condition type for table "replies_reactions"
 """
 input replies_reactions_on_conflict {
@@ -44904,6 +44967,8 @@ input replies_reactions_on_conflict {
 Ordering options when selecting data from "replies_reactions".
 """
 input replies_reactions_order_by {
+  activity: activities_order_by
+  activity_id: order_by
   created_at: order_by
   id: order_by
   profile: profiles_order_by
@@ -44926,6 +44991,11 @@ input replies_reactions_pk_columns_input {
 select columns of table "replies_reactions"
 """
 enum replies_reactions_select_column {
+  """
+  column name
+  """
+  activity_id
+
   """
   column name
   """
@@ -44961,6 +45031,7 @@ enum replies_reactions_select_column {
 input type for updating data in table "replies_reactions"
 """
 input replies_reactions_set_input {
+  activity_id: Int
   created_at: timestamptz
   id: bigint
   profile_id: Int
@@ -44973,6 +45044,7 @@ input replies_reactions_set_input {
 aggregate stddev on columns
 """
 type replies_reactions_stddev_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -44982,6 +45054,7 @@ type replies_reactions_stddev_fields {
 order by stddev() on columns of table "replies_reactions"
 """
 input replies_reactions_stddev_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -44991,6 +45064,7 @@ input replies_reactions_stddev_order_by {
 aggregate stddev_pop on columns
 """
 type replies_reactions_stddev_pop_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -45000,6 +45074,7 @@ type replies_reactions_stddev_pop_fields {
 order by stddev_pop() on columns of table "replies_reactions"
 """
 input replies_reactions_stddev_pop_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -45009,6 +45084,7 @@ input replies_reactions_stddev_pop_order_by {
 aggregate stddev_samp on columns
 """
 type replies_reactions_stddev_samp_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -45018,6 +45094,7 @@ type replies_reactions_stddev_samp_fields {
 order by stddev_samp() on columns of table "replies_reactions"
 """
 input replies_reactions_stddev_samp_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -45042,6 +45119,7 @@ input replies_reactions_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input replies_reactions_stream_cursor_value_input {
+  activity_id: Int
   created_at: timestamptz
   id: bigint
   profile_id: Int
@@ -45054,6 +45132,7 @@ input replies_reactions_stream_cursor_value_input {
 aggregate sum on columns
 """
 type replies_reactions_sum_fields {
+  activity_id: Int
   id: bigint
   profile_id: Int
   reply_id: Int
@@ -45063,6 +45142,7 @@ type replies_reactions_sum_fields {
 order by sum() on columns of table "replies_reactions"
 """
 input replies_reactions_sum_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -45072,6 +45152,11 @@ input replies_reactions_sum_order_by {
 update columns of table "replies_reactions"
 """
 enum replies_reactions_update_column {
+  """
+  column name
+  """
+  activity_id
+
   """
   column name
   """
@@ -45124,6 +45209,7 @@ input replies_reactions_updates {
 aggregate var_pop on columns
 """
 type replies_reactions_var_pop_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -45133,6 +45219,7 @@ type replies_reactions_var_pop_fields {
 order by var_pop() on columns of table "replies_reactions"
 """
 input replies_reactions_var_pop_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -45142,6 +45229,7 @@ input replies_reactions_var_pop_order_by {
 aggregate var_samp on columns
 """
 type replies_reactions_var_samp_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -45151,6 +45239,7 @@ type replies_reactions_var_samp_fields {
 order by var_samp() on columns of table "replies_reactions"
 """
 input replies_reactions_var_samp_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by
@@ -45160,6 +45249,7 @@ input replies_reactions_var_samp_order_by {
 aggregate variance on columns
 """
 type replies_reactions_variance_fields {
+  activity_id: Float
   id: Float
   profile_id: Float
   reply_id: Float
@@ -45169,6 +45259,7 @@ type replies_reactions_variance_fields {
 order by variance() on columns of table "replies_reactions"
 """
 input replies_reactions_variance_order_by {
+  activity_id: order_by
   id: order_by
   profile_id: order_by
   reply_id: order_by

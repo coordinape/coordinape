@@ -184,6 +184,7 @@ export const RepliesBox = ({
                     css={{ cursor: 'auto', mt: '0' }}
                   />
                   <ReplyReactionBar
+                    activityId={activityId}
                     replyId={reply.id}
                     reactions={reply.reactions}
                     drawer={false}

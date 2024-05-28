@@ -59,6 +59,15 @@ object_relationships:
   - name: reply
     using:
       foreign_key_constraint_on: reply_id
+  - name: reply_reaction
+    using:
+      manual_configuration:
+        column_mapping:
+          reply_reaction_id: id
+        insertion_order: null
+        remote_table:
+          name: replies_reactions
+          schema: public
 select_permissions:
   - role: user
     permission:
@@ -72,6 +81,7 @@ select_permissions:
         - profile_id
         - reaction_id
         - reply_id
+        - reply_reaction_id
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
