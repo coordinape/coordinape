@@ -75,7 +75,7 @@ const handleInsert = async (
   );
 
   res.status(200).json({
-    message: `reactions notification recorded`,
+    message: `reply reaction notification recorded`,
   });
 };
 
