@@ -80,6 +80,7 @@ export { default as Eye } from './Eye';
 export { default as FaceSmileSolid } from './FaceSmileSolid';
 export { default as FaceSmile } from './FaceSmile';
 export { default as FantomLogo } from './FantomLogo';
+export { default as Farcaster } from './Farcaster';
 export { default as FileText } from './FileText';
 export { default as Filter } from './Filter';
 export { default as GanacheLogo } from './GanacheLogo';
