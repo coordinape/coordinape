@@ -18,6 +18,33 @@ const optimism = {
     maxPriorityFeePerGas: BigNumber.from('500'),
   },
 };
+const base = {
+  chainId: '0x2105',
+  chainName: 'Base Mainnet',
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org/'],
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  gasSettings: {
+    maxFeePerGas: BigNumber.from('100000000'),
+    maxPriorityFeePerGas: BigNumber.from('500'),
+  },
+};
+const baseSepola = {
+  chainId: '0x14a34',
+  chainName: 'Base Sepolia',
+  rpcUrls: ['https://sepolia.base.org'],
+  blockExplorerUrls: ['https://sepolia.basescan.org/'],
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  gasSettings: {},
+};
 
 const optimismSepolia = {
   chainId: '0xAA37DC',

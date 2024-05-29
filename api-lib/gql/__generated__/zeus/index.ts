@@ -6309,6 +6309,7 @@ export type ValueTypes = {
     /** An object relationship */
     giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -6419,6 +6420,7 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    onchain_sync_error?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -6450,6 +6452,7 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -6467,6 +6470,7 @@ export type ValueTypes = {
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -6481,6 +6485,7 @@ export type ValueTypes = {
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6494,6 +6499,7 @@ export type ValueTypes = {
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -6508,6 +6514,7 @@ export type ValueTypes = {
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6546,6 +6553,7 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6569,6 +6577,7 @@ export type ValueTypes = {
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -6828,6 +6837,7 @@ export type ValueTypes = {
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -43025,6 +43035,7 @@ export type ModelTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    onchain_sync_error?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
@@ -43082,6 +43093,7 @@ export type ModelTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -43097,6 +43109,7 @@ export type ModelTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -59967,6 +59980,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    onchain_sync_error?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
@@ -60054,6 +60068,7 @@ export type GraphQLTypes = {
     give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    onchain_sync_error?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -60083,6 +60098,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -60100,6 +60116,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -60113,6 +60130,7 @@ export type GraphQLTypes = {
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -60127,6 +60145,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -60140,6 +60159,7 @@ export type GraphQLTypes = {
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -60175,6 +60195,7 @@ export type GraphQLTypes = {
     give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -60197,6 +60218,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -60452,6 +60474,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -81290,6 +81313,7 @@ export const enum colinks_gives_select_column {
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
+  onchain_sync_error = 'onchain_sync_error',
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
@@ -81312,6 +81336,7 @@ export const enum colinks_gives_update_column {
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
+  onchain_sync_error = 'onchain_sync_error',
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
