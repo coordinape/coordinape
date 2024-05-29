@@ -4,6 +4,7 @@ import {
   ALCHEMY_ETH_MAINNET_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
   ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  ALCHEMY_BASE_MAINNET_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
 } from './config';
@@ -19,6 +20,10 @@ export function getProvider(chainId: number) {
     case 10: // Optimism
       return new JsonRpcProvider(
         `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
+      );
+    case 8453: // Base
+      return new JsonRpcProvider(
+        `https://base-mainnet.g.alchemy.com/v2${ALCHEMY_BASE_MAINNET_API_KEY}`
       );
     case 11155420: {
       // Optimism Seplolia

@@ -1,16 +1,16 @@
 /* eslint-disable no-console */
+import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { Wallet } from 'ethers';
 
+import { COSOUL_SIGNER_ADDR_PK } from '../../../api-lib/config';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import {
-  getMintInfoFromReceipt,
-  mintCoSoulForAddress,
-} from '../../../src/features/cosoul/api/cosoul';
-import { minted } from '../actions/_handlers/syncCoSoul';
 
 const LIMIT = 9;
+const BASE_EAS_CONTRACT_ADDR = '0x4200000000000000000000000000000000000021';
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   const gives = await giveToSync();
@@ -24,14 +24,13 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     for (const give of gives) {
       try {
         console.log('Writing give onchain for give id: ', give.id);
-        const tx = await attestGiveOnchain(give);
-        const txReceipt = await tx.wait(); // TODO: don't need to wait i  dont think
+        const attestUid = await attestGiveOnchain(give);
 
         console.log(
           'Success: attested give for give.id : ',
           give.id,
           ' receiver address: ',
-          give.receiver_profile_public?.address
+          give.target_profile_public?.address
         );
 
         await adminClient.mutate(
@@ -39,7 +38,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
             update_colinks_gives_by_pk: [
               {
                 _set: {
-                  tx_hash: txReceipt.transactionHash,
+                  tx_hash: attestUid, // todo: rename to attest uid or use tx_hash instead
                 },
                 pk_columns: {
                   id: give.id,
@@ -104,7 +103,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   }
 }
 
-export async function giveToSync() {
+async function giveToSync() {
   // get all give that is not on-chain
   const { colinks_gives } = await adminClient.query(
     {
@@ -121,12 +120,12 @@ export async function giveToSync() {
           giver_profile_public: {
             address: true,
           },
-          receiver_profile_public: {
+          target_profile_public: {
             address: true,
           },
           skill: true,
           warpcast_url: true,
-          cast_url: true,
+          cast_hash: true,
           activity_id: true,
         },
       ],
@@ -134,6 +133,51 @@ export async function giveToSync() {
     { operationName: 'cron_giveOnchainSyncer__getGives' }
   );
   return colinks_gives;
+}
+
+type Give = Awaited<ReturnType<typeof giveToSync>>[number];
+
+async function attestGiveOnchain(give: Give) {
+  // connect to Base EAS
+  const chainId = 8453;
+  const provider = getProvider(chainId);
+
+  const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
+  const signer = syncerWallet.connect(provider);
+
+  const eas = new EAS(BASE_EAS_CONTRACT_ADDR);
+  // @ts-ignore
+  eas.connect(signer);
+
+  const schemaUID =
+    '0x0be4dce014ddd797912a70917bae820b54d4de03ee134b6b66cd80cd15793c6a';
+  // Initialize SchemaEncoder with the schema string
+  const schemaEncoder = new SchemaEncoder(
+    'address giver,string skill,string cast_hash'
+  );
+  const encodedData = schemaEncoder.encodeData([
+    {
+      name: 'giver',
+      value: '0x0000000000000000000000000000000000000000',
+      type: 'address',
+    },
+    { name: 'skill', value: '', type: 'string' },
+    { name: 'cast_hash', value: '', type: 'string' },
+  ]);
+
+  const tx = await eas.attest({
+    schema: schemaUID,
+    data: {
+      recipient: give.target_profile_public?.address ?? '',
+      expirationTime: BigInt(0),
+      revocable: true,
+      data: encodedData,
+    },
+  });
+
+  const newAttestationUID = await tx.wait();
+
+  return newAttestationUID;
 }
 
 export default verifyHasuraRequestMiddleware(handler);

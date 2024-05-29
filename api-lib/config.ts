@@ -62,6 +62,10 @@ export const ALCHEMY_OPTIMISM_SEPOLIA_API_KEY = getEnvValue(
   'ALCHEMY_OPTIMISM_SEPOLIA_API_KEY',
   'missing-alchemy-optimism-sepolia-api-key'
 );
+export const ALCHEMY_BASE_MAINNET_API_KEY = getEnvValue(
+  'ALCHEMY_BASE_MAINNET_API_KEY',
+  'missing-alchemy-base-mainnet-api-key'
+);
 export const ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
   'ALCHEMY_OPTIMISM_API_KEY',
   'missing-alchemy-optimism-api-key'
