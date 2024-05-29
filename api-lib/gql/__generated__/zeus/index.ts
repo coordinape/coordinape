@@ -6314,6 +6314,7 @@ export type ValueTypes = {
     target_profile_id?: boolean | `@${string}`;
     /** An object relationship */
     target_profile_public?: ValueTypes['profiles_public'];
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6425,6 +6426,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_bool_exp']
       | undefined
       | null;
+    tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     warpcast_url?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -6455,6 +6457,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
@@ -6467,6 +6470,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6480,6 +6484,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6492,6 +6497,7 @@ export type ValueTypes = {
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6505,6 +6511,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6546,6 +6553,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_order_by']
       | undefined
       | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6564,6 +6572,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
@@ -6822,6 +6831,7 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
@@ -43020,6 +43030,7 @@ export type ModelTypes = {
     target_profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     warpcast_url?: string | undefined;
   };
@@ -43074,6 +43085,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -43088,6 +43100,7 @@ export type ModelTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -59959,6 +59972,7 @@ export type GraphQLTypes = {
     target_profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     warpcast_url?: string | undefined;
   };
@@ -60046,6 +60060,7 @@ export type GraphQLTypes = {
     target_profile_public?:
       | GraphQLTypes['profiles_public_bool_exp']
       | undefined;
+    tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     warpcast_url?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -60074,6 +60089,7 @@ export type GraphQLTypes = {
     target_profile_public?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60087,6 +60103,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60099,6 +60116,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60112,6 +60130,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60124,6 +60143,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60161,6 +60181,7 @@ export type GraphQLTypes = {
     target_profile_public?:
       | GraphQLTypes['profiles_public_order_by']
       | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60179,6 +60200,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60433,6 +60455,7 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -81270,6 +81293,7 @@ export const enum colinks_gives_select_column {
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   warpcast_url = 'warpcast_url',
 }
@@ -81291,6 +81315,7 @@ export const enum colinks_gives_update_column {
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   warpcast_url = 'warpcast_url',
 }
