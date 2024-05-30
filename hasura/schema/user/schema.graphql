@@ -8009,6 +8009,158 @@ input epochs_variance_order_by {
   repeat_day_of_month: order_by
 }
 
+"""
+columns and relationships of "farcaster_accounts"
+"""
+type farcaster_accounts {
+  created_at: timestamptz!
+  custody_address: String!
+  fid: bigint!
+  followers_count: Int!
+  following_count: Int!
+  name: String!
+  pfp_url: String
+  profile_id: bigint!
+  updated_at: timestamptz!
+  username: String!
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'.
+"""
+input farcaster_accounts_bool_exp {
+  _and: [farcaster_accounts_bool_exp!]
+  _not: farcaster_accounts_bool_exp
+  _or: [farcaster_accounts_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  custody_address: String_comparison_exp
+  fid: bigint_comparison_exp
+  followers_count: Int_comparison_exp
+  following_count: Int_comparison_exp
+  name: String_comparison_exp
+  pfp_url: String_comparison_exp
+  profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+response of any mutation on the table "farcaster_accounts"
+"""
+type farcaster_accounts_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_accounts!]!
+}
+
+"""
+Ordering options when selecting data from "farcaster_accounts".
+"""
+input farcaster_accounts_order_by {
+  created_at: order_by
+  custody_address: order_by
+  fid: order_by
+  followers_count: order_by
+  following_count: order_by
+  name: order_by
+  pfp_url: order_by
+  profile_id: order_by
+  updated_at: order_by
+  username: order_by
+}
+
+"""
+select columns of table "farcaster_accounts"
+"""
+enum farcaster_accounts_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  followers_count
+
+  """
+  column name
+  """
+  following_count
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  pfp_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  username
+}
+
+"""
+Streaming cursor of the table "farcaster_accounts"
+"""
+input farcaster_accounts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_accounts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_accounts_stream_cursor_value_input {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
 scalar float8
 
 """
@@ -10520,6 +10672,11 @@ type mutation_root {
   adds a new (unverified) email address to a users profile
   """
   addEmail(payload: AddEmailInput!): ConfirmationResponse
+
+  """
+  adds a farcaster account to a users profile
+  """
+  addFarcaster: ConfirmationWithErrorResponse
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
   createCircle(payload: CreateCircleInput!): CreateCircleResponse
@@ -10615,6 +10772,21 @@ type mutation_root {
   delete single row from the table: "discord.users"
   """
   delete_discord_users_by_pk(id: bigint!): discord_users
+
+  """
+  delete data from the table: "farcaster_accounts"
+  """
+  delete_farcaster_accounts(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_accounts_bool_exp!
+  ): farcaster_accounts_mutation_response
+
+  """
+  delete single row from the table: "farcaster_accounts"
+  """
+  delete_farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
 
   """
   delete data from the table: "github_accounts"
@@ -16054,6 +16226,11 @@ type profiles {
     """
     where: emails_bool_exp
   ): [emails!]!
+
+  """
+  An object relationship
+  """
+  farcaster_account: farcaster_accounts
   github_username: String
   id: bigint!
   invite_code: uuid!
@@ -16357,6 +16534,7 @@ input profiles_bool_exp {
   distributions: distributions_bool_exp
   distributions_aggregate: distributions_aggregate_bool_exp
   emails: emails_bool_exp
+  farcaster_account: farcaster_accounts_bool_exp
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
@@ -16431,6 +16609,7 @@ input profiles_order_by {
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
   emails_aggregate: emails_aggregate_order_by
+  farcaster_account: farcaster_accounts_order_by
   github_username: order_by
   id: order_by
   invite_code: order_by
@@ -18124,6 +18303,41 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+
+  """
+  fetch data from the table: "farcaster_accounts"
+  """
+  farcaster_accounts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
+
+  """
+  fetch data from the table: "farcaster_accounts" using primary key columns
+  """
+  farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
@@ -22648,6 +22862,61 @@ type subscription_root {
     """
     where: epochs_bool_exp
   ): [epochs!]!
+
+  """
+  fetch data from the table: "farcaster_accounts"
+  """
+  farcaster_accounts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
+
+  """
+  fetch data from the table: "farcaster_accounts" using primary key columns
+  """
+  farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
+
+  """
+  fetch data from the table in a streaming manner: "farcaster_accounts"
+  """
+  farcaster_accounts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_accounts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
 
   """
   fetch data from the table: "gift_private"

@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { skillTextStyle } from 'stitches.config';
 
 import { OrBar } from 'components/OrBar';
-import { ExternalLink, Github, Twitter } from 'icons/__generated';
+import { ExternalLink, Farcaster, Github, Twitter } from 'icons/__generated';
 import { Avatar, Flex, Link, Text } from 'ui';
 
 import { PublicProfile } from './PartyProfile';
@@ -16,6 +16,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
     const {
       twitter_accounts_by_pk: twitter,
       github_accounts_by_pk: github,
+      farcaster_accounts_by_pk: farcaster,
       profile_skills,
     } = await anonClient.query(
       {
@@ -48,6 +49,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
             username: true,
           },
         ],
+        farcaster_accounts_by_pk: [
+          {
+            profile_id: profile.id,
+          },
+          {
+            username: true,
+          },
+        ],
       },
       {
         operationName: 'twitter_profile',
@@ -57,6 +66,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
     return {
       twitter: twitter ? twitter.username : undefined,
       github: github ? github.username : undefined,
+      farcaster: farcaster ? farcaster.username : undefined,
       skills: profile_skills.map(ps => ps.skill_name),
     };
   });
@@ -111,6 +121,25 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
               <Flex
                 css={{ gap: '$sm', flexWrap: 'wrap', justifyContent: 'center' }}
               >
+                {details?.farcaster && (
+                  <Flex
+                    as={Link}
+                    href={`https://warpcast.com/${details?.farcaster}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    css={{
+                      alignItems: 'center',
+                      ...skillTextStyle,
+                      fontWeight: 'normal',
+                      gap: '$xs',
+                      '&:hover': {
+                        textDecoration: 'underline',
+                      },
+                    }}
+                  >
+                    <Farcaster fa /> {details?.farcaster}
+                  </Flex>
+                )}
                 {details?.github && (
                   <Flex
                     as={Link}

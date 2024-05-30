@@ -1,3 +1,4 @@
+import { AuthKitProvider } from '@farcaster/auth-kit';
 import { initFrontend as initAnalytics } from 'features/analytics';
 import { Helmet } from 'react-helmet';
 import { HelmetProvider } from 'react-helmet-async';
@@ -18,11 +19,20 @@ import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
 
 import './App.css';
+import '@farcaster/auth-kit/styles.css';
 
 const theme = createTheme();
 const queryClient = new QueryClient();
 initAnalytics();
 
+const authKitConfig = {
+  // TODO: idk about domain here
+  domain: 'colinks.co.local',
+  // TODO: idk about this url
+  siweUri: 'https://example.com/login',
+  rpcUrl: process.env.OPTIMISM_RPC_URL,
+  relay: 'https://relay.farcaster.xyz',
+};
 function App() {
   globalStyles();
   const isCoLinks = useIsCoLinksSite();
@@ -65,17 +75,19 @@ function App() {
       <RecoilRoot>
         <ErrorBoundary>
           <ToastContainer />
-          <QueryClientProvider client={queryClient}>
-            <DeprecatedMuiThemeProvider theme={theme}>
-              <ThemeProvider>
-                <Web3ReactProvider>
-                  <BrowserRouter>
-                    <AppRoutes />
-                  </BrowserRouter>
-                </Web3ReactProvider>
-              </ThemeProvider>
-            </DeprecatedMuiThemeProvider>
-          </QueryClientProvider>
+          <AuthKitProvider config={authKitConfig}>
+            <QueryClientProvider client={queryClient}>
+              <DeprecatedMuiThemeProvider theme={theme}>
+                <ThemeProvider>
+                  <Web3ReactProvider>
+                    <BrowserRouter>
+                      <AppRoutes />
+                    </BrowserRouter>
+                  </Web3ReactProvider>
+                </ThemeProvider>
+              </DeprecatedMuiThemeProvider>
+            </QueryClientProvider>
+          </AuthKitProvider>
         </ErrorBoundary>
       </RecoilRoot>
     </HelmetProvider>

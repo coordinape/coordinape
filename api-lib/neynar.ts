@@ -34,6 +34,20 @@ export const fetchUserByUsername = async (username: string) => {
   }
 };
 
+export const fetchUserByAddress = async (address: string) => {
+  try {
+    const users = await client.fetchBulkUsersByEthereumAddress([address]);
+    const user = Object.values(users)[0][0];
+    return user;
+  } catch (err) {
+    console.error(
+      `Got an error from Neynar attempting fetchBulkUsersByEthereumAddress for address ${address}, prob just 404`,
+      err
+    );
+    return undefined;
+  }
+};
+
 export const publishCast = async (
   text: string,
   options: PublishCastOptions
