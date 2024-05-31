@@ -2204,6 +2204,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'colinks_gives_bool_exp',
     _or: 'colinks_gives_bool_exp',
     activity_id: 'bigint_comparison_exp',
+    attestation_uid: 'String_comparison_exp',
     cast_hash: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     give_skill: 'skills_bool_exp',
@@ -2237,6 +2238,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   colinks_gives_max_order_by: {
     activity_id: 'order_by',
+    attestation_uid: 'order_by',
     cast_hash: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
@@ -2250,6 +2252,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   colinks_gives_min_order_by: {
     activity_id: 'order_by',
+    attestation_uid: 'order_by',
     cast_hash: 'order_by',
     created_at: 'order_by',
     id: 'order_by',
@@ -2272,6 +2275,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   colinks_gives_order_by: {
     activity_id: 'order_by',
+    attestation_uid: 'order_by',
     cast_hash: 'order_by',
     created_at: 'order_by',
     give_skill: 'skills_order_by',
@@ -15706,6 +15710,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives: {
     activity_id: 'bigint',
+    attestation_uid: 'String',
     cast_hash: 'String',
     created_at: 'timestamptz',
     give_skill: 'skills',
@@ -15745,6 +15750,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives_max_fields: {
     activity_id: 'bigint',
+    attestation_uid: 'String',
     cast_hash: 'String',
     created_at: 'timestamptz',
     id: 'Int',
@@ -15758,6 +15764,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   colinks_gives_min_fields: {
     activity_id: 'bigint',
+    attestation_uid: 'String',
     cast_hash: 'String',
     created_at: 'timestamptz',
     id: 'Int',

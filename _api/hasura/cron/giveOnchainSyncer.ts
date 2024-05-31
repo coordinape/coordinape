@@ -1,16 +1,12 @@
 /* eslint-disable no-console */
-import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { Wallet } from 'ethers';
 
-import { COSOUL_SIGNER_ADDR_PK } from '../../../api-lib/config';
+import { attestGiveOnchain } from '../../../api-lib/eas';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
-import { getProvider } from '../../../api-lib/provider';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-const LIMIT = 9;
-const BASE_EAS_CONTRACT_ADDR = '0x4200000000000000000000000000000000000021';
+const LIMIT = 10;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   const gives = await giveToSync();
@@ -23,14 +19,21 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     let success = 0;
     for (const give of gives) {
       try {
+        console.log({
+          giver: give.giver_profile_public?.address,
+          receiver: give.target_profile_public?.address,
+          skill: give.skill,
+        });
         console.log('Writing give onchain for give id: ', give.id);
-        const attestUid = await attestGiveOnchain(give);
+        const { attestUid, txHash } = await attestGiveOnchain(give);
 
         console.log(
           'Success: attested give for give.id : ',
           give.id,
           ' receiver address: ',
-          give.target_profile_public?.address
+          give.target_profile_public?.address,
+          'attestUid: ',
+          attestUid
         );
 
         await adminClient.mutate(
@@ -38,7 +41,8 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
             update_colinks_gives_by_pk: [
               {
                 _set: {
-                  tx_hash: attestUid, // todo: rename to attest uid or use tx_hash instead
+                  attestation_uid: attestUid,
+                  tx_hash: txHash,
                 },
                 pk_columns: {
                   id: give.id,
@@ -135,49 +139,6 @@ async function giveToSync() {
   return colinks_gives;
 }
 
-type Give = Awaited<ReturnType<typeof giveToSync>>[number];
-
-async function attestGiveOnchain(give: Give) {
-  // connect to Base EAS
-  const chainId = 8453;
-  const provider = getProvider(chainId);
-
-  const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
-  const signer = syncerWallet.connect(provider);
-
-  const eas = new EAS(BASE_EAS_CONTRACT_ADDR);
-  // @ts-ignore
-  eas.connect(signer);
-
-  const schemaUID =
-    '0x0be4dce014ddd797912a70917bae820b54d4de03ee134b6b66cd80cd15793c6a';
-  // Initialize SchemaEncoder with the schema string
-  const schemaEncoder = new SchemaEncoder(
-    'address giver,string skill,string cast_hash'
-  );
-  const encodedData = schemaEncoder.encodeData([
-    {
-      name: 'giver',
-      value: '0x0000000000000000000000000000000000000000',
-      type: 'address',
-    },
-    { name: 'skill', value: '', type: 'string' },
-    { name: 'cast_hash', value: '', type: 'string' },
-  ]);
-
-  const tx = await eas.attest({
-    schema: schemaUID,
-    data: {
-      recipient: give.target_profile_public?.address ?? '',
-      expirationTime: BigInt(0),
-      revocable: true,
-      data: encodedData,
-    },
-  });
-
-  const newAttestationUID = await tx.wait();
-
-  return newAttestationUID;
-}
+export type Give = Awaited<ReturnType<typeof giveToSync>>[number];
 
 export default verifyHasuraRequestMiddleware(handler);

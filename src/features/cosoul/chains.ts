@@ -29,8 +29,8 @@ const base = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('100000000'),
-    maxPriorityFeePerGas: BigNumber.from('500'),
+    maxFeePerGas: BigNumber.from('10000000'),
+    maxPriorityFeePerGas: BigNumber.from('50'),
   },
 };
 const baseSepola = {
@@ -43,7 +43,10 @@ const baseSepola = {
     symbol: 'ETH',
     decimals: 18,
   },
-  gasSettings: {},
+  gasSettings: {
+    maxFeePerGas: BigNumber.from('100000000'),
+    maxPriorityFeePerGas: BigNumber.from('500'),
+  },
 };
 
 const optimismSepolia = {
@@ -80,3 +83,5 @@ export const chain =
     : IN_PREVIEW
       ? optimismSepolia
       : localhost;
+
+export const baseChain = IN_PRODUCTION ? base : baseSepola;
