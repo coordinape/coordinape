@@ -47,6 +47,7 @@ async function giveToSync() {
         {
           where: {
             onchain_synced_at: { _is_null: true },
+            onchain_sync_error: { _is_null: true },
             give_skill: {
               hidden: { _eq: false },
             },
