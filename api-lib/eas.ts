@@ -36,9 +36,9 @@ export async function attestGiveOnchain(give: Give) {
   const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
   const platform = give.warpcast_url ? 'farcaster' : 'colinks';
   const context = give.warpcast_url ? 'give.party' : '';
-  const url =
-    give.warpcast_url ??
-    webAppURL('colinks') + coLinksPaths.post(give.activity_id);
+  const url = give.cast_hash
+    ? give.warpcast_url
+    : webAppURL('colinks') + coLinksPaths.post(give.activity_id);
 
   const schemaEncoder = new SchemaEncoder(
     'address from,string skill,uint16 amount,string platform,string context,string url,uint16 weight'
