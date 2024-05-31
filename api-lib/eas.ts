@@ -35,7 +35,7 @@ export async function attestGiveOnchain(give: Give) {
   const receiverAddr = getAddress(give.target_profile_public?.address ?? '');
   const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
   const platform = give.warpcast_url ? 'farcaster' : 'colinks';
-  const context = give.warpcast_url ? 'give.party' : '-';
+  const context = give.warpcast_url ? 'give.party' : '';
   const url =
     give.warpcast_url ??
     webAppURL('colinks') + coLinksPaths.post(give.activity_id);
@@ -51,8 +51,8 @@ export async function attestGiveOnchain(give: Give) {
     },
     { name: 'skill', value: give.skill, type: 'string' },
     { name: 'amount', value: 1, type: 'uint16' },
-    { name: 'context', value: context, type: 'string' },
     { name: 'platform', value: platform, type: 'string' },
+    { name: 'context', value: context, type: 'string' },
     { name: 'url', value: url, type: 'string' },
     { name: 'weight', value: '1', type: 'uint16' },
   ];
