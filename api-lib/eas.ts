@@ -15,7 +15,7 @@ const EAS_CONTRACT_ADDR = '0x4200000000000000000000000000000000000021';
 const BASE_MAINNET_SCHEMA_UID =
   '0x44ba9714fe382b86f0e126a592116bc2fc45905ee034d0e8b5db218bf366dafe';
 const BASE_SEPOLIA_SCHEMA_UID =
-  '0x35a94e5c4ea406fd60c0711c10f89d9997a098a0f55cc535f30b9ff277661911';
+  '0x55df90070189848b41fc4f2a8e07f82d6434718696286b9188ceb1d737f6cf87';
 
 export async function attestGiveOnchain(give: Give) {
   const chainId = Number(baseChain.chainId);
@@ -33,13 +33,14 @@ export async function attestGiveOnchain(give: Give) {
 
   const receiverAddr = getAddress(give.target_profile_public?.address ?? '');
   const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
-  const context = give.warpcast_url ? 'farcaster' : 'colinks';
+  const platform = give.warpcast_url ? 'farcaster' : 'colinks';
+  const context = undefined;
   const url =
     give.warpcast_url ??
     webAppURL('colinks') + coLinksPaths.post(give.activity_id);
 
   const schemaEncoder = new SchemaEncoder(
-    'address from,string skill,uint16 amount,string context,string url,uint16 weight'
+    'address from,string skill,uint16 amount,string platform,string context,string url,uint16 weight'
   );
   const encodedData = schemaEncoder.encodeData([
     {
@@ -50,6 +51,7 @@ export async function attestGiveOnchain(give: Give) {
     { name: 'skill', value: give.skill, type: 'string' },
     { name: 'amount', value: 1, type: 'uint16' },
     { name: 'context', value: context, type: 'string' },
+    { name: 'platform', value: platform, type: 'string' },
     { name: 'url', value: url, type: 'string' },
     { name: 'weight', value: '1', type: 'uint16' },
   ]);
