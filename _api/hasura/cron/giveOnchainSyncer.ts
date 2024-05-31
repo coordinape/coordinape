@@ -15,71 +15,10 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     let success = 0;
     for (const give of gives) {
       try {
-        // eslint-disable-next-line no-console
-        console.log('Writing give onchain for give id: ', give.id);
-        const { attestUid, txHash } = await attestGiveOnchain(give);
-
-        // eslint-disable-next-line no-console
-        console.log(
-          'Attested give for give.id : ',
-          give.id,
-          'attestUid: ',
-          attestUid
-        );
-
-        await adminClient.mutate(
-          {
-            update_colinks_gives_by_pk: [
-              {
-                _set: {
-                  attestation_uid: attestUid,
-                  tx_hash: txHash,
-                  onchain_synced_at: 'now()',
-                },
-                pk_columns: {
-                  id: give.id,
-                },
-              },
-              {
-                __typename: true,
-              },
-            ],
-          },
-          {
-            operationName: 'cron_giveOnchainSyncer__attestGive',
-          }
-        );
-
+        await attestGiveOnchain(give);
         success++;
       } catch (e: any) {
         errors++;
-
-        await adminClient.mutate(
-          {
-            update_colinks_gives_by_pk: [
-              {
-                _set: {
-                  onchain_sync_error: e.message,
-                },
-                pk_columns: {
-                  id: give.id,
-                },
-              },
-              {
-                __typename: true,
-              },
-            ],
-          },
-          {
-            operationName: 'cron_giveOnchainSyncer__attestGive__error',
-          }
-        );
-
-        console.error(
-          'Error while writing give onchain for give id : ',
-          give.id,
-          e.message
-        );
       }
     }
 
