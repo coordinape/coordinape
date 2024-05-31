@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { Wallet } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
@@ -42,7 +43,7 @@ export async function attestGiveOnchain(give: Give) {
   const schemaEncoder = new SchemaEncoder(
     'address from,string skill,uint16 amount,string platform,string context,string url,uint16 weight'
   );
-  const encodedData = schemaEncoder.encodeData([
+  const data = [
     {
       name: 'from',
       value: giverAddr,
@@ -54,7 +55,9 @@ export async function attestGiveOnchain(give: Give) {
     { name: 'platform', value: platform, type: 'string' },
     { name: 'url', value: url, type: 'string' },
     { name: 'weight', value: '1', type: 'uint16' },
-  ]);
+  ];
+  console.log({ data });
+  const encodedData = schemaEncoder.encodeData(data);
 
   const tx = await eas.attest(
     {
