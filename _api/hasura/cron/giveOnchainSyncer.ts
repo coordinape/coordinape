@@ -8,9 +8,9 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 const LIMIT = 10;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
-  const gives = await giveToSync();
-
   try {
+    const gives = await giveToSync();
+
     let errors = 0;
     let success = 0;
     for (const give of gives) {
