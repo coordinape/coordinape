@@ -11,19 +11,14 @@ const LIMIT = 10;
 async function handler(_req: VercelRequest, res: VercelResponse) {
   const gives = await giveToSync();
 
-  console.log('Gives to write onchain: ', gives.length);
   console.log({ gives });
+  console.log('Gives to write onchain: ', gives.length);
 
   try {
     let errors = 0;
     let success = 0;
     for (const give of gives) {
       try {
-        console.log({
-          giver: give.giver_profile_public?.address,
-          receiver: give.target_profile_public?.address,
-          skill: give.skill,
-        });
         console.log('Writing give onchain for give id: ', give.id);
         const { attestUid, txHash } = await attestGiveOnchain(give);
 
@@ -115,6 +110,9 @@ async function giveToSync() {
         {
           where: {
             tx_hash: { _is_null: true },
+            give_skill: {
+              hidden: { _eq: false },
+            },
           },
           order_by: [{ created_at: order_by.desc }],
           limit: LIMIT,

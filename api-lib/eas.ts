@@ -56,7 +56,6 @@ export async function attestGiveOnchain(give: Give) {
     { name: 'url', value: url, type: 'string' },
     { name: 'weight', value: '1', type: 'uint16' },
   ];
-  console.log({ data });
   const encodedData = schemaEncoder.encodeData(data);
 
   const tx = await eas.attest(
