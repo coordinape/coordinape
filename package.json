@@ -16,6 +16,7 @@
     "@decent.xyz/box-common": "2.0.10",
     "@decent.xyz/box-hooks": "2.0.10",
     "@decent.xyz/box-ui": "2.0.10",
+    "@ethereum-attestation-service/eas-sdk": "0.29.1",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",

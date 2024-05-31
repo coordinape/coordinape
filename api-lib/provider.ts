@@ -4,12 +4,13 @@ import {
   ALCHEMY_ETH_MAINNET_API_KEY,
   ALCHEMY_OPTIMISM_API_KEY,
   ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  ALCHEMY_BASE_MAINNET_API_KEY,
+  ALCHEMY_BASE_SEPOLIA_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
 } from './config';
 
 export function getProvider(chainId: number) {
-  // eslint-disable-next-line no-console
   switch (chainId) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
@@ -20,10 +21,17 @@ export function getProvider(chainId: number) {
       return new JsonRpcProvider(
         `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
       );
+    case 8453: // Base
+      return new JsonRpcProvider(
+        `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_BASE_MAINNET_API_KEY}`
+      );
+    case 84532: // Base Sepolia
+      return new JsonRpcProvider(
+        `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_BASE_SEPOLIA_API_KEY}`
+      );
     case 11155420: {
       // Optimism Seplolia
       const url = `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
-      // eslint-disable-next-line no-console
       return new JsonRpcProvider(url);
     }
     case 1337:

@@ -8435,6 +8435,7 @@ columns and relationships of "colinks_gives"
 """
 type colinks_gives {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz!
 
@@ -8448,6 +8449,8 @@ type colinks_gives {
   """
   giver_profile_public: profiles_public
   id: Int!
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint!
   skill: citext
   target_profile_id: bigint!
@@ -8456,6 +8459,7 @@ type colinks_gives {
   An object relationship
   """
   target_profile_public: profiles_public
+  tx_hash: String
   updated_at: timestamptz!
   warpcast_url: String
 }
@@ -8553,15 +8557,19 @@ input colinks_gives_bool_exp {
   _not: colinks_gives_bool_exp
   _or: [colinks_gives_bool_exp!]
   activity_id: bigint_comparison_exp
+  attestation_uid: String_comparison_exp
   cast_hash: String_comparison_exp
   created_at: timestamptz_comparison_exp
   give_skill: skills_bool_exp
   giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
+  onchain_sync_error: String_comparison_exp
+  onchain_synced_at: timestamptz_comparison_exp
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
   target_profile_id: bigint_comparison_exp
   target_profile_public: profiles_public_bool_exp
+  tx_hash: String_comparison_exp
   updated_at: timestamptz_comparison_exp
   warpcast_url: String_comparison_exp
 }
@@ -8596,15 +8604,19 @@ input type for inserting data into table "colinks_gives"
 """
 input colinks_gives_insert_input {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   give_skill: skills_obj_rel_insert_input
   giver_profile_public: profiles_public_obj_rel_insert_input
   id: Int
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
   target_profile_public: profiles_public_obj_rel_insert_input
+  tx_hash: String
   updated_at: timestamptz
   warpcast_url: String
 }
@@ -8614,12 +8626,16 @@ aggregate max on columns
 """
 type colinks_gives_max_fields {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
+  tx_hash: String
   updated_at: timestamptz
   warpcast_url: String
 }
@@ -8629,12 +8645,16 @@ order by max() on columns of table "colinks_gives"
 """
 input colinks_gives_max_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
+  tx_hash: order_by
   updated_at: order_by
   warpcast_url: order_by
 }
@@ -8644,12 +8664,16 @@ aggregate min on columns
 """
 type colinks_gives_min_fields {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
+  tx_hash: String
   updated_at: timestamptz
   warpcast_url: String
 }
@@ -8659,12 +8683,16 @@ order by min() on columns of table "colinks_gives"
 """
 input colinks_gives_min_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
+  tx_hash: order_by
   updated_at: order_by
   warpcast_url: order_by
 }
@@ -8710,15 +8738,19 @@ Ordering options when selecting data from "colinks_gives".
 """
 input colinks_gives_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   give_skill: skills_order_by
   giver_profile_public: profiles_public_order_by
   id: order_by
+  onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
   target_profile_public: profiles_public_order_by
+  tx_hash: order_by
   updated_at: order_by
   warpcast_url: order_by
 }
@@ -8742,6 +8774,11 @@ enum colinks_gives_select_column {
   """
   column name
   """
+  attestation_uid
+
+  """
+  column name
+  """
   cast_hash
 
   """
@@ -8753,6 +8790,16 @@ enum colinks_gives_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  onchain_sync_error
+
+  """
+  column name
+  """
+  onchain_synced_at
 
   """
   column name
@@ -8772,6 +8819,11 @@ enum colinks_gives_select_column {
   """
   column name
   """
+  tx_hash
+
+  """
+  column name
+  """
   updated_at
 
   """
@@ -8785,12 +8837,16 @@ input type for updating data in table "colinks_gives"
 """
 input colinks_gives_set_input {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
+  tx_hash: String
   updated_at: timestamptz
   warpcast_url: String
 }
@@ -9130,12 +9186,16 @@ Initial value of the column from where the streaming should start
 """
 input colinks_gives_stream_cursor_value_input {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
+  onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
+  tx_hash: String
   updated_at: timestamptz
   warpcast_url: String
 }
@@ -9172,6 +9232,11 @@ enum colinks_gives_update_column {
   """
   column name
   """
+  attestation_uid
+
+  """
+  column name
+  """
   cast_hash
 
   """
@@ -9187,6 +9252,16 @@ enum colinks_gives_update_column {
   """
   column name
   """
+  onchain_sync_error
+
+  """
+  column name
+  """
+  onchain_synced_at
+
+  """
+  column name
+  """
   profile_id
 
   """
@@ -9198,6 +9273,11 @@ enum colinks_gives_update_column {
   column name
   """
   target_profile_id
+
+  """
+  column name
+  """
+  tx_hash
 
   """
   column name

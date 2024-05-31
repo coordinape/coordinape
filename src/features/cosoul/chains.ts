@@ -18,6 +18,36 @@ const optimism = {
     maxPriorityFeePerGas: BigNumber.from('500'),
   },
 };
+const base = {
+  chainId: '0x2105',
+  chainName: 'Base Mainnet',
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org/'],
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  gasSettings: {
+    maxFeePerGas: BigNumber.from('10000000'),
+    maxPriorityFeePerGas: BigNumber.from('50'),
+  },
+};
+const baseSepola = {
+  chainId: '0x14a34',
+  chainName: 'Base Sepolia',
+  rpcUrls: ['https://sepolia.base.org'],
+  blockExplorerUrls: ['https://sepolia.basescan.org/'],
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  gasSettings: {
+    maxFeePerGas: BigNumber.from('10000'),
+    maxPriorityFeePerGas: BigNumber.from('50'),
+  },
+};
 
 const optimismSepolia = {
   chainId: '0xAA37DC',
@@ -53,3 +83,5 @@ export const chain =
     : IN_PREVIEW
       ? optimismSepolia
       : localhost;
+
+export const baseChain = IN_PRODUCTION ? base : baseSepola;

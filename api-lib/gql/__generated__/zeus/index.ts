@@ -6302,6 +6302,7 @@ export type ValueTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -6309,11 +6310,14 @@ export type ValueTypes = {
     /** An object relationship */
     giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
+    onchain_synced_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
     /** An object relationship */
     target_profile_public?: ValueTypes['profiles_public'];
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6410,6 +6414,7 @@ export type ValueTypes = {
     _not?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    attestation_uid?: ValueTypes['String_comparison_exp'] | undefined | null;
     cast_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     give_skill?: ValueTypes['skills_bool_exp'] | undefined | null;
@@ -6418,6 +6423,11 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    onchain_sync_error?: ValueTypes['String_comparison_exp'] | undefined | null;
+    onchain_synced_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -6425,6 +6435,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_bool_exp']
       | undefined
       | null;
+    tx_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     warpcast_url?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -6440,6 +6451,7 @@ export type ValueTypes = {
   /** input type for inserting data into table "colinks_gives" */
   ['colinks_gives_insert_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
+    attestation_uid?: string | undefined | null;
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     give_skill?: ValueTypes['skills_obj_rel_insert_input'] | undefined | null;
@@ -6448,6 +6460,8 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
+    onchain_synced_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -6455,18 +6469,23 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_obj_rel_insert_input']
       | undefined
       | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
+    onchain_synced_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6474,24 +6493,32 @@ export type ValueTypes = {
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
+    onchain_synced_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    onchain_sync_error?: boolean | `@${string}`;
+    onchain_synced_at?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
+    tx_hash?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
     warpcast_url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6499,12 +6526,16 @@ export type ValueTypes = {
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
+    onchain_synced_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6531,6 +6562,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     give_skill?: ValueTypes['skills_order_by'] | undefined | null;
@@ -6539,6 +6571,8 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    onchain_sync_error?: ValueTypes['order_by'] | undefined | null;
+    onchain_synced_at?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -6546,6 +6580,7 @@ export type ValueTypes = {
       | ValueTypes['profiles_public_order_by']
       | undefined
       | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     warpcast_url?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6558,12 +6593,16 @@ export type ValueTypes = {
   /** input type for updating data in table "colinks_gives" */
   ['colinks_gives_set_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
+    attestation_uid?: string | undefined | null;
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
+    onchain_synced_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
@@ -6816,12 +6855,16 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
+    attestation_uid?: string | undefined | null;
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
+    onchain_sync_error?: string | undefined | null;
+    onchain_synced_at?: ValueTypes['timestamptz'] | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
+    tx_hash?: string | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     warpcast_url?: string | undefined | null;
   };
@@ -43008,6 +43051,7 @@ export type ModelTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -43015,11 +43059,14 @@ export type ModelTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     warpcast_url?: string | undefined;
   };
@@ -43068,12 +43115,16 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -43082,12 +43133,16 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -59947,6 +60002,7 @@ export type GraphQLTypes = {
   ['colinks_gives']: {
     __typename: 'colinks_gives';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -59954,11 +60010,14 @@ export type GraphQLTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
     target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash?: string | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     warpcast_url?: string | undefined;
   };
@@ -60035,17 +60094,21 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    attestation_uid?: GraphQLTypes['String_comparison_exp'] | undefined;
     cast_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    onchain_sync_error?: GraphQLTypes['String_comparison_exp'] | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_bool_exp']
       | undefined;
+    tx_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     warpcast_url?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -60061,6 +60124,7 @@ export type GraphQLTypes = {
   /** input type for inserting data into table "colinks_gives" */
   ['colinks_gives_insert_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     give_skill?: GraphQLTypes['skills_obj_rel_insert_input'] | undefined;
@@ -60068,12 +60132,15 @@ export type GraphQLTypes = {
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_obj_rel_insert_input']
       | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60081,24 +60148,32 @@ export type GraphQLTypes = {
   ['colinks_gives_max_fields']: {
     __typename: 'colinks_gives_max_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
+    onchain_synced_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60106,24 +60181,32 @@ export type GraphQLTypes = {
   ['colinks_gives_min_fields']: {
     __typename: 'colinks_gives_min_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
+    onchain_synced_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60150,17 +60233,21 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    onchain_sync_error?: GraphQLTypes['order_by'] | undefined;
+    onchain_synced_at?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
     target_profile_public?:
       | GraphQLTypes['profiles_public_order_by']
       | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     warpcast_url?: GraphQLTypes['order_by'] | undefined;
   };
@@ -60173,12 +60260,16 @@ export type GraphQLTypes = {
   /** input type for updating data in table "colinks_gives" */
   ['colinks_gives_set_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -60427,12 +60518,16 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    onchain_sync_error?: string | undefined;
+    onchain_synced_at?: GraphQLTypes['timestamptz'] | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
+    tx_hash?: string | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     warpcast_url?: string | undefined;
   };
@@ -81264,12 +81359,16 @@ export const enum colinks_gives_constraint {
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {
   activity_id = 'activity_id',
+  attestation_uid = 'attestation_uid',
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
+  onchain_sync_error = 'onchain_sync_error',
+  onchain_synced_at = 'onchain_synced_at',
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   warpcast_url = 'warpcast_url',
 }
@@ -81285,12 +81384,16 @@ export const enum colinks_gives_skill_count_select_column {
 /** update columns of table "colinks_gives" */
 export const enum colinks_gives_update_column {
   activity_id = 'activity_id',
+  attestation_uid = 'attestation_uid',
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
+  onchain_sync_error = 'onchain_sync_error',
+  onchain_synced_at = 'onchain_synced_at',
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',
+  tx_hash = 'tx_hash',
   updated_at = 'updated_at',
   warpcast_url = 'warpcast_url',
 }
