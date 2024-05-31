@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { attestGiveOnchain } from '../../../api-lib/eas';
@@ -11,22 +10,19 @@ const LIMIT = 10;
 async function handler(_req: VercelRequest, res: VercelResponse) {
   const gives = await giveToSync();
 
-  console.log({ gives });
-  console.log('Gives to write onchain: ', gives.length);
-
   try {
     let errors = 0;
     let success = 0;
     for (const give of gives) {
       try {
+        // eslint-disable-next-line no-console
         console.log('Writing give onchain for give id: ', give.id);
         const { attestUid, txHash } = await attestGiveOnchain(give);
 
+        // eslint-disable-next-line no-console
         console.log(
-          'Success: attested give for give.id : ',
+          'Attested give for give.id : ',
           give.id,
-          ' receiver address: ',
-          give.target_profile_public?.address,
           'attestUid: ',
           attestUid
         );
@@ -38,6 +34,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
                 _set: {
                   attestation_uid: attestUid,
                   tx_hash: txHash,
+                  onchain_synced_at: 'now()',
                 },
                 pk_columns: {
                   id: give.id,
@@ -86,6 +83,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       }
     }
 
+    // eslint-disable-next-line no-console
     console.log('Syncing complete', { success, errors });
     res.status(200).json({
       success: true,
@@ -109,7 +107,7 @@ async function giveToSync() {
       colinks_gives: [
         {
           where: {
-            tx_hash: { _is_null: true },
+            onchain_synced_at: { _is_null: true },
             give_skill: {
               hidden: { _eq: false },
             },

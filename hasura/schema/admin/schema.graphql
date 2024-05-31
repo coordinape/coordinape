@@ -8450,6 +8450,7 @@ type colinks_gives {
   giver_profile_public: profiles_public
   id: Int!
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint!
   skill: citext
   target_profile_id: bigint!
@@ -8563,6 +8564,7 @@ input colinks_gives_bool_exp {
   giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
   onchain_sync_error: String_comparison_exp
+  onchain_synced_at: timestamptz_comparison_exp
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
   target_profile_id: bigint_comparison_exp
@@ -8609,6 +8611,7 @@ input colinks_gives_insert_input {
   giver_profile_public: profiles_public_obj_rel_insert_input
   id: Int
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -8628,6 +8631,7 @@ type colinks_gives_max_fields {
   created_at: timestamptz
   id: Int
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -8646,6 +8650,7 @@ input colinks_gives_max_order_by {
   created_at: order_by
   id: order_by
   onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -8664,6 +8669,7 @@ type colinks_gives_min_fields {
   created_at: timestamptz
   id: Int
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -8682,6 +8688,7 @@ input colinks_gives_min_order_by {
   created_at: order_by
   id: order_by
   onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -8738,6 +8745,7 @@ input colinks_gives_order_by {
   giver_profile_public: profiles_public_order_by
   id: order_by
   onchain_sync_error: order_by
+  onchain_synced_at: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -8791,6 +8799,11 @@ enum colinks_gives_select_column {
   """
   column name
   """
+  onchain_synced_at
+
+  """
+  column name
+  """
   profile_id
 
   """
@@ -8829,6 +8842,7 @@ input colinks_gives_set_input {
   created_at: timestamptz
   id: Int
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -9177,6 +9191,7 @@ input colinks_gives_stream_cursor_value_input {
   created_at: timestamptz
   id: Int
   onchain_sync_error: String
+  onchain_synced_at: timestamptz
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -9238,6 +9253,11 @@ enum colinks_gives_update_column {
   column name
   """
   onchain_sync_error
+
+  """
+  column name
+  """
+  onchain_synced_at
 
   """
   column name
