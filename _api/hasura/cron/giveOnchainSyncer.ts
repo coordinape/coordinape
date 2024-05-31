@@ -52,7 +52,7 @@ async function giveToSync() {
               hidden: { _eq: false },
             },
           },
-          order_by: [{ created_at: order_by.desc }],
+          order_by: [{ created_at: order_by.asc }],
           limit: LIMIT,
         },
         {

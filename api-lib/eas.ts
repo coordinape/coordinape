@@ -83,7 +83,7 @@ export async function attestGiveOnchain(give: Give) {
 
     // eslint-disable-next-line no-console
     console.log(
-      'Attested give for give.id : ',
+      'Attested give for give.id: ',
       give.id,
       'attestUid: ',
       attestUid
