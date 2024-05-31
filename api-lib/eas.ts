@@ -41,9 +41,10 @@ export async function attestGiveOnchain(give: Give) {
     const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
     const platform = give.warpcast_url ? 'farcaster' : 'colinks';
     const context = give.warpcast_url ? 'give.party' : '';
-    const url = give.cast_hash
-      ? give.warpcast_url
-      : webAppURL('colinks') + coLinksPaths.post(give.activity_id);
+    const url =
+      (give.cast_hash
+        ? give.warpcast_url
+        : webAppURL('colinks') + coLinksPaths.post(give.activity_id)) || '';
 
     const schemaUID = IN_PRODUCTION
       ? BASE_MAINNET_SCHEMA_UID
@@ -140,7 +141,8 @@ export async function attestGiveOnchain(give: Give) {
     console.error(
       'Error writing give onchain for give id: ',
       give.id,
-      e.message
+      e.message,
+      e.stack
     );
     throw e;
   }
