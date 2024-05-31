@@ -15,7 +15,7 @@ const EAS_CONTRACT_ADDR = '0x4200000000000000000000000000000000000021';
 const SCHEMA_UID =
   '0x82c2ec8ec89cf1d13022ff0867744f1cecf932faa4fe334aa1bb443edbfee3fa';
 const SCHEMA =
-  'address from,string skill,uint16 amount,string platform,string context,string url,uint16 weight';
+  'address from,uint16 amount,string platform,string url,string context,string skill,string tag,string note,uint16 weight';
 
 function setupEas() {
   const chainId = Number(baseChain.chainId);
