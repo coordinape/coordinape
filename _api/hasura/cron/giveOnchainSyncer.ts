@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { attestGiveOnchain } from '../../../api-lib/eas';
+import { attestGiveOnchain, easWithNonceManager } from '../../../api-lib/eas';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
@@ -10,12 +10,13 @@ const LIMIT = 10;
 async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
     const gives = await giveToSync();
+    const nm = easWithNonceManager();
 
     let errors = 0;
     let success = 0;
     for (const give of gives) {
       try {
-        await attestGiveOnchain(give);
+        await attestGiveOnchain(give, nm);
         success++;
       } catch (e: any) {
         errors++;

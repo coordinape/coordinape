@@ -25,6 +25,7 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/constants": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
+    "@ethersproject/experimental": "^5.7.0",
     "@ethersproject/hash": "^5.7.0",
     "@ethersproject/hdnode": "^5.7.0",
     "@ethersproject/logger": "^5.7.0",

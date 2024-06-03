@@ -1,4 +1,5 @@
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
+import { NonceManager } from '@ethersproject/experimental';
 import { Wallet } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 
@@ -17,6 +18,19 @@ const SCHEMA_UID =
 const SCHEMA =
   'address from,uint16 amount,string platform,string url,string context,string skill,string tag,string note,uint16 weight';
 
+export function easWithNonceManager() {
+  const chainId = Number(baseChain.chainId);
+  const provider = getProvider(chainId);
+
+  const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
+
+  const signer = new NonceManager(syncerWallet.connect(provider));
+  const eas = new EAS(EAS_CONTRACT_ADDR);
+
+  eas.connect(signer);
+  return eas;
+}
+
 function setupEas() {
   const chainId = Number(baseChain.chainId);
   const provider = getProvider(chainId);
@@ -29,12 +43,10 @@ function setupEas() {
   return eas;
 }
 
-export async function attestGiveOnchain(give: Give) {
+export async function attestGiveOnchain(give: Give, eas = setupEas()) {
   try {
     // eslint-disable-next-line no-console
     console.log('Writing give onchain for give id: ', give.id);
-
-    const eas = setupEas();
 
     const receiverAddr = getAddress(give.target_profile_public?.address ?? '');
     const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
