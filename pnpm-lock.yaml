@@ -65,6 +65,9 @@ dependencies:
   '@ethersproject/contracts':
     specifier: ^5.7.0
     version: 5.7.0
+  '@ethersproject/experimental':
+    specifier: ^5.7.0
+    version: 5.7.0
   '@ethersproject/hash':
     specifier: ^5.7.0
     version: 5.7.0
@@ -3784,6 +3787,17 @@ packages:
       '@ethersproject/logger': 5.7.0
       '@ethersproject/properties': 5.7.0
       '@ethersproject/transactions': 5.7.0
+    dev: false
+
+  /@ethersproject/experimental@5.7.0:
+    resolution: {integrity: sha512-DWvhuw7Dg8JPyhMbh/CNYOwsTLjXRx/HGkacIL5rBocG8jJC0kmixwoK/J3YblO4vtcyBLMa+sV74RJZK2iyHg==}
+    dependencies:
+      '@ethersproject/web': 5.7.1
+      ethers: 5.7.2
+      scrypt-js: 3.0.1
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
     dev: false
 
   /@ethersproject/hash@5.7.0:
