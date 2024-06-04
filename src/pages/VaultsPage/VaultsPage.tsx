@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { useIsEmailWallet } from 'features/auth';
 import TermsGate from 'features/auth/TermsGate';
-import { isUserAdmin } from 'lib/users';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from 'components';
@@ -11,7 +10,7 @@ import { useMainHeaderQuery } from 'components/MainLayout/getMainHeaderData';
 import { useContracts } from 'hooks';
 import { useVaults } from 'hooks/gql/useVaults';
 import useRequireSupportedChain from 'hooks/useRequireSupportedChain';
-import { Button, ContentHeader, Flex, Link, Modal, Panel, Text } from 'ui';
+import { ContentHeader, Flex, Link, Modal, Panel, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { CreateForm } from './CreateForm';
@@ -48,7 +47,6 @@ const VaultsPage = () => {
 
   const orgs = orgsQuery.data?.organizations;
   const currentOrg = orgs ? orgs.find(o => o.id === specificOrg) : undefined;
-  const isAdmin = !!currentOrg?.circles.some(c => isUserAdmin(c.users[0]));
 
   return (
     <TermsGate>
@@ -81,22 +79,17 @@ const VaultsPage = () => {
               payments.
             </Text>
           </Flex>
-          {isAdmin && (
-            <Button color="cta" onClick={() => setModal(true)}>
-              Create Vault
-            </Button>
-          )}
         </ContentHeader>
+        <NoVaults />
+
         {isLoading ? (
           <Panel>
             <Text>Loading, please wait...</Text>
           </Panel>
-        ) : (vaults?.length || 0) > 0 ? (
+        ) : (
           vaults?.map(vault => (
             <VaultRow key={vault.id} vault={vault} css={{ mb: '$sm' }} />
           ))
-        ) : (
-          <NoVaults isAdmin={isAdmin} createVault={() => setModal(true)} />
         )}
         {currentOrg && (
           <Modal
@@ -120,42 +113,16 @@ const VaultsPage = () => {
 
 export default VaultsPage;
 
-const NoVaults = ({
-  isAdmin,
-  createVault,
-}: {
-  isAdmin: boolean;
-  createVault: () => void;
-}) => {
+const NoVaults = () => {
   return (
-    <HintBanner title={'Welcome to CoVaults'}>
-      <Text p as="p" css={{ color: 'inherit' }}>
-        CoVaults allow you to compensate your team by storing funds in the
-        vaults and sending payments promptly after a work cycle ends.
+    <HintBanner title={'Vaults Deprecation Notice'} type="alert">
+      <Text p as="p" css={{ color: 'warning' }}>
+        <b>Vaults will be closing soon.</b>
+        <br />
+        Please avoid or complete pending distributions, ask all claimants to
+        complete claims, withdraw any unused tokens, and discontinue the use of
+        Vaults.
       </Text>
-      <Text p as="p" css={{ color: 'inherit' }}>
-        In addition to paying your team, you can earn yield based on{' '}
-        <Link inlineLink href="https://yearn.finance/vaults" target="_blank">
-          the current APYs offered by Yearn
-        </Link>
-        . Vaults also enable you to set allowances for distributions per Circle.
-      </Text>
-      <Flex css={{ gap: '$md' }}>
-        {isAdmin && (
-          <Button onClick={createVault} color="secondary" inline>
-            Create Vault
-          </Button>
-        )}
-        <Button
-          as="a"
-          href="https://docs.coordinape.com/get-started/organizations/vaults"
-          target="_blank"
-          color="secondary"
-          inline
-        >
-          Vault Guide
-        </Button>
-      </Flex>
     </HintBanner>
   );
 };

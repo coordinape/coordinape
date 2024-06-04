@@ -14,7 +14,6 @@ import { AppLink, Box, Button, Flex, Panel, Text } from 'ui';
 import { smartRounding } from 'utils';
 
 import { OwnerProfileLink, VaultExternalLink } from './components';
-import DepositModal, { DepositModalProps } from './DepositModal';
 import { TransactionTable, useOnChainTransactions } from './VaultTransactions';
 import WithdrawModal, { WithdrawModalProps } from './WithdrawModal';
 
@@ -96,22 +95,13 @@ export function VaultRow({
         </Text>
 
         {userIsOwner && (
-          <>
-            <Button
-              color="secondary"
-              size="small"
-              onClick={() => setModal('deposit')}
-            >
-              Deposit
-            </Button>
-            <Button
-              color="secondary"
-              size="small"
-              onClick={() => setModal('withdraw')}
-            >
-              Withdraw
-            </Button>
-          </>
+          <Button
+            color="secondary"
+            size="small"
+            onClick={() => setModal('withdraw')}
+          >
+            Withdraw
+          </Button>
         )}
       </Box>
       <OwnerProfileLink ownerAddress={ownerAddress} />
@@ -214,24 +204,15 @@ const getUniqueContributors = (vault: Vault): number =>
     )
   ).size;
 
-type ModalLabel = '' | 'deposit' | 'withdraw' | 'allocate' | 'edit';
+type ModalLabel = '' | 'withdraw' | 'allocate' | 'edit';
 
 type ModalProps = { modal: ModalLabel; onUpdateBalance: () => void } & Omit<
-  DepositModalProps,
-  'onDeposit'
-> &
-  Omit<WithdrawModalProps, 'onWithdraw'>;
+  WithdrawModalProps,
+  'onWithdraw'
+>;
 
 function VaultModal<T extends ModalProps>(props: T) {
   switch (props.modal) {
-    case 'deposit':
-      return (
-        <DepositModal
-          vault={props.vault}
-          onClose={props.onClose}
-          onDeposit={props.onUpdateBalance}
-        />
-      );
     case 'withdraw':
       return (
         <WithdrawModal
