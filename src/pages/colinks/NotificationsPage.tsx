@@ -12,7 +12,6 @@ import { NavLink } from 'react-router-dom';
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import {
   AtSign,
-  Eas,
   ExternalLink,
   GemCoOutline,
   Links,
@@ -795,22 +794,7 @@ const ColinksGiveNotification = ({
                   a post
                 </Link>
               </Text>
-
-              {give.attestation_uid && (
-                <Text size="small">
-                  <Text css={{ mr: '$xs' }}>&mdash;</Text>
-                  <Link
-                    href={easAttestUrl(give.attestation_uid as string)}
-                    css={{ display: 'flex', alignItems: 'center' }}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Eas fa size="lg" />
-                    View GIVE Onchain
-                    <ExternalLink css={{ ml: '$xs' }} />
-                  </Link>
-                </Text>
-              )}
+              <EasLink attestation_uid={give.attestation_uid as string} />
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(n.created_at).toLocal().toRelative()}
               </Text>
@@ -877,23 +861,7 @@ const ColinksGiveFCNotification = ({
                 <Text size="small" color={'default'}>
                   on Farcaster
                 </Text>
-                <>
-                  {give.attestation_uid && (
-                    <Text size="small">
-                      <Text css={{ mr: '$xs' }}>&mdash;</Text>
-                      <Link
-                        href={easAttestUrl(give.attestation_uid as string)}
-                        css={{ display: 'flex', alignItems: 'center' }}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <Eas fa size="lg" />
-                        View GIVE Onchain
-                        <ExternalLink css={{ ml: '$xs' }} />
-                      </Link>
-                    </Text>
-                  )}
-                </>
+                <EasLink attestation_uid={give.attestation_uid as string} />
 
                 <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                   {DateTime.fromISO(n.created_at).toLocal().toRelative()}
@@ -904,6 +872,26 @@ const ColinksGiveFCNotification = ({
         </Flex>
       </Flex>
     </NotificationItem>
+  );
+};
+
+const EasLink = ({ attestation_uid }: { attestation_uid?: string }) => {
+  if (!attestation_uid) {
+    return null;
+  }
+  return (
+    <Text size="small">
+      <Text css={{ mr: '$xs' }}>&mdash;</Text>
+      <Link
+        href={easAttestUrl(attestation_uid)}
+        css={{ display: 'flex', alignItems: 'center' }}
+        target="_blank"
+        rel="noreferrer"
+      >
+        view onchain
+        <ExternalLink css={{ ml: '$xs' }} />
+      </Link>
+    </Text>
   );
 };
 
