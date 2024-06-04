@@ -30,6 +30,7 @@ export const activitySelector = Selector('activities')({
     {
       id: true,
       skill: true,
+      attestation_uid: true,
       giver_profile_public: {
         name: true,
         id: true,

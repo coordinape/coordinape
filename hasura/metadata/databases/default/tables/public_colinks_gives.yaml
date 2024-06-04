@@ -28,13 +28,14 @@ select_permissions:
     permission:
       columns:
         - activity_id
-        - profile_id
-        - target_profile_id
-        - id
+        - attestation_uid
         - cast_hash
         - created_at
-        - updated_at
+        - id
+        - profile_id
         - skill
+        - target_profile_id
+        - updated_at
       filter: {}
       limit: 100
       allow_aggregations: true
@@ -43,6 +44,7 @@ select_permissions:
     permission:
       columns:
         - activity_id
+        - attestation_uid
         - cast_hash
         - created_at
         - id

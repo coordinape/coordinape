@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
+import { easAttestUrl } from 'features/eas/eas';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -104,6 +105,7 @@ const fetchNotifications = async () => {
             activity_id: true,
             cast_hash: true,
             warpcast_url: true,
+            attestation_uid: true,
             giver_profile_public: {
               avatar: true,
               name: true,
@@ -846,6 +848,11 @@ const ColinksGiveFCNotification = ({
                   on Farcaster
                 </Text>
 
+                {give.attestation_uid ? (
+                  <Text>{easAttestUrl(give.attestation_uid as string)}</Text>
+                ) : (
+                  <Text>NO</Text>
+                )}
                 <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                   {DateTime.fromISO(n.created_at).toLocal().toRelative()}
                 </Text>
