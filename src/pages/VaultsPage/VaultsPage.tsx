@@ -115,14 +115,13 @@ export default VaultsPage;
 
 const NoVaults = () => {
   return (
-    <HintBanner
-      title={'Important Notice: Deprecation of Vaults Feature'}
-      type="alert"
-    >
+    <HintBanner title={'Vaults Deprecation Notice'} type="alert">
       <Text p as="p" css={{ color: 'warning' }}>
-        Vaults will be deprecated soon. Please avoid or complete pending
-        distributions, ask all claimants to complete claims, withdraw any unused
-        tokens, and discontinue the use of Vaults.
+        <b>Vaults will be closing soon.</b>
+        <br />
+        Please avoid or complete pending distributions, ask all claimants to
+        complete claims, withdraw any unused tokens, and discontinue the use of
+        Vaults.
       </Text>
     </HintBanner>
   );
