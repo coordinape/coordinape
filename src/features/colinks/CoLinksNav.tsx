@@ -175,6 +175,7 @@ export const CoLinksNav = () => {
             <HouseFill size="lg" nostroke />
             Home
           </NavItem>
+          <NavItem path={coLinksPaths.givegraph}>Give Graffe</NavItem>
           <NavItem path={coLinksPaths.explore}>
             <PlanetFill size="lg" nostroke />
             Explore

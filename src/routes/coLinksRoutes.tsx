@@ -47,6 +47,7 @@ import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveParty } from 'pages/GiveParty';
 import { PartyProfile } from 'pages/GiveParty/PartyProfile';
+import GiveGraph from 'pages/NetworkViz/GiveGraph';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -129,6 +130,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route path={coLinksPaths.home} element={<ActivityPage />} />
+      <Route path={coLinksPaths.givegraph} element={<GiveGraph />} />
       <Route
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}
