@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 
 import { ethers } from 'ethers';
+import { easAttestUrl } from 'features/eas/eas';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -11,6 +12,7 @@ import { NavLink } from 'react-router-dom';
 import { NOTIFICATIONS_COUNT_QUERY_KEY } from '../../features/notifications/useNotificationCount';
 import {
   AtSign,
+  ExternalLink,
   GemCoOutline,
   Links,
   MessageSquare,
@@ -104,6 +106,7 @@ const fetchNotifications = async () => {
             activity_id: true,
             cast_hash: true,
             warpcast_url: true,
+            attestation_uid: true,
             giver_profile_public: {
               avatar: true,
               name: true,
@@ -753,13 +756,11 @@ const ColinksGiveNotification = ({
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
           <Flex css={{ gap: '$xs', alignItems: 'flex-end' }}>
             <Flex
-              as={AppLink}
               css={{
                 gap: '$xs',
                 mr: '$xs',
                 flexWrap: 'wrap',
               }}
-              to={coLinksPaths.post(give.activity_id)}
             >
               {give.skill && (
                 <Link as={NavLink} to={coLinksPaths.exploreSkill(give.skill)}>
@@ -775,10 +776,25 @@ const ColinksGiveNotification = ({
               <Text size="small" color={'default'}>
                 from
               </Text>
-
               <Text semibold size="small">
-                {n.actor_profile_public?.name}
+                <Link
+                  as={NavLink}
+                  to={coLinksPaths.profile(
+                    n.actor_profile_public?.address ?? 'FIXME'
+                  )}
+                >
+                  {n.actor_profile_public?.name}
+                </Link>
               </Text>
+              <Text size="small" color={'default'}>
+                on
+              </Text>
+              <Text size="small">
+                <Link as={NavLink} to={coLinksPaths.post(give.activity_id)}>
+                  a post
+                </Link>
+              </Text>
+              <EasLink attestation_uid={give.attestation_uid as string} />
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(n.created_at).toLocal().toRelative()}
               </Text>
@@ -845,6 +861,7 @@ const ColinksGiveFCNotification = ({
                 <Text size="small" color={'default'}>
                   on Farcaster
                 </Text>
+                <EasLink attestation_uid={give.attestation_uid as string} />
 
                 <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                   {DateTime.fromISO(n.created_at).toLocal().toRelative()}
@@ -855,6 +872,26 @@ const ColinksGiveFCNotification = ({
         </Flex>
       </Flex>
     </NotificationItem>
+  );
+};
+
+const EasLink = ({ attestation_uid }: { attestation_uid?: string }) => {
+  if (!attestation_uid) {
+    return null;
+  }
+  return (
+    <Text size="small">
+      <Text css={{ mr: '$xs' }}>&mdash;</Text>
+      <Link
+        href={easAttestUrl(attestation_uid)}
+        css={{ display: 'flex', alignItems: 'center' }}
+        target="_blank"
+        rel="noreferrer"
+      >
+        view onchain
+        <ExternalLink css={{ ml: '$xs' }} />
+      </Link>
+    </Text>
   );
 };
 

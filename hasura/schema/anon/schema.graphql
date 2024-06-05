@@ -294,6 +294,7 @@ columns and relationships of "colinks_gives"
 """
 type colinks_gives {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz!
 
@@ -399,6 +400,7 @@ input colinks_gives_bool_exp {
   _not: colinks_gives_bool_exp
   _or: [colinks_gives_bool_exp!]
   activity_id: bigint_comparison_exp
+  attestation_uid: String_comparison_exp
   cast_hash: String_comparison_exp
   created_at: timestamptz_comparison_exp
   give_skill: skills_bool_exp
@@ -416,6 +418,7 @@ aggregate max on columns
 """
 type colinks_gives_max_fields {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
@@ -430,6 +433,7 @@ order by max() on columns of table "colinks_gives"
 """
 input colinks_gives_max_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   id: order_by
@@ -444,6 +448,7 @@ aggregate min on columns
 """
 type colinks_gives_min_fields {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int
@@ -458,6 +463,7 @@ order by min() on columns of table "colinks_gives"
 """
 input colinks_gives_min_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   id: order_by
@@ -472,6 +478,7 @@ Ordering options when selecting data from "colinks_gives".
 """
 input colinks_gives_order_by {
   activity_id: order_by
+  attestation_uid: order_by
   cast_hash: order_by
   created_at: order_by
   give_skill: skills_order_by
@@ -492,6 +499,11 @@ enum colinks_gives_select_column {
   column name
   """
   activity_id
+
+  """
+  column name
+  """
+  attestation_uid
 
   """
   column name
@@ -724,6 +736,7 @@ Initial value of the column from where the streaming should start
 """
 input colinks_gives_stream_cursor_value_input {
   activity_id: bigint
+  attestation_uid: String
   cast_hash: String
   created_at: timestamptz
   id: Int

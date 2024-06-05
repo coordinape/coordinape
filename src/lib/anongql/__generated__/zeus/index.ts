@@ -740,6 +740,7 @@ export type ValueTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
@@ -841,6 +842,7 @@ export type ValueTypes = {
     _not?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['colinks_gives_bool_exp']> | undefined | null;
     activity_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    attestation_uid?: ValueTypes['String_comparison_exp'] | undefined | null;
     cast_hash?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     give_skill?: ValueTypes['skills_bool_exp'] | undefined | null;
@@ -861,6 +863,7 @@ export type ValueTypes = {
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -873,6 +876,7 @@ export type ValueTypes = {
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -884,6 +888,7 @@ export type ValueTypes = {
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: AliasType<{
     activity_id?: boolean | `@${string}`;
+    attestation_uid?: boolean | `@${string}`;
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
@@ -896,6 +901,7 @@ export type ValueTypes = {
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
@@ -907,6 +913,7 @@ export type ValueTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: ValueTypes['order_by'] | undefined | null;
+    attestation_uid?: ValueTypes['order_by'] | undefined | null;
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     give_skill?: ValueTypes['skills_order_by'] | undefined | null;
@@ -1053,6 +1060,7 @@ export type ValueTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: ValueTypes['bigint'] | undefined | null;
+    attestation_uid?: string | undefined | null;
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
@@ -3015,6 +3023,7 @@ export type ModelTypes = {
   /** columns and relationships of "colinks_gives" */
   ['colinks_gives']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -3066,6 +3075,7 @@ export type ModelTypes = {
   /** aggregate max on columns */
   ['colinks_gives_max_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
@@ -3079,6 +3089,7 @@ export type ModelTypes = {
   /** aggregate min on columns */
   ['colinks_gives_min_fields']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
@@ -3767,6 +3778,7 @@ export type GraphQLTypes = {
   ['colinks_gives']: {
     __typename: 'colinks_gives';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
@@ -3848,6 +3860,7 @@ export type GraphQLTypes = {
     _not?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['colinks_gives_bool_exp']> | undefined;
     activity_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    attestation_uid?: GraphQLTypes['String_comparison_exp'] | undefined;
     cast_hash?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
@@ -3865,6 +3878,7 @@ export type GraphQLTypes = {
   ['colinks_gives_max_fields']: {
     __typename: 'colinks_gives_max_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
@@ -3876,6 +3890,7 @@ export type GraphQLTypes = {
   /** order by max() on columns of table "colinks_gives" */
   ['colinks_gives_max_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -3888,6 +3903,7 @@ export type GraphQLTypes = {
   ['colinks_gives_min_fields']: {
     __typename: 'colinks_gives_min_fields';
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
@@ -3899,6 +3915,7 @@ export type GraphQLTypes = {
   /** order by min() on columns of table "colinks_gives" */
   ['colinks_gives_min_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
@@ -3910,6 +3927,7 @@ export type GraphQLTypes = {
   /** Ordering options when selecting data from "colinks_gives". */
   ['colinks_gives_order_by']: {
     activity_id?: GraphQLTypes['order_by'] | undefined;
+    attestation_uid?: GraphQLTypes['order_by'] | undefined;
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     give_skill?: GraphQLTypes['skills_order_by'] | undefined;
@@ -4043,6 +4061,7 @@ export type GraphQLTypes = {
   /** Initial value of the column from where the streaming should start */
   ['colinks_gives_stream_cursor_value_input']: {
     activity_id?: GraphQLTypes['bigint'] | undefined;
+    attestation_uid?: string | undefined;
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
@@ -4976,6 +4995,7 @@ export const enum colinks_give_count_select_column {
 /** select columns of table "colinks_gives" */
 export const enum colinks_gives_select_column {
   activity_id = 'activity_id',
+  attestation_uid = 'attestation_uid',
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',

@@ -1,4 +1,5 @@
 import { ActivityAvatar } from 'features/activities/ActivityAvatar';
+import { easAttestUrl } from 'features/eas/eas';
 import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
@@ -7,16 +8,18 @@ import {
   AppLink,
   Flex,
   IconButton,
+  Link,
   Popover,
   PopoverContent,
   PopoverTrigger,
   Text,
 } from '../../ui';
-import { GemCoOutline, X } from 'icons/__generated';
+import { ExternalLink, GemCoOutline, X } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 type Gives = {
   id: number;
   skill?: string;
+  attestation_uid?: string;
   giver_profile_public?: {
     name?: string;
     id?: number;
@@ -133,6 +136,25 @@ export const PostGives = ({
                               >
                                 {give.giver_profile_public?.name}
                               </Text>
+                              {give.attestation_uid && (
+                                <Text size="small">
+                                  <Link
+                                    inlineLink
+                                    href={easAttestUrl(
+                                      give.attestation_uid as string
+                                    )}
+                                    css={{
+                                      display: 'flex',
+                                      alignItems: 'center',
+                                    }}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                  >
+                                    onchain
+                                    <ExternalLink css={{ ml: '$xs' }} />
+                                  </Link>
+                                </Text>
+                              )}
                             </>
                           </Flex>
                         )
