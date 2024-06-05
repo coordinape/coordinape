@@ -71,27 +71,33 @@ export default function MapPage() {
 }
 
 const Graph = ({ data }: { data: { nodes: []; links: [] } }) => {
-  return <ForceGraph2D graphData={data} />;
+  return (
+    <ForceGraph2D
+      graphData={data}
+      linkCurvature={0.2}
+      linkDirectionalParticles={4}
+    />
+  );
 };
 
 const buildNodes = (gives: any) => {
-  // construct a node for each giver receiver; TODO add receivers or giver
-  const givers = gives.map((give: any) => {
-    return {
+  type node = { id: string; name: string; avatar: string; nodeDesc?: string };
+  const n = new Map<string, node>();
+  for (const give of gives) {
+    n.set(give.giver_profile_public.address, {
       id: give.giver_profile_public.address,
       name: give.giver_profile_public.name,
       avatar: give.giver_profile_public.avatar,
-    };
-  });
-  const receivers = gives.map((give: any) => {
-    return {
+      nodeDesc: give.giver_profile_public.name,
+    });
+    n.set(give.target_profile_public.address, {
       id: give.target_profile_public.address,
       name: give.target_profile_public.name,
       avatar: give.target_profile_public.avatar,
-    };
-  });
-
-  return [...givers, ...receivers];
+      nodeDesc: give.target_profile_public.name,
+    });
+  }
+  return [...n.values()];
 };
 
 const buildLinks = (gives: any) => {
