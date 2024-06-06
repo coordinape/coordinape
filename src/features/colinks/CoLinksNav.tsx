@@ -255,6 +255,10 @@ export const CoLinksNav = () => {
             <PaperPlane size="lg" nostroke />
             Invites
           </NavItem>
+          <NavItem path={coLinksPaths.profileNetwork}>
+            <PlanetFill size="lg" nostroke />
+            Bullseye
+          </NavItem>
           {address && <EthDenverContestBanner address={address} />}
         </Flex>
       </Flex>
