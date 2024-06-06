@@ -11,28 +11,30 @@ import { Avatar, Box } from 'ui';
 
 import { NodesOnCircle, User } from './NodesOnCircle';
 
-const QUERY_KEY_PROFILE_Network = 'profileNetwork';
+const QUERY_KEY_PROFILE_NETWORK = 'profileNetwork';
 
 export const ProfileNetwork: React.FC = () => {
   const { address } = useParams();
   const { data, isLoading: fetchCoLinksProfileIsLoading } = useQuery(
-    [QUERY_KEY_PROFILE_Network, address, 'profile'],
+    [QUERY_KEY_PROFILE_NETWORK, address, 'profile'],
     () => fetchCoLinksProfile(address!)
   );
   const profile = data as PublicProfile;
   return (
     <Box css={{ position: 'relative', width: '100vw', height: '100vh' }}>
-      <Avatar
-        name={profile.name}
-        path={profile.avatar}
-        css={{
-          position: 'absolute',
-          transform: `translate(calc(50vw - 3vmin), calc(50vh - 3vmin))`,
-          zIndex: 6,
-          width: '6vmin !important',
-          height: '6vmin',
-        }}
-      />
+      {profile && (
+        <Avatar
+          name={profile.name}
+          path={profile.avatar}
+          css={{
+            position: 'absolute',
+            transform: `translate(calc(50vw - 3vmin), calc(50vh - 3vmin))`,
+            zIndex: 6,
+            width: '6vmin !important',
+            height: '6vmin',
+          }}
+        />
+      )}
       <NodesOnCircle tier={1} users={usersTierOne} />
       <NodesOnCircle tier={2} users={usersTierTwo} />
       <NodesOnCircle tier={3} users={usersTierThree} />
