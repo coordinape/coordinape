@@ -44,7 +44,7 @@ const baseSepola = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('10000'),
+    maxFeePerGas: BigNumber.from('1000000'),
     maxPriorityFeePerGas: BigNumber.from('50'),
   },
 };
