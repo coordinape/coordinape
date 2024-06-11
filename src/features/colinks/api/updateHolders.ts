@@ -82,7 +82,7 @@ const updateFromLinkTx = async (event: LinkTx, hash: string) => {
 };
 
 // this goes over every trade the address has ever done. could be more efficient
-const calculateLinkAmountFromTransactions = async (
+export const calculateLinkAmountFromTransactions = async (
   holder: string,
   target: string
 ) => {
@@ -165,7 +165,7 @@ type LinkHolder = {
   amount: number;
 };
 // update the link holders cache based on changes from these transactions, and also update the visibility table
-async function updateLinkHoldersTable(holderTarget: LinkHolder) {
+export async function updateLinkHoldersTable(holderTarget: LinkHolder) {
   // if they have an amount, update/insert
   if (holderTarget.amount > 0) {
     let updated = await updateHolder(holderTarget);
