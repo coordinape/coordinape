@@ -18,7 +18,6 @@ import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
 
 import './App.css';
-import '@farcaster/auth-kit/styles.css';
 
 const theme = createTheme();
 const queryClient = new QueryClient();
