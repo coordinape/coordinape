@@ -395,6 +395,21 @@ type MarkClaimedOutput {
   ids: [Int!]!
 }
 
+input NetworkInput {
+  profile_id: Int!
+}
+
+type NetworkNode {
+  avatar: String
+  farcaster_id: Int
+  profile_id: Int
+  username: String!
+}
+
+type NetworkOutput {
+  nodes: [NetworkNode!]
+}
+
 type OrgMemberResponse {
   OrgMemberResponse: org_members
   id: ID!
@@ -18411,6 +18426,7 @@ type query_root {
   farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
+  getNetwork(payload: NetworkInput!): NetworkOutput
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 
   """

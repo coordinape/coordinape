@@ -292,6 +292,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: getNetwork
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getNetwork'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
   - name: getSimilarProfiles
     definition:
       kind: ""
@@ -654,6 +664,8 @@ custom_types:
     - name: SearchProfilesInput
     - name: ShareInput
     - name: AddFarcasterInput
+    - name: NetworkTiersInput
+    - name: NetworkInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -927,5 +939,8 @@ custom_types:
     - name: UploadUrlResponse
     - name: ShareOutput
     - name: CheckEthDenverInviteeOutput
+    - name: NetworkTiersOutput
+    - name: NetworkNode
+    - name: NetworkOutput
   scalars:
     - name: timestamptz

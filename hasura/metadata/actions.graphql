@@ -123,6 +123,10 @@ type Query {
 }
 
 type Query {
+  getNetwork(payload: NetworkInput!): NetworkOutput
+}
+
+type Query {
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 }
 
@@ -631,6 +635,10 @@ input AddFarcasterInput {
   signature: String!
 }
 
+input NetworkInput {
+  profile_id: Int!
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -845,6 +853,17 @@ type ShareOutput {
 
 type CheckEthDenverInviteeOutput {
   is_eth_denver_invitee: Boolean!
+}
+
+type NetworkNode {
+  username: String!
+  avatar: String
+  profile_id: Int
+  farcaster_id: Int
+}
+
+type NetworkOutput {
+  nodes: [NetworkNode!]
 }
 
 scalar timestamptz

@@ -34,6 +34,7 @@ import generateApiKey from './_handlers/generateApiKey';
 import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
 import guildInfo from './_handlers/getGuildInfo';
 import getHeadlines from './_handlers/getHeadlines';
+import getNetwork from './_handlers/getNetwork';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
 import giveCsv from './_handlers/giveCsv';
 import inviteWaitingList from './_handlers/inviteWaitingList';
@@ -99,6 +100,7 @@ const HANDLERS: HandlerDict = {
   getSimilarProfiles,
   giveCsv,
   guildInfo,
+  getNetwork,
   inviteWaitingList,
   linkDiscordCircle,
   linkDiscordUser,
