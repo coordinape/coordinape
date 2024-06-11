@@ -4,8 +4,9 @@ import { z } from 'zod';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 
-const networkTiersInputSchema = z.object({
+const networkInputSchema = z.object({
   profile_id: z.number(),
+  farcaster_id: z.number(),
 });
 
 //
@@ -23,7 +24,13 @@ type NetworkNode = {
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload, session } = await getInput(req, networkTiersInputSchema);
+  const { payload, session } = await getInput(req, networkInputSchema);
+
+  // eslint-disable-next-line no-console
+  console.log({ viewer: session.hasuraProfileId });
+
+  // eslint-disable-next-line no-console
+  console.log('payload', payload);
 
   const nodes: NetworkNode[] = [];
 

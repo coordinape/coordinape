@@ -636,7 +636,8 @@ input AddFarcasterInput {
 }
 
 input NetworkInput {
-  profile_id: Int!
+  profile_id: Int
+  farcaster_id: Int
 }
 
 type CreateCircleResponse {

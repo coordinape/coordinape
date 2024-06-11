@@ -441,7 +441,8 @@ type MarkClaimedOutput {
 }
 
 input NetworkInput {
-  profile_id: Int!
+  farcaster_id: Int
+  profile_id: Int
 }
 
 type NetworkNode {

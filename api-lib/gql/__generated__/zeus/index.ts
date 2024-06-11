@@ -955,7 +955,8 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['NetworkInput']: {
-    profile_id: number;
+    farcaster_id?: number | undefined | null;
+    profile_id?: number | undefined | null;
   };
   ['NetworkNode']: AliasType<{
     avatar?: boolean | `@${string}`;
@@ -57227,7 +57228,8 @@ export type GraphQLTypes = {
     ids: Array<number>;
   };
   ['NetworkInput']: {
-    profile_id: number;
+    farcaster_id?: number | undefined;
+    profile_id?: number | undefined;
   };
   ['NetworkNode']: {
     __typename: 'NetworkNode';
