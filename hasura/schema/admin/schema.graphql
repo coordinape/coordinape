@@ -15910,6 +15910,452 @@ input epochs_variance_order_by {
   repeat_day_of_month: order_by
 }
 
+"""
+columns and relationships of "farcaster_accounts"
+"""
+type farcaster_accounts {
+  created_at: timestamptz!
+  custody_address: String!
+  fid: bigint!
+  followers_count: Int!
+  following_count: Int!
+  name: String!
+  pfp_url: String
+  profile_id: bigint!
+  updated_at: timestamptz!
+  username: String!
+}
+
+"""
+aggregated selection of "farcaster_accounts"
+"""
+type farcaster_accounts_aggregate {
+  aggregate: farcaster_accounts_aggregate_fields
+  nodes: [farcaster_accounts!]!
+}
+
+"""
+aggregate fields of "farcaster_accounts"
+"""
+type farcaster_accounts_aggregate_fields {
+  avg: farcaster_accounts_avg_fields
+  count(columns: [farcaster_accounts_select_column!], distinct: Boolean): Int!
+  max: farcaster_accounts_max_fields
+  min: farcaster_accounts_min_fields
+  stddev: farcaster_accounts_stddev_fields
+  stddev_pop: farcaster_accounts_stddev_pop_fields
+  stddev_samp: farcaster_accounts_stddev_samp_fields
+  sum: farcaster_accounts_sum_fields
+  var_pop: farcaster_accounts_var_pop_fields
+  var_samp: farcaster_accounts_var_samp_fields
+  variance: farcaster_accounts_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_accounts_avg_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'.
+"""
+input farcaster_accounts_bool_exp {
+  _and: [farcaster_accounts_bool_exp!]
+  _not: farcaster_accounts_bool_exp
+  _or: [farcaster_accounts_bool_exp!]
+  created_at: timestamptz_comparison_exp
+  custody_address: String_comparison_exp
+  fid: bigint_comparison_exp
+  followers_count: Int_comparison_exp
+  following_count: Int_comparison_exp
+  name: String_comparison_exp
+  pfp_url: String_comparison_exp
+  profile_id: bigint_comparison_exp
+  updated_at: timestamptz_comparison_exp
+  username: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster_accounts"
+"""
+enum farcaster_accounts_constraint {
+  """
+  unique or primary key constraint on columns "custody_address"
+  """
+  farcaster_accounts_custody_address_key
+
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  farcaster_accounts_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster_accounts"
+"""
+input farcaster_accounts_inc_input {
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  profile_id: bigint
+}
+
+"""
+input type for inserting data into table "farcaster_accounts"
+"""
+input farcaster_accounts_insert_input {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_accounts_max_fields {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_accounts_min_fields {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
+"""
+response of any mutation on the table "farcaster_accounts"
+"""
+type farcaster_accounts_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_accounts!]!
+}
+
+"""
+input type for inserting object relation for remote table "farcaster_accounts"
+"""
+input farcaster_accounts_obj_rel_insert_input {
+  data: farcaster_accounts_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: farcaster_accounts_on_conflict
+}
+
+"""
+on_conflict condition type for table "farcaster_accounts"
+"""
+input farcaster_accounts_on_conflict {
+  constraint: farcaster_accounts_constraint!
+  update_columns: [farcaster_accounts_update_column!]! = []
+  where: farcaster_accounts_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster_accounts".
+"""
+input farcaster_accounts_order_by {
+  created_at: order_by
+  custody_address: order_by
+  fid: order_by
+  followers_count: order_by
+  following_count: order_by
+  name: order_by
+  pfp_url: order_by
+  profile_id: order_by
+  updated_at: order_by
+  username: order_by
+}
+
+"""
+primary key columns input for table: farcaster_accounts
+"""
+input farcaster_accounts_pk_columns_input {
+  profile_id: bigint!
+}
+
+"""
+select columns of table "farcaster_accounts"
+"""
+enum farcaster_accounts_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  followers_count
+
+  """
+  column name
+  """
+  following_count
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  pfp_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  username
+}
+
+"""
+input type for updating data in table "farcaster_accounts"
+"""
+input farcaster_accounts_set_input {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_accounts_stddev_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_accounts_stddev_pop_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_accounts_stddev_samp_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_accounts"
+"""
+input farcaster_accounts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_accounts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_accounts_stream_cursor_value_input {
+  created_at: timestamptz
+  custody_address: String
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  name: String
+  pfp_url: String
+  profile_id: bigint
+  updated_at: timestamptz
+  username: String
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_accounts_sum_fields {
+  fid: bigint
+  followers_count: Int
+  following_count: Int
+  profile_id: bigint
+}
+
+"""
+update columns of table "farcaster_accounts"
+"""
+enum farcaster_accounts_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  followers_count
+
+  """
+  column name
+  """
+  following_count
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  pfp_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  username
+}
+
+input farcaster_accounts_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_accounts_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_accounts_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_accounts_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_accounts_var_pop_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_accounts_var_samp_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_accounts_variance_fields {
+  fid: Float
+  followers_count: Float
+  following_count: Float
+  profile_id: Float
+}
+
 scalar float8
 
 """
@@ -21674,6 +22120,11 @@ type mutation_root {
   adds a new (unverified) email address to a users profile
   """
   addEmail(payload: AddEmailInput!): ConfirmationResponse
+
+  """
+  adds a farcaster account to a users profile
+  """
+  addFarcaster: ConfirmationWithErrorResponse
   addInviteCodes(payload: AddInviteCodesInput!): ConfirmationResponse!
   adminUpdateUser(payload: AdminUpdateUserInput!): UserResponse
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
@@ -22036,6 +22487,21 @@ type mutation_root {
   delete single row from the table: "epoches"
   """
   delete_epochs_by_pk(id: bigint!): epochs
+
+  """
+  delete data from the table: "farcaster_accounts"
+  """
+  delete_farcaster_accounts(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_accounts_bool_exp!
+  ): farcaster_accounts_mutation_response
+
+  """
+  delete single row from the table: "farcaster_accounts"
+  """
+  delete_farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
 
   """
   delete data from the table: "gift_private"
@@ -23335,6 +23801,36 @@ type mutation_root {
     """
     on_conflict: epochs_on_conflict
   ): epochs
+
+  """
+  insert data into the table: "farcaster_accounts"
+  """
+  insert_farcaster_accounts(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_accounts_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_accounts_on_conflict
+  ): farcaster_accounts_mutation_response
+
+  """
+  insert a single row into the table: "farcaster_accounts"
+  """
+  insert_farcaster_accounts_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_accounts_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_accounts_on_conflict
+  ): farcaster_accounts
 
   """
   insert data into the table: "gift_private"
@@ -25769,6 +26265,52 @@ type mutation_root {
     """
     updates: [epochs_updates!]!
   ): [epochs_mutation_response]
+
+  """
+  update data of the table: "farcaster_accounts"
+  """
+  update_farcaster_accounts(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_accounts_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_accounts_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_accounts_bool_exp!
+  ): farcaster_accounts_mutation_response
+
+  """
+  update single row of the table: "farcaster_accounts"
+  """
+  update_farcaster_accounts_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_accounts_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_accounts_set_input
+    pk_columns: farcaster_accounts_pk_columns_input!
+  ): farcaster_accounts
+
+  """
+  update multiples rows of table: "farcaster_accounts"
+  """
+  update_farcaster_accounts_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_accounts_updates!]!
+  ): [farcaster_accounts_mutation_response]
 
   """
   update data of the table: "gift_private"
@@ -36152,6 +36694,11 @@ type profiles {
     """
     where: emails_bool_exp
   ): emails_aggregate!
+
+  """
+  An object relationship
+  """
+  farcaster_account: farcaster_accounts
   github_username: String
   id: bigint!
   invite_code: uuid!
@@ -36625,6 +37172,7 @@ input profiles_bool_exp {
   distributions_aggregate: distributions_aggregate_bool_exp
   emails: emails_bool_exp
   emails_aggregate: emails_aggregate_bool_exp
+  farcaster_account: farcaster_accounts_bool_exp
   github_username: String_comparison_exp
   id: bigint_comparison_exp
   invite_code: uuid_comparison_exp
@@ -36735,6 +37283,7 @@ input profiles_insert_input {
   discord_username: String
   distributions: distributions_arr_rel_insert_input
   emails: emails_arr_rel_insert_input
+  farcaster_account: farcaster_accounts_obj_rel_insert_input
   github_username: String
   id: bigint
   invite_code: uuid
@@ -36909,6 +37458,7 @@ input profiles_order_by {
   discord_username: order_by
   distributions_aggregate: distributions_aggregate_order_by
   emails_aggregate: emails_aggregate_order_by
+  farcaster_account: farcaster_accounts_order_by
   github_username: order_by
   id: order_by
   invite_code: order_by
@@ -40162,6 +40712,71 @@ type query_root {
   fetch data from the table: "epoches" using primary key columns
   """
   epochs_by_pk(id: bigint!): epochs
+
+  """
+  fetch data from the table: "farcaster_accounts"
+  """
+  farcaster_accounts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster_accounts"
+  """
+  farcaster_accounts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): farcaster_accounts_aggregate!
+
+  """
+  fetch data from the table: "farcaster_accounts" using primary key columns
+  """
+  farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
@@ -47912,6 +48527,91 @@ type subscription_root {
     """
     where: epochs_bool_exp
   ): [epochs!]!
+
+  """
+  fetch data from the table: "farcaster_accounts"
+  """
+  farcaster_accounts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster_accounts"
+  """
+  farcaster_accounts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_accounts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_accounts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): farcaster_accounts_aggregate!
+
+  """
+  fetch data from the table: "farcaster_accounts" using primary key columns
+  """
+  farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
+
+  """
+  fetch data from the table in a streaming manner: "farcaster_accounts"
+  """
+  farcaster_accounts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_accounts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_accounts_bool_exp
+  ): [farcaster_accounts!]!
 
   """
   fetch data from the table: "gift_private"

@@ -20,6 +20,16 @@ actions:
     permissions:
       - role: user
     comment: adds a new (unverified) email address to a users profile
+  - name: addFarcaster
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=addFarcaster'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: adds a farcaster account to a users profile
   - name: addInviteCodes
     definition:
       kind: synchronous
@@ -643,6 +653,7 @@ custom_types:
     - name: InviteWaitingListInput
     - name: SearchProfilesInput
     - name: ShareInput
+    - name: AddFarcasterInput
   objects:
     - name: CreateCircleResponse
       relationships:

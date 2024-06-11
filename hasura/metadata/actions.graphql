@@ -7,6 +7,10 @@ type Mutation {
 }
 
 type Mutation {
+  addFarcaster: ConfirmationWithErrorResponse
+}
+
+type Mutation {
   addInviteCodes(payload: AddInviteCodesInput!): ConfirmationResponse!
 }
 
@@ -619,6 +623,12 @@ input SearchProfilesInput {
 
 input ShareInput {
   activity_id: Int!
+}
+
+input AddFarcasterInput {
+  message: String!
+  fid: Int!
+  signature: String!
 }
 
 type CreateCircleResponse {

@@ -6,6 +6,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
 import acceptTOS from './_handlers/acceptTOS';
 import addEmail from './_handlers/addEmail';
+import addFarcaster from './_handlers/addFarcaster.ts';
 import addInviteCodes from './_handlers/addInviteCodes';
 import adminUpdateUser from './_handlers/adminUpdateUser';
 import allocationCsv from './_handlers/allocationCsv';
@@ -69,6 +70,7 @@ type HandlerDict = { [handlerName: string]: VercelApiHandler };
 const HANDLERS: HandlerDict = {
   acceptTOS,
   addEmail,
+  addFarcaster,
   addInviteCodes,
   adminUpdateUser,
   allocationCsv,

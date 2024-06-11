@@ -220,7 +220,7 @@
     "cloudflare:deploy:prod": "cd ./cloudflare/workers/ogtags && pnpm npx wrangler deploy --e production"
   },
   "lint-staged": {
-    "{_api,api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx,graphql}": [
+    "{_api,api,api-lib,api-test,hasura,src}/**/*.{js,ts,tsx}": [
       "eslint --fix --max-warnings 0",
       "prettier --write"
     ],

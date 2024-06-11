@@ -18,6 +18,7 @@ import { currentPrompt } from '../ActivityPage';
 import {
   ExternalLink,
   Eye,
+  Farcaster,
   Github,
   Plus,
   Settings,
@@ -61,6 +62,7 @@ export const CoLinksProfileHeader = ({
     const {
       twitter_accounts_by_pk: twitter,
       github_accounts_by_pk: github,
+      farcaster_accounts_by_pk: farcaster,
       profile_skills,
     } = await client.query(
       {
@@ -75,6 +77,14 @@ export const CoLinksProfileHeader = ({
           },
           {
             skill_name: true,
+          },
+        ],
+        farcaster_accounts_by_pk: [
+          {
+            profile_id: profile.id,
+          },
+          {
+            username: true,
           },
         ],
         twitter_accounts_by_pk: [
@@ -102,6 +112,7 @@ export const CoLinksProfileHeader = ({
     return {
       twitter: twitter ? twitter.username : undefined,
       github: github ? github.username : undefined,
+      farcaster: farcaster ? farcaster.username : undefined,
       skills: profile_skills.map(ps => ps.skill_name),
     };
   });
@@ -142,6 +153,28 @@ export const CoLinksProfileHeader = ({
                   // if we want to show this, this is how but probably needs a restyle
                   // holdingCount={targetBalance ?? 0}
                 />
+                {details?.farcaster && (
+                  <Flex
+                    as={Link}
+                    href={`https://warpcast.com/${details?.farcaster}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    css={{
+                      alignItems: 'center',
+                      gap: '$xs',
+                      color: '$secondaryText',
+                      fontWeight: '$medium',
+                      '&:hover': {
+                        color: '$linkHover',
+                        'svg path': {
+                          fill: '$linkHover',
+                        },
+                      },
+                    }}
+                  >
+                    <Farcaster fa /> {details?.farcaster}
+                  </Flex>
+                )}
                 {details?.github && (
                   <Flex
                     as={Link}

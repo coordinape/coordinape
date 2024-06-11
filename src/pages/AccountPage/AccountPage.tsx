@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { useIsCoLinksSite } from '../../features/colinks/useIsCoLinksSite';
+import { ShowOrConnectFarcaster } from '../../features/farcaster/ShowOrConnectFarcaster';
 import { ShowOrConnectGitHub } from '../../features/github/ShowOrConnectGitHub';
 import { ShowOrConnectLinkedIn } from '../../features/linkedin/ShowOrConnectLinkedIn';
 import { ShowOrConnectTwitter } from '../../features/twitter/ShowOrConnectTwitter';
@@ -56,15 +57,24 @@ export default function AccountPage() {
           </Text>
           <EditEmailForm />
         </Panel>
-        <Flex css={{ gap: '$lg' }}>
-          {isCoLinksPage && (
-            <>
+
+        {isCoLinksPage && (
+          <>
+            <Flex css={{ gap: '$lg' }}>
+              <Panel css={{ maxWidth: '$readable', flex: 1 }}>
+                <Text large semibold css={{ mb: '$lg' }}>
+                  Farcaster
+                </Text>
+                <ShowOrConnectFarcaster />
+              </Panel>
               <Panel css={{ maxWidth: '$readable', flex: 1 }}>
                 <Text large semibold css={{ mb: '$lg' }}>
                   Twitter
                 </Text>
                 <ShowOrConnectTwitter />
               </Panel>
+            </Flex>
+            <Flex css={{ gap: '$lg' }}>
               <Panel css={{ maxWidth: '$readable', flex: 1 }}>
                 <Text large semibold css={{ mb: '$lg' }}>
                   GitHub
@@ -77,9 +87,9 @@ export default function AccountPage() {
                 </Text>
                 <ShowOrConnectLinkedIn />
               </Panel>
-            </>
-          )}
-        </Flex>
+            </Flex>
+          </>
+        )}
       </Flex>
     </SingleColumnLayout>
   );

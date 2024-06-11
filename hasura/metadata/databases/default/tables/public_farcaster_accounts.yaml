@@ -1,0 +1,43 @@
+table:
+  name: farcaster_accounts
+  schema: public
+select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - created_at
+        - custody_address
+        - fid
+        - followers_count
+        - following_count
+        - name
+        - pfp_url
+        - profile_id
+        - updated_at
+        - username
+      filter: {}
+      limit: 1
+    comment: ""
+  - role: user
+    permission:
+      columns:
+        - created_at
+        - custody_address
+        - fid
+        - followers_count
+        - following_count
+        - name
+        - pfp_url
+        - profile_id
+        - updated_at
+        - username
+      filter: {}
+      limit: 1
+    comment: ""
+delete_permissions:
+  - role: user
+    permission:
+      filter:
+        profile_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

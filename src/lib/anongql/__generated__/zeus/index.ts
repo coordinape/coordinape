@@ -1306,6 +1306,71 @@ export type ValueTypes = {
   };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    custody_address?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    pfp_url?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    custody_address?: ValueTypes['String_comparison_exp'] | undefined | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    custody_address?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    followers_count?: ValueTypes['order_by'] | undefined | null;
+    following_count?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    pfp_url?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['farcaster_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    custody_address?: string | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    name?: string | undefined | null;
+    pfp_url?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    username?: string | undefined | null;
+  };
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: AliasType<{
     profile_id?: boolean | `@${string}`;
@@ -2128,6 +2193,33 @@ export type ValueTypes = {
       ValueTypes['cosouls'],
     ];
     cosouls_by_pk?: [{ id: number }, ValueTypes['cosouls']];
+    farcaster_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_accounts'],
+    ];
     github_accounts?: [
       {
         /** distinct select on columns */
@@ -2639,6 +2731,46 @@ export type ValueTypes = {
         where?: ValueTypes['cosouls_bool_exp'] | undefined | null;
       },
       ValueTypes['cosouls'],
+    ];
+    farcaster_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['farcaster_accounts_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
     ];
     github_accounts?: [
       {
@@ -3228,6 +3360,29 @@ export type ModelTypes = {
   ['cosouls_stream_cursor_value_input']: GraphQLTypes['cosouls_stream_cursor_value_input'];
   /** ordering argument of a cursor */
   ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: {
+    created_at: GraphQLTypes['timestamptz'];
+    custody_address: string;
+    fid: GraphQLTypes['bigint'];
+    followers_count: number;
+    following_count: number;
+    name: string;
+    pfp_url?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: GraphQLTypes['farcaster_accounts_bool_exp'];
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: GraphQLTypes['farcaster_accounts_order_by'];
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: GraphQLTypes['farcaster_accounts_select_column'];
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: GraphQLTypes['farcaster_accounts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: {
     profile_id: GraphQLTypes['bigint'];
@@ -3458,6 +3613,10 @@ export type ModelTypes = {
     cosouls: Array<GraphQLTypes['cosouls']>;
     /** fetch data from the table: "cosouls" using primary key columns */
     cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */
@@ -3559,6 +3718,12 @@ export type ModelTypes = {
     cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** fetch data from the table in a streaming manner: "cosouls" */
     cosouls_stream: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster_accounts" */
+    farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */
@@ -4219,6 +4384,71 @@ export type GraphQLTypes = {
   };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: {
+    __typename: 'farcaster_accounts';
+    created_at: GraphQLTypes['timestamptz'];
+    custody_address: string;
+    fid: GraphQLTypes['bigint'];
+    followers_count: number;
+    following_count: number;
+    name: string;
+    pfp_url?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    username: string;
+  };
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    custody_address?: GraphQLTypes['String_comparison_exp'] | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    custody_address?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    followers_count?: GraphQLTypes['order_by'] | undefined;
+    following_count?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    pfp_url?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: {
     __typename: 'github_accounts';
@@ -4695,6 +4925,10 @@ export type GraphQLTypes = {
     cosouls: Array<GraphQLTypes['cosouls']>;
     /** fetch data from the table: "cosouls" using primary key columns */
     cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */
@@ -4877,6 +5111,12 @@ export type GraphQLTypes = {
     cosouls_by_pk?: GraphQLTypes['cosouls'] | undefined;
     /** fetch data from the table in a streaming manner: "cosouls" */
     cosouls_stream: Array<GraphQLTypes['cosouls']>;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster_accounts" */
+    farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */
@@ -5029,6 +5269,19 @@ export const enum cosouls_select_column {
 export const enum cursor_ordering {
   ASC = 'ASC',
   DESC = 'DESC',
+}
+/** select columns of table "farcaster_accounts" */
+export const enum farcaster_accounts_select_column {
+  created_at = 'created_at',
+  custody_address = 'custody_address',
+  fid = 'fid',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  name = 'name',
+  pfp_url = 'pfp_url',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  username = 'username',
 }
 /** select columns of table "github_accounts" */
 export const enum github_accounts_select_column {

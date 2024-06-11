@@ -11338,6 +11338,265 @@ export type ValueTypes = {
     repeat?: ValueTypes['order_by'] | undefined | null;
     repeat_day_of_month?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    custody_address?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    pfp_url?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate']: AliasType<{
+    aggregate?: ValueTypes['farcaster_accounts_aggregate_fields'];
+    nodes?: ValueTypes['farcaster_accounts'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['farcaster_accounts_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['farcaster_accounts_max_fields'];
+    min?: ValueTypes['farcaster_accounts_min_fields'];
+    stddev?: ValueTypes['farcaster_accounts_stddev_fields'];
+    stddev_pop?: ValueTypes['farcaster_accounts_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['farcaster_accounts_stddev_samp_fields'];
+    sum?: ValueTypes['farcaster_accounts_sum_fields'];
+    var_pop?: ValueTypes['farcaster_accounts_var_pop_fields'];
+    var_samp?: ValueTypes['farcaster_accounts_var_samp_fields'];
+    variance?: ValueTypes['farcaster_accounts_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['farcaster_accounts_avg_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: {
+    _and?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    custody_address?: ValueTypes['String_comparison_exp'] | undefined | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    followers_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    following_count?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    username?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "farcaster_accounts" */
+  ['farcaster_accounts_constraint']: farcaster_accounts_constraint;
+  /** input type for incrementing numeric columns in table "farcaster_accounts" */
+  ['farcaster_accounts_inc_input']: {
+    fid?: ValueTypes['bigint'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "farcaster_accounts" */
+  ['farcaster_accounts_insert_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    custody_address?: string | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    name?: string | undefined | null;
+    pfp_url?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['farcaster_accounts_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    custody_address?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    pfp_url?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['farcaster_accounts_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    custody_address?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    pfp_url?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    username?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "farcaster_accounts" */
+  ['farcaster_accounts_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['farcaster_accounts'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** input type for inserting object relation for remote table "farcaster_accounts" */
+  ['farcaster_accounts_obj_rel_insert_input']: {
+    data: ValueTypes['farcaster_accounts_insert_input'];
+    /** upsert condition */
+    on_conflict?:
+      | ValueTypes['farcaster_accounts_on_conflict']
+      | undefined
+      | null;
+  };
+  /** on_conflict condition type for table "farcaster_accounts" */
+  ['farcaster_accounts_on_conflict']: {
+    constraint: ValueTypes['farcaster_accounts_constraint'];
+    update_columns: Array<ValueTypes['farcaster_accounts_update_column']>;
+    where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    custody_address?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    followers_count?: ValueTypes['order_by'] | undefined | null;
+    following_count?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    pfp_url?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    username?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: farcaster_accounts */
+  ['farcaster_accounts_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
+  /** input type for updating data in table "farcaster_accounts" */
+  ['farcaster_accounts_set_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    custody_address?: string | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    name?: string | undefined | null;
+    pfp_url?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['farcaster_accounts_stddev_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['farcaster_accounts_stddev_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['farcaster_accounts_stddev_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['farcaster_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    custody_address?: string | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    followers_count?: number | undefined | null;
+    following_count?: number | undefined | null;
+    name?: string | undefined | null;
+    pfp_url?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    username?: string | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_accounts_sum_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** update columns of table "farcaster_accounts" */
+  ['farcaster_accounts_update_column']: farcaster_accounts_update_column;
+  ['farcaster_accounts_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['farcaster_accounts_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['farcaster_accounts_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['farcaster_accounts_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_accounts_var_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['farcaster_accounts_var_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['farcaster_accounts_variance_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    followers_count?: boolean | `@${string}`;
+    following_count?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['float8']: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: {
@@ -15084,6 +15343,8 @@ export type ValueTypes = {
       { payload: ValueTypes['AddEmailInput'] },
       ValueTypes['ConfirmationResponse'],
     ];
+    /** adds a farcaster account to a users profile */
+    addFarcaster?: ValueTypes['ConfirmationWithErrorResponse'];
     addInviteCodes?: [
       { payload: ValueTypes['AddInviteCodesInput'] },
       ValueTypes['ConfirmationResponse'],
@@ -15392,6 +15653,17 @@ export type ValueTypes = {
       ValueTypes['epochs_mutation_response'],
     ];
     delete_epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    delete_farcaster_accounts?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['farcaster_accounts_bool_exp'];
+      },
+      ValueTypes['farcaster_accounts_mutation_response'],
+    ];
+    delete_farcaster_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_accounts'],
+    ];
     delete_gift_private?: [
       {
         /** filter the rows which have to be deleted */
@@ -16332,6 +16604,30 @@ export type ValueTypes = {
         on_conflict?: ValueTypes['epochs_on_conflict'] | undefined | null;
       },
       ValueTypes['epochs'],
+    ];
+    insert_farcaster_accounts?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['farcaster_accounts_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['farcaster_accounts_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_accounts_mutation_response'],
+    ];
+    insert_farcaster_accounts_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['farcaster_accounts_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['farcaster_accounts_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_accounts'],
     ];
     insert_gift_private?: [
       {
@@ -18128,6 +18424,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['epochs_updates']>;
       },
       ValueTypes['epochs_mutation_response'],
+    ];
+    update_farcaster_accounts?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['farcaster_accounts_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['farcaster_accounts_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['farcaster_accounts_bool_exp'];
+      },
+      ValueTypes['farcaster_accounts_mutation_response'],
+    ];
+    update_farcaster_accounts_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['farcaster_accounts_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['farcaster_accounts_set_input'] | undefined | null;
+        pk_columns: ValueTypes['farcaster_accounts_pk_columns_input'];
+      },
+      ValueTypes['farcaster_accounts'],
+    ];
+    update_farcaster_accounts_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['farcaster_accounts_updates']>;
+      },
+      ValueTypes['farcaster_accounts_mutation_response'],
     ];
     update_gift_private?: [
       {
@@ -25037,6 +25367,8 @@ export type ValueTypes = {
       },
       ValueTypes['emails_aggregate'],
     ];
+    /** An object relationship */
+    farcaster_account?: ValueTypes['farcaster_accounts'];
     github_username?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
     invite_code?: boolean | `@${string}`;
@@ -25451,6 +25783,10 @@ export type ValueTypes = {
       | ValueTypes['emails_aggregate_bool_exp']
       | undefined
       | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_bool_exp']
+      | undefined
+      | null;
     github_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     invite_code?: ValueTypes['uuid_comparison_exp'] | undefined | null;
@@ -25581,6 +25917,10 @@ export type ValueTypes = {
       | undefined
       | null;
     emails?: ValueTypes['emails_arr_rel_insert_input'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_obj_rel_insert_input']
+      | undefined
+      | null;
     github_username?: string | undefined | null;
     id?: ValueTypes['bigint'] | undefined | null;
     invite_code?: ValueTypes['uuid'] | undefined | null;
@@ -25763,6 +26103,10 @@ export type ValueTypes = {
       | null;
     emails_aggregate?:
       | ValueTypes['emails_aggregate_order_by']
+      | undefined
+      | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_order_by']
       | undefined
       | null;
     github_username?: ValueTypes['order_by'] | undefined | null;
@@ -28010,6 +28354,56 @@ export type ValueTypes = {
       ValueTypes['epochs_aggregate'],
     ];
     epochs_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['epochs']];
+    farcaster_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts_aggregate'],
+    ];
+    farcaster_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_accounts'],
+    ];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput'],
@@ -33567,6 +33961,69 @@ export type ValueTypes = {
         where?: ValueTypes['epochs_bool_exp'] | undefined | null;
       },
       ValueTypes['epochs'],
+    ];
+    farcaster_accounts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_accounts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_accounts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts_aggregate'],
+    ];
+    farcaster_accounts_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_accounts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['farcaster_accounts_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_accounts'],
     ];
     gift_private?: [
       {
@@ -45230,6 +45687,158 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "epoches" */
   ['epochs_variance_order_by']: GraphQLTypes['epochs_variance_order_by'];
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: {
+    created_at: GraphQLTypes['timestamptz'];
+    custody_address: string;
+    fid: GraphQLTypes['bigint'];
+    followers_count: number;
+    following_count: number;
+    name: string;
+    pfp_url?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    username: string;
+  };
+  /** aggregated selection of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate']: {
+    aggregate?: GraphQLTypes['farcaster_accounts_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['farcaster_accounts']>;
+  };
+  /** aggregate fields of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate_fields']: {
+    avg?: GraphQLTypes['farcaster_accounts_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_accounts_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_accounts_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_accounts_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_accounts_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_accounts_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_accounts_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_accounts_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_accounts_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_accounts_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_accounts_avg_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: GraphQLTypes['farcaster_accounts_bool_exp'];
+  /** unique or primary key constraints on table "farcaster_accounts" */
+  ['farcaster_accounts_constraint']: GraphQLTypes['farcaster_accounts_constraint'];
+  /** input type for incrementing numeric columns in table "farcaster_accounts" */
+  ['farcaster_accounts_inc_input']: GraphQLTypes['farcaster_accounts_inc_input'];
+  /** input type for inserting data into table "farcaster_accounts" */
+  ['farcaster_accounts_insert_input']: GraphQLTypes['farcaster_accounts_insert_input'];
+  /** aggregate max on columns */
+  ['farcaster_accounts_max_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_accounts_min_fields']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "farcaster_accounts" */
+  ['farcaster_accounts_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['farcaster_accounts']>;
+  };
+  /** input type for inserting object relation for remote table "farcaster_accounts" */
+  ['farcaster_accounts_obj_rel_insert_input']: GraphQLTypes['farcaster_accounts_obj_rel_insert_input'];
+  /** on_conflict condition type for table "farcaster_accounts" */
+  ['farcaster_accounts_on_conflict']: GraphQLTypes['farcaster_accounts_on_conflict'];
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: GraphQLTypes['farcaster_accounts_order_by'];
+  /** primary key columns input for table: farcaster_accounts */
+  ['farcaster_accounts_pk_columns_input']: GraphQLTypes['farcaster_accounts_pk_columns_input'];
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: GraphQLTypes['farcaster_accounts_select_column'];
+  /** input type for updating data in table "farcaster_accounts" */
+  ['farcaster_accounts_set_input']: GraphQLTypes['farcaster_accounts_set_input'];
+  /** aggregate stddev on columns */
+  ['farcaster_accounts_stddev_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_accounts_stddev_pop_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_accounts_stddev_samp_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: GraphQLTypes['farcaster_accounts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['farcaster_accounts_sum_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "farcaster_accounts" */
+  ['farcaster_accounts_update_column']: GraphQLTypes['farcaster_accounts_update_column'];
+  ['farcaster_accounts_updates']: GraphQLTypes['farcaster_accounts_updates'];
+  /** aggregate var_pop on columns */
+  ['farcaster_accounts_var_pop_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_accounts_var_samp_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_accounts_variance_fields']: {
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: GraphQLTypes['float8_comparison_exp'];
@@ -47135,6 +47744,8 @@ export type ModelTypes = {
     acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     /** adds a new (unverified) email address to a users profile */
     addEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** adds a farcaster account to a users profile */
+    addFarcaster?: GraphQLTypes['ConfirmationWithErrorResponse'] | undefined;
     addInviteCodes: GraphQLTypes['ConfirmationResponse'];
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
@@ -47294,6 +47905,14 @@ export type ModelTypes = {
     delete_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** delete data from the table: "farcaster_accounts" */
+    delete_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** delete single row from the table: "farcaster_accounts" */
+    delete_farcaster_accounts_by_pk?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
     /** delete data from the table: "gift_private" */
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -47682,6 +48301,14 @@ export type ModelTypes = {
     insert_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: GraphQLTypes['epochs'] | undefined;
+    /** insert data into the table: "farcaster_accounts" */
+    insert_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "farcaster_accounts" */
+    insert_farcaster_accounts_one?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
     /** insert data into the table: "gift_private" */
     insert_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -48195,6 +48822,18 @@ export type ModelTypes = {
     /** update multiples rows of table: "epoches" */
     update_epochs_many?:
       | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "farcaster_accounts" */
+    update_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** update single row of the table: "farcaster_accounts" */
+    update_farcaster_accounts_by_pk?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
+    /** update multiples rows of table: "farcaster_accounts" */
+    update_farcaster_accounts_many?:
+      | Array<GraphQLTypes['farcaster_accounts_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
@@ -51272,6 +51911,8 @@ export type ModelTypes = {
     emails: Array<GraphQLTypes['emails']>;
     /** An aggregate relationship */
     emails_aggregate: GraphQLTypes['emails_aggregate'];
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
@@ -51975,6 +52616,12 @@ export type ModelTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch aggregated fields from the table: "farcaster_accounts" */
+    farcaster_accounts_aggregate: GraphQLTypes['farcaster_accounts_aggregate'];
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -53249,6 +53896,14 @@ export type ModelTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch aggregated fields from the table: "farcaster_accounts" */
+    farcaster_accounts_aggregate: GraphQLTypes['farcaster_accounts_aggregate'];
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster_accounts" */
+    farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -64218,6 +64873,257 @@ export type GraphQLTypes = {
     repeat?: GraphQLTypes['order_by'] | undefined;
     repeat_day_of_month?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "farcaster_accounts" */
+  ['farcaster_accounts']: {
+    __typename: 'farcaster_accounts';
+    created_at: GraphQLTypes['timestamptz'];
+    custody_address: string;
+    fid: GraphQLTypes['bigint'];
+    followers_count: number;
+    following_count: number;
+    name: string;
+    pfp_url?: string | undefined;
+    profile_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+    username: string;
+  };
+  /** aggregated selection of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate']: {
+    __typename: 'farcaster_accounts_aggregate';
+    aggregate?: GraphQLTypes['farcaster_accounts_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['farcaster_accounts']>;
+  };
+  /** aggregate fields of "farcaster_accounts" */
+  ['farcaster_accounts_aggregate_fields']: {
+    __typename: 'farcaster_accounts_aggregate_fields';
+    avg?: GraphQLTypes['farcaster_accounts_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_accounts_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_accounts_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_accounts_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_accounts_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_accounts_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_accounts_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_accounts_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_accounts_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_accounts_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_accounts_avg_fields']: {
+    __typename: 'farcaster_accounts_avg_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "farcaster_accounts". All fields are combined with a logical 'AND'. */
+  ['farcaster_accounts_bool_exp']: {
+    _and?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    custody_address?: GraphQLTypes['String_comparison_exp'] | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    followers_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    following_count?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    username?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "farcaster_accounts" */
+  ['farcaster_accounts_constraint']: farcaster_accounts_constraint;
+  /** input type for incrementing numeric columns in table "farcaster_accounts" */
+  ['farcaster_accounts_inc_input']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "farcaster_accounts" */
+  ['farcaster_accounts_insert_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate max on columns */
+  ['farcaster_accounts_max_fields']: {
+    __typename: 'farcaster_accounts_max_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_accounts_min_fields']: {
+    __typename: 'farcaster_accounts_min_fields';
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** response of any mutation on the table "farcaster_accounts" */
+  ['farcaster_accounts_mutation_response']: {
+    __typename: 'farcaster_accounts_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['farcaster_accounts']>;
+  };
+  /** input type for inserting object relation for remote table "farcaster_accounts" */
+  ['farcaster_accounts_obj_rel_insert_input']: {
+    data: GraphQLTypes['farcaster_accounts_insert_input'];
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['farcaster_accounts_on_conflict'] | undefined;
+  };
+  /** on_conflict condition type for table "farcaster_accounts" */
+  ['farcaster_accounts_on_conflict']: {
+    constraint: GraphQLTypes['farcaster_accounts_constraint'];
+    update_columns: Array<GraphQLTypes['farcaster_accounts_update_column']>;
+    where?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "farcaster_accounts". */
+  ['farcaster_accounts_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    custody_address?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    followers_count?: GraphQLTypes['order_by'] | undefined;
+    following_count?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    pfp_url?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    username?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: farcaster_accounts */
+  ['farcaster_accounts_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "farcaster_accounts" */
+  ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
+  /** input type for updating data in table "farcaster_accounts" */
+  ['farcaster_accounts_set_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['farcaster_accounts_stddev_fields']: {
+    __typename: 'farcaster_accounts_stddev_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_accounts_stddev_pop_fields']: {
+    __typename: 'farcaster_accounts_stddev_pop_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_accounts_stddev_samp_fields']: {
+    __typename: 'farcaster_accounts_stddev_samp_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** Streaming cursor of the table "farcaster_accounts" */
+  ['farcaster_accounts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_accounts_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    custody_address?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    name?: string | undefined;
+    pfp_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    username?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_accounts_sum_fields']: {
+    __typename: 'farcaster_accounts_sum_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** update columns of table "farcaster_accounts" */
+  ['farcaster_accounts_update_column']: farcaster_accounts_update_column;
+  ['farcaster_accounts_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['farcaster_accounts_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['farcaster_accounts_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['farcaster_accounts_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_accounts_var_pop_fields']: {
+    __typename: 'farcaster_accounts_var_pop_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_accounts_var_samp_fields']: {
+    __typename: 'farcaster_accounts_var_samp_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_accounts_variance_fields']: {
+    __typename: 'farcaster_accounts_variance_fields';
+    fid?: number | undefined;
+    followers_count?: number | undefined;
+    following_count?: number | undefined;
+    profile_id?: number | undefined;
+  };
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: {
@@ -67747,6 +68653,8 @@ export type GraphQLTypes = {
     acceptTOS?: GraphQLTypes['AcceptTOSOutput'] | undefined;
     /** adds a new (unverified) email address to a users profile */
     addEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
+    /** adds a farcaster account to a users profile */
+    addFarcaster?: GraphQLTypes['ConfirmationWithErrorResponse'] | undefined;
     addInviteCodes: GraphQLTypes['ConfirmationResponse'];
     adminUpdateUser?: GraphQLTypes['UserResponse'] | undefined;
     allocationCsv?: GraphQLTypes['AllocationCsvResponse'] | undefined;
@@ -67906,6 +68814,14 @@ export type GraphQLTypes = {
     delete_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** delete single row from the table: "epoches" */
     delete_epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** delete data from the table: "farcaster_accounts" */
+    delete_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** delete single row from the table: "farcaster_accounts" */
+    delete_farcaster_accounts_by_pk?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
     /** delete data from the table: "gift_private" */
     delete_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -68294,6 +69210,14 @@ export type GraphQLTypes = {
     insert_epochs?: GraphQLTypes['epochs_mutation_response'] | undefined;
     /** insert a single row into the table: "epoches" */
     insert_epochs_one?: GraphQLTypes['epochs'] | undefined;
+    /** insert data into the table: "farcaster_accounts" */
+    insert_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "farcaster_accounts" */
+    insert_farcaster_accounts_one?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
     /** insert data into the table: "gift_private" */
     insert_gift_private?:
       | GraphQLTypes['gift_private_mutation_response']
@@ -68807,6 +69731,18 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "epoches" */
     update_epochs_many?:
       | Array<GraphQLTypes['epochs_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "farcaster_accounts" */
+    update_farcaster_accounts?:
+      | GraphQLTypes['farcaster_accounts_mutation_response']
+      | undefined;
+    /** update single row of the table: "farcaster_accounts" */
+    update_farcaster_accounts_by_pk?:
+      | GraphQLTypes['farcaster_accounts']
+      | undefined;
+    /** update multiples rows of table: "farcaster_accounts" */
+    update_farcaster_accounts_many?:
+      | Array<GraphQLTypes['farcaster_accounts_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "gift_private" */
     update_gift_private?:
@@ -74056,6 +74992,8 @@ export type GraphQLTypes = {
     emails: Array<GraphQLTypes['emails']>;
     /** An aggregate relationship */
     emails_aggregate: GraphQLTypes['emails_aggregate'];
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     github_username?: string | undefined;
     id: GraphQLTypes['bigint'];
     invite_code: GraphQLTypes['uuid'];
@@ -74185,6 +75123,7 @@ export type GraphQLTypes = {
       | undefined;
     emails?: GraphQLTypes['emails_bool_exp'] | undefined;
     emails_aggregate?: GraphQLTypes['emails_aggregate_bool_exp'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
     github_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     invite_code?: GraphQLTypes['uuid_comparison_exp'] | undefined;
@@ -74291,6 +75230,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['distributions_arr_rel_insert_input']
       | undefined;
     emails?: GraphQLTypes['emails_arr_rel_insert_input'] | undefined;
+    farcaster_account?:
+      | GraphQLTypes['farcaster_accounts_obj_rel_insert_input']
+      | undefined;
     github_username?: string | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     invite_code?: GraphQLTypes['uuid'] | undefined;
@@ -74458,6 +75400,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['distributions_aggregate_order_by']
       | undefined;
     emails_aggregate?: GraphQLTypes['emails_aggregate_order_by'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_order_by'] | undefined;
     github_username?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     invite_code?: GraphQLTypes['order_by'] | undefined;
@@ -75322,6 +76265,12 @@ export type GraphQLTypes = {
     epochs_aggregate: GraphQLTypes['epochs_aggregate'];
     /** fetch data from the table: "epoches" using primary key columns */
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch aggregated fields from the table: "farcaster_accounts" */
+    farcaster_accounts_aggregate: GraphQLTypes['farcaster_accounts_aggregate'];
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -77184,6 +78133,14 @@ export type GraphQLTypes = {
     epochs_by_pk?: GraphQLTypes['epochs'] | undefined;
     /** fetch data from the table in a streaming manner: "epoches" */
     epochs_stream: Array<GraphQLTypes['epochs']>;
+    /** fetch data from the table: "farcaster_accounts" */
+    farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch aggregated fields from the table: "farcaster_accounts" */
+    farcaster_accounts_aggregate: GraphQLTypes['farcaster_accounts_aggregate'];
+    /** fetch data from the table: "farcaster_accounts" using primary key columns */
+    farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster_accounts" */
+    farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch aggregated fields from the table: "gift_private" */
@@ -81718,6 +82675,37 @@ export const enum epochs_update_column {
   repeat_day_of_month = 'repeat_day_of_month',
   start_date = 'start_date',
   updated_at = 'updated_at',
+}
+/** unique or primary key constraints on table "farcaster_accounts" */
+export const enum farcaster_accounts_constraint {
+  farcaster_accounts_custody_address_key = 'farcaster_accounts_custody_address_key',
+  farcaster_accounts_pkey = 'farcaster_accounts_pkey',
+}
+/** select columns of table "farcaster_accounts" */
+export const enum farcaster_accounts_select_column {
+  created_at = 'created_at',
+  custody_address = 'custody_address',
+  fid = 'fid',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  name = 'name',
+  pfp_url = 'pfp_url',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  username = 'username',
+}
+/** update columns of table "farcaster_accounts" */
+export const enum farcaster_accounts_update_column {
+  created_at = 'created_at',
+  custody_address = 'custody_address',
+  fid = 'fid',
+  followers_count = 'followers_count',
+  following_count = 'following_count',
+  name = 'name',
+  pfp_url = 'pfp_url',
+  profile_id = 'profile_id',
+  updated_at = 'updated_at',
+  username = 'username',
 }
 /** select columns of table "gift_private" */
 export const enum gift_private_select_column {

@@ -23,6 +23,7 @@
 - "!include public_emails.yaml"
 - "!include public_epoch_pgive_data.yaml"
 - "!include public_epoches.yaml"
+- "!include public_farcaster_accounts.yaml"
 - "!include public_gift_private.yaml"
 - "!include public_github_accounts.yaml"
 - "!include public_histories.yaml"
