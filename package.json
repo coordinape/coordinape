@@ -32,7 +32,6 @@
     "@ethersproject/properties": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ethersproject/units": "^5.7.0",
-    "@farcaster/auth-kit": "^0.3.1",
     "@hcaptcha/react-hcaptcha": "0.3.7",
     "@hookform/resolvers": "^2.8.8",
     "@jridgewell/gen-mapping": "^0.3.2",

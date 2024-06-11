@@ -41,7 +41,6 @@ export const ShowOrConnectFarcaster = ({ minimal }: { minimal?: boolean }) => {
     if (minimal) {
       return (
         <Text semibold css={{ alignItems: 'center', gap: '$sm' }}>
-          {/*TODO: farcaster icon*/}
           <Farcaster fa />
           <Text semibold>{farcaster.username}</Text>
           <IconButton onClick={deleteFarcaster}>
@@ -62,7 +61,6 @@ export const ShowOrConnectFarcaster = ({ minimal }: { minimal?: boolean }) => {
               <Avatar
                 size="large"
                 name={farcaster.username}
-                //TODO: how are we dealing with avatar
                 path={farcaster.pfp_url}
               />
               <Flex column>
