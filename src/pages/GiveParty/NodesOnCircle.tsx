@@ -3,7 +3,7 @@
 import React from 'react';
 
 export interface User {
-  name: string;
+  username: string;
 }
 
 export const NodesOnCircle = ({
@@ -63,7 +63,7 @@ export const NodesOnCircle = ({
           transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
         }}
       >
-        {user.name}
+        {user.username}
       </div>
     );
   });

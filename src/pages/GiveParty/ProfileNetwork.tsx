@@ -4,6 +4,7 @@ import React from 'react';
 
 import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
 import { anonClient } from 'lib/anongql/anonClient';
+import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ import { Avatar, Box } from 'ui';
 import { NodesOnCircle, User } from './NodesOnCircle';
 
 const QUERY_KEY_PROFILE_NETWORK = 'profileNetwork';
+const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileNetwork: React.FC = () => {
   const { address } = useParams();
@@ -19,7 +21,13 @@ export const ProfileNetwork: React.FC = () => {
     [QUERY_KEY_PROFILE_NETWORK, address, 'profile'],
     () => fetchCoLinksProfile(address!)
   );
+  const { data: networkNodes } = useQuery(
+    [QUERY_KEY_NETWORK, address, 'profile'],
+    () => fetchNetworkNodes(244292)
+  );
   const profile = data as PublicProfile;
+  const usersTierOne = (networkNodes ?? []).slice(0, 10);
+
   return (
     <Box css={{ position: 'relative', width: '100vw', height: '100vh' }}>
       {profile && (
@@ -77,85 +85,104 @@ const fetchCoLinksProfile = async (address: string) => {
 
   return profile ? profile : null;
 };
+const fetchNetworkNodes = async (fid: number) => {
+  const { getNetwork } = await client.query(
+    {
+      getNetwork: [
+        {
+          payload: {
+            farcaster_id: fid,
+          },
+        },
+        {
+          nodes: {
+            avatar: true,
+            username: true,
+            profile_id: true,
+            farcaster_id: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getNetwork',
+    }
+  );
+
+  return getNetwork?.nodes ?? [];
+};
 
 export type PublicProfile = NonNullable<
   Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
 >;
+
+// tier 1
 // owns colinks, mutually linked in FC, GIVE transferred
-const usersTierOne: User[] = [
-  { name: 'Alice' },
-  { name: 'Bob' },
-  { name: 'Charlie' },
-  { name: 'David' },
-  { name: 'Eve' },
-  { name: 'Frank' },
-  { name: 'Grace' },
-];
 
 // mutually linked in FC, GIVE transferred
 const usersTierTwo: User[] = [
-  { name: 'John' },
-  { name: 'Emma' },
-  { name: 'Liam' },
-  { name: 'Sophia' },
-  { name: 'Noah' },
-  { name: 'Justine' },
-  { name: 'Living' },
-  { name: 'Olivia' },
-  { name: 'James' },
-  { name: 'Ava' },
+  { username: 'John' },
+  { username: 'Emma' },
+  { username: 'Liam' },
+  { username: 'Sophia' },
+  { username: 'Noah' },
+  { username: 'Justine' },
+  { username: 'Living' },
+  { username: 'Olivia' },
+  { username: 'James' },
+  { username: 'Ava' },
 ];
 
 // mutually linked in FC
 const usersTierThree: User[] = [
-  { name: 'Michael' },
-  { name: 'Isabella' },
-  { name: 'Ethan' },
-  { name: 'Mia' },
-  { name: 'Alexander' },
-  { name: 'Amelia' },
-  { name: 'Benjamin' },
-  { name: 'Rachel' },
-  { name: 'Eve' },
-  { name: 'Harper' },
-  { name: 'Newt' },
+  { username: 'Michael' },
+  { username: 'Isabella' },
+  { username: 'Ethan' },
+  { username: 'Mia' },
+  { username: 'Alexander' },
+  { username: 'Amelia' },
+  { username: 'Benjamin' },
+  { username: 'Rachel' },
+  { username: 'Eve' },
+  { username: 'Harper' },
+  { username: 'Newt' },
 ];
 
 // non-mutual following
 const usersTierFour: User[] = [
-  { name: 'Daniel' },
-  { name: 'Emily' },
-  { name: 'Jacob' },
-  { name: 'Madison' },
-  { name: 'Matthew' },
-  { name: 'Abigail' },
-  { name: 'Henry' },
-  { name: 'Peter' },
-  { name: 'Will' },
-  { name: 'Ella' },
-  { name: 'Bonnine' },
+  { username: 'Daniel' },
+  { username: 'Emily' },
+  { username: 'Jacob' },
+  { username: 'Madison' },
+  { username: 'Matthew' },
+  { username: 'Abigail' },
+  { username: 'Henry' },
+  { username: 'Peter' },
+  { username: 'Will' },
+  { username: 'Ella' },
+  { username: 'Bonnine' },
 ];
 
 // non-mutual followers
 const usersTierFive: User[] = [
-  { name: 'Samuel' },
-  { name: 'Avery' },
-  { name: 'Jack' },
-  { name: 'Scarlett' },
-  { name: 'Elijah' },
-  { name: 'Victoria' },
-  { name: 'Luke' },
-  { name: 'Aria' },
-  { name: 'Phillip' },
-  { name: 'Tom' },
-  { name: 'Jerry' },
-  { name: 'Jerzy' },
-  { name: 'Jerry' },
-  { name: 'Jerzy' },
-  { name: 'Spiral' },
-  { name: 'Jerzy' },
-  { name: 'Them' },
-  { name: 'Pill' },
-  { name: 'Speaker' },
-  { name: 'Tea' },
+  { username: 'Samuel' },
+  { username: 'Avery' },
+  { username: 'Jack' },
+  { username: 'Scarlett' },
+  { username: 'Elijah' },
+  { username: 'Victoria' },
+  { username: 'Luke' },
+  { username: 'Aria' },
+  { username: 'Phillip' },
+  { username: 'Tom' },
+  { username: 'Jerry' },
+  { username: 'Jerzy' },
+  { username: 'Jerry' },
+  { username: 'Jerzy' },
+  { username: 'Spiral' },
+  { username: 'Jerzy' },
+  { username: 'Them' },
+  { username: 'Pill' },
+  { username: 'Speaker' },
+  { username: 'Tea' },
 ];
