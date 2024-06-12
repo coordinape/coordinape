@@ -62,6 +62,10 @@
       "destination": "/api/frames/router?path=:path*"
     },
     {
+      "source": "/api/network/:address",
+      "destination": "/api/network/[address]?address=:address"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

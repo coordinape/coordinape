@@ -611,22 +611,6 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
-  ['NetworkInput']: {
-    farcaster_id?: number | undefined | null;
-    profile_id?: number | undefined | null;
-  };
-  ['NetworkNode']: AliasType<{
-    avatar?: boolean | `@${string}`;
-    farcaster_id?: boolean | `@${string}`;
-    profile_id?: boolean | `@${string}`;
-    tier?: boolean | `@${string}`;
-    username?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['NetworkOutput']: AliasType<{
-    nodes?: ValueTypes['NetworkNode'];
-    __typename?: boolean | `@${string}`;
-  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -2236,10 +2220,6 @@ export type ValueTypes = {
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['farcaster_accounts'],
     ];
-    getNetwork?: [
-      { payload: ValueTypes['NetworkInput'] },
-      ValueTypes['NetworkOutput'],
-    ];
     github_accounts?: [
       {
         /** distinct select on columns */
@@ -3146,17 +3126,6 @@ export type ModelTypes = {
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
-  ['NetworkInput']: GraphQLTypes['NetworkInput'];
-  ['NetworkNode']: {
-    avatar?: string | undefined;
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-    tier?: number | undefined;
-    username: string;
-  };
-  ['NetworkOutput']: {
-    nodes?: Array<GraphQLTypes['NetworkNode']> | undefined;
-  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['bigint']: number;
@@ -3648,7 +3617,6 @@ export type ModelTypes = {
     farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster_accounts" using primary key columns */
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
-    getNetwork?: GraphQLTypes['NetworkOutput'] | undefined;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */
@@ -3847,22 +3815,6 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
-  };
-  ['NetworkInput']: {
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-  };
-  ['NetworkNode']: {
-    __typename: 'NetworkNode';
-    avatar?: string | undefined;
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-    tier?: number | undefined;
-    username: string;
-  };
-  ['NetworkOutput']: {
-    __typename: 'NetworkOutput';
-    nodes?: Array<GraphQLTypes['NetworkNode']> | undefined;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -4977,7 +4929,6 @@ export type GraphQLTypes = {
     farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster_accounts" using primary key columns */
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
-    getNetwork?: GraphQLTypes['NetworkOutput'] | undefined;
     /** fetch data from the table: "github_accounts" */
     github_accounts: Array<GraphQLTypes['github_accounts']>;
     /** fetch data from the table: "github_accounts" using primary key columns */

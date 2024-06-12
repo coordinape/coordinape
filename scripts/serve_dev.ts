@@ -39,6 +39,7 @@ import linkedin_login from '../_api/linkedin/login';
 import log from '../_api/log';
 import login from '../_api/login';
 import mpTrack from '../_api/mp/track';
+import networkForAddress from '../_api/network/[address]';
 import ogbqimage from '../_api/og/bqimage/[id]';
 import ogpostimage from '../_api/og/postimage/[id]';
 import ogprofileimage from '../_api/og/profileimage/[address]';
@@ -133,6 +134,10 @@ app.get('/api/email/verify/:uuid', (req, res) => {
 
 app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
   return tf(verifyEmailWaitList)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/network/:address', (req, res) => {
+  return tf(networkForAddress)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
