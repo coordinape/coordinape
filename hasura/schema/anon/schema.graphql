@@ -48,6 +48,23 @@ input Int_comparison_exp {
   _nin: [Int!]
 }
 
+input NetworkInput {
+  farcaster_id: Int
+  profile_id: Int
+}
+
+type NetworkNode {
+  avatar: String
+  farcaster_id: Int
+  profile_id: Int
+  tier: Int
+  username: String!
+}
+
+type NetworkOutput {
+  nodes: [NetworkNode!]
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -2457,6 +2474,7 @@ type query_root {
   fetch data from the table: "farcaster_accounts" using primary key columns
   """
   farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
+  getNetwork(payload: NetworkInput!): NetworkOutput
 
   """
   fetch data from the table: "github_accounts"
