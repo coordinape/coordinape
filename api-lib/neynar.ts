@@ -1,4 +1,5 @@
 import { NeynarAPIClient } from '@neynar/nodejs-sdk';
+import { NextCursor } from '@neynar/nodejs-sdk/build/neynar-api/v1';
 import { EmbedUrl } from '@neynar/nodejs-sdk/build/neynar-api/v2';
 
 import { NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
@@ -83,4 +84,20 @@ export const generateWarpCastUrl = async (cast_hash: string) => {
   // shorten cast hash to first 10 characters
   const shortHash = cast_hash.slice(0, 10);
   return `https://warpcast.com/${username}/${shortHash}`;
+};
+
+export const fetchFollowers = async (fid: number, next?: NextCursor) => {
+  try {
+    const response = await client.fetchUserFollowers(fid, {
+      limit: 100,
+      cursor: next?.cursor ? next?.cursor : undefined,
+    });
+    return response.result;
+  } catch (err) {
+    console.error(
+      'Got an error from Neynar attempting lookupUserByUsername',
+      err
+    );
+    throw err;
+  }
 };

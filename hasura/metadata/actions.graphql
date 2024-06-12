@@ -861,6 +861,7 @@ type NetworkNode {
   avatar: String
   profile_id: Int
   farcaster_id: Int
+  tier: Int
 }
 
 type NetworkOutput {

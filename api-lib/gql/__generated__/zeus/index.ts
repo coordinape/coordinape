@@ -962,6 +962,7 @@ export type ValueTypes = {
     avatar?: boolean | `@${string}`;
     farcaster_id?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    tier?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -42112,6 +42113,7 @@ export type ModelTypes = {
     avatar?: string | undefined;
     farcaster_id?: number | undefined;
     profile_id?: number | undefined;
+    tier?: number | undefined;
     username: string;
   };
   ['NetworkOutput']: {
@@ -57236,6 +57238,7 @@ export type GraphQLTypes = {
     avatar?: string | undefined;
     farcaster_id?: number | undefined;
     profile_id?: number | undefined;
+    tier?: number | undefined;
     username: string;
   };
   ['NetworkOutput']: {

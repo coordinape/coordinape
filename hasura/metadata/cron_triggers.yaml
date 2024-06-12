@@ -32,7 +32,7 @@
   headers:
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
-  comment: ''
+  comment: ""
 - name: dailyReportEmail
   webhook: '{{HASURA_API_BASE_URL}}/cron/dailyReportEmail'
   schedule: 0 5 * * *

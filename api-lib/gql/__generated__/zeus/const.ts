@@ -14818,6 +14818,7 @@ export const ReturnTypes: Record<string, any> = {
     avatar: 'String',
     farcaster_id: 'Int',
     profile_id: 'Int',
+    tier: 'Int',
     username: 'String',
   },
   NetworkOutput: {
