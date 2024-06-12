@@ -56,7 +56,7 @@ export async function syncCoSouls() {
   }
 
   // update each one on-chain if needed, otherwise just update the checked_at column
-  const updated = [];
+  const pending = [];
   const errors = [];
   const ignored = [];
   for (const cosoul of cosouls) {
@@ -71,7 +71,7 @@ export async function syncCoSouls() {
         console.error('failed to screenshot CoSoul ' + cosoul.token_id, e);
         // proceed with setting on-chain pgive
       }
-      updated.push({ cosoul, localPGIVE });
+      pending.push({ cosoul, localPGIVE });
     } else {
       ignored.push(cosoul.id);
       console.log(
@@ -88,15 +88,17 @@ export async function syncCoSouls() {
       await updateCheckedAt(cosoul.id);
     }
   }
-  let success = true;
-  if (updated.length > 0) {
-    success = await updateCoSoulOnChain(updated);
+  let success = false;
+  if (pending.length > 0) {
+    success = await updateCoSoulOnChain(pending);
+
+    if (!success) {
+      errors.push(...pending.map(({ cosoul }) => cosoul.id));
+    }
   }
-  if (!success) {
-    errors.push(...updated.map(({ cosoul }) => cosoul.id));
-  }
-  const message = `${updated.length} CoSouls updated`;
-  const status = { message, updated, errors, ignored };
+
+  const message = `${pending.length} CoSouls updated`;
+  const status = { message, pending, errors, ignored };
   console.log(status);
   return status;
 }
@@ -302,24 +304,24 @@ const syncBatchCoSoulToken = async (
 };
 
 async function updateCoSoulOnChain(
-  updatedCosouls: { cosoul: CoSoul; localPGIVE: number }[]
+  cosouls: { cosoul: CoSoul; localPGIVE: number }[]
 ) {
   try {
-    if (updatedCosouls.length === 1) {
+    if (cosouls.length === 1) {
       await syncCoSoulToken(
-        updatedCosouls[0].cosoul.id,
-        updatedCosouls[0].cosoul.address,
-        updatedCosouls[0].localPGIVE,
-        updatedCosouls[0].cosoul.token_id
+        cosouls[0].cosoul.id,
+        cosouls[0].cosoul.address,
+        cosouls[0].localPGIVE,
+        cosouls[0].cosoul.token_id
       );
     } else {
-      await syncBatchCoSoulToken(updatedCosouls);
+      await syncBatchCoSoulToken(cosouls);
     }
     return true;
   } catch (e: any) {
     // don't ruin the whole thing, this might be an on-chain issue or temporary setback
     // TODO: send this to sentry
-    const failedBatch = updatedCosouls.reduce(
+    const failedBatch = cosouls.reduce(
       (accumulator, currentValue, currentIndex) =>
         accumulator +
         `[Cosoul ${currentIndex} with id: ${currentValue.cosoul.id}, tokenId: ${currentValue.cosoul.token_id}, address: 
