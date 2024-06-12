@@ -81,7 +81,7 @@ const fetchCoLinksProfile = async (address: string) => {
 export type PublicProfile = NonNullable<
   Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
 >;
-
+// owns colinks, mutually linked in FC, GIVE transferred
 const usersTierOne: User[] = [
   { name: 'Alice' },
   { name: 'Bob' },
@@ -92,6 +92,7 @@ const usersTierOne: User[] = [
   { name: 'Grace' },
 ];
 
+// mutually linked in FC, GIVE transferred
 const usersTierTwo: User[] = [
   { name: 'John' },
   { name: 'Emma' },
@@ -105,6 +106,7 @@ const usersTierTwo: User[] = [
   { name: 'Ava' },
 ];
 
+// mutually linked in FC
 const usersTierThree: User[] = [
   { name: 'Michael' },
   { name: 'Isabella' },
@@ -119,6 +121,7 @@ const usersTierThree: User[] = [
   { name: 'Newt' },
 ];
 
+// non-mutual following
 const usersTierFour: User[] = [
   { name: 'Daniel' },
   { name: 'Emily' },
@@ -133,6 +136,7 @@ const usersTierFour: User[] = [
   { name: 'Bonnine' },
 ];
 
+// non-mutual followers
 const usersTierFive: User[] = [
   { name: 'Samuel' },
   { name: 'Avery' },
