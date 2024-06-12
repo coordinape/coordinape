@@ -4,18 +4,15 @@ import { z } from 'zod';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 
-const networkInputSchema = z.object({
-  profile_id: z.number(),
-  farcaster_id: z.number(),
-});
+const networkInputSchema = z
+  .object({
+    profile_id: z.number().optional(),
+    farcaster_id: z.number().optional(),
+  })
+  .refine(data => data.profile_id || data.farcaster_id, {
+    message: 'profile_id or farcaster_id is required',
+  });
 
-//
-// type NetworkNode {
-//  username: String!
-//  avatar: String!
-//  profile_id: Int!
-//  farcaster_id: Int!
-//}
 type NetworkNode = {
   username: string;
   avatar: string;
