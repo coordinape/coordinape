@@ -60,6 +60,7 @@ export const AllTypesProps: Record<string, any> = {
   LinkDiscordUserInput: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
+  NetworkInput: {},
   RedeemInviteCodeInput: {},
   ReplenishInviteCodesInput: {},
   RequestInviteCodeInput: {},
@@ -10385,6 +10386,9 @@ export const AllTypesProps: Record<string, any> = {
     getGuildInfo: {
       payload: 'GuildInfoInput',
     },
+    getNetwork: {
+      payload: 'NetworkInput',
+    },
     getSimilarProfiles: {
       payload: 'SimilarProfileInput',
     },
@@ -14809,6 +14813,16 @@ export const ReturnTypes: Record<string, any> = {
   },
   MarkClaimedOutput: {
     ids: 'Int',
+  },
+  NetworkNode: {
+    avatar: 'String',
+    farcaster_id: 'Int',
+    profile_id: 'Int',
+    tier: 'Int',
+    username: 'String',
+  },
+  NetworkOutput: {
+    nodes: 'NetworkNode',
   },
   OrgMemberResponse: {
     OrgMemberResponse: 'org_members',
@@ -21437,6 +21451,7 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_accounts_by_pk: 'farcaster_accounts',
     getGuildInfo: 'GuildInfoOutput',
     getHeadlines: 'HeadlinesOutput',
+    getNetwork: 'NetworkOutput',
     getSimilarProfiles: 'SimilarProfileOutput',
     gift_private: 'gift_private',
     gift_private_aggregate: 'gift_private_aggregate',

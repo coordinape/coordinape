@@ -4,7 +4,7 @@ import { autoConnectFarcasterAccount } from '../../../../api-lib/farcaster/autoC
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 
-const errorMessage = (res: VercelResponse, msg: string) => {
+export const errorMessage = (res: VercelResponse, msg: string) => {
   console.error(msg);
   return res.status(200).json({ success: false, error: msg });
 };
