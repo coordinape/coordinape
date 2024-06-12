@@ -919,22 +919,6 @@ export type ValueTypes = {
     ids?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['NetworkInput']: {
-    farcaster_id?: number | undefined | null;
-    profile_id?: number | undefined | null;
-  };
-  ['NetworkNode']: AliasType<{
-    avatar?: boolean | `@${string}`;
-    farcaster_id?: boolean | `@${string}`;
-    profile_id?: boolean | `@${string}`;
-    tier?: boolean | `@${string}`;
-    username?: boolean | `@${string}`;
-    __typename?: boolean | `@${string}`;
-  }>;
-  ['NetworkOutput']: AliasType<{
-    nodes?: ValueTypes['NetworkNode'];
-    __typename?: boolean | `@${string}`;
-  }>;
   ['OrgMemberResponse']: AliasType<{
     OrgMemberResponse?: ValueTypes['org_members'];
     id?: boolean | `@${string}`;
@@ -13435,10 +13419,6 @@ export type ValueTypes = {
       ValueTypes['GuildInfoOutput'],
     ];
     getHeadlines?: ValueTypes['HeadlinesOutput'];
-    getNetwork?: [
-      { payload: ValueTypes['NetworkInput'] },
-      ValueTypes['NetworkOutput'],
-    ];
     getSimilarProfiles?: [
       { payload: ValueTypes['SimilarProfileInput'] },
       ValueTypes['SimilarProfileOutput'],
@@ -21400,17 +21380,6 @@ export type ModelTypes = {
   ['MarkClaimedOutput']: {
     ids: Array<number>;
   };
-  ['NetworkInput']: GraphQLTypes['NetworkInput'];
-  ['NetworkNode']: {
-    avatar?: string | undefined;
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-    tier?: number | undefined;
-    username: string;
-  };
-  ['NetworkOutput']: {
-    nodes?: Array<GraphQLTypes['NetworkNode']> | undefined;
-  };
   ['OrgMemberResponse']: {
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
@@ -25678,7 +25647,6 @@ export type ModelTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
-    getNetwork?: GraphQLTypes['NetworkOutput'] | undefined;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
@@ -27820,22 +27788,6 @@ export type GraphQLTypes = {
   ['MarkClaimedOutput']: {
     __typename: 'MarkClaimedOutput';
     ids: Array<number>;
-  };
-  ['NetworkInput']: {
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-  };
-  ['NetworkNode']: {
-    __typename: 'NetworkNode';
-    avatar?: string | undefined;
-    farcaster_id?: number | undefined;
-    profile_id?: number | undefined;
-    tier?: number | undefined;
-    username: string;
-  };
-  ['NetworkOutput']: {
-    __typename: 'NetworkOutput';
-    nodes?: Array<GraphQLTypes['NetworkNode']> | undefined;
   };
   ['OrgMemberResponse']: {
     __typename: 'OrgMemberResponse';
@@ -36993,7 +36945,6 @@ export type GraphQLTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
-    getNetwork?: GraphQLTypes['NetworkOutput'] | undefined;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;

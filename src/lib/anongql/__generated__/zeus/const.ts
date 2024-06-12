@@ -3,7 +3,6 @@
 export const AllTypesProps: Record<string, any> = {
   Boolean_comparison_exp: {},
   Int_comparison_exp: {},
-  NetworkInput: {},
   String_comparison_exp: {},
   bigint: 'String',
   bigint_comparison_exp: {
@@ -672,9 +671,6 @@ export const AllTypesProps: Record<string, any> = {
     farcaster_accounts_by_pk: {
       profile_id: 'bigint',
     },
-    getNetwork: {
-      payload: 'NetworkInput',
-    },
     github_accounts: {
       distinct_on: 'github_accounts_select_column',
       order_by: 'github_accounts_order_by',
@@ -996,16 +992,6 @@ export const ReturnTypes: Record<string, any> = {
     ttl: 'Int',
     refresh: 'Boolean',
   },
-  NetworkNode: {
-    avatar: 'String',
-    farcaster_id: 'Int',
-    profile_id: 'Int',
-    tier: 'Int',
-    username: 'String',
-  },
-  NetworkOutput: {
-    nodes: 'NetworkNode',
-  },
   colinks_give_count: {
     gives: 'bigint',
     gives_last_24_hours: 'bigint',
@@ -1258,7 +1244,6 @@ export const ReturnTypes: Record<string, any> = {
     cosouls_by_pk: 'cosouls',
     farcaster_accounts: 'farcaster_accounts',
     farcaster_accounts_by_pk: 'farcaster_accounts',
-    getNetwork: 'NetworkOutput',
     github_accounts: 'github_accounts',
     github_accounts_by_pk: 'github_accounts',
     link_holders: 'link_holders',

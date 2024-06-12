@@ -123,10 +123,6 @@ type Query {
 }
 
 type Query {
-  getNetwork(payload: NetworkInput!): NetworkOutput
-}
-
-type Query {
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
 }
 
