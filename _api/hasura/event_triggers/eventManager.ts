@@ -13,6 +13,7 @@ import createNotificationColinksGives from '../../../api-lib/event_triggers/crea
 import createNotificationPosts from '../../../api-lib/event_triggers/createNotificationPosts';
 import createNotificationReactions from '../../../api-lib/event_triggers/createNotificationReactions';
 import createNotificationReplies from '../../../api-lib/event_triggers/createNotificationReplies';
+import createNotificationReplyReactions from '../../../api-lib/event_triggers/createNotificationReplyReactions';
 import createReactionInteractionEvent from '../../../api-lib/event_triggers/createReactionInteractionEvent';
 import createReplyInteractionEvent from '../../../api-lib/event_triggers/createReplyInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
@@ -61,6 +62,7 @@ const HANDLERS: HandlerDict = {
   createNotificationColinksGives,
   createNotificationReactions,
   createNotificationReplies,
+  createNotificationReplyReactions,
   createNotificationPosts,
   createNomineeDiscord,
   userAddedDiscordBot,

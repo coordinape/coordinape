@@ -58,6 +58,7 @@
 - "!include public_profiles_public.yaml"
 - "!include public_reactions.yaml"
 - "!include public_replies.yaml"
+- "!include public_replies_reactions.yaml"
 - "!include public_reputation_scores.yaml"
 - "!include public_shared_nfts.yaml"
 - "!include public_skills.yaml"

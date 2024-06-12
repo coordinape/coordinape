@@ -61,9 +61,21 @@ const fetchNotifications = async () => {
           },
           reaction: {
             reaction: true,
-            profile_id: true,
             activity_id: true,
             created_at: true,
+          },
+          reply_reaction: {
+            reaction: true,
+            activity_id: true,
+            created_at: true,
+            profile_id: true,
+            activity: {
+              actor_profile_public: {
+                id: true,
+                name: true,
+                address: true,
+              },
+            },
           },
           mention_reply: {
             id: true,
@@ -149,6 +161,7 @@ export type Reply = NonNullable<Notification['reply']>;
 export type MentionReply = NonNullable<Notification['mention_reply']>;
 export type MentionPost = NonNullable<Notification['mention_post']>;
 export type Reaction = NonNullable<Notification['reaction']>;
+export type ReplyReaction = NonNullable<Notification['reply_reaction']>;
 export type Invitee = NonNullable<Notification['invited_profile_public']>;
 export type Give = NonNullable<Notification['give']>;
 
@@ -274,6 +287,14 @@ export const NotificationsPage = () => {
                 );
             } else if (n.reaction) {
               content = <ReactionNotification reaction={n.reaction} n={n} />;
+            } else if (n.reply_reaction) {
+              content = (
+                <ReplyReactionNotification
+                  reaction={n.reply_reaction}
+                  n={n}
+                  profileId={profileId}
+                />
+              );
             }
 
             return content ? <Flex key={n.id}>{content}</Flex> : null;
@@ -556,6 +577,103 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
             <Text size="xs" semibold color={tx.buy ? 'complete' : 'warning'}>
               {ethers.utils.formatEther(tx.eth_amount)} ETH
             </Text>
+          </Flex>
+        </Flex>
+      </Flex>
+    </NotificationItem>
+  );
+};
+
+export const ReplyReactionNotification = ({
+  reaction,
+  n,
+  profileId,
+}: {
+  reaction: ReplyReaction;
+  n: Notification;
+  profileId: number;
+}) => {
+  const navigate = useNavigate();
+  return (
+    <NotificationItem>
+      <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+        <Icon
+          onClick={() => navigate(coLinksPaths.post(`${reaction.activity_id}`))}
+          pt={'-1px'}
+          css={{ cursor: 'pointer' }}
+        >
+          <Text size={'large'}>{reaction.reaction}</Text>
+        </Icon>
+        <Avatar
+          path={n.actor_profile_public?.avatar}
+          name={n.actor_profile_public?.name}
+          size="small"
+        />
+        <Flex column css={{ pl: '$xs', gap: '$xs' }}>
+          <Flex css={{ gap: '$xs', alignItems: 'flex-end', flexWrap: 'wrap' }}>
+            <Link
+              as={NavLink}
+              css={{
+                display: 'inline',
+                alignItems: 'center',
+                gap: '$xs',
+                mr: '$xs',
+              }}
+              to={coLinksPaths.profile(
+                n.actor_profile_public?.address ?? 'FIXME'
+              )}
+            >
+              <Text inline semibold size="small">
+                {n.actor_profile_public?.name}
+              </Text>
+            </Link>
+
+            <Flex
+              as={NavLink}
+              to={coLinksPaths.post(`${reaction.activity_id}`)}
+              css={{
+                alignItems: 'flex-end',
+                color: '$text',
+                textDecoration: 'none',
+              }}
+            >
+              <Text size="small" css={{ whiteSpace: 'pre' }}>
+                reacted to your reply on{' '}
+              </Text>
+              {reaction.activity?.actor_profile_public?.id === profileId ? (
+                <Text size="small">your post</Text>
+              ) : reaction.activity?.actor_profile_public?.id ===
+                reaction.profile_id ? (
+                <Text size="small">his post</Text>
+              ) : (
+                <>
+                  <Link
+                    as={NavLink}
+                    css={{
+                      display: 'inline',
+                      alignItems: 'center',
+                      gap: '$xs',
+                      mr: '$xs',
+                    }}
+                    to={coLinksPaths.profile(
+                      reaction.activity?.actor_profile_public?.address ??
+                        'FIXME'
+                    )}
+                  >
+                    <Text inline semibold size="small">
+                      {reaction.activity?.actor_profile_public?.name}
+                    </Text>
+                  </Link>
+                  <Text size="small" css={{ whiteSpace: 'pre' }}>
+                    &apos;s post
+                  </Text>
+                </>
+              )}
+
+              <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
+                {DateTime.fromISO(reaction.created_at).toLocal().toRelative()}
+              </Text>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
