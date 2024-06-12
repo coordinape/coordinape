@@ -58,7 +58,7 @@ actions:
       - role: user
   - name: checkEthDenverInvitee
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=checkEthDenverInvitee'
       headers:
         - name: verification_key
@@ -275,7 +275,7 @@ actions:
       - role: user
   - name: getGuildInfo
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
@@ -284,7 +284,7 @@ actions:
       - role: user
   - name: getHeadlines
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getHeadlines'
       forward_client_headers: true
       headers:
@@ -294,7 +294,7 @@ actions:
       - role: user
   - name: getNetwork
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getNetwork'
       forward_client_headers: true
       headers:
@@ -304,7 +304,7 @@ actions:
       - role: user
   - name: getSimilarProfiles
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
@@ -402,7 +402,7 @@ actions:
       - role: user
   - name: searchCosouls
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
       forward_client_headers: true
       headers:
@@ -413,7 +413,7 @@ actions:
     comment: searchCosouls
   - name: searchProfiles
     definition:
-      kind: ""
+      kind: ''
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchProfiles'
       headers:
         - name: verification_key
@@ -664,7 +664,6 @@ custom_types:
     - name: SearchProfilesInput
     - name: ShareInput
     - name: AddFarcasterInput
-    - name: NetworkTiersInput
     - name: NetworkInput
   objects:
     - name: CreateCircleResponse
@@ -939,7 +938,6 @@ custom_types:
     - name: UploadUrlResponse
     - name: ShareOutput
     - name: CheckEthDenverInviteeOutput
-    - name: NetworkTiersOutput
     - name: NetworkNode
     - name: NetworkOutput
   scalars:
