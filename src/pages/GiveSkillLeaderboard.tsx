@@ -16,6 +16,7 @@ import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 import { PartyBody } from './GiveParty/PartyBody';
 import { PartyHeader } from './GiveParty/PartyHeader';
+import GiveGraph from './NetworkViz/GiveGraph';
 
 type sortBy =
   | 'gives'
@@ -170,6 +171,18 @@ export const GiveSkillLeaderboard = () => {
             >
               <PartyDisplayText text={`#${skill}`} />
             </Text>
+
+            <Flex
+              row
+              css={{
+                height: 200,
+                width: '100%',
+                overflow: 'hidden',
+              }}
+            >
+              <GiveGraph skill={skill} height={200} width={800} />
+            </Flex>
+
             <GiveLeaderboardRow header={true}>
               <GiveLeaderboardColumn
                 onClick={() => setSort('rank')}
