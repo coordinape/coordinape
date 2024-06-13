@@ -3,6 +3,8 @@ import { ShowOrConnectTwitter } from 'features/twitter/ShowOrConnectTwitter';
 import { useMyTwitter } from 'features/twitter/useMyTwitter';
 
 import { OrBar } from '../../../components/OrBar';
+import { ShowOrConnectFarcaster } from '../../farcaster/ShowOrConnectFarcaster';
+import { useMyFarcaster } from '../../farcaster/useMyFarcaster';
 import { EditProfileInfo } from 'pages/AccountPage/EditProfileInfo';
 import { coLinksPaths } from 'routes/paths';
 import { Flex } from 'ui';
@@ -14,6 +16,8 @@ export const WizardName = () => {
   const profileId = useAuthStore(state => state.profileId);
 
   const { twitter } = useMyTwitter(profileId);
+  const { farcaster } = useMyFarcaster(profileId);
+
   return (
     <>
       <Flex
@@ -31,22 +35,32 @@ export const WizardName = () => {
         }}
       />
       <WizardInstructions>
-        <ShowOrConnectTwitter
-          callbackPage={coLinksPaths.wizard}
-          minimal={true}
-        />
+        <Flex css={{ gap: '$lg' }}>
+          <ShowOrConnectTwitter
+            callbackPage={coLinksPaths.wizard}
+            minimal={true}
+          />
+          <ShowOrConnectFarcaster minimal={true} />
+        </Flex>
+
         {!twitter && <OrBar>Or Set Your Name and Avatar</OrBar>}
 
         <EditProfileInfo
           vertical={true}
           preloadProfile={
-            twitter
+            farcaster
               ? {
-                  name: twitter.username,
-                  avatar: twitter.profile_image_url,
-                  description: twitter.description,
+                  name: farcaster.username,
+                  avatar: farcaster.pfp_url,
+                  description: farcaster.bio_text,
                 }
-              : undefined
+              : twitter
+                ? {
+                    name: twitter.username,
+                    avatar: twitter.profile_image_url,
+                    description: twitter.description,
+                  }
+                : undefined
           }
         />
       </WizardInstructions>

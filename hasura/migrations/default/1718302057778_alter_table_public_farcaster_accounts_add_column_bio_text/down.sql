@@ -1,0 +1,1 @@
+alter table "public"."farcaster_accounts" drop column "bio_text";

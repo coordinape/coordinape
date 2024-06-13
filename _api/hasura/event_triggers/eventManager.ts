@@ -4,6 +4,7 @@ import activityHandler from '../../../api-lib/event_triggers/activity/index';
 import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDiscord';
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
+import connectFarcaster from '../../../api-lib/event_triggers/connectFarcaster.ts';
 import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
@@ -50,6 +51,7 @@ const HANDLERS: HandlerDict = {
   activityUserInsert: activityHandler,
   activityEpochInsert: activityHandler,
   activityContributionInsert: activityHandler,
+  connectFarcaster,
   createReplyInteractionEvent,
   checkNomineeDiscord,
   checkNomineeDiscordBot,

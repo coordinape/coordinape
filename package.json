@@ -224,6 +224,10 @@
       "eslint --fix --max-warnings 0",
       "prettier --write"
     ],
+    "{_api,api,api-lib,api-test,hasura,src}/**/*.graphql": [
+      "eslint --fix",
+      "prettier --write"
+    ],
     "{{_api,api,api-lib,api-test,cypress,hasura,src}/**/*.json,*.json}": "prettier --write"
   },
   "husky": {

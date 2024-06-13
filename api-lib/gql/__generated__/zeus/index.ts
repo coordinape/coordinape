@@ -11340,6 +11340,7 @@ export type ValueTypes = {
   };
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: AliasType<{
+    bio_text?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     custody_address?: boolean | `@${string}`;
     fid?: boolean | `@${string}`;
@@ -11395,6 +11396,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
     _not?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['farcaster_accounts_bool_exp']> | undefined | null;
+    bio_text?: ValueTypes['String_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     custody_address?: ValueTypes['String_comparison_exp'] | undefined | null;
     fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -11417,6 +11419,7 @@ export type ValueTypes = {
   };
   /** input type for inserting data into table "farcaster_accounts" */
   ['farcaster_accounts_insert_input']: {
+    bio_text?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     custody_address?: string | undefined | null;
     fid?: ValueTypes['bigint'] | undefined | null;
@@ -11430,6 +11433,7 @@ export type ValueTypes = {
   };
   /** aggregate max on columns */
   ['farcaster_accounts_max_fields']: AliasType<{
+    bio_text?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     custody_address?: boolean | `@${string}`;
     fid?: boolean | `@${string}`;
@@ -11444,6 +11448,7 @@ export type ValueTypes = {
   }>;
   /** aggregate min on columns */
   ['farcaster_accounts_min_fields']: AliasType<{
+    bio_text?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     custody_address?: boolean | `@${string}`;
     fid?: boolean | `@${string}`;
@@ -11481,6 +11486,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "farcaster_accounts". */
   ['farcaster_accounts_order_by']: {
+    bio_text?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     custody_address?: ValueTypes['order_by'] | undefined | null;
     fid?: ValueTypes['order_by'] | undefined | null;
@@ -11500,6 +11506,7 @@ export type ValueTypes = {
   ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
   /** input type for updating data in table "farcaster_accounts" */
   ['farcaster_accounts_set_input']: {
+    bio_text?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     custody_address?: string | undefined | null;
     fid?: ValueTypes['bigint'] | undefined | null;
@@ -11544,6 +11551,7 @@ export type ValueTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['farcaster_accounts_stream_cursor_value_input']: {
+    bio_text?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     custody_address?: string | undefined | null;
     fid?: ValueTypes['bigint'] | undefined | null;
@@ -46346,6 +46354,7 @@ export type ModelTypes = {
   ['epochs_variance_order_by']: GraphQLTypes['epochs_variance_order_by'];
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: {
+    bio_text?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     custody_address: string;
     fid: GraphQLTypes['bigint'];
@@ -46397,6 +46406,7 @@ export type ModelTypes = {
   ['farcaster_accounts_insert_input']: GraphQLTypes['farcaster_accounts_insert_input'];
   /** aggregate max on columns */
   ['farcaster_accounts_max_fields']: {
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -46410,6 +46420,7 @@ export type ModelTypes = {
   };
   /** aggregate min on columns */
   ['farcaster_accounts_min_fields']: {
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -65769,6 +65780,7 @@ export type GraphQLTypes = {
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: {
     __typename: 'farcaster_accounts';
+    bio_text?: string | undefined;
     created_at: GraphQLTypes['timestamptz'];
     custody_address: string;
     fid: GraphQLTypes['bigint'];
@@ -65818,6 +65830,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
     _not?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['farcaster_accounts_bool_exp']> | undefined;
+    bio_text?: GraphQLTypes['String_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     custody_address?: GraphQLTypes['String_comparison_exp'] | undefined;
     fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -65840,6 +65853,7 @@ export type GraphQLTypes = {
   };
   /** input type for inserting data into table "farcaster_accounts" */
   ['farcaster_accounts_insert_input']: {
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -65854,6 +65868,7 @@ export type GraphQLTypes = {
   /** aggregate max on columns */
   ['farcaster_accounts_max_fields']: {
     __typename: 'farcaster_accounts_max_fields';
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -65868,6 +65883,7 @@ export type GraphQLTypes = {
   /** aggregate min on columns */
   ['farcaster_accounts_min_fields']: {
     __typename: 'farcaster_accounts_min_fields';
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -65901,6 +65917,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "farcaster_accounts". */
   ['farcaster_accounts_order_by']: {
+    bio_text?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     custody_address?: GraphQLTypes['order_by'] | undefined;
     fid?: GraphQLTypes['order_by'] | undefined;
@@ -65920,6 +65937,7 @@ export type GraphQLTypes = {
   ['farcaster_accounts_select_column']: farcaster_accounts_select_column;
   /** input type for updating data in table "farcaster_accounts" */
   ['farcaster_accounts_set_input']: {
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -65964,6 +65982,7 @@ export type GraphQLTypes = {
   };
   /** Initial value of the column from where the streaming should start */
   ['farcaster_accounts_stream_cursor_value_input']: {
+    bio_text?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     custody_address?: string | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
@@ -84018,6 +84037,7 @@ export const enum farcaster_accounts_constraint {
 }
 /** select columns of table "farcaster_accounts" */
 export const enum farcaster_accounts_select_column {
+  bio_text = 'bio_text',
   created_at = 'created_at',
   custody_address = 'custody_address',
   fid = 'fid',
@@ -84031,6 +84051,7 @@ export const enum farcaster_accounts_select_column {
 }
 /** update columns of table "farcaster_accounts" */
 export const enum farcaster_accounts_update_column {
+  bio_text = 'bio_text',
   created_at = 'created_at',
   custody_address = 'custody_address',
   fid = 'fid',
