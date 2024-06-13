@@ -2,8 +2,15 @@
 
 import React from 'react';
 
+import { NavLink } from 'react-router-dom';
+
+import { coLinksPaths } from 'routes/paths';
+import { Avatar, Link } from 'ui';
+
 export interface User {
   username: string;
+  avatar: string;
+  address: string;
 }
 
 export const NodesOnCircle = ({
@@ -42,8 +49,10 @@ export const NodesOnCircle = ({
     const y = 50 + 50 * Math.sin(angle);
 
     return (
-      <div
+      <Link
         key={i}
+        as={NavLink}
+        to={coLinksPaths.profileNetwork(user.address)}
         style={{
           position: 'absolute',
           background: nodeBackground,
@@ -63,8 +72,8 @@ export const NodesOnCircle = ({
           transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
         }}
       >
-        {user.username}
-      </div>
+        <Avatar name={user.username} path={user.avatar} />
+      </Link>
     );
   });
 

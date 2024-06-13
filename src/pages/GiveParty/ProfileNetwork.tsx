@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
 import { anonClient } from 'lib/anongql/anonClient';
@@ -23,10 +23,19 @@ export const ProfileNetwork: React.FC = () => {
   );
   const { data: networkNodes } = useQuery(
     [QUERY_KEY_NETWORK, address, 'profile'],
-    () => fetchNetworkNodes(244292)
+    async () => await fetchNetworkNodes(address!),
+    { enabled: !!address }
   );
   const profile = data as PublicProfile;
-  const usersTierOne = (networkNodes ?? []).slice(0, 10);
+  const usersTierOne = (networkNodes?.nodes ?? []).slice(0, 10);
+  const usersTierTwo = (networkNodes?.nodes ?? []).slice(11, 20);
+  const usersTierThree = (networkNodes?.nodes ?? []).slice(21, 30);
+  const usersTierFour = (networkNodes?.nodes ?? []).slice(31, 40);
+  const usersTierFive = (networkNodes?.nodes ?? []).slice(41, 60);
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(networkNodes);
+  }, [networkNodes]);
 
   return (
     <Box css={{ position: 'relative', width: '100vw', height: '100vh' }}>
@@ -85,104 +94,12 @@ const fetchCoLinksProfile = async (address: string) => {
 
   return profile ? profile : null;
 };
-const fetchNetworkNodes = async (fid: number) => {
-  const { getNetwork } = await client.query(
-    {
-      getNetwork: [
-        {
-          payload: {
-            farcaster_id: fid,
-          },
-        },
-        {
-          nodes: {
-            avatar: true,
-            username: true,
-            profile_id: true,
-            farcaster_id: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'getNetwork',
-    }
-  );
-
-  return getNetwork?.nodes ?? [];
+const fetchNetworkNodes = async (address: string) => {
+  const res = await fetch(`/api/network/${address}`);
+  const data = await res.json();
+  return data;
 };
 
 export type PublicProfile = NonNullable<
   Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
 >;
-
-// tier 1
-// owns colinks, mutually linked in FC, GIVE transferred
-
-// mutually linked in FC, GIVE transferred
-const usersTierTwo: User[] = [
-  { username: 'John' },
-  { username: 'Emma' },
-  { username: 'Liam' },
-  { username: 'Sophia' },
-  { username: 'Noah' },
-  { username: 'Justine' },
-  { username: 'Living' },
-  { username: 'Olivia' },
-  { username: 'James' },
-  { username: 'Ava' },
-];
-
-// mutually linked in FC
-const usersTierThree: User[] = [
-  { username: 'Michael' },
-  { username: 'Isabella' },
-  { username: 'Ethan' },
-  { username: 'Mia' },
-  { username: 'Alexander' },
-  { username: 'Amelia' },
-  { username: 'Benjamin' },
-  { username: 'Rachel' },
-  { username: 'Eve' },
-  { username: 'Harper' },
-  { username: 'Newt' },
-];
-
-// non-mutual following
-const usersTierFour: User[] = [
-  { username: 'Daniel' },
-  { username: 'Emily' },
-  { username: 'Jacob' },
-  { username: 'Madison' },
-  { username: 'Matthew' },
-  { username: 'Abigail' },
-  { username: 'Henry' },
-  { username: 'Peter' },
-  { username: 'Will' },
-  { username: 'Ella' },
-  { username: 'Bonnine' },
-];
-
-// non-mutual followers
-const usersTierFive: User[] = [
-  { username: 'Samuel' },
-  { username: 'Avery' },
-  { username: 'Jack' },
-  { username: 'Scarlett' },
-  { username: 'Elijah' },
-  { username: 'Victoria' },
-  { username: 'Luke' },
-  { username: 'Aria' },
-  { username: 'Phillip' },
-  { username: 'Tom' },
-  { username: 'Jerry' },
-  { username: 'Jerzy' },
-  { username: 'Jerry' },
-  { username: 'Jerzy' },
-  { username: 'Spiral' },
-  { username: 'Jerzy' },
-  { username: 'Them' },
-  { username: 'Pill' },
-  { username: 'Speaker' },
-  { username: 'Tea' },
-];
