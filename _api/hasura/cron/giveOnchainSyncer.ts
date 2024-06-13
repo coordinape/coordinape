@@ -49,9 +49,16 @@ async function giveToSync() {
           where: {
             onchain_synced_at: { _is_null: true },
             onchain_sync_error: { _is_null: true },
-            give_skill: {
-              hidden: { _eq: false },
-            },
+            _or: [
+              {
+                give_skill: {
+                  hidden: { _eq: false },
+                },
+              },
+              {
+                skill: { _is_null: true },
+              },
+            ],
           },
           order_by: [{ created_at: order_by.asc }],
           limit: LIMIT,
