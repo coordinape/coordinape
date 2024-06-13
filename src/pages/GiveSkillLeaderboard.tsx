@@ -16,7 +16,7 @@ import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 import { PartyBody } from './GiveParty/PartyBody';
 import { PartyHeader } from './GiveParty/PartyHeader';
-import GiveGraph from './NetworkViz/GiveGraph';
+import { GiveGraph } from './NetworkViz/GiveGraph';
 
 type sortBy =
   | 'gives'

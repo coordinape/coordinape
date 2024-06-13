@@ -81,7 +81,7 @@ export const coLinksPaths = {
   holders: (address: string) => `/${address}/holders`,
   holdings: (address: string) => `/${address}/holdings`,
   home: '/home',
-  givegraph: '/givegraph',
+  givemap: '/givemap',
   info: '/info',
   inviteCode: (code: string) => `/invite/${code}`,
   invites: '/invites',

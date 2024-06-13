@@ -45,9 +45,9 @@ import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
+import { GiveMap } from 'pages/GiveMap';
 import { GiveParty } from 'pages/GiveParty';
 import { PartyProfile } from 'pages/GiveParty/PartyProfile';
-import GiveGraph from 'pages/NetworkViz/GiveGraph';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -73,6 +73,9 @@ export const coLinksRoutes = [
   </Route>,
   <Route key={'giveparty'}>
     <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
+  </Route>,
+  <Route key={'givemap'}>
+    <Route path={coLinksPaths.givemap} element={<GiveMap />} />
   </Route>,
   <Route key={'giveparty'}>
     <Route
@@ -130,7 +133,6 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route path={coLinksPaths.home} element={<ActivityPage />} />
-      <Route path={coLinksPaths.givegraph} element={<GiveGraph />} />
       <Route
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}

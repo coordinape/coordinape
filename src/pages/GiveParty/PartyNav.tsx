@@ -44,6 +44,22 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
       >
         leaderboard
       </Button>
+      <Button
+        as={AppLink}
+        to={coLinksPaths.givemap}
+        color="transparent"
+        css={{
+          ...partyNavButtonStyle,
+          ...(location.pathname == '/givemap' && {
+            borderColor: 'rgba(0,0,0,0.15) !important',
+            background: 'rgba(0,0,0,0.15) !important',
+            cursor: 'default',
+            pointerEvents: 'none',
+          }),
+        }}
+      >
+        world of give
+      </Button>
     </Flex>
   );
 };

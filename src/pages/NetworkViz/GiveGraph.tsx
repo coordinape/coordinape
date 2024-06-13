@@ -4,8 +4,11 @@ import { anonClient } from 'lib/anongql/anonClient';
 import ForceGraph2D from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
+import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
 import { Text } from 'ui';
+
+const LIMIT = 50; //000;
 
 type node = {
   id: string;
@@ -19,7 +22,7 @@ type link = {
   skill: string;
 };
 
-export default function GiveGraph({
+export function GiveGraph({
   skill,
   height = 200,
   zoom = true,
@@ -31,13 +34,12 @@ export default function GiveGraph({
   const [graphReady, setGraphReady] = useState(false);
 
   const { data, isLoading, isFetched, refetch } = useQuery(
-    ['give-graph', skill],
+    ['give-graph', skill ?? 'all-skills'],
     () => {
-      if (!skill) return;
       return fetchGives(skill);
     },
     {
-      enabled: !!skill,
+      // enabled: !!skill,
     }
   );
 
@@ -56,7 +58,13 @@ export default function GiveGraph({
     }
   }, [data, isFetched, setGraphReady]);
 
-  if (!data || isLoading) return <Text>Loading...</Text>;
+  if (!data || isLoading)
+    return (
+      <>
+        <Text>Loading</Text>
+        <LoadingIndicator />
+      </>
+    );
 
   if (graphReady)
     return (
@@ -73,30 +81,34 @@ export default function GiveGraph({
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
         }}
         nodeCanvasObject={(node, ctx) => {
-          const size = 12;
-          if (node.avatar && imgCache.current[node.id]) {
-            const img = imgCache.current[node.id];
-            // Draw circular clipping path
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
-            ctx.closePath();
-            ctx.clip();
-            ctx.drawImage(
-              img,
-              node.x - size / 2,
-              node.y - size / 2,
-              size,
-              size
-            );
-            ctx.restore();
-          } else {
-            ctx.beginPath();
-            ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
-            ctx.fillStyle = 'black';
-            ctx.fill();
-            ctx.strokeStyle = 'black';
-            ctx.stroke();
+          try {
+            const size = 12;
+            if (node.avatar && imgCache.current[node.id]) {
+              const img = imgCache.current[node.id];
+              // Draw circular clipping path
+              ctx.save();
+              ctx.beginPath();
+              ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+              ctx.closePath();
+              ctx.clip();
+              ctx.drawImage(
+                img,
+                node.x - size / 2,
+                node.y - size / 2,
+                size,
+                size
+              );
+              ctx.restore();
+            } else {
+              ctx.beginPath();
+              ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+              ctx.fillStyle = 'black';
+              ctx.fill();
+              ctx.strokeStyle = 'black';
+              ctx.stroke();
+            }
+          } catch (e) {
+            console.error(e);
           }
         }}
         graphData={data}
@@ -132,17 +144,21 @@ const buildLinks = (gives: any) => {
   return links;
 };
 
-const fetchGives = async (skill: string) => {
+const fetchGives = async (skill?: string) => {
   const { colinks_gives } = await anonClient.query(
     {
       colinks_gives: [
         {
-          limit: 25000,
-          where: {
-            skill: {
-              _eq: skill,
-            },
-          },
+          limit: LIMIT,
+          ...(skill
+            ? {
+                where: {
+                  skill: {
+                    _eq: skill,
+                  },
+                },
+              }
+            : {}),
         },
         {
           id: true,
@@ -161,7 +177,7 @@ const fetchGives = async (skill: string) => {
       ],
     },
     {
-      operationName: 'GiveGraph__fetchGraphData @cached(ttl: 1800)',
+      operationName: `GiveGraph__fetchGraphData_skill_${skill} @cached(ttl: 300)`,
     }
   );
 
