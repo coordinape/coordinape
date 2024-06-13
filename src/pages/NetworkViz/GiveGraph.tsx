@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { anonClient } from 'lib/anongql/anonClient';
 import ForceGraph2D from 'react-force-graph-2d';
@@ -21,12 +21,12 @@ type link = {
 
 export default function GiveGraph({
   skill,
-  width = 200,
   height = 200,
+  zoom = true,
 }: {
   skill?: string;
-  width?: number;
   height?: number;
+  zoom?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
 
@@ -41,10 +41,18 @@ export default function GiveGraph({
     }
   );
 
+  const imgCache = useRef({});
   useEffect(() => {
     if (data && isFetched && !graphReady) {
       setGraphReady(true);
       refetch();
+      data.nodes.forEach(node => {
+        if (node.avatar && !imgCache.current[node.id]) {
+          const img = new Image();
+          img.src = node.avatar;
+          imgCache.current[node.id] = img;
+        }
+      });
     }
   }, [data, isFetched, setGraphReady]);
 
@@ -56,13 +64,40 @@ export default function GiveGraph({
         height={height}
         linkCurvature={0.3}
         linkDirectionalParticles={1}
+        enableZoomInteraction={zoom}
         linkColor={() => {
           return 'rgba(255, 255, 255, .8)';
         }}
-        nodeAutoColorBy={'id'}
         nodeLabel={n => `${n.name}`}
         onNodeClick={node => {
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
+        }}
+        nodeCanvasObject={(node, ctx) => {
+          const size = 12;
+          if (node.avatar && imgCache.current[node.id]) {
+            const img = imgCache.current[node.id];
+            // Draw circular clipping path
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+            ctx.closePath();
+            ctx.clip();
+            ctx.drawImage(
+              img,
+              node.x - size / 2,
+              node.y - size / 2,
+              size,
+              size
+            );
+            ctx.restore();
+          } else {
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+            ctx.fillStyle = 'black';
+            ctx.fill();
+            ctx.strokeStyle = 'black';
+            ctx.stroke();
+          }
         }}
         graphData={data}
       />

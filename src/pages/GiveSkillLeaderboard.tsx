@@ -180,7 +180,7 @@ export const GiveSkillLeaderboard = () => {
                 overflow: 'hidden',
               }}
             >
-              <GiveGraph skill={skill} height={200} width={800} />
+              <GiveGraph skill={skill} height={200} zoom={false} />
             </Flex>
 
             <GiveLeaderboardRow header={true}>
