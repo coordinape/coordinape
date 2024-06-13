@@ -38,9 +38,7 @@ export function GiveGraph({
     () => {
       return fetchGives(skill);
     },
-    {
-      // enabled: !!skill,
-    }
+    {}
   );
 
   const imgCache = useRef({});
