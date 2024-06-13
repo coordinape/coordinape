@@ -29,7 +29,7 @@ const base = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('10000000'),
+    maxFeePerGas: BigNumber.from('100000000'),
     maxPriorityFeePerGas: BigNumber.from('50'),
   },
 };
