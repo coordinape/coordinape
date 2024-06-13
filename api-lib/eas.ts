@@ -68,7 +68,7 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
       { name: 'platform', value: platform, type: 'string' },
       { name: 'url', value: url, type: 'string' },
       { name: 'context', value: context, type: 'string' },
-      { name: 'skill', value: give.skill, type: 'string' },
+      { name: 'skill', value: give.skill || '', type: 'string' },
       { name: 'tag', value: '', type: 'string' },
       { name: 'note', value: '', type: 'string' },
       { name: 'weight', value: '1', type: 'uint16' },
