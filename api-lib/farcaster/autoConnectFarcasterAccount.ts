@@ -63,4 +63,6 @@ export const autoConnectFarcasterAccount = async (
       operationName: 'addFarcaster_insert',
     }
   );
+
+  return fcProfile;
 };
