@@ -15914,6 +15914,7 @@ input epochs_variance_order_by {
 columns and relationships of "farcaster_accounts"
 """
 type farcaster_accounts {
+  bio_text: String
   created_at: timestamptz!
   custody_address: String!
   fid: bigint!
@@ -15968,6 +15969,7 @@ input farcaster_accounts_bool_exp {
   _and: [farcaster_accounts_bool_exp!]
   _not: farcaster_accounts_bool_exp
   _or: [farcaster_accounts_bool_exp!]
+  bio_text: String_comparison_exp
   created_at: timestamptz_comparison_exp
   custody_address: String_comparison_exp
   fid: bigint_comparison_exp
@@ -16009,6 +16011,7 @@ input farcaster_accounts_inc_input {
 input type for inserting data into table "farcaster_accounts"
 """
 input farcaster_accounts_insert_input {
+  bio_text: String
   created_at: timestamptz
   custody_address: String
   fid: bigint
@@ -16025,6 +16028,7 @@ input farcaster_accounts_insert_input {
 aggregate max on columns
 """
 type farcaster_accounts_max_fields {
+  bio_text: String
   created_at: timestamptz
   custody_address: String
   fid: bigint
@@ -16041,6 +16045,7 @@ type farcaster_accounts_max_fields {
 aggregate min on columns
 """
 type farcaster_accounts_min_fields {
+  bio_text: String
   created_at: timestamptz
   custody_address: String
   fid: bigint
@@ -16093,6 +16098,7 @@ input farcaster_accounts_on_conflict {
 Ordering options when selecting data from "farcaster_accounts".
 """
 input farcaster_accounts_order_by {
+  bio_text: order_by
   created_at: order_by
   custody_address: order_by
   fid: order_by
@@ -16116,6 +16122,11 @@ input farcaster_accounts_pk_columns_input {
 select columns of table "farcaster_accounts"
 """
 enum farcaster_accounts_select_column {
+  """
+  column name
+  """
+  bio_text
+
   """
   column name
   """
@@ -16171,6 +16182,7 @@ enum farcaster_accounts_select_column {
 input type for updating data in table "farcaster_accounts"
 """
 input farcaster_accounts_set_input {
+  bio_text: String
   created_at: timestamptz
   custody_address: String
   fid: bigint
@@ -16232,6 +16244,7 @@ input farcaster_accounts_stream_cursor_input {
 Initial value of the column from where the streaming should start
 """
 input farcaster_accounts_stream_cursor_value_input {
+  bio_text: String
   created_at: timestamptz
   custody_address: String
   fid: bigint
@@ -16258,6 +16271,11 @@ type farcaster_accounts_sum_fields {
 update columns of table "farcaster_accounts"
 """
 enum farcaster_accounts_update_column {
+  """
+  column name
+  """
+  bio_text
+
   """
   column name
   """

@@ -18,6 +18,7 @@ export const useMyFarcaster = (profileId?: number) => {
               fid: true,
               pfp_url: true,
               custody_address: true,
+              bio_text: true,
             },
           ],
         },

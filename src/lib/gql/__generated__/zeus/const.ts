@@ -2512,6 +2512,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'farcaster_accounts_bool_exp',
     _not: 'farcaster_accounts_bool_exp',
     _or: 'farcaster_accounts_bool_exp',
+    bio_text: 'String_comparison_exp',
     created_at: 'timestamptz_comparison_exp',
     custody_address: 'String_comparison_exp',
     fid: 'bigint_comparison_exp',
@@ -2524,6 +2525,7 @@ export const AllTypesProps: Record<string, any> = {
     username: 'String_comparison_exp',
   },
   farcaster_accounts_order_by: {
+    bio_text: 'order_by',
     created_at: 'order_by',
     custody_address: 'order_by',
     fid: 'order_by',
@@ -9653,6 +9655,7 @@ export const ReturnTypes: Record<string, any> = {
     returning: 'epochs',
   },
   farcaster_accounts: {
+    bio_text: 'String',
     created_at: 'timestamptz',
     custody_address: 'String',
     fid: 'bigint',

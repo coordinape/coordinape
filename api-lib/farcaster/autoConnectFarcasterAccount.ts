@@ -11,6 +11,7 @@ export const autoConnectFarcasterAccount = async (
       `No farcaster account found with your CoLinks address (custody or verified)`
     );
   }
+
   // make sure the fid is not already in use with a different user
   const { existingFids } = await adminClient.query(
     {
@@ -52,6 +53,7 @@ export const autoConnectFarcasterAccount = async (
             following_count: fcProfile.following_count,
             pfp_url: fcProfile.pfp_url,
             custody_address: fcProfile.custody_address,
+            bio_text: fcProfile.profile.bio.text,
           },
         },
         {

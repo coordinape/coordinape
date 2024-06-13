@@ -5,6 +5,7 @@ select_permissions:
   - role: anon
     permission:
       columns:
+        - bio_text
         - created_at
         - custody_address
         - fid
@@ -21,6 +22,7 @@ select_permissions:
   - role: user
     permission:
       columns:
+        - bio_text
         - created_at
         - custody_address
         - fid

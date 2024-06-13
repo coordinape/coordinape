@@ -52,7 +52,7 @@ export const WizardName = () => {
               ? {
                   name: farcaster.username,
                   avatar: farcaster.pfp_url,
-                  // description: farcaster,
+                  description: farcaster.bio_text,
                 }
               : twitter
                 ? {
