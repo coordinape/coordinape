@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { IS_LOCAL_ENV } from '../../../api-lib/config.ts';
 import { autoConnectFarcasterAccount } from '../../../api-lib/farcaster/autoConnectFarcasterAccount.ts';
 import {
   order_by,
@@ -12,6 +13,12 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 const BATCH_SIZE = 20;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
+  if (IS_LOCAL_ENV) {
+    return res.status(200).json({
+      message: 'This endpoint is disabled in local environment.',
+    });
+  }
+
   // get profiles without reputation
   const { profiles } = await adminClient.query(
     {
