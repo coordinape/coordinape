@@ -165,7 +165,10 @@ export const CLOUDFLARE_ACCOUNT_ID: string = getEnvValue(
   'CLOUDFLARE_ACCOUNT_ID',
   'cloudflare-account-id'
 );
-export const NEYNAR_API_KEY: string = getEnvValue('NEYNAR_API_KEY');
+export const NEYNAR_API_KEY: string = getEnvValue(
+  'NEYNAR_API_KEY',
+  'no-neynar-api-key'
+);
 export const NEYNAR_BOT_SIGNER_UUID: string = getEnvValue(
   'NEYNAR_BOT_SIGNER_UUID',
   'neynar_bot_signer_uuid'

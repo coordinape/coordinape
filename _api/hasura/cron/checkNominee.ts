@@ -4,7 +4,7 @@ import * as mutations from '../../../api-lib/gql/mutations';
 import * as queries from '../../../api-lib/gql/queries';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
     const { nominees } = await queries.getExpiredNominees();
 

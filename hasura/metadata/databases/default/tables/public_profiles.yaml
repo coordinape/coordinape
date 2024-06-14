@@ -119,6 +119,13 @@ array_relationships:
         table:
           name: org_members
           schema: public
+  - name: profile_flags
+    using:
+      foreign_key_constraint_on:
+        column: profile_id
+        table:
+          name: profile_flags
+          schema: public
   - name: users
     using:
       foreign_key_constraint_on:

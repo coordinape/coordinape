@@ -17,6 +17,7 @@ import giveSkill from '../_api/give/[skill]';
 import giveIndex from '../_api/give/index';
 import actionManager from '../_api/hasura/actions/actionManager';
 import auth from '../_api/hasura/auth';
+import backfillFarcasterConnect from '../_api/hasura/cron/backfillFarcasterConnect.ts';
 import bigQuestionEmails from '../_api/hasura/cron/bigQuestionEmails';
 import checkNominee from '../_api/hasura/cron/checkNominee';
 import colinksNotificationEmails from '../_api/hasura/cron/colinksNotificationEmails';
@@ -98,6 +99,10 @@ app.post('/api/hasura/cron/giveOnchainSyncer', tf(giveOnchainSyncer));
 app.post('/api/hasura/cron/epochs', tf(epochs));
 app.post('/api/hasura/cron/fetchPoapData', tf(fetchPoapData));
 app.post('/api/hasura/cron/updateMagicEmails', tf(updateMagicEmails));
+app.post(
+  '/api/hasura/cron/backfillFarcasterConnect',
+  tf(backfillFarcasterConnect)
+);
 app.post('/api/hasura/cron/generatePoapEmbeddings', tf(generatePoapEmbeddings));
 app.post('/api/hasura/cron/pGiveHistoricalGen', tf(pGiveHistoricalGen));
 app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));

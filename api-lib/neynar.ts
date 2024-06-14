@@ -46,12 +46,11 @@ export const fetchUserByAddress = async (address: string) => {
       }
     }
     return firstUser;
-  } catch (err) {
-    console.error(
-      `Got an error from Neynar attempting fetchBulkUsersByEthereumAddress for address ${address}, prob just 404`,
-      err
-    );
-    return undefined;
+  } catch (err: any) {
+    if (err?.response?.status == 404) {
+      return undefined;
+    }
+    throw err;
   }
 };
 
