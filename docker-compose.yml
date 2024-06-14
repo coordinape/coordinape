@@ -35,31 +35,6 @@ services:
       HASURA_GRAPHQL_AUTH_HOOK: http://${DOCKER_GATEWAY_HOST:-host.docker.internal}:${LOCAL_WEB_PORT}/api/hasura/auth
       ## HASURA_GRAPHQL_UNAUTHORIZED_ROLE: public
 
-  # for local s3 storage for images; not used by CI
-  localstack:
-    image: localstack/localstack:0.13.3
-    restart: always
-    hostname: s3
-    networks:
-      default:
-        aliases:
-          - s3.localhost.localstack.cloud
-          - s3-website.localhost.localstack.cloud
-          - coordinape.s3.localhost.localstack.cloud
-          - coordinape.s3-website.localhost.localstack.cloud
-    environment:
-      - HOSTNAME_EXTERNAL=localstack
-      - AWS_DEFAULT_REGION=us-east-1
-      - EDGE_PORT=4566
-      - SERVICES=s3
-      - DATA_DIR=/tmp/localstack/data
-    ports:
-      - ${LOCAL_LOCALSTACK_PORT_RANGE:-4566-4583}:4566-4583
-    volumes:
-      - '${TEMPDIR:-/tmp/localstack}:/var/lib/localstack'
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - ./docker/localstack/docker-entrypoint-initaws.d:/docker-entrypoint-initaws.d
-
 networks:
   default:
     driver: bridge

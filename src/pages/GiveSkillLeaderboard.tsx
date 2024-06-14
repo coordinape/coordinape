@@ -16,6 +16,7 @@ import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 import { PartyBody } from './GiveParty/PartyBody';
 import { PartyHeader } from './GiveParty/PartyHeader';
+import { GiveGraph } from './NetworkViz/GiveGraph';
 
 type sortBy =
   | 'gives'
@@ -117,7 +118,7 @@ export const GiveSkillLeaderboard = () => {
   const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
   return (
     <>
-      <PartyBody>
+      <PartyBody css={{ gap: '$lg' }}>
         <PartyHeader />
         <Flex
           css={{
@@ -166,11 +167,52 @@ export const GiveSkillLeaderboard = () => {
                 width: '100%',
                 justifyContent: 'center',
                 m: '$xs 0 $md',
+                alignItems: 'baseline',
+                gap: '$xs',
               }}
             >
               <PartyDisplayText text={`#${skill}`} />
+              <Text semibold>GIVEs</Text>
             </Text>
-            <GiveLeaderboardRow header={true}>
+
+            <Flex
+              css={{
+                position: 'relative',
+                height: 200,
+                width: '100%',
+                overflow: 'hidden',
+                background: 'rgba(0,0,0,0.3)',
+                borderRadius: '$2',
+                mb: '$sm',
+              }}
+            >
+              <GiveGraph
+                skill={skill}
+                height={200}
+                zoom={false}
+                compact={true}
+              />
+              <Flex
+                css={{
+                  position: 'absolute',
+                  bottom: '$sm',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  as={NavLink}
+                  to={coLinksPaths.giveSkillMap(`${skill}`)}
+                  color={'cta'}
+                  size="xs"
+                >
+                  View Full Graph
+                </Button>
+              </Flex>
+            </Flex>
+
+            <GiveLeaderboardRow rotateHeader header={true}>
               <GiveLeaderboardColumn
                 onClick={() => setSort('rank')}
                 css={{ maxWidth: '4rem' }}

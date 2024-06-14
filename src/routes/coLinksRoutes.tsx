@@ -41,10 +41,12 @@ import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { GiveLeaderboard } from '../pages/GiveLeaderboard';
 import { GiveSkillLeaderboard } from '../pages/GiveSkillLeaderboard';
+import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
+import { GiveMap } from 'pages/GiveMap';
 import { GiveParty } from 'pages/GiveParty';
 import { PartyProfile } from 'pages/GiveParty/PartyProfile';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
@@ -73,6 +75,9 @@ export const coLinksRoutes = [
   <Route key={'giveparty'}>
     <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
   </Route>,
+  <Route key={'givemap'}>
+    <Route path={coLinksPaths.givemap} element={<GiveMap />} />
+  </Route>,
   <Route key={'giveparty'}>
     <Route
       path={coLinksPaths.partyProfile(':address')}
@@ -86,6 +91,12 @@ export const coLinksRoutes = [
     <Route
       path={coLinksPaths.giveBoardSkill(':skill')}
       element={<GiveSkillLeaderboard />}
+    />
+  </Route>,
+  <Route key={'givemap'}>
+    <Route
+      path={coLinksPaths.giveSkillMap(':skill')}
+      element={<GiveSkillMap />}
     />
   </Route>,
 

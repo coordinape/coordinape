@@ -384,8 +384,8 @@ dependencies:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   react-force-graph-2d:
-    specifier: 1.23.8
-    version: 1.23.8(react@18.2.0)
+    specifier: 1.25.5
+    version: 1.25.5(react@18.2.0)
   react-helmet:
     specifier: ^6.1.0
     version: 6.1.0(react@18.2.0)
@@ -14537,17 +14537,6 @@ packages:
       d3-timer: 2.0.0
     dev: false
 
-  /d3-force-3d@3.0.2:
-    resolution: {integrity: sha512-0JxQaqDutCUq9Q2kf+oEucxyZIRXahI7m5gwdY6ezfi2eNIHhublV7Az++erNLTc+meVe2nL5JlXCrRqXz9aLg==}
-    engines: {node: '>=12'}
-    dependencies:
-      d3-binarytree: 0.2.0
-      d3-dispatch: 3.0.1
-      d3-octree: 0.2.0
-      d3-quadtree: 3.0.1
-      d3-timer: 3.0.1
-    dev: false
-
   /d3-format@3.0.1:
     resolution: {integrity: sha512-hdL7+HBIohpgfolhBxr1KX47VMD6+vVD/oEFrxk5yhmzV2prk99EkFKYpXuhVkFpTgHdJ6/4bYcjdLPPXV4tIA==}
     engines: {node: '>=12'}
@@ -14566,11 +14555,6 @@ packages:
 
   /d3-quadtree@2.0.0:
     resolution: {integrity: sha512-b0Ed2t1UUalJpc3qXzKi+cPGxeXRr4KU9YSlocN74aTzp6R/Ud43t79yLLqxHRWZfsvWXmbDWPpoENK1K539xw==}
-    dev: false
-
-  /d3-quadtree@3.0.1:
-    resolution: {integrity: sha512-04xDrxQTDTCFwP5H6hRhsRcb9xxv2RzkcsygFzmkSIOJy3PeRJP7sNk3VRIbKXcog561P9oU0/rVH6vDROAgUw==}
-    engines: {node: '>=12'}
     dev: false
 
   /d3-scale-chromatic@3.0.0:
@@ -17109,7 +17093,7 @@ packages:
       canvas-color-tracker: file:canvas-color-tracker
       d3-array: 3.1.1
       d3-drag: 3.0.0
-      d3-force-3d: 3.0.2
+      d3-force-3d: 2.3.2
       d3-scale: 4.0.2
       d3-scale-chromatic: 3.0.0
       d3-selection: 3.0.0
@@ -24171,8 +24155,9 @@ packages:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
     dev: false
 
-  /react-force-graph-2d@1.23.8(react@18.2.0):
-    resolution: {integrity: sha512-ON0vYxZY1PNoEi5RqGtyl5nmUlln6tbTcWdoLbRd9AEC3wCsaDjOQymF77U6DLRuqhqrjaC0SbjH+rAn9np8Lg==}
+  /react-force-graph-2d@1.25.5(react@18.2.0):
+    resolution: {integrity: sha512-3u8WjZZorpwZSDs3n3QeOS9ZoxFPM+IR9SStYJVQ/qKECydMHarxnf7ynV/MKJbC6kUsc60soD0V+Uq/r2vz7Q==}
+    engines: {node: '>=12'}
     peerDependencies:
       react: '*'
     dependencies:

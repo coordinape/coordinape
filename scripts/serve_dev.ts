@@ -13,6 +13,8 @@ import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
 import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
+import giveSkill from '../_api/give/[skill]';
+import giveIndex from '../_api/give/index';
 import actionManager from '../_api/hasura/actions/actionManager';
 import auth from '../_api/hasura/auth';
 import backfillFarcasterConnect from '../_api/hasura/cron/backfillFarcasterConnect.ts';
@@ -143,6 +145,12 @@ app.get('/api/email/verifywaitlist/:uuid', (req, res) => {
 
 app.get('/api/network/:address', (req, res) => {
   return tf(networkForAddress)({ ...req, query: req.params }, res);
+});
+app.get('/api/give/:skill', (req, res) => {
+  return tf(giveSkill)({ ...req, query: req.params }, res);
+});
+app.get('/api/give', (req, res) => {
+  return tf(giveIndex)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
