@@ -1,26 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { anonClient } from 'lib/anongql/anonClient';
 import ForceGraph2D from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
 import { Flex } from 'ui';
-
-const LIMIT = 50; //000;
-
-type node = {
-  id: string;
-  name: string;
-  avatar: string;
-};
-
-type link = {
-  source: string;
-  target: string;
-  skill: string;
-};
 
 export function GiveGraph({
   skill,
@@ -40,7 +25,11 @@ export function GiveGraph({
     () => {
       return fetchGives(skill);
     },
-    {}
+    {
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    }
   );
 
   const imgCache = useRef({});
@@ -129,73 +118,7 @@ export function GiveGraph({
     );
 }
 
-const buildNodes = (gives: any) => {
-  const n = new Map<string, node>();
-  for (const give of gives) {
-    n.set(give.giver_profile_public.address, {
-      id: give.giver_profile_public.address,
-      name: give.giver_profile_public.name,
-      avatar: give.giver_profile_public.avatar,
-    });
-    n.set(give.target_profile_public.address, {
-      id: give.target_profile_public.address,
-      name: give.target_profile_public.name,
-      avatar: give.target_profile_public.avatar,
-    });
-  }
-  return [...n.values()];
-};
-
-const buildLinks = (gives: any) => {
-  const links: link[] = gives.map((give: any) => {
-    return {
-      source: give.giver_profile_public.address,
-      target: give.target_profile_public.address,
-      skill: give.skill,
-    };
-  });
-  return links;
-};
-
 const fetchGives = async (skill?: string) => {
-  const { colinks_gives } = await anonClient.query(
-    {
-      colinks_gives: [
-        {
-          limit: LIMIT,
-          ...(skill
-            ? {
-                where: {
-                  skill: {
-                    _eq: skill,
-                  },
-                },
-              }
-            : {}),
-        },
-        {
-          id: true,
-          skill: true,
-          target_profile_public: {
-            avatar: true,
-            address: true,
-            name: true,
-          },
-          giver_profile_public: {
-            avatar: true,
-            address: true,
-            name: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: `GiveGraph__fetchGraphData_skill_${skill} @cached(ttl: 300)`,
-    }
-  );
-
-  return {
-    nodes: buildNodes(colinks_gives),
-    links: buildLinks(colinks_gives),
-  };
+  const resp = await fetch('/api/give' + (skill ? `/${skill}` : ''));
+  return resp.json();
 };
