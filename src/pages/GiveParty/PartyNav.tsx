@@ -19,7 +19,10 @@ export const partyNavButtonStyle = {
 
 export const PartyNav = ({ css }: { css?: CSS }) => {
   return (
-    <Flex row css={{ ...css, gap: '$md' }}>
+    <Flex
+      row
+      css={{ ...css, gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}
+    >
       <Button
         as={AppLink}
         to={coLinksPaths.giveParty}

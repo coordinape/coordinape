@@ -121,7 +121,7 @@ export const GiveLeaderboard = () => {
               color: 'white',
             }}
           >
-            <GiveLeaderboardRow header={true}>
+            <GiveLeaderboardRow rotateHeader header={true}>
               <GiveLeaderboardColumn
                 onClick={() => setSort('rank')}
                 css={{ maxWidth: '4rem' }}
@@ -246,6 +246,7 @@ export const GiveLeaderboardRow = ({
                 'radial-gradient(circle at 25% 0%, rgb(48 21 128) 20%, rgb(79 5 65) 100%)',
               minHeight: '50px',
               '@xs': {
+                fontSize: '$xs',
                 '.column': {
                   ...(rotateHeader && {
                     writingMode: 'vertical-lr',

@@ -118,7 +118,7 @@ export const GiveSkillLeaderboard = () => {
   const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
   return (
     <>
-      <PartyBody>
+      <PartyBody css={{ gap: '$lg' }}>
         <PartyHeader />
         <Flex
           css={{
@@ -212,7 +212,7 @@ export const GiveSkillLeaderboard = () => {
               </Flex>
             </Flex>
 
-            <GiveLeaderboardRow header={true}>
+            <GiveLeaderboardRow rotateHeader header={true}>
               <GiveLeaderboardColumn
                 onClick={() => setSort('rank')}
                 css={{ maxWidth: '4rem' }}

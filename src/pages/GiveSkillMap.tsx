@@ -17,7 +17,7 @@ export const GiveSkillMap = () => {
   const castMapUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
   return (
     <>
-      <PartyBody css={{ width: '100%' }}>
+      <PartyBody css={{ width: '100%', gap: '$lg' }}>
         <PartyHeader />
         <Flex
           css={{
@@ -46,7 +46,7 @@ export const GiveSkillMap = () => {
             borderRadius: '$2',
             // border: 'solid 1px #424a51',
             '@tablet': {
-              p: '12px 8px',
+              p: '0 8px',
             },
           }}
         >
