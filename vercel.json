@@ -66,6 +66,14 @@
       "destination": "/api/network/[address]?address=:address"
     },
     {
+      "source": "/api/give/:skill",
+      "destination": "/api/give/[skill]?skill=:skill"
+    },
+    {
+      "source": "/api/give",
+      "destination": "/api/give"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
