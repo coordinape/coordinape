@@ -47,7 +47,7 @@ export function GiveGraph({
 
   const nodeCanvasObject = useCallback(
     (node, ctx) => {
-      const size = 12;
+      const size = 14;
       const img = imgCache.current[node.id];
       if (img) {
         // Draw circular clipping path
@@ -61,10 +61,15 @@ export function GiveGraph({
       } else {
         ctx.beginPath();
         ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = '#512AC0';
         ctx.fill();
-        ctx.strokeStyle = 'black';
+        ctx.strokeStyle = '#512AC0';
         ctx.stroke();
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.font = `8px Sans-Serif`;
+        ctx.fillText(node.name.slice(0, 2), node.x, node.y);
       }
     },
     [imgCache]
