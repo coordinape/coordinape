@@ -7,9 +7,7 @@ export const autoConnectFarcasterAccount = async (
 ) => {
   const fcProfile = await fetchUserByAddress(address);
   if (!fcProfile) {
-    throw new Error(
-      `No farcaster account found with your CoLinks address (custody or verified)`
-    );
+    return undefined;
   }
 
   // make sure the fid is not already in use with a different user

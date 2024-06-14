@@ -52,6 +52,7 @@
 - "!include public_poap_events.yaml"
 - "!include public_poap_holders.yaml"
 - "!include public_private_stream_visibility.yaml"
+- "!include public_profile_flags.yaml"
 - "!include public_profile_skills.yaml"
 - "!include public_profiles.yaml"
 - "!include public_profiles_private.yaml"

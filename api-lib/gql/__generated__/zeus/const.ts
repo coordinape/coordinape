@@ -5944,6 +5944,12 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       view_profile_id: 'bigint',
     },
+    delete_profile_flags: {
+      where: 'profile_flags_bool_exp',
+    },
+    delete_profile_flags_by_pk: {
+      profile_id: 'bigint',
+    },
     delete_profile_skills: {
       where: 'profile_skills_bool_exp',
     },
@@ -6433,6 +6439,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_private_stream_visibility_one: {
       object: 'private_stream_visibility_insert_input',
       on_conflict: 'private_stream_visibility_on_conflict',
+    },
+    insert_profile_flags: {
+      objects: 'profile_flags_insert_input',
+      on_conflict: 'profile_flags_on_conflict',
+    },
+    insert_profile_flags_one: {
+      object: 'profile_flags_insert_input',
+      on_conflict: 'profile_flags_on_conflict',
     },
     insert_profile_skills: {
       objects: 'profile_skills_insert_input',
@@ -7284,6 +7298,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_private_stream_visibility_many: {
       updates: 'private_stream_visibility_updates',
+    },
+    update_profile_flags: {
+      _inc: 'profile_flags_inc_input',
+      _set: 'profile_flags_set_input',
+      where: 'profile_flags_bool_exp',
+    },
+    update_profile_flags_by_pk: {
+      _inc: 'profile_flags_inc_input',
+      _set: 'profile_flags_set_input',
+      pk_columns: 'profile_flags_pk_columns_input',
+    },
+    update_profile_flags_many: {
+      updates: 'profile_flags_updates',
     },
     update_profile_skills: {
       _inc: 'profile_skills_inc_input',
@@ -9397,6 +9424,121 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'order_by',
     view_profile_id: 'order_by',
   },
+  profile_flags_aggregate_bool_exp: {
+    count: 'profile_flags_aggregate_bool_exp_count',
+  },
+  profile_flags_aggregate_bool_exp_count: {
+    arguments: 'profile_flags_select_column',
+    filter: 'profile_flags_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
+  profile_flags_aggregate_fields: {
+    count: {
+      columns: 'profile_flags_select_column',
+    },
+  },
+  profile_flags_aggregate_order_by: {
+    avg: 'profile_flags_avg_order_by',
+    count: 'order_by',
+    max: 'profile_flags_max_order_by',
+    min: 'profile_flags_min_order_by',
+    stddev: 'profile_flags_stddev_order_by',
+    stddev_pop: 'profile_flags_stddev_pop_order_by',
+    stddev_samp: 'profile_flags_stddev_samp_order_by',
+    sum: 'profile_flags_sum_order_by',
+    var_pop: 'profile_flags_var_pop_order_by',
+    var_samp: 'profile_flags_var_samp_order_by',
+    variance: 'profile_flags_variance_order_by',
+  },
+  profile_flags_arr_rel_insert_input: {
+    data: 'profile_flags_insert_input',
+    on_conflict: 'profile_flags_on_conflict',
+  },
+  profile_flags_avg_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_bool_exp: {
+    _and: 'profile_flags_bool_exp',
+    _not: 'profile_flags_bool_exp',
+    _or: 'profile_flags_bool_exp',
+    farcaster_connect_checked_at: 'timestamptz_comparison_exp',
+    farcaster_connect_error: 'String_comparison_exp',
+    profile: 'profiles_bool_exp',
+    profile_id: 'bigint_comparison_exp',
+  },
+  profile_flags_constraint: true,
+  profile_flags_inc_input: {
+    profile_id: 'bigint',
+  },
+  profile_flags_insert_input: {
+    farcaster_connect_checked_at: 'timestamptz',
+    profile: 'profiles_obj_rel_insert_input',
+    profile_id: 'bigint',
+  },
+  profile_flags_max_order_by: {
+    farcaster_connect_checked_at: 'order_by',
+    farcaster_connect_error: 'order_by',
+    profile_id: 'order_by',
+  },
+  profile_flags_min_order_by: {
+    farcaster_connect_checked_at: 'order_by',
+    farcaster_connect_error: 'order_by',
+    profile_id: 'order_by',
+  },
+  profile_flags_on_conflict: {
+    constraint: 'profile_flags_constraint',
+    update_columns: 'profile_flags_update_column',
+    where: 'profile_flags_bool_exp',
+  },
+  profile_flags_order_by: {
+    farcaster_connect_checked_at: 'order_by',
+    farcaster_connect_error: 'order_by',
+    profile: 'profiles_order_by',
+    profile_id: 'order_by',
+  },
+  profile_flags_pk_columns_input: {
+    profile_id: 'bigint',
+  },
+  profile_flags_select_column: true,
+  profile_flags_set_input: {
+    farcaster_connect_checked_at: 'timestamptz',
+    profile_id: 'bigint',
+  },
+  profile_flags_stddev_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_stddev_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_stddev_samp_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_stream_cursor_input: {
+    initial_value: 'profile_flags_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  profile_flags_stream_cursor_value_input: {
+    farcaster_connect_checked_at: 'timestamptz',
+    profile_id: 'bigint',
+  },
+  profile_flags_sum_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_update_column: true,
+  profile_flags_updates: {
+    _inc: 'profile_flags_inc_input',
+    _set: 'profile_flags_set_input',
+    where: 'profile_flags_bool_exp',
+  },
+  profile_flags_var_pop_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_var_samp_order_by: {
+    profile_id: 'order_by',
+  },
+  profile_flags_variance_order_by: {
+    profile_id: 'order_by',
+  },
   profile_skills_aggregate_bool_exp: {
     count: 'profile_skills_aggregate_bool_exp_count',
   },
@@ -9601,6 +9743,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'org_members_order_by',
       where: 'org_members_bool_exp',
     },
+    profile_flags: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
+    profile_flags_aggregate: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
     users: {
       distinct_on: 'users_select_column',
       order_by: 'users_order_by',
@@ -9692,6 +9844,8 @@ export const AllTypesProps: Record<string, any> = {
     points_balance: 'float8_comparison_exp',
     points_checkpointed_at: 'timestamptz_comparison_exp',
     product_emails: 'Boolean_comparison_exp',
+    profile_flags: 'profile_flags_bool_exp',
+    profile_flags_aggregate: 'profile_flags_aggregate_bool_exp',
     profile_skills: 'profile_skills_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
     skills: 'String_comparison_exp',
@@ -9738,6 +9892,7 @@ export const AllTypesProps: Record<string, any> = {
     org_members: 'org_members_arr_rel_insert_input',
     points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
+    profile_flags: 'profile_flags_arr_rel_insert_input',
     profile_skills: 'profile_skills_obj_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
     tos_agreed_at: 'timestamp',
@@ -9800,6 +9955,7 @@ export const AllTypesProps: Record<string, any> = {
     points_balance: 'order_by',
     points_checkpointed_at: 'order_by',
     product_emails: 'order_by',
+    profile_flags_aggregate: 'profile_flags_aggregate_order_by',
     profile_skills: 'profile_skills_order_by',
     reputation_score: 'reputation_scores_order_by',
     skills: 'order_by',
@@ -10738,6 +10894,19 @@ export const AllTypesProps: Record<string, any> = {
     private_stream_visibility_by_pk: {
       profile_id: 'bigint',
       view_profile_id: 'bigint',
+    },
+    profile_flags: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
+    profile_flags_aggregate: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
+    profile_flags_by_pk: {
+      profile_id: 'bigint',
     },
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
@@ -12643,6 +12812,23 @@ export const AllTypesProps: Record<string, any> = {
     private_stream_visibility_stream: {
       cursor: 'private_stream_visibility_stream_cursor_input',
       where: 'private_stream_visibility_bool_exp',
+    },
+    profile_flags: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
+    profile_flags_aggregate: {
+      distinct_on: 'profile_flags_select_column',
+      order_by: 'profile_flags_order_by',
+      where: 'profile_flags_bool_exp',
+    },
+    profile_flags_by_pk: {
+      profile_id: 'bigint',
+    },
+    profile_flags_stream: {
+      cursor: 'profile_flags_stream_cursor_input',
+      where: 'profile_flags_bool_exp',
     },
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
@@ -18888,6 +19074,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_private_stream_visibility:
       'private_stream_visibility_mutation_response',
     delete_private_stream_visibility_by_pk: 'private_stream_visibility',
+    delete_profile_flags: 'profile_flags_mutation_response',
+    delete_profile_flags_by_pk: 'profile_flags',
     delete_profile_skills: 'profile_skills_mutation_response',
     delete_profile_skills_by_pk: 'profile_skills',
     delete_profiles: 'profiles_mutation_response',
@@ -19030,6 +19218,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_private_stream_visibility:
       'private_stream_visibility_mutation_response',
     insert_private_stream_visibility_one: 'private_stream_visibility',
+    insert_profile_flags: 'profile_flags_mutation_response',
+    insert_profile_flags_one: 'profile_flags',
     insert_profile_skills: 'profile_skills_mutation_response',
     insert_profile_skills_one: 'profile_skills',
     insert_profiles: 'profiles_mutation_response',
@@ -19245,6 +19435,9 @@ export const ReturnTypes: Record<string, any> = {
     update_private_stream_visibility_by_pk: 'private_stream_visibility',
     update_private_stream_visibility_many:
       'private_stream_visibility_mutation_response',
+    update_profile_flags: 'profile_flags_mutation_response',
+    update_profile_flags_by_pk: 'profile_flags',
+    update_profile_flags_many: 'profile_flags_mutation_response',
     update_profile_skills: 'profile_skills_mutation_response',
     update_profile_skills_by_pk: 'profile_skills',
     update_profile_skills_many: 'profile_skills_mutation_response',
@@ -20859,6 +21052,67 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
     view_profile_id: 'Float',
   },
+  profile_flags: {
+    farcaster_connect_checked_at: 'timestamptz',
+    farcaster_connect_error: 'String',
+    profile: 'profiles',
+    profile_id: 'bigint',
+  },
+  profile_flags_aggregate: {
+    aggregate: 'profile_flags_aggregate_fields',
+    nodes: 'profile_flags',
+  },
+  profile_flags_aggregate_fields: {
+    avg: 'profile_flags_avg_fields',
+    count: 'Int',
+    max: 'profile_flags_max_fields',
+    min: 'profile_flags_min_fields',
+    stddev: 'profile_flags_stddev_fields',
+    stddev_pop: 'profile_flags_stddev_pop_fields',
+    stddev_samp: 'profile_flags_stddev_samp_fields',
+    sum: 'profile_flags_sum_fields',
+    var_pop: 'profile_flags_var_pop_fields',
+    var_samp: 'profile_flags_var_samp_fields',
+    variance: 'profile_flags_variance_fields',
+  },
+  profile_flags_avg_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_max_fields: {
+    farcaster_connect_checked_at: 'timestamptz',
+    farcaster_connect_error: 'String',
+    profile_id: 'bigint',
+  },
+  profile_flags_min_fields: {
+    farcaster_connect_checked_at: 'timestamptz',
+    farcaster_connect_error: 'String',
+    profile_id: 'bigint',
+  },
+  profile_flags_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'profile_flags',
+  },
+  profile_flags_stddev_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_stddev_pop_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_stddev_samp_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_sum_fields: {
+    profile_id: 'bigint',
+  },
+  profile_flags_var_pop_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_var_samp_fields: {
+    profile_id: 'Float',
+  },
+  profile_flags_variance_fields: {
+    profile_id: 'Float',
+  },
   profile_skills: {
     created_at: 'timestamptz',
     profile: 'profiles',
@@ -20974,6 +21228,8 @@ export const ReturnTypes: Record<string, any> = {
     points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
     product_emails: 'Boolean',
+    profile_flags: 'profile_flags',
+    profile_flags_aggregate: 'profile_flags_aggregate',
     profile_skills: 'profile_skills',
     reputation_score: 'reputation_scores',
     skills: 'String',
@@ -21527,6 +21783,9 @@ export const ReturnTypes: Record<string, any> = {
     private_stream_visibility: 'private_stream_visibility',
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
+    profile_flags: 'profile_flags',
+    profile_flags_aggregate: 'profile_flags_aggregate',
+    profile_flags_by_pk: 'profile_flags',
     profile_skills: 'profile_skills',
     profile_skills_aggregate: 'profile_skills_aggregate',
     profile_skills_by_pk: 'profile_skills',
@@ -22397,6 +22656,10 @@ export const ReturnTypes: Record<string, any> = {
     private_stream_visibility_aggregate: 'private_stream_visibility_aggregate',
     private_stream_visibility_by_pk: 'private_stream_visibility',
     private_stream_visibility_stream: 'private_stream_visibility',
+    profile_flags: 'profile_flags',
+    profile_flags_aggregate: 'profile_flags_aggregate',
+    profile_flags_by_pk: 'profile_flags',
+    profile_flags_stream: 'profile_flags',
     profile_skills: 'profile_skills',
     profile_skills_aggregate: 'profile_skills_aggregate',
     profile_skills_by_pk: 'profile_skills',

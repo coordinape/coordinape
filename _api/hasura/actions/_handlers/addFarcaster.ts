@@ -44,7 +44,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     try {
-      await autoConnectFarcasterAccount(currentUser.address, hasuraProfileId);
+      const fp = await autoConnectFarcasterAccount(
+        currentUser.address,
+        hasuraProfileId
+      );
+      if (!fp) {
+        throw new Error(
+          `No farcaster account found with your CoLinks address (custody or verified)`
+        );
+      }
     } catch (e: any) {
       return errorMessage(res, e.message);
     }
