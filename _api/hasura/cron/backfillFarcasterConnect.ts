@@ -10,7 +10,7 @@ import {
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-const BATCH_SIZE = 20;
+const BATCH_SIZE = 100;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   if (IS_LOCAL_ENV) {
