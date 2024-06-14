@@ -58,7 +58,7 @@ export const guildInfoFromAPI = async (guild_id: string | number) => {
 
   const guildRoles = (await guildRolesRes.json()) as any as GuildRole[];
 
-  if (guild) {
+  if (guild && guildRoles && guildAdmins) {
     return {
       id: guild.id,
       name: guild.name,
