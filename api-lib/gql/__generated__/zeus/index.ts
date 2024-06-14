@@ -15958,6 +15958,17 @@ export type ValueTypes = {
       },
       ValueTypes['private_stream_visibility'],
     ];
+    delete_profile_flags?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['profile_flags_bool_exp'];
+      },
+      ValueTypes['profile_flags_mutation_response'],
+    ];
+    delete_profile_flags_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['profile_flags'],
+    ];
     delete_profile_skills?: [
       {
         /** filter the rows which have to be deleted */
@@ -17191,6 +17202,30 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['private_stream_visibility'],
+    ];
+    insert_profile_flags?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<
+          ValueTypes['profile_flags_insert_input']
+        > /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['profile_flags_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['profile_flags_mutation_response'],
+    ];
+    insert_profile_flags_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['profile_flags_insert_input'] /** upsert condition */;
+        on_conflict?:
+          | ValueTypes['profile_flags_on_conflict']
+          | undefined
+          | null;
+      },
+      ValueTypes['profile_flags'],
     ];
     insert_profile_skills?: [
       {
@@ -19416,6 +19451,40 @@ export type ValueTypes = {
         updates: Array<ValueTypes['private_stream_visibility_updates']>;
       },
       ValueTypes['private_stream_visibility_mutation_response'],
+    ];
+    update_profile_flags?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['profile_flags_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['profile_flags_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['profile_flags_bool_exp'];
+      },
+      ValueTypes['profile_flags_mutation_response'],
+    ];
+    update_profile_flags_by_pk?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['profile_flags_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?: ValueTypes['profile_flags_set_input'] | undefined | null;
+        pk_columns: ValueTypes['profile_flags_pk_columns_input'];
+      },
+      ValueTypes['profile_flags'],
+    ];
+    update_profile_flags_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['profile_flags_updates']>;
+      },
+      ValueTypes['profile_flags_mutation_response'],
     ];
     update_profile_skills?: [
       {
@@ -24941,6 +25010,269 @@ export type ValueTypes = {
     profile_id?: ValueTypes['order_by'] | undefined | null;
     view_profile_id?: ValueTypes['order_by'] | undefined | null;
   };
+  /** internal timestamp and/or boolean data about a profile */
+  ['profile_flags']: AliasType<{
+    farcaster_connect_checked_at?: boolean | `@${string}`;
+    farcaster_connect_error?: boolean | `@${string}`;
+    /** An object relationship */
+    profile?: ValueTypes['profiles'];
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "profile_flags" */
+  ['profile_flags_aggregate']: AliasType<{
+    aggregate?: ValueTypes['profile_flags_aggregate_fields'];
+    nodes?: ValueTypes['profile_flags'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['profile_flags_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['profile_flags_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['profile_flags_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['profile_flags_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "profile_flags" */
+  ['profile_flags_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['profile_flags_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['profile_flags_max_fields'];
+    min?: ValueTypes['profile_flags_min_fields'];
+    stddev?: ValueTypes['profile_flags_stddev_fields'];
+    stddev_pop?: ValueTypes['profile_flags_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['profile_flags_stddev_samp_fields'];
+    sum?: ValueTypes['profile_flags_sum_fields'];
+    var_pop?: ValueTypes['profile_flags_var_pop_fields'];
+    var_samp?: ValueTypes['profile_flags_var_samp_fields'];
+    variance?: ValueTypes['profile_flags_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "profile_flags" */
+  ['profile_flags_aggregate_order_by']: {
+    avg?: ValueTypes['profile_flags_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['profile_flags_max_order_by'] | undefined | null;
+    min?: ValueTypes['profile_flags_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['profile_flags_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['profile_flags_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['profile_flags_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['profile_flags_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['profile_flags_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['profile_flags_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['profile_flags_variance_order_by'] | undefined | null;
+  };
+  /** input type for inserting array relation for remote table "profile_flags" */
+  ['profile_flags_arr_rel_insert_input']: {
+    data: Array<ValueTypes['profile_flags_insert_input']>;
+    /** upsert condition */
+    on_conflict?: ValueTypes['profile_flags_on_conflict'] | undefined | null;
+  };
+  /** aggregate avg on columns */
+  ['profile_flags_avg_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "profile_flags" */
+  ['profile_flags_avg_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "profile_flags". All fields are combined with a logical 'AND'. */
+  ['profile_flags_bool_exp']: {
+    _and?: Array<ValueTypes['profile_flags_bool_exp']> | undefined | null;
+    _not?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['profile_flags_bool_exp']> | undefined | null;
+    farcaster_connect_checked_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    farcaster_connect_error?:
+      | ValueTypes['String_comparison_exp']
+      | undefined
+      | null;
+    profile?: ValueTypes['profiles_bool_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** unique or primary key constraints on table "profile_flags" */
+  ['profile_flags_constraint']: profile_flags_constraint;
+  /** input type for incrementing numeric columns in table "profile_flags" */
+  ['profile_flags_inc_input']: {
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "profile_flags" */
+  ['profile_flags_insert_input']: {
+    farcaster_connect_checked_at?: ValueTypes['timestamptz'] | undefined | null;
+    farcaster_connect_error?: string | undefined | null;
+    profile?: ValueTypes['profiles_obj_rel_insert_input'] | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['profile_flags_max_fields']: AliasType<{
+    farcaster_connect_checked_at?: boolean | `@${string}`;
+    farcaster_connect_error?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "profile_flags" */
+  ['profile_flags_max_order_by']: {
+    farcaster_connect_checked_at?: ValueTypes['order_by'] | undefined | null;
+    farcaster_connect_error?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['profile_flags_min_fields']: AliasType<{
+    farcaster_connect_checked_at?: boolean | `@${string}`;
+    farcaster_connect_error?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "profile_flags" */
+  ['profile_flags_min_order_by']: {
+    farcaster_connect_checked_at?: ValueTypes['order_by'] | undefined | null;
+    farcaster_connect_error?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** response of any mutation on the table "profile_flags" */
+  ['profile_flags_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['profile_flags'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** on_conflict condition type for table "profile_flags" */
+  ['profile_flags_on_conflict']: {
+    constraint: ValueTypes['profile_flags_constraint'];
+    update_columns: Array<ValueTypes['profile_flags_update_column']>;
+    where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "profile_flags". */
+  ['profile_flags_order_by']: {
+    farcaster_connect_checked_at?: ValueTypes['order_by'] | undefined | null;
+    farcaster_connect_error?: ValueTypes['order_by'] | undefined | null;
+    profile?: ValueTypes['profiles_order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** primary key columns input for table: profile_flags */
+  ['profile_flags_pk_columns_input']: {
+    profile_id: ValueTypes['bigint'];
+  };
+  /** select columns of table "profile_flags" */
+  ['profile_flags_select_column']: profile_flags_select_column;
+  /** input type for updating data in table "profile_flags" */
+  ['profile_flags_set_input']: {
+    farcaster_connect_checked_at?: ValueTypes['timestamptz'] | undefined | null;
+    farcaster_connect_error?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['profile_flags_stddev_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "profile_flags" */
+  ['profile_flags_stddev_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profile_flags_stddev_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "profile_flags" */
+  ['profile_flags_stddev_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profile_flags_stddev_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "profile_flags" */
+  ['profile_flags_stddev_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "profile_flags" */
+  ['profile_flags_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['profile_flags_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_flags_stream_cursor_value_input']: {
+    farcaster_connect_checked_at?: ValueTypes['timestamptz'] | undefined | null;
+    farcaster_connect_error?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['profile_flags_sum_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "profile_flags" */
+  ['profile_flags_sum_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** update columns of table "profile_flags" */
+  ['profile_flags_update_column']: profile_flags_update_column;
+  ['profile_flags_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['profile_flags_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['profile_flags_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['profile_flags_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['profile_flags_var_pop_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "profile_flags" */
+  ['profile_flags_var_pop_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['profile_flags_var_samp_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "profile_flags" */
+  ['profile_flags_var_samp_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['profile_flags_variance_fields']: AliasType<{
+    profile_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "profile_flags" */
+  ['profile_flags_variance_order_by']: {
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: AliasType<{
     created_at?: boolean | `@${string}`;
@@ -25632,6 +25964,52 @@ export type ValueTypes = {
     points_balance?: boolean | `@${string}`;
     points_checkpointed_at?: boolean | `@${string}`;
     product_emails?: boolean | `@${string}`;
+    profile_flags?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags'],
+    ];
+    profile_flags_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags_aggregate'],
+    ];
     /** An object relationship */
     profile_skills?: ValueTypes['profile_skills'];
     /** An object relationship */
@@ -25948,6 +26326,11 @@ export type ValueTypes = {
       | undefined
       | null;
     product_emails?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    profile_flags?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+    profile_flags_aggregate?:
+      | ValueTypes['profile_flags_aggregate_bool_exp']
+      | undefined
+      | null;
     profile_skills?: ValueTypes['profile_skills_bool_exp'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_bool_exp']
@@ -26055,6 +26438,10 @@ export type ValueTypes = {
     points_balance?: ValueTypes['float8'] | undefined | null;
     points_checkpointed_at?: ValueTypes['timestamptz'] | undefined | null;
     product_emails?: boolean | undefined | null;
+    profile_flags?:
+      | ValueTypes['profile_flags_arr_rel_insert_input']
+      | undefined
+      | null;
     profile_skills?:
       | ValueTypes['profile_skills_obj_rel_insert_input']
       | undefined
@@ -26246,6 +26633,10 @@ export type ValueTypes = {
     points_balance?: ValueTypes['order_by'] | undefined | null;
     points_checkpointed_at?: ValueTypes['order_by'] | undefined | null;
     product_emails?: ValueTypes['order_by'] | undefined | null;
+    profile_flags_aggregate?:
+      | ValueTypes['profile_flags_aggregate_order_by']
+      | undefined
+      | null;
     profile_skills?: ValueTypes['profile_skills_order_by'] | undefined | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
@@ -29937,6 +30328,56 @@ export type ValueTypes = {
         view_profile_id: ValueTypes['bigint'];
       },
       ValueTypes['private_stream_visibility'],
+    ];
+    profile_flags?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags'],
+    ];
+    profile_flags_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags_aggregate'],
+    ];
+    profile_flags_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['profile_flags'],
     ];
     profile_skills?: [
       {
@@ -36384,6 +36825,67 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['private_stream_visibility'],
+    ];
+    profile_flags?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags'],
+    ];
+    profile_flags_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profile_flags_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profile_flags_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags_aggregate'],
+    ];
+    profile_flags_by_pk?: [
+      { profile_id: ValueTypes['bigint'] },
+      ValueTypes['profile_flags'],
+    ];
+    profile_flags_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['profile_flags_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['profile_flags_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profile_flags'],
     ];
     profile_skills?: [
       {
@@ -48745,6 +49247,12 @@ export type ModelTypes = {
     delete_private_stream_visibility_by_pk?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** delete data from the table: "profile_flags" */
+    delete_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** delete single row from the table: "profile_flags" */
+    delete_profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
     /** delete data from the table: "profile_skills" */
     delete_profile_skills?:
       | GraphQLTypes['profile_skills_mutation_response']
@@ -49153,6 +49661,12 @@ export type ModelTypes = {
     insert_private_stream_visibility_one?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** insert data into the table: "profile_flags" */
+    insert_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profile_flags" */
+    insert_profile_flags_one?: GraphQLTypes['profile_flags'] | undefined;
     /** insert data into the table: "profile_skills" */
     insert_profile_skills?:
       | GraphQLTypes['profile_skills_mutation_response']
@@ -49802,6 +50316,16 @@ export type ModelTypes = {
           | GraphQLTypes['private_stream_visibility_mutation_response']
           | undefined
         >
+      | undefined;
+    /** update data of the table: "profile_flags" */
+    update_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** update single row of the table: "profile_flags" */
+    update_profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
+    /** update multiples rows of table: "profile_flags" */
+    update_profile_flags_many?:
+      | Array<GraphQLTypes['profile_flags_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "profile_skills" */
     update_profile_skills?:
@@ -52444,6 +52968,135 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "private_stream_visibility" */
   ['private_stream_visibility_variance_order_by']: GraphQLTypes['private_stream_visibility_variance_order_by'];
+  /** internal timestamp and/or boolean data about a profile */
+  ['profile_flags']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "profile_flags" */
+  ['profile_flags_aggregate']: {
+    aggregate?: GraphQLTypes['profile_flags_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profile_flags']>;
+  };
+  ['profile_flags_aggregate_bool_exp']: GraphQLTypes['profile_flags_aggregate_bool_exp'];
+  ['profile_flags_aggregate_bool_exp_count']: GraphQLTypes['profile_flags_aggregate_bool_exp_count'];
+  /** aggregate fields of "profile_flags" */
+  ['profile_flags_aggregate_fields']: {
+    avg?: GraphQLTypes['profile_flags_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profile_flags_max_fields'] | undefined;
+    min?: GraphQLTypes['profile_flags_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profile_flags_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profile_flags_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['profile_flags_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['profile_flags_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profile_flags_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profile_flags_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profile_flags_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "profile_flags" */
+  ['profile_flags_aggregate_order_by']: GraphQLTypes['profile_flags_aggregate_order_by'];
+  /** input type for inserting array relation for remote table "profile_flags" */
+  ['profile_flags_arr_rel_insert_input']: GraphQLTypes['profile_flags_arr_rel_insert_input'];
+  /** aggregate avg on columns */
+  ['profile_flags_avg_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "profile_flags" */
+  ['profile_flags_avg_order_by']: GraphQLTypes['profile_flags_avg_order_by'];
+  /** Boolean expression to filter rows from the table "profile_flags". All fields are combined with a logical 'AND'. */
+  ['profile_flags_bool_exp']: GraphQLTypes['profile_flags_bool_exp'];
+  /** unique or primary key constraints on table "profile_flags" */
+  ['profile_flags_constraint']: GraphQLTypes['profile_flags_constraint'];
+  /** input type for incrementing numeric columns in table "profile_flags" */
+  ['profile_flags_inc_input']: GraphQLTypes['profile_flags_inc_input'];
+  /** input type for inserting data into table "profile_flags" */
+  ['profile_flags_insert_input']: GraphQLTypes['profile_flags_insert_input'];
+  /** aggregate max on columns */
+  ['profile_flags_max_fields']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by max() on columns of table "profile_flags" */
+  ['profile_flags_max_order_by']: GraphQLTypes['profile_flags_max_order_by'];
+  /** aggregate min on columns */
+  ['profile_flags_min_fields']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by min() on columns of table "profile_flags" */
+  ['profile_flags_min_order_by']: GraphQLTypes['profile_flags_min_order_by'];
+  /** response of any mutation on the table "profile_flags" */
+  ['profile_flags_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profile_flags']>;
+  };
+  /** on_conflict condition type for table "profile_flags" */
+  ['profile_flags_on_conflict']: GraphQLTypes['profile_flags_on_conflict'];
+  /** Ordering options when selecting data from "profile_flags". */
+  ['profile_flags_order_by']: GraphQLTypes['profile_flags_order_by'];
+  /** primary key columns input for table: profile_flags */
+  ['profile_flags_pk_columns_input']: GraphQLTypes['profile_flags_pk_columns_input'];
+  /** select columns of table "profile_flags" */
+  ['profile_flags_select_column']: GraphQLTypes['profile_flags_select_column'];
+  /** input type for updating data in table "profile_flags" */
+  ['profile_flags_set_input']: GraphQLTypes['profile_flags_set_input'];
+  /** aggregate stddev on columns */
+  ['profile_flags_stddev_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "profile_flags" */
+  ['profile_flags_stddev_order_by']: GraphQLTypes['profile_flags_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['profile_flags_stddev_pop_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "profile_flags" */
+  ['profile_flags_stddev_pop_order_by']: GraphQLTypes['profile_flags_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['profile_flags_stddev_samp_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "profile_flags" */
+  ['profile_flags_stddev_samp_order_by']: GraphQLTypes['profile_flags_stddev_samp_order_by'];
+  /** Streaming cursor of the table "profile_flags" */
+  ['profile_flags_stream_cursor_input']: GraphQLTypes['profile_flags_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['profile_flags_stream_cursor_value_input']: GraphQLTypes['profile_flags_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['profile_flags_sum_fields']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "profile_flags" */
+  ['profile_flags_sum_order_by']: GraphQLTypes['profile_flags_sum_order_by'];
+  /** update columns of table "profile_flags" */
+  ['profile_flags_update_column']: GraphQLTypes['profile_flags_update_column'];
+  ['profile_flags_updates']: GraphQLTypes['profile_flags_updates'];
+  /** aggregate var_pop on columns */
+  ['profile_flags_var_pop_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "profile_flags" */
+  ['profile_flags_var_pop_order_by']: GraphQLTypes['profile_flags_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['profile_flags_var_samp_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "profile_flags" */
+  ['profile_flags_var_samp_order_by']: GraphQLTypes['profile_flags_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['profile_flags_variance_fields']: {
+    profile_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "profile_flags" */
+  ['profile_flags_variance_order_by']: GraphQLTypes['profile_flags_variance_order_by'];
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: {
     created_at: GraphQLTypes['timestamptz'];
@@ -52651,6 +53304,10 @@ export type ModelTypes = {
     points_balance: GraphQLTypes['float8'];
     points_checkpointed_at: GraphQLTypes['timestamptz'];
     product_emails: boolean;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     /** An object relationship */
@@ -53511,6 +54168,12 @@ export type ModelTypes = {
     private_stream_visibility_by_pk?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
+    /** fetch data from the table: "profile_flags" using primary key columns */
+    profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An aggregate relationship */
@@ -55042,6 +55705,14 @@ export type ModelTypes = {
     private_stream_visibility_stream: Array<
       GraphQLTypes['private_stream_visibility']
     >;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
+    /** fetch data from the table: "profile_flags" using primary key columns */
+    profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_flags" */
+    profile_flags_stream: Array<GraphQLTypes['profile_flags']>;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An aggregate relationship */
@@ -69898,6 +70569,12 @@ export type GraphQLTypes = {
     delete_private_stream_visibility_by_pk?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** delete data from the table: "profile_flags" */
+    delete_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** delete single row from the table: "profile_flags" */
+    delete_profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
     /** delete data from the table: "profile_skills" */
     delete_profile_skills?:
       | GraphQLTypes['profile_skills_mutation_response']
@@ -70306,6 +70983,12 @@ export type GraphQLTypes = {
     insert_private_stream_visibility_one?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** insert data into the table: "profile_flags" */
+    insert_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "profile_flags" */
+    insert_profile_flags_one?: GraphQLTypes['profile_flags'] | undefined;
     /** insert data into the table: "profile_skills" */
     insert_profile_skills?:
       | GraphQLTypes['profile_skills_mutation_response']
@@ -70955,6 +71638,16 @@ export type GraphQLTypes = {
           | GraphQLTypes['private_stream_visibility_mutation_response']
           | undefined
         >
+      | undefined;
+    /** update data of the table: "profile_flags" */
+    update_profile_flags?:
+      | GraphQLTypes['profile_flags_mutation_response']
+      | undefined;
+    /** update single row of the table: "profile_flags" */
+    update_profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
+    /** update multiples rows of table: "profile_flags" */
+    update_profile_flags_many?:
+      | Array<GraphQLTypes['profile_flags_mutation_response'] | undefined>
       | undefined;
     /** update data of the table: "profile_skills" */
     update_profile_skills?:
@@ -75657,6 +76350,246 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['order_by'] | undefined;
     view_profile_id?: GraphQLTypes['order_by'] | undefined;
   };
+  /** internal timestamp and/or boolean data about a profile */
+  ['profile_flags']: {
+    __typename: 'profile_flags';
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    /** An object relationship */
+    profile: GraphQLTypes['profiles'];
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** aggregated selection of "profile_flags" */
+  ['profile_flags_aggregate']: {
+    __typename: 'profile_flags_aggregate';
+    aggregate?: GraphQLTypes['profile_flags_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profile_flags']>;
+  };
+  ['profile_flags_aggregate_bool_exp']: {
+    count?: GraphQLTypes['profile_flags_aggregate_bool_exp_count'] | undefined;
+  };
+  ['profile_flags_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['profile_flags_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['profile_flags_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "profile_flags" */
+  ['profile_flags_aggregate_fields']: {
+    __typename: 'profile_flags_aggregate_fields';
+    avg?: GraphQLTypes['profile_flags_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profile_flags_max_fields'] | undefined;
+    min?: GraphQLTypes['profile_flags_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profile_flags_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profile_flags_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['profile_flags_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['profile_flags_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profile_flags_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profile_flags_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profile_flags_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "profile_flags" */
+  ['profile_flags_aggregate_order_by']: {
+    avg?: GraphQLTypes['profile_flags_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['profile_flags_max_order_by'] | undefined;
+    min?: GraphQLTypes['profile_flags_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['profile_flags_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['profile_flags_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profile_flags_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['profile_flags_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['profile_flags_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['profile_flags_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['profile_flags_variance_order_by'] | undefined;
+  };
+  /** input type for inserting array relation for remote table "profile_flags" */
+  ['profile_flags_arr_rel_insert_input']: {
+    data: Array<GraphQLTypes['profile_flags_insert_input']>;
+    /** upsert condition */
+    on_conflict?: GraphQLTypes['profile_flags_on_conflict'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['profile_flags_avg_fields']: {
+    __typename: 'profile_flags_avg_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "profile_flags" */
+  ['profile_flags_avg_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "profile_flags". All fields are combined with a logical 'AND'. */
+  ['profile_flags_bool_exp']: {
+    _and?: Array<GraphQLTypes['profile_flags_bool_exp']> | undefined;
+    _not?: GraphQLTypes['profile_flags_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['profile_flags_bool_exp']> | undefined;
+    farcaster_connect_checked_at?:
+      | GraphQLTypes['timestamptz_comparison_exp']
+      | undefined;
+    farcaster_connect_error?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile?: GraphQLTypes['profiles_bool_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** unique or primary key constraints on table "profile_flags" */
+  ['profile_flags_constraint']: profile_flags_constraint;
+  /** input type for incrementing numeric columns in table "profile_flags" */
+  ['profile_flags_inc_input']: {
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "profile_flags" */
+  ['profile_flags_insert_input']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile?: GraphQLTypes['profiles_obj_rel_insert_input'] | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['profile_flags_max_fields']: {
+    __typename: 'profile_flags_max_fields';
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by max() on columns of table "profile_flags" */
+  ['profile_flags_max_order_by']: {
+    farcaster_connect_checked_at?: GraphQLTypes['order_by'] | undefined;
+    farcaster_connect_error?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['profile_flags_min_fields']: {
+    __typename: 'profile_flags_min_fields';
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by min() on columns of table "profile_flags" */
+  ['profile_flags_min_order_by']: {
+    farcaster_connect_checked_at?: GraphQLTypes['order_by'] | undefined;
+    farcaster_connect_error?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** response of any mutation on the table "profile_flags" */
+  ['profile_flags_mutation_response']: {
+    __typename: 'profile_flags_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['profile_flags']>;
+  };
+  /** on_conflict condition type for table "profile_flags" */
+  ['profile_flags_on_conflict']: {
+    constraint: GraphQLTypes['profile_flags_constraint'];
+    update_columns: Array<GraphQLTypes['profile_flags_update_column']>;
+    where?: GraphQLTypes['profile_flags_bool_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "profile_flags". */
+  ['profile_flags_order_by']: {
+    farcaster_connect_checked_at?: GraphQLTypes['order_by'] | undefined;
+    farcaster_connect_error?: GraphQLTypes['order_by'] | undefined;
+    profile?: GraphQLTypes['profiles_order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** primary key columns input for table: profile_flags */
+  ['profile_flags_pk_columns_input']: {
+    profile_id: GraphQLTypes['bigint'];
+  };
+  /** select columns of table "profile_flags" */
+  ['profile_flags_select_column']: profile_flags_select_column;
+  /** input type for updating data in table "profile_flags" */
+  ['profile_flags_set_input']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['profile_flags_stddev_fields']: {
+    __typename: 'profile_flags_stddev_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "profile_flags" */
+  ['profile_flags_stddev_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profile_flags_stddev_pop_fields']: {
+    __typename: 'profile_flags_stddev_pop_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "profile_flags" */
+  ['profile_flags_stddev_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profile_flags_stddev_samp_fields']: {
+    __typename: 'profile_flags_stddev_samp_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "profile_flags" */
+  ['profile_flags_stddev_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "profile_flags" */
+  ['profile_flags_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['profile_flags_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['profile_flags_stream_cursor_value_input']: {
+    farcaster_connect_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    farcaster_connect_error?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['profile_flags_sum_fields']: {
+    __typename: 'profile_flags_sum_fields';
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "profile_flags" */
+  ['profile_flags_sum_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** update columns of table "profile_flags" */
+  ['profile_flags_update_column']: profile_flags_update_column;
+  ['profile_flags_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['profile_flags_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['profile_flags_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['profile_flags_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['profile_flags_var_pop_fields']: {
+    __typename: 'profile_flags_var_pop_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "profile_flags" */
+  ['profile_flags_var_pop_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['profile_flags_var_samp_fields']: {
+    __typename: 'profile_flags_var_samp_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "profile_flags" */
+  ['profile_flags_var_samp_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['profile_flags_variance_fields']: {
+    __typename: 'profile_flags_variance_fields';
+    profile_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "profile_flags" */
+  ['profile_flags_variance_order_by']: {
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: {
     __typename: 'profile_skills';
@@ -75987,6 +76920,10 @@ export type GraphQLTypes = {
     points_balance: GraphQLTypes['float8'];
     points_checkpointed_at: GraphQLTypes['timestamptz'];
     product_emails: boolean;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
     /** An object relationship */
     profile_skills?: GraphQLTypes['profile_skills'] | undefined;
     /** An object relationship */
@@ -76129,6 +77066,10 @@ export type GraphQLTypes = {
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
     product_emails?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    profile_flags?: GraphQLTypes['profile_flags_bool_exp'] | undefined;
+    profile_flags_aggregate?:
+      | GraphQLTypes['profile_flags_aggregate_bool_exp']
+      | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
@@ -76219,6 +77160,9 @@ export type GraphQLTypes = {
     points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
     product_emails?: boolean | undefined;
+    profile_flags?:
+      | GraphQLTypes['profile_flags_arr_rel_insert_input']
+      | undefined;
     profile_skills?:
       | GraphQLTypes['profile_skills_obj_rel_insert_input']
       | undefined;
@@ -76391,6 +77335,9 @@ export type GraphQLTypes = {
     points_balance?: GraphQLTypes['order_by'] | undefined;
     points_checkpointed_at?: GraphQLTypes['order_by'] | undefined;
     product_emails?: GraphQLTypes['order_by'] | undefined;
+    profile_flags_aggregate?:
+      | GraphQLTypes['profile_flags_aggregate_order_by']
+      | undefined;
     profile_skills?: GraphQLTypes['profile_skills_order_by'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
@@ -77415,6 +78362,12 @@ export type GraphQLTypes = {
     private_stream_visibility_by_pk?:
       | GraphQLTypes['private_stream_visibility']
       | undefined;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
+    /** fetch data from the table: "profile_flags" using primary key columns */
+    profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An aggregate relationship */
@@ -79729,6 +80682,14 @@ export type GraphQLTypes = {
     private_stream_visibility_stream: Array<
       GraphQLTypes['private_stream_visibility']
     >;
+    /** An array relationship */
+    profile_flags: Array<GraphQLTypes['profile_flags']>;
+    /** An aggregate relationship */
+    profile_flags_aggregate: GraphQLTypes['profile_flags_aggregate'];
+    /** fetch data from the table: "profile_flags" using primary key columns */
+    profile_flags_by_pk?: GraphQLTypes['profile_flags'] | undefined;
+    /** fetch data from the table in a streaming manner: "profile_flags" */
+    profile_flags_stream: Array<GraphQLTypes['profile_flags']>;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An aggregate relationship */
@@ -84789,6 +85750,22 @@ export const enum private_stream_visibility_update_column {
   created_at = 'created_at',
   profile_id = 'profile_id',
   view_profile_id = 'view_profile_id',
+}
+/** unique or primary key constraints on table "profile_flags" */
+export const enum profile_flags_constraint {
+  profile_flags_pkey = 'profile_flags_pkey',
+}
+/** select columns of table "profile_flags" */
+export const enum profile_flags_select_column {
+  farcaster_connect_checked_at = 'farcaster_connect_checked_at',
+  farcaster_connect_error = 'farcaster_connect_error',
+  profile_id = 'profile_id',
+}
+/** update columns of table "profile_flags" */
+export const enum profile_flags_update_column {
+  farcaster_connect_checked_at = 'farcaster_connect_checked_at',
+  farcaster_connect_error = 'farcaster_connect_error',
+  profile_id = 'profile_id',
 }
 /** unique or primary key constraints on table "profile_skills" */
 export const enum profile_skills_constraint {

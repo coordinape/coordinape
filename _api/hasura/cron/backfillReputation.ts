@@ -5,7 +5,7 @@ import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import { updateRepScore } from '../../../src/features/rep/api/updateRepScore';
 
-async function handler(req: VercelRequest, res: VercelResponse) {
+async function handler(_req: VercelRequest, res: VercelResponse) {
   // get profiles without reputation
   const { profiles } = await adminClient.query(
     {

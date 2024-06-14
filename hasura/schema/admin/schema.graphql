@@ -22919,6 +22919,21 @@ type mutation_root {
   ): private_stream_visibility
 
   """
+  delete data from the table: "profile_flags"
+  """
+  delete_profile_flags(
+    """
+    filter the rows which have to be deleted
+    """
+    where: profile_flags_bool_exp!
+  ): profile_flags_mutation_response
+
+  """
+  delete single row from the table: "profile_flags"
+  """
+  delete_profile_flags_by_pk(profile_id: bigint!): profile_flags
+
+  """
   delete data from the table: "profile_skills"
   """
   delete_profile_skills(
@@ -24624,6 +24639,36 @@ type mutation_root {
     """
     on_conflict: private_stream_visibility_on_conflict
   ): private_stream_visibility
+
+  """
+  insert data into the table: "profile_flags"
+  """
+  insert_profile_flags(
+    """
+    the rows to be inserted
+    """
+    objects: [profile_flags_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: profile_flags_on_conflict
+  ): profile_flags_mutation_response
+
+  """
+  insert a single row into the table: "profile_flags"
+  """
+  insert_profile_flags_one(
+    """
+    the row to be inserted
+    """
+    object: profile_flags_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: profile_flags_on_conflict
+  ): profile_flags
 
   """
   insert data into the table: "profile_skills"
@@ -27588,6 +27633,52 @@ type mutation_root {
     """
     updates: [private_stream_visibility_updates!]!
   ): [private_stream_visibility_mutation_response]
+
+  """
+  update data of the table: "profile_flags"
+  """
+  update_profile_flags(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profile_flags_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profile_flags_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: profile_flags_bool_exp!
+  ): profile_flags_mutation_response
+
+  """
+  update single row of the table: "profile_flags"
+  """
+  update_profile_flags_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: profile_flags_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: profile_flags_set_input
+    pk_columns: profile_flags_pk_columns_input!
+  ): profile_flags
+
+  """
+  update multiples rows of table: "profile_flags"
+  """
+  update_profile_flags_many(
+    """
+    updates to execute, in order
+    """
+    updates: [profile_flags_updates!]!
+  ): [profile_flags_mutation_response]
 
   """
   update data of the table: "profile_skills"
@@ -36083,6 +36174,404 @@ input private_stream_visibility_variance_order_by {
 }
 
 """
+internal timestamp and/or boolean data about a profile
+"""
+type profile_flags {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+
+  """
+  An object relationship
+  """
+  profile: profiles!
+  profile_id: bigint!
+}
+
+"""
+aggregated selection of "profile_flags"
+"""
+type profile_flags_aggregate {
+  aggregate: profile_flags_aggregate_fields
+  nodes: [profile_flags!]!
+}
+
+input profile_flags_aggregate_bool_exp {
+  count: profile_flags_aggregate_bool_exp_count
+}
+
+input profile_flags_aggregate_bool_exp_count {
+  arguments: [profile_flags_select_column!]
+  distinct: Boolean
+  filter: profile_flags_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "profile_flags"
+"""
+type profile_flags_aggregate_fields {
+  avg: profile_flags_avg_fields
+  count(columns: [profile_flags_select_column!], distinct: Boolean): Int!
+  max: profile_flags_max_fields
+  min: profile_flags_min_fields
+  stddev: profile_flags_stddev_fields
+  stddev_pop: profile_flags_stddev_pop_fields
+  stddev_samp: profile_flags_stddev_samp_fields
+  sum: profile_flags_sum_fields
+  var_pop: profile_flags_var_pop_fields
+  var_samp: profile_flags_var_samp_fields
+  variance: profile_flags_variance_fields
+}
+
+"""
+order by aggregate values of table "profile_flags"
+"""
+input profile_flags_aggregate_order_by {
+  avg: profile_flags_avg_order_by
+  count: order_by
+  max: profile_flags_max_order_by
+  min: profile_flags_min_order_by
+  stddev: profile_flags_stddev_order_by
+  stddev_pop: profile_flags_stddev_pop_order_by
+  stddev_samp: profile_flags_stddev_samp_order_by
+  sum: profile_flags_sum_order_by
+  var_pop: profile_flags_var_pop_order_by
+  var_samp: profile_flags_var_samp_order_by
+  variance: profile_flags_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "profile_flags"
+"""
+input profile_flags_arr_rel_insert_input {
+  data: [profile_flags_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: profile_flags_on_conflict
+}
+
+"""
+aggregate avg on columns
+"""
+type profile_flags_avg_fields {
+  profile_id: Float
+}
+
+"""
+order by avg() on columns of table "profile_flags"
+"""
+input profile_flags_avg_order_by {
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "profile_flags". All fields are combined with a logical 'AND'.
+"""
+input profile_flags_bool_exp {
+  _and: [profile_flags_bool_exp!]
+  _not: profile_flags_bool_exp
+  _or: [profile_flags_bool_exp!]
+  farcaster_connect_checked_at: timestamptz_comparison_exp
+  farcaster_connect_error: String_comparison_exp
+  profile: profiles_bool_exp
+  profile_id: bigint_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "profile_flags"
+"""
+enum profile_flags_constraint {
+  """
+  unique or primary key constraint on columns "profile_id"
+  """
+  profile_flags_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "profile_flags"
+"""
+input profile_flags_inc_input {
+  profile_id: bigint
+}
+
+"""
+input type for inserting data into table "profile_flags"
+"""
+input profile_flags_insert_input {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+  profile: profiles_obj_rel_insert_input
+  profile_id: bigint
+}
+
+"""
+aggregate max on columns
+"""
+type profile_flags_max_fields {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+  profile_id: bigint
+}
+
+"""
+order by max() on columns of table "profile_flags"
+"""
+input profile_flags_max_order_by {
+  farcaster_connect_checked_at: order_by
+  farcaster_connect_error: order_by
+  profile_id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type profile_flags_min_fields {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+  profile_id: bigint
+}
+
+"""
+order by min() on columns of table "profile_flags"
+"""
+input profile_flags_min_order_by {
+  farcaster_connect_checked_at: order_by
+  farcaster_connect_error: order_by
+  profile_id: order_by
+}
+
+"""
+response of any mutation on the table "profile_flags"
+"""
+type profile_flags_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [profile_flags!]!
+}
+
+"""
+on_conflict condition type for table "profile_flags"
+"""
+input profile_flags_on_conflict {
+  constraint: profile_flags_constraint!
+  update_columns: [profile_flags_update_column!]! = []
+  where: profile_flags_bool_exp
+}
+
+"""
+Ordering options when selecting data from "profile_flags".
+"""
+input profile_flags_order_by {
+  farcaster_connect_checked_at: order_by
+  farcaster_connect_error: order_by
+  profile: profiles_order_by
+  profile_id: order_by
+}
+
+"""
+primary key columns input for table: profile_flags
+"""
+input profile_flags_pk_columns_input {
+  profile_id: bigint!
+}
+
+"""
+select columns of table "profile_flags"
+"""
+enum profile_flags_select_column {
+  """
+  column name
+  """
+  farcaster_connect_checked_at
+
+  """
+  column name
+  """
+  farcaster_connect_error
+
+  """
+  column name
+  """
+  profile_id
+}
+
+"""
+input type for updating data in table "profile_flags"
+"""
+input profile_flags_set_input {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+  profile_id: bigint
+}
+
+"""
+aggregate stddev on columns
+"""
+type profile_flags_stddev_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev() on columns of table "profile_flags"
+"""
+input profile_flags_stddev_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type profile_flags_stddev_pop_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "profile_flags"
+"""
+input profile_flags_stddev_pop_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type profile_flags_stddev_samp_fields {
+  profile_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "profile_flags"
+"""
+input profile_flags_stddev_samp_order_by {
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "profile_flags"
+"""
+input profile_flags_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: profile_flags_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input profile_flags_stream_cursor_value_input {
+  farcaster_connect_checked_at: timestamptz
+  farcaster_connect_error: String
+  profile_id: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type profile_flags_sum_fields {
+  profile_id: bigint
+}
+
+"""
+order by sum() on columns of table "profile_flags"
+"""
+input profile_flags_sum_order_by {
+  profile_id: order_by
+}
+
+"""
+update columns of table "profile_flags"
+"""
+enum profile_flags_update_column {
+  """
+  column name
+  """
+  farcaster_connect_checked_at
+
+  """
+  column name
+  """
+  farcaster_connect_error
+
+  """
+  column name
+  """
+  profile_id
+}
+
+input profile_flags_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: profile_flags_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: profile_flags_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: profile_flags_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type profile_flags_var_pop_fields {
+  profile_id: Float
+}
+
+"""
+order by var_pop() on columns of table "profile_flags"
+"""
+input profile_flags_var_pop_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type profile_flags_var_samp_fields {
+  profile_id: Float
+}
+
+"""
+order by var_samp() on columns of table "profile_flags"
+"""
+input profile_flags_var_samp_order_by {
+  profile_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type profile_flags_variance_fields {
+  profile_id: Float
+}
+
+"""
+order by variance() on columns of table "profile_flags"
+"""
+input profile_flags_variance_order_by {
+  profile_id: order_by
+}
+
+"""
 columns and relationships of "profile_skills"
 """
 type profile_skills {
@@ -37042,6 +37531,66 @@ type profiles {
   product_emails: Boolean!
 
   """
+  An array relationship
+  """
+  profile_flags(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): [profile_flags!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_flags_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): profile_flags_aggregate!
+
+  """
   An object relationship
   """
   profile_skills: profile_skills
@@ -37340,6 +37889,8 @@ input profiles_bool_exp {
   points_balance: float8_comparison_exp
   points_checkpointed_at: timestamptz_comparison_exp
   product_emails: Boolean_comparison_exp
+  profile_flags: profile_flags_bool_exp
+  profile_flags_aggregate: profile_flags_aggregate_bool_exp
   profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
@@ -37448,6 +37999,7 @@ input profiles_insert_input {
   points_balance: float8
   points_checkpointed_at: timestamptz
   product_emails: Boolean
+  profile_flags: profile_flags_arr_rel_insert_input
   profile_skills: profile_skills_obj_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
   skills: String
@@ -37623,6 +38175,7 @@ input profiles_order_by {
   points_balance: order_by
   points_checkpointed_at: order_by
   product_emails: order_by
+  profile_flags_aggregate: profile_flags_aggregate_order_by
   profile_skills: profile_skills_order_by
   reputation_score: reputation_scores_order_by
   skills: order_by
@@ -42735,6 +43288,71 @@ type query_root {
     profile_id: bigint!
     view_profile_id: bigint!
   ): private_stream_visibility
+
+  """
+  An array relationship
+  """
+  profile_flags(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): [profile_flags!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_flags_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): profile_flags_aggregate!
+
+  """
+  fetch data from the table: "profile_flags" using primary key columns
+  """
+  profile_flags_by_pk(profile_id: bigint!): profile_flags
 
   """
   An array relationship
@@ -51824,6 +52442,91 @@ type subscription_root {
     """
     where: private_stream_visibility_bool_exp
   ): [private_stream_visibility!]!
+
+  """
+  An array relationship
+  """
+  profile_flags(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): [profile_flags!]!
+
+  """
+  An aggregate relationship
+  """
+  profile_flags_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profile_flags_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profile_flags_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): profile_flags_aggregate!
+
+  """
+  fetch data from the table: "profile_flags" using primary key columns
+  """
+  profile_flags_by_pk(profile_id: bigint!): profile_flags
+
+  """
+  fetch data from the table in a streaming manner: "profile_flags"
+  """
+  profile_flags_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [profile_flags_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: profile_flags_bool_exp
+  ): [profile_flags!]!
 
   """
   An array relationship
