@@ -57,6 +57,9 @@ export const GiveSkillMap = () => {
               flexFlow: 'column',
               alignItems: 'flex-start',
               color: 'white',
+              backgroundColor: 'rgb(8 18 29 / 40%)',
+              borderRadius: '$3',
+              py: '$md',
             }}
           >
             <Text
@@ -86,7 +89,7 @@ export const GiveSkillMap = () => {
               <Flex
                 css={{
                   position: 'absolute',
-                  bottom: '$sm',
+                  bottom: 0,
                   width: '100%',
                   alignItems: 'center',
                   justifyContent: 'center',
