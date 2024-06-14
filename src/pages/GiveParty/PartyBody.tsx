@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
 
+import { CSS } from 'stitches.config';
+
 import { Flex } from 'ui';
 
-export const PartyBody = ({ children }: { children: React.ReactNode }) => {
+export const PartyBody = ({
+  children,
+  css,
+  wrapperCss,
+}: {
+  children: React.ReactNode;
+  css?: CSS;
+  wrapperCss?: CSS;
+}) => {
   useEffect(() => {
     // Change safari header bar color
     const metaThemeColor = document.querySelector(
@@ -33,6 +43,7 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
           color: 'white',
           path: { fill: 'white' },
         },
+        ...wrapperCss,
       }}
     >
       <Flex
@@ -45,6 +56,7 @@ export const PartyBody = ({ children }: { children: React.ReactNode }) => {
           '@md': {
             width: '96%',
           },
+          ...css,
         }}
       >
         {children}
