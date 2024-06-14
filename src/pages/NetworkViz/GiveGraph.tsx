@@ -6,7 +6,7 @@ import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
-import { Text } from 'ui';
+import { Flex } from 'ui';
 
 const LIMIT = 50; //000;
 
@@ -97,8 +97,9 @@ export function GiveGraph({
   if (!data || isLoading)
     return (
       <>
-        <Text>Loading</Text>
-        <LoadingIndicator />
+        <Flex column css={{ width: '100%', mb: '$1xl' }}>
+          <LoadingIndicator />
+        </Flex>
       </>
     );
 
