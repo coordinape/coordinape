@@ -7,6 +7,18 @@ import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
 import { Flex } from 'ui';
 
+interface IMapNode {
+  id: string;
+  name: string;
+  avatar: string;
+  x: number;
+  y: number;
+  vx?: number;
+  vy?: number;
+  fx?: number;
+  fy?: number;
+}
+
 export function GiveGraph({
   skill,
   height,
@@ -32,10 +44,11 @@ export function GiveGraph({
     }
   );
 
-  const imgCache = useRef({});
+  const imgCache = useRef<{ [key: string]: HTMLImageElement | null }>({});
+
   const showExtras = data?.nodes.length < 1000;
   const nodeCanvasObject = useCallback(
-    (node, ctx) => {
+    (node: IMapNode, ctx: CanvasRenderingContext2D) => {
       const size = 14;
       const img = imgCache.current[node.id];
       if (img) {
@@ -69,7 +82,7 @@ export function GiveGraph({
       setGraphReady(true);
       refetch();
       if (showExtras) {
-        data.nodes.forEach(node => {
+        data.nodes.forEach((node: IMapNode) => {
           if (node.avatar && !imgCache.current[node.id]) {
             const img = new Image();
             img.src = node.avatar;
@@ -109,6 +122,7 @@ export function GiveGraph({
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
         }}
         {...(showExtras ? { nodeCanvasObject } : {})}
+        //@ts-ignore TODO: fix types
         ref={graph => {
           if (graph && compact) {
             graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
