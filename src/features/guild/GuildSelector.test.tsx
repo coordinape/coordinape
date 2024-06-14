@@ -71,22 +71,38 @@ test('renders with guild connected (for org)', async () => {
         description: 'string',
         imageUrl: 'string',
         memberCount: 6,
-        admins: [{ address: 'string' }],
-        roles: [
-          {
-            name: 'Captain',
-            imageUrl: 'string',
-            id: 1009,
-            memberCount: 1,
-          },
-          {
-            name: 'Rando',
-            imageUrl: 'string',
-            id: 2,
-            memberCount: 99,
-          },
-        ],
       }),
+    };
+  });
+
+  fetchMock.mockImplementationOnce(async () => {
+    return {
+      json: async () => [
+        {
+          guildId: 109,
+          isOwner: true,
+          userId: 123,
+        },
+      ],
+    };
+  });
+
+  fetchMock.mockImplementationOnce(async () => {
+    return {
+      json: async () => [
+        {
+          name: 'Captain',
+          imageUrl: 'string',
+          id: 1009,
+          memberCount: 1,
+        },
+        {
+          name: 'Rando',
+          imageUrl: 'string',
+          id: 2,
+          memberCount: 99,
+        },
+      ],
     };
   });
 
@@ -100,9 +116,9 @@ test('renders with guild connected (for org)', async () => {
     );
   });
 
-  expect(fetchMock).toHaveBeenCalledTimes(1);
+  expect(fetchMock).toHaveBeenCalledTimes(3);
   expect(fetchMock).toHaveBeenCalledWith(
-    'https://api.guild.xyz/v1/guild/109',
+    'https://api.guild.xyz/v2/guilds/109',
     expect.anything()
   );
   await screen.findByText(/cool donkeys/, {}, { timeout: 1000 });
