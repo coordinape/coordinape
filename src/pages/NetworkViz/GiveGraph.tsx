@@ -33,7 +33,7 @@ export function GiveGraph({
   );
 
   const imgCache = useRef({});
-
+  const showExtras = data?.nodes.length < 1000;
   const nodeCanvasObject = useCallback(
     (node, ctx) => {
       const size = 14;
@@ -68,18 +68,20 @@ export function GiveGraph({
     if (data && isFetched && !graphReady) {
       setGraphReady(true);
       refetch();
-      data.nodes.forEach(node => {
-        if (node.avatar && !imgCache.current[node.id]) {
-          const img = new Image();
-          img.src = node.avatar;
-          img.onload = () => {
-            imgCache.current[node.id] = img;
-          };
-          img.onerror = () => {
-            imgCache.current[node.id] = null; // Handle broken image
-          };
-        }
-      });
+      if (showExtras) {
+        data.nodes.forEach(node => {
+          if (node.avatar && !imgCache.current[node.id]) {
+            const img = new Image();
+            img.src = node.avatar;
+            img.onload = () => {
+              imgCache.current[node.id] = img;
+            };
+            img.onerror = () => {
+              imgCache.current[node.id] = null; // Handle broken image
+            };
+          }
+        });
+      }
     }
   }, [data, isFetched, setGraphReady]);
 
@@ -97,7 +99,7 @@ export function GiveGraph({
       <ForceGraph2D
         height={height}
         linkCurvature={0.3}
-        linkDirectionalParticles={1}
+        linkDirectionalParticles={showExtras ? 1 : 0}
         enableZoomInteraction={zoom}
         linkColor={() => {
           return 'rgba(255, 255, 255, .8)';
@@ -106,7 +108,7 @@ export function GiveGraph({
         onNodeClick={node => {
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
         }}
-        nodeCanvasObject={nodeCanvasObject}
+        {...(showExtras ? { nodeCanvasObject } : {})}
         ref={graph => {
           if (graph && compact) {
             graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion

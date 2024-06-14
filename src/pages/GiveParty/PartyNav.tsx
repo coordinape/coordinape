@@ -85,12 +85,26 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
               backgroundImage: "url('/imgs/background/give-map-crop.jpg')",
             }}
           />
-          <Flex column css={{ gap: '$md', p: '$lg' }}>
-            <Flex column css={{ gap: '$sm' }}>
-              <Text semibold>
+          <Flex
+            column
+            css={{
+              gap: '$md',
+              p: '$lg',
+            }}
+          >
+            <Flex
+              column
+              css={{
+                gap: '$sm',
+              }}
+            >
+              <Text
+                semibold
+                css={{ textAlign: 'center', justifyContent: 'center' }}
+              >
                 The network graph of GIVE across Farcaster is a LOT of data.
               </Text>
-              <Text>
+              <Text css={{ textAlign: 'center', justifyContent: 'center' }}>
                 It may take a long time to load, and some browsers may stall.{' '}
               </Text>
             </Flex>
@@ -111,8 +125,18 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
               >
                 View GIVE Network
               </Button>
-              <Button color="secondary" onClick={onClose}>
-                My browser is too weak, take me back
+              <Text
+                size="small"
+                css={{ textAlign: 'center', justifyContent: 'center' }}
+              >
+                It is MUCH less data to view the network for a specific skill...
+              </Text>
+              <Button
+                color="secondary"
+                as={AppLink}
+                to={coLinksPaths.giveBoard}
+              >
+                View GIVE for a particular skill
               </Button>
             </Flex>
           </Flex>
