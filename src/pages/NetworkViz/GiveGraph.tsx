@@ -9,7 +9,7 @@ import { Flex } from 'ui';
 
 export function GiveGraph({
   skill,
-  height = 800,
+  height,
   zoom = true,
   compact = false,
 }: {
