@@ -85,7 +85,7 @@ export const GiveSkillMap = () => {
                 mb: '$sm',
               }}
             >
-              <GiveGraph skill={skill} height={800} />
+              {skill && <GiveGraph skill={skill} height={800} />}
               <Flex
                 css={{
                   position: 'absolute',
