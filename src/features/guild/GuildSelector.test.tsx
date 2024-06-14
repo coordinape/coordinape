@@ -102,7 +102,7 @@ test('renders with guild connected (for org)', async () => {
 
   expect(fetchMock).toHaveBeenCalledTimes(1);
   expect(fetchMock).toHaveBeenCalledWith(
-    'https://api.guild.xyz/v1/guild/109',
+    'https://api.guild.xyz/v2/guilds/109',
     expect.anything()
   );
   await screen.findByText(/cool donkeys/, {}, { timeout: 1000 });
