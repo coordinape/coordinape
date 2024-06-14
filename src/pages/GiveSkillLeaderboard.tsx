@@ -167,20 +167,49 @@ export const GiveSkillLeaderboard = () => {
                 width: '100%',
                 justifyContent: 'center',
                 m: '$xs 0 $md',
+                alignItems: 'baseline',
+                gap: '$xs',
               }}
             >
               <PartyDisplayText text={`#${skill}`} />
+              <Text semibold>GIVEs</Text>
             </Text>
 
             <Flex
-              row
               css={{
+                position: 'relative',
                 height: 200,
                 width: '100%',
                 overflow: 'hidden',
+                background: 'rgba(0,0,0,0.3)',
+                borderRadius: '$2',
+                mb: '$sm',
               }}
             >
-              <GiveGraph skill={skill} height={200} zoom={false} />
+              <GiveGraph
+                skill={skill}
+                height={200}
+                zoom={false}
+                compact={true}
+              />
+              <Flex
+                css={{
+                  position: 'absolute',
+                  bottom: '$sm',
+                  width: '100%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Button
+                  as={NavLink}
+                  to={coLinksPaths.giveSkillMap(`${skill}`)}
+                  color={'cta'}
+                  size="xs"
+                >
+                  View Full Graph
+                </Button>
+              </Flex>
             </Flex>
 
             <GiveLeaderboardRow header={true}>

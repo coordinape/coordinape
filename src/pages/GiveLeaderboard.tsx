@@ -161,7 +161,7 @@ export const GiveLeaderboard = () => {
             </GiveLeaderboardRow>
             {sortedData &&
               sortedData.map(skill => (
-                <GiveLeaderboardRow key={skill.skill}>
+                <GiveLeaderboardRow key={skill.rank}>
                   <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
                     #{skill.rank}
                   </GiveLeaderboardColumn>

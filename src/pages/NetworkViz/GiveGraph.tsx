@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { anonClient } from 'lib/anongql/anonClient';
 import ForceGraph2D from 'react-force-graph-2d';
@@ -24,12 +24,14 @@ type link = {
 
 export function GiveGraph({
   skill,
-  height = 200,
+  height = 800,
   zoom = true,
+  compact = false,
 }: {
   skill?: string;
   height?: number;
   zoom?: boolean;
+  compact?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
 
@@ -42,6 +44,32 @@ export function GiveGraph({
   );
 
   const imgCache = useRef({});
+
+  const nodeCanvasObject = useCallback(
+    (node, ctx) => {
+      const size = 12;
+      const img = imgCache.current[node.id];
+      if (img) {
+        // Draw circular clipping path
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img, node.x - size / 2, node.y - size / 2, size, size);
+        ctx.restore();
+      } else {
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
+        ctx.fillStyle = 'black';
+        ctx.fill();
+        ctx.strokeStyle = 'black';
+        ctx.stroke();
+      }
+    },
+    [imgCache]
+  );
+
   useEffect(() => {
     if (data && isFetched && !graphReady) {
       setGraphReady(true);
@@ -50,7 +78,12 @@ export function GiveGraph({
         if (node.avatar && !imgCache.current[node.id]) {
           const img = new Image();
           img.src = node.avatar;
-          imgCache.current[node.id] = img;
+          img.onload = () => {
+            imgCache.current[node.id] = img;
+          };
+          img.onerror = () => {
+            imgCache.current[node.id] = null; // Handle broken image
+          };
         }
       });
     }
@@ -78,35 +111,11 @@ export function GiveGraph({
         onNodeClick={node => {
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
         }}
-        nodeCanvasObject={(node, ctx) => {
-          try {
-            const size = 12;
-            if (node.avatar && imgCache.current[node.id]) {
-              const img = imgCache.current[node.id];
-              // Draw circular clipping path
-              ctx.save();
-              ctx.beginPath();
-              ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
-              ctx.closePath();
-              ctx.clip();
-              ctx.drawImage(
-                img,
-                node.x - size / 2,
-                node.y - size / 2,
-                size,
-                size
-              );
-              ctx.restore();
-            } else {
-              ctx.beginPath();
-              ctx.arc(node.x, node.y, size / 2, 0, 2 * Math.PI, false);
-              ctx.fillStyle = 'black';
-              ctx.fill();
-              ctx.strokeStyle = 'black';
-              ctx.stroke();
-            }
-          } catch (e) {
-            console.error(e);
+        nodeCanvasObject={nodeCanvasObject}
+        ref={graph => {
+          if (graph && compact) {
+            graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
+            graph.d3Force('link').distance(30); // Adjust link distance if needed
           }
         }}
         graphData={data}
