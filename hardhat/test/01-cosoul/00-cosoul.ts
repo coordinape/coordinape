@@ -8,6 +8,30 @@ import { CoSoul } from '../../typechain';
 import { DeploymentInfo, deployProtocolFixture } from '../utils/deployment';
 import { restoreSnapshot, takeSnapshot } from '../utils/network';
 
+const paddedHex = (
+  n: number,
+  length: number = 8,
+  prefix: boolean = false
+): string => {
+  const _hex = n.toString(16); // convert number to hexadecimal
+  const hexLen = _hex.length;
+  const extra = '0'.repeat(length - hexLen);
+  let pre = '0x';
+  if (!prefix) {
+    pre = '';
+  }
+  if (hexLen === length) {
+    return pre + _hex;
+  } else if (hexLen < length) {
+    return pre + extra + _hex;
+  } else {
+    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+  }
+};
+
+const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);
+
 chai.use(solidity);
 const { expect } = chai;
 
@@ -73,6 +97,28 @@ describe('CoSoul', () => {
 
     // get the value of the slot
     expect(await cosoul.connect(owner).getSlot(0, tokenId)).to.eq(6969);
+  });
+
+  it('returns a tokenId for addresses set by as batch', async () => {
+    const owner = deploymentInfo.deployer.signer;
+    const user1 = deploymentInfo.accounts[1];
+    const user2 = deploymentInfo.accounts[2];
+
+    await cosoul
+      .connect(user1.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
+    await cosoul
+      .connect(user2.signer)
+      .mint({ value: ethers.utils.parseUnits('10', 'gwei') });
+    const first = await cosoul.tokenOfOwnerByIndex(user1.address, 0);
+    const sec = await cosoul.tokenOfOwnerByIndex(user2.address, 0);
+
+    let payload = paddedHex(0, 2, true) + getPayload(6969, first.toNumber());
+    payload += getPayload(420, sec.toNumber());
+    const contract = cosoul.connect(owner);
+    await contract.batchSetSlot_UfO(payload);
+    expect(await cosoul.connect(owner).getSlot(0, first)).to.eq(6969);
+    expect(await cosoul.connect(owner).getSlot(0, sec)).to.eq(420);
   });
 
   it('tokenURI returns the full URI', async () => {

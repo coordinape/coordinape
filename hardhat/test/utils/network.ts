@@ -1,4 +1,5 @@
 import { network } from 'hardhat';
+
 import config from '../../hardhat.config';
 
 const { url: jsonRpcUrl, blockNumber } =
