@@ -5,7 +5,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse } from '../../api-lib/HttpError.ts';
 
-const LIMIT = 35000;
+const LIMIT = 25000;
 
 type node = {
   id: string;
