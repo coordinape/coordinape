@@ -21,7 +21,7 @@ type link = {
 
 // 1 hour
 const maxAge = 60 * 60;
-const CACHE_CONTENT = `s-maxage=${maxAge} max-age=${maxAge} stale-while-revalidate=${maxAge * 2}`;
+const CACHE_CONTENT = `public, s-maxage=${maxAge}, max-age=${maxAge}, stale-while-revalidate=${maxAge * 2}`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
