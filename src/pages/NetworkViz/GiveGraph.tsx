@@ -19,6 +19,18 @@ interface IMapNode {
   fy?: number;
 }
 
+type node = {
+  id: string;
+  name: string;
+  avatar: string;
+};
+
+type link = {
+  source: string;
+  target: string;
+  skill: string;
+};
+
 export function GiveGraph({
   skill,
   height,
@@ -46,7 +58,7 @@ export function GiveGraph({
 
   const imgCache = useRef<{ [key: string]: HTMLImageElement | null }>({});
 
-  const showExtras = data?.nodes.length < 1000;
+  const showExtras = data?.nodes?.length || 0 < 1000;
   const nodeCanvasObject = useCallback(
     (node: IMapNode, ctx: CanvasRenderingContext2D) => {
       const size = 14;
@@ -82,7 +94,7 @@ export function GiveGraph({
       setGraphReady(true);
       refetch();
       if (showExtras) {
-        data.nodes.forEach((node: IMapNode) => {
+        data.nodes.forEach((node: node) => {
           if (node.avatar && !imgCache.current[node.id]) {
             const img = new Image();
             img.src = node.avatar;
@@ -117,8 +129,8 @@ export function GiveGraph({
         linkColor={() => {
           return 'rgba(255, 255, 255, .8)';
         }}
-        nodeLabel={n => `${n.name}`}
-        onNodeClick={node => {
+        nodeLabel={(n: any) => `${n.name}`}
+        onNodeClick={(node: any) => {
           window.open(`${coLinksPaths.partyProfile(node.id)}`);
         }}
         {...(showExtras ? { nodeCanvasObject } : {})}
@@ -136,5 +148,5 @@ export function GiveGraph({
 
 const fetchGives = async (skill?: string) => {
   const resp = await fetch('/api/give' + (skill ? `/${skill}` : ''));
-  return resp.json();
+  return resp.json() as Promise<{ nodes: node[]; links: link[] }>;
 };

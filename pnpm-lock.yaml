@@ -384,8 +384,8 @@ dependencies:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   react-force-graph-2d:
-    specifier: 1.25.5
-    version: 1.25.5(react@18.2.0)
+    specifier: 1.23.8
+    version: 1.23.8(react@18.2.0)
   react-helmet:
     specifier: ^6.1.0
     version: 6.1.0(react@18.2.0)
@@ -24155,9 +24155,8 @@ packages:
     resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
     dev: false
 
-  /react-force-graph-2d@1.25.5(react@18.2.0):
-    resolution: {integrity: sha512-3u8WjZZorpwZSDs3n3QeOS9ZoxFPM+IR9SStYJVQ/qKECydMHarxnf7ynV/MKJbC6kUsc60soD0V+Uq/r2vz7Q==}
-    engines: {node: '>=12'}
+  /react-force-graph-2d@1.23.8(react@18.2.0):
+    resolution: {integrity: sha512-ON0vYxZY1PNoEi5RqGtyl5nmUlln6tbTcWdoLbRd9AEC3wCsaDjOQymF77U6DLRuqhqrjaC0SbjH+rAn9np8Lg==}
     peerDependencies:
       react: '*'
     dependencies:
