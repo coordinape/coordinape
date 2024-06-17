@@ -2,9 +2,11 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { order_by } from '../../api-lib/gql/__generated__/zeus/index.ts';
 import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse } from '../../api-lib/HttpError.ts';
 
+// more than this seems to exceed Vercel's 4.5mb response limit
 const LIMIT = 25000;
 
 type node = {
@@ -21,14 +23,13 @@ type link = {
 
 // 1 hour
 const maxAge = 60 * 60;
-const CACHE_CONTENT = `public, s-maxage=${maxAge}, max-age=${maxAge}, stale-while-revalidate=${maxAge * 2}`;
+export const CACHE_CONTENT = `public, s-maxage=${maxAge}, max-age=${maxAge}, stale-while-revalidate=${maxAge * 2}`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const data = await fetchCoLinksGives();
 
     res.setHeader('Cache-Control', CACHE_CONTENT);
-    res.setHeader('IsBanana', 'true');
     return res.status(200).json(data);
   } catch (e) {
     return errorResponse(res, e);
@@ -42,6 +43,7 @@ export async function fetchCoLinksGives(skill?: string) {
       colinks_gives: [
         {
           limit: LIMIT,
+          order_by: [{ id: order_by.desc }],
           ...(skill
             ? {
                 where: {
