@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, lazy } from 'react';
 
-import ForceGraph2D from 'react-force-graph-2d';
+const ForceGraph2D = lazy(() => import('react-force-graph-2d'));
+
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
@@ -32,12 +33,14 @@ type link = {
 
 export function LinksGraph({
   address,
-  height = 200,
+  height,
   zoom = true,
+  compact = false,
 }: {
   address?: string;
   height?: number;
   zoom?: boolean;
+  compact?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
 
@@ -80,7 +83,7 @@ export function LinksGraph({
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.font = `8px Sans-Serif`;
-        ctx.fillText(node.name.slice(0, 2), node.x, node.y);
+        ctx.fillText(node.name?.slice(0, 2), node.x, node.y);
       }
     },
     [imgCache]
@@ -132,8 +135,12 @@ export function LinksGraph({
         }}
         {...(showExtras ? { nodeCanvasObject } : {})}
         //@ts-ignore TODO: fix types
-        //TODO: weird types if no ref prop???
-        ref={() => {}}
+        ref={graph => {
+          if (graph && compact) {
+            graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
+            graph.d3Force('link').distance(30); // Adjust link distance if needed
+          }
+        }}
         graphData={data}
       />
     );

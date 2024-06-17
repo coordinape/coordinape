@@ -11,13 +11,13 @@ const LIMIT = 25000;
 type node = {
   id: string;
   name: string;
-  avatar: string;
+  avatar?: string;
 };
 
 type link = {
   source: string;
   target: string;
-  skill: string;
+  amount: number;
 };
 
 // 1 hour
@@ -66,6 +66,8 @@ async function fetchLinkHolders(address: string | undefined) {
         },
         {
           amount: true,
+          holder: true,
+          target: true,
           target_profile_public: {
             avatar: true,
             name: true,
@@ -85,7 +87,7 @@ async function fetchLinkHolders(address: string | undefined) {
   return link_holders;
 }
 
-type LinkHolder = Await<ReturnType<typeof fetchLinkHolders>>[0];
+type LinkHolder = Awaited<ReturnType<typeof fetchLinkHolders>>[0];
 
 export async function fetchLinks(address: string | undefined) {
   const link_holders = await fetchLinkHolders(address);
@@ -99,25 +101,25 @@ export async function fetchLinks(address: string | undefined) {
 const buildNodes = (link_holders: LinkHolder[]) => {
   const n = new Map<string, node>();
   for (const link of link_holders) {
-    n.set(link.holder_profile_public.address, {
-      id: link.holder_profile_public.address,
-      name: link.holder_profile_public.name,
-      avatar: link.holder_profile_public.avatar,
+    n.set(link.holder, {
+      id: link.holder,
+      name: link.holder_profile_public?.name || 'Unknown',
+      avatar: link.holder_profile_public?.avatar,
     });
-    n.set(link.target_profile_public.address, {
-      id: link.target_profile_public.address,
-      name: link.target_profile_public.name,
-      avatar: link.target_profile_public.avatar,
+    n.set(link.target, {
+      id: link.target,
+      name: link.target_profile_public?.name || 'Unknown',
+      avatar: link.target_profile_public?.avatar,
     });
   }
   return [...n.values()];
 };
 
 const buildLinks = (link_holders: LinkHolder[]) => {
-  const links: link[] = link_holders.map((link: any) => {
+  const links: link[] = link_holders.map(link => {
     return {
-      source: link.holder_profile_public.address,
-      target: link.target_profile_public.address,
+      source: link.holder,
+      target: link.target,
       amount: link.amount,
     };
   });
