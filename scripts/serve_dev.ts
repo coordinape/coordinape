@@ -154,9 +154,7 @@ app.get('/api/give', (req, res) => {
   return tf(giveIndex)({ ...req, query: req.params }, res);
 });
 
-app.get('/api/links', (req, res) => {
-  return tf(links)({ ...req, query: req.params }, res);
-});
+app.get('/api/links', tf(links));
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
   return tf(unsubscribeToken)({ ...req, query: req.params }, res);
