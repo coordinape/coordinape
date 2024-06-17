@@ -11,6 +11,15 @@ object_relationships:
         remote_table:
           name: cosouls
           schema: public
+  - name: holder_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          holder: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
   - name: target_cosoul
     using:
       manual_configuration:
@@ -19,6 +28,15 @@ object_relationships:
         insertion_order: null
         remote_table:
           name: cosouls
+          schema: public
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
           schema: public
 select_permissions:
   - role: anon
