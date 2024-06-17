@@ -87,7 +87,7 @@ async function fetchLinkHolders(address: string | undefined) {
   return link_holders;
 }
 
-type LinkHolder = Awaited<ReturnType<typeof fetchLinkHolders>>[0];
+type LinkHolder = Awaited<ReturnType<typeof fetchLinkHolders>>[number];
 
 export async function fetchLinks(address: string | undefined) {
   const link_holders = await fetchLinkHolders(address);
