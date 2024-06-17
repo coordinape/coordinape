@@ -28,6 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const data = await fetchCoLinksGives();
 
     res.setHeader('Cache-Control', CACHE_CONTENT);
+    res.setHeader('IsBanana', 'true');
     return res.status(200).json(data);
   } catch (e) {
     return errorResponse(res, e);
