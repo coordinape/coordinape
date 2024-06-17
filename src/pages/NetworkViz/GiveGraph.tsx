@@ -1,11 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, lazy } from 'react';
 
-import ForceGraph2D, { NodeObject } from 'react-force-graph-2d';
+import { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
 import { Flex } from 'ui';
+
+const ForceGraph2D = lazy(() => import('react-force-graph-2d'));
 
 interface IMapNode {
   id: string;
