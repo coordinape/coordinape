@@ -85,15 +85,6 @@
       ]
     },
     {
-      "source": "/api/give/based",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=36000"
-        }
-      ]
-    },
-    {
       "source": "/api/cosoul/art/(.*)",
       "headers": [
         { "key": "Access-Control-Allow-Credentials", "value": "true" },
