@@ -70,6 +70,14 @@
       "destination": "/api/give/[skill]?skill=:skill"
     },
     {
+      "source": "/api/links/:address",
+      "destination": "/api/links?address=:address"
+    },
+    {
+      "source": "/api/links",
+      "destination": "/api/links"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

@@ -39,6 +39,7 @@ import vaults from '../_api/hasura/remote/vaults';
 import join from '../_api/join/[token]';
 import linkedin_callback from '../_api/linkedin/callback';
 import linkedin_login from '../_api/linkedin/login';
+import links from '../_api/links';
 import log from '../_api/log';
 import login from '../_api/login';
 import mpTrack from '../_api/mp/track';
@@ -151,6 +152,10 @@ app.get('/api/give/:skill', (req, res) => {
 });
 app.get('/api/give', (req, res) => {
   return tf(giveIndex)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/links', (req, res) => {
+  return tf(links)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {

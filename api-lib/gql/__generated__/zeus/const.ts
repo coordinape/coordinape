@@ -4836,8 +4836,10 @@ export const AllTypesProps: Record<string, any> = {
     amount: 'Int_comparison_exp',
     holder: 'citext_comparison_exp',
     holder_cosoul: 'cosouls_bool_exp',
+    holder_profile_public: 'profiles_public_bool_exp',
     target: 'citext_comparison_exp',
     target_cosoul: 'cosouls_bool_exp',
+    target_profile_public: 'profiles_public_bool_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
   link_holders_constraint: true,
@@ -4845,8 +4847,10 @@ export const AllTypesProps: Record<string, any> = {
   link_holders_insert_input: {
     holder: 'citext',
     holder_cosoul: 'cosouls_obj_rel_insert_input',
+    holder_profile_public: 'profiles_public_obj_rel_insert_input',
     target: 'citext',
     target_cosoul: 'cosouls_obj_rel_insert_input',
+    target_profile_public: 'profiles_public_obj_rel_insert_input',
     updated_at: 'timestamptz',
   },
   link_holders_max_order_by: {
@@ -4870,8 +4874,10 @@ export const AllTypesProps: Record<string, any> = {
     amount: 'order_by',
     holder: 'order_by',
     holder_cosoul: 'cosouls_order_by',
+    holder_profile_public: 'profiles_public_order_by',
     target: 'order_by',
     target_cosoul: 'cosouls_order_by',
+    target_profile_public: 'profiles_public_order_by',
     updated_at: 'order_by',
   },
   link_holders_pk_columns_input: {
@@ -18257,8 +18263,10 @@ export const ReturnTypes: Record<string, any> = {
     amount: 'Int',
     holder: 'citext',
     holder_cosoul: 'cosouls',
+    holder_profile_public: 'profiles_public',
     target: 'citext',
     target_cosoul: 'cosouls',
+    target_profile_public: 'profiles_public',
     updated_at: 'timestamptz',
   },
   link_holders_aggregate: {

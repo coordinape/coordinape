@@ -6814,9 +6814,13 @@ export type ValueTypes = {
     holder?: boolean | `@${string}`;
     /** An object relationship */
     holder_cosoul?: ValueTypes['cosouls'];
+    /** An object relationship */
+    holder_profile_public?: ValueTypes['profiles_public'];
     target?: boolean | `@${string}`;
     /** An object relationship */
     target_cosoul?: ValueTypes['cosouls'];
+    /** An object relationship */
+    target_profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -6902,8 +6906,16 @@ export type ValueTypes = {
     amount?: ValueTypes['Int_comparison_exp'] | undefined | null;
     holder?: ValueTypes['citext_comparison_exp'] | undefined | null;
     holder_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    holder_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     target?: ValueTypes['citext_comparison_exp'] | undefined | null;
     target_cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_bool_exp']
+      | undefined
+      | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
   };
   /** aggregate max on columns */
@@ -6941,8 +6953,16 @@ export type ValueTypes = {
     amount?: ValueTypes['order_by'] | undefined | null;
     holder?: ValueTypes['order_by'] | undefined | null;
     holder_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    holder_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     target?: ValueTypes['order_by'] | undefined | null;
     target_cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    target_profile_public?:
+      | ValueTypes['profiles_public_order_by']
+      | undefined
+      | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** select columns of table "link_holders" */
@@ -23374,9 +23394,13 @@ export type ModelTypes = {
     holder: GraphQLTypes['citext'];
     /** An object relationship */
     holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    /** An object relationship */
+    holder_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     target: GraphQLTypes['citext'];
     /** An object relationship */
     target_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "link_holders" */
@@ -32504,9 +32528,13 @@ export type GraphQLTypes = {
     holder: GraphQLTypes['citext'];
     /** An object relationship */
     holder_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    /** An object relationship */
+    holder_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     target: GraphQLTypes['citext'];
     /** An object relationship */
     target_cosoul?: GraphQLTypes['cosouls'] | undefined;
+    /** An object relationship */
+    target_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
   };
   /** aggregated selection of "link_holders" */
@@ -32570,8 +32598,14 @@ export type GraphQLTypes = {
     amount?: GraphQLTypes['Int_comparison_exp'] | undefined;
     holder?: GraphQLTypes['citext_comparison_exp'] | undefined;
     holder_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    holder_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
     target?: GraphQLTypes['citext_comparison_exp'] | undefined;
     target_cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_bool_exp']
+      | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
   };
   /** aggregate max on columns */
@@ -32609,8 +32643,14 @@ export type GraphQLTypes = {
     amount?: GraphQLTypes['order_by'] | undefined;
     holder?: GraphQLTypes['order_by'] | undefined;
     holder_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    holder_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
     target?: GraphQLTypes['order_by'] | undefined;
     target_cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    target_profile_public?:
+      | GraphQLTypes['profiles_public_order_by']
+      | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "link_holders" */
