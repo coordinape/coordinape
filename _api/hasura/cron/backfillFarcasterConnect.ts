@@ -76,7 +76,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       return {
         profile_id: p.id,
         farcaster_connect_checked_at: 'now()',
-        farcaster_connect_error: error,
+        farcaster_connect_error: JSON.stringify(error),
       };
     });
 
