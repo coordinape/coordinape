@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import ForceGraph2D from 'react-force-graph-2d';
+import ForceGraph2D, { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
@@ -129,9 +129,9 @@ export function GiveGraph({
         linkColor={() => {
           return 'rgba(255, 255, 255, .8)';
         }}
-        nodeLabel={(n: any) => `${n.name}`}
-        onNodeClick={(node: any) => {
-          window.open(`${coLinksPaths.partyProfile(node.id)}`);
+        nodeLabel={n => `${(n as node).name}`}
+        onNodeClick={(node: NodeObject) => {
+          window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
         }}
         {...(showExtras ? { nodeCanvasObject } : {})}
         //@ts-ignore TODO: fix types
