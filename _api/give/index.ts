@@ -27,8 +27,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
 
     let profileId: number | undefined;
-    if (typeof req.query.profileId === 'number') {
-      profileId = req.query.profileId;
+    if (typeof req.query.profileId === 'string') {
+      profileId = parseInt(req.query.profileId);
     }
 
     const data = await fetchCoLinksGives(skill, profileId);
@@ -49,29 +49,35 @@ export async function fetchCoLinksGives(skill?: string, profileId?: number) {
           limit: LIMIT,
           order_by: [{ id: order_by.desc }],
           where: {
-            ...(skill
-              ? {
-                  skill: {
-                    _eq: skill,
-                  },
-                }
-              : {}),
-            ...(profileId
-              ? {
-                  _or: [
-                    {
-                      target_profile_id: {
-                        _eq: profileId,
+            _and: [
+              {
+                ...(skill
+                  ? {
+                      skill: {
+                        _eq: skill,
                       },
-                    },
-                    {
-                      profile_id: {
-                        _eq: profileId,
-                      },
-                    },
-                  ],
-                }
-              : {}),
+                    }
+                  : {}),
+              },
+              {
+                ...(profileId
+                  ? {
+                      _or: [
+                        {
+                          target_profile_id: {
+                            _eq: profileId,
+                          },
+                        },
+                        {
+                          profile_id: {
+                            _eq: profileId,
+                          },
+                        },
+                      ],
+                    }
+                  : {}),
+              },
+            ],
           },
         },
         {
