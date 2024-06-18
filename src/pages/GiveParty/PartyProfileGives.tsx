@@ -188,7 +188,14 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
                     <PopoverTrigger css={{ cursor: 'pointer' }}>
                       <Users fa />
                     </PopoverTrigger>
-                    <PopoverContent css={{ background: 'black', p: '$sm $md' }}>
+                    <PopoverContent
+                      css={{
+                        background: 'black',
+                        p: '$sm $md',
+                        maxHeight: 400,
+                        overflow: 'auto',
+                      }}
+                    >
                       <Flex column css={{ gap: '$sm' }}>
                         {Array.from(seenNames.entries()).map(
                           ([name, { count, profile }]) => (

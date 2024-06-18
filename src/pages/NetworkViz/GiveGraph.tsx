@@ -4,8 +4,8 @@ import { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { coLinksPaths } from 'routes/paths';
-import { Flex } from 'ui';
+import { PartyProfileContent } from 'pages/GiveParty/PartyProfileContent';
+import { Flex, Modal } from 'ui';
 
 const ForceGraph2D = lazy(() => import('react-force-graph-2d'));
 
@@ -45,6 +45,9 @@ export function GiveGraph({
   compact?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
+  const onClose = () => setVisible(prev => !prev);
+  const [visible, setVisible] = useState(false);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   const { data, isLoading, isFetched, refetch } = useQuery(
     ['give-graph', skill ?? 'all-skills'],
@@ -123,28 +126,58 @@ export function GiveGraph({
 
   if (graphReady)
     return (
-      <ForceGraph2D
-        height={height}
-        linkCurvature={0.3}
-        linkDirectionalParticles={showExtras ? 1 : 0}
-        enableZoomInteraction={zoom}
-        linkColor={() => {
-          return 'rgba(255, 255, 255, .8)';
-        }}
-        nodeLabel={n => `${(n as node).name}`}
-        onNodeClick={(node: NodeObject) => {
-          window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
-        }}
-        {...(showExtras ? { nodeCanvasObject } : {})}
-        //@ts-ignore TODO: fix types
-        ref={graph => {
-          if (graph && compact) {
-            graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
-            graph.d3Force('link').distance(30); // Adjust link distance if needed
-          }
-        }}
-        graphData={data}
-      />
+      <>
+        {visible && (
+          <Modal
+            drawer
+            open={visible}
+            onOpenChange={onClose}
+            css={{
+              maxWidth: '460px',
+              p: 0,
+              border: 'none',
+              background:
+                'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
+              borderRadius: '$3',
+              mr: '$md',
+              '*': {
+                color: 'white',
+                path: { fill: 'white' },
+              },
+            }}
+          >
+            {selectedNodeId && (
+              <PartyProfileContent
+                address={selectedNodeId}
+                css={{ background: 'none', borderRadius: 0 }}
+              />
+            )}
+          </Modal>
+        )}
+        <ForceGraph2D
+          height={height}
+          linkCurvature={0.3}
+          linkDirectionalParticles={showExtras ? 1 : 0}
+          enableZoomInteraction={zoom}
+          linkColor={() => {
+            return 'rgba(255, 255, 255, .8)';
+          }}
+          nodeLabel={n => `${(n as node).name}`}
+          onNodeClick={(node: NodeObject) => {
+            setSelectedNodeId(node.id as string);
+            setVisible(true);
+          }}
+          {...(showExtras ? { nodeCanvasObject } : {})}
+          //@ts-ignore TODO: fix types
+          ref={graph => {
+            if (graph && compact) {
+              graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
+              graph.d3Force('link').distance(30); // Adjust link distance if needed
+            }
+          }}
+          graphData={data}
+        />
+      </>
     );
 }
 
