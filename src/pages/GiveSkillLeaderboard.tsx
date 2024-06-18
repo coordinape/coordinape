@@ -207,7 +207,7 @@ export const GiveSkillLeaderboard = () => {
                   color={'cta'}
                   size="xs"
                 >
-                  View Full Graph
+                  Expand View
                 </Button>
               </Flex>
             </Flex>
