@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
 import { artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { webAppURL } from 'config/webAppURL';
@@ -29,7 +27,7 @@ export const PartyProfileContent = ({
     [QUERY_KEY_PARTY_PROFILE, address, 'profile'],
     () => fetchCoLinksProfile(address!)
   );
-  const { data: cosoul, isLoading: fetchCoSoulIsLoading } = useQuery(
+  const { data: cosoul } = useQuery(
     [QUERY_KEY_PARTY_PROFILE, address, 'cosoul'],
     async () => {
       return fetchCoSoul(address!);
@@ -41,7 +39,7 @@ export const PartyProfileContent = ({
   const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
 
   const { data: details } = useQuery(
-    ['twitter', targetProfile.id],
+    ['fc_profile', targetProfile?.id],
     async () => {
       const { farcaster_accounts_by_pk: farcaster } = await anonClient.query(
         {
@@ -55,7 +53,7 @@ export const PartyProfileContent = ({
           ],
         },
         {
-          operationName: 'twitter_profile',
+          operationName: 'fc_profile',
         }
       );
 
