@@ -149,6 +149,6 @@ export function GiveGraph({
 }
 
 const fetchGives = async (skill?: string) => {
-  const resp = await fetch('/api/give' + (skill ? `/${skill}` : ''));
+  const resp = await fetch('/api/give' + (skill ? `?skill=${skill}` : ''));
   return resp.json() as Promise<{ nodes: node[]; links: link[] }>;
 };
