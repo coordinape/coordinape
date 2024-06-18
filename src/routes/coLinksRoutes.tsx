@@ -49,6 +49,7 @@ import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveMap } from 'pages/GiveMap';
 import { GiveParty } from 'pages/GiveParty';
 import { PartyProfile } from 'pages/GiveParty/PartyProfile';
+import { ProfileNetwork } from 'pages/GiveParty/ProfileNetwork';
 import { LinksMap } from 'pages/LinksMap';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
@@ -86,6 +87,12 @@ export const coLinksRoutes = [
     <Route
       path={coLinksPaths.partyProfile(':address')}
       element={<PartyProfile />}
+    />
+  </Route>,
+  <Route key={'network'}>
+    <Route
+      path={coLinksPaths.profileNetwork(':address')}
+      element={<ProfileNetwork />}
     />
   </Route>,
   <Route key={'giveboard'}>

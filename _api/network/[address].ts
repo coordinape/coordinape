@@ -12,6 +12,7 @@ type NetworkNode = {
   profile_id?: number;
   farcaster_id: number;
   tier: number;
+  address: string;
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -39,8 +40,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               id: true,
               name: true,
               avatar: true,
+              address: true,
               farcaster_account: {
                 fid: true,
+                custody_address: true,
               },
             },
           ],
@@ -97,6 +100,7 @@ const getFollowerNodes = async (fid: number) => {
       // profile_id: user.id,
       farcaster_id: user.fid,
       tier: 1,
+      address: user.custodyAddress,
     };
     return nn;
   });

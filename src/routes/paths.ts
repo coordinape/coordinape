@@ -87,6 +87,7 @@ export const coLinksPaths = {
   info: '/info',
   inviteCode: (code: string) => `/invite/${code}`,
   invites: '/invites',
+  profileNetwork: (address: string) => `/network/${address}`,
   launch: '/launch',
   leaderboard: '/leaderboard',
   linking: '/linking',
