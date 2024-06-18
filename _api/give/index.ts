@@ -15,19 +15,23 @@ type node = {
   avatar: string;
 };
 
-type link = {
-  source: string;
-  target: string;
-  skill: string;
-};
-
 // 1 hour
 const maxAge = 60 * 60;
 export const CACHE_CONTENT = `public, s-maxage=${maxAge}, max-age=${maxAge}, stale-while-revalidate=${maxAge * 2}`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const data = await fetchCoLinksGives();
+    let skill: string | undefined;
+    if (typeof req.query.skill === 'string' && req.query.skill.length > 0) {
+      skill = req.query.skill;
+    }
+
+    let profileId: number | undefined;
+    if (typeof req.query.profileId === 'string') {
+      profileId = parseInt(req.query.profileId);
+    }
+
+    const data = await fetchCoLinksGives(skill, profileId);
 
     res.setHeader('Cache-Control', CACHE_CONTENT);
     return res.status(200).json(data);
@@ -36,7 +40,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-export async function fetchCoLinksGives(skill?: string) {
+export async function fetchCoLinksGives(skill?: string, profileId?: number) {
   // fetch all give and cache response
   const { colinks_gives } = await adminClient.query(
     {
@@ -44,15 +48,37 @@ export async function fetchCoLinksGives(skill?: string) {
         {
           limit: LIMIT,
           order_by: [{ id: order_by.desc }],
-          ...(skill
-            ? {
-                where: {
-                  skill: {
-                    _eq: skill,
-                  },
-                },
-              }
-            : {}),
+          where: {
+            _and: [
+              {
+                ...(skill
+                  ? {
+                      skill: {
+                        _eq: skill,
+                      },
+                    }
+                  : {}),
+              },
+              {
+                ...(profileId
+                  ? {
+                      _or: [
+                        {
+                          target_profile_id: {
+                            _eq: profileId,
+                          },
+                        },
+                        {
+                          profile_id: {
+                            _eq: profileId,
+                          },
+                        },
+                      ],
+                    }
+                  : {}),
+              },
+            ],
+          },
         },
         {
           id: true,
@@ -102,12 +128,17 @@ const buildNodes = (gives: any) => {
 };
 
 const buildLinks = (gives: any) => {
-  const links: link[] = gives.map((give: any) => {
-    return {
-      source: give.giver_profile_public.address,
-      target: give.target_profile_public.address,
-      skill: give.skill,
-    };
-  });
-  return links;
+  // use json string for unique set, as Set does not work with objects
+  const linkSet = new Set<string>();
+  for (const give of gives) {
+    linkSet.add(
+      JSON.stringify({
+        source: give.giver_profile_public.address,
+        target: give.target_profile_public.address,
+        skill: give.skill,
+      })
+    );
+  }
+
+  return [...linkSet.values()].map(l => JSON.parse(l));
 };
