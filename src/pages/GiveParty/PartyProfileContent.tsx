@@ -94,17 +94,19 @@ export const PartyProfileContent = ({
               Buy CoLink
             </Text>
           </Button>
-          <Button
-            as={Link}
-            target="_blank"
-            rel="noreferrer"
-            href={`https://warpcast.com/${details?.farcaster}`}
-          >
-            <Farcaster fa />
-            <Text medium css={{ ml: '$xs' }}>
-              FC Profile
-            </Text>
-          </Button>
+          {details?.farcaster && (
+            <Button
+              as={Link}
+              target="_blank"
+              rel="noreferrer"
+              href={`https://warpcast.com/${details.farcaster}`}
+            >
+              <Farcaster fa />
+              <Text medium css={{ ml: '$xs' }}>
+                FC Profile
+              </Text>
+            </Button>
+          )}
           <Button as={Link} href={castProfileUrl}>
             <Wand fa />
             <Text medium css={{ ml: '$xs' }}>

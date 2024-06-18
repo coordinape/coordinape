@@ -241,7 +241,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                   gap: '$xs',
                   background: '#00000054',
                   textDecoration: 'none',
-                  color: 'rgb(41 235 131)',
+                  color: 'rgb(41 235 131) !important',
                   span: {
                     '@xs': {
                       fontSize: '$xs',

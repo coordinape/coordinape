@@ -140,6 +140,7 @@ export function GiveGraph({
                 'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
               borderRadius: '$3',
               mr: '$md',
+              pb: '$xl',
               '*': {
                 color: 'white',
                 path: { fill: 'white' },
