@@ -53,7 +53,7 @@ export const PartyProfileContent = ({
           ],
         },
         {
-          operationName: 'partyProfileContent_farcaster_profile',
+          operationName: 'farcaster_account__partyProfileContent',
         }
       );
 
@@ -167,7 +167,7 @@ const fetchCoLinksProfile = async (address: string) => {
       ],
     },
     {
-      operationName: 'partyProfileContent_coLinks_profile',
+      operationName: 'fetchCoLinksProfile__partyProfileContent',
     }
   );
   const profile = profiles_public.pop();
