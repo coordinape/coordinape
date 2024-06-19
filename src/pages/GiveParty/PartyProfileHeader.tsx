@@ -6,7 +6,8 @@ import { skillTextStyle } from 'stitches.config';
 
 import { OrBar } from 'components/OrBar';
 import { ExternalLink, Farcaster, Github, Twitter } from 'icons/__generated';
-import { Avatar, Flex, Link, Text } from 'ui';
+import { coLinksPaths } from 'routes/paths';
+import { AppLink, Avatar, Flex, Link, Text } from 'ui';
 
 import { PublicProfile } from './PartyProfile';
 import { PartyStats } from './PartyStats';
@@ -97,12 +98,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
       >
         <Flex column alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
           <Flex column css={{ mb: '$sm' }}>
-            <Avatar
-              size="xl"
-              name={profile.name}
-              path={profile.avatar}
-              margin="none"
-            />
+            <AppLink to={coLinksPaths.partyProfile(profile.address)}>
+              <Avatar
+                size="xl"
+                name={profile.name}
+                path={profile.avatar}
+                margin="none"
+              />
+            </AppLink>
           </Flex>
           <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
             <Text h2 display>
@@ -119,7 +122,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                 size={'medium'}
               />
               <Flex
-                css={{ gap: '$sm', flexWrap: 'wrap', justifyContent: 'center' }}
+                css={{ gap: '$lg', flexWrap: 'wrap', justifyContent: 'center' }}
               >
                 {details?.farcaster && (
                   <Flex
@@ -131,13 +134,12 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                       alignItems: 'center',
                       ...skillTextStyle,
                       fontWeight: 'normal',
-                      gap: '$xs',
                       '&:hover': {
                         textDecoration: 'underline',
                       },
                     }}
                   >
-                    <Farcaster fa /> {details?.farcaster}
+                    <Farcaster fa css={{ mr: '$xs' }} /> {details?.farcaster}
                   </Flex>
                 )}
                 {details?.github && (
@@ -150,7 +152,6 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                       alignItems: 'center',
                       ...skillTextStyle,
                       fontWeight: 'normal',
-                      gap: '$xs',
                       '&:hover': {
                         textDecoration: 'underline',
                       },
@@ -240,7 +241,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
                   gap: '$xs',
                   background: '#00000054',
                   textDecoration: 'none',
-                  color: 'rgb(41 235 131)',
+                  color: 'rgb(41 235 131) !important',
                   span: {
                     '@xs': {
                       fontSize: '$xs',

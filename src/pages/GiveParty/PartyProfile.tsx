@@ -1,107 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
-import { artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
-import { NavLink, useParams } from 'react-router-dom';
-
-import { webAppURL } from 'config/webAppURL';
-import { Links, Wand } from 'icons/__generated';
-import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
-import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, Link, Text } from 'ui';
+import { useParams } from 'react-router-dom';
 
 import { PartyBody } from './PartyBody';
 import { PartyHeader } from './PartyHeader';
-import { PartyProfileGives } from './PartyProfileGives';
-import { PartyProfileHeader } from './PartyProfileHeader';
+import { PartyProfileContent } from './PartyProfileContent';
 
 const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
 export const PartyProfile = () => {
   const { address } = useParams();
-  const { data, isLoading: fetchCoLinksProfileIsLoading } = useQuery(
-    [QUERY_KEY_PARTY_PROFILE, address, 'profile'],
-    () => fetchCoLinksProfile(address!)
+  const { data } = useQuery([QUERY_KEY_PARTY_PROFILE, address, 'profile'], () =>
+    fetchCoLinksProfile(address!)
   );
-  const { data: cosoul, isLoading: fetchCoSoulIsLoading } = useQuery(
-    [QUERY_KEY_PARTY_PROFILE, address, 'cosoul'],
-    async () => {
-      return fetchCoSoul(address!);
-    }
-  );
+
   const targetProfile = data as PublicProfile;
-  const appURL = webAppURL('colinks');
-  const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
   if (!targetProfile) return;
   return (
     <>
       <PartyBody>
         <PartyHeader />
-
-        {/*Content*/}
-        <Flex
-          css={{
-            padding: '16px',
-            justifyContent: 'center',
-            backgroundColor: 'rgb(8 18 29 / 25%)',
-            borderRadius: '$2',
-            margin: 'auto',
-            width: `calc(${artWidthMobile} + 140px)`,
-            '@xs': {
-              width: `calc(${artWidthMobile} + 30px)`,
-            },
-          }}
-        >
-          {fetchCoLinksProfileIsLoading && '...loading'}
-
-          <Flex column css={{ gap: '$md', alignItems: 'center' }}>
-            <PartyProfileHeader profile={targetProfile} />
-            <Flex
-              css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}
-            >
-              <Button
-                as={NavLink}
-                to={coLinksPaths.profile(targetProfile?.address ?? '')}
-              >
-                {' '}
-                <Links fa />
-                <Text medium css={{ ml: '$xs' }}>
-                  Buy CoLink
-                </Text>
-              </Button>
-              <Button as={Link} href={castProfileUrl}>
-                <Wand fa />
-                <Text medium css={{ ml: '$xs' }}>
-                  Cast Profile on Farcaster
-                </Text>
-              </Button>
-            </Flex>
-            <Flex
-              column
-              css={{
-                width: '100%',
-                mt: '$sm',
-                gap: '$md',
-                alignItems: 'center',
-              }}
-            >
-              <PartyProfileGives profileId={targetProfile.id} />
-              <Flex
-                column
-                css={{
-                  gap: '$sm',
-                  width: `${artWidthMobile}`,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}
-              >
-                {cosoul && <CoSoulItemParty cosoul={cosoul} />}
-              </Flex>
-            </Flex>
-          </Flex>
-        </Flex>
+        <PartyProfileContent address={address!} />
       </PartyBody>
     </>
   );
