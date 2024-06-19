@@ -2612,6 +2612,30 @@ scalar bigint
 """
 Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
 """
+input bigint_array_comparison_exp {
+  """
+  is the array contained in the given array value
+  """
+  _contained_in: [bigint!]
+
+  """
+  does the array contain the given value
+  """
+  _contains: [bigint!]
+  _eq: [bigint!]
+  _gt: [bigint!]
+  _gte: [bigint!]
+  _in: [[bigint!]!]
+  _is_null: Boolean
+  _lt: [bigint!]
+  _lte: [bigint!]
+  _neq: [bigint!]
+  _nin: [[bigint!]!]
+}
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
 input bigint_comparison_exp {
   _eq: bigint
   _gt: bigint
@@ -3257,6 +3281,23 @@ input burns_variance_order_by {
   regift_percent: order_by
   tokens_burnt: order_by
   user_id: order_by
+}
+
+scalar bytea
+
+"""
+Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'.
+"""
+input bytea_comparison_exp {
+  _eq: bytea
+  _gt: bytea
+  _gte: bytea
+  _in: [bytea!]
+  _is_null: Boolean
+  _lt: bytea
+  _lte: bytea
+  _neq: bytea
+  _nin: [bytea!]
 }
 
 """
@@ -16374,6 +16415,4272 @@ type farcaster_accounts_variance_fields {
   profile_id: Float
 }
 
+"""
+columns and relationships of "farcaster.casts"
+"""
+type farcaster_casts {
+  created_at: timestamp!
+  deleted_at: timestamp
+  embeds(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+  fid: bigint!
+  hash: bytea!
+  id: bigint!
+  mentions: [bigint!]!
+  mentions_positions: [smallint!]!
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String!
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.casts"
+"""
+type farcaster_casts_aggregate {
+  aggregate: farcaster_casts_aggregate_fields
+  nodes: [farcaster_casts!]!
+}
+
+"""
+aggregate fields of "farcaster.casts"
+"""
+type farcaster_casts_aggregate_fields {
+  avg: farcaster_casts_avg_fields
+  count(columns: [farcaster_casts_select_column!], distinct: Boolean): Int!
+  max: farcaster_casts_max_fields
+  min: farcaster_casts_min_fields
+  stddev: farcaster_casts_stddev_fields
+  stddev_pop: farcaster_casts_stddev_pop_fields
+  stddev_samp: farcaster_casts_stddev_samp_fields
+  sum: farcaster_casts_sum_fields
+  var_pop: farcaster_casts_var_pop_fields
+  var_samp: farcaster_casts_var_samp_fields
+  variance: farcaster_casts_variance_fields
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input farcaster_casts_append_input {
+  embeds: jsonb
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_casts_avg_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'.
+"""
+input farcaster_casts_bool_exp {
+  _and: [farcaster_casts_bool_exp!]
+  _not: farcaster_casts_bool_exp
+  _or: [farcaster_casts_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  embeds: jsonb_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  mentions: bigint_array_comparison_exp
+  mentions_positions: smallint_array_comparison_exp
+  parent_fid: bigint_comparison_exp
+  parent_hash: bytea_comparison_exp
+  parent_url: String_comparison_exp
+  root_parent_hash: bytea_comparison_exp
+  root_parent_url: String_comparison_exp
+  text: String_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.casts"
+"""
+enum farcaster_casts_constraint {
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  casts_hash_unique
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  casts_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input farcaster_casts_delete_at_path_input {
+  embeds: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input farcaster_casts_delete_elem_input {
+  embeds: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input farcaster_casts_delete_key_input {
+  embeds: String
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.casts"
+"""
+input farcaster_casts_inc_input {
+  fid: bigint
+  parent_fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.casts"
+"""
+input farcaster_casts_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_casts_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_url: String
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_casts_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_url: String
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.casts"
+"""
+type farcaster_casts_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_casts!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.casts"
+"""
+input farcaster_casts_on_conflict {
+  constraint: farcaster_casts_constraint!
+  update_columns: [farcaster_casts_update_column!]! = []
+  where: farcaster_casts_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.casts".
+"""
+input farcaster_casts_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  embeds: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  mentions: order_by
+  mentions_positions: order_by
+  parent_fid: order_by
+  parent_hash: order_by
+  parent_url: order_by
+  root_parent_hash: order_by
+  root_parent_url: order_by
+  text: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.casts
+"""
+input farcaster_casts_pk_columns_input {
+  id: bigint!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input farcaster_casts_prepend_input {
+  embeds: jsonb
+}
+
+"""
+select columns of table "farcaster.casts"
+"""
+enum farcaster_casts_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  embeds
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  mentions
+
+  """
+  column name
+  """
+  mentions_positions
+
+  """
+  column name
+  """
+  parent_fid
+
+  """
+  column name
+  """
+  parent_hash
+
+  """
+  column name
+  """
+  parent_url
+
+  """
+  column name
+  """
+  root_parent_hash
+
+  """
+  column name
+  """
+  root_parent_url
+
+  """
+  column name
+  """
+  text
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.casts"
+"""
+input farcaster_casts_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_casts_stddev_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_casts_stddev_pop_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_casts_stddev_samp_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_casts"
+"""
+input farcaster_casts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_casts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_casts_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_casts_sum_fields {
+  fid: bigint
+  id: bigint
+  parent_fid: bigint
+}
+
+"""
+update columns of table "farcaster.casts"
+"""
+enum farcaster_casts_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  embeds
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  mentions
+
+  """
+  column name
+  """
+  mentions_positions
+
+  """
+  column name
+  """
+  parent_fid
+
+  """
+  column name
+  """
+  parent_hash
+
+  """
+  column name
+  """
+  parent_url
+
+  """
+  column name
+  """
+  root_parent_hash
+
+  """
+  column name
+  """
+  root_parent_url
+
+  """
+  column name
+  """
+  text
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_casts_updates {
+  """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: farcaster_casts_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: farcaster_casts_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: farcaster_casts_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: farcaster_casts_delete_key_input
+
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_casts_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: farcaster_casts_prepend_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_casts_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_casts_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_casts_var_pop_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_casts_var_samp_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_casts_variance_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+}
+
+"""
+columns and relationships of "farcaster.fids"
+"""
+type farcaster_fids {
+  created_at: timestamp!
+  custody_address: bytea!
+  fid: bigint!
+  registered_at: timestamptz
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.fids"
+"""
+type farcaster_fids_aggregate {
+  aggregate: farcaster_fids_aggregate_fields
+  nodes: [farcaster_fids!]!
+}
+
+"""
+aggregate fields of "farcaster.fids"
+"""
+type farcaster_fids_aggregate_fields {
+  avg: farcaster_fids_avg_fields
+  count(columns: [farcaster_fids_select_column!], distinct: Boolean): Int!
+  max: farcaster_fids_max_fields
+  min: farcaster_fids_min_fields
+  stddev: farcaster_fids_stddev_fields
+  stddev_pop: farcaster_fids_stddev_pop_fields
+  stddev_samp: farcaster_fids_stddev_samp_fields
+  sum: farcaster_fids_sum_fields
+  var_pop: farcaster_fids_var_pop_fields
+  var_samp: farcaster_fids_var_samp_fields
+  variance: farcaster_fids_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_fids_avg_fields {
+  fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.fids". All fields are combined with a logical 'AND'.
+"""
+input farcaster_fids_bool_exp {
+  _and: [farcaster_fids_bool_exp!]
+  _not: farcaster_fids_bool_exp
+  _or: [farcaster_fids_bool_exp!]
+  created_at: timestamp_comparison_exp
+  custody_address: bytea_comparison_exp
+  fid: bigint_comparison_exp
+  registered_at: timestamptz_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.fids"
+"""
+enum farcaster_fids_constraint {
+  """
+  unique or primary key constraint on columns "fid"
+  """
+  fids_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.fids"
+"""
+input farcaster_fids_inc_input {
+  fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.fids"
+"""
+input farcaster_fids_insert_input {
+  created_at: timestamp
+  custody_address: bytea
+  fid: bigint
+  registered_at: timestamptz
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_fids_max_fields {
+  created_at: timestamp
+  fid: bigint
+  registered_at: timestamptz
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_fids_min_fields {
+  created_at: timestamp
+  fid: bigint
+  registered_at: timestamptz
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.fids"
+"""
+type farcaster_fids_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_fids!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.fids"
+"""
+input farcaster_fids_on_conflict {
+  constraint: farcaster_fids_constraint!
+  update_columns: [farcaster_fids_update_column!]! = []
+  where: farcaster_fids_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.fids".
+"""
+input farcaster_fids_order_by {
+  created_at: order_by
+  custody_address: order_by
+  fid: order_by
+  registered_at: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.fids
+"""
+input farcaster_fids_pk_columns_input {
+  fid: bigint!
+}
+
+"""
+select columns of table "farcaster.fids"
+"""
+enum farcaster_fids_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  registered_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.fids"
+"""
+input farcaster_fids_set_input {
+  created_at: timestamp
+  custody_address: bytea
+  fid: bigint
+  registered_at: timestamptz
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_fids_stddev_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_fids_stddev_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_fids_stddev_samp_fields {
+  fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_fids"
+"""
+input farcaster_fids_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_fids_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_fids_stream_cursor_value_input {
+  created_at: timestamp
+  custody_address: bytea
+  fid: bigint
+  registered_at: timestamptz
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_fids_sum_fields {
+  fid: bigint
+}
+
+"""
+update columns of table "farcaster.fids"
+"""
+enum farcaster_fids_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  registered_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_fids_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_fids_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_fids_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_fids_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_fids_var_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_fids_var_samp_fields {
+  fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_fids_variance_fields {
+  fid: Float
+}
+
+"""
+columns and relationships of "farcaster.fnames"
+"""
+type farcaster_fnames {
+  created_at: timestamp!
+  custody_address: bytea
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.fnames"
+"""
+type farcaster_fnames_aggregate {
+  aggregate: farcaster_fnames_aggregate_fields
+  nodes: [farcaster_fnames!]!
+}
+
+"""
+aggregate fields of "farcaster.fnames"
+"""
+type farcaster_fnames_aggregate_fields {
+  avg: farcaster_fnames_avg_fields
+  count(columns: [farcaster_fnames_select_column!], distinct: Boolean): Int!
+  max: farcaster_fnames_max_fields
+  min: farcaster_fnames_min_fields
+  stddev: farcaster_fnames_stddev_fields
+  stddev_pop: farcaster_fnames_stddev_pop_fields
+  stddev_samp: farcaster_fnames_stddev_samp_fields
+  sum: farcaster_fnames_sum_fields
+  var_pop: farcaster_fnames_var_pop_fields
+  var_samp: farcaster_fnames_var_samp_fields
+  variance: farcaster_fnames_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_fnames_avg_fields {
+  fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.fnames". All fields are combined with a logical 'AND'.
+"""
+input farcaster_fnames_bool_exp {
+  _and: [farcaster_fnames_bool_exp!]
+  _not: farcaster_fnames_bool_exp
+  _or: [farcaster_fnames_bool_exp!]
+  created_at: timestamp_comparison_exp
+  custody_address: bytea_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  expires_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  fname: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.fnames"
+"""
+enum farcaster_fnames_constraint {
+  """
+  unique or primary key constraint on columns "fname"
+  """
+  fnames_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.fnames"
+"""
+input farcaster_fnames_inc_input {
+  fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.fnames"
+"""
+input farcaster_fnames_insert_input {
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_fnames_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_fnames_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.fnames"
+"""
+type farcaster_fnames_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_fnames!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.fnames"
+"""
+input farcaster_fnames_on_conflict {
+  constraint: farcaster_fnames_constraint!
+  update_columns: [farcaster_fnames_update_column!]! = []
+  where: farcaster_fnames_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.fnames".
+"""
+input farcaster_fnames_order_by {
+  created_at: order_by
+  custody_address: order_by
+  deleted_at: order_by
+  expires_at: order_by
+  fid: order_by
+  fname: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.fnames
+"""
+input farcaster_fnames_pk_columns_input {
+  fname: String!
+}
+
+"""
+select columns of table "farcaster.fnames"
+"""
+enum farcaster_fnames_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  expires_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  fname
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.fnames"
+"""
+input farcaster_fnames_set_input {
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_fnames_stddev_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_fnames_stddev_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_fnames_stddev_samp_fields {
+  fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_fnames"
+"""
+input farcaster_fnames_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_fnames_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_fnames_stream_cursor_value_input {
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  expires_at: timestamp
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_fnames_sum_fields {
+  fid: bigint
+}
+
+"""
+update columns of table "farcaster.fnames"
+"""
+enum farcaster_fnames_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  expires_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  fname
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_fnames_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_fnames_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_fnames_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_fnames_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_fnames_var_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_fnames_var_samp_fields {
+  fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_fnames_variance_fields {
+  fid: Float
+}
+
+"""
+columns and relationships of "farcaster.links"
+"""
+type farcaster_links {
+  created_at: timestamp!
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  hash: bytea!
+  id: bigint!
+  target_fid: bigint
+  timestamp: timestamp!
+  type: String
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.links"
+"""
+type farcaster_links_aggregate {
+  aggregate: farcaster_links_aggregate_fields
+  nodes: [farcaster_links!]!
+}
+
+"""
+aggregate fields of "farcaster.links"
+"""
+type farcaster_links_aggregate_fields {
+  avg: farcaster_links_avg_fields
+  count(columns: [farcaster_links_select_column!], distinct: Boolean): Int!
+  max: farcaster_links_max_fields
+  min: farcaster_links_min_fields
+  stddev: farcaster_links_stddev_fields
+  stddev_pop: farcaster_links_stddev_pop_fields
+  stddev_samp: farcaster_links_stddev_samp_fields
+  sum: farcaster_links_sum_fields
+  var_pop: farcaster_links_var_pop_fields
+  var_samp: farcaster_links_var_samp_fields
+  variance: farcaster_links_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_links_avg_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.links". All fields are combined with a logical 'AND'.
+"""
+input farcaster_links_bool_exp {
+  _and: [farcaster_links_bool_exp!]
+  _not: farcaster_links_bool_exp
+  _or: [farcaster_links_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  display_timestamp: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  target_fid: bigint_comparison_exp
+  timestamp: timestamp_comparison_exp
+  type: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.links"
+"""
+enum farcaster_links_constraint {
+  """
+  unique or primary key constraint on columns "fid", "type", "target_fid"
+  """
+  links_fid_target_fid_type_unique
+
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  links_hash_unique
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  links_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.links"
+"""
+input farcaster_links_inc_input {
+  fid: bigint
+  target_fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.links"
+"""
+input farcaster_links_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  hash: bytea
+  target_fid: bigint
+  timestamp: timestamp
+  type: String
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_links_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  id: bigint
+  target_fid: bigint
+  timestamp: timestamp
+  type: String
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_links_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  id: bigint
+  target_fid: bigint
+  timestamp: timestamp
+  type: String
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.links"
+"""
+type farcaster_links_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_links!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.links"
+"""
+input farcaster_links_on_conflict {
+  constraint: farcaster_links_constraint!
+  update_columns: [farcaster_links_update_column!]! = []
+  where: farcaster_links_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.links".
+"""
+input farcaster_links_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  display_timestamp: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  target_fid: order_by
+  timestamp: order_by
+  type: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.links
+"""
+input farcaster_links_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "farcaster.links"
+"""
+enum farcaster_links_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  display_timestamp
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  target_fid
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.links"
+"""
+input farcaster_links_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  hash: bytea
+  target_fid: bigint
+  timestamp: timestamp
+  type: String
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_links_stddev_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_links_stddev_pop_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_links_stddev_samp_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_links"
+"""
+input farcaster_links_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_links_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_links_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  display_timestamp: timestamp
+  fid: bigint
+  hash: bytea
+  id: bigint
+  target_fid: bigint
+  timestamp: timestamp
+  type: String
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_links_sum_fields {
+  fid: bigint
+  id: bigint
+  target_fid: bigint
+}
+
+"""
+update columns of table "farcaster.links"
+"""
+enum farcaster_links_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  display_timestamp
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  target_fid
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_links_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_links_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_links_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_links_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_links_var_pop_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_links_var_samp_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_links_variance_fields {
+  fid: Float
+  id: Float
+  target_fid: Float
+}
+
+"""
+columns and relationships of "farcaster.profile_with_addresses"
+"""
+type farcaster_profile_with_addresses {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb
+}
+
+"""
+aggregated selection of "farcaster.profile_with_addresses"
+"""
+type farcaster_profile_with_addresses_aggregate {
+  aggregate: farcaster_profile_with_addresses_aggregate_fields
+  nodes: [farcaster_profile_with_addresses!]!
+}
+
+"""
+aggregate fields of "farcaster.profile_with_addresses"
+"""
+type farcaster_profile_with_addresses_aggregate_fields {
+  avg: farcaster_profile_with_addresses_avg_fields
+  count(
+    columns: [farcaster_profile_with_addresses_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: farcaster_profile_with_addresses_max_fields
+  min: farcaster_profile_with_addresses_min_fields
+  stddev: farcaster_profile_with_addresses_stddev_fields
+  stddev_pop: farcaster_profile_with_addresses_stddev_pop_fields
+  stddev_samp: farcaster_profile_with_addresses_stddev_samp_fields
+  sum: farcaster_profile_with_addresses_sum_fields
+  var_pop: farcaster_profile_with_addresses_var_pop_fields
+  var_samp: farcaster_profile_with_addresses_var_samp_fields
+  variance: farcaster_profile_with_addresses_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_profile_with_addresses_avg_fields {
+  fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'.
+"""
+input farcaster_profile_with_addresses_bool_exp {
+  _and: [farcaster_profile_with_addresses_bool_exp!]
+  _not: farcaster_profile_with_addresses_bool_exp
+  _or: [farcaster_profile_with_addresses_bool_exp!]
+  avatar_url: String_comparison_exp
+  bio: String_comparison_exp
+  display_name: String_comparison_exp
+  fid: bigint_comparison_exp
+  fname: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+  verified_addresses: jsonb_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_profile_with_addresses_max_fields {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_profile_with_addresses_min_fields {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+}
+
+"""
+Ordering options when selecting data from "farcaster.profile_with_addresses".
+"""
+input farcaster_profile_with_addresses_order_by {
+  avatar_url: order_by
+  bio: order_by
+  display_name: order_by
+  fid: order_by
+  fname: order_by
+  updated_at: order_by
+  verified_addresses: order_by
+}
+
+"""
+select columns of table "farcaster.profile_with_addresses"
+"""
+enum farcaster_profile_with_addresses_select_column {
+  """
+  column name
+  """
+  avatar_url
+
+  """
+  column name
+  """
+  bio
+
+  """
+  column name
+  """
+  display_name
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  fname
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  verified_addresses
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_profile_with_addresses_stddev_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_profile_with_addresses_stddev_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_profile_with_addresses_stddev_samp_fields {
+  fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_profile_with_addresses_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_profile_with_addresses_stream_cursor_value_input {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses: jsonb
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_profile_with_addresses_sum_fields {
+  fid: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_profile_with_addresses_var_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_profile_with_addresses_var_samp_fields {
+  fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_profile_with_addresses_variance_fields {
+  fid: Float
+}
+
+"""
+columns and relationships of "farcaster.reactions"
+"""
+type farcaster_reactions {
+  created_at: timestamp!
+  deleted_at: timestamp
+  fid: bigint!
+  hash: bytea!
+  id: bigint!
+  reaction_type: smallint!
+  target_fid: bigint
+  target_hash: bytea
+  target_url: String
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.reactions"
+"""
+type farcaster_reactions_aggregate {
+  aggregate: farcaster_reactions_aggregate_fields
+  nodes: [farcaster_reactions!]!
+}
+
+"""
+aggregate fields of "farcaster.reactions"
+"""
+type farcaster_reactions_aggregate_fields {
+  avg: farcaster_reactions_avg_fields
+  count(columns: [farcaster_reactions_select_column!], distinct: Boolean): Int!
+  max: farcaster_reactions_max_fields
+  min: farcaster_reactions_min_fields
+  stddev: farcaster_reactions_stddev_fields
+  stddev_pop: farcaster_reactions_stddev_pop_fields
+  stddev_samp: farcaster_reactions_stddev_samp_fields
+  sum: farcaster_reactions_sum_fields
+  var_pop: farcaster_reactions_var_pop_fields
+  var_samp: farcaster_reactions_var_samp_fields
+  variance: farcaster_reactions_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_reactions_avg_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.reactions". All fields are combined with a logical 'AND'.
+"""
+input farcaster_reactions_bool_exp {
+  _and: [farcaster_reactions_bool_exp!]
+  _not: farcaster_reactions_bool_exp
+  _or: [farcaster_reactions_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  reaction_type: smallint_comparison_exp
+  target_fid: bigint_comparison_exp
+  target_hash: bytea_comparison_exp
+  target_url: String_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.reactions"
+"""
+enum farcaster_reactions_constraint {
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  reactions_hash_unique
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  reactions_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.reactions"
+"""
+input farcaster_reactions_inc_input {
+  fid: bigint
+  reaction_type: smallint
+  target_fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.reactions"
+"""
+input farcaster_reactions_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  reaction_type: smallint
+  target_fid: bigint
+  target_hash: bytea
+  target_url: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_reactions_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  reaction_type: smallint
+  target_fid: bigint
+  target_url: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_reactions_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  reaction_type: smallint
+  target_fid: bigint
+  target_url: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.reactions"
+"""
+type farcaster_reactions_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_reactions!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.reactions"
+"""
+input farcaster_reactions_on_conflict {
+  constraint: farcaster_reactions_constraint!
+  update_columns: [farcaster_reactions_update_column!]! = []
+  where: farcaster_reactions_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.reactions".
+"""
+input farcaster_reactions_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+  target_hash: order_by
+  target_url: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.reactions
+"""
+input farcaster_reactions_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "farcaster.reactions"
+"""
+enum farcaster_reactions_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  reaction_type
+
+  """
+  column name
+  """
+  target_fid
+
+  """
+  column name
+  """
+  target_hash
+
+  """
+  column name
+  """
+  target_url
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.reactions"
+"""
+input farcaster_reactions_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  reaction_type: smallint
+  target_fid: bigint
+  target_hash: bytea
+  target_url: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_reactions_stddev_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_reactions_stddev_pop_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_reactions_stddev_samp_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_reactions"
+"""
+input farcaster_reactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_reactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_reactions_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  id: bigint
+  reaction_type: smallint
+  target_fid: bigint
+  target_hash: bytea
+  target_url: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_reactions_sum_fields {
+  fid: bigint
+  id: bigint
+  reaction_type: smallint
+  target_fid: bigint
+}
+
+"""
+update columns of table "farcaster.reactions"
+"""
+enum farcaster_reactions_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  reaction_type
+
+  """
+  column name
+  """
+  target_fid
+
+  """
+  column name
+  """
+  target_hash
+
+  """
+  column name
+  """
+  target_url
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_reactions_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_reactions_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_reactions_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_reactions_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_reactions_var_pop_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_reactions_var_samp_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_reactions_variance_fields {
+  fid: Float
+  id: Float
+  reaction_type: Float
+  target_fid: Float
+}
+
+"""
+columns and relationships of "farcaster.signers"
+"""
+type farcaster_signers {
+  app_fid: bigint
+  created_at: timestamp!
+  custody_address: bytea
+  deleted_at: timestamp
+  fid: bigint!
+  hash: bytea
+  id: bigint!
+  name: String
+  signer: bytea!
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.signers"
+"""
+type farcaster_signers_aggregate {
+  aggregate: farcaster_signers_aggregate_fields
+  nodes: [farcaster_signers!]!
+}
+
+"""
+aggregate fields of "farcaster.signers"
+"""
+type farcaster_signers_aggregate_fields {
+  avg: farcaster_signers_avg_fields
+  count(columns: [farcaster_signers_select_column!], distinct: Boolean): Int!
+  max: farcaster_signers_max_fields
+  min: farcaster_signers_min_fields
+  stddev: farcaster_signers_stddev_fields
+  stddev_pop: farcaster_signers_stddev_pop_fields
+  stddev_samp: farcaster_signers_stddev_samp_fields
+  sum: farcaster_signers_sum_fields
+  var_pop: farcaster_signers_var_pop_fields
+  var_samp: farcaster_signers_var_samp_fields
+  variance: farcaster_signers_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_signers_avg_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.signers". All fields are combined with a logical 'AND'.
+"""
+input farcaster_signers_bool_exp {
+  _and: [farcaster_signers_bool_exp!]
+  _not: farcaster_signers_bool_exp
+  _or: [farcaster_signers_bool_exp!]
+  app_fid: bigint_comparison_exp
+  created_at: timestamp_comparison_exp
+  custody_address: bytea_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  name: String_comparison_exp
+  signer: bytea_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.signers"
+"""
+enum farcaster_signers_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  signers_pkey
+
+  """
+  unique or primary key constraint on columns "fid", "signer", "timestamp"
+  """
+  unique_timestamp_fid_signer
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.signers"
+"""
+input farcaster_signers_inc_input {
+  app_fid: bigint
+  fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.signers"
+"""
+input farcaster_signers_insert_input {
+  app_fid: bigint
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  name: String
+  signer: bytea
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_signers_max_fields {
+  app_fid: bigint
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  name: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_signers_min_fields {
+  app_fid: bigint
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  name: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.signers"
+"""
+type farcaster_signers_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_signers!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.signers"
+"""
+input farcaster_signers_on_conflict {
+  constraint: farcaster_signers_constraint!
+  update_columns: [farcaster_signers_update_column!]! = []
+  where: farcaster_signers_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.signers".
+"""
+input farcaster_signers_order_by {
+  app_fid: order_by
+  created_at: order_by
+  custody_address: order_by
+  deleted_at: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  name: order_by
+  signer: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.signers
+"""
+input farcaster_signers_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "farcaster.signers"
+"""
+enum farcaster_signers_select_column {
+  """
+  column name
+  """
+  app_fid
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  signer
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.signers"
+"""
+input farcaster_signers_set_input {
+  app_fid: bigint
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  name: String
+  signer: bytea
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_signers_stddev_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_signers_stddev_pop_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_signers_stddev_samp_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_signers"
+"""
+input farcaster_signers_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_signers_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_signers_stream_cursor_value_input {
+  app_fid: bigint
+  created_at: timestamp
+  custody_address: bytea
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  id: bigint
+  name: String
+  signer: bytea
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_signers_sum_fields {
+  app_fid: bigint
+  fid: bigint
+  id: bigint
+}
+
+"""
+update columns of table "farcaster.signers"
+"""
+enum farcaster_signers_update_column {
+  """
+  column name
+  """
+  app_fid
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  custody_address
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  name
+
+  """
+  column name
+  """
+  signer
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_signers_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_signers_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_signers_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_signers_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_signers_var_pop_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_signers_var_samp_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_signers_variance_fields {
+  app_fid: Float
+  fid: Float
+  id: Float
+}
+
+"""
+columns and relationships of "farcaster.storage"
+"""
+type farcaster_storage {
+  created_at: timestamp!
+  deleted_at: timestamp
+  expiry: timestamp!
+  fid: bigint!
+  id: bigint!
+  timestamp: timestamp!
+  units: bigint!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.storage"
+"""
+type farcaster_storage_aggregate {
+  aggregate: farcaster_storage_aggregate_fields
+  nodes: [farcaster_storage!]!
+}
+
+"""
+aggregate fields of "farcaster.storage"
+"""
+type farcaster_storage_aggregate_fields {
+  avg: farcaster_storage_avg_fields
+  count(columns: [farcaster_storage_select_column!], distinct: Boolean): Int!
+  max: farcaster_storage_max_fields
+  min: farcaster_storage_min_fields
+  stddev: farcaster_storage_stddev_fields
+  stddev_pop: farcaster_storage_stddev_pop_fields
+  stddev_samp: farcaster_storage_stddev_samp_fields
+  sum: farcaster_storage_sum_fields
+  var_pop: farcaster_storage_var_pop_fields
+  var_samp: farcaster_storage_var_samp_fields
+  variance: farcaster_storage_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_storage_avg_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.storage". All fields are combined with a logical 'AND'.
+"""
+input farcaster_storage_bool_exp {
+  _and: [farcaster_storage_bool_exp!]
+  _not: farcaster_storage_bool_exp
+  _or: [farcaster_storage_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  expiry: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  id: bigint_comparison_exp
+  timestamp: timestamp_comparison_exp
+  units: bigint_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.storage"
+"""
+enum farcaster_storage_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  storage_pkey
+
+  """
+  unique or primary key constraint on columns "expiry", "fid", "units"
+  """
+  unique_fid_units_expiry
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.storage"
+"""
+input farcaster_storage_inc_input {
+  fid: bigint
+  units: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.storage"
+"""
+input farcaster_storage_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  expiry: timestamp
+  fid: bigint
+  timestamp: timestamp
+  units: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_storage_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  expiry: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  units: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_storage_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  expiry: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  units: bigint
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.storage"
+"""
+type farcaster_storage_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_storage!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.storage"
+"""
+input farcaster_storage_on_conflict {
+  constraint: farcaster_storage_constraint!
+  update_columns: [farcaster_storage_update_column!]! = []
+  where: farcaster_storage_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.storage".
+"""
+input farcaster_storage_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  expiry: order_by
+  fid: order_by
+  id: order_by
+  timestamp: order_by
+  units: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.storage
+"""
+input farcaster_storage_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "farcaster.storage"
+"""
+enum farcaster_storage_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  expiry
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  units
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.storage"
+"""
+input farcaster_storage_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  expiry: timestamp
+  fid: bigint
+  timestamp: timestamp
+  units: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_storage_stddev_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_storage_stddev_pop_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_storage_stddev_samp_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_storage"
+"""
+input farcaster_storage_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_storage_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_storage_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  expiry: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  units: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_storage_sum_fields {
+  fid: bigint
+  id: bigint
+  units: bigint
+}
+
+"""
+update columns of table "farcaster.storage"
+"""
+enum farcaster_storage_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  expiry
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  units
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_storage_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_storage_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_storage_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_storage_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_storage_var_pop_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_storage_var_samp_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_storage_variance_fields {
+  fid: Float
+  id: Float
+  units: Float
+}
+
+"""
+columns and relationships of "farcaster.user_data"
+"""
+type farcaster_user_data {
+  created_at: timestamp!
+  deleted_at: timestamp
+  fid: bigint!
+  hash: bytea!
+  id: bigint!
+  timestamp: timestamp!
+  type: smallint!
+  updated_at: timestamp!
+  value: String!
+}
+
+"""
+aggregated selection of "farcaster.user_data"
+"""
+type farcaster_user_data_aggregate {
+  aggregate: farcaster_user_data_aggregate_fields
+  nodes: [farcaster_user_data!]!
+}
+
+"""
+aggregate fields of "farcaster.user_data"
+"""
+type farcaster_user_data_aggregate_fields {
+  avg: farcaster_user_data_avg_fields
+  count(columns: [farcaster_user_data_select_column!], distinct: Boolean): Int!
+  max: farcaster_user_data_max_fields
+  min: farcaster_user_data_min_fields
+  stddev: farcaster_user_data_stddev_fields
+  stddev_pop: farcaster_user_data_stddev_pop_fields
+  stddev_samp: farcaster_user_data_stddev_samp_fields
+  sum: farcaster_user_data_sum_fields
+  var_pop: farcaster_user_data_var_pop_fields
+  var_samp: farcaster_user_data_var_samp_fields
+  variance: farcaster_user_data_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_user_data_avg_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.user_data". All fields are combined with a logical 'AND'.
+"""
+input farcaster_user_data_bool_exp {
+  _and: [farcaster_user_data_bool_exp!]
+  _not: farcaster_user_data_bool_exp
+  _or: [farcaster_user_data_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  timestamp: timestamp_comparison_exp
+  type: smallint_comparison_exp
+  updated_at: timestamp_comparison_exp
+  value: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.user_data"
+"""
+enum farcaster_user_data_constraint {
+  """
+  unique or primary key constraint on columns "fid", "type"
+  """
+  user_data_fid_type_unique
+
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  user_data_hash_unique
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  user_data_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.user_data"
+"""
+input farcaster_user_data_inc_input {
+  fid: bigint
+  type: smallint
+}
+
+"""
+input type for inserting data into table "farcaster.user_data"
+"""
+input farcaster_user_data_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  timestamp: timestamp
+  type: smallint
+  updated_at: timestamp
+  value: String
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_user_data_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  type: smallint
+  updated_at: timestamp
+  value: String
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_user_data_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  type: smallint
+  updated_at: timestamp
+  value: String
+}
+
+"""
+response of any mutation on the table "farcaster.user_data"
+"""
+type farcaster_user_data_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_user_data!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.user_data"
+"""
+input farcaster_user_data_on_conflict {
+  constraint: farcaster_user_data_constraint!
+  update_columns: [farcaster_user_data_update_column!]! = []
+  where: farcaster_user_data_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.user_data".
+"""
+input farcaster_user_data_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  timestamp: order_by
+  type: order_by
+  updated_at: order_by
+  value: order_by
+}
+
+"""
+primary key columns input for table: farcaster.user_data
+"""
+input farcaster_user_data_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "farcaster.user_data"
+"""
+enum farcaster_user_data_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  value
+}
+
+"""
+input type for updating data in table "farcaster.user_data"
+"""
+input farcaster_user_data_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  timestamp: timestamp
+  type: smallint
+  updated_at: timestamp
+  value: String
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_user_data_stddev_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_user_data_stddev_pop_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_user_data_stddev_samp_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_user_data"
+"""
+input farcaster_user_data_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_user_data_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_user_data_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  id: bigint
+  timestamp: timestamp
+  type: smallint
+  updated_at: timestamp
+  value: String
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_user_data_sum_fields {
+  fid: bigint
+  id: bigint
+  type: smallint
+}
+
+"""
+update columns of table "farcaster.user_data"
+"""
+enum farcaster_user_data_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  type
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  value
+}
+
+input farcaster_user_data_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_user_data_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_user_data_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_user_data_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_user_data_var_pop_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_user_data_var_samp_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_user_data_variance_fields {
+  fid: Float
+  id: Float
+  type: Float
+}
+
+"""
+columns and relationships of "farcaster.verifications"
+"""
+type farcaster_verifications {
+  claim(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+  created_at: timestamp!
+  deleted_at: timestamp
+  fid: bigint!
+  hash: bytea!
+  id: bigint!
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.verifications"
+"""
+type farcaster_verifications_aggregate {
+  aggregate: farcaster_verifications_aggregate_fields
+  nodes: [farcaster_verifications!]!
+}
+
+"""
+aggregate fields of "farcaster.verifications"
+"""
+type farcaster_verifications_aggregate_fields {
+  avg: farcaster_verifications_avg_fields
+  count(
+    columns: [farcaster_verifications_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: farcaster_verifications_max_fields
+  min: farcaster_verifications_min_fields
+  stddev: farcaster_verifications_stddev_fields
+  stddev_pop: farcaster_verifications_stddev_pop_fields
+  stddev_samp: farcaster_verifications_stddev_samp_fields
+  sum: farcaster_verifications_sum_fields
+  var_pop: farcaster_verifications_var_pop_fields
+  var_samp: farcaster_verifications_var_samp_fields
+  variance: farcaster_verifications_variance_fields
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input farcaster_verifications_append_input {
+  claim: jsonb
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_verifications_avg_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.verifications". All fields are combined with a logical 'AND'.
+"""
+input farcaster_verifications_bool_exp {
+  _and: [farcaster_verifications_bool_exp!]
+  _not: farcaster_verifications_bool_exp
+  _or: [farcaster_verifications_bool_exp!]
+  claim: jsonb_comparison_exp
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.verifications"
+"""
+enum farcaster_verifications_constraint {
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  verifications_hash_unique
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  verifications_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input farcaster_verifications_delete_at_path_input {
+  claim: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input farcaster_verifications_delete_elem_input {
+  claim: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input farcaster_verifications_delete_key_input {
+  claim: String
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.verifications"
+"""
+input farcaster_verifications_inc_input {
+  fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.verifications"
+"""
+input farcaster_verifications_insert_input {
+  claim: jsonb
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_verifications_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_verifications_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.verifications"
+"""
+type farcaster_verifications_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_verifications!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.verifications"
+"""
+input farcaster_verifications_on_conflict {
+  constraint: farcaster_verifications_constraint!
+  update_columns: [farcaster_verifications_update_column!]! = []
+  where: farcaster_verifications_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.verifications".
+"""
+input farcaster_verifications_order_by {
+  claim: order_by
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.verifications
+"""
+input farcaster_verifications_pk_columns_input {
+  id: bigint!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input farcaster_verifications_prepend_input {
+  claim: jsonb
+}
+
+"""
+select columns of table "farcaster.verifications"
+"""
+enum farcaster_verifications_select_column {
+  """
+  column name
+  """
+  claim
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.verifications"
+"""
+input farcaster_verifications_set_input {
+  claim: jsonb
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_verifications_stddev_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_verifications_stddev_pop_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_verifications_stddev_samp_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_verifications"
+"""
+input farcaster_verifications_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_verifications_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_verifications_stream_cursor_value_input {
+  claim: jsonb
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  hash: bytea
+  id: bigint
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_verifications_sum_fields {
+  fid: bigint
+  id: bigint
+}
+
+"""
+update columns of table "farcaster.verifications"
+"""
+enum farcaster_verifications_update_column {
+  """
+  column name
+  """
+  claim
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_verifications_updates {
+  """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: farcaster_verifications_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: farcaster_verifications_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: farcaster_verifications_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: farcaster_verifications_delete_key_input
+
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_verifications_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: farcaster_verifications_prepend_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_verifications_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_verifications_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_verifications_var_pop_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_verifications_var_samp_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_verifications_variance_fields {
+  fid: Float
+  id: Float
+}
+
+"""
+columns and relationships of "farcaster.warpcast_power_users"
+"""
+type farcaster_warpcast_power_users {
+  created_at: timestamp!
+  deleted_at: timestamp
+  fid: bigint!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "farcaster.warpcast_power_users"
+"""
+type farcaster_warpcast_power_users_aggregate {
+  aggregate: farcaster_warpcast_power_users_aggregate_fields
+  nodes: [farcaster_warpcast_power_users!]!
+}
+
+"""
+aggregate fields of "farcaster.warpcast_power_users"
+"""
+type farcaster_warpcast_power_users_aggregate_fields {
+  avg: farcaster_warpcast_power_users_avg_fields
+  count(
+    columns: [farcaster_warpcast_power_users_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: farcaster_warpcast_power_users_max_fields
+  min: farcaster_warpcast_power_users_min_fields
+  stddev: farcaster_warpcast_power_users_stddev_fields
+  stddev_pop: farcaster_warpcast_power_users_stddev_pop_fields
+  stddev_samp: farcaster_warpcast_power_users_stddev_samp_fields
+  sum: farcaster_warpcast_power_users_sum_fields
+  var_pop: farcaster_warpcast_power_users_var_pop_fields
+  var_samp: farcaster_warpcast_power_users_var_samp_fields
+  variance: farcaster_warpcast_power_users_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_warpcast_power_users_avg_fields {
+  fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.warpcast_power_users". All fields are combined with a logical 'AND'.
+"""
+input farcaster_warpcast_power_users_bool_exp {
+  _and: [farcaster_warpcast_power_users_bool_exp!]
+  _not: farcaster_warpcast_power_users_bool_exp
+  _or: [farcaster_warpcast_power_users_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  fid: bigint_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "farcaster.warpcast_power_users"
+"""
+enum farcaster_warpcast_power_users_constraint {
+  """
+  unique or primary key constraint on columns "fid"
+  """
+  warpcast_power_users_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.warpcast_power_users"
+"""
+input farcaster_warpcast_power_users_inc_input {
+  fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.warpcast_power_users"
+"""
+input farcaster_warpcast_power_users_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_warpcast_power_users_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_warpcast_power_users_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "farcaster.warpcast_power_users"
+"""
+type farcaster_warpcast_power_users_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_warpcast_power_users!]!
+}
+
+"""
+on_conflict condition type for table "farcaster.warpcast_power_users"
+"""
+input farcaster_warpcast_power_users_on_conflict {
+  constraint: farcaster_warpcast_power_users_constraint!
+  update_columns: [farcaster_warpcast_power_users_update_column!]! = []
+  where: farcaster_warpcast_power_users_bool_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.warpcast_power_users".
+"""
+input farcaster_warpcast_power_users_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: farcaster.warpcast_power_users
+"""
+input farcaster_warpcast_power_users_pk_columns_input {
+  fid: bigint!
+}
+
+"""
+select columns of table "farcaster.warpcast_power_users"
+"""
+enum farcaster_warpcast_power_users_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "farcaster.warpcast_power_users"
+"""
+input farcaster_warpcast_power_users_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_warpcast_power_users_stddev_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_warpcast_power_users_stddev_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_warpcast_power_users_stddev_samp_fields {
+  fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_warpcast_power_users"
+"""
+input farcaster_warpcast_power_users_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_warpcast_power_users_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_warpcast_power_users_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_warpcast_power_users_sum_fields {
+  fid: bigint
+}
+
+"""
+update columns of table "farcaster.warpcast_power_users"
+"""
+enum farcaster_warpcast_power_users_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input farcaster_warpcast_power_users_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_warpcast_power_users_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_warpcast_power_users_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_warpcast_power_users_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_warpcast_power_users_var_pop_fields {
+  fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_warpcast_power_users_var_samp_fields {
+  fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_warpcast_power_users_variance_fields {
+  fid: Float
+}
+
 scalar float8
 
 """
@@ -22538,6 +26845,158 @@ type mutation_root {
   delete_farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
 
   """
+  delete data from the table: "farcaster.casts"
+  """
+  delete_farcaster_casts(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_casts_bool_exp!
+  ): farcaster_casts_mutation_response
+
+  """
+  delete single row from the table: "farcaster.casts"
+  """
+  delete_farcaster_casts_by_pk(id: bigint!): farcaster_casts
+
+  """
+  delete data from the table: "farcaster.fids"
+  """
+  delete_farcaster_fids(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_fids_bool_exp!
+  ): farcaster_fids_mutation_response
+
+  """
+  delete single row from the table: "farcaster.fids"
+  """
+  delete_farcaster_fids_by_pk(fid: bigint!): farcaster_fids
+
+  """
+  delete data from the table: "farcaster.fnames"
+  """
+  delete_farcaster_fnames(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_fnames_bool_exp!
+  ): farcaster_fnames_mutation_response
+
+  """
+  delete single row from the table: "farcaster.fnames"
+  """
+  delete_farcaster_fnames_by_pk(fname: String!): farcaster_fnames
+
+  """
+  delete data from the table: "farcaster.links"
+  """
+  delete_farcaster_links(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_links_bool_exp!
+  ): farcaster_links_mutation_response
+
+  """
+  delete single row from the table: "farcaster.links"
+  """
+  delete_farcaster_links_by_pk(id: bigint!): farcaster_links
+
+  """
+  delete data from the table: "farcaster.reactions"
+  """
+  delete_farcaster_reactions(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_reactions_bool_exp!
+  ): farcaster_reactions_mutation_response
+
+  """
+  delete single row from the table: "farcaster.reactions"
+  """
+  delete_farcaster_reactions_by_pk(id: bigint!): farcaster_reactions
+
+  """
+  delete data from the table: "farcaster.signers"
+  """
+  delete_farcaster_signers(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_signers_bool_exp!
+  ): farcaster_signers_mutation_response
+
+  """
+  delete single row from the table: "farcaster.signers"
+  """
+  delete_farcaster_signers_by_pk(id: bigint!): farcaster_signers
+
+  """
+  delete data from the table: "farcaster.storage"
+  """
+  delete_farcaster_storage(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_storage_bool_exp!
+  ): farcaster_storage_mutation_response
+
+  """
+  delete single row from the table: "farcaster.storage"
+  """
+  delete_farcaster_storage_by_pk(id: bigint!): farcaster_storage
+
+  """
+  delete data from the table: "farcaster.user_data"
+  """
+  delete_farcaster_user_data(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_user_data_bool_exp!
+  ): farcaster_user_data_mutation_response
+
+  """
+  delete single row from the table: "farcaster.user_data"
+  """
+  delete_farcaster_user_data_by_pk(id: bigint!): farcaster_user_data
+
+  """
+  delete data from the table: "farcaster.verifications"
+  """
+  delete_farcaster_verifications(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_verifications_bool_exp!
+  ): farcaster_verifications_mutation_response
+
+  """
+  delete single row from the table: "farcaster.verifications"
+  """
+  delete_farcaster_verifications_by_pk(id: bigint!): farcaster_verifications
+
+  """
+  delete data from the table: "farcaster.warpcast_power_users"
+  """
+  delete_farcaster_warpcast_power_users(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_warpcast_power_users_bool_exp!
+  ): farcaster_warpcast_power_users_mutation_response
+
+  """
+  delete single row from the table: "farcaster.warpcast_power_users"
+  """
+  delete_farcaster_warpcast_power_users_by_pk(
+    fid: bigint!
+  ): farcaster_warpcast_power_users
+
+  """
   delete data from the table: "gift_private"
   """
   delete_gift_private(
@@ -23895,6 +28354,306 @@ type mutation_root {
     """
     on_conflict: farcaster_accounts_on_conflict
   ): farcaster_accounts
+
+  """
+  insert data into the table: "farcaster.casts"
+  """
+  insert_farcaster_casts(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_casts_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_casts_on_conflict
+  ): farcaster_casts_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.casts"
+  """
+  insert_farcaster_casts_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_casts_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_casts_on_conflict
+  ): farcaster_casts
+
+  """
+  insert data into the table: "farcaster.fids"
+  """
+  insert_farcaster_fids(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_fids_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_fids_on_conflict
+  ): farcaster_fids_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.fids"
+  """
+  insert_farcaster_fids_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_fids_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_fids_on_conflict
+  ): farcaster_fids
+
+  """
+  insert data into the table: "farcaster.fnames"
+  """
+  insert_farcaster_fnames(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_fnames_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_fnames_on_conflict
+  ): farcaster_fnames_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.fnames"
+  """
+  insert_farcaster_fnames_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_fnames_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_fnames_on_conflict
+  ): farcaster_fnames
+
+  """
+  insert data into the table: "farcaster.links"
+  """
+  insert_farcaster_links(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_links_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_links_on_conflict
+  ): farcaster_links_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.links"
+  """
+  insert_farcaster_links_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_links_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_links_on_conflict
+  ): farcaster_links
+
+  """
+  insert data into the table: "farcaster.reactions"
+  """
+  insert_farcaster_reactions(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_reactions_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_reactions_on_conflict
+  ): farcaster_reactions_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.reactions"
+  """
+  insert_farcaster_reactions_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_reactions_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_reactions_on_conflict
+  ): farcaster_reactions
+
+  """
+  insert data into the table: "farcaster.signers"
+  """
+  insert_farcaster_signers(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_signers_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_signers_on_conflict
+  ): farcaster_signers_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.signers"
+  """
+  insert_farcaster_signers_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_signers_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_signers_on_conflict
+  ): farcaster_signers
+
+  """
+  insert data into the table: "farcaster.storage"
+  """
+  insert_farcaster_storage(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_storage_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_storage_on_conflict
+  ): farcaster_storage_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.storage"
+  """
+  insert_farcaster_storage_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_storage_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_storage_on_conflict
+  ): farcaster_storage
+
+  """
+  insert data into the table: "farcaster.user_data"
+  """
+  insert_farcaster_user_data(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_user_data_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_user_data_on_conflict
+  ): farcaster_user_data_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.user_data"
+  """
+  insert_farcaster_user_data_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_user_data_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_user_data_on_conflict
+  ): farcaster_user_data
+
+  """
+  insert data into the table: "farcaster.verifications"
+  """
+  insert_farcaster_verifications(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_verifications_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_verifications_on_conflict
+  ): farcaster_verifications_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.verifications"
+  """
+  insert_farcaster_verifications_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_verifications_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_verifications_on_conflict
+  ): farcaster_verifications
+
+  """
+  insert data into the table: "farcaster.warpcast_power_users"
+  """
+  insert_farcaster_warpcast_power_users(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_warpcast_power_users_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_warpcast_power_users_on_conflict
+  ): farcaster_warpcast_power_users_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.warpcast_power_users"
+  """
+  insert_farcaster_warpcast_power_users_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_warpcast_power_users_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: farcaster_warpcast_power_users_on_conflict
+  ): farcaster_warpcast_power_users
 
   """
   insert data into the table: "gift_private"
@@ -26435,6 +31194,566 @@ type mutation_root {
     """
     updates: [farcaster_accounts_updates!]!
   ): [farcaster_accounts_mutation_response]
+
+  """
+  update data of the table: "farcaster.casts"
+  """
+  update_farcaster_casts(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: farcaster_casts_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: farcaster_casts_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: farcaster_casts_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: farcaster_casts_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_casts_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: farcaster_casts_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_casts_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_casts_bool_exp!
+  ): farcaster_casts_mutation_response
+
+  """
+  update single row of the table: "farcaster.casts"
+  """
+  update_farcaster_casts_by_pk(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: farcaster_casts_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: farcaster_casts_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: farcaster_casts_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: farcaster_casts_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_casts_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: farcaster_casts_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_casts_set_input
+    pk_columns: farcaster_casts_pk_columns_input!
+  ): farcaster_casts
+
+  """
+  update multiples rows of table: "farcaster.casts"
+  """
+  update_farcaster_casts_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_casts_updates!]!
+  ): [farcaster_casts_mutation_response]
+
+  """
+  update data of the table: "farcaster.fids"
+  """
+  update_farcaster_fids(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_fids_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_fids_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_fids_bool_exp!
+  ): farcaster_fids_mutation_response
+
+  """
+  update single row of the table: "farcaster.fids"
+  """
+  update_farcaster_fids_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_fids_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_fids_set_input
+    pk_columns: farcaster_fids_pk_columns_input!
+  ): farcaster_fids
+
+  """
+  update multiples rows of table: "farcaster.fids"
+  """
+  update_farcaster_fids_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_fids_updates!]!
+  ): [farcaster_fids_mutation_response]
+
+  """
+  update data of the table: "farcaster.fnames"
+  """
+  update_farcaster_fnames(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_fnames_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_fnames_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_fnames_bool_exp!
+  ): farcaster_fnames_mutation_response
+
+  """
+  update single row of the table: "farcaster.fnames"
+  """
+  update_farcaster_fnames_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_fnames_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_fnames_set_input
+    pk_columns: farcaster_fnames_pk_columns_input!
+  ): farcaster_fnames
+
+  """
+  update multiples rows of table: "farcaster.fnames"
+  """
+  update_farcaster_fnames_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_fnames_updates!]!
+  ): [farcaster_fnames_mutation_response]
+
+  """
+  update data of the table: "farcaster.links"
+  """
+  update_farcaster_links(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_links_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_links_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_links_bool_exp!
+  ): farcaster_links_mutation_response
+
+  """
+  update single row of the table: "farcaster.links"
+  """
+  update_farcaster_links_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_links_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_links_set_input
+    pk_columns: farcaster_links_pk_columns_input!
+  ): farcaster_links
+
+  """
+  update multiples rows of table: "farcaster.links"
+  """
+  update_farcaster_links_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_links_updates!]!
+  ): [farcaster_links_mutation_response]
+
+  """
+  update data of the table: "farcaster.reactions"
+  """
+  update_farcaster_reactions(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_reactions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_reactions_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_reactions_bool_exp!
+  ): farcaster_reactions_mutation_response
+
+  """
+  update single row of the table: "farcaster.reactions"
+  """
+  update_farcaster_reactions_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_reactions_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_reactions_set_input
+    pk_columns: farcaster_reactions_pk_columns_input!
+  ): farcaster_reactions
+
+  """
+  update multiples rows of table: "farcaster.reactions"
+  """
+  update_farcaster_reactions_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_reactions_updates!]!
+  ): [farcaster_reactions_mutation_response]
+
+  """
+  update data of the table: "farcaster.signers"
+  """
+  update_farcaster_signers(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_signers_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_signers_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_signers_bool_exp!
+  ): farcaster_signers_mutation_response
+
+  """
+  update single row of the table: "farcaster.signers"
+  """
+  update_farcaster_signers_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_signers_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_signers_set_input
+    pk_columns: farcaster_signers_pk_columns_input!
+  ): farcaster_signers
+
+  """
+  update multiples rows of table: "farcaster.signers"
+  """
+  update_farcaster_signers_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_signers_updates!]!
+  ): [farcaster_signers_mutation_response]
+
+  """
+  update data of the table: "farcaster.storage"
+  """
+  update_farcaster_storage(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_storage_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_storage_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_storage_bool_exp!
+  ): farcaster_storage_mutation_response
+
+  """
+  update single row of the table: "farcaster.storage"
+  """
+  update_farcaster_storage_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_storage_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_storage_set_input
+    pk_columns: farcaster_storage_pk_columns_input!
+  ): farcaster_storage
+
+  """
+  update multiples rows of table: "farcaster.storage"
+  """
+  update_farcaster_storage_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_storage_updates!]!
+  ): [farcaster_storage_mutation_response]
+
+  """
+  update data of the table: "farcaster.user_data"
+  """
+  update_farcaster_user_data(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_user_data_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_user_data_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_user_data_bool_exp!
+  ): farcaster_user_data_mutation_response
+
+  """
+  update single row of the table: "farcaster.user_data"
+  """
+  update_farcaster_user_data_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_user_data_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_user_data_set_input
+    pk_columns: farcaster_user_data_pk_columns_input!
+  ): farcaster_user_data
+
+  """
+  update multiples rows of table: "farcaster.user_data"
+  """
+  update_farcaster_user_data_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_user_data_updates!]!
+  ): [farcaster_user_data_mutation_response]
+
+  """
+  update data of the table: "farcaster.verifications"
+  """
+  update_farcaster_verifications(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: farcaster_verifications_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: farcaster_verifications_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: farcaster_verifications_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: farcaster_verifications_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_verifications_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: farcaster_verifications_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_verifications_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_verifications_bool_exp!
+  ): farcaster_verifications_mutation_response
+
+  """
+  update single row of the table: "farcaster.verifications"
+  """
+  update_farcaster_verifications_by_pk(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: farcaster_verifications_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: farcaster_verifications_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: farcaster_verifications_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: farcaster_verifications_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_verifications_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: farcaster_verifications_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_verifications_set_input
+    pk_columns: farcaster_verifications_pk_columns_input!
+  ): farcaster_verifications
+
+  """
+  update multiples rows of table: "farcaster.verifications"
+  """
+  update_farcaster_verifications_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_verifications_updates!]!
+  ): [farcaster_verifications_mutation_response]
+
+  """
+  update data of the table: "farcaster.warpcast_power_users"
+  """
+  update_farcaster_warpcast_power_users(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_warpcast_power_users_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_warpcast_power_users_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_warpcast_power_users_bool_exp!
+  ): farcaster_warpcast_power_users_mutation_response
+
+  """
+  update single row of the table: "farcaster.warpcast_power_users"
+  """
+  update_farcaster_warpcast_power_users_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_warpcast_power_users_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_warpcast_power_users_set_input
+    pk_columns: farcaster_warpcast_power_users_pk_columns_input!
+  ): farcaster_warpcast_power_users
+
+  """
+  update multiples rows of table: "farcaster.warpcast_power_users"
+  """
+  update_farcaster_warpcast_power_users_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_warpcast_power_users_updates!]!
+  ): [farcaster_warpcast_power_users_mutation_response]
 
   """
   update data of the table: "gift_private"
@@ -41490,6 +46809,718 @@ type query_root {
   fetch data from the table: "farcaster_accounts" using primary key columns
   """
   farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
+
+  """
+  fetch data from the table: "farcaster.casts"
+  """
+  farcaster_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): [farcaster_casts!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.casts"
+  """
+  farcaster_casts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): farcaster_casts_aggregate!
+
+  """
+  fetch data from the table: "farcaster.casts" using primary key columns
+  """
+  farcaster_casts_by_pk(id: bigint!): farcaster_casts
+
+  """
+  fetch data from the table: "farcaster.fids"
+  """
+  farcaster_fids(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fids_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fids_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fids_bool_exp
+  ): [farcaster_fids!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.fids"
+  """
+  farcaster_fids_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fids_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fids_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fids_bool_exp
+  ): farcaster_fids_aggregate!
+
+  """
+  fetch data from the table: "farcaster.fids" using primary key columns
+  """
+  farcaster_fids_by_pk(fid: bigint!): farcaster_fids
+
+  """
+  fetch data from the table: "farcaster.fnames"
+  """
+  farcaster_fnames(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fnames_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fnames_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fnames_bool_exp
+  ): [farcaster_fnames!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.fnames"
+  """
+  farcaster_fnames_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fnames_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fnames_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fnames_bool_exp
+  ): farcaster_fnames_aggregate!
+
+  """
+  fetch data from the table: "farcaster.fnames" using primary key columns
+  """
+  farcaster_fnames_by_pk(fname: String!): farcaster_fnames
+
+  """
+  fetch data from the table: "farcaster.links"
+  """
+  farcaster_links(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_links_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_links_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_links_bool_exp
+  ): [farcaster_links!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.links"
+  """
+  farcaster_links_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_links_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_links_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_links_bool_exp
+  ): farcaster_links_aggregate!
+
+  """
+  fetch data from the table: "farcaster.links" using primary key columns
+  """
+  farcaster_links_by_pk(id: bigint!): farcaster_links
+
+  """
+  fetch data from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): farcaster_profile_with_addresses_aggregate!
+
+  """
+  fetch data from the table: "farcaster.reactions"
+  """
+  farcaster_reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): [farcaster_reactions!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.reactions"
+  """
+  farcaster_reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): farcaster_reactions_aggregate!
+
+  """
+  fetch data from the table: "farcaster.reactions" using primary key columns
+  """
+  farcaster_reactions_by_pk(id: bigint!): farcaster_reactions
+
+  """
+  fetch data from the table: "farcaster.signers"
+  """
+  farcaster_signers(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_signers_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_signers_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_signers_bool_exp
+  ): [farcaster_signers!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.signers"
+  """
+  farcaster_signers_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_signers_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_signers_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_signers_bool_exp
+  ): farcaster_signers_aggregate!
+
+  """
+  fetch data from the table: "farcaster.signers" using primary key columns
+  """
+  farcaster_signers_by_pk(id: bigint!): farcaster_signers
+
+  """
+  fetch data from the table: "farcaster.storage"
+  """
+  farcaster_storage(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_storage_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_storage_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_storage_bool_exp
+  ): [farcaster_storage!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.storage"
+  """
+  farcaster_storage_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_storage_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_storage_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_storage_bool_exp
+  ): farcaster_storage_aggregate!
+
+  """
+  fetch data from the table: "farcaster.storage" using primary key columns
+  """
+  farcaster_storage_by_pk(id: bigint!): farcaster_storage
+
+  """
+  fetch data from the table: "farcaster.user_data"
+  """
+  farcaster_user_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_user_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_user_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_user_data_bool_exp
+  ): [farcaster_user_data!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.user_data"
+  """
+  farcaster_user_data_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_user_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_user_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_user_data_bool_exp
+  ): farcaster_user_data_aggregate!
+
+  """
+  fetch data from the table: "farcaster.user_data" using primary key columns
+  """
+  farcaster_user_data_by_pk(id: bigint!): farcaster_user_data
+
+  """
+  fetch data from the table: "farcaster.verifications"
+  """
+  farcaster_verifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_verifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_verifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_verifications_bool_exp
+  ): [farcaster_verifications!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.verifications"
+  """
+  farcaster_verifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_verifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_verifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_verifications_bool_exp
+  ): farcaster_verifications_aggregate!
+
+  """
+  fetch data from the table: "farcaster.verifications" using primary key columns
+  """
+  farcaster_verifications_by_pk(id: bigint!): farcaster_verifications
+
+  """
+  fetch data from the table: "farcaster.warpcast_power_users"
+  """
+  farcaster_warpcast_power_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_warpcast_power_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_warpcast_power_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_warpcast_power_users_bool_exp
+  ): [farcaster_warpcast_power_users!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.warpcast_power_users"
+  """
+  farcaster_warpcast_power_users_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_warpcast_power_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_warpcast_power_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_warpcast_power_users_bool_exp
+  ): farcaster_warpcast_power_users_aggregate!
+
+  """
+  fetch data from the table: "farcaster.warpcast_power_users" using primary key columns
+  """
+  farcaster_warpcast_power_users_by_pk(
+    fid: bigint!
+  ): farcaster_warpcast_power_users
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
@@ -47898,6 +53929,47 @@ type skills_variance_fields {
   count: Float
 }
 
+scalar smallint
+
+"""
+Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'.
+"""
+input smallint_array_comparison_exp {
+  """
+  is the array contained in the given array value
+  """
+  _contained_in: [smallint!]
+
+  """
+  does the array contain the given value
+  """
+  _contains: [smallint!]
+  _eq: [smallint!]
+  _gt: [smallint!]
+  _gte: [smallint!]
+  _in: [[smallint!]!]
+  _is_null: Boolean
+  _lt: [smallint!]
+  _lte: [smallint!]
+  _neq: [smallint!]
+  _nin: [[smallint!]!]
+}
+
+"""
+Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'.
+"""
+input smallint_comparison_exp {
+  _eq: smallint
+  _gt: smallint
+  _gte: smallint
+  _in: [smallint!]
+  _is_null: Boolean
+  _lt: smallint
+  _lte: smallint
+  _neq: smallint
+  _nin: [smallint!]
+}
+
 type subscription_root {
   """
   An array relationship
@@ -50088,6 +56160,938 @@ type subscription_root {
     """
     where: farcaster_accounts_bool_exp
   ): [farcaster_accounts!]!
+
+  """
+  fetch data from the table: "farcaster.casts"
+  """
+  farcaster_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): [farcaster_casts!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.casts"
+  """
+  farcaster_casts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): farcaster_casts_aggregate!
+
+  """
+  fetch data from the table: "farcaster.casts" using primary key columns
+  """
+  farcaster_casts_by_pk(id: bigint!): farcaster_casts
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.casts"
+  """
+  farcaster_casts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_casts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): [farcaster_casts!]!
+
+  """
+  fetch data from the table: "farcaster.fids"
+  """
+  farcaster_fids(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fids_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fids_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fids_bool_exp
+  ): [farcaster_fids!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.fids"
+  """
+  farcaster_fids_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fids_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fids_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fids_bool_exp
+  ): farcaster_fids_aggregate!
+
+  """
+  fetch data from the table: "farcaster.fids" using primary key columns
+  """
+  farcaster_fids_by_pk(fid: bigint!): farcaster_fids
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.fids"
+  """
+  farcaster_fids_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_fids_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fids_bool_exp
+  ): [farcaster_fids!]!
+
+  """
+  fetch data from the table: "farcaster.fnames"
+  """
+  farcaster_fnames(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fnames_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fnames_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fnames_bool_exp
+  ): [farcaster_fnames!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.fnames"
+  """
+  farcaster_fnames_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_fnames_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_fnames_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fnames_bool_exp
+  ): farcaster_fnames_aggregate!
+
+  """
+  fetch data from the table: "farcaster.fnames" using primary key columns
+  """
+  farcaster_fnames_by_pk(fname: String!): farcaster_fnames
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.fnames"
+  """
+  farcaster_fnames_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_fnames_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_fnames_bool_exp
+  ): [farcaster_fnames!]!
+
+  """
+  fetch data from the table: "farcaster.links"
+  """
+  farcaster_links(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_links_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_links_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_links_bool_exp
+  ): [farcaster_links!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.links"
+  """
+  farcaster_links_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_links_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_links_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_links_bool_exp
+  ): farcaster_links_aggregate!
+
+  """
+  fetch data from the table: "farcaster.links" using primary key columns
+  """
+  farcaster_links_by_pk(id: bigint!): farcaster_links
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.links"
+  """
+  farcaster_links_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_links_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_links_bool_exp
+  ): [farcaster_links!]!
+
+  """
+  fetch data from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): farcaster_profile_with_addresses_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_profile_with_addresses_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
+
+  """
+  fetch data from the table: "farcaster.reactions"
+  """
+  farcaster_reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): [farcaster_reactions!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.reactions"
+  """
+  farcaster_reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): farcaster_reactions_aggregate!
+
+  """
+  fetch data from the table: "farcaster.reactions" using primary key columns
+  """
+  farcaster_reactions_by_pk(id: bigint!): farcaster_reactions
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.reactions"
+  """
+  farcaster_reactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_reactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): [farcaster_reactions!]!
+
+  """
+  fetch data from the table: "farcaster.signers"
+  """
+  farcaster_signers(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_signers_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_signers_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_signers_bool_exp
+  ): [farcaster_signers!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.signers"
+  """
+  farcaster_signers_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_signers_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_signers_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_signers_bool_exp
+  ): farcaster_signers_aggregate!
+
+  """
+  fetch data from the table: "farcaster.signers" using primary key columns
+  """
+  farcaster_signers_by_pk(id: bigint!): farcaster_signers
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.signers"
+  """
+  farcaster_signers_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_signers_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_signers_bool_exp
+  ): [farcaster_signers!]!
+
+  """
+  fetch data from the table: "farcaster.storage"
+  """
+  farcaster_storage(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_storage_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_storage_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_storage_bool_exp
+  ): [farcaster_storage!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.storage"
+  """
+  farcaster_storage_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_storage_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_storage_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_storage_bool_exp
+  ): farcaster_storage_aggregate!
+
+  """
+  fetch data from the table: "farcaster.storage" using primary key columns
+  """
+  farcaster_storage_by_pk(id: bigint!): farcaster_storage
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.storage"
+  """
+  farcaster_storage_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_storage_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_storage_bool_exp
+  ): [farcaster_storage!]!
+
+  """
+  fetch data from the table: "farcaster.user_data"
+  """
+  farcaster_user_data(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_user_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_user_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_user_data_bool_exp
+  ): [farcaster_user_data!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.user_data"
+  """
+  farcaster_user_data_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_user_data_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_user_data_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_user_data_bool_exp
+  ): farcaster_user_data_aggregate!
+
+  """
+  fetch data from the table: "farcaster.user_data" using primary key columns
+  """
+  farcaster_user_data_by_pk(id: bigint!): farcaster_user_data
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.user_data"
+  """
+  farcaster_user_data_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_user_data_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_user_data_bool_exp
+  ): [farcaster_user_data!]!
+
+  """
+  fetch data from the table: "farcaster.verifications"
+  """
+  farcaster_verifications(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_verifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_verifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_verifications_bool_exp
+  ): [farcaster_verifications!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.verifications"
+  """
+  farcaster_verifications_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_verifications_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_verifications_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_verifications_bool_exp
+  ): farcaster_verifications_aggregate!
+
+  """
+  fetch data from the table: "farcaster.verifications" using primary key columns
+  """
+  farcaster_verifications_by_pk(id: bigint!): farcaster_verifications
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.verifications"
+  """
+  farcaster_verifications_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_verifications_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_verifications_bool_exp
+  ): [farcaster_verifications!]!
+
+  """
+  fetch data from the table: "farcaster.warpcast_power_users"
+  """
+  farcaster_warpcast_power_users(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_warpcast_power_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_warpcast_power_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_warpcast_power_users_bool_exp
+  ): [farcaster_warpcast_power_users!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.warpcast_power_users"
+  """
+  farcaster_warpcast_power_users_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_warpcast_power_users_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_warpcast_power_users_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_warpcast_power_users_bool_exp
+  ): farcaster_warpcast_power_users_aggregate!
+
+  """
+  fetch data from the table: "farcaster.warpcast_power_users" using primary key columns
+  """
+  farcaster_warpcast_power_users_by_pk(
+    fid: bigint!
+  ): farcaster_warpcast_power_users
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.warpcast_power_users"
+  """
+  farcaster_warpcast_power_users_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_warpcast_power_users_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_warpcast_power_users_bool_exp
+  ): [farcaster_warpcast_power_users!]!
 
   """
   fetch data from the table: "gift_private"
