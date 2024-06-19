@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { PartyProfileContent } from 'pages/GiveParty/PartyProfileContent';
+import { coLinksPaths } from 'routes/paths';
 import { Flex, Modal } from 'ui';
 
 const ForceGraph2D = lazy(() => import('react-force-graph-2d'));
@@ -63,7 +64,7 @@ export function GiveGraph({
 
   const imgCache = useRef<{ [key: string]: HTMLImageElement | null }>({});
 
-  const showExtras = data?.nodes?.length || 0 < 1000;
+  const showExtras = (data?.nodes?.length || 0) < 1000;
   const nodeCanvasObject = useCallback(
     (node: IMapNode, ctx: CanvasRenderingContext2D) => {
       const size = 14;
@@ -166,8 +167,12 @@ export function GiveGraph({
           }}
           nodeLabel={n => `${(n as node).name}`}
           onNodeClick={(node: NodeObject) => {
-            setSelectedNodeId(node.id as string);
-            setVisible(true);
+            if (showExtras) {
+              setSelectedNodeId(node.id as string);
+              setVisible(true);
+            } else {
+              window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
+            }
           }}
           {...(showExtras ? { nodeCanvasObject } : {})}
           //@ts-ignore TODO: fix types
