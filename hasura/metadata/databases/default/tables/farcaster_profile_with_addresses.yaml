@@ -1,0 +1,3 @@
+table:
+  name: profile_with_addresses
+  schema: farcaster
