@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -12,9 +10,8 @@ const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
 export const PartyProfile = () => {
   const { address } = useParams();
-  const { data, isLoading: fetchCoLinksProfileIsLoading } = useQuery(
-    [QUERY_KEY_PARTY_PROFILE, address, 'profile'],
-    () => fetchCoLinksProfile(address!)
+  const { data } = useQuery([QUERY_KEY_PARTY_PROFILE, address, 'profile'], () =>
+    fetchCoLinksProfile(address!)
   );
 
   const targetProfile = data as PublicProfile;
