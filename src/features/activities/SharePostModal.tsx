@@ -32,7 +32,7 @@ export const SharePostModal = ({
           },
         ],
       },
-      { operationName: 'genShareLink__sharePostModal' }
+      { operationName: 'sharePostModal__genShareLink' }
     );
   };
 
