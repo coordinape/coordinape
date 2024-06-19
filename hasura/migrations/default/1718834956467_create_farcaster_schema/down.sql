@@ -1,0 +1,11 @@
+DROP VIEW IF EXISTS farcaster.profile_with_addresses;
+DROP TABLE IF EXISTS farcaster.casts;
+DROP TABLE IF EXISTS farcaster.fids;
+DROP TABLE IF EXISTS farcaster.fnames;
+DROP TABLE IF EXISTS farcaster.links;
+DROP TABLE IF EXISTS farcaster.user_data;
+DROP TABLE IF EXISTS farcaster.verifications;
+DROP TABLE IF EXISTS farcaster.reactions;
+DROP TABLE IF EXISTS farcaster.signers;
+DROP TABLE IF EXISTS farcaster.storage;
+DROP TABLE IF EXISTS farcaster.warpcast_power_users;
