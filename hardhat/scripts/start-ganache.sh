@@ -55,8 +55,6 @@ else
       --chain.chainId $CHAIN_ID
       --port $PORT
       --mnemonic "test test test test test test test test test test test junk"
-      --fork.url "https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}"
-      --fork.blockNumber ${HARDHAT_FORK_BLOCK:-"13500000"}
       --miner.defaultGasPrice 0x22665a1644
       --wallet.totalAccounts 20
   )
@@ -70,7 +68,7 @@ else
   fi
 
   # Wait for the testnet to become responsive
-  sleep 5
+  # sleep 1
   until curl -s -o/dev/null http://localhost:$PORT; do
     sleep 1
     if [ -z "$(ps -p $PID -o pid=)" ]; then
@@ -99,9 +97,9 @@ else
   trap cleanup EXIT
 
   if [ ! "$NO_DEPLOY" ]; then
-    FORK_MAINNET=1 pnpm --dir=hardhat hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
-    FORK_MAINNET=1 pnpm --dir=hardhat hardhat run scripts/manage/cosoul_setup_options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
-    FORK_MAINNET=1 pnpm --dir=hardhat hardhat run scripts/manage/colinks_setup.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+    pnpm --dir=hardhat hardhat deploy --network ci --reset | awk '{ print "[ganache: deploy]", $0 }'
+    pnpm --dir=hardhat hardhat run scripts/manage/cosoul_setup_options.ts --network ci | awk '{ print "[ganache: run]", $0 }'
+    pnpm --dir=hardhat hardhat run scripts/manage/colinks_setup.ts --network ci | awk '{ print "[ganache: run]", $0 }'
   fi
 
   if [ ! "$NO_MINT" ]; then

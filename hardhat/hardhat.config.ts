@@ -10,11 +10,8 @@ import '@nomiclabs/hardhat-ethers';
 import '@nomiclabs/hardhat-waffle';
 
 import {
-  FORK_MAINNET,
-  FORKED_BLOCK,
   GANACHE_NETWORK_NAME,
   GANACHE_URL,
-  HARDHAT_ARCHIVE_RPC_URL,
   HARDHAT_OWNER_ADDRESS,
   OPTIMISM_SEPOLIA_RPC_URL,
   OPTIMISM_RPC_URL,
@@ -269,12 +266,6 @@ const config: HardhatUserConfig = {
     hardhat: {
       ...sharedNetworkSettings,
       chainId: +(process.env.HARDHAT_CHAIN_ID || 1337),
-      forking: FORK_MAINNET
-        ? {
-            url: HARDHAT_ARCHIVE_RPC_URL,
-            blockNumber: FORKED_BLOCK,
-          }
-        : undefined,
     },
     [GANACHE_NETWORK_NAME]: {
       ...sharedNetworkSettings,

@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { IS_LOCAL_ENV } from '../../../api-lib/config';
 import { attestGiveOnchain, easWithNonceManager } from '../../../api-lib/eas';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -9,6 +10,12 @@ const LIMIT = 10;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
+    if (IS_LOCAL_ENV) {
+      return res.status(200).json({
+        message: 'This endpoint is disabled in local environment.',
+      });
+    }
+
     const gives = await giveToSync();
     const nm = easWithNonceManager();
 

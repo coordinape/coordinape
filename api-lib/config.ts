@@ -118,7 +118,7 @@ export const COORDINAPE_BOT_SECRET: string = getEnvValue(
 
 export const COSOUL_SIGNER_ADDR_PK = getEnvValue(
   'COSOUL_SIGNER_ADDR_PK',
-  // this is from the test mnemonic
+  // this is from the test mnemonic, priv key for acct 11
   '0x701b615bbdfb9de65240bc28bd21bbc0d996645a3dd57e7b12bc2bdf6f192c82'
 );
 

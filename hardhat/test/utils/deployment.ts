@@ -1,47 +1,19 @@
 import { Signer } from 'ethers';
-import { deployments, ethers, getNamedAccounts, network } from 'hardhat';
+import { deployments, ethers, getNamedAccounts } from 'hardhat';
 
 import {
-  USDC_ADDRESS,
-  USDC_WHALE_ADDRESS,
-  USDC_YVAULT_ADDRESS,
-  YEARN_REGISTRY_ADDRESS,
-} from '../../constants';
-import {
-  ApeDistributor,
-  ApeDistributor__factory,
-  ApeRouter,
-  ApeRouter__factory,
-  ApeVaultFactory,
-  ApeVaultFactory__factory,
   CoLinks,
   CoLinks__factory,
   CoSoul,
   CoSoul__factory,
   COToken,
   COToken__factory,
-  ERC20,
-  ERC20__factory,
-  FeeRegistry,
-  FeeRegistry__factory,
-  RegistryAPI,
-  RegistryAPI__factory,
-  VaultAPI,
-  VaultAPI__factory,
 } from '../../typechain';
-import { unlockSigner } from '../../utils/unlockSigner';
 
 import { Account, getAccountFromSigner } from './account';
 
 export type DeployedContracts = {
-  usdc: ERC20;
-  usdcYVault: VaultAPI;
-  yRegistry: RegistryAPI;
   coToken: COToken;
-  apeVaultFactory: ApeVaultFactory;
-  apeRouter: ApeRouter;
-  apeDistributor: ApeDistributor;
-  feeRegistry: FeeRegistry;
   coSoul: CoSoul;
   coLinks: CoLinks;
 };
@@ -65,33 +37,11 @@ export async function deployProtocolFixture(): Promise<DeploymentInfo> {
     signer: deployerSigner,
   };
 
-  const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, { ethers, network });
+  // const usdcWhale = await unlockSigner(USDC_WHALE_ADDRESS, { ethers, network });
 
   const contracts = {
-    usdc: ERC20__factory.connect(USDC_ADDRESS, usdcWhale),
-    usdcYVault: VaultAPI__factory.connect(USDC_YVAULT_ADDRESS, usdcWhale),
-    yRegistry: RegistryAPI__factory.connect(
-      YEARN_REGISTRY_ADDRESS,
-      deployer.signer
-    ),
     coToken: COToken__factory.connect(
       fixture['COToken'].address,
-      deployer.signer
-    ),
-    apeVaultFactory: ApeVaultFactory__factory.connect(
-      fixture['ApeVaultFactory'].address,
-      deployer.signer
-    ),
-    apeRouter: ApeRouter__factory.connect(
-      fixture['ApeRouter'].address,
-      deployer.signer
-    ),
-    apeDistributor: ApeDistributor__factory.connect(
-      fixture['ApeDistributor'].address,
-      deployer.signer
-    ),
-    feeRegistry: FeeRegistry__factory.connect(
-      fixture['FeeRegistry'].address,
       deployer.signer
     ),
     coSoul: CoSoul__factory.connect(fixture['CoSoul'].address, deployer.signer),
