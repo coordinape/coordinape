@@ -1,12 +1,3 @@
-- name: backfillReputation
-  webhook: '{{HASURA_API_BASE_URL}}/cron/backfillReputation'
-  schedule: '* * * * *'
-  include_in_metadata: true
-  payload: {}
-  headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  comment: make sure everyone has a reputation, in batches
 - name: backfillFarcasterConnect
   webhook: '{{HASURA_API_BASE_URL}}/cron/backfillFarcasterConnect'
   schedule: '* * * * *'
@@ -16,6 +7,15 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: auto connect farcaster accounts for those with matching address
+- name: backfillReputation
+  webhook: '{{HASURA_API_BASE_URL}}/cron/backfillReputation'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: make sure everyone has a reputation, in batches
 - name: bigQuestionEmails
   webhook: '{{HASURA_API_BASE_URL}}/cron/bigQuestionEmails'
   schedule: '*/2 * * * *'

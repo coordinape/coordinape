@@ -5,10 +5,12 @@ import { getLocalPGIVE } from '../../cosoul/api/pgive';
 
 import { getCoLinksScore } from './getCoLinksScore';
 import { getEmailScore } from './getEmailScore';
+import { getFarcasterScore } from './getFarcasterScore';
 import { getGitHubScore } from './getGitHubScore';
 import { getInviteScore } from './getInviteScore';
 import { getLinkedInScore } from './getLinkedInScore';
 import { getPoapScore } from './getPoapScore';
+import { getSocialGiveScore } from './getSocialGiveScore';
 import { getTwitterScore } from './getTwitterScore';
 import { PGIVE_MAX_SCORE } from './scoring';
 
@@ -24,7 +26,8 @@ export const getRepScore = async (profileId: number) => {
     github_score: await getGitHubScore(profileId),
     invite_score: await getInviteScore(profileId),
     linkedin_score: await getLinkedInScore(profileId),
-    colinks_engagement_score: 0,
+    farcaster_score: await getFarcasterScore(profileId),
+    social_give_score: await getSocialGiveScore(profileId),
   };
 
   const total_score = Object.values(scores).reduce((a, b) => a + b, 0);

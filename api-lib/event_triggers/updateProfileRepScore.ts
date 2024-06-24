@@ -8,7 +8,8 @@ type Tables =
   | 'twitter_accounts'
   | 'github_accounts'
   | 'linkedin_accounts'
-  | 'emails';
+  | 'emails'
+  | 'farcaster_accounts';
 
 const getSubEvent = (tableName: string) => {
   if (tableName === 'twitter_accounts') {
@@ -17,6 +18,8 @@ const getSubEvent = (tableName: string) => {
     return 'github';
   } else if (tableName === 'linkedin_accounts') {
     return 'linkedin';
+  } else if (tableName === 'farcaster_accounts') {
+    return 'farcaster';
   } else {
     return 'emails';
   }
