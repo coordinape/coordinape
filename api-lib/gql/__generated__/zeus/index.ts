@@ -12576,6 +12576,174 @@ export type ValueTypes = {
     target_fid?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** columns and relationships of "farcaster.mutual_links" */
+  ['farcaster_mutual_links']: AliasType<{
+    fid?: boolean | `@${string}`;
+    link_timestamp?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate']: AliasType<{
+    aggregate?: ValueTypes['farcaster_mutual_links_aggregate_fields'];
+    nodes?: ValueTypes['farcaster_mutual_links'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['farcaster_mutual_links_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['farcaster_mutual_links_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['farcaster_mutual_links_max_fields'];
+    min?: ValueTypes['farcaster_mutual_links_min_fields'];
+    stddev?: ValueTypes['farcaster_mutual_links_stddev_fields'];
+    stddev_pop?: ValueTypes['farcaster_mutual_links_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['farcaster_mutual_links_stddev_samp_fields'];
+    sum?: ValueTypes['farcaster_mutual_links_sum_fields'];
+    var_pop?: ValueTypes['farcaster_mutual_links_var_pop_fields'];
+    var_samp?: ValueTypes['farcaster_mutual_links_var_samp_fields'];
+    variance?: ValueTypes['farcaster_mutual_links_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['farcaster_mutual_links_avg_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "farcaster.mutual_links". All fields are combined with a logical 'AND'. */
+  ['farcaster_mutual_links_bool_exp']: {
+    _and?:
+      | Array<ValueTypes['farcaster_mutual_links_bool_exp']>
+      | undefined
+      | null;
+    _not?: ValueTypes['farcaster_mutual_links_bool_exp'] | undefined | null;
+    _or?:
+      | Array<ValueTypes['farcaster_mutual_links_bool_exp']>
+      | undefined
+      | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    link_timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    target_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+  };
+  /** input type for incrementing numeric columns in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_inc_input']: {
+    fid?: ValueTypes['bigint'] | undefined | null;
+    target_fid?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** input type for inserting data into table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_insert_input']: {
+    fid?: ValueTypes['bigint'] | undefined | null;
+    link_timestamp?: ValueTypes['timestamp'] | undefined | null;
+    target_fid?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['farcaster_mutual_links_max_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    link_timestamp?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['farcaster_mutual_links_min_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    link_timestamp?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** response of any mutation on the table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_mutation_response']: AliasType<{
+    /** number of rows affected by the mutation */
+    affected_rows?: boolean | `@${string}`;
+    /** data from the rows affected by the mutation */
+    returning?: ValueTypes['farcaster_mutual_links'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Ordering options when selecting data from "farcaster.mutual_links". */
+  ['farcaster_mutual_links_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    link_timestamp?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_select_column']: farcaster_mutual_links_select_column;
+  /** input type for updating data in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_set_input']: {
+    fid?: ValueTypes['bigint'] | undefined | null;
+    link_timestamp?: ValueTypes['timestamp'] | undefined | null;
+    target_fid?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate stddev on columns */
+  ['farcaster_mutual_links_stddev_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['farcaster_mutual_links_stddev_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['farcaster_mutual_links_stddev_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Streaming cursor of the table "farcaster_mutual_links" */
+  ['farcaster_mutual_links_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['farcaster_mutual_links_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_mutual_links_stream_cursor_value_input']: {
+    fid?: ValueTypes['bigint'] | undefined | null;
+    link_timestamp?: ValueTypes['timestamp'] | undefined | null;
+    target_fid?: ValueTypes['bigint'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_mutual_links_sum_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['farcaster_mutual_links_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: ValueTypes['farcaster_mutual_links_inc_input'] | undefined | null;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: ValueTypes['farcaster_mutual_links_set_input'] | undefined | null;
+    /** filter the rows which have to be updated */
+    where: ValueTypes['farcaster_mutual_links_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_mutual_links_var_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['farcaster_mutual_links_var_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['farcaster_mutual_links_variance_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** columns and relationships of "farcaster.profile_with_addresses" */
   ['farcaster_profile_with_addresses']: AliasType<{
     avatar_url?: boolean | `@${string}`;
@@ -18273,6 +18441,13 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_links'],
     ];
+    delete_farcaster_mutual_links?: [
+      {
+        /** filter the rows which have to be deleted */
+        where: ValueTypes['farcaster_mutual_links_bool_exp'];
+      },
+      ValueTypes['farcaster_mutual_links_mutation_response'],
+    ];
     delete_farcaster_reactions?: [
       {
         /** filter the rows which have to be deleted */
@@ -19421,6 +19596,20 @@ export type ValueTypes = {
           | null;
       },
       ValueTypes['farcaster_links'],
+    ];
+    insert_farcaster_mutual_links?: [
+      {
+        /** the rows to be inserted */
+        objects: Array<ValueTypes['farcaster_mutual_links_insert_input']>;
+      },
+      ValueTypes['farcaster_mutual_links_mutation_response'],
+    ];
+    insert_farcaster_mutual_links_one?: [
+      {
+        /** the row to be inserted */
+        object: ValueTypes['farcaster_mutual_links_insert_input'];
+      },
+      ValueTypes['farcaster_mutual_links'],
     ];
     insert_farcaster_reactions?: [
       {
@@ -21619,6 +21808,28 @@ export type ValueTypes = {
         updates: Array<ValueTypes['farcaster_links_updates']>;
       },
       ValueTypes['farcaster_links_mutation_response'],
+    ];
+    update_farcaster_mutual_links?: [
+      {
+        /** increments the numeric columns with given value of the filtered values */
+        _inc?:
+          | ValueTypes['farcaster_mutual_links_inc_input']
+          | undefined
+          | null /** sets the columns of the filtered rows to the given values */;
+        _set?:
+          | ValueTypes['farcaster_mutual_links_set_input']
+          | undefined
+          | null /** filter the rows which have to be updated */;
+        where: ValueTypes['farcaster_mutual_links_bool_exp'];
+      },
+      ValueTypes['farcaster_mutual_links_mutation_response'],
+    ];
+    update_farcaster_mutual_links_many?: [
+      {
+        /** updates to execute, in order */
+        updates: Array<ValueTypes['farcaster_mutual_links_updates']>;
+      },
+      ValueTypes['farcaster_mutual_links_mutation_response'],
     ];
     update_farcaster_reactions?: [
       {
@@ -32436,6 +32647,58 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_links'],
     ];
+    farcaster_mutual_links?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_mutual_links_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_mutual_links_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['farcaster_mutual_links_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_mutual_links'],
+    ];
+    farcaster_mutual_links_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_mutual_links_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_mutual_links_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['farcaster_mutual_links_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_mutual_links_aggregate'],
+    ];
     farcaster_profile_with_addresses?: [
       {
         /** distinct select on columns */
@@ -39273,6 +39536,74 @@ export type ValueTypes = {
         where?: ValueTypes['farcaster_links_bool_exp'] | undefined | null;
       },
       ValueTypes['farcaster_links'],
+    ];
+    farcaster_mutual_links?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_mutual_links_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_mutual_links_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['farcaster_mutual_links_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_mutual_links'],
+    ];
+    farcaster_mutual_links_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_mutual_links_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_mutual_links_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?:
+          | ValueTypes['farcaster_mutual_links_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_mutual_links_aggregate'],
+    ];
+    farcaster_mutual_links_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['farcaster_mutual_links_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?:
+          | ValueTypes['farcaster_mutual_links_bool_exp']
+          | undefined
+          | null;
+      },
+      ValueTypes['farcaster_mutual_links'],
     ];
     farcaster_profile_with_addresses?: [
       {
@@ -52194,6 +52525,117 @@ export type ModelTypes = {
     id?: number | undefined;
     target_fid?: number | undefined;
   };
+  /** columns and relationships of "farcaster.mutual_links" */
+  ['farcaster_mutual_links']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['farcaster_mutual_links_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['farcaster_mutual_links']>;
+  };
+  /** aggregate fields of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate_fields']: {
+    avg?: GraphQLTypes['farcaster_mutual_links_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_mutual_links_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_mutual_links_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_mutual_links_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_mutual_links_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_mutual_links_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_mutual_links_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_mutual_links_var_pop_fields'] | undefined;
+    var_samp?:
+      | GraphQLTypes['farcaster_mutual_links_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['farcaster_mutual_links_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_mutual_links_avg_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "farcaster.mutual_links". All fields are combined with a logical 'AND'. */
+  ['farcaster_mutual_links_bool_exp']: GraphQLTypes['farcaster_mutual_links_bool_exp'];
+  /** input type for incrementing numeric columns in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_inc_input']: GraphQLTypes['farcaster_mutual_links_inc_input'];
+  /** input type for inserting data into table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_insert_input']: GraphQLTypes['farcaster_mutual_links_insert_input'];
+  /** aggregate max on columns */
+  ['farcaster_mutual_links_max_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_mutual_links_min_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_mutation_response']: {
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['farcaster_mutual_links']>;
+  };
+  /** Ordering options when selecting data from "farcaster.mutual_links". */
+  ['farcaster_mutual_links_order_by']: GraphQLTypes['farcaster_mutual_links_order_by'];
+  /** select columns of table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_select_column']: GraphQLTypes['farcaster_mutual_links_select_column'];
+  /** input type for updating data in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_set_input']: GraphQLTypes['farcaster_mutual_links_set_input'];
+  /** aggregate stddev on columns */
+  ['farcaster_mutual_links_stddev_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_mutual_links_stddev_pop_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_mutual_links_stddev_samp_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** Streaming cursor of the table "farcaster_mutual_links" */
+  ['farcaster_mutual_links_stream_cursor_input']: GraphQLTypes['farcaster_mutual_links_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_mutual_links_stream_cursor_value_input']: GraphQLTypes['farcaster_mutual_links_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['farcaster_mutual_links_sum_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  ['farcaster_mutual_links_updates']: GraphQLTypes['farcaster_mutual_links_updates'];
+  /** aggregate var_pop on columns */
+  ['farcaster_mutual_links_var_pop_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_mutual_links_var_samp_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_mutual_links_variance_fields']: {
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
   /** columns and relationships of "farcaster.profile_with_addresses" */
   ['farcaster_profile_with_addresses']: {
     avatar_url?: string | undefined;
@@ -55234,6 +55676,10 @@ export type ModelTypes = {
       | undefined;
     /** delete single row from the table: "farcaster.links" */
     delete_farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
+    /** delete data from the table: "farcaster.mutual_links" */
+    delete_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
     /** delete data from the table: "farcaster.reactions" */
     delete_farcaster_reactions?:
       | GraphQLTypes['farcaster_reactions_mutation_response']
@@ -55716,6 +56162,14 @@ export type ModelTypes = {
       | undefined;
     /** insert a single row into the table: "farcaster.links" */
     insert_farcaster_links_one?: GraphQLTypes['farcaster_links'] | undefined;
+    /** insert data into the table: "farcaster.mutual_links" */
+    insert_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "farcaster.mutual_links" */
+    insert_farcaster_mutual_links_one?:
+      | GraphQLTypes['farcaster_mutual_links']
+      | undefined;
     /** insert data into the table: "farcaster.reactions" */
     insert_farcaster_reactions?:
       | GraphQLTypes['farcaster_reactions_mutation_response']
@@ -56345,6 +56799,16 @@ export type ModelTypes = {
     /** update multiples rows of table: "farcaster.links" */
     update_farcaster_links_many?:
       | Array<GraphQLTypes['farcaster_links_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "farcaster.mutual_links" */
+    update_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "farcaster.mutual_links" */
+    update_farcaster_mutual_links_many?:
+      | Array<
+          GraphQLTypes['farcaster_mutual_links_mutation_response'] | undefined
+        >
       | undefined;
     /** update data of the table: "farcaster.reactions" */
     update_farcaster_reactions?:
@@ -60402,6 +60866,10 @@ export type ModelTypes = {
     farcaster_links_aggregate: GraphQLTypes['farcaster_links_aggregate'];
     /** fetch data from the table: "farcaster.links" using primary key columns */
     farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
+    /** fetch data from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links: Array<GraphQLTypes['farcaster_mutual_links']>;
+    /** fetch aggregated fields from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links_aggregate: GraphQLTypes['farcaster_mutual_links_aggregate'];
     /** fetch data from the table: "farcaster.profile_with_addresses" */
     farcaster_profile_with_addresses: Array<
       GraphQLTypes['farcaster_profile_with_addresses']
@@ -61984,6 +62452,14 @@ export type ModelTypes = {
     farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.links" */
     farcaster_links_stream: Array<GraphQLTypes['farcaster_links']>;
+    /** fetch data from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links: Array<GraphQLTypes['farcaster_mutual_links']>;
+    /** fetch aggregated fields from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links_aggregate: GraphQLTypes['farcaster_mutual_links_aggregate'];
+    /** fetch data from the table in a streaming manner: "farcaster.mutual_links" */
+    farcaster_mutual_links_stream: Array<
+      GraphQLTypes['farcaster_mutual_links']
+    >;
     /** fetch data from the table: "farcaster.profile_with_addresses" */
     farcaster_profile_with_addresses: Array<
       GraphQLTypes['farcaster_profile_with_addresses']
@@ -74223,6 +74699,169 @@ export type GraphQLTypes = {
     id?: number | undefined;
     target_fid?: number | undefined;
   };
+  /** columns and relationships of "farcaster.mutual_links" */
+  ['farcaster_mutual_links']: {
+    __typename: 'farcaster_mutual_links';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregated selection of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate']: {
+    __typename: 'farcaster_mutual_links_aggregate';
+    aggregate?:
+      | GraphQLTypes['farcaster_mutual_links_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['farcaster_mutual_links']>;
+  };
+  /** aggregate fields of "farcaster.mutual_links" */
+  ['farcaster_mutual_links_aggregate_fields']: {
+    __typename: 'farcaster_mutual_links_aggregate_fields';
+    avg?: GraphQLTypes['farcaster_mutual_links_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_mutual_links_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_mutual_links_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_mutual_links_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_mutual_links_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_mutual_links_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_mutual_links_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_mutual_links_var_pop_fields'] | undefined;
+    var_samp?:
+      | GraphQLTypes['farcaster_mutual_links_var_samp_fields']
+      | undefined;
+    variance?:
+      | GraphQLTypes['farcaster_mutual_links_variance_fields']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_mutual_links_avg_fields']: {
+    __typename: 'farcaster_mutual_links_avg_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** Boolean expression to filter rows from the table "farcaster.mutual_links". All fields are combined with a logical 'AND'. */
+  ['farcaster_mutual_links_bool_exp']: {
+    _and?: Array<GraphQLTypes['farcaster_mutual_links_bool_exp']> | undefined;
+    _not?: GraphQLTypes['farcaster_mutual_links_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['farcaster_mutual_links_bool_exp']> | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    target_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+  };
+  /** input type for incrementing numeric columns in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_inc_input']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** input type for inserting data into table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_insert_input']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['farcaster_mutual_links_max_fields']: {
+    __typename: 'farcaster_mutual_links_max_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_mutual_links_min_fields']: {
+    __typename: 'farcaster_mutual_links_min_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** response of any mutation on the table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_mutation_response']: {
+    __typename: 'farcaster_mutual_links_mutation_response';
+    /** number of rows affected by the mutation */
+    affected_rows: number;
+    /** data from the rows affected by the mutation */
+    returning: Array<GraphQLTypes['farcaster_mutual_links']>;
+  };
+  /** Ordering options when selecting data from "farcaster.mutual_links". */
+  ['farcaster_mutual_links_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    link_timestamp?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_select_column']: farcaster_mutual_links_select_column;
+  /** input type for updating data in table "farcaster.mutual_links" */
+  ['farcaster_mutual_links_set_input']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate stddev on columns */
+  ['farcaster_mutual_links_stddev_fields']: {
+    __typename: 'farcaster_mutual_links_stddev_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_mutual_links_stddev_pop_fields']: {
+    __typename: 'farcaster_mutual_links_stddev_pop_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_mutual_links_stddev_samp_fields']: {
+    __typename: 'farcaster_mutual_links_stddev_samp_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** Streaming cursor of the table "farcaster_mutual_links" */
+  ['farcaster_mutual_links_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['farcaster_mutual_links_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_mutual_links_stream_cursor_value_input']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    link_timestamp?: GraphQLTypes['timestamp'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_mutual_links_sum_fields']: {
+    __typename: 'farcaster_mutual_links_sum_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  ['farcaster_mutual_links_updates']: {
+    /** increments the numeric columns with given value of the filtered values */
+    _inc?: GraphQLTypes['farcaster_mutual_links_inc_input'] | undefined;
+    /** sets the columns of the filtered rows to the given values */
+    _set?: GraphQLTypes['farcaster_mutual_links_set_input'] | undefined;
+    /** filter the rows which have to be updated */
+    where: GraphQLTypes['farcaster_mutual_links_bool_exp'];
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_mutual_links_var_pop_fields']: {
+    __typename: 'farcaster_mutual_links_var_pop_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_mutual_links_var_samp_fields']: {
+    __typename: 'farcaster_mutual_links_var_samp_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_mutual_links_variance_fields']: {
+    __typename: 'farcaster_mutual_links_variance_fields';
+    fid?: number | undefined;
+    target_fid?: number | undefined;
+  };
   /** columns and relationships of "farcaster.profile_with_addresses" */
   ['farcaster_profile_with_addresses']: {
     __typename: 'farcaster_profile_with_addresses';
@@ -79494,6 +80133,10 @@ export type GraphQLTypes = {
       | undefined;
     /** delete single row from the table: "farcaster.links" */
     delete_farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
+    /** delete data from the table: "farcaster.mutual_links" */
+    delete_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
     /** delete data from the table: "farcaster.reactions" */
     delete_farcaster_reactions?:
       | GraphQLTypes['farcaster_reactions_mutation_response']
@@ -79976,6 +80619,14 @@ export type GraphQLTypes = {
       | undefined;
     /** insert a single row into the table: "farcaster.links" */
     insert_farcaster_links_one?: GraphQLTypes['farcaster_links'] | undefined;
+    /** insert data into the table: "farcaster.mutual_links" */
+    insert_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
+    /** insert a single row into the table: "farcaster.mutual_links" */
+    insert_farcaster_mutual_links_one?:
+      | GraphQLTypes['farcaster_mutual_links']
+      | undefined;
     /** insert data into the table: "farcaster.reactions" */
     insert_farcaster_reactions?:
       | GraphQLTypes['farcaster_reactions_mutation_response']
@@ -80605,6 +81256,16 @@ export type GraphQLTypes = {
     /** update multiples rows of table: "farcaster.links" */
     update_farcaster_links_many?:
       | Array<GraphQLTypes['farcaster_links_mutation_response'] | undefined>
+      | undefined;
+    /** update data of the table: "farcaster.mutual_links" */
+    update_farcaster_mutual_links?:
+      | GraphQLTypes['farcaster_mutual_links_mutation_response']
+      | undefined;
+    /** update multiples rows of table: "farcaster.mutual_links" */
+    update_farcaster_mutual_links_many?:
+      | Array<
+          GraphQLTypes['farcaster_mutual_links_mutation_response'] | undefined
+        >
       | undefined;
     /** update data of the table: "farcaster.reactions" */
     update_farcaster_reactions?:
@@ -87534,6 +88195,10 @@ export type GraphQLTypes = {
     farcaster_links_aggregate: GraphQLTypes['farcaster_links_aggregate'];
     /** fetch data from the table: "farcaster.links" using primary key columns */
     farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
+    /** fetch data from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links: Array<GraphQLTypes['farcaster_mutual_links']>;
+    /** fetch aggregated fields from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links_aggregate: GraphQLTypes['farcaster_mutual_links_aggregate'];
     /** fetch data from the table: "farcaster.profile_with_addresses" */
     farcaster_profile_with_addresses: Array<
       GraphQLTypes['farcaster_profile_with_addresses']
@@ -89935,6 +90600,14 @@ export type GraphQLTypes = {
     farcaster_links_by_pk?: GraphQLTypes['farcaster_links'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.links" */
     farcaster_links_stream: Array<GraphQLTypes['farcaster_links']>;
+    /** fetch data from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links: Array<GraphQLTypes['farcaster_mutual_links']>;
+    /** fetch aggregated fields from the table: "farcaster.mutual_links" */
+    farcaster_mutual_links_aggregate: GraphQLTypes['farcaster_mutual_links_aggregate'];
+    /** fetch data from the table in a streaming manner: "farcaster.mutual_links" */
+    farcaster_mutual_links_stream: Array<
+      GraphQLTypes['farcaster_mutual_links']
+    >;
     /** fetch data from the table: "farcaster.profile_with_addresses" */
     farcaster_profile_with_addresses: Array<
       GraphQLTypes['farcaster_profile_with_addresses']
@@ -94703,6 +95376,12 @@ export const enum farcaster_links_update_column {
   timestamp = 'timestamp',
   type = 'type',
   updated_at = 'updated_at',
+}
+/** select columns of table "farcaster.mutual_links" */
+export const enum farcaster_mutual_links_select_column {
+  fid = 'fid',
+  link_timestamp = 'link_timestamp',
+  target_fid = 'target_fid',
 }
 /** select columns of table "farcaster.profile_with_addresses" */
 export const enum farcaster_profile_with_addresses_select_column {

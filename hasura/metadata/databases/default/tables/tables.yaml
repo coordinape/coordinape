@@ -6,6 +6,7 @@
 - "!include farcaster_fids.yaml"
 - "!include farcaster_fnames.yaml"
 - "!include farcaster_links.yaml"
+- "!include farcaster_mutual_links.yaml"
 - "!include farcaster_profile_with_addresses.yaml"
 - "!include farcaster_reactions.yaml"
 - "!include farcaster_signers.yaml"

@@ -4582,6 +4582,53 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'farcaster_links_set_input',
     where: 'farcaster_links_bool_exp',
   },
+  farcaster_mutual_links_aggregate_fields: {
+    count: {
+      columns: 'farcaster_mutual_links_select_column',
+    },
+  },
+  farcaster_mutual_links_bool_exp: {
+    _and: 'farcaster_mutual_links_bool_exp',
+    _not: 'farcaster_mutual_links_bool_exp',
+    _or: 'farcaster_mutual_links_bool_exp',
+    fid: 'bigint_comparison_exp',
+    link_timestamp: 'timestamp_comparison_exp',
+    target_fid: 'bigint_comparison_exp',
+  },
+  farcaster_mutual_links_inc_input: {
+    fid: 'bigint',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_insert_input: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_order_by: {
+    fid: 'order_by',
+    link_timestamp: 'order_by',
+    target_fid: 'order_by',
+  },
+  farcaster_mutual_links_select_column: true,
+  farcaster_mutual_links_set_input: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_stream_cursor_input: {
+    initial_value: 'farcaster_mutual_links_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  farcaster_mutual_links_stream_cursor_value_input: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_updates: {
+    _inc: 'farcaster_mutual_links_inc_input',
+    _set: 'farcaster_mutual_links_set_input',
+    where: 'farcaster_mutual_links_bool_exp',
+  },
   farcaster_profile_with_addresses: {
     verified_addresses: {},
   },
@@ -6744,6 +6791,9 @@ export const AllTypesProps: Record<string, any> = {
     delete_farcaster_links_by_pk: {
       id: 'bigint',
     },
+    delete_farcaster_mutual_links: {
+      where: 'farcaster_mutual_links_bool_exp',
+    },
     delete_farcaster_reactions: {
       where: 'farcaster_reactions_bool_exp',
     },
@@ -7249,6 +7299,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_farcaster_links_one: {
       object: 'farcaster_links_insert_input',
       on_conflict: 'farcaster_links_on_conflict',
+    },
+    insert_farcaster_mutual_links: {
+      objects: 'farcaster_mutual_links_insert_input',
+    },
+    insert_farcaster_mutual_links_one: {
+      object: 'farcaster_mutual_links_insert_input',
     },
     insert_farcaster_reactions: {
       objects: 'farcaster_reactions_insert_input',
@@ -8084,6 +8140,14 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_farcaster_links_many: {
       updates: 'farcaster_links_updates',
+    },
+    update_farcaster_mutual_links: {
+      _inc: 'farcaster_mutual_links_inc_input',
+      _set: 'farcaster_mutual_links_set_input',
+      where: 'farcaster_mutual_links_bool_exp',
+    },
+    update_farcaster_mutual_links_many: {
+      updates: 'farcaster_mutual_links_updates',
     },
     update_farcaster_reactions: {
       _inc: 'farcaster_reactions_inc_input',
@@ -11802,6 +11866,16 @@ export const AllTypesProps: Record<string, any> = {
     farcaster_links_by_pk: {
       id: 'bigint',
     },
+    farcaster_mutual_links: {
+      distinct_on: 'farcaster_mutual_links_select_column',
+      order_by: 'farcaster_mutual_links_order_by',
+      where: 'farcaster_mutual_links_bool_exp',
+    },
+    farcaster_mutual_links_aggregate: {
+      distinct_on: 'farcaster_mutual_links_select_column',
+      order_by: 'farcaster_mutual_links_order_by',
+      where: 'farcaster_mutual_links_bool_exp',
+    },
     farcaster_profile_with_addresses: {
       distinct_on: 'farcaster_profile_with_addresses_select_column',
       order_by: 'farcaster_profile_with_addresses_order_by',
@@ -13795,6 +13869,20 @@ export const AllTypesProps: Record<string, any> = {
     farcaster_links_stream: {
       cursor: 'farcaster_links_stream_cursor_input',
       where: 'farcaster_links_bool_exp',
+    },
+    farcaster_mutual_links: {
+      distinct_on: 'farcaster_mutual_links_select_column',
+      order_by: 'farcaster_mutual_links_order_by',
+      where: 'farcaster_mutual_links_bool_exp',
+    },
+    farcaster_mutual_links_aggregate: {
+      distinct_on: 'farcaster_mutual_links_select_column',
+      order_by: 'farcaster_mutual_links_order_by',
+      where: 'farcaster_mutual_links_bool_exp',
+    },
+    farcaster_mutual_links_stream: {
+      cursor: 'farcaster_mutual_links_stream_cursor_input',
+      where: 'farcaster_mutual_links_bool_exp',
     },
     farcaster_profile_with_addresses: {
       distinct_on: 'farcaster_profile_with_addresses_select_column',
@@ -19651,6 +19739,74 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     target_fid: 'Float',
   },
+  farcaster_mutual_links: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_aggregate: {
+    aggregate: 'farcaster_mutual_links_aggregate_fields',
+    nodes: 'farcaster_mutual_links',
+  },
+  farcaster_mutual_links_aggregate_fields: {
+    avg: 'farcaster_mutual_links_avg_fields',
+    count: 'Int',
+    max: 'farcaster_mutual_links_max_fields',
+    min: 'farcaster_mutual_links_min_fields',
+    stddev: 'farcaster_mutual_links_stddev_fields',
+    stddev_pop: 'farcaster_mutual_links_stddev_pop_fields',
+    stddev_samp: 'farcaster_mutual_links_stddev_samp_fields',
+    sum: 'farcaster_mutual_links_sum_fields',
+    var_pop: 'farcaster_mutual_links_var_pop_fields',
+    var_samp: 'farcaster_mutual_links_var_samp_fields',
+    variance: 'farcaster_mutual_links_variance_fields',
+  },
+  farcaster_mutual_links_avg_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_max_fields: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_min_fields: {
+    fid: 'bigint',
+    link_timestamp: 'timestamp',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'farcaster_mutual_links',
+  },
+  farcaster_mutual_links_stddev_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_stddev_pop_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_stddev_samp_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_sum_fields: {
+    fid: 'bigint',
+    target_fid: 'bigint',
+  },
+  farcaster_mutual_links_var_pop_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_var_samp_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
+  farcaster_mutual_links_variance_fields: {
+    fid: 'Float',
+    target_fid: 'Float',
+  },
   farcaster_profile_with_addresses: {
     avatar_url: 'String',
     bio: 'String',
@@ -21513,6 +21669,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_farcaster_fnames_by_pk: 'farcaster_fnames',
     delete_farcaster_links: 'farcaster_links_mutation_response',
     delete_farcaster_links_by_pk: 'farcaster_links',
+    delete_farcaster_mutual_links: 'farcaster_mutual_links_mutation_response',
     delete_farcaster_reactions: 'farcaster_reactions_mutation_response',
     delete_farcaster_reactions_by_pk: 'farcaster_reactions',
     delete_farcaster_signers: 'farcaster_signers_mutation_response',
@@ -21677,6 +21834,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_farcaster_fnames_one: 'farcaster_fnames',
     insert_farcaster_links: 'farcaster_links_mutation_response',
     insert_farcaster_links_one: 'farcaster_links',
+    insert_farcaster_mutual_links: 'farcaster_mutual_links_mutation_response',
+    insert_farcaster_mutual_links_one: 'farcaster_mutual_links',
     insert_farcaster_reactions: 'farcaster_reactions_mutation_response',
     insert_farcaster_reactions_one: 'farcaster_reactions',
     insert_farcaster_signers: 'farcaster_signers_mutation_response',
@@ -21890,6 +22049,9 @@ export const ReturnTypes: Record<string, any> = {
     update_farcaster_links: 'farcaster_links_mutation_response',
     update_farcaster_links_by_pk: 'farcaster_links',
     update_farcaster_links_many: 'farcaster_links_mutation_response',
+    update_farcaster_mutual_links: 'farcaster_mutual_links_mutation_response',
+    update_farcaster_mutual_links_many:
+      'farcaster_mutual_links_mutation_response',
     update_farcaster_reactions: 'farcaster_reactions_mutation_response',
     update_farcaster_reactions_by_pk: 'farcaster_reactions',
     update_farcaster_reactions_many: 'farcaster_reactions_mutation_response',
@@ -24271,6 +24433,8 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_links: 'farcaster_links',
     farcaster_links_aggregate: 'farcaster_links_aggregate',
     farcaster_links_by_pk: 'farcaster_links',
+    farcaster_mutual_links: 'farcaster_mutual_links',
+    farcaster_mutual_links_aggregate: 'farcaster_mutual_links_aggregate',
     farcaster_profile_with_addresses: 'farcaster_profile_with_addresses',
     farcaster_profile_with_addresses_aggregate:
       'farcaster_profile_with_addresses_aggregate',
@@ -25180,6 +25344,9 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_links_aggregate: 'farcaster_links_aggregate',
     farcaster_links_by_pk: 'farcaster_links',
     farcaster_links_stream: 'farcaster_links',
+    farcaster_mutual_links: 'farcaster_mutual_links',
+    farcaster_mutual_links_aggregate: 'farcaster_mutual_links_aggregate',
+    farcaster_mutual_links_stream: 'farcaster_mutual_links',
     farcaster_profile_with_addresses: 'farcaster_profile_with_addresses',
     farcaster_profile_with_addresses_aggregate:
       'farcaster_profile_with_addresses_aggregate',
