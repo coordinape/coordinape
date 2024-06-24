@@ -12581,6 +12581,8 @@ export type ValueTypes = {
     fid?: boolean | `@${string}`;
     link_timestamp?: boolean | `@${string}`;
     target_fid?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile_with_address?: ValueTypes['farcaster_profile_with_addresses'];
     __typename?: boolean | `@${string}`;
   }>;
   /** aggregated selection of "farcaster.mutual_links" */
@@ -12633,6 +12635,10 @@ export type ValueTypes = {
     fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     link_timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     target_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_profile_with_address?:
+      | ValueTypes['farcaster_profile_with_addresses_bool_exp']
+      | undefined
+      | null;
   };
   /** input type for incrementing numeric columns in table "farcaster.mutual_links" */
   ['farcaster_mutual_links_inc_input']: {
@@ -12644,6 +12650,10 @@ export type ValueTypes = {
     fid?: ValueTypes['bigint'] | undefined | null;
     link_timestamp?: ValueTypes['timestamp'] | undefined | null;
     target_fid?: ValueTypes['bigint'] | undefined | null;
+    target_profile_with_address?:
+      | ValueTypes['farcaster_profile_with_addresses_obj_rel_insert_input']
+      | undefined
+      | null;
   };
   /** aggregate max on columns */
   ['farcaster_mutual_links_max_fields']: AliasType<{
@@ -12672,6 +12682,10 @@ export type ValueTypes = {
     fid?: ValueTypes['order_by'] | undefined | null;
     link_timestamp?: ValueTypes['order_by'] | undefined | null;
     target_fid?: ValueTypes['order_by'] | undefined | null;
+    target_profile_with_address?:
+      | ValueTypes['farcaster_profile_with_addresses_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "farcaster.mutual_links" */
   ['farcaster_mutual_links_select_column']: farcaster_mutual_links_select_column;
@@ -12817,6 +12831,16 @@ export type ValueTypes = {
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     verified_addresses?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
   };
+  /** input type for inserting data into table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_insert_input']: {
+    avatar_url?: string | undefined | null;
+    bio?: string | undefined | null;
+    display_name?: string | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    fname?: string | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+    verified_addresses?: ValueTypes['jsonb'] | undefined | null;
+  };
   /** aggregate max on columns */
   ['farcaster_profile_with_addresses_max_fields']: AliasType<{
     avatar_url?: boolean | `@${string}`;
@@ -12837,6 +12861,10 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** input type for inserting object relation for remote table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_obj_rel_insert_input']: {
+    data: ValueTypes['farcaster_profile_with_addresses_insert_input'];
+  };
   /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
   ['farcaster_profile_with_addresses_order_by']: {
     avatar_url?: ValueTypes['order_by'] | undefined | null;
@@ -52530,6 +52558,10 @@ export type ModelTypes = {
     fid?: GraphQLTypes['bigint'] | undefined;
     link_timestamp?: GraphQLTypes['timestamp'] | undefined;
     target_fid?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_with_address?:
+      | GraphQLTypes['farcaster_profile_with_addresses']
+      | undefined;
   };
   /** aggregated selection of "farcaster.mutual_links" */
   ['farcaster_mutual_links_aggregate']: {
@@ -52693,6 +52725,8 @@ export type ModelTypes = {
   };
   /** Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'. */
   ['farcaster_profile_with_addresses_bool_exp']: GraphQLTypes['farcaster_profile_with_addresses_bool_exp'];
+  /** input type for inserting data into table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_insert_input']: GraphQLTypes['farcaster_profile_with_addresses_insert_input'];
   /** aggregate max on columns */
   ['farcaster_profile_with_addresses_max_fields']: {
     avatar_url?: string | undefined;
@@ -52711,6 +52745,8 @@ export type ModelTypes = {
     fname?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
+  /** input type for inserting object relation for remote table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_obj_rel_insert_input']: GraphQLTypes['farcaster_profile_with_addresses_obj_rel_insert_input'];
   /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
   ['farcaster_profile_with_addresses_order_by']: GraphQLTypes['farcaster_profile_with_addresses_order_by'];
   /** select columns of table "farcaster.profile_with_addresses" */
@@ -74705,6 +74741,10 @@ export type GraphQLTypes = {
     fid?: GraphQLTypes['bigint'] | undefined;
     link_timestamp?: GraphQLTypes['timestamp'] | undefined;
     target_fid?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    target_profile_with_address?:
+      | GraphQLTypes['farcaster_profile_with_addresses']
+      | undefined;
   };
   /** aggregated selection of "farcaster.mutual_links" */
   ['farcaster_mutual_links_aggregate']: {
@@ -74751,6 +74791,9 @@ export type GraphQLTypes = {
     fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     link_timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     target_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_profile_with_address?:
+      | GraphQLTypes['farcaster_profile_with_addresses_bool_exp']
+      | undefined;
   };
   /** input type for incrementing numeric columns in table "farcaster.mutual_links" */
   ['farcaster_mutual_links_inc_input']: {
@@ -74762,6 +74805,9 @@ export type GraphQLTypes = {
     fid?: GraphQLTypes['bigint'] | undefined;
     link_timestamp?: GraphQLTypes['timestamp'] | undefined;
     target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_profile_with_address?:
+      | GraphQLTypes['farcaster_profile_with_addresses_obj_rel_insert_input']
+      | undefined;
   };
   /** aggregate max on columns */
   ['farcaster_mutual_links_max_fields']: {
@@ -74790,6 +74836,9 @@ export type GraphQLTypes = {
     fid?: GraphQLTypes['order_by'] | undefined;
     link_timestamp?: GraphQLTypes['order_by'] | undefined;
     target_fid?: GraphQLTypes['order_by'] | undefined;
+    target_profile_with_address?:
+      | GraphQLTypes['farcaster_profile_with_addresses_order_by']
+      | undefined;
   };
   /** select columns of table "farcaster.mutual_links" */
   ['farcaster_mutual_links_select_column']: farcaster_mutual_links_select_column;
@@ -74940,6 +74989,16 @@ export type GraphQLTypes = {
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     verified_addresses?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
   };
+  /** input type for inserting data into table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_insert_input']: {
+    avatar_url?: string | undefined;
+    bio?: string | undefined;
+    display_name?: string | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    fname?: string | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+    verified_addresses?: GraphQLTypes['jsonb'] | undefined;
+  };
   /** aggregate max on columns */
   ['farcaster_profile_with_addresses_max_fields']: {
     __typename: 'farcaster_profile_with_addresses_max_fields';
@@ -74959,6 +75018,10 @@ export type GraphQLTypes = {
     fid?: GraphQLTypes['bigint'] | undefined;
     fname?: string | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** input type for inserting object relation for remote table "farcaster.profile_with_addresses" */
+  ['farcaster_profile_with_addresses_obj_rel_insert_input']: {
+    data: GraphQLTypes['farcaster_profile_with_addresses_insert_input'];
   };
   /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
   ['farcaster_profile_with_addresses_order_by']: {

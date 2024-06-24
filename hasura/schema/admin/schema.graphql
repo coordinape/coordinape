@@ -18080,6 +18080,11 @@ type farcaster_mutual_links {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_with_address: farcaster_profile_with_addresses
 }
 
 """
@@ -18128,6 +18133,7 @@ input farcaster_mutual_links_bool_exp {
   fid: bigint_comparison_exp
   link_timestamp: timestamp_comparison_exp
   target_fid: bigint_comparison_exp
+  target_profile_with_address: farcaster_profile_with_addresses_bool_exp
 }
 
 """
@@ -18145,6 +18151,7 @@ input farcaster_mutual_links_insert_input {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
+  target_profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
 }
 
 """
@@ -18187,6 +18194,7 @@ input farcaster_mutual_links_order_by {
   fid: order_by
   link_timestamp: order_by
   target_fid: order_by
+  target_profile_with_address: farcaster_profile_with_addresses_order_by
 }
 
 """
@@ -18385,6 +18393,19 @@ input farcaster_profile_with_addresses_bool_exp {
 }
 
 """
+input type for inserting data into table "farcaster.profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_insert_input {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses: jsonb
+}
+
+"""
 aggregate max on columns
 """
 type farcaster_profile_with_addresses_max_fields {
@@ -18406,6 +18427,13 @@ type farcaster_profile_with_addresses_min_fields {
   fid: bigint
   fname: String
   updated_at: timestamp
+}
+
+"""
+input type for inserting object relation for remote table "farcaster.profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_obj_rel_insert_input {
+  data: farcaster_profile_with_addresses_insert_input!
 }
 
 """

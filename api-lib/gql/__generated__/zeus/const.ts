@@ -4594,6 +4594,7 @@ export const AllTypesProps: Record<string, any> = {
     fid: 'bigint_comparison_exp',
     link_timestamp: 'timestamp_comparison_exp',
     target_fid: 'bigint_comparison_exp',
+    target_profile_with_address: 'farcaster_profile_with_addresses_bool_exp',
   },
   farcaster_mutual_links_inc_input: {
     fid: 'bigint',
@@ -4603,11 +4604,14 @@ export const AllTypesProps: Record<string, any> = {
     fid: 'bigint',
     link_timestamp: 'timestamp',
     target_fid: 'bigint',
+    target_profile_with_address:
+      'farcaster_profile_with_addresses_obj_rel_insert_input',
   },
   farcaster_mutual_links_order_by: {
     fid: 'order_by',
     link_timestamp: 'order_by',
     target_fid: 'order_by',
+    target_profile_with_address: 'farcaster_profile_with_addresses_order_by',
   },
   farcaster_mutual_links_select_column: true,
   farcaster_mutual_links_set_input: {
@@ -4648,6 +4652,14 @@ export const AllTypesProps: Record<string, any> = {
     fname: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     verified_addresses: 'jsonb_comparison_exp',
+  },
+  farcaster_profile_with_addresses_insert_input: {
+    fid: 'bigint',
+    updated_at: 'timestamp',
+    verified_addresses: 'jsonb',
+  },
+  farcaster_profile_with_addresses_obj_rel_insert_input: {
+    data: 'farcaster_profile_with_addresses_insert_input',
   },
   farcaster_profile_with_addresses_order_by: {
     avatar_url: 'order_by',
@@ -19743,6 +19755,7 @@ export const ReturnTypes: Record<string, any> = {
     fid: 'bigint',
     link_timestamp: 'timestamp',
     target_fid: 'bigint',
+    target_profile_with_address: 'farcaster_profile_with_addresses',
   },
   farcaster_mutual_links_aggregate: {
     aggregate: 'farcaster_mutual_links_aggregate_fields',
