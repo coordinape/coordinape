@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import { faker } from '@faker-js/faker';
 
+import { LOCAL_SEED_ADDRESS } from '../api-lib/config';
 import {
   cosouls_constraint,
   link_tx_constraint,
@@ -20,6 +21,7 @@ import {
 } from '../src/features/cosoul/api/cosoul';
 import { Contracts } from '../src/features/cosoul/contracts';
 import { provider } from '../src/utils/testing/provider';
+import { unlockSigner } from '../src/utils/testing/unlockSigner';
 
 const NUMBER_OF_USERS = 5;
 type User = {
@@ -30,46 +32,61 @@ type User = {
 };
 
 async function createProfiles(users: User[]) {
-  const { insert_profiles: profiles } = await adminClient.mutate(
-    {
-      insert_profiles: [
-        {
-          objects: users.map(user => {
-            return {
-              address: user.address.toLowerCase(),
-              name: user.name,
-              description: faker.lorem.sentence(),
-            };
-          }),
-          on_conflict: {
-            constraint: profiles_constraint.profiles_address_key,
-            update_columns: [profiles_update_column.name],
-            where: {
-              name: { _is_null: true },
-            },
-          },
-        },
-        {
-          returning: { id: true },
-        },
-      ],
-    },
-    { operationName: 'colinks_seed__insertProfiles' }
-  );
-  if (profiles?.returning.length === NUMBER_OF_USERS) {
-    return profiles.returning;
-  } else {
-    const { profiles } = await adminClient.query(
+  const profiles: { id: number }[] = [];
+  for (let i = 0; i < users.length; i++) {
+    const {
+      profiles: [existingProfile],
+    } = await adminClient.query(
       {
         profiles: [
-          { where: { _or: users.map(u => ({ address: { _eq: u.address } })) } },
-          { id: true },
+          {
+            where: { address: { _ilike: users[i].address } },
+          },
+          {
+            id: true,
+          },
         ],
       },
-      { operationName: 'colinks_seed__getprofiles' }
+      { operationName: 'colinks_seed__getprofile' }
     );
-    return profiles;
+
+    if (!existingProfile?.id) {
+      const { insert_profiles_one: profile } = await adminClient.mutate(
+        {
+          insert_profiles_one: [
+            {
+              object: {
+                address: users[i].address.toLowerCase(),
+                name: users[i].name,
+                description: faker.lorem.sentence(),
+              },
+              on_conflict: {
+                constraint: profiles_constraint.profiles_pkey,
+                update_columns: [
+                  profiles_update_column.address,
+                  profiles_update_column.name,
+                  profiles_update_column.description,
+                ],
+                where: {
+                  name: { _is_null: true },
+                },
+              },
+            },
+            {
+              id: true,
+            },
+          ],
+        },
+        { operationName: 'colinks_seed__insertProfile' }
+      );
+
+      assert(profile, 'failed to insert profile');
+      profiles.push(profile);
+    } else {
+      profiles.push(existingProfile);
+    }
   }
+  return profiles;
 }
 
 async function insertCosouls(users: User[]) {
@@ -129,14 +146,16 @@ async function insertCosouls(users: User[]) {
 
 async function buyLinks(users: User[]) {
   const coLinks = getCoLinksContract();
+  const devSigner = await unlockSigner(LOCAL_SEED_ADDRESS);
   const links = [];
   links.push(coLinks.connect(provider().getSigner(users[0].address)));
   links.push(coLinks.connect(provider().getSigner(users[1].address)));
   links.push(coLinks.connect(provider().getSigner(users[2].address)));
   links.push(coLinks.connect(provider().getSigner(users[3].address)));
   links.push(coLinks.connect(provider().getSigner(users[4].address)));
+  links.push(coLinks.connect(devSigner));
   //buy own links
-  for (let i = 0; i < NUMBER_OF_USERS; i++) {
+  for (let i = 0; i < users.length; i++) {
     const linkBalance = await links[i].linkBalance(
       users[i].address,
       users[i].address
@@ -190,14 +209,8 @@ async function buyLinks(users: User[]) {
   }
 
   //buy others links
-  for (let i = 0; i < NUMBER_OF_USERS; i++) {
-    for (let j = 0; j < NUMBER_OF_USERS; j++) {
-      if (i === j) continue;
-      const linkBalance = await links[i].linkBalance(
-        users[i].address,
-        users[j].address
-      );
-      if (linkBalance.toNumber() > 0) continue;
+  for (let i = 0; i < users.length; i++) {
+    for (let j = 0; j < users.length; j++) {
       const linkSupply = await links[i].linkSupply(users[j].address);
       const value = await links[i].getBuyPriceAfterFee(users[j].address, 1);
       const colink = await links[i].buyLinks(users[j].address, 1, { value });
@@ -318,6 +331,12 @@ const users: User[] = new Array(NUMBER_OF_USERS).fill(null).map((_, idx) => ({
   tokenId: undefined,
   txHash: undefined,
 }));
+users.push({
+  name: 'Mee',
+  address: LOCAL_SEED_ADDRESS.toLowerCase(),
+  tokenId: undefined,
+  txHash: undefined,
+});
 const contract = (await Contracts.fromProvider(provider())).cosoul;
 
 const profiles = await createProfiles(users);
