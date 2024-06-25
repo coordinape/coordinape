@@ -181,6 +181,8 @@
     "db-seed-fresh": "./scripts/env.sh scripts/seed_hasura.sh --clean",
     "db-seed": "./scripts/env.sh scripts/seed_hasura.sh",
     "db-disable-cron": "./scripts/env.sh scripts/disable_cron.sh",
+    "farcaster-prod-download": "./scripts/env.sh scripts/farcaster-prod-download.sh",
+    "farcaster-local-import": "./scripts/env.sh scripts/farcaster-local-import.sh",
     "generate": "./scripts/env.sh scripts/generate_zeus.sh",
     "hasura": "./scripts/env.sh hasura --skip-update-check --project ./hasura",
     "docker:start": "docker compose up -d",
