@@ -34591,7 +34591,17 @@ columns and relationships of "mutual_link_holders"
 """
 type mutual_link_holders {
   holder: citext
+
+  """
+  An object relationship
+  """
+  holder_profile_public: profiles_public
   target: citext
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
 }
 
 """
@@ -34619,7 +34629,9 @@ input mutual_link_holders_bool_exp {
   _not: mutual_link_holders_bool_exp
   _or: [mutual_link_holders_bool_exp!]
   holder: citext_comparison_exp
+  holder_profile_public: profiles_public_bool_exp
   target: citext_comparison_exp
+  target_profile_public: profiles_public_bool_exp
 }
 
 """
@@ -34627,7 +34639,9 @@ input type for inserting data into table "mutual_link_holders"
 """
 input mutual_link_holders_insert_input {
   holder: citext
+  holder_profile_public: profiles_public_obj_rel_insert_input
   target: citext
+  target_profile_public: profiles_public_obj_rel_insert_input
 }
 
 """
@@ -34666,7 +34680,9 @@ Ordering options when selecting data from "mutual_link_holders".
 """
 input mutual_link_holders_order_by {
   holder: order_by
+  holder_profile_public: profiles_public_order_by
   target: order_by
+  target_profile_public: profiles_public_order_by
 }
 
 """

@@ -8987,15 +8987,21 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'mutual_link_holders_bool_exp',
     _or: 'mutual_link_holders_bool_exp',
     holder: 'citext_comparison_exp',
+    holder_profile_public: 'profiles_public_bool_exp',
     target: 'citext_comparison_exp',
+    target_profile_public: 'profiles_public_bool_exp',
   },
   mutual_link_holders_insert_input: {
     holder: 'citext',
+    holder_profile_public: 'profiles_public_obj_rel_insert_input',
     target: 'citext',
+    target_profile_public: 'profiles_public_obj_rel_insert_input',
   },
   mutual_link_holders_order_by: {
     holder: 'order_by',
+    holder_profile_public: 'profiles_public_order_by',
     target: 'order_by',
+    target_profile_public: 'profiles_public_order_by',
   },
   mutual_link_holders_select_column: true,
   mutual_link_holders_set_input: {
@@ -22391,7 +22397,9 @@ export const ReturnTypes: Record<string, any> = {
   },
   mutual_link_holders: {
     holder: 'citext',
+    holder_profile_public: 'profiles_public',
     target: 'citext',
+    target_profile_public: 'profiles_public',
   },
   mutual_link_holders_aggregate: {
     aggregate: 'mutual_link_holders_aggregate_fields',
