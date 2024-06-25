@@ -92,9 +92,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const getMutualFollowers = async (fid: number) => {
-  const { farcaster_mutual_links } = await adminClient.query(
+  const { farcaster_mutual_follows } = await adminClient.query(
     {
-      farcaster_mutual_links: [
+      farcaster_mutual_follows: [
         {
           where: {
             fid: { _eq: fid },
@@ -119,9 +119,9 @@ const getMutualFollowers = async (fid: number) => {
     }
   );
 
-  assert(farcaster_mutual_links, 'no mutual followers found');
+  assert(farcaster_mutual_follows, 'no mutual followers found');
 
-  return farcaster_mutual_links.map((link: any) => {
+  return farcaster_mutual_follows.map((link: any) => {
     const nn: NetworkNode = {
       username: link.target_profile_with_address?.display_name,
       avatar: link.target_profile_with_address?.avatar_url,

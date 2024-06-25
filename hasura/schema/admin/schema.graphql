@@ -18074,9 +18074,9 @@ type farcaster_links_variance_fields {
 }
 
 """
-columns and relationships of "farcaster.mutual_links"
+columns and relationships of "farcaster.mutual_follows"
 """
-type farcaster_mutual_links {
+type farcaster_mutual_follows {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
@@ -18088,48 +18088,48 @@ type farcaster_mutual_links {
 }
 
 """
-aggregated selection of "farcaster.mutual_links"
+aggregated selection of "farcaster.mutual_follows"
 """
-type farcaster_mutual_links_aggregate {
-  aggregate: farcaster_mutual_links_aggregate_fields
-  nodes: [farcaster_mutual_links!]!
+type farcaster_mutual_follows_aggregate {
+  aggregate: farcaster_mutual_follows_aggregate_fields
+  nodes: [farcaster_mutual_follows!]!
 }
 
 """
-aggregate fields of "farcaster.mutual_links"
+aggregate fields of "farcaster.mutual_follows"
 """
-type farcaster_mutual_links_aggregate_fields {
-  avg: farcaster_mutual_links_avg_fields
+type farcaster_mutual_follows_aggregate_fields {
+  avg: farcaster_mutual_follows_avg_fields
   count(
-    columns: [farcaster_mutual_links_select_column!]
+    columns: [farcaster_mutual_follows_select_column!]
     distinct: Boolean
   ): Int!
-  max: farcaster_mutual_links_max_fields
-  min: farcaster_mutual_links_min_fields
-  stddev: farcaster_mutual_links_stddev_fields
-  stddev_pop: farcaster_mutual_links_stddev_pop_fields
-  stddev_samp: farcaster_mutual_links_stddev_samp_fields
-  sum: farcaster_mutual_links_sum_fields
-  var_pop: farcaster_mutual_links_var_pop_fields
-  var_samp: farcaster_mutual_links_var_samp_fields
-  variance: farcaster_mutual_links_variance_fields
+  max: farcaster_mutual_follows_max_fields
+  min: farcaster_mutual_follows_min_fields
+  stddev: farcaster_mutual_follows_stddev_fields
+  stddev_pop: farcaster_mutual_follows_stddev_pop_fields
+  stddev_samp: farcaster_mutual_follows_stddev_samp_fields
+  sum: farcaster_mutual_follows_sum_fields
+  var_pop: farcaster_mutual_follows_var_pop_fields
+  var_samp: farcaster_mutual_follows_var_samp_fields
+  variance: farcaster_mutual_follows_variance_fields
 }
 
 """
 aggregate avg on columns
 """
-type farcaster_mutual_links_avg_fields {
+type farcaster_mutual_follows_avg_fields {
   fid: Float
   target_fid: Float
 }
 
 """
-Boolean expression to filter rows from the table "farcaster.mutual_links". All fields are combined with a logical 'AND'.
+Boolean expression to filter rows from the table "farcaster.mutual_follows". All fields are combined with a logical 'AND'.
 """
-input farcaster_mutual_links_bool_exp {
-  _and: [farcaster_mutual_links_bool_exp!]
-  _not: farcaster_mutual_links_bool_exp
-  _or: [farcaster_mutual_links_bool_exp!]
+input farcaster_mutual_follows_bool_exp {
+  _and: [farcaster_mutual_follows_bool_exp!]
+  _not: farcaster_mutual_follows_bool_exp
+  _or: [farcaster_mutual_follows_bool_exp!]
   fid: bigint_comparison_exp
   link_timestamp: timestamp_comparison_exp
   target_fid: bigint_comparison_exp
@@ -18137,17 +18137,17 @@ input farcaster_mutual_links_bool_exp {
 }
 
 """
-input type for incrementing numeric columns in table "farcaster.mutual_links"
+input type for incrementing numeric columns in table "farcaster.mutual_follows"
 """
-input farcaster_mutual_links_inc_input {
+input farcaster_mutual_follows_inc_input {
   fid: bigint
   target_fid: bigint
 }
 
 """
-input type for inserting data into table "farcaster.mutual_links"
+input type for inserting data into table "farcaster.mutual_follows"
 """
-input farcaster_mutual_links_insert_input {
+input farcaster_mutual_follows_insert_input {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
@@ -18157,7 +18157,7 @@ input farcaster_mutual_links_insert_input {
 """
 aggregate max on columns
 """
-type farcaster_mutual_links_max_fields {
+type farcaster_mutual_follows_max_fields {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
@@ -18166,16 +18166,16 @@ type farcaster_mutual_links_max_fields {
 """
 aggregate min on columns
 """
-type farcaster_mutual_links_min_fields {
+type farcaster_mutual_follows_min_fields {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
 }
 
 """
-response of any mutation on the table "farcaster.mutual_links"
+response of any mutation on the table "farcaster.mutual_follows"
 """
-type farcaster_mutual_links_mutation_response {
+type farcaster_mutual_follows_mutation_response {
   """
   number of rows affected by the mutation
   """
@@ -18184,13 +18184,13 @@ type farcaster_mutual_links_mutation_response {
   """
   data from the rows affected by the mutation
   """
-  returning: [farcaster_mutual_links!]!
+  returning: [farcaster_mutual_follows!]!
 }
 
 """
-Ordering options when selecting data from "farcaster.mutual_links".
+Ordering options when selecting data from "farcaster.mutual_follows".
 """
-input farcaster_mutual_links_order_by {
+input farcaster_mutual_follows_order_by {
   fid: order_by
   link_timestamp: order_by
   target_fid: order_by
@@ -18198,9 +18198,9 @@ input farcaster_mutual_links_order_by {
 }
 
 """
-select columns of table "farcaster.mutual_links"
+select columns of table "farcaster.mutual_follows"
 """
-enum farcaster_mutual_links_select_column {
+enum farcaster_mutual_follows_select_column {
   """
   column name
   """
@@ -18218,9 +18218,9 @@ enum farcaster_mutual_links_select_column {
 }
 
 """
-input type for updating data in table "farcaster.mutual_links"
+input type for updating data in table "farcaster.mutual_follows"
 """
-input farcaster_mutual_links_set_input {
+input farcaster_mutual_follows_set_input {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
@@ -18229,7 +18229,7 @@ input farcaster_mutual_links_set_input {
 """
 aggregate stddev on columns
 """
-type farcaster_mutual_links_stddev_fields {
+type farcaster_mutual_follows_stddev_fields {
   fid: Float
   target_fid: Float
 }
@@ -18237,7 +18237,7 @@ type farcaster_mutual_links_stddev_fields {
 """
 aggregate stddev_pop on columns
 """
-type farcaster_mutual_links_stddev_pop_fields {
+type farcaster_mutual_follows_stddev_pop_fields {
   fid: Float
   target_fid: Float
 }
@@ -18245,19 +18245,19 @@ type farcaster_mutual_links_stddev_pop_fields {
 """
 aggregate stddev_samp on columns
 """
-type farcaster_mutual_links_stddev_samp_fields {
+type farcaster_mutual_follows_stddev_samp_fields {
   fid: Float
   target_fid: Float
 }
 
 """
-Streaming cursor of the table "farcaster_mutual_links"
+Streaming cursor of the table "farcaster_mutual_follows"
 """
-input farcaster_mutual_links_stream_cursor_input {
+input farcaster_mutual_follows_stream_cursor_input {
   """
   Stream column input with initial value
   """
-  initial_value: farcaster_mutual_links_stream_cursor_value_input!
+  initial_value: farcaster_mutual_follows_stream_cursor_value_input!
 
   """
   cursor ordering
@@ -18268,7 +18268,7 @@ input farcaster_mutual_links_stream_cursor_input {
 """
 Initial value of the column from where the streaming should start
 """
-input farcaster_mutual_links_stream_cursor_value_input {
+input farcaster_mutual_follows_stream_cursor_value_input {
   fid: bigint
   link_timestamp: timestamp
   target_fid: bigint
@@ -18277,32 +18277,32 @@ input farcaster_mutual_links_stream_cursor_value_input {
 """
 aggregate sum on columns
 """
-type farcaster_mutual_links_sum_fields {
+type farcaster_mutual_follows_sum_fields {
   fid: bigint
   target_fid: bigint
 }
 
-input farcaster_mutual_links_updates {
+input farcaster_mutual_follows_updates {
   """
   increments the numeric columns with given value of the filtered values
   """
-  _inc: farcaster_mutual_links_inc_input
+  _inc: farcaster_mutual_follows_inc_input
 
   """
   sets the columns of the filtered rows to the given values
   """
-  _set: farcaster_mutual_links_set_input
+  _set: farcaster_mutual_follows_set_input
 
   """
   filter the rows which have to be updated
   """
-  where: farcaster_mutual_links_bool_exp!
+  where: farcaster_mutual_follows_bool_exp!
 }
 
 """
 aggregate var_pop on columns
 """
-type farcaster_mutual_links_var_pop_fields {
+type farcaster_mutual_follows_var_pop_fields {
   fid: Float
   target_fid: Float
 }
@@ -18310,7 +18310,7 @@ type farcaster_mutual_links_var_pop_fields {
 """
 aggregate var_samp on columns
 """
-type farcaster_mutual_links_var_samp_fields {
+type farcaster_mutual_follows_var_samp_fields {
   fid: Float
   target_fid: Float
 }
@@ -18318,7 +18318,7 @@ type farcaster_mutual_links_var_samp_fields {
 """
 aggregate variance on columns
 """
-type farcaster_mutual_links_variance_fields {
+type farcaster_mutual_follows_variance_fields {
   fid: Float
   target_fid: Float
 }
@@ -27175,14 +27175,14 @@ type mutation_root {
   delete_farcaster_links_by_pk(id: bigint!): farcaster_links
 
   """
-  delete data from the table: "farcaster.mutual_links"
+  delete data from the table: "farcaster.mutual_follows"
   """
-  delete_farcaster_mutual_links(
+  delete_farcaster_mutual_follows(
     """
     filter the rows which have to be deleted
     """
-    where: farcaster_mutual_links_bool_exp!
-  ): farcaster_mutual_links_mutation_response
+    where: farcaster_mutual_follows_bool_exp!
+  ): farcaster_mutual_follows_mutation_response
 
   """
   delete data from the table: "farcaster.reactions"
@@ -28756,24 +28756,24 @@ type mutation_root {
   ): farcaster_links
 
   """
-  insert data into the table: "farcaster.mutual_links"
+  insert data into the table: "farcaster.mutual_follows"
   """
-  insert_farcaster_mutual_links(
+  insert_farcaster_mutual_follows(
     """
     the rows to be inserted
     """
-    objects: [farcaster_mutual_links_insert_input!]!
-  ): farcaster_mutual_links_mutation_response
+    objects: [farcaster_mutual_follows_insert_input!]!
+  ): farcaster_mutual_follows_mutation_response
 
   """
-  insert a single row into the table: "farcaster.mutual_links"
+  insert a single row into the table: "farcaster.mutual_follows"
   """
-  insert_farcaster_mutual_links_one(
+  insert_farcaster_mutual_follows_one(
     """
     the row to be inserted
     """
-    object: farcaster_mutual_links_insert_input!
-  ): farcaster_mutual_links
+    object: farcaster_mutual_follows_insert_input!
+  ): farcaster_mutual_follows
 
   """
   insert data into the table: "farcaster.reactions"
@@ -31730,34 +31730,34 @@ type mutation_root {
   ): [farcaster_links_mutation_response]
 
   """
-  update data of the table: "farcaster.mutual_links"
+  update data of the table: "farcaster.mutual_follows"
   """
-  update_farcaster_mutual_links(
+  update_farcaster_mutual_follows(
     """
     increments the numeric columns with given value of the filtered values
     """
-    _inc: farcaster_mutual_links_inc_input
+    _inc: farcaster_mutual_follows_inc_input
 
     """
     sets the columns of the filtered rows to the given values
     """
-    _set: farcaster_mutual_links_set_input
+    _set: farcaster_mutual_follows_set_input
 
     """
     filter the rows which have to be updated
     """
-    where: farcaster_mutual_links_bool_exp!
-  ): farcaster_mutual_links_mutation_response
+    where: farcaster_mutual_follows_bool_exp!
+  ): farcaster_mutual_follows_mutation_response
 
   """
-  update multiples rows of table: "farcaster.mutual_links"
+  update multiples rows of table: "farcaster.mutual_follows"
   """
-  update_farcaster_mutual_links_many(
+  update_farcaster_mutual_follows_many(
     """
     updates to execute, in order
     """
-    updates: [farcaster_mutual_links_updates!]!
-  ): [farcaster_mutual_links_mutation_response]
+    updates: [farcaster_mutual_follows_updates!]!
+  ): [farcaster_mutual_follows_mutation_response]
 
   """
   update data of the table: "farcaster.reactions"
@@ -47401,13 +47401,13 @@ type query_root {
   farcaster_links_by_pk(id: bigint!): farcaster_links
 
   """
-  fetch data from the table: "farcaster.mutual_links"
+  fetch data from the table: "farcaster.mutual_follows"
   """
-  farcaster_mutual_links(
+  farcaster_mutual_follows(
     """
     distinct select on columns
     """
-    distinct_on: [farcaster_mutual_links_select_column!]
+    distinct_on: [farcaster_mutual_follows_select_column!]
 
     """
     limit the number of rows returned
@@ -47422,22 +47422,22 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [farcaster_mutual_links_order_by!]
+    order_by: [farcaster_mutual_follows_order_by!]
 
     """
     filter the rows returned
     """
-    where: farcaster_mutual_links_bool_exp
-  ): [farcaster_mutual_links!]!
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
 
   """
-  fetch aggregated fields from the table: "farcaster.mutual_links"
+  fetch aggregated fields from the table: "farcaster.mutual_follows"
   """
-  farcaster_mutual_links_aggregate(
+  farcaster_mutual_follows_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [farcaster_mutual_links_select_column!]
+    distinct_on: [farcaster_mutual_follows_select_column!]
 
     """
     limit the number of rows returned
@@ -47452,13 +47452,13 @@ type query_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [farcaster_mutual_links_order_by!]
+    order_by: [farcaster_mutual_follows_order_by!]
 
     """
     filter the rows returned
     """
-    where: farcaster_mutual_links_bool_exp
-  ): farcaster_mutual_links_aggregate!
+    where: farcaster_mutual_follows_bool_exp
+  ): farcaster_mutual_follows_aggregate!
 
   """
   fetch data from the table: "farcaster.profile_with_addresses"
@@ -56946,13 +56946,13 @@ type subscription_root {
   ): [farcaster_links!]!
 
   """
-  fetch data from the table: "farcaster.mutual_links"
+  fetch data from the table: "farcaster.mutual_follows"
   """
-  farcaster_mutual_links(
+  farcaster_mutual_follows(
     """
     distinct select on columns
     """
-    distinct_on: [farcaster_mutual_links_select_column!]
+    distinct_on: [farcaster_mutual_follows_select_column!]
 
     """
     limit the number of rows returned
@@ -56967,22 +56967,22 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [farcaster_mutual_links_order_by!]
+    order_by: [farcaster_mutual_follows_order_by!]
 
     """
     filter the rows returned
     """
-    where: farcaster_mutual_links_bool_exp
-  ): [farcaster_mutual_links!]!
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
 
   """
-  fetch aggregated fields from the table: "farcaster.mutual_links"
+  fetch aggregated fields from the table: "farcaster.mutual_follows"
   """
-  farcaster_mutual_links_aggregate(
+  farcaster_mutual_follows_aggregate(
     """
     distinct select on columns
     """
-    distinct_on: [farcaster_mutual_links_select_column!]
+    distinct_on: [farcaster_mutual_follows_select_column!]
 
     """
     limit the number of rows returned
@@ -56997,18 +56997,18 @@ type subscription_root {
     """
     sort the rows by one or more columns
     """
-    order_by: [farcaster_mutual_links_order_by!]
+    order_by: [farcaster_mutual_follows_order_by!]
 
     """
     filter the rows returned
     """
-    where: farcaster_mutual_links_bool_exp
-  ): farcaster_mutual_links_aggregate!
+    where: farcaster_mutual_follows_bool_exp
+  ): farcaster_mutual_follows_aggregate!
 
   """
-  fetch data from the table in a streaming manner: "farcaster.mutual_links"
+  fetch data from the table in a streaming manner: "farcaster.mutual_follows"
   """
-  farcaster_mutual_links_stream(
+  farcaster_mutual_follows_stream(
     """
     maximum number of rows returned in a single batch
     """
@@ -57017,13 +57017,13 @@ type subscription_root {
     """
     cursor to stream the results returned by the query
     """
-    cursor: [farcaster_mutual_links_stream_cursor_input]!
+    cursor: [farcaster_mutual_follows_stream_cursor_input]!
 
     """
     filter the rows returned
     """
-    where: farcaster_mutual_links_bool_exp
-  ): [farcaster_mutual_links!]!
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
 
   """
   fetch data from the table: "farcaster.profile_with_addresses"

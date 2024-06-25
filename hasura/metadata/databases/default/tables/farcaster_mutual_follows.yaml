@@ -1,5 +1,5 @@
 table:
-  name: mutual_links
+  name: mutual_follows
   schema: farcaster
 object_relationships:
   - name: target_profile_with_address
