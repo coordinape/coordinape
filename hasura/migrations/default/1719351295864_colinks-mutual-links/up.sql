@@ -6,4 +6,5 @@ WHERE EXISTS (
   FROM link_holders lh2
   WHERE lh2.holder = lh1.target
     AND lh2.target = lh1.holder
+    AND lh1.holder != lh1.target
 );
