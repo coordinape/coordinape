@@ -80,7 +80,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   let nodes: NetworkNode[] = [];
   const fid = targetProfile?.farcaster_account?.fid ?? fUser?.fid;
   if (fid) {
-    nodes = await getFollowerNodes(fid);
+    nodes = await getMutualFollowers(fid);
+    // nodes = await getFollowerNodes(fid);
   }
 
   try {
@@ -90,6 +91,49 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
+const getMutualFollowers = async (fid: number) => {
+  const { farcaster_mutual_follows } = await adminClient.query(
+    {
+      farcaster_mutual_follows: [
+        {
+          where: {
+            fid: { _eq: fid },
+          },
+          limit: 1000,
+        },
+        {
+          fid: true,
+          target_fid: true,
+          target_profile_with_address: {
+            fname: true,
+            display_name: true,
+            avatar_url: true,
+            bio: true,
+            verified_addresses: [{}, true],
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'getNetwork__getMutualFollowers',
+    }
+  );
+
+  assert(farcaster_mutual_follows, 'no mutual followers found');
+
+  return farcaster_mutual_follows.map((link: any) => {
+    const nn: NetworkNode = {
+      username: link.target_profile_with_address?.display_name,
+      avatar: link.target_profile_with_address?.avatar_url,
+      farcaster_id: link.target_fid,
+      tier: 1,
+      address: link.target_profile_with_address?.verified_addresses[0],
+    };
+    return nn;
+  });
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getFollowerNodes = async (fid: number) => {
   const ff = await fetchFollowers(fid);
   const followers = ff.users.map(user => {

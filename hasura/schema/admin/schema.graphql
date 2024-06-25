@@ -18074,6 +18074,256 @@ type farcaster_links_variance_fields {
 }
 
 """
+columns and relationships of "farcaster.mutual_follows"
+"""
+type farcaster_mutual_follows {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_with_address: farcaster_profile_with_addresses
+}
+
+"""
+aggregated selection of "farcaster.mutual_follows"
+"""
+type farcaster_mutual_follows_aggregate {
+  aggregate: farcaster_mutual_follows_aggregate_fields
+  nodes: [farcaster_mutual_follows!]!
+}
+
+"""
+aggregate fields of "farcaster.mutual_follows"
+"""
+type farcaster_mutual_follows_aggregate_fields {
+  avg: farcaster_mutual_follows_avg_fields
+  count(
+    columns: [farcaster_mutual_follows_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: farcaster_mutual_follows_max_fields
+  min: farcaster_mutual_follows_min_fields
+  stddev: farcaster_mutual_follows_stddev_fields
+  stddev_pop: farcaster_mutual_follows_stddev_pop_fields
+  stddev_samp: farcaster_mutual_follows_stddev_samp_fields
+  sum: farcaster_mutual_follows_sum_fields
+  var_pop: farcaster_mutual_follows_var_pop_fields
+  var_samp: farcaster_mutual_follows_var_samp_fields
+  variance: farcaster_mutual_follows_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type farcaster_mutual_follows_avg_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.mutual_follows". All fields are combined with a logical 'AND'.
+"""
+input farcaster_mutual_follows_bool_exp {
+  _and: [farcaster_mutual_follows_bool_exp!]
+  _not: farcaster_mutual_follows_bool_exp
+  _or: [farcaster_mutual_follows_bool_exp!]
+  fid: bigint_comparison_exp
+  link_timestamp: timestamp_comparison_exp
+  target_fid: bigint_comparison_exp
+  target_profile_with_address: farcaster_profile_with_addresses_bool_exp
+}
+
+"""
+input type for incrementing numeric columns in table "farcaster.mutual_follows"
+"""
+input farcaster_mutual_follows_inc_input {
+  fid: bigint
+  target_fid: bigint
+}
+
+"""
+input type for inserting data into table "farcaster.mutual_follows"
+"""
+input farcaster_mutual_follows_insert_input {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+  target_profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
+}
+
+"""
+aggregate max on columns
+"""
+type farcaster_mutual_follows_max_fields {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type farcaster_mutual_follows_min_fields {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+}
+
+"""
+response of any mutation on the table "farcaster.mutual_follows"
+"""
+type farcaster_mutual_follows_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [farcaster_mutual_follows!]!
+}
+
+"""
+Ordering options when selecting data from "farcaster.mutual_follows".
+"""
+input farcaster_mutual_follows_order_by {
+  fid: order_by
+  link_timestamp: order_by
+  target_fid: order_by
+  target_profile_with_address: farcaster_profile_with_addresses_order_by
+}
+
+"""
+select columns of table "farcaster.mutual_follows"
+"""
+enum farcaster_mutual_follows_select_column {
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  link_timestamp
+
+  """
+  column name
+  """
+  target_fid
+}
+
+"""
+input type for updating data in table "farcaster.mutual_follows"
+"""
+input farcaster_mutual_follows_set_input {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+}
+
+"""
+aggregate stddev on columns
+"""
+type farcaster_mutual_follows_stddev_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type farcaster_mutual_follows_stddev_pop_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type farcaster_mutual_follows_stddev_samp_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+Streaming cursor of the table "farcaster_mutual_follows"
+"""
+input farcaster_mutual_follows_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_mutual_follows_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_mutual_follows_stream_cursor_value_input {
+  fid: bigint
+  link_timestamp: timestamp
+  target_fid: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type farcaster_mutual_follows_sum_fields {
+  fid: bigint
+  target_fid: bigint
+}
+
+input farcaster_mutual_follows_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: farcaster_mutual_follows_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: farcaster_mutual_follows_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: farcaster_mutual_follows_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type farcaster_mutual_follows_var_pop_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type farcaster_mutual_follows_var_samp_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type farcaster_mutual_follows_variance_fields {
+  fid: Float
+  target_fid: Float
+}
+
+"""
 columns and relationships of "farcaster.profile_with_addresses"
 """
 type farcaster_profile_with_addresses {
@@ -18143,6 +18393,19 @@ input farcaster_profile_with_addresses_bool_exp {
 }
 
 """
+input type for inserting data into table "farcaster.profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_insert_input {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses: jsonb
+}
+
+"""
 aggregate max on columns
 """
 type farcaster_profile_with_addresses_max_fields {
@@ -18164,6 +18427,13 @@ type farcaster_profile_with_addresses_min_fields {
   fid: bigint
   fname: String
   updated_at: timestamp
+}
+
+"""
+input type for inserting object relation for remote table "farcaster.profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_obj_rel_insert_input {
+  data: farcaster_profile_with_addresses_insert_input!
 }
 
 """
@@ -26905,6 +27175,16 @@ type mutation_root {
   delete_farcaster_links_by_pk(id: bigint!): farcaster_links
 
   """
+  delete data from the table: "farcaster.mutual_follows"
+  """
+  delete_farcaster_mutual_follows(
+    """
+    filter the rows which have to be deleted
+    """
+    where: farcaster_mutual_follows_bool_exp!
+  ): farcaster_mutual_follows_mutation_response
+
+  """
   delete data from the table: "farcaster.reactions"
   """
   delete_farcaster_reactions(
@@ -28474,6 +28754,26 @@ type mutation_root {
     """
     on_conflict: farcaster_links_on_conflict
   ): farcaster_links
+
+  """
+  insert data into the table: "farcaster.mutual_follows"
+  """
+  insert_farcaster_mutual_follows(
+    """
+    the rows to be inserted
+    """
+    objects: [farcaster_mutual_follows_insert_input!]!
+  ): farcaster_mutual_follows_mutation_response
+
+  """
+  insert a single row into the table: "farcaster.mutual_follows"
+  """
+  insert_farcaster_mutual_follows_one(
+    """
+    the row to be inserted
+    """
+    object: farcaster_mutual_follows_insert_input!
+  ): farcaster_mutual_follows
 
   """
   insert data into the table: "farcaster.reactions"
@@ -31428,6 +31728,36 @@ type mutation_root {
     """
     updates: [farcaster_links_updates!]!
   ): [farcaster_links_mutation_response]
+
+  """
+  update data of the table: "farcaster.mutual_follows"
+  """
+  update_farcaster_mutual_follows(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: farcaster_mutual_follows_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: farcaster_mutual_follows_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: farcaster_mutual_follows_bool_exp!
+  ): farcaster_mutual_follows_mutation_response
+
+  """
+  update multiples rows of table: "farcaster.mutual_follows"
+  """
+  update_farcaster_mutual_follows_many(
+    """
+    updates to execute, in order
+    """
+    updates: [farcaster_mutual_follows_updates!]!
+  ): [farcaster_mutual_follows_mutation_response]
 
   """
   update data of the table: "farcaster.reactions"
@@ -47071,6 +47401,66 @@ type query_root {
   farcaster_links_by_pk(id: bigint!): farcaster_links
 
   """
+  fetch data from the table: "farcaster.mutual_follows"
+  """
+  farcaster_mutual_follows(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_mutual_follows_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_mutual_follows_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.mutual_follows"
+  """
+  farcaster_mutual_follows_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_mutual_follows_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_mutual_follows_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_mutual_follows_bool_exp
+  ): farcaster_mutual_follows_aggregate!
+
+  """
   fetch data from the table: "farcaster.profile_with_addresses"
   """
   farcaster_profile_with_addresses(
@@ -56554,6 +56944,86 @@ type subscription_root {
     """
     where: farcaster_links_bool_exp
   ): [farcaster_links!]!
+
+  """
+  fetch data from the table: "farcaster.mutual_follows"
+  """
+  farcaster_mutual_follows(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_mutual_follows_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_mutual_follows_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
+
+  """
+  fetch aggregated fields from the table: "farcaster.mutual_follows"
+  """
+  farcaster_mutual_follows_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_mutual_follows_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_mutual_follows_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_mutual_follows_bool_exp
+  ): farcaster_mutual_follows_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.mutual_follows"
+  """
+  farcaster_mutual_follows_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_mutual_follows_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_mutual_follows_bool_exp
+  ): [farcaster_mutual_follows!]!
 
   """
   fetch data from the table: "farcaster.profile_with_addresses"
