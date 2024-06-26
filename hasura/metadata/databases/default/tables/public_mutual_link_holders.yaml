@@ -1,0 +1,22 @@
+table:
+  name: mutual_link_holders
+  schema: public
+object_relationships:
+  - name: holder_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          holder: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+  - name: target_profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          target: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public

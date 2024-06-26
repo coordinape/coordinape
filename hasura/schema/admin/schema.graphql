@@ -17118,6 +17118,18 @@ type farcaster_fids_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "farcaster.fids"
+"""
+input farcaster_fids_obj_rel_insert_input {
+  data: farcaster_fids_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: farcaster_fids_on_conflict
+}
+
+"""
 on_conflict condition type for table "farcaster.fids"
 """
 input farcaster_fids_on_conflict {
@@ -18331,6 +18343,11 @@ type farcaster_profile_with_addresses {
   bio: String
   display_name: String
   fid: bigint
+
+  """
+  An object relationship
+  """
+  fids: farcaster_fids
   fname: String
   updated_at: timestamp
   verified_addresses(
@@ -18387,6 +18404,7 @@ input farcaster_profile_with_addresses_bool_exp {
   bio: String_comparison_exp
   display_name: String_comparison_exp
   fid: bigint_comparison_exp
+  fids: farcaster_fids_bool_exp
   fname: String_comparison_exp
   updated_at: timestamp_comparison_exp
   verified_addresses: jsonb_comparison_exp
@@ -18400,6 +18418,7 @@ input farcaster_profile_with_addresses_insert_input {
   bio: String
   display_name: String
   fid: bigint
+  fids: farcaster_fids_obj_rel_insert_input
   fname: String
   updated_at: timestamp
   verified_addresses: jsonb
@@ -18444,6 +18463,7 @@ input farcaster_profile_with_addresses_order_by {
   bio: order_by
   display_name: order_by
   fid: order_by
+  fids: farcaster_fids_order_by
   fname: order_by
   updated_at: order_by
   verified_addresses: order_by
@@ -27456,6 +27476,16 @@ type mutation_root {
   delete_mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
 
   """
+  delete data from the table: "mutual_link_holders"
+  """
+  delete_mutual_link_holders(
+    """
+    filter the rows which have to be deleted
+    """
+    where: mutual_link_holders_bool_exp!
+  ): mutual_link_holders_mutation_response
+
+  """
   delete data from the table: "nft_collections"
   """
   delete_nft_collections(
@@ -29304,6 +29334,26 @@ type mutation_root {
     """
     on_conflict: mutes_on_conflict
   ): mutes
+
+  """
+  insert data into the table: "mutual_link_holders"
+  """
+  insert_mutual_link_holders(
+    """
+    the rows to be inserted
+    """
+    objects: [mutual_link_holders_insert_input!]!
+  ): mutual_link_holders_mutation_response
+
+  """
+  insert a single row into the table: "mutual_link_holders"
+  """
+  insert_mutual_link_holders_one(
+    """
+    the row to be inserted
+    """
+    object: mutual_link_holders_insert_input!
+  ): mutual_link_holders
 
   """
   insert data into the table: "nft_collections"
@@ -32672,6 +32722,31 @@ type mutation_root {
   ): [mutes_mutation_response]
 
   """
+  update data of the table: "mutual_link_holders"
+  """
+  update_mutual_link_holders(
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: mutual_link_holders_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: mutual_link_holders_bool_exp!
+  ): mutual_link_holders_mutation_response
+
+  """
+  update multiples rows of table: "mutual_link_holders"
+  """
+  update_mutual_link_holders_many(
+    """
+    updates to execute, in order
+    """
+    updates: [mutual_link_holders_updates!]!
+  ): [mutual_link_holders_mutation_response]
+
+  """
   update data of the table: "nft_collections"
   """
   update_nft_collections(
@@ -34529,6 +34604,163 @@ order by variance() on columns of table "mutes"
 input mutes_variance_order_by {
   profile_id: order_by
   target_profile_id: order_by
+}
+
+"""
+columns and relationships of "mutual_link_holders"
+"""
+type mutual_link_holders {
+  holder: citext
+
+  """
+  An object relationship
+  """
+  holder_profile_public: profiles_public
+  target: citext
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
+}
+
+"""
+aggregated selection of "mutual_link_holders"
+"""
+type mutual_link_holders_aggregate {
+  aggregate: mutual_link_holders_aggregate_fields
+  nodes: [mutual_link_holders!]!
+}
+
+"""
+aggregate fields of "mutual_link_holders"
+"""
+type mutual_link_holders_aggregate_fields {
+  count(columns: [mutual_link_holders_select_column!], distinct: Boolean): Int!
+  max: mutual_link_holders_max_fields
+  min: mutual_link_holders_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "mutual_link_holders". All fields are combined with a logical 'AND'.
+"""
+input mutual_link_holders_bool_exp {
+  _and: [mutual_link_holders_bool_exp!]
+  _not: mutual_link_holders_bool_exp
+  _or: [mutual_link_holders_bool_exp!]
+  holder: citext_comparison_exp
+  holder_profile_public: profiles_public_bool_exp
+  target: citext_comparison_exp
+  target_profile_public: profiles_public_bool_exp
+}
+
+"""
+input type for inserting data into table "mutual_link_holders"
+"""
+input mutual_link_holders_insert_input {
+  holder: citext
+  holder_profile_public: profiles_public_obj_rel_insert_input
+  target: citext
+  target_profile_public: profiles_public_obj_rel_insert_input
+}
+
+"""
+aggregate max on columns
+"""
+type mutual_link_holders_max_fields {
+  holder: citext
+  target: citext
+}
+
+"""
+aggregate min on columns
+"""
+type mutual_link_holders_min_fields {
+  holder: citext
+  target: citext
+}
+
+"""
+response of any mutation on the table "mutual_link_holders"
+"""
+type mutual_link_holders_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [mutual_link_holders!]!
+}
+
+"""
+Ordering options when selecting data from "mutual_link_holders".
+"""
+input mutual_link_holders_order_by {
+  holder: order_by
+  holder_profile_public: profiles_public_order_by
+  target: order_by
+  target_profile_public: profiles_public_order_by
+}
+
+"""
+select columns of table "mutual_link_holders"
+"""
+enum mutual_link_holders_select_column {
+  """
+  column name
+  """
+  holder
+
+  """
+  column name
+  """
+  target
+}
+
+"""
+input type for updating data in table "mutual_link_holders"
+"""
+input mutual_link_holders_set_input {
+  holder: citext
+  target: citext
+}
+
+"""
+Streaming cursor of the table "mutual_link_holders"
+"""
+input mutual_link_holders_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: mutual_link_holders_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input mutual_link_holders_stream_cursor_value_input {
+  holder: citext
+  target: citext
+}
+
+input mutual_link_holders_updates {
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: mutual_link_holders_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: mutual_link_holders_bool_exp!
 }
 
 """
@@ -48753,6 +48985,66 @@ type query_root {
   mutes_by_pk(profile_id: bigint!, target_profile_id: bigint!): mutes
 
   """
+  fetch data from the table: "mutual_link_holders"
+  """
+  mutual_link_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutual_link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutual_link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutual_link_holders_bool_exp
+  ): [mutual_link_holders!]!
+
+  """
+  fetch aggregated fields from the table: "mutual_link_holders"
+  """
+  mutual_link_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutual_link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutual_link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutual_link_holders_bool_exp
+  ): mutual_link_holders_aggregate!
+
+  """
   fetch data from the table: "nft_collections"
   """
   nft_collections(
@@ -58713,6 +59005,86 @@ type subscription_root {
     """
     where: mutes_bool_exp
   ): [mutes!]!
+
+  """
+  fetch data from the table: "mutual_link_holders"
+  """
+  mutual_link_holders(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutual_link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutual_link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutual_link_holders_bool_exp
+  ): [mutual_link_holders!]!
+
+  """
+  fetch aggregated fields from the table: "mutual_link_holders"
+  """
+  mutual_link_holders_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [mutual_link_holders_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [mutual_link_holders_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: mutual_link_holders_bool_exp
+  ): mutual_link_holders_aggregate!
+
+  """
+  fetch data from the table in a streaming manner: "mutual_link_holders"
+  """
+  mutual_link_holders_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [mutual_link_holders_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: mutual_link_holders_bool_exp
+  ): [mutual_link_holders!]!
 
   """
   fetch data from the table: "nft_collections"

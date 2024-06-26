@@ -4384,6 +4384,10 @@ export const AllTypesProps: Record<string, any> = {
     registered_at: 'timestamptz',
     updated_at: 'timestamp',
   },
+  farcaster_fids_obj_rel_insert_input: {
+    data: 'farcaster_fids_insert_input',
+    on_conflict: 'farcaster_fids_on_conflict',
+  },
   farcaster_fids_on_conflict: {
     constraint: 'farcaster_fids_constraint',
     update_columns: 'farcaster_fids_update_column',
@@ -4649,12 +4653,14 @@ export const AllTypesProps: Record<string, any> = {
     bio: 'String_comparison_exp',
     display_name: 'String_comparison_exp',
     fid: 'bigint_comparison_exp',
+    fids: 'farcaster_fids_bool_exp',
     fname: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
     verified_addresses: 'jsonb_comparison_exp',
   },
   farcaster_profile_with_addresses_insert_input: {
     fid: 'bigint',
+    fids: 'farcaster_fids_obj_rel_insert_input',
     updated_at: 'timestamp',
     verified_addresses: 'jsonb',
   },
@@ -4666,6 +4672,7 @@ export const AllTypesProps: Record<string, any> = {
     bio: 'order_by',
     display_name: 'order_by',
     fid: 'order_by',
+    fids: 'farcaster_fids_order_by',
     fname: 'order_by',
     updated_at: 'order_by',
     verified_addresses: 'order_by',
@@ -6909,6 +6916,9 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       target_profile_id: 'bigint',
     },
+    delete_mutual_link_holders: {
+      where: 'mutual_link_holders_bool_exp',
+    },
     delete_nft_collections: {
       where: 'nft_collections_bool_exp',
     },
@@ -7459,6 +7469,12 @@ export const AllTypesProps: Record<string, any> = {
     insert_mutes_one: {
       object: 'mutes_insert_input',
       on_conflict: 'mutes_on_conflict',
+    },
+    insert_mutual_link_holders: {
+      objects: 'mutual_link_holders_insert_input',
+    },
+    insert_mutual_link_holders_one: {
+      object: 'mutual_link_holders_insert_input',
     },
     insert_nft_collections: {
       objects: 'nft_collections_insert_input',
@@ -8410,6 +8426,13 @@ export const AllTypesProps: Record<string, any> = {
     update_mutes_many: {
       updates: 'mutes_updates',
     },
+    update_mutual_link_holders: {
+      _set: 'mutual_link_holders_set_input',
+      where: 'mutual_link_holders_bool_exp',
+    },
+    update_mutual_link_holders_many: {
+      updates: 'mutual_link_holders_updates',
+    },
     update_nft_collections: {
       _inc: 'nft_collections_inc_input',
       _set: 'nft_collections_set_input',
@@ -8960,6 +8983,49 @@ export const AllTypesProps: Record<string, any> = {
   mutes_variance_order_by: {
     profile_id: 'order_by',
     target_profile_id: 'order_by',
+  },
+  mutual_link_holders_aggregate_fields: {
+    count: {
+      columns: 'mutual_link_holders_select_column',
+    },
+  },
+  mutual_link_holders_bool_exp: {
+    _and: 'mutual_link_holders_bool_exp',
+    _not: 'mutual_link_holders_bool_exp',
+    _or: 'mutual_link_holders_bool_exp',
+    holder: 'citext_comparison_exp',
+    holder_profile_public: 'profiles_public_bool_exp',
+    target: 'citext_comparison_exp',
+    target_profile_public: 'profiles_public_bool_exp',
+  },
+  mutual_link_holders_insert_input: {
+    holder: 'citext',
+    holder_profile_public: 'profiles_public_obj_rel_insert_input',
+    target: 'citext',
+    target_profile_public: 'profiles_public_obj_rel_insert_input',
+  },
+  mutual_link_holders_order_by: {
+    holder: 'order_by',
+    holder_profile_public: 'profiles_public_order_by',
+    target: 'order_by',
+    target_profile_public: 'profiles_public_order_by',
+  },
+  mutual_link_holders_select_column: true,
+  mutual_link_holders_set_input: {
+    holder: 'citext',
+    target: 'citext',
+  },
+  mutual_link_holders_stream_cursor_input: {
+    initial_value: 'mutual_link_holders_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  mutual_link_holders_stream_cursor_value_input: {
+    holder: 'citext',
+    target: 'citext',
+  },
+  mutual_link_holders_updates: {
+    _set: 'mutual_link_holders_set_input',
+    where: 'mutual_link_holders_bool_exp',
   },
   nft_collections_aggregate_fields: {
     count: {
@@ -12143,6 +12209,16 @@ export const AllTypesProps: Record<string, any> = {
       profile_id: 'bigint',
       target_profile_id: 'bigint',
     },
+    mutual_link_holders: {
+      distinct_on: 'mutual_link_holders_select_column',
+      order_by: 'mutual_link_holders_order_by',
+      where: 'mutual_link_holders_bool_exp',
+    },
+    mutual_link_holders_aggregate: {
+      distinct_on: 'mutual_link_holders_select_column',
+      order_by: 'mutual_link_holders_order_by',
+      where: 'mutual_link_holders_bool_exp',
+    },
     nft_collections: {
       distinct_on: 'nft_collections_select_column',
       order_by: 'nft_collections_order_by',
@@ -14224,6 +14300,20 @@ export const AllTypesProps: Record<string, any> = {
     mutes_stream: {
       cursor: 'mutes_stream_cursor_input',
       where: 'mutes_bool_exp',
+    },
+    mutual_link_holders: {
+      distinct_on: 'mutual_link_holders_select_column',
+      order_by: 'mutual_link_holders_order_by',
+      where: 'mutual_link_holders_bool_exp',
+    },
+    mutual_link_holders_aggregate: {
+      distinct_on: 'mutual_link_holders_select_column',
+      order_by: 'mutual_link_holders_order_by',
+      where: 'mutual_link_holders_bool_exp',
+    },
+    mutual_link_holders_stream: {
+      cursor: 'mutual_link_holders_stream_cursor_input',
+      where: 'mutual_link_holders_bool_exp',
     },
     nft_collections: {
       distinct_on: 'nft_collections_select_column',
@@ -19825,6 +19915,7 @@ export const ReturnTypes: Record<string, any> = {
     bio: 'String',
     display_name: 'String',
     fid: 'bigint',
+    fids: 'farcaster_fids',
     fname: 'String',
     updated_at: 'timestamp',
     verified_addresses: 'jsonb',
@@ -21724,6 +21815,7 @@ export const ReturnTypes: Record<string, any> = {
     delete_member_epoch_pgives_by_pk: 'member_epoch_pgives',
     delete_mutes: 'mutes_mutation_response',
     delete_mutes_by_pk: 'mutes',
+    delete_mutual_link_holders: 'mutual_link_holders_mutation_response',
     delete_nft_collections: 'nft_collections_mutation_response',
     delete_nft_collections_by_pk: 'nft_collections',
     delete_nft_holdings: 'nft_holdings_mutation_response',
@@ -21891,6 +21983,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_member_epoch_pgives_one: 'member_epoch_pgives',
     insert_mutes: 'mutes_mutation_response',
     insert_mutes_one: 'mutes',
+    insert_mutual_link_holders: 'mutual_link_holders_mutation_response',
+    insert_mutual_link_holders_one: 'mutual_link_holders',
     insert_nft_collections: 'nft_collections_mutation_response',
     insert_nft_collections_one: 'nft_collections',
     insert_nft_holdings: 'nft_holdings_mutation_response',
@@ -22130,6 +22224,8 @@ export const ReturnTypes: Record<string, any> = {
     update_mutes: 'mutes_mutation_response',
     update_mutes_by_pk: 'mutes',
     update_mutes_many: 'mutes_mutation_response',
+    update_mutual_link_holders: 'mutual_link_holders_mutation_response',
+    update_mutual_link_holders_many: 'mutual_link_holders_mutation_response',
     update_nft_collections: 'nft_collections_mutation_response',
     update_nft_collections_by_pk: 'nft_collections',
     update_nft_collections_many: 'nft_collections_mutation_response',
@@ -22306,6 +22402,33 @@ export const ReturnTypes: Record<string, any> = {
   mutes_variance_fields: {
     profile_id: 'Float',
     target_profile_id: 'Float',
+  },
+  mutual_link_holders: {
+    holder: 'citext',
+    holder_profile_public: 'profiles_public',
+    target: 'citext',
+    target_profile_public: 'profiles_public',
+  },
+  mutual_link_holders_aggregate: {
+    aggregate: 'mutual_link_holders_aggregate_fields',
+    nodes: 'mutual_link_holders',
+  },
+  mutual_link_holders_aggregate_fields: {
+    count: 'Int',
+    max: 'mutual_link_holders_max_fields',
+    min: 'mutual_link_holders_min_fields',
+  },
+  mutual_link_holders_max_fields: {
+    holder: 'citext',
+    target: 'citext',
+  },
+  mutual_link_holders_min_fields: {
+    holder: 'citext',
+    target: 'citext',
+  },
+  mutual_link_holders_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'mutual_link_holders',
   },
   nft_collections: {
     address: 'citext',
@@ -24515,6 +24638,8 @@ export const ReturnTypes: Record<string, any> = {
     mutes: 'mutes',
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
+    mutual_link_holders: 'mutual_link_holders',
+    mutual_link_holders_aggregate: 'mutual_link_holders_aggregate',
     nft_collections: 'nft_collections',
     nft_collections_aggregate: 'nft_collections_aggregate',
     nft_collections_by_pk: 'nft_collections',
@@ -25444,6 +25569,9 @@ export const ReturnTypes: Record<string, any> = {
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
     mutes_stream: 'mutes',
+    mutual_link_holders: 'mutual_link_holders',
+    mutual_link_holders_aggregate: 'mutual_link_holders_aggregate',
+    mutual_link_holders_stream: 'mutual_link_holders',
     nft_collections: 'nft_collections',
     nft_collections_aggregate: 'nft_collections_aggregate',
     nft_collections_by_pk: 'nft_collections',

@@ -1,18 +1,28 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { getAddress } from 'ethers/lib/utils';
 
 import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse, InternalServerError } from '../../api-lib/HttpError.ts';
-import { fetchFollowers, fetchUserByAddress } from '../../api-lib/neynar.ts';
+import { fetchUserByAddress } from '../../api-lib/neynar.ts';
+
+const MUTUAL_FOLLOW_SCORE = 10000;
+const MUTUAL_LINK_SCORE = 1000;
+const GIVE_SENT_SCORE = 10;
+const GIVE_RECEIVED_SCORE = 10;
 
 type NetworkNode = {
-  username: string;
-  avatar: string;
-  profile_id?: number;
-  farcaster_id: number;
-  tier: number;
   address: string;
+  username: string;
+  avatar?: string;
+  tier: number;
+  score: number;
+  mutualFollows: boolean;
+  mutualLinks: boolean;
+  sentGiveTo: boolean;
+  receivedGiveFrom: boolean;
+  hasCoLinks: boolean;
 };
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           profiles: [
             {
               where: {
-                address: { _eq: address },
+                address: { _ilike: address },
               },
             },
             {
@@ -56,38 +66,25 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   );
   const targetProfile = targetProfiles.pop();
 
-  let fUser = undefined;
-  if (!targetProfile) {
-    // they don't have a colinks account
-    // we have to use farcaster to find them
+  const fcUser = await fetchUserByAddress(address);
 
-    fUser = await fetchUserByAddress(address);
-  }
-
-  if (!targetProfile && !fUser) {
+  if (!targetProfile && !fcUser) {
     return errorResponse(
       res,
       'no CoLinks or Farcaster user found for this address'
     );
   }
 
-  if (targetProfile) {
-    // TODO: hook this up
-    await getCoSoulStuff(targetProfile.id);
-  }
-
-  // TODO: mash all the data together
-  let nodes: NetworkNode[] = [];
-  const fid = targetProfile?.farcaster_account?.fid ?? fUser?.fid;
-  if (fid) {
-    nodes = await getMutualFollowers(fid);
-    // nodes = await getFollowerNodes(fid);
-  }
+  const nodes = await buildNetwork({
+    address,
+    profileId: targetProfile?.id,
+    fid: fcUser?.fid,
+  });
 
   try {
     return res.status(200).json({ nodes });
   } catch (e) {
-    throw new InternalServerError('Unable to fetch info from guild', e);
+    throw new InternalServerError('Unable to gather network data', e);
   }
 }
 
@@ -102,14 +99,16 @@ const getMutualFollowers = async (fid: number) => {
           limit: 1000,
         },
         {
-          fid: true,
           target_fid: true,
           target_profile_with_address: {
             fname: true,
-            display_name: true,
+            // display_name: true,
             avatar_url: true,
-            bio: true,
+            // bio: true,
             verified_addresses: [{}, true],
+            fids: {
+              custody_address: true,
+            },
           },
         },
       ],
@@ -119,75 +118,217 @@ const getMutualFollowers = async (fid: number) => {
     }
   );
 
-  assert(farcaster_mutual_follows, 'no mutual followers found');
+  assert(farcaster_mutual_follows, 'error fetching mutual followers');
 
-  return farcaster_mutual_follows.map((link: any) => {
-    const nn: NetworkNode = {
-      username: link.target_profile_with_address?.display_name,
-      avatar: link.target_profile_with_address?.avatar_url,
-      farcaster_id: link.target_fid,
-      tier: 1,
-      address: link.target_profile_with_address?.verified_addresses[0],
-    };
-    return nn;
-  });
+  return farcaster_mutual_follows;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getFollowerNodes = async (fid: number) => {
-  const ff = await fetchFollowers(fid);
-  const followers = ff.users.map(user => {
-    const nn: NetworkNode = {
-      username: user.username,
-      avatar: user.pfp.url,
-      // TODO: fill this in later i guess
-      // profile_id: user.id,
-      farcaster_id: user.fid,
-      tier: 1,
-      address: user.custodyAddress,
-    };
-    return nn;
-  });
-  return followers;
-};
-
-// TODO: this doesn't really do anything yet
-const getCoSoulStuff = async (targetProfileId: number) => {
-  // get all their links!
-  await adminClient.query(
+const getMutualLinks = async (address: string) => {
+  const { mutual_link_holders } = await adminClient.query(
     {
-      profiles_public: [
+      mutual_link_holders: [
         {
           where: {
-            id: { _eq: targetProfileId },
+            target: { _eq: address },
           },
+          limit: 1000,
         },
         {
-          address: true,
-          link_holder: [
-            {},
-            {
-              holder: true,
-              target: true,
-              amount: true,
-              target_cosoul: {
-                address: true,
-              },
-            },
-          ],
-          link_target: [
-            {},
-            {
-              holder: true,
-              target: true,
-              amount: true,
-            },
-          ],
+          holder_profile_public: {
+            name: true,
+            avatar: true,
+            address: true,
+          },
         },
       ],
     },
     {
-      operationName: 'getNetwork__getColinks',
+      operationName: 'getNetwork__getMutualFollowers',
     }
   );
+
+  assert(mutual_link_holders, 'no mutual link holders found');
+
+  return mutual_link_holders;
 };
+
+const getGiveNetwork = async (profileId: number) => {
+  const { sentGiveTo, receivedGiveFrom } = await adminClient.query(
+    {
+      __alias: {
+        sentGiveTo: {
+          colinks_gives: [
+            {
+              where: {
+                profile_id: { _eq: profileId },
+              },
+              limit: 1000,
+            },
+            {
+              target_profile_public: {
+                name: true,
+                avatar: true,
+                address: true,
+              },
+            },
+          ],
+        },
+        receivedGiveFrom: {
+          colinks_gives: [
+            {
+              where: {
+                target_profile_id: { _eq: profileId },
+              },
+              limit: 1000,
+            },
+            {
+              giver_profile_public: {
+                name: true,
+                avatar: true,
+                address: true,
+              },
+            },
+          ],
+        },
+      },
+    },
+    { operationName: 'api_network__getGiveNetwork' }
+  );
+
+  return { sentGiveTo, receivedGiveFrom };
+};
+
+const buildNetwork = async ({
+  profileId,
+  address,
+  fid,
+}: {
+  address: string;
+  profileId?: number;
+  fid?: number;
+}): Promise<NetworkNode[]> => {
+  if (!profileId && !fid) {
+    return [];
+  }
+
+  const relations: Record<string, NetworkNode> = {};
+
+  const getOrCreateNetworkNode = ({
+    address,
+    username,
+    avatar,
+  }: {
+    address: string;
+    username: string;
+    avatar: string | undefined;
+  }) => {
+    const node: NetworkNode = (relations[address] = relations[address] ?? {
+      address,
+      username,
+      avatar,
+      tier: 0,
+      score: 0,
+      mutualLinks: false,
+      sentGiveTo: false,
+      receivedGiveFrom: false,
+      hasCoLinks: false,
+    });
+
+    relations[address] = node;
+    return node;
+  };
+
+  if (profileId) {
+    const mutualLinks = await getMutualLinks(address);
+
+    for (const link of mutualLinks) {
+      const node = getOrCreateNetworkNode({
+        address: link.holder_profile_public?.address ?? 'unknown',
+        username: link.holder_profile_public?.name,
+        avatar: link.holder_profile_public?.avatar,
+      });
+      node.mutualLinks = true;
+      node.hasCoLinks = true; // TODO: might have a colinks and not be mutual, not inclusive
+    }
+
+    const { sentGiveTo, receivedGiveFrom } = await getGiveNetwork(profileId);
+
+    for (const give of sentGiveTo) {
+      const node = getOrCreateNetworkNode({
+        address: give.target_profile_public?.address ?? 'unknown',
+        username: give.target_profile_public?.name,
+        avatar: give.target_profile_public?.avatar,
+      });
+      node.sentGiveTo = true;
+    }
+
+    for (const give of receivedGiveFrom) {
+      const node = getOrCreateNetworkNode({
+        address: give.giver_profile_public?.address ?? 'unknown',
+        username: give.giver_profile_public?.name,
+        avatar: give.giver_profile_public?.avatar,
+      });
+      node.receivedGiveFrom = true;
+    }
+  }
+
+  if (fid) {
+    const mutualFollowers = await getMutualFollowers(fid);
+
+    for (const follower of mutualFollowers) {
+      if (follower.target_profile_with_address) {
+        const verifiedAddress =
+          follower.target_profile_with_address.verified_addresses[0];
+
+        const custodyAddress = hexToAddress(
+          follower.target_profile_with_address.fids?.custody_address
+        );
+
+        const node = getOrCreateNetworkNode({
+          address: verifiedAddress ?? custodyAddress,
+          username: follower.target_profile_with_address.fname || 'unknown',
+          avatar: follower.target_profile_with_address?.avatar_url,
+        });
+        node.mutualFollows = true;
+      }
+    }
+  }
+
+  return Object.values(relations)
+    .map(node => {
+      return { ...node, ...calcScore(node) };
+    })
+    .sort((a, b) => b.score - a.score);
+};
+
+const calcScore = (node: NetworkNode) => {
+  let score = 0;
+
+  if (node.mutualFollows) {
+    score += MUTUAL_FOLLOW_SCORE;
+  }
+
+  if (node.mutualLinks) {
+    score += MUTUAL_LINK_SCORE;
+  }
+
+  if (node.sentGiveTo) {
+    score += GIVE_SENT_SCORE;
+  }
+
+  if (node.receivedGiveFrom) {
+    score += GIVE_RECEIVED_SCORE;
+  }
+
+  return {
+    score,
+  };
+};
+
+function hexToAddress(hex: string) {
+  // Remove the leading '\x'
+  if (hex.startsWith('\\x')) {
+    hex = hex.slice(2);
+  }
+  return getAddress('0x' + hex);
+}
