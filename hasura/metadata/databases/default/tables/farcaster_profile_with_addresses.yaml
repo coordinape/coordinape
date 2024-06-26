@@ -1,3 +1,13 @@
 table:
   name: profile_with_addresses
   schema: farcaster
+object_relationships:
+  - name: fids
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: fids
+          schema: farcaster
