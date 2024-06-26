@@ -27,18 +27,24 @@ function sql() {
   echo "Done"
 }
 
-# grabTableData uses the arg to the function as the table name to grab
-function grabTableData() {
+# grabFCTableData uses the arg to the function as the table name to grab
+function grabFCTableData() {
   TABLE=$1
   sql "\copy (SELECT * FROM farcaster.${TABLE} WHERE fid IN (${SELECT_FIDS})) TO '${SEED_DIR}/${DATE_WITH_TIME}.farcaster.${TABLE}.csv' WITH CSV HEADER"
 }
 
+function grabTableData() {
+  TABLE=$1
+  sql "\copy (SELECT * FROM ${TABLE}) TO '${SEED_DIR}/${DATE_WITH_TIME}.${TABLE}.csv' WITH CSV HEADER"
+}
 
 # uncomment these to get more tables
 
-grabTableData "fids"
-grabTableData "fnames"
-grabTableData "verifications"
-grabTableData "user_data"
-grabTableData "casts"
-grabTableData "links"
+grabFCTableData "fids"
+# grabFCTableData "fnames"
+# grabFCTableData "verifications"
+# grabFCTableData "user_data"
+# grabFCTableData "casts"
+# grabFCTableData "links"
+# grabTableData "public.link_holders"
+# grabTableData "public.colinks_gives"
