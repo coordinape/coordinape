@@ -1,41 +1,21 @@
-import { useEffect, useState } from 'react';
-
 import { artWidthMobile } from 'features/cosoul/constants';
 import {
   link_holders_select_column,
   order_by,
 } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLinks';
-import { LeaderboardNewest } from '../../features/colinks/LeaderboardNewest';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { BarChart } from 'icons/__generated';
 
-import TabButton, { Tab } from './explore/TabButton';
-
 export const CastsPage = () => {
-  const [currentTab, setCurrentTab] = useState<Tab>(Tab.NEWEST);
-
-  const makeTab = (tab: Tab, content: string) => {
-    const TabComponent = () => (
-      <TabButton size="xs" tab={tab} {...{ currentTab, setCurrentTab }}>
-        {content}
-      </TabButton>
-    );
-    TabComponent.displayName = `TabComponent(${content})`;
-    return TabComponent;
-  };
-
-  const TabNewest = makeTab(Tab.NEWEST, 'Newest');
-  const TabMostLinks = makeTab(Tab.MOST_LINKS, 'Most Links');
-
   return (
     <SingleColumnLayout>
       <Helmet>
@@ -68,30 +48,7 @@ export const CastsPage = () => {
               maxWidth: '$readable',
             }}
           >
-            <Flex css={{ gap: '$md' }}>
-              <Flex
-                css={{ flexWrap: 'wrap', gap: '$sm', mb: '$sm', flexGrow: 1 }}
-              >
-                <TabNewest />
-                <TabMostLinks />
-              </Flex>
-              <Flex css={{ justifyContent: 'flex-end', flexShrink: 0 }}>
-                <TabLink currentTab={currentTab} />
-              </Flex>
-            </Flex>
-            {currentTab === Tab.NEWEST && (
-              <Flex column css={{ gap: '$md' }}>
-                <CastsList />
-              </Flex>
-            )}
-            {currentTab === Tab.MOST_LINKS && (
-              <Flex column css={{ gap: '$md' }}>
-                <LeaderboardMostLinks limit={5} />
-                <Flex column css={{ alignItems: 'flex-end' }}>
-                  <TabLink currentTab={currentTab} />
-                </Flex>
-              </Flex>
-            )}
+            <CastsList />
           </Flex>
           <Flex column css={{ gap: '$xl', maxWidth: `${artWidthMobile}` }}>
             <Text
@@ -124,99 +81,165 @@ export const CastsPage = () => {
   );
 };
 
-const TabLink = ({ currentTab }: { currentTab: Tab }) => {
-  return (
-    <Text
-      as={AppLink}
-      to={
-        currentTab === Tab.MOST_LINKS
-          ? coLinksPaths.exploreMostLinks
-          : currentTab === Tab.NEWEST
-            ? coLinksPaths.exploreNewest
-            : coLinksPaths.exploreRepScore
-      }
-      semibold
-      h2
-      css={{
-        textDecoration: 'none',
-        color: '$text',
-      }}
-    >
-      <Text size="xs" color={'cta'}>
-        View More
-      </Text>
-    </Text>
-  );
-};
-
 const CastsList = () => {
-  const colinks_user_fids = [244292];
-
-  const fetchColinksFids = async () => {
-    const { link_holders } = await client.query(
-      {
-        link_holders: [
-          {
-            distinct_on: [link_holders_select_column.holder],
-            limit: 1000,
-          },
-          {
-            holder_profile_public: {
-              farcaster_account: {
-                fid: true,
-                // followers_count: true,
-              },
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'CastsPage__fetchColinksFids @cached(ttl: 300)',
-      }
-    );
-
-    if (!link_holders) return [];
-
-    return link_holders.map(lh => {
-      lh.holder_profile_public?.farcaster_account?.fid;
-    });
-  };
-
-  const fetchCasts = async () => {
-    const { farcaster_casts } = await client.query(
-      {
-        farcaster_casts: [
-          {
-            where: { fid: { _in: colinks_user_fids } },
-            order_by: [{ created_at: order_by.desc }],
-          },
-          {
-            created_at: true,
-            text: true,
-            hash: true,
-            fid: true,
-          },
-        ],
-      },
-      {
-        operationName: 'CastsPage__fetchCasts @cached(ttl: 300)',
-      }
-    );
-
-    return farcaster_casts;
-  };
-
-  const { data: fids } = useQuery(['fids'], fetchColinksFids, {
+  const { data: colinks_users } = useQuery(['fids'], fetchColinksUsers, {
     staleTime: Infinity,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
 
-  const { data: casts } = useQuery(['casts'], fetchCasts, {
-    enabled: !!fids,
-  });
+  const fids: number[] =
+    colinks_users?.map(user => user?.farcaster_account?.fid) ?? [];
 
-  useEffect(() => {
-    console.log({ fids, casts });
-  }, [fids, casts]);
+  const { data: casts } = useQuery(
+    ['casts'],
+    () => {
+      return fetchCasts(fids);
+    },
+    {
+      enabled: !!colinks_users && !!fids,
+    }
+  );
+
+  if (!colinks_users || !fids || !casts) return null;
+
+  return (
+    <Flex column>
+      {casts?.map(cast => (
+        <Flex
+          css={{
+            gap: '$md',
+            background: '$surface',
+            p: '$md',
+            m: '$sm',
+            borderRadius: '$2',
+          }}
+          key={cast.hash}
+        >
+          <Flex column>
+            <AvatarAndName cast={cast} colinks_users={colinks_users} />
+            <Text key={cast.hash} css={{ whiteSpace: 'pre-wrap', pl: '40px' }}>
+              {cast.text}
+            </Text>
+          </Flex>
+        </Flex>
+      ))}
+    </Flex>
+  );
+
+  // useEffect(() => {
+  //   console.log({ fids, casts });
+  // }, [fids, casts]);
+};
+
+const AvatarAndName = ({
+  cast,
+  colinks_users,
+}: {
+  cast: Cast;
+  colinks_users: CoLinksUser[];
+}) => {
+  const profile = colinks_users.find(
+    user => user?.farcaster_account?.fid === cast.fid
+  );
+
+  if (!profile) return null;
+  return (
+    <Flex
+      alignItems="center"
+      css={{
+        flexGrow: 0,
+        minWidth: 0,
+      }}
+    >
+      <Avatar
+        size="small"
+        name={profile.name}
+        path={profile.avatar}
+        hasCoSoul={!!profile.cosoul}
+        css={{ mr: '$sm' }}
+      />
+      <Text color="heading" semibold css={{ textDecoration: 'none' }}>
+        {profile.name}
+      </Text>
+
+      <Text
+        size="small"
+        css={{
+          pl: '$sm',
+          color: '$neutral',
+          textDecoration: 'none',
+        }}
+      >
+        {DateTime.fromISO(cast.created_at).toRelative()}
+      </Text>
+    </Flex>
+  );
+};
+
+type CoLinksUser = Awaited<ReturnType<typeof fetchColinksUsers>>[number];
+const fetchColinksUsers = async () => {
+  const { link_holders } = await client.query(
+    {
+      link_holders: [
+        {
+          distinct_on: [link_holders_select_column.holder],
+          where: {
+            holder_profile_public: {
+              farcaster_account: {},
+            },
+          },
+          limit: 1000,
+        },
+        {
+          holder_profile_public: {
+            avatar: true,
+            name: true,
+            address: true,
+            cosoul: {
+              id: true,
+            },
+            farcaster_account: {
+              fid: true,
+              followers_count: true,
+              custody_address: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'CastsPage__fetchColinksFids @cached(ttl: 300)',
+    }
+  );
+
+  if (!link_holders) return [];
+
+  return link_holders.map(lh => lh.holder_profile_public);
+};
+
+type Cast = Awaited<ReturnType<typeof fetchCasts>>[number];
+
+const fetchCasts = async (fids: number[]) => {
+  const { farcaster_casts } = await client.query(
+    {
+      farcaster_casts: [
+        {
+          where: { fid: { _in: fids } },
+          order_by: [{ created_at: order_by.desc }],
+        },
+        {
+          created_at: true,
+          text: true,
+          hash: true,
+          fid: true,
+        },
+      ],
+    },
+    {
+      operationName: 'CastsPage__fetchCasts @cached(ttl: 300)',
+    }
+  );
+
+  return farcaster_casts;
 };
