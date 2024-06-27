@@ -13,6 +13,7 @@ import { Button, Flex, Link, Text } from 'ui';
 
 import { PartyProfileGives } from './PartyProfileGives';
 import { PartyProfileHeader } from './PartyProfileHeader';
+import { ProfileNetwork } from './ProfileNetwork';
 
 const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
@@ -123,6 +124,7 @@ export const PartyProfileContent = ({
             alignItems: 'center',
           }}
         >
+          <ProfileNetwork />
           <PartyProfileGives profileId={targetProfile.id} />
           <Flex
             column
