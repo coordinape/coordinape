@@ -1,26 +1,26 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useEffect } from 'react';
 
-import React, { useEffect } from 'react';
-
-import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
-import { anonClient } from 'lib/anongql/anonClient';
-import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { Avatar, Box } from 'ui';
+import { Box } from 'ui';
 
-import { NodesOnCircle, User } from './NodesOnCircle';
+import { Bullseye } from './Bullseye';
 
 const QUERY_KEY_NETWORK = 'network';
 
-export const ProfileNetwork: React.FC = () => {
+export const ProfileNetwork = ({
+  fullscreen = false,
+}: {
+  fullscreen?: boolean;
+}) => {
   const { address } = useParams();
   const { data: networkNodes } = useQuery(
     [QUERY_KEY_NETWORK, address, 'profile'],
     async () => await fetchNetworkNodes(address!),
     { enabled: !!address }
   );
+
   const usersTierOne = (networkNodes?.nodes ?? []).slice(0, 10);
   const usersTierTwo = (networkNodes?.nodes ?? []).slice(11, 20);
   const usersTierThree = (networkNodes?.nodes ?? []).slice(21, 30);
@@ -32,7 +32,25 @@ export const ProfileNetwork: React.FC = () => {
   }, [networkNodes]);
 
   return (
-    <Box css={{ position: 'relative', width: '100vw', height: '100vh' }}>
+    <Box
+      css={{
+        position: 'relative',
+        width: '100%',
+        aspectRatio: '1 / 1',
+        ...(fullscreen
+          ? {
+              fontSize: '3vmin',
+              // marginTop: 150,
+              '@media (orientation: landscape)': {
+                height: 'calc(100vh - 220px)',
+                minHeight: 600,
+              },
+            }
+          : {
+              fontSize: 14,
+            }),
+      }}
+    >
       {/* {profile && (
         <Avatar
           name={profile.name}
@@ -46,11 +64,12 @@ export const ProfileNetwork: React.FC = () => {
           }}
         />
       )} */}
-      <NodesOnCircle tier={1} users={usersTierOne} />
-      <NodesOnCircle tier={2} users={usersTierTwo} />
-      <NodesOnCircle tier={3} users={usersTierThree} />
-      <NodesOnCircle tier={4} users={usersTierFour} />
-      <NodesOnCircle tier={5} users={usersTierFive} />
+
+      <Bullseye fullscreen={fullscreen} tier={1} users={usersTierOne} />
+      <Bullseye fullscreen={fullscreen} tier={2} users={usersTierTwo} />
+      <Bullseye fullscreen={fullscreen} tier={3} users={usersTierThree} />
+      <Bullseye fullscreen={fullscreen} tier={4} users={usersTierFour} />
+      <Bullseye fullscreen={fullscreen} tier={5} users={usersTierFive} />
     </Box>
   );
 };
