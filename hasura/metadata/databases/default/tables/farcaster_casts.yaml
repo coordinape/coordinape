@@ -1,3 +1,26 @@
 table:
   name: casts
   schema: farcaster
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - mentions
+        - mentions_positions
+        - fid
+        - id
+        - parent_fid
+        - hash
+        - parent_hash
+        - root_parent_hash
+        - embeds
+        - parent_url
+        - root_parent_url
+        - text
+        - created_at
+        - deleted_at
+        - timestamp
+        - updated_at
+      filter: {}
+      limit: 100
+    comment: ""

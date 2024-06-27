@@ -62,6 +62,7 @@ export const coLinksPaths = {
   authenticate: (token: string) => `/authdevice/${token}`,
   bigQuestion: (id: string) => `/bigquestion/${id}`,
   bigQuestions: '/bigquestions',
+  casts: '/casts',
   explore: '/explore',
   exploreHoldingMost: `/explore/holdingmost`,
   exploreMostLinks: `/explore/mostlinks`,
