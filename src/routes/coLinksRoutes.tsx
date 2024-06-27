@@ -13,6 +13,7 @@ import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
 import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
+import { CastsPage } from '../pages/colinks/CastsPage';
 import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
 import { BigQuestionsPage } from '../pages/colinks/explore/BigQuestionsPage';
 import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
@@ -171,6 +172,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.invites} element={<InvitesPage />} />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.leaderboard} element={<ExplorePage />} />
+      <Route path={coLinksPaths.casts} element={<CastsPage />} />
       <Route path={coLinksPaths.nfts} element={<NFTPage />} />
       <Route
         path={coLinksPaths.exploreSkill(':skill')}

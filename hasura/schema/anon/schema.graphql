@@ -1965,6 +1965,11 @@ type profiles_public {
   cosoul: cosouls
   created_at: timestamp
   description: String
+
+  """
+  An object relationship
+  """
+  farcaster_account: farcaster_accounts
   id: bigint
   joined_colinks_at: timestamptz
 
@@ -2146,6 +2151,7 @@ input profiles_public_bool_exp {
   cosoul: cosouls_bool_exp
   created_at: timestamp_comparison_exp
   description: String_comparison_exp
+  farcaster_account: farcaster_accounts_bool_exp
   id: bigint_comparison_exp
   joined_colinks_at: timestamptz_comparison_exp
   link_holder: link_holders_bool_exp
@@ -2173,6 +2179,7 @@ input profiles_public_order_by {
   cosoul: cosouls_order_by
   created_at: order_by
   description: order_by
+  farcaster_account: farcaster_accounts_order_by
   id: order_by
   joined_colinks_at: order_by
   link_holder_aggregate: link_holders_aggregate_order_by

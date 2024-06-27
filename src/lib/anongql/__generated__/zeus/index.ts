@@ -1855,6 +1855,8 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
+    /** An object relationship */
+    farcaster_account?: ValueTypes['farcaster_accounts'];
     id?: boolean | `@${string}`;
     joined_colinks_at?: boolean | `@${string}`;
     link_holder?: [
@@ -2002,6 +2004,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_bool_exp']
+      | undefined
+      | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     joined_colinks_at?:
       | ValueTypes['timestamptz_comparison_exp']
@@ -2047,6 +2053,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     joined_colinks_at?: ValueTypes['order_by'] | undefined | null;
     link_holder_aggregate?:
@@ -3596,6 +3606,8 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
@@ -4844,6 +4856,8 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
@@ -4883,6 +4897,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
@@ -4915,6 +4930,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     joined_colinks_at?: GraphQLTypes['order_by'] | undefined;
     link_holder_aggregate?:
