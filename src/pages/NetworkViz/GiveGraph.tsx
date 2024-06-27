@@ -35,13 +35,17 @@ type link = {
 };
 
 export function GiveGraph({
+  address,
   skill,
   height,
+  width,
   zoom = true,
   compact = false,
 }: {
+  address?: string;
   skill?: string;
   height?: number;
+  width?: number;
   zoom?: boolean;
   compact?: boolean;
 }) {
@@ -51,8 +55,11 @@ export function GiveGraph({
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   const { data, isLoading, isFetched, refetch } = useQuery(
-    ['give-graph', skill ?? 'all-skills'],
+    ['give-graph', skill ?? address ?? 'all-skills'],
     () => {
+      if (address) {
+        return fetchGivesForProfile(address);
+      }
       return fetchGives(skill);
     },
     {
@@ -114,9 +121,11 @@ export function GiveGraph({
         });
       }
     }
+    // eslint-disable-next-line no-console
+    console.log('forcegraph data:', data);
   }, [data, isFetched, setGraphReady]);
 
-  if (!data || isLoading)
+  if (!data || isLoading || !graphReady)
     return (
       <>
         <Flex column css={{ width: '100%', mb: '$1xl' }}>
@@ -125,70 +134,75 @@ export function GiveGraph({
       </>
     );
 
-  if (graphReady)
-    return (
-      <>
-        {visible && (
-          <Modal
-            drawer
-            open={visible}
-            onOpenChange={onClose}
-            css={{
-              maxWidth: '460px',
-              p: 0,
-              border: 'none',
-              background:
-                'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
-              borderRadius: '$3',
-              mr: '$md',
-              maxHeight: 'calc(100vh - $xl)',
-              pb: '$xl',
-              '*': {
-                color: 'white',
-                path: { fill: 'white' },
-              },
-            }}
-          >
-            {selectedNodeId && (
-              <PartyProfileContent
-                address={selectedNodeId}
-                css={{ background: 'none', borderRadius: 0 }}
-              />
-            )}
-          </Modal>
-        )}
-        <ForceGraph2D
-          height={height}
-          linkCurvature={0.3}
-          linkDirectionalParticles={showExtras ? 1 : 0}
-          enableZoomInteraction={zoom}
-          linkColor={() => {
-            return 'rgba(255, 255, 255, .8)';
+  return (
+    <>
+      {visible && (
+        <Modal
+          drawer
+          open={visible}
+          onOpenChange={onClose}
+          css={{
+            maxWidth: '460px',
+            p: 0,
+            border: 'none',
+            background:
+              'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
+            borderRadius: '$3',
+            mr: '$md',
+            maxHeight: 'calc(100vh - $xl)',
+            pb: '$xl',
+            '*': {
+              color: 'white',
+              path: { fill: 'white' },
+            },
           }}
-          nodeLabel={n => `${(n as node).name}`}
-          onNodeClick={(node: NodeObject) => {
-            if (showExtras) {
-              setSelectedNodeId(node.id as string);
-              setVisible(true);
-            } else {
-              window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
-            }
-          }}
-          {...(showExtras ? { nodeCanvasObject } : {})}
-          //@ts-ignore TODO: fix types
-          ref={graph => {
-            if (graph && compact) {
-              graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
-              graph.d3Force('link').distance(30); // Adjust link distance if needed
-            }
-          }}
-          graphData={data}
-        />
-      </>
-    );
+        >
+          {selectedNodeId && (
+            <PartyProfileContent
+              address={selectedNodeId}
+              css={{ background: 'none', borderRadius: 0 }}
+            />
+          )}
+        </Modal>
+      )}
+      <ForceGraph2D
+        height={height}
+        width={width}
+        linkCurvature={0.3}
+        linkDirectionalParticles={showExtras ? 1 : 0}
+        enableZoomInteraction={zoom}
+        linkColor={() => {
+          return 'rgba(255, 255, 255, .8)';
+        }}
+        nodeLabel={n => `${(n as node).name}`}
+        onNodeClick={(node: NodeObject) => {
+          if (showExtras) {
+            setSelectedNodeId(node.id as string);
+            setVisible(true);
+          } else {
+            window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
+          }
+        }}
+        {...(showExtras ? { nodeCanvasObject } : {})}
+        //@ts-ignore TODO: fix types
+        ref={graph => {
+          if (graph && compact) {
+            graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
+            graph.d3Force('link').distance(30); // Adjust link distance if needed
+          }
+        }}
+        graphData={data}
+      />
+    </>
+  );
 }
 
 const fetchGives = async (skill?: string) => {
   const resp = await fetch('/api/give' + (skill ? `?skill=${skill}` : ''));
+  return resp.json() as Promise<{ nodes: node[]; links: link[] }>;
+};
+
+const fetchGivesForProfile = async (address: string) => {
+  const resp = await fetch(`/api/give/?address=${address}`);
   return resp.json() as Promise<{ nodes: node[]; links: link[] }>;
 };
