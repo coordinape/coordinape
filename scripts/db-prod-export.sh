@@ -55,4 +55,5 @@ function grabTableDataWhere() {
 # grabFCTableData "links"
 # grabTableData "public.link_holders"
 # grabTableData "public.colinks_gives"
-grabTableDataWhere "public.profiles" "id IN (${PROFILE_IDS})"
+grabTableData "public.farcaster_accounts"
+# grabTableDataWhere "public.profiles" "id IN (${PROFILE_IDS})"
