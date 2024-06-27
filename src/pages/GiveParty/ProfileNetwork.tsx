@@ -28,7 +28,7 @@ export const ProfileNetwork = ({
   const usersTierFive = (networkNodes?.nodes ?? []).slice(41, 60);
   useEffect(() => {
     // eslint-disable-next-line no-console
-    console.log(networkNodes);
+    console.log('bullseye networkNodes:', networkNodes);
   }, [networkNodes]);
 
   return (
@@ -65,11 +65,11 @@ export const ProfileNetwork = ({
         />
       )} */}
 
-      <Bullseye fullscreen={fullscreen} tier={1} users={usersTierOne} />
-      <Bullseye fullscreen={fullscreen} tier={2} users={usersTierTwo} />
-      <Bullseye fullscreen={fullscreen} tier={3} users={usersTierThree} />
-      <Bullseye fullscreen={fullscreen} tier={4} users={usersTierFour} />
-      <Bullseye fullscreen={fullscreen} tier={5} users={usersTierFive} />
+      <Bullseye tier={1} users={usersTierOne} />
+      <Bullseye tier={2} users={usersTierTwo} />
+      <Bullseye tier={3} users={usersTierThree} />
+      <Bullseye tier={4} users={usersTierFour} />
+      <Bullseye tier={5} users={usersTierFive} />
     </Box>
   );
 };

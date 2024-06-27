@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';

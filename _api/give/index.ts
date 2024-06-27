@@ -31,7 +31,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       profileId = parseInt(req.query.profileId);
     }
 
-    const data = await fetchCoLinksGives(skill, profileId);
+    let address: string | undefined;
+    if (typeof req.query.address === 'string') {
+      address = req.query.address;
+    }
+
+    const data = await fetchCoLinksGives(skill, profileId, address);
 
     res.setHeader('Cache-Control', CACHE_CONTENT);
     return res.status(200).json(data);
@@ -40,7 +45,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-export async function fetchCoLinksGives(skill?: string, profileId?: number) {
+export async function fetchCoLinksGives(
+  skill?: string,
+  profileId?: number,
+  address?: string
+) {
   // fetch all give and cache response
   const { colinks_gives } = await adminClient.query(
     {
@@ -71,6 +80,28 @@ export async function fetchCoLinksGives(skill?: string, profileId?: number) {
                         {
                           profile_id: {
                             _eq: profileId,
+                          },
+                        },
+                      ],
+                    }
+                  : {}),
+              },
+              {
+                ...(address
+                  ? {
+                      _or: [
+                        {
+                          target_profile_public: {
+                            address: {
+                              _eq: address,
+                            },
+                          },
+                        },
+                        {
+                          giver_profile_public: {
+                            address: {
+                              _eq: address,
+                            },
                           },
                         },
                       ],

@@ -1,7 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-import React from 'react';
-
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from 'routes/paths';
@@ -13,15 +10,7 @@ export interface User {
   address: string;
 }
 
-export const Bullseye = ({
-  tier,
-  users,
-  fullscreen = false,
-}: {
-  tier: number;
-  users: User[];
-  fullscreen?: boolean;
-}) => {
+export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
   const tierSizes = ['35%', '54%', '71%', '85%', '98%'];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
@@ -52,37 +41,35 @@ export const Bullseye = ({
 
     return (
       // nodes
-      <>
-        <Link
-          key={i}
-          as={NavLink}
-          to={coLinksPaths.partyProfile(user.address)}
-          style={{
-            position: 'absolute',
-            background: nodeBackground,
+      <Link
+        key={tierZIndex + i}
+        as={NavLink}
+        to={coLinksPaths.partyProfile(user.address)}
+        style={{
+          position: 'absolute',
+          background: nodeBackground,
 
-            borderRadius: '50%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            color: 'white',
-            textAlign: 'center',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            width: nodeSize,
-            height: nodeSize,
-            left: `${x}%`,
-            top: `${y}%`,
-            transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
-          }}
-        >
-          <Avatar
-            name={user.username}
-            path={user.avatar}
-            css={{ width: '100% !important', height: '100% !important' }}
-          />
-        </Link>
-      </>
+          borderRadius: '50%',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          color: 'white',
+          textAlign: 'center',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          width: nodeSize,
+          height: nodeSize,
+          left: `${x}%`,
+          top: `${y}%`,
+          transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
+        }}
+      >
+        <Avatar
+          name={user.username}
+          path={user.avatar}
+          css={{ width: '100% !important', height: '100% !important' }}
+        />
+      </Link>
     );
   });
 

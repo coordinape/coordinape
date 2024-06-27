@@ -8,6 +8,7 @@ import { CSS } from 'stitches.config';
 import { webAppURL } from 'config/webAppURL';
 import { Farcaster, Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
+import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Link, Text } from 'ui';
 
@@ -125,6 +126,28 @@ export const PartyProfileContent = ({
           }}
         >
           <ProfileNetwork />
+          <Flex
+            css={{
+              position: 'relative',
+              height: 425,
+              overflow: 'hidden',
+              background: 'rgba(0,0,0,0.3)',
+              borderRadius: '$2',
+              mb: '$sm',
+              width: '100%',
+              maxWidth: 425,
+              '@xs': {
+                maxWidth: `${artWidthMobile}`,
+              },
+            }}
+          >
+            <GiveGraph
+              address={address}
+              height={425}
+              width={425}
+              zoom={false}
+            />
+          </Flex>
           <PartyProfileGives profileId={targetProfile.id} />
           <Flex
             column
