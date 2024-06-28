@@ -65,7 +65,7 @@ export const PartyProfile = () => {
                     }),
                 // border: '3px solid rgba(0,0,0,0.2)',
                 // borderRadius: '$3',
-                height: 800,
+                // height: 800,
                 // maxWidth: 1000,
                 // '@xs': {
                 //   maxWidth: `${artWidthMobile}`,
@@ -74,7 +74,7 @@ export const PartyProfile = () => {
             >
               <GiveGraph
                 address={address}
-                height={desktop ? 900 : profileColumnWidth}
+                height={desktop ? undefined : profileColumnWidth}
                 width={desktop ? mapWidth : profileColumnWidth}
                 minZoom={2}
                 expand={desktop}
