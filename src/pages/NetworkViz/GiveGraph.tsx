@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useRef, useState, lazy } from 'react';
 
 import { NodeObject } from 'react-force-graph-2d';
@@ -37,17 +38,21 @@ type link = {
 export function GiveGraph({
   address,
   skill,
+  minZoom,
   height,
   width,
   zoom = true,
   compact = false,
+  expand = false,
 }: {
   address?: string;
   skill?: string;
+  minZoom?: number;
   height?: number;
   width?: number;
   zoom?: boolean;
   compact?: boolean;
+  expand?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
   const onClose = () => setVisible(prev => !prev);
@@ -168,9 +173,13 @@ export function GiveGraph({
       <ForceGraph2D
         height={height}
         width={width}
+        minZoom={minZoom}
         linkCurvature={0.3}
         linkDirectionalParticles={showExtras ? 1 : 0}
         enableZoomInteraction={zoom}
+        linkDirectionalArrowLength={5}
+        linkDirectionalArrowRelPos={0.5}
+        linkDirectionalArrowColor={() => 'white'}
         linkColor={() => {
           return 'rgba(255, 255, 255, .8)';
         }}
@@ -188,6 +197,10 @@ export function GiveGraph({
         ref={graph => {
           if (graph && compact) {
             graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
+            graph.d3Force('link').distance(30); // Adjust link distance if needed
+          }
+          if (graph && expand) {
+            graph.d3Force('charge').strength(-140); // Adjust this value to reduce repulsion
             graph.d3Force('link').distance(30); // Adjust link distance if needed
           }
         }}
