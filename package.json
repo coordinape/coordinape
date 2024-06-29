@@ -180,6 +180,7 @@
     "setup": "./scripts/setup.sh",
     "db-seed-fresh": "./scripts/env.sh scripts/seed_hasura.sh --clean",
     "db-seed": "./scripts/env.sh scripts/seed_hasura.sh",
+    "db-seed-colinks": "./scripts/env.sh scripts/seed_colinks.sh",
     "db-disable-cron": "./scripts/env.sh scripts/disable_cron.sh",
     "farcaster-prod-download": "./scripts/env.sh scripts/farcaster-prod-download.sh",
     "farcaster-local-import": "./scripts/env.sh scripts/farcaster-local-import.sh",
