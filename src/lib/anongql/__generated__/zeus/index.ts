@@ -1317,6 +1317,8 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     pfp_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1335,6 +1337,7 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -1349,6 +1352,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     pfp_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
@@ -3405,6 +3409,8 @@ export type ModelTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -4437,6 +4443,8 @@ export type GraphQLTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -4454,6 +4462,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -4468,6 +4477,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     pfp_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
