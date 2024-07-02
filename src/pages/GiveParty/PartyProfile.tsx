@@ -42,6 +42,7 @@ export const PartyProfile = () => {
           <PartyProfileContent
             address={address!}
             css={{
+              zIndex: 1,
               position: desktop ? 'absolute' : 'relative',
               right: desktop ? '$md' : 0,
               width: 600,
