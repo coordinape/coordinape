@@ -1975,6 +1975,22 @@ export type ValueTypes = {
   };
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ['bigint_array_comparison_exp']: {
+    /** is the array contained in the given array value */
+    _contained_in?: Array<ValueTypes['bigint']> | undefined | null;
+    /** does the array contain the given value */
+    _contains?: Array<ValueTypes['bigint']> | undefined | null;
+    _eq?: Array<ValueTypes['bigint']> | undefined | null;
+    _gt?: Array<ValueTypes['bigint']> | undefined | null;
+    _gte?: Array<ValueTypes['bigint']> | undefined | null;
+    _in?: Array<Array<ValueTypes['bigint']> | undefined | null>;
+    _is_null?: boolean | undefined | null;
+    _lt?: Array<ValueTypes['bigint']> | undefined | null;
+    _lte?: Array<ValueTypes['bigint']> | undefined | null;
+    _neq?: Array<ValueTypes['bigint']> | undefined | null;
+    _nin?: Array<Array<ValueTypes['bigint']> | undefined | null>;
+  };
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
     _eq?: ValueTypes['bigint'] | undefined | null;
     _gt?: ValueTypes['bigint'] | undefined | null;
@@ -2176,6 +2192,19 @@ export type ValueTypes = {
     regift_percent?: ValueTypes['order_by'] | undefined | null;
     tokens_burnt?: ValueTypes['order_by'] | undefined | null;
     user_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  ['bytea']: unknown;
+  /** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
+  ['bytea_comparison_exp']: {
+    _eq?: ValueTypes['bytea'] | undefined | null;
+    _gt?: ValueTypes['bytea'] | undefined | null;
+    _gte?: ValueTypes['bytea'] | undefined | null;
+    _in?: Array<ValueTypes['bytea']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['bytea'] | undefined | null;
+    _lte?: ValueTypes['bytea'] | undefined | null;
+    _neq?: ValueTypes['bytea'] | undefined | null;
+    _nin?: Array<ValueTypes['bytea']> | undefined | null;
   };
   /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: AliasType<{
@@ -6243,6 +6272,8 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     pfp_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles'];
     updated_at?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6261,6 +6292,7 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -6283,6 +6315,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     pfp_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6308,6 +6341,113 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     username?: string | undefined | null;
+  };
+  /** columns and relationships of "farcaster.casts" */
+  ['farcaster_casts']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    embeds?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    /** An object relationship */
+    farcaster_account?: ValueTypes['farcaster_accounts'];
+    fid?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mentions?: boolean | `@${string}`;
+    mentions_positions?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    parent_hash?: boolean | `@${string}`;
+    parent_url?: boolean | `@${string}`;
+    root_parent_hash?: boolean | `@${string}`;
+    root_parent_url?: boolean | `@${string}`;
+    text?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
+  ['farcaster_casts_bool_exp']: {
+    _and?: Array<ValueTypes['farcaster_casts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['farcaster_casts_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    embeds?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_bool_exp']
+      | undefined
+      | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    mentions?: ValueTypes['bigint_array_comparison_exp'] | undefined | null;
+    mentions_positions?:
+      | ValueTypes['smallint_array_comparison_exp']
+      | undefined
+      | null;
+    parent_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    root_parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    root_parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    text?: ValueTypes['String_comparison_exp'] | undefined | null;
+    timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "farcaster.casts". */
+  ['farcaster_casts_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    embeds?: ValueTypes['order_by'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_order_by']
+      | undefined
+      | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    mentions?: ValueTypes['order_by'] | undefined | null;
+    mentions_positions?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+    parent_hash?: ValueTypes['order_by'] | undefined | null;
+    parent_url?: ValueTypes['order_by'] | undefined | null;
+    root_parent_hash?: ValueTypes['order_by'] | undefined | null;
+    root_parent_url?: ValueTypes['order_by'] | undefined | null;
+    text?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "farcaster.casts" */
+  ['farcaster_casts_select_column']: farcaster_casts_select_column;
+  /** Streaming cursor of the table "farcaster_casts" */
+  ['farcaster_casts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['farcaster_casts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_casts_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    embeds?: ValueTypes['jsonb'] | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    hash?: ValueTypes['bytea'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    mentions?: Array<ValueTypes['bigint']> | undefined | null;
+    mentions_positions?: Array<ValueTypes['smallint']> | undefined | null;
+    parent_fid?: ValueTypes['bigint'] | undefined | null;
+    parent_hash?: ValueTypes['bytea'] | undefined | null;
+    parent_url?: string | undefined | null;
+    root_parent_hash?: ValueTypes['bytea'] | undefined | null;
+    root_parent_url?: string | undefined | null;
+    text?: string | undefined | null;
+    timestamp?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
   ['float8']: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -12484,6 +12624,8 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls'];
     created_at?: boolean | `@${string}`;
     description?: boolean | `@${string}`;
+    /** An object relationship */
+    farcaster_account?: ValueTypes['farcaster_accounts'];
     id?: boolean | `@${string}`;
     joined_colinks_at?: boolean | `@${string}`;
     link_holder?: [
@@ -12654,6 +12796,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_bool_exp']
+      | undefined
+      | null;
     id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     joined_colinks_at?:
       | ValueTypes['timestamptz_comparison_exp']
@@ -12700,6 +12846,10 @@ export type ValueTypes = {
     cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     description?: ValueTypes['order_by'] | undefined | null;
+    farcaster_account?:
+      | ValueTypes['farcaster_accounts_order_by']
+      | undefined
+      | null;
     id?: ValueTypes['order_by'] | undefined | null;
     joined_colinks_at?: ValueTypes['order_by'] | undefined | null;
     link_holder_aggregate?:
@@ -13437,6 +13587,33 @@ export type ValueTypes = {
     farcaster_accounts_by_pk?: [
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_casts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts'],
+    ];
+    farcaster_casts_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_casts'],
     ];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
@@ -16247,6 +16424,23 @@ export type ValueTypes = {
   };
   /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
   ['skills_update_column']: skills_update_column;
+  ['smallint']: unknown;
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_array_comparison_exp']: {
+    /** is the array contained in the given array value */
+    _contained_in?: Array<ValueTypes['smallint']> | undefined | null;
+    /** does the array contain the given value */
+    _contains?: Array<ValueTypes['smallint']> | undefined | null;
+    _eq?: Array<ValueTypes['smallint']> | undefined | null;
+    _gt?: Array<ValueTypes['smallint']> | undefined | null;
+    _gte?: Array<ValueTypes['smallint']> | undefined | null;
+    _in?: Array<Array<ValueTypes['smallint']> | undefined | null>;
+    _is_null?: boolean | undefined | null;
+    _lt?: Array<ValueTypes['smallint']> | undefined | null;
+    _lte?: Array<ValueTypes['smallint']> | undefined | null;
+    _neq?: Array<ValueTypes['smallint']> | undefined | null;
+    _nin?: Array<Array<ValueTypes['smallint']> | undefined | null>;
+  };
   ['subscription_root']: AliasType<{
     activities?: [
       {
@@ -17093,6 +17287,44 @@ export type ValueTypes = {
         where?: ValueTypes['farcaster_accounts_bool_exp'] | undefined | null;
       },
       ValueTypes['farcaster_accounts'],
+    ];
+    farcaster_casts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts'],
+    ];
+    farcaster_casts_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_casts'],
+    ];
+    farcaster_casts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['farcaster_casts_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts'],
     ];
     gift_private?: [
       {
@@ -21773,6 +22005,8 @@ export type ModelTypes = {
   ['big_questions_stream_cursor_value_input']: GraphQLTypes['big_questions_stream_cursor_value_input'];
   ['bigint']: number;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ['bigint_array_comparison_exp']: GraphQLTypes['bigint_array_comparison_exp'];
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: GraphQLTypes['bigint_comparison_exp'];
   /** columns and relationships of "burns" */
   ['burns']: {
@@ -21824,6 +22058,9 @@ export type ModelTypes = {
   ['burns_var_samp_order_by']: GraphQLTypes['burns_var_samp_order_by'];
   /** order by variance() on columns of table "burns" */
   ['burns_variance_order_by']: GraphQLTypes['burns_variance_order_by'];
+  ['bytea']: any;
+  /** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
+  ['bytea_comparison_exp']: GraphQLTypes['bytea_comparison_exp'];
   /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
     /** An object relationship */
@@ -23147,6 +23384,8 @@ export type ModelTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -23167,6 +23406,37 @@ export type ModelTypes = {
   ['farcaster_accounts_stream_cursor_input']: GraphQLTypes['farcaster_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['farcaster_accounts_stream_cursor_value_input']: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
+  /** columns and relationships of "farcaster.casts" */
+  ['farcaster_casts']: {
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds: GraphQLTypes['jsonb'];
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    mentions: Array<GraphQLTypes['bigint']>;
+    mentions_positions: Array<GraphQLTypes['smallint']>;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text: string;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
+  ['farcaster_casts_bool_exp']: GraphQLTypes['farcaster_casts_bool_exp'];
+  /** Ordering options when selecting data from "farcaster.casts". */
+  ['farcaster_casts_order_by']: GraphQLTypes['farcaster_casts_order_by'];
+  /** select columns of table "farcaster.casts" */
+  ['farcaster_casts_select_column']: GraphQLTypes['farcaster_casts_select_column'];
+  /** Streaming cursor of the table "farcaster_casts" */
+  ['farcaster_casts_stream_cursor_input']: GraphQLTypes['farcaster_casts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_casts_stream_cursor_value_input']: GraphQLTypes['farcaster_casts_stream_cursor_value_input'];
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: GraphQLTypes['float8_comparison_exp'];
@@ -25541,6 +25811,8 @@ export type ModelTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
@@ -25674,6 +25946,10 @@ export type ModelTypes = {
     farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster_accounts" using primary key columns */
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table: "farcaster.casts" */
+    farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.casts" using primary key columns */
+    farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -26455,6 +26731,9 @@ export type ModelTypes = {
   ['skills_stream_cursor_value_input']: GraphQLTypes['skills_stream_cursor_value_input'];
   /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
   ['skills_update_column']: GraphQLTypes['skills_update_column'];
+  ['smallint']: any;
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_array_comparison_exp']: GraphQLTypes['smallint_array_comparison_exp'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -26582,6 +26861,12 @@ export type ModelTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster_accounts" */
     farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster.casts" */
+    farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.casts" using primary key columns */
+    farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster.casts" */
+    farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -28632,6 +28917,22 @@ export type GraphQLTypes = {
   };
   ['bigint']: any;
   /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
+  ['bigint_array_comparison_exp']: {
+    /** is the array contained in the given array value */
+    _contained_in?: Array<GraphQLTypes['bigint']> | undefined;
+    /** does the array contain the given value */
+    _contains?: Array<GraphQLTypes['bigint']> | undefined;
+    _eq?: Array<GraphQLTypes['bigint']> | undefined;
+    _gt?: Array<GraphQLTypes['bigint']> | undefined;
+    _gte?: Array<GraphQLTypes['bigint']> | undefined;
+    _in?: Array<Array<GraphQLTypes['bigint']> | undefined>;
+    _is_null?: boolean | undefined;
+    _lt?: Array<GraphQLTypes['bigint']> | undefined;
+    _lte?: Array<GraphQLTypes['bigint']> | undefined;
+    _neq?: Array<GraphQLTypes['bigint']> | undefined;
+    _nin?: Array<Array<GraphQLTypes['bigint']> | undefined>;
+  };
+  /** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
   ['bigint_comparison_exp']: {
     _eq?: GraphQLTypes['bigint'] | undefined;
     _gt?: GraphQLTypes['bigint'] | undefined;
@@ -28833,6 +29134,19 @@ export type GraphQLTypes = {
     regift_percent?: GraphQLTypes['order_by'] | undefined;
     tokens_burnt?: GraphQLTypes['order_by'] | undefined;
     user_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  ['bytea']: any;
+  /** Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'. */
+  ['bytea_comparison_exp']: {
+    _eq?: GraphQLTypes['bytea'] | undefined;
+    _gt?: GraphQLTypes['bytea'] | undefined;
+    _gte?: GraphQLTypes['bytea'] | undefined;
+    _in?: Array<GraphQLTypes['bytea']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['bytea'] | undefined;
+    _lte?: GraphQLTypes['bytea'] | undefined;
+    _neq?: GraphQLTypes['bytea'] | undefined;
+    _nin?: Array<GraphQLTypes['bytea']> | undefined;
   };
   /** Circle-scoped API keys with user defined permissions to allow third parties to authenticate to Coordinape's GraphQL API. */
   ['circle_api_keys']: {
@@ -31981,6 +32295,8 @@ export type GraphQLTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -31998,6 +32314,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -32020,6 +32337,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     pfp_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
@@ -32045,6 +32363,101 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     username?: string | undefined;
+  };
+  /** columns and relationships of "farcaster.casts" */
+  ['farcaster_casts']: {
+    __typename: 'farcaster_casts';
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds: GraphQLTypes['jsonb'];
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    mentions: Array<GraphQLTypes['bigint']>;
+    mentions_positions: Array<GraphQLTypes['smallint']>;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text: string;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
+  ['farcaster_casts_bool_exp']: {
+    _and?: Array<GraphQLTypes['farcaster_casts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['farcaster_casts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['farcaster_casts_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    embeds?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    mentions?: GraphQLTypes['bigint_array_comparison_exp'] | undefined;
+    mentions_positions?:
+      | GraphQLTypes['smallint_array_comparison_exp']
+      | undefined;
+    parent_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    root_parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    root_parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    text?: GraphQLTypes['String_comparison_exp'] | undefined;
+    timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "farcaster.casts". */
+  ['farcaster_casts_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    embeds?: GraphQLTypes['order_by'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    mentions?: GraphQLTypes['order_by'] | undefined;
+    mentions_positions?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+    parent_hash?: GraphQLTypes['order_by'] | undefined;
+    parent_url?: GraphQLTypes['order_by'] | undefined;
+    root_parent_hash?: GraphQLTypes['order_by'] | undefined;
+    root_parent_url?: GraphQLTypes['order_by'] | undefined;
+    text?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "farcaster.casts" */
+  ['farcaster_casts_select_column']: farcaster_casts_select_column;
+  /** Streaming cursor of the table "farcaster_casts" */
+  ['farcaster_casts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['farcaster_casts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_casts_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds?: GraphQLTypes['jsonb'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    hash?: GraphQLTypes['bytea'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -36713,6 +37126,8 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls'] | undefined;
     created_at?: GraphQLTypes['timestamp'] | undefined;
     description?: string | undefined;
+    /** An object relationship */
+    farcaster_account?: GraphQLTypes['farcaster_accounts'] | undefined;
     id?: GraphQLTypes['bigint'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
     /** An array relationship */
@@ -36754,6 +37169,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_bool_exp'] | undefined;
     id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     joined_colinks_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     link_holder?: GraphQLTypes['link_holders_bool_exp'] | undefined;
@@ -36787,6 +37203,7 @@ export type GraphQLTypes = {
     cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     description?: GraphQLTypes['order_by'] | undefined;
+    farcaster_account?: GraphQLTypes['farcaster_accounts_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
     joined_colinks_at?: GraphQLTypes['order_by'] | undefined;
     link_holder_aggregate?:
@@ -36992,6 +37409,10 @@ export type GraphQLTypes = {
     farcaster_accounts: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster_accounts" using primary key columns */
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
+    /** fetch data from the table: "farcaster.casts" */
+    farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.casts" using primary key columns */
+    farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -38312,6 +38733,23 @@ export type GraphQLTypes = {
   };
   /** placeholder for update columns of table "skills" (current role has no relevant permissions) */
   ['skills_update_column']: skills_update_column;
+  ['smallint']: any;
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_array_comparison_exp']: {
+    /** is the array contained in the given array value */
+    _contained_in?: Array<GraphQLTypes['smallint']> | undefined;
+    /** does the array contain the given value */
+    _contains?: Array<GraphQLTypes['smallint']> | undefined;
+    _eq?: Array<GraphQLTypes['smallint']> | undefined;
+    _gt?: Array<GraphQLTypes['smallint']> | undefined;
+    _gte?: Array<GraphQLTypes['smallint']> | undefined;
+    _in?: Array<Array<GraphQLTypes['smallint']> | undefined>;
+    _is_null?: boolean | undefined;
+    _lt?: Array<GraphQLTypes['smallint']> | undefined;
+    _lte?: Array<GraphQLTypes['smallint']> | undefined;
+    _neq?: Array<GraphQLTypes['smallint']> | undefined;
+    _nin?: Array<Array<GraphQLTypes['smallint']> | undefined>;
+  };
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** An array relationship */
@@ -38440,6 +38878,12 @@ export type GraphQLTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster_accounts" */
     farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
+    /** fetch data from the table: "farcaster.casts" */
+    farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.casts" using primary key columns */
+    farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster.casts" */
+    farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -40669,6 +41113,25 @@ export const enum farcaster_accounts_select_column {
   profile_id = 'profile_id',
   updated_at = 'updated_at',
   username = 'username',
+}
+/** select columns of table "farcaster.casts" */
+export const enum farcaster_casts_select_column {
+  created_at = 'created_at',
+  deleted_at = 'deleted_at',
+  embeds = 'embeds',
+  fid = 'fid',
+  hash = 'hash',
+  id = 'id',
+  mentions = 'mentions',
+  mentions_positions = 'mentions_positions',
+  parent_fid = 'parent_fid',
+  parent_hash = 'parent_hash',
+  parent_url = 'parent_url',
+  root_parent_hash = 'root_parent_hash',
+  root_parent_url = 'root_parent_url',
+  text = 'text',
+  timestamp = 'timestamp',
+  updated_at = 'updated_at',
 }
 /** select columns of table "gift_private" */
 export const enum gift_private_select_column {
