@@ -2,12 +2,13 @@ import { abbreviateString } from 'abbreviateString';
 import { order_by } from 'lib/anongql/__generated__/zeus';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
 import { OrBar } from 'components/OrBar';
 import { ExternalLink, Farcaster, Github, Twitter } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { AppLink, Avatar, Flex, Link, Text } from 'ui';
+import { Avatar, Flex, Link, Text } from 'ui';
 
 import { PublicProfile } from './PartyProfile';
 import { PartyStats } from './PartyStats';
@@ -98,14 +99,14 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
       >
         <Flex column alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
           <Flex column css={{ mb: '$sm' }}>
-            <AppLink to={coLinksPaths.partyProfile(profile.address)}>
+            <NavLink to={coLinksPaths.partyProfile(profile.address)}>
               <Avatar
                 size="xl"
                 name={profile.name}
                 path={profile.avatar}
                 margin="none"
               />
-            </AppLink>
+            </NavLink>
           </Flex>
           <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
             <Text h2 display>
