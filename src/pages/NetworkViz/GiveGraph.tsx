@@ -55,7 +55,7 @@ export function GiveGraph({
   expand?: boolean;
 }) {
   const [graphReady, setGraphReady] = useState(false);
-  const onClose = () => setVisible(prev => !prev);
+  const onClose = () => setVisible(false);
   const [visible, setVisible] = useState(false);
   const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
@@ -108,6 +108,14 @@ export function GiveGraph({
   );
 
   useEffect(() => {
+    // Ensure that the modal state is reset when GiveGraph mounts or unmounts
+    return () => {
+      setVisible(false);
+      setSelectedNodeId(null);
+    };
+  }, []);
+
+  useEffect(() => {
     if (data && isFetched && !graphReady) {
       setGraphReady(true);
       refetch();
@@ -147,7 +155,7 @@ export function GiveGraph({
           open={visible}
           onOpenChange={onClose}
           css={{
-            maxWidth: '460px',
+            maxWidth: 'calc(460px + $md + $md)',
             p: 0,
             border: 'none',
             background:

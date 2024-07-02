@@ -4,7 +4,7 @@ import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
 import { webAppURL } from '../config/webAppURL';
-import { Wand } from '../icons/__generated';
+import { Maximize, Wand } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
@@ -218,6 +218,7 @@ export const GiveSkillLeaderboard = () => {
                   color={'cta'}
                   size="xs"
                 >
+                  <Maximize />
                   Expand View
                 </Button>
               </Flex>

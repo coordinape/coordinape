@@ -124,7 +124,7 @@ export const PartyProfileContent = ({
             alignItems: 'center',
           }}
         >
-          <ProfileNetwork />
+          <ProfileNetwork targetAddress={address} />
           <PartyProfileGives profileId={targetProfile.id} />
           <Flex
             column

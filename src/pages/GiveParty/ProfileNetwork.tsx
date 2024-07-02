@@ -10,11 +10,14 @@ import { Bullseye } from './Bullseye';
 const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileNetwork = ({
+  targetAddress,
   fullscreen = false,
 }: {
+  targetAddress?: string;
   fullscreen?: boolean;
 }) => {
-  const { address } = useParams();
+  const { address: paramAddress } = useParams<{ address: string }>();
+  const address = targetAddress ?? paramAddress;
   const { data: networkNodes } = useQuery(
     [QUERY_KEY_NETWORK, address, 'profile'],
     async () => await fetchNetworkNodes(address!),
