@@ -139,35 +139,37 @@ const AvatarAndName = ({
   if (!profile) return null;
 
   return (
-    <Flex
-      alignItems="center"
-      css={{
-        flexGrow: 0,
-        minWidth: 0,
-      }}
-    >
-      <Avatar
-        size="small"
-        name={profile.name}
-        path={profile.avatar}
-        hasCoSoul={!!profile.cosoul}
-        css={{ mr: '$sm' }}
-      />
-      <Text color="heading" semibold css={{ textDecoration: 'none' }}>
-        {profile.name}
-      </Text>
-
-      <Text
-        size="small"
+    <Link as={NavLink} to={coLinksPaths.profile(profile.address || '')}>
+      <Flex
+        alignItems="center"
         css={{
-          pl: '$sm',
-          color: '$neutral',
-          textDecoration: 'none',
+          flexGrow: 0,
+          minWidth: 0,
         }}
       >
-        {DateTime.fromISO(cast.created_at).toRelative()}
-      </Text>
-    </Flex>
+        <Avatar
+          size="small"
+          name={profile.name}
+          path={profile.avatar}
+          hasCoSoul={!!profile.cosoul}
+          css={{ mr: '$sm' }}
+        />
+        <Text color="heading" semibold css={{ textDecoration: 'none' }}>
+          {profile.name}
+        </Text>
+
+        <Text
+          size="small"
+          css={{
+            pl: '$sm',
+            color: '$neutral',
+            textDecoration: 'none',
+          }}
+        >
+          {DateTime.fromISO(cast.created_at).toRelative()}
+        </Text>
+      </Flex>
+    </Link>
   );
 };
 
