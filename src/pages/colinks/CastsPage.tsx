@@ -229,6 +229,7 @@ const fetchCasts = async () => {
             parent_hash: { _is_null: true }, // only top-level casts
           },
           order_by: [{ created_at: order_by.desc }],
+          limit: 100,
         },
         {
           created_at: true,
