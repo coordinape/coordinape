@@ -2,7 +2,7 @@
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from 'routes/paths';
-import { Avatar, Box, Link } from 'ui';
+import { Avatar, Box, Flex, Link, Tooltip } from 'ui';
 
 export interface User {
   username: string;
@@ -89,13 +89,30 @@ export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
         alignItems: 'center',
         aspectRatio: '1 / 1',
         width: tierSize,
+        '&:hover': {
+          outline: `2px solid ${nodeBackground}`,
+        },
         '@media (orientation: landscape)': {
           height: tierSize,
           width: 'auto',
         },
       }}
     >
-      {nodes}
+      <Tooltip
+        css={{
+          width: '100%',
+          aspectRatio: '1 / 1',
+          borderRadius: '50%',
+        }}
+        contentProps={{ side: 'top', sideOffset: -50 }}
+        content={
+          <Flex column css={{ gap: '$sm' }}>
+            derp
+          </Flex>
+        }
+      >
+        {nodes}
+      </Tooltip>
     </Box>
   );
 };

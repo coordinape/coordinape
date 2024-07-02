@@ -6,12 +6,11 @@ import { CSS, keyframes, styled } from 'stitches.config';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Flex, Link, Modal } from 'ui';
 
-const scaleUpAnimation = keyframes({
-  '0%': { opacity: 0, transform: 'scale(0)' },
-  '100%': { opacity: 1, transform: 'scale(1)' },
+const fadeIn = keyframes({
+  '0%': { opacity: 0 },
+  '100%': { opacity: 1 },
 });
 
-/** **NOTE**: The hover card is intended for mouse users only. */
 const HoverCardContent = styled(HoverCardPrimitive.Content, {
   borderRadius: '$2',
   padding: '$sm',
@@ -30,10 +29,10 @@ const HoverCardContent = styled(HoverCardPrimitive.Content, {
     animationFillMode: 'forwards',
     willChange: 'transform, opacity',
     '&[data-state="open"]': {
-      '&[data-side="top"]': { animationName: scaleUpAnimation },
-      '&[data-side="right"]': { animationName: scaleUpAnimation },
-      '&[data-side="bottom"]': { animationName: scaleUpAnimation },
-      '&[data-side="left"]': { animationName: scaleUpAnimation },
+      '&[data-side="top"]': { animationName: fadeIn },
+      '&[data-side="right"]': { animationName: fadeIn },
+      '&[data-side="bottom"]': { animationName: fadeIn },
+      '&[data-side="left"]': { animationName: fadeIn },
     },
   },
 });
@@ -49,20 +48,27 @@ const TooltipTrigger = styled(HoverCardPrimitive.Trigger, {
   },
 });
 
+interface TooltipProps {
+  content: React.ReactNode;
+  children?: React.ReactNode;
+  css?: CSS;
+  sideOffset?: number;
+  contentProps?: HoverCardPrimitive.HoverCardContentProps;
+}
+
 export const Tooltip = ({
   content,
   children,
   css,
-}: {
-  content: React.ReactNode;
-  children?: React.ReactNode;
-  css?: CSS;
-}) => {
+  sideOffset = 5,
+  contentProps,
+}: TooltipProps) => {
   const { isMobile } = useMobileDetect();
   const [modal, setModal] = useState(false);
   const closeModal = () => {
     setModal(false);
   };
+
   return (
     <>
       {isMobile ? (
@@ -81,14 +87,14 @@ export const Tooltip = ({
           </Modal>
         </div>
       ) : (
-        <>
-          <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
-            <TooltipTrigger css={css}>{children}</TooltipTrigger>
-            <HoverCardPrimitive.Portal>
-              <HoverCardContent>{content}</HoverCardContent>
-            </HoverCardPrimitive.Portal>
-          </HoverCardPrimitive.Root>
-        </>
+        <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
+          <TooltipTrigger css={css}>{children}</TooltipTrigger>
+          <HoverCardPrimitive.Portal>
+            <HoverCardContent sideOffset={sideOffset} {...contentProps}>
+              {content}
+            </HoverCardContent>
+          </HoverCardPrimitive.Portal>
+        </HoverCardPrimitive.Root>
       )}
     </>
   );
