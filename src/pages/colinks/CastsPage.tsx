@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { artWidthMobile } from 'features/cosoul/constants';
 import {
   link_holders_select_column,
@@ -84,41 +82,21 @@ export const CastsPage = () => {
 };
 
 const CastsList = () => {
-  const { data: colinks_users } = useQuery(['fids'], fetchColinksUsers, {
-    staleTime: Infinity,
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
-
-  const fids: number[] =
-    colinks_users?.map(user => user?.farcaster_account?.fid) ?? [];
-
   const { data: casts } = useQuery(
     ['casts'],
     () => {
-      return fetchCasts(fids);
+      return fetchCasts();
     },
     {
-      enabled: !!colinks_users && !!fids,
+      refetchOnWindowFocus: false,
     }
   );
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log({ colinks_users, casts });
-  }, [colinks_users, casts]);
-
-  if (!colinks_users || !fids || !casts) return null;
+  if (!casts) return null;
 
   return (
     <Flex column>
       {casts?.map(cast => {
-        const profile = colinks_users.find(
-          user => user?.farcaster_account?.fid === cast.fid
-        );
-
-        if (!profile) return null;
-
         return (
           <Flex
             css={{
@@ -131,8 +109,11 @@ const CastsList = () => {
             key={cast.hash}
           >
             <Flex column>
-              <AvatarAndName cast={cast} profile={profile} />
-              <Link color="neutral" href={warpcastUrl(cast, profile)}>
+              <AvatarAndName
+                cast={cast}
+                profile={cast.farcaster_account?.profile_public}
+              />
+              <Link color="neutral" href={warpcastUrl(cast)}>
                 <Text
                   key={cast.hash}
                   css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
@@ -234,13 +215,17 @@ const fetchColinksUsers = async () => {
 
 type Cast = Awaited<ReturnType<typeof fetchCasts>>[number];
 
-const fetchCasts = async (fids: number[]) => {
+const fetchCasts = async () => {
   const { farcaster_casts } = await client.query(
     {
       farcaster_casts: [
         {
           where: {
-            fid: { _in: fids },
+            farcaster_account: {
+              profile_public: {
+                links_held: { _gt: 0 },
+              },
+            },
             parent_hash: { _is_null: true }, // only top-level casts
           },
           order_by: [{ created_at: order_by.desc }],
@@ -250,6 +235,20 @@ const fetchCasts = async (fids: number[]) => {
           text: true,
           hash: true,
           fid: true,
+          farcaster_account: {
+            fid: true,
+            followers_count: true,
+            custody_address: true,
+            username: true,
+            profile_public: {
+              avatar: true,
+              name: true,
+              address: true,
+              cosoul: {
+                id: true,
+              },
+            },
+          },
         },
       ],
     },
@@ -261,6 +260,7 @@ const fetchCasts = async (fids: number[]) => {
   return farcaster_casts;
 };
 
-const warpcastUrl = (cast: Cast, profile: CoLinksUser) => {
-  return `https://warpcast.com/${profile?.farcaster_account?.username}/0${cast.hash.slice(1, 9)}`;
+const warpcastUrl = (cast: Cast) => {
+  const p = cast.farcaster_account;
+  return `https://warpcast.com/${p?.username}/0${cast.hash.slice(1, 9)}`;
 };

@@ -8063,6 +8063,11 @@ type farcaster_accounts {
   name: String!
   pfp_url: String
   profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles!
   updated_at: timestamptz!
   username: String!
 }
@@ -8083,6 +8088,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
+  profile_public: profiles_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -8115,6 +8121,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
+  profile_public: profiles_order_by
   updated_at: order_by
   username: order_by
 }
@@ -8223,6 +8230,11 @@ type farcaster_casts {
     """
     path: String
   ): jsonb!
+
+  """
+  An object relationship
+  """
+  farcaster_account: farcaster_accounts
   fid: bigint!
   hash: bytea!
   id: bigint!
@@ -8248,6 +8260,7 @@ input farcaster_casts_bool_exp {
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
+  farcaster_account: farcaster_accounts_bool_exp
   fid: bigint_comparison_exp
   hash: bytea_comparison_exp
   id: bigint_comparison_exp
@@ -8270,6 +8283,7 @@ input farcaster_casts_order_by {
   created_at: order_by
   deleted_at: order_by
   embeds: order_by
+  farcaster_account: farcaster_accounts_order_by
   fid: order_by
   hash: order_by
   id: order_by

@@ -1,6 +1,16 @@
 table:
   name: casts
   schema: farcaster
+object_relationships:
+  - name: farcaster_account
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: farcaster_accounts
+          schema: public
 select_permissions:
   - role: user
     permission:
