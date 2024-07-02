@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { artWidthMobile } from 'features/cosoul/constants';
 import {
   link_holders_select_column,
@@ -11,7 +13,7 @@ import { NavLink } from 'react-router-dom';
 
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Link, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { BarChart } from 'icons/__generated';
 
@@ -101,49 +103,60 @@ const CastsList = () => {
     }
   );
 
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log({ colinks_users, casts });
+  }, [colinks_users, casts]);
+
   if (!colinks_users || !fids || !casts) return null;
 
   return (
     <Flex column>
-      {casts?.map(cast => (
-        <Flex
-          css={{
-            gap: '$md',
-            background: '$surface',
-            p: '$md',
-            m: '$sm',
-            borderRadius: '$2',
-          }}
-          key={cast.hash}
-        >
-          <Flex column>
-            <AvatarAndName cast={cast} colinks_users={colinks_users} />
-            <Text key={cast.hash} css={{ whiteSpace: 'pre-wrap', pl: '40px' }}>
-              {cast.text}
-            </Text>
+      {casts?.map(cast => {
+        const profile = colinks_users.find(
+          user => user?.farcaster_account?.fid === cast.fid
+        );
+
+        if (!profile) return null;
+
+        return (
+          <Flex
+            css={{
+              gap: '$md',
+              background: '$surface',
+              p: '$md',
+              m: '$sm',
+              borderRadius: '$2',
+            }}
+            key={cast.hash}
+          >
+            <Flex column>
+              <AvatarAndName cast={cast} profile={profile} />
+              <Link color="neutral" href={warpcastUrl(cast, profile)}>
+                <Text
+                  key={cast.hash}
+                  css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
+                >
+                  {cast.text}
+                </Text>
+              </Link>
+            </Flex>
           </Flex>
-        </Flex>
-      ))}
+        );
+      })}
     </Flex>
   );
-
-  // useEffect(() => {
-  //   console.log({ fids, casts });
-  // }, [fids, casts]);
 };
 
 const AvatarAndName = ({
   cast,
-  colinks_users,
+  profile,
 }: {
   cast: Cast;
-  colinks_users: CoLinksUser[];
+  profile: CoLinksUser;
 }) => {
-  const profile = colinks_users.find(
-    user => user?.farcaster_account?.fid === cast.fid
-  );
-
   if (!profile) return null;
+
   return (
     <Flex
       alignItems="center"
@@ -203,6 +216,7 @@ const fetchColinksUsers = async () => {
               fid: true,
               followers_count: true,
               custody_address: true,
+              username: true,
             },
           },
         },
@@ -225,7 +239,10 @@ const fetchCasts = async (fids: number[]) => {
     {
       farcaster_casts: [
         {
-          where: { fid: { _in: fids } },
+          where: {
+            fid: { _in: fids },
+            parent_hash: { _is_null: true }, // only top-level casts
+          },
           order_by: [{ created_at: order_by.desc }],
         },
         {
@@ -242,4 +259,8 @@ const fetchCasts = async (fids: number[]) => {
   );
 
   return farcaster_casts;
+};
+
+const warpcastUrl = (cast: Cast, profile: CoLinksUser) => {
+  return `https://warpcast.com/${profile?.farcaster_account?.username}/0${cast.hash.slice(1, 9)}`;
 };
