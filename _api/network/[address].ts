@@ -82,7 +82,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   });
 
   try {
-    return res.status(200).json({ nodes });
+    return res.status(200).json({ profile: targetProfile, nodes });
   } catch (e) {
     throw new InternalServerError('Unable to gather network data', e);
   }

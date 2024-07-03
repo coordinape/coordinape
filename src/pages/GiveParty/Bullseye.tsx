@@ -176,7 +176,7 @@ export const Bullseye = ({
             </Flex>
           }
         >
-          <Text inline>
+          <Text inline css={{ fontSize: '$small !important' }}>
             + {allNodes.length - maxNodes} <Users fa />
           </Text>
         </Tooltip>
