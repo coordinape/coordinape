@@ -52,6 +52,7 @@ interface TooltipProps {
   content: React.ReactNode;
   children?: React.ReactNode;
   css?: CSS;
+  contentCss?: CSS;
   sideOffset?: number;
   contentProps?: HoverCardPrimitive.HoverCardContentProps;
 }
@@ -60,6 +61,7 @@ export const Tooltip = ({
   content,
   children,
   css,
+  contentCss,
   sideOffset = 5,
   contentProps,
 }: TooltipProps) => {
@@ -90,7 +92,11 @@ export const Tooltip = ({
         <HoverCardPrimitive.Root closeDelay={50} openDelay={0}>
           <TooltipTrigger css={css}>{children}</TooltipTrigger>
           <HoverCardPrimitive.Portal>
-            <HoverCardContent sideOffset={sideOffset} {...contentProps}>
+            <HoverCardContent
+              sideOffset={sideOffset}
+              {...contentProps}
+              css={{ ...contentCss }}
+            >
               {content}
             </HoverCardContent>
           </HoverCardPrimitive.Portal>

@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { NavLink } from 'react-router-dom';
 
+import { Users } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Avatar, Box, Flex, Link, Tooltip } from 'ui';
+import { Avatar, Box, Flex, Link, Tooltip, Text } from 'ui';
 
 export interface User {
   username: string;
@@ -10,7 +11,15 @@ export interface User {
   address: string;
 }
 
-export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
+export const Bullseye = ({
+  tier,
+  users,
+  tierMessage,
+}: {
+  tier: number;
+  users: User[];
+  tierMessage: React.ReactNode;
+}) => {
   const tierSizes = ['35%', '54%', '71%', '85%', '98%'];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
@@ -32,10 +41,11 @@ export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
   const tierBackground = tierBackgrounds[tier - 1];
   const nodeBackground = nodeBackgrounds[tier - 1];
   const nodeSize = '1.5em';
+  const maxNodes = 30;
   const numberOfNodes = users.length;
 
-  const nodes = users.map((user, i) => {
-    const angle = (i / numberOfNodes) * 2 * Math.PI;
+  const nodes = users.slice(0, maxNodes).map((user, i) => {
+    const angle = (i / Math.min(numberOfNodes, maxNodes)) * 2 * Math.PI;
     const x = 50 + 50 * Math.cos(angle);
     const y = 50 + 50 * Math.sin(angle);
 
@@ -73,6 +83,25 @@ export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
     );
   });
 
+  const allNodes = users.map(user => (
+    <Link
+      as={NavLink}
+      to={coLinksPaths.partyProfile(user.address || '')}
+      key={user.address}
+      css={{
+        alignItems: 'center',
+        gap: '$sm',
+        display: 'flex',
+        color: 'white',
+      }}
+    >
+      <Avatar size="xs" name={user.username} path={user.avatar} />
+      <Text size="small" semibold css={{ textDecoration: 'none' }}>
+        {user.username}
+      </Text>
+    </Link>
+  ));
+
   return (
     // tiers
     <Box
@@ -83,7 +112,7 @@ export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
         zIndex: tierZIndex,
         top: '50%',
         left: '50%',
-        transform: `translate(-50%, -50%) rotate(calc(2deg * ${tier}))`,
+        transform: `translate(-50%, -50%)`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
@@ -103,16 +132,55 @@ export const Bullseye = ({ tier, users }: { tier: number; users: User[] }) => {
           width: '100%',
           aspectRatio: '1 / 1',
           borderRadius: '50%',
+          transform: `rotate(calc(2deg * ${tier}))`,
         }}
-        contentProps={{ side: 'top', sideOffset: -50 }}
+        contentProps={{ side: 'top', sideOffset: -15 }}
         content={
           <Flex column css={{ gap: '$sm' }}>
-            derp
+            {tierMessage}
           </Flex>
         }
       >
         {nodes}
       </Tooltip>
+      {allNodes.length > maxNodes && (
+        <Tooltip
+          css={{
+            position: 'absolute',
+            top: 10,
+            width: '100%',
+            height: 30,
+            textAlign: 'center',
+          }}
+          contentCss={{
+            background: 'black',
+            p: '$sm $md',
+            maxHeight: 400,
+            overflow: 'auto',
+            color: 'white',
+          }}
+          contentProps={{ side: 'bottom', sideOffset: -15 }}
+          content={
+            <Flex column css={{ gap: '$sm' }}>
+              <Text
+                semibold
+                css={{
+                  borderBottom: '1px solid $border',
+                  pb: '$sm',
+                  mb: '$xs',
+                }}
+              >
+                {tierMessage}
+              </Text>
+              {allNodes}
+            </Flex>
+          }
+        >
+          <Text inline>
+            + {allNodes.length - maxNodes} <Users fa />
+          </Text>
+        </Tooltip>
+      )}
     </Box>
   );
 };
