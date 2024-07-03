@@ -12,6 +12,10 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       .status(200)
       .json({ message: 'This endpoint is disabled in local environment.' });
   }
+
+  // june 26th 2024, when new scores started
+  const checkpointDate = new Date('2024-06-26T00:00:00Z');
+
   // get profiles without reputation
   const { profiles } = await adminClient.query(
     {
@@ -20,9 +24,20 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
           limit: 100,
           order_by: [{ id: order_by.asc }],
           where: {
-            _not: {
-              reputation_score: {},
-            },
+            _or: [
+              {
+                reputation_score: {
+                  updated_at: {
+                    _lte: checkpointDate,
+                  },
+                },
+              },
+              {
+                _not: {
+                  reputation_score: {},
+                },
+              },
+            ],
           },
         },
         {

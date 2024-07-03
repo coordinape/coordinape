@@ -10564,6 +10564,8 @@ type cosouls {
   An object relationship
   """
   profile_public: profiles_public
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -10600,6 +10602,7 @@ aggregate avg on columns
 type cosouls_avg_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10625,6 +10628,8 @@ input cosouls_bool_exp {
   poaps_aggregate: poap_holders_aggregate_bool_exp
   profile: profiles_bool_exp
   profile_public: profiles_public_bool_exp
+  rep_score: Int_comparison_exp
+  rep_synced_at: timestamptz_comparison_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -10651,6 +10656,7 @@ input type for incrementing numeric columns in table "cosouls"
 input cosouls_inc_input {
   id: Int
   pgive: Int
+  rep_score: Int
   token_id: Int
 }
 
@@ -10670,6 +10676,8 @@ input cosouls_insert_input {
   poaps: poap_holders_arr_rel_insert_input
   profile: profiles_obj_rel_insert_input
   profile_public: profiles_public_obj_rel_insert_input
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -10685,6 +10693,8 @@ type cosouls_max_fields {
   created_tx_hash: String
   id: Int
   pgive: Int
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -10700,6 +10710,8 @@ type cosouls_min_fields {
   created_tx_hash: String
   id: Int
   pgive: Int
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -10757,6 +10769,8 @@ input cosouls_order_by {
   poaps_aggregate: poap_holders_aggregate_order_by
   profile: profiles_order_by
   profile_public: profiles_public_order_by
+  rep_score: order_by
+  rep_synced_at: order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -10806,6 +10820,16 @@ enum cosouls_select_column {
   """
   column name
   """
+  rep_score
+
+  """
+  column name
+  """
+  rep_synced_at
+
+  """
+  column name
+  """
   synced_at
 
   """
@@ -10829,6 +10853,8 @@ input cosouls_set_input {
   created_tx_hash: String
   id: Int
   pgive: Int
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -10840,6 +10866,7 @@ aggregate stddev on columns
 type cosouls_stddev_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10849,6 +10876,7 @@ aggregate stddev_pop on columns
 type cosouls_stddev_pop_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10858,6 +10886,7 @@ aggregate stddev_samp on columns
 type cosouls_stddev_samp_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10886,6 +10915,8 @@ input cosouls_stream_cursor_value_input {
   created_tx_hash: String
   id: Int
   pgive: Int
+  rep_score: Int
+  rep_synced_at: timestamptz
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz
@@ -10897,6 +10928,7 @@ aggregate sum on columns
 type cosouls_sum_fields {
   id: Int
   pgive: Int
+  rep_score: Int
   token_id: Int
 }
 
@@ -10937,6 +10969,16 @@ enum cosouls_update_column {
   """
   column name
   """
+  rep_score
+
+  """
+  column name
+  """
+  rep_synced_at
+
+  """
+  column name
+  """
   synced_at
 
   """
@@ -10973,6 +11015,7 @@ aggregate var_pop on columns
 type cosouls_var_pop_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10982,6 +11025,7 @@ aggregate var_samp on columns
 type cosouls_var_samp_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
@@ -10991,6 +11035,7 @@ aggregate variance on columns
 type cosouls_variance_fields {
   id: Float
   pgive: Float
+  rep_score: Float
   token_id: Float
 }
 
