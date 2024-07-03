@@ -374,6 +374,14 @@ const LoggedInItems = ({
       >
         <MessagesQuestion size="lg" nostroke />
         <Flex
+              css={{
+                gap: '$md',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+              }}
+        >
+        <Flex
           css={{
             '--bg-size': '400%',
             '--color-one': '$colors$bigQuestion1',
@@ -391,6 +399,22 @@ const LoggedInItems = ({
         >
           The Big Question
         </Flex>
+        <IconButton
+                css={{
+                  fontSize: '$small',
+                  color: '$secondaryText',
+                  '&:hover': {
+                    color: '$linkHover',
+                  },
+                }}
+                onClick={e => {
+                  e.preventDefault();
+                  navigate(coLinksPaths.bigQuestionsEdit);
+                }}
+              >
+                <Settings css={{ path: { fill: 'transparent !important' } }} />
+       </IconButton>
+      </Flex>
       </NavItem>
       <HR />
       <NavItem path={address ? coLinksPaths.profile(address) : ''}>

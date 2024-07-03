@@ -1,21 +1,23 @@
+import React from 'react';
+
 import { DateTime } from 'luxon';
 
 import { MessagesQuestion } from '../../../icons/__generated';
 import { coLinksPaths } from '../../../routes/paths';
-import { AppLink, Flex, MarkdownPreview, Panel, Text } from '../../../ui';
+import { AppLink, Flex, HR, MarkdownPreview, Panel, Text } from '../../../ui';
 
 import { BigQuestion, getState } from './useBigQuestions';
 
 export const BigQuestionCardCover = ({
   question,
+  children,
 }: {
   question: BigQuestion;
+  children: React.ReactNode;
 }) => {
   const state = getState(question);
   return (
     <Panel
-      as={AppLink}
-      to={coLinksPaths.bigQuestion(question.id)}
       css={{
         p: 0,
         flexDirection: 'column',
@@ -27,6 +29,8 @@ export const BigQuestionCardCover = ({
       }}
     >
       <Flex
+        as={AppLink}
+        to={coLinksPaths.bigQuestion(question.id)}
         css={{
           flexGrow: 1,
           height: '100%',
@@ -66,7 +70,6 @@ export const BigQuestionCardCover = ({
           </Text>
         </Flex>
       </Flex>
-
       <Flex
         column
         css={{
@@ -125,6 +128,13 @@ export const BigQuestionCardCover = ({
             </Text>
           )}
         </Flex>
+        {children && (
+          <>
+            {' '}
+            <HR></HR>
+            <Flex>{children}</Flex>
+          </>
+        )}
       </Flex>
     </Panel>
   );

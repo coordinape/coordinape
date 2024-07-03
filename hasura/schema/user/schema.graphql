@@ -23,6 +23,10 @@ type AcceptTOSOutput {
   tos_agreed_at: String!
 }
 
+type ActivitiesAggregate {
+  aggregate: Aggregate
+}
+
 input AddEmailInput {
   co_links: Boolean!
   email: String!
@@ -38,6 +42,10 @@ input AdminUpdateUserInput {
   profile_id: Int!
   role: Int
   starting_tokens: Int
+}
+
+type Aggregate {
+  count: Int!
 }
 
 input Allocation {
@@ -68,6 +76,18 @@ input Allocations {
 type AllocationsResponse {
   user: users
   user_id: Int!
+}
+
+type BigQuestionsOutput {
+  activities_aggregate: ActivitiesAggregate!
+  bigQuestion: big_questions
+  cover_image_url: String!
+  css_background_position: String
+  description: String
+  expire_at: String
+  id: Int!
+  prompt: String!
+  publish_at: String
 }
 
 """
@@ -562,6 +582,21 @@ input SyncCoSoulInput {
 
 type SyncCoSoulOutput {
   token_id: String
+}
+
+input UpdateBigQuestionInput {
+  big_question_id: Int
+  cover_image_url: String!
+  css_background_position: String
+  description: String
+  expire_at: String
+  prompt: String!
+  publish_at: String
+}
+
+type UpdateBigQuestionResponse {
+  bigQuestion: big_questions
+  id: Int!
 }
 
 input UpdateCircleInput {
@@ -12955,6 +12990,11 @@ type mutation_root {
   """
   syncLinks: ConfirmationResponse
   updateAllocations(payload: Allocations!): AllocationsResponse
+
+  """
+  update and insert big questions by sepecific users
+  """
+  updateBigQuestion(payload: UpdateBigQuestionInput!): UpdateBigQuestionResponse
   updateCircle(payload: UpdateCircleInput!): UpdateCircleOutput
 
   """
@@ -20086,6 +20126,11 @@ type query_root {
   getCasts
   """
   getCasts(payload: GetCastsInput!): GetCastsOutput!
+  
+  """
+  get all big questions for specific users
+  """
+  getBigQuestions: [BigQuestionsOutput]
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!

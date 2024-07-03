@@ -74,6 +74,7 @@ export const AllTypesProps: Record<string, any> = {
   SimilarProfileInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
+  UpdateBigQuestionInput: {},
   UpdateCircleInput: {},
   UpdateCircleStartingGiveInput: {},
   UpdateContributionInput: {},
@@ -8228,6 +8229,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateAllocations: {
       payload: 'Allocations',
+    },
+    updateBigQuestion: {
+      payload: 'UpdateBigQuestionInput',
     },
     updateCircle: {
       payload: 'UpdateCircleInput',
@@ -17176,6 +17180,12 @@ export const ReturnTypes: Record<string, any> = {
   AcceptTOSOutput: {
     tos_agreed_at: 'String',
   },
+  ActivitiesAggregate: {
+    aggregate: 'Aggregate',
+  },
+  Aggregate: {
+    count: 'Int',
+  },
   AllocationCsvResponse: {
     file: 'String',
   },
@@ -17206,6 +17216,17 @@ export const ReturnTypes: Record<string, any> = {
   CastMention: {
     address: 'String',
     fname: 'String',
+  },
+  BigQuestionsOutput: {
+    activities_aggregate: 'ActivitiesAggregate',
+    bigQuestion: 'big_questions',
+    cover_image_url: 'String',
+    css_background_position: 'String',
+    description: 'String',
+    expire_at: 'String',
+    id: 'Int',
+    prompt: 'String',
+    publish_at: 'String',
   },
   CheckEthDenverInviteeOutput: {
     is_eth_denver_invitee: 'Boolean',
@@ -17323,6 +17344,10 @@ export const ReturnTypes: Record<string, any> = {
   },
   SyncCoSoulOutput: {
     token_id: 'String',
+  },
+  UpdateBigQuestionResponse: {
+    bigQuestion: 'big_questions',
+    id: 'Int',
   },
   UpdateCircleOutput: {
     circle: 'circles',
@@ -22784,6 +22809,7 @@ export const ReturnTypes: Record<string, any> = {
     syncCoSoul: 'SyncCoSoulOutput',
     syncLinks: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',
+    updateBigQuestion: 'UpdateBigQuestionResponse',
     updateCircle: 'UpdateCircleOutput',
     updateCircleStartingGive: 'ConfirmationResponse',
     updateContribution: 'UpdateContributionResponse',
@@ -25321,6 +25347,7 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_warpcast_power_users_aggregate:
       'farcaster_warpcast_power_users_aggregate',
     farcaster_warpcast_power_users_by_pk: 'farcaster_warpcast_power_users',
+    getBigQuestions: 'BigQuestionsOutput',
     getCasts: 'GetCastsOutput',
     getGuildInfo: 'GuildInfoOutput',
     getHeadlines: 'HeadlinesOutput',
