@@ -17,7 +17,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   }
 
   // june 26th 2024, when new scores started
-  const checkpointDate = new Date('2024-07-03T20:31:00Z').toISOString();
+  const checkpointDate = new Date('2024-06-26T00:00:00Z').toISOString();
 
   // get profiles w/ cosouls that have reputation needing syncing
   // only include people with nonzero score, updated after checkpoint, and cosoul rep_synced_at before checkpoint
