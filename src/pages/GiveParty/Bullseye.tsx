@@ -3,7 +3,17 @@ import { NavLink } from 'react-router-dom';
 
 import { Users } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Avatar, Box, Flex, Link, Tooltip, Text } from 'ui';
+import {
+  Avatar,
+  Box,
+  Flex,
+  Link,
+  Tooltip,
+  Text,
+  PopoverContent,
+  Popover,
+  PopoverTrigger,
+} from 'ui';
 
 export interface User {
   username: string;
@@ -102,85 +112,83 @@ export const Bullseye = ({
     </Link>
   ));
 
+  const tierStyles = {
+    position: 'absolute',
+    borderRadius: '50%',
+    top: '50%',
+    left: '50%',
+    transform: `translate3d(-50%, -50%, 0)`,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    aspectRatio: '1 / 1',
+    width: tierSize,
+    '&:hover': {
+      outline: `2px solid ${nodeBackground}`,
+    },
+    '@media (orientation: landscape)': {
+      height: tierSize,
+      width: 'auto',
+    },
+  };
+
   return (
     // tiers
-    <Box
-      css={{
-        position: 'absolute',
-        borderRadius: '50%',
-        background: tierBackground,
-        zIndex: tierZIndex,
-        top: '50%',
-        left: '50%',
-        transform: `translate(-50%, -50%)`,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        aspectRatio: '1 / 1',
-        width: tierSize,
-        '&:hover': {
-          outline: `2px solid ${nodeBackground}`,
-        },
-        '@media (orientation: landscape)': {
-          height: tierSize,
-          width: 'auto',
-        },
-      }}
-    >
-      <Tooltip
-        css={{
-          width: '100%',
-          aspectRatio: '1 / 1',
-          borderRadius: '50%',
-          transform: `rotate(calc(2deg * ${tier}))`,
-        }}
-        contentProps={{ side: 'top', sideOffset: -15 }}
-        content={
-          <Flex column css={{ gap: '$sm' }}>
-            {tierMessage}
-          </Flex>
-        }
-      >
-        {nodes}
-      </Tooltip>
-      {allNodes.length > maxNodes && (
-        <Tooltip
+    <>
+      <Popover>
+        <PopoverTrigger
           css={{
-            position: 'absolute',
-            top: 8,
-            width: '100%',
-            height: 30,
-            textAlign: 'center',
+            zIndex: 1,
+            ...tierStyles,
           }}
-          contentCss={{
+        >
+          {allNodes.length > maxNodes && (
+            <Text
+              inline
+              css={{
+                cursor: 'pointer',
+                position: 'absolute',
+                top: 6,
+                zIndex: 0,
+                fontSize: '$small !important',
+              }}
+            >
+              + {allNodes.length - maxNodes} <Users fa />
+            </Text>
+          )}
+        </PopoverTrigger>
+        <PopoverContent
+          side="top"
+          css={{
             background: 'black',
             p: '$sm $md',
-            maxHeight: 400,
+            maxHeight: 285,
             overflow: 'auto',
-            color: 'white',
           }}
-          contentProps={{ side: 'bottom', sideOffset: -15 }}
-          content={
-            <Flex column css={{ gap: '$sm' }}>
-              <Text
-                semibold
-                css={{
-                  borderBottom: '1px solid $border',
-                  pb: '$sm',
-                  mb: '$xs',
-                }}
-              >
-                {tierMessage}
-              </Text>
-              {allNodes}
-            </Flex>
-          }
         >
-          <Text inline css={{ fontSize: '$small !important' }}>
-            + {allNodes.length - maxNodes} <Users fa />
-          </Text>
-        </Tooltip>
-      )}
-    </Box>
+          <Flex column css={{ gap: '$sm' }}>
+            <Text
+              semibold
+              css={{
+                borderBottom: `1px solid ${nodeBackground}`,
+                pb: '$sm',
+                mb: '$xs',
+              }}
+            >
+              {tierMessage}
+            </Text>
+            {allNodes}
+          </Flex>
+        </PopoverContent>
+      </Popover>
+      <Box
+        css={{
+          ...tierStyles,
+          background: tierBackground,
+        }}
+      >
+        {nodes}
+      </Box>
+    </>
   );
 };

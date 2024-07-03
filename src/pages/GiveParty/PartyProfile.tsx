@@ -49,6 +49,9 @@ export const PartyProfile = () => {
               '@lg': {
                 width: profileColumnWidth,
               },
+              '@sm': {
+                width: '100%',
+              },
             }}
           />
 
