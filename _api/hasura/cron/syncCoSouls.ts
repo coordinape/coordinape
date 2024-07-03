@@ -9,8 +9,8 @@ import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
 import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
-  getOnChainPGIVE,
-  setOnChainPGIVE,
+  getOnChainPGive,
+  setOnChainPGive,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
@@ -58,7 +58,7 @@ export async function syncCoSouls() {
   const ignored = [];
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
-    const onChainPGIVE = await getOnChainPGIVE(cosoul.token_id);
+    const onChainPGIVE = await getOnChainPGive(cosoul.token_id);
     let success = true;
     if (localPGIVE !== onChainPGIVE) {
       // update the screenshot
@@ -168,7 +168,7 @@ const syncCoSoulToken = async (
 ) => {
   if (totalPGIVE > 0) {
     totalPGIVE = Math.floor(totalPGIVE);
-    const tx = await setOnChainPGIVE(tokenId, totalPGIVE);
+    const tx = await setOnChainPGive({ tokenId, amount: totalPGIVE });
     await tx.wait();
     console.log(
       'set PGIVE on chain for tokenId: ' +

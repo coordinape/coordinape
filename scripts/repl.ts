@@ -26,9 +26,9 @@ import { publishCast, generateWarpCastUrl } from '../api-lib/neynar';
 import { genPgives } from '../api-lib/pgives';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import {
-  getOnChainPGIVE,
+  getOnChainPGive,
   getTokenId,
-  setOnChainPGIVE,
+  setOnChainPGive,
 } from '../src/features/cosoul/api/cosoul';
 // uncomment and change this to import your own repl code
 import { getLocalPGIVE } from '../src/features/cosoul/api/pgive.ts';
@@ -49,9 +49,9 @@ const init = async () => {
     // add your init code here
     syncCirclePGive,
     publishCast,
-    setOnChainPGIVE,
+    setOnChainPGive,
     getTokenId,
-    getOnChainPGIVE,
+    getOnChainPGive,
     syncCoSouls,
     storeCoSoulImage,
     sendEpochEndedEmail,

@@ -15,7 +15,7 @@ import { errorResponse } from '../../../../api-lib/HttpError';
 import {
   getTokenId,
   PGIVE_SYNC_DURATION_DAYS,
-  setOnChainPGIVE,
+  setOnChainPGive,
 } from '../../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';
@@ -189,7 +189,7 @@ async function syncPGive(address: string, tokenId: number) {
   await storeCoSoulImage(tokenId);
 
   // set pgive after because this triggers a metadata update + fetch from OpenSea
-  await setOnChainPGIVE(tokenId, pgive);
+  await setOnChainPGive({ tokenId, amount: pgive });
 }
 
 export const addGiveToProfile = async (profileId: number, amount: number) => {
