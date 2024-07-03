@@ -14,7 +14,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   }
 
   // june 26th 2024, when new scores started
-  const checkpointDate = new Date('2024-06-26T00:00:00Z');
+  const checkpointDate = new Date('2024-06-26T00:00:00Z').toISOString();
 
   // get profiles without reputation
   const { profiles } = await adminClient.query(
