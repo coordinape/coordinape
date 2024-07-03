@@ -13,7 +13,7 @@ export const BigQuestionCardCover = ({
   children,
 }: {
   question: BigQuestion;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   const state = getState(question);
   return (
