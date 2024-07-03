@@ -20,7 +20,7 @@ export const Bullseye = ({
   users: User[];
   tierMessage: React.ReactNode;
 }) => {
-  const tierSizes = ['35%', '54%', '71%', '85%', '98%'];
+  const tierSizes = ['34%', '53%', '70%', '84%', '98%'];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
     'radial-gradient(circle at center, rgba(0,0,0,0.2) 20%, rgb(153 13 235 / 68%) 75%)',
@@ -147,7 +147,7 @@ export const Bullseye = ({
         <Tooltip
           css={{
             position: 'absolute',
-            top: 10,
+            top: 8,
             width: '100%',
             height: 30,
             textAlign: 'center',
