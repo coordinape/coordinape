@@ -3,7 +3,9 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { IS_LOCAL_ENV } from '../../../api-lib/config.ts';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
+import { errorResponseWithStatusCode } from '../../../api-lib/HttpError.ts';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import { setBatchOnChainRep } from '../../../src/features/cosoul/api/cosoul.ts';
 
 const SYNC_BATCH_SIZE = 100;
 
@@ -15,7 +17,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   }
 
   // june 26th 2024, when new scores started
-  const checkpointDate = new Date('2024-07-03T00:00:00Z');
+  const checkpointDate = new Date('2024-07-03T20:31:00Z');
 
   // get profiles w/ cosouls that have reputation needing syncing
   // only include people with nonzero score, updated after checkpoint, and cosoul rep_synced_at before checkpoint
@@ -48,6 +50,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
           },
           cosoul: {
             id: true,
+            token_id: true,
           },
         },
       ],
@@ -60,15 +63,27 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
   if (profiles.length) {
     // eslint-disable-next-line no-console
     console.log(
-      `updating rep score for ${profiles.length} profiles starting at id ${profiles[0]?.id}`
+      `syncing rep score on chain for ${profiles.length} profiles starting at id ${profiles[0]?.id}`
     );
-    // Update the batch in parallel
-    // TODO: change this to batch sync on chain
-    // BATCH SYNC ON CHAIN HERE
-    // await Promise.all(profiles.map(p => updateRepScore(p.id)));
+
+    const tx = await setBatchOnChainRep(
+      profiles
+        .map(p => ({
+          tokenId: p.cosoul?.token_id ?? 0,
+          amount: p.reputation_score?.total_score ?? 0,
+        }))
+        .filter(p => p.tokenId && p.amount)
+    );
+    if (!tx) {
+      return errorResponseWithStatusCode(
+        res,
+        'failed to set on chain rep - no tx',
+        500
+      );
+    }
     // eslint-disable-next-line no-console
     console.log(
-      `updated rep score for ${profiles.length} profiles starting at id ${profiles[0]?.id}`
+      `synced rep score for ${profiles.length} profiles starting at id ${profiles[0]?.id} - tx: ${tx.transactionHash}`
     );
     await adminClient.mutate(
       {
