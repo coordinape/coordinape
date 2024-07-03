@@ -37,9 +37,18 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
               },
             },
             cosoul: {
-              rep_synced_at: {
-                _lte: checkpointDate,
-              },
+              _or: [
+                {
+                  rep_synced_at: {
+                    _is_null: true,
+                  },
+                },
+                {
+                  rep_synced_at: {
+                    _lte: checkpointDate,
+                  },
+                },
+              ],
             },
           },
         },
