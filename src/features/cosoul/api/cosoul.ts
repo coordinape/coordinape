@@ -113,7 +113,7 @@ export async function getMintInfo(txHash: string) {
   throw new Error('No Transfer event found in the transaction receipt');
 }
 
-export const getOnChainPGIVE = async (tokenId: number) => {
+export const getOnChainPGive = async (tokenId: number) => {
   const contract = getCoSoulContract();
   return (await contract.getSlot(PGIVE_SLOT, tokenId)).toNumber();
 };
@@ -147,12 +147,7 @@ const setSlotOnChain = async (slot: Slot, params: CoSoulArgs) => {
 
   const gasSettings = chain.gasSettings;
 
-  return await contract.setSlot(
-    PGIVE_SLOT,
-    amount,
-    params.tokenId,
-    gasSettings
-  );
+  return await contract.setSlot(slot, amount, params.tokenId, gasSettings);
 };
 
 const paddedHex = (

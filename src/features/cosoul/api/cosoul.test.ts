@@ -8,7 +8,7 @@ import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
 
 import {
   getMintInfo,
-  getOnChainPGIVE,
+  getOnChainPGive,
   getTokenId,
   mintCoSoulForAddress,
   setBatchOnChainPGive,
@@ -74,16 +74,16 @@ describe('with a minted nft', () => {
       expect(tokenId).toEqual(1);
     });
 
-    test('getOnChainPGIVE returns 0 before slot is set', async () => {
+    test('getOnChainPGive returns 0 before slot is set', async () => {
       assert(tokenId);
-      expect(await getOnChainPGIVE(tokenId)).toEqual(0);
+      expect(await getOnChainPGive(tokenId)).toEqual(0);
     });
 
     test('setOnChainPGive sets slot value', async () => {
       assert(tokenId);
       const amount = 300;
       await setOnChainPGive({ tokenId, amount });
-      expect(await getOnChainPGIVE(tokenId)).toEqual(300);
+      expect(await getOnChainPGive(tokenId)).toEqual(300);
     });
 
     test('setBatchOnChainPGive sets slot value', async () => {
@@ -92,7 +92,7 @@ describe('with a minted nft', () => {
       const args = [{ amount: 324, tokenId }];
 
       await setBatchOnChainPGive(args);
-      expect(await getOnChainPGIVE(tokenId)).toEqual(324);
+      expect(await getOnChainPGive(tokenId)).toEqual(324);
     });
   });
 });
