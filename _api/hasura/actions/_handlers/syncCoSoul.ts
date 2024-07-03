@@ -189,7 +189,7 @@ async function syncPGive(address: string, tokenId: number) {
   await storeCoSoulImage(tokenId);
 
   // set pgive after because this triggers a metadata update + fetch from OpenSea
-  await setOnChainPGive(tokenId, pgive);
+  await setOnChainPGive({ tokenId, amount: pgive });
 }
 
 export const addGiveToProfile = async (profileId: number, amount: number) => {
