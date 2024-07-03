@@ -19,7 +19,6 @@ export const updateRepScoreForAddress = async (address: string) => {
         },
         {
           id: true,
-          reputation_score: {},
         },
       ],
     },
@@ -31,10 +30,6 @@ export const updateRepScoreForAddress = async (address: string) => {
   const profile = profiles.pop();
   if (profile) {
     await updateRepScore(profile.id);
-    // TODO: if the score is >0 put it on chain? one_time? if reputation_score is nil or?
-    // TODO: when do we do this in the future? Can we batch this?
-    // TODO: just do this now once in the backfill, then ???
-    // TODO: how many can we batch at once?
   } else {
     throw new Error('no profile found for address: ' + address);
   }
