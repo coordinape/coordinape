@@ -150,39 +150,23 @@ const setSlotOnChain = async (slot: Slot, params: CoSoulArgs) => {
   return await contract.setSlot(slot, amount, params.tokenId, gasSettings);
 };
 
-const paddedHex = (
-  n: number,
-  length: number = 8,
-  prefix: boolean = false
-): string => {
+const paddedHex = (n: number, length: number = 8): string => {
   const _hex = n.toString(16); // convert number to hexadecimal
   const hexLen = _hex.length;
   const extra = '0'.repeat(length - hexLen);
-  let pre = '0x';
-  if (!prefix) {
-    pre = '';
-  }
   if (hexLen === length) {
-    return pre + _hex;
+    return _hex;
   } else if (hexLen < length) {
-    return pre + extra + _hex;
+    return extra + _hex;
   } else {
-    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+    throw new Error(
+      `Number: ${n} is too large to be padded in length ${length} bytes, _hex: ${_hex}; hexLen: ${hexLen}; extra: ${extra}`
+    );
   }
 };
 
 const getPayload = (amount: number, tokenId: number): string =>
   paddedHex(amount) + paddedHex(tokenId);
-
-/*
- * setBatchOnChainPGIVE: set a batch of pgive values on chain
- * @param params: an array of objects with tokenId and pGive values
- * @returns: a promise that resolves when the transaction is mined
- *
- * The contract expects data in the following format:
- * 0x00 (1 byte indicating slot) + 4 bytes for pgive + 4 bytes for tokenId
- * 0x00 is used as a separator between the slot and the pgive/tokenId pairs
- */
 
 export const setBatchOnChainPGive = async (params: CoSoulArgs[]) => {
   return await setBatchSlotOnChain(PGIVE_SLOT, params);
@@ -191,8 +175,20 @@ export const setBatchOnChainRep = async (params: CoSoulArgs[]) => {
   return await setBatchSlotOnChain(REP_SLOT, params);
 };
 
+/*
+ * setBatchSlotOnChain: set a batch of cosoul slots to given values on chain
+ * @param params: an array of objects with tokenId and amounts
+ * @returns: a promise that resolves when the transaction is mined
+ *
+ * The contract expects data in the following format:
+ * @param _data bytes data
+ *    3 bits for slot | one byte
+ *    after previous byte, alternate bewteen next elements like a packed array
+ *    4 bytes for each amount
+ *    4 bytes for each token ID
+ */
 export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
-  let payload = paddedHex(slot, 2, true); // 1byte for slot
+  let payload = '0x' + paddedHex(slot, 2); // 1byte for slot
   for (const { tokenId, amount } of params) {
     if (amount > 0) {
       // four bytes for pgive and four bytes for tokenId
