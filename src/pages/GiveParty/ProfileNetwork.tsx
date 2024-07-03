@@ -59,7 +59,7 @@ export const ProfileNetwork = ({
           aspectRatio: '1 / 1',
           ...(fullscreen
             ? {
-                fontSize: '3vmin',
+                fontSize: 17,
                 // marginTop: 150,
                 '@media (orientation: landscape)': {
                   height: 'calc(100vh - 220px)',
@@ -86,21 +86,10 @@ export const ProfileNetwork = ({
             />
           </Link>
         )}
-
         <Bullseye
-          tier={1}
-          users={usersTierOne}
-          tierMessage={<Text>Owns Colinks</Text>}
-        />
-        <Bullseye
-          tier={2}
-          users={usersTierTwo}
-          tierMessage={<Text>GIVE Transferred</Text>}
-        />
-        <Bullseye
-          tier={3}
-          users={usersTierThree}
-          tierMessage={<Text>Mutually Linked in FC</Text>}
+          tier={5}
+          users={usersTierFive}
+          tierMessage={<Text>Followers</Text>}
         />
         <Bullseye
           tier={4}
@@ -108,9 +97,20 @@ export const ProfileNetwork = ({
           tierMessage={<Text>Following</Text>}
         />
         <Bullseye
-          tier={5}
-          users={usersTierFive}
-          tierMessage={<Text>Followers</Text>}
+          tier={3}
+          users={usersTierThree}
+          tierMessage={<Text>Mutually Linked in FC</Text>}
+        />
+
+        <Bullseye
+          tier={2}
+          users={usersTierTwo}
+          tierMessage={<Text>GIVE Transferred</Text>}
+        />
+        <Bullseye
+          tier={1}
+          users={usersTierOne}
+          tierMessage={<Text>Owns Colinks</Text>}
         />
       </Box>
       {!fullscreen && (
