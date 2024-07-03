@@ -82,8 +82,6 @@ export const ProfileNetwork = ({
                 top: '50%',
                 position: 'absolute',
                 zIndex: 6,
-                width: '6vmin !important',
-                height: '6vmin',
               }}
             />
           </Link>
