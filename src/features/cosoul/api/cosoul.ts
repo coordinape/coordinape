@@ -6,8 +6,12 @@ import { getProvider } from '../../../../api-lib/provider';
 import { chain } from '../chains';
 import { Contracts } from '../contracts';
 
-const PGIVE_SLOT = 0;
+export const PGIVE_SLOT = 0;
+export const REP_SLOT = 1;
 export const PGIVE_SYNC_DURATION_DAYS = 30;
+
+type Slot = typeof PGIVE_SLOT | typeof REP_SLOT;
+type CoSoulArgs = { tokenId: number; amount: number };
 
 function getCoSoulContract() {
   const chainId = Number(chain.chainId);
@@ -43,26 +47,6 @@ export const getTokenId = async (address: string) => {
   return (
     await contract.tokenOfOwnerByIndex(address, BigNumber.from(0))
   ).toNumber();
-};
-
-// get the on-chain PGIVE balance for a given token
-export const getOnChainPGIVE = async (tokenId: number) => {
-  const contract = getCoSoulContract();
-  return (await contract.getSlot(PGIVE_SLOT, tokenId)).toNumber();
-};
-
-// set the on-chain PGIVE balance for a given token
-export const setOnChainPGIVE = async (tokenId: number, amt: number) => {
-  const contract = getSignedCoSoulContract();
-  const amount = Math.floor(amt);
-  // eslint-disable-next-line no-console
-  console.log(
-    'setting on chain PGIVE for tokenId: ' + tokenId + ' to ' + amount
-  );
-
-  const gasSettings = chain.gasSettings;
-
-  return await contract.setSlot(PGIVE_SLOT, amount, tokenId, gasSettings);
 };
 
 export const mintCoSoulForAddress = async (address: string) => {
@@ -129,6 +113,11 @@ export async function getMintInfo(txHash: string) {
   throw new Error('No Transfer event found in the transaction receipt');
 }
 
+export const getOnChainPGIVE = async (tokenId: number) => {
+  const contract = getCoSoulContract();
+  return (await contract.getSlot(PGIVE_SLOT, tokenId)).toNumber();
+};
+
 export async function getMintInfofromLogs(log: any) {
   if (log === undefined) return null;
   const iface = getCoSoulContract().interface;
@@ -138,3 +127,93 @@ export async function getMintInfofromLogs(log: any) {
   const tokenId = tokenIdBN.toNumber();
   return { from, to, tokenId };
 }
+
+export const setOnChainPGive = async (params: CoSoulArgs) => {
+  return await setSlotOnChain(PGIVE_SLOT, params);
+};
+
+export const setOnChainRep = async (params: CoSoulArgs) => {
+  return await setSlotOnChain(REP_SLOT, params);
+};
+
+// set the on-chain PGIVE balance for a given token
+const setSlotOnChain = async (slot: Slot, params: CoSoulArgs) => {
+  const contract = getSignedCoSoulContract();
+  const amount = Math.floor(params.amount);
+  // eslint-disable-next-line no-console
+  console.log(
+    `updating on-chain cosoul tokenId: ${params.tokenId} slot ${slot} to ${amount}`
+  );
+
+  const gasSettings = chain.gasSettings;
+
+  return await contract.setSlot(
+    PGIVE_SLOT,
+    amount,
+    params.tokenId,
+    gasSettings
+  );
+};
+
+const paddedHex = (
+  n: number,
+  length: number = 8,
+  prefix: boolean = false
+): string => {
+  const _hex = n.toString(16); // convert number to hexadecimal
+  const hexLen = _hex.length;
+  const extra = '0'.repeat(length - hexLen);
+  let pre = '0x';
+  if (!prefix) {
+    pre = '';
+  }
+  if (hexLen === length) {
+    return pre + _hex;
+  } else if (hexLen < length) {
+    return pre + extra + _hex;
+  } else {
+    return '?'.repeat(length); //it's hardf for pgive to need more than four bytes
+  }
+};
+
+const getPayload = (pGIVE: number, tokenId: number): string =>
+  paddedHex(pGIVE) + paddedHex(tokenId);
+
+/*
+ * setBatchOnChainPGIVE: set a batch of pgive values on chain
+ * @param params: an array of objects with tokenId and pGive values
+ * @returns: a promise that resolves when the transaction is mined
+ *
+ * The contract expects data in the following format:
+ * 0x00 (1 byte indicating slot) + 4 bytes for pgive + 4 bytes for tokenId
+ * 0x00 is used as a separator between the slot and the pgive/tokenId pairs
+ */
+
+export const setBatchOnChainPGive = async (params: CoSoulArgs[]) => {
+  return await setBatchSlotOnChain(PGIVE_SLOT, params);
+};
+export const setBatchOnChainRep = async (params: CoSoulArgs[]) => {
+  return await setBatchSlotOnChain(REP_SLOT, params);
+};
+
+export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
+  let payload = paddedHex(slot, 2, true); // 1byte for slot
+  for (const { tokenId, amount } of params) {
+    if (amount > 0) {
+      // four bytes for pgive and four bytes for tokenId
+      payload += getPayload(Math.floor(amount), tokenId);
+    }
+  }
+
+  // payload is only 0x00 if no pgive needs to be updated on chain
+  if (payload.length > 4) {
+    const contract = getSignedCoSoulContract();
+    const gasSettings = chain.gasSettings;
+    const tx = await contract.batchSetSlot_UfO(payload, gasSettings);
+    return await tx.wait();
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('No cosouls to update on chain');
+    return;
+  }
+};

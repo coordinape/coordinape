@@ -11,7 +11,8 @@ import {
   getOnChainPGIVE,
   getTokenId,
   mintCoSoulForAddress,
-  setOnChainPGIVE,
+  setBatchOnChainPGive,
+  setOnChainPGive,
 } from './cosoul';
 
 import { Awaited } from 'types/shim';
@@ -78,9 +79,19 @@ describe('with a minted nft', () => {
       expect(await getOnChainPGIVE(tokenId)).toEqual(0);
     });
 
-    test('setOnChainPGIVE sets slot value', async () => {
+    test('setOnChainPGive sets slot value', async () => {
       assert(tokenId);
-      await setOnChainPGIVE(tokenId, 324);
+      const amount = 300;
+      await setOnChainPGive({ tokenId, amount });
+      expect(await getOnChainPGIVE(tokenId)).toEqual(300);
+    });
+
+    test('setBatchOnChainPGive sets slot value', async () => {
+      assert(tokenId);
+
+      const args = [{ amount: 324, tokenId }];
+
+      await setBatchOnChainPGive(args);
       expect(await getOnChainPGIVE(tokenId)).toEqual(324);
     });
   });

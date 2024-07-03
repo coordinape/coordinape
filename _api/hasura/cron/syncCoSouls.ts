@@ -10,7 +10,7 @@ import { Awaited } from '../../../api-lib/ts4.5shim';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getOnChainPGIVE,
-  setOnChainPGIVE,
+  setOnChainPGive,
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
@@ -168,7 +168,7 @@ const syncCoSoulToken = async (
 ) => {
   if (totalPGIVE > 0) {
     totalPGIVE = Math.floor(totalPGIVE);
-    const tx = await setOnChainPGIVE(tokenId, totalPGIVE);
+    const tx = await setOnChainPGive({ tokenId, amount: totalPGIVE });
     await tx.wait();
     console.log(
       'set PGIVE on chain for tokenId: ' +
