@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
-import { Box } from 'ui';
+import { Box, Text } from 'ui';
 
 import { Bullseye } from './Bullseye';
 
@@ -24,11 +24,20 @@ export const ProfileNetwork = ({
     { enabled: !!address }
   );
 
-  const usersTierOne = (networkNodes?.nodes ?? []).slice(0, 10);
-  const usersTierTwo = (networkNodes?.nodes ?? []).slice(11, 20);
-  const usersTierThree = (networkNodes?.nodes ?? []).slice(21, 30);
-  const usersTierFour = (networkNodes?.nodes ?? []).slice(31, 40);
-  const usersTierFive = (networkNodes?.nodes ?? []).slice(41, 60);
+  const nodes = networkNodes?.nodes ?? [];
+
+  const filterNodesByScore = (minScore: number, maxScore: number) =>
+    nodes.filter(
+      (node: { score: number }) =>
+        node.score > minScore && node.score <= maxScore
+    );
+
+  const usersTierOne = filterNodesByScore(1000, Infinity); // score > 1000
+  const usersTierTwo = filterNodesByScore(500, 1000); // score > 500 and <= 1000
+  const usersTierThree = filterNodesByScore(100, 500); // score > 100 and <= 500
+  const usersTierFour = filterNodesByScore(10, 100); // score > 10 and <= 100
+  const usersTierFive = filterNodesByScore(-Infinity, 10); // score <= 10
+
   useEffect(() => {
     // eslint-disable-next-line no-console
     console.log('bullseye networkNodes:', networkNodes);
@@ -68,11 +77,31 @@ export const ProfileNetwork = ({
         />
       )} */}
 
-      <Bullseye tier={1} users={usersTierOne} />
-      <Bullseye tier={2} users={usersTierTwo} />
-      <Bullseye tier={3} users={usersTierThree} />
-      <Bullseye tier={4} users={usersTierFour} />
-      <Bullseye tier={5} users={usersTierFive} />
+      <Bullseye
+        tier={1}
+        users={usersTierOne}
+        tierMessage={<Text>Owns Colinks</Text>}
+      />
+      <Bullseye
+        tier={2}
+        users={usersTierTwo}
+        tierMessage={<Text>GIVE Transferred</Text>}
+      />
+      <Bullseye
+        tier={3}
+        users={usersTierThree}
+        tierMessage={<Text>Mutually Linked in FC</Text>}
+      />
+      <Bullseye
+        tier={4}
+        users={usersTierFour}
+        tierMessage={<Text>Following</Text>}
+      />
+      <Bullseye
+        tier={5}
+        users={usersTierFive}
+        tierMessage={<Text>Followers</Text>}
+      />
     </Box>
   );
 };
