@@ -171,8 +171,8 @@ const paddedHex = (
   }
 };
 
-const getPayload = (pGIVE: number, tokenId: number): string =>
-  paddedHex(pGIVE) + paddedHex(tokenId);
+const getPayload = (amount: number, tokenId: number): string =>
+  paddedHex(amount) + paddedHex(tokenId);
 
 /*
  * setBatchOnChainPGIVE: set a batch of pgive values on chain
