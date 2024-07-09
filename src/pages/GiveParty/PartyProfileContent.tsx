@@ -11,6 +11,7 @@ import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Link, Text } from 'ui';
 
+import { profileColumnWidth } from './PartyProfile';
 import { PartyProfileGives } from './PartyProfileGives';
 import { PartyProfileHeader } from './PartyProfileHeader';
 import { ProfileNetwork } from './ProfileNetwork';
@@ -73,10 +74,7 @@ export const PartyProfileContent = ({
         backgroundColor: 'rgb(8 18 29 / 25%)',
         borderRadius: '$2',
         margin: 'auto',
-        width: `calc(${artWidthMobile} + 140px)`,
-        '@xs': {
-          width: `calc(${artWidthMobile} + 30px)`,
-        },
+        width: profileColumnWidth,
         ...css,
       }}
     >

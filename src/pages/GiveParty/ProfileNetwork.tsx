@@ -3,9 +3,8 @@ import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
-import { Maximize } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Avatar, Box, Button, Link, Text } from 'ui';
+import { Avatar, Box, Flex, Link, Text } from 'ui';
 
 import { Bullseye } from './Bullseye';
 
@@ -57,6 +56,7 @@ export const ProfileNetwork = ({
           position: 'relative',
           width: '100%',
           aspectRatio: '1 / 1',
+          my: 100,
           ...(fullscreen
             ? {
                 fontSize: 17,
@@ -69,6 +69,9 @@ export const ProfileNetwork = ({
             : {
                 fontSize: 14,
               }),
+          '@xs': {
+            fontSize: '12px',
+          },
         }}
       >
         {profile && (
@@ -89,49 +92,49 @@ export const ProfileNetwork = ({
         <Bullseye
           tier={5}
           users={usersTierFive}
-          tierMessage={<Text>Followers</Text>}
+          tierMessage={<Text semibold>Followers</Text>}
         />
         <Bullseye
           tier={4}
           users={usersTierFour}
-          tierMessage={<Text>Following</Text>}
+          tierMessage={<Text semibold>Following</Text>}
         />
         <Bullseye
           tier={3}
           users={usersTierThree}
-          tierMessage={<Text>Mutually Linked in FC</Text>}
+          tierMessage={
+            <Flex column>
+              <Text semibold>Mutually Linked in FC</Text>{' '}
+            </Flex>
+          }
         />
 
         <Bullseye
           tier={2}
           users={usersTierTwo}
-          tierMessage={<Text>GIVE Transferred</Text>}
+          tierMessage={
+            <Flex column>
+              <Text semibold css={{ mb: '$xs' }}>
+                GIVE Transferred
+              </Text>{' '}
+              <Text size="xs">& Mutuals</Text>
+            </Flex>
+          }
         />
         <Bullseye
           tier={1}
           users={usersTierOne}
-          tierMessage={<Text>Owns Colinks</Text>}
+          tierMessage={
+            <Flex column>
+              <Text semibold css={{ mb: '$xs' }}>
+                Owns Colinks
+              </Text>{' '}
+              <Text size="xs">& GIVE tx</Text>
+              <Text size="xs">& Mutuals</Text>
+            </Flex>
+          }
         />
       </Box>
-      {!fullscreen && (
-        <Box
-          css={{
-            mt: '$sm',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Button
-            as={NavLink}
-            to={coLinksPaths.profileNetwork(`${address}`)}
-            color={'cta'}
-            size="xs"
-          >
-            <Maximize />
-            Expand View
-          </Button>
-        </Box>
-      )}
     </>
   );
 };

@@ -17,6 +17,8 @@ import { PartyProfileContent } from './PartyProfileContent';
 
 const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
+export const profileColumnWidth = 520;
+export const profileColumnWidthMobile = 380;
 export const PartyProfile = () => {
   const { address } = useParams();
   const { data } = useQuery([QUERY_KEY_PARTY_PROFILE, address, 'profile'], () =>
@@ -28,7 +30,6 @@ export const PartyProfile = () => {
     console.log('width:', width);
   }, []);
 
-  const profileColumnWidth = 520;
   const mapWidth = width - profileColumnWidth;
   const desktop = width > 1140;
 
@@ -45,12 +46,9 @@ export const PartyProfile = () => {
               zIndex: 1,
               position: desktop ? 'absolute' : 'relative',
               right: desktop ? '$md' : 0,
-              width: 600,
-              '@lg': {
-                width: profileColumnWidth,
-              },
-              '@sm': {
-                width: '100%',
+              width: profileColumnWidth,
+              '@xs': {
+                width: profileColumnWidthMobile,
               },
             }}
           />
