@@ -33,6 +33,7 @@ let user: any;
 let user2: any;
 let mainTx: Awaited<ReturnType<typeof contract.mint>>;
 let secondTx: Awaited<ReturnType<typeof contract.mint>>;
+let epochId: number;
 
 const req = {
   headers: { verification_key: process.env.HASURA_EVENT_SECRET },
@@ -43,8 +44,8 @@ const res: any = { status: vi.fn(() => res), json: vi.fn() };
 describe('syncCoSouls cron', () => {
   beforeEach(async () => {
     vi.spyOn(syncCosouls, 'isHistoricalPGiveFinished').mockResolvedValue(true);
-    vi.spyOn(cosoulApi, 'setOnChainPGIVE');
-    vi.spyOn(cosoulApi, 'setBatchOnChainPGIVE');
+    vi.spyOn(cosoulApi, 'setOnChainPGive');
+    vi.spyOn(cosoulApi, 'setBatchOnChainPGive');
 
     snapshotId = await takeSnapshot();
 
@@ -82,7 +83,7 @@ describe('syncCoSouls cron', () => {
       { operationName: 'syncCoSoul__deleteMembersEpochPGive' }
     );
 
-    await adminClient.mutate(
+    const { insert_epochs_one } = await adminClient.mutate(
       {
         insert_cosouls: [
           {
@@ -117,11 +118,30 @@ describe('syncCoSouls cron', () => {
             affected_rows: true,
           },
         ],
+        insert_epochs_one: [
+          {
+            object: {
+              circle_id: user.circle_id,
+              start_date: new Date(
+                Date.now() - 3 * 24 * 60 * 60 * 1000
+              ).toISOString(),
+              end_date: 'now()',
+              repeat_data: undefined,
+              ended: true,
+            },
+          },
+          {
+            id: true,
+          },
+        ],
       },
       {
         operationName: 'syncCoSoulTest__insertCoSoul',
       }
     );
+
+    assert(insert_epochs_one?.id);
+    epochId = insert_epochs_one.id;
   });
 
   afterEach(async () => {
@@ -152,7 +172,7 @@ describe('syncCoSouls cron', () => {
           {
             object: {
               user_id: user.id,
-              epoch_id: 1,
+              epoch_id: epochId,
               pgive: 500,
               normalized_pgive: 500,
             },
@@ -164,8 +184,11 @@ describe('syncCoSouls cron', () => {
     );
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-    expect(cosoulApi.setOnChainPGIVE).toHaveBeenCalledWith(mainTokenId, 500);
-    expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(500);
+    expect(cosoulApi.setOnChainPGive).toHaveBeenCalledWith({
+      tokenId: mainTokenId,
+      amount: 500,
+    });
+    expect(await cosoulApi.getOnChainPGive(mainTokenId)).toEqual(500);
   });
 
   test('updates pgive for multiple users on chain using setBatchOnChainPGIVE', async () => {
@@ -178,13 +201,13 @@ describe('syncCoSouls cron', () => {
             objects: [
               {
                 user_id: user.id,
-                epoch_id: 1,
+                epoch_id: epochId,
                 pgive: 320,
                 normalized_pgive: 320,
               },
               {
                 user_id: user2.id,
-                epoch_id: 1,
+                epoch_id: epochId,
                 pgive: 330,
                 normalized_pgive: 330,
               },
@@ -198,13 +221,12 @@ describe('syncCoSouls cron', () => {
 
     await handler(req, res);
     expect(res.json).toHaveBeenCalled();
-    let payload = '0x00';
-    payload +=
-      cosoulApi.getPayload(320, mainTokenId) +
-      cosoulApi.getPayload(330, secondTokenId);
-    expect(cosoulApi.setBatchOnChainPGIVE).toHaveBeenCalledWith(payload);
-    expect(cosoulApi.setOnChainPGIVE).not.toBeCalled();
-    expect(await cosoulApi.getOnChainPGIVE(mainTokenId)).toEqual(320);
-    expect(await cosoulApi.getOnChainPGIVE(secondTokenId)).toEqual(330);
+    expect(cosoulApi.setBatchOnChainPGive).toHaveBeenCalledWith([
+      { tokenId: mainTokenId, amount: 320 },
+      { tokenId: secondTokenId, amount: 330 },
+    ]);
+    expect(cosoulApi.setOnChainPGive).not.toBeCalled();
+    expect(await cosoulApi.getOnChainPGive(mainTokenId)).toEqual(320);
+    expect(await cosoulApi.getOnChainPGive(secondTokenId)).toEqual(330);
   });
 });
