@@ -16,7 +16,8 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       .json({ message: 'This endpoint is disabled in local environment.' });
   }
 
-  // june 26th 2024, when new scores started
+  // june 26th 2024, when new scores started;
+  // TODO: change this to monthly syncing
   const checkpointDate = new Date('2024-06-26T00:00:00Z').toISOString();
 
   // get profiles w/ cosouls that have reputation needing syncing
@@ -31,9 +32,6 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
             reputation_score: {
               total_score: {
                 _gt: 0,
-              },
-              updated_at: {
-                _gt: checkpointDate,
               },
             },
             cosoul: {
