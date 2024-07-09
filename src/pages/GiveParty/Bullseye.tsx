@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { artWidth } from 'features/cosoul';
 import { NavLink } from 'react-router-dom';
 
 import { Users } from 'icons/__generated';
@@ -41,8 +42,8 @@ export const Bullseye = ({
   ];
   const nodeBackgrounds = [
     '#9847FF',
-    '#16AF5D',
-    '#FFCD2A',
+    '#0BBF5F',
+    '#EEC43A',
     '#C7C7C7',
     '#D5D5D5',
   ];
@@ -51,7 +52,7 @@ export const Bullseye = ({
   const tierBackground = tierBackgrounds[tier - 1];
   const nodeBackground = nodeBackgrounds[tier - 1];
   const nodeSize = '1.5em';
-  const maxNodes = 30;
+  const maxNodes = 25;
   const numberOfNodes = users.length;
 
   const nodes = users.slice(0, maxNodes).map((user, i) => {
@@ -68,7 +69,7 @@ export const Bullseye = ({
         style={{
           position: 'absolute',
           background: nodeBackground,
-
+          zIndex: tierZIndex,
           borderRadius: '50%',
           display: 'flex',
           justifyContent: 'center',
@@ -112,6 +113,11 @@ export const Bullseye = ({
     </Link>
   ));
 
+  const tierHover = {
+    outline: `2px solid ${nodeBackground}`,
+    outlineOffset: '-2px',
+  };
+
   const tierStyles = {
     position: 'absolute',
     borderRadius: '50%',
@@ -123,72 +129,170 @@ export const Bullseye = ({
     alignItems: 'center',
     aspectRatio: '1 / 1',
     width: tierSize,
+    background: tierBackground,
     '&:hover': {
-      outline: `2px solid ${nodeBackground}`,
+      ...tierHover,
     },
     '@media (orientation: landscape)': {
       height: tierSize,
       width: 'auto',
     },
   };
+  const armBorderWidth = '2px';
+  const armStyle = {
+    width: 100,
+    p: '$sm $xs $md',
+    position: 'absolute',
+    borderBottom: `${armBorderWidth} solid $border `,
+    '@xs': {
+      width: 80,
+    },
+    '&:hover + div': {
+      ...tierHover,
+    },
+  };
+  const nodeLineStyle = {
+    content: '',
+    position: 'absolute',
+    bottom: `-${armBorderWidth}`,
+    maxWidth: `calc(($mediumScreen / 2) - (${artWidth} / 2))`,
+    borderBottom: `${armBorderWidth} solid $border `,
+  };
 
   return (
     // tiers
-    <>
-      <Popover>
-        <PopoverTrigger
-          css={{
-            zIndex: 1,
-            ...tierStyles,
-          }}
-        >
-          {allNodes.length > maxNodes && (
-            <Text
-              inline
+    <Box>
+      {/* data arm */}
+      <Box
+        css={{
+          ...armStyle,
+          right: 0,
+          borderColor: nodeBackground,
+          ...(tier === 1 && {
+            top: -50,
+            left: 5,
+            '&:after': {
+              ...nodeLineStyle,
+              borderColor: nodeBackground,
+              right: '0',
+              rotate: '-115deg',
+              transformOrigin: '100% 0',
+              width: 221,
+              '@xs': {
+                width: 160,
+              },
+            },
+          }),
+          ...(tier === 2 && {
+            top: -50,
+            left: `calc(50% - 45px)`,
+            '&:after': {
+              ...nodeLineStyle,
+              borderColor: nodeBackground,
+              right: '100%',
+              rotate: '-99deg',
+              transformOrigin: '100% 0',
+              width: 145,
+              '@xs': {
+                width: 113,
+                rotate: '-103deg',
+              },
+            },
+          }),
+          ...(tier === 3 && {
+            top: -50,
+            right: 5,
+            '&:after': {
+              ...nodeLineStyle,
+              borderColor: nodeBackground,
+              right: '100%',
+              rotate: '-66deg',
+              transformOrigin: '100% 0',
+              width: 134,
+              '@xs': {
+                width: 97,
+              },
+            },
+          }),
+          ...(tier === 4 && {
+            bottom: -35,
+            left: 5,
+            '&:after': {
+              ...nodeLineStyle,
+              borderColor: nodeBackground,
+              right: '0',
+              rotate: '114deg',
+              transformOrigin: '100% 0',
+              width: 105,
+              '@xs': {
+                width: 79,
+              },
+            },
+          }),
+          ...(tier === 5 && {
+            bottom: -35,
+            right: 5,
+            '&:after': {
+              ...nodeLineStyle,
+              borderColor: nodeBackground,
+              right: '100%',
+              rotate: '66deg',
+              transformOrigin: '100% 0',
+              width: 71,
+              '@xs': {
+                width: 55,
+              },
+            },
+          }),
+        }}
+      >
+        <Text className="nodeSubHeader">
+          <Popover>
+            <PopoverTrigger
               css={{
-                cursor: 'pointer',
                 position: 'absolute',
-                top: 6,
-                zIndex: 0,
-                fontSize: '$small !important',
-              }}
-            >
-              + {allNodes.length - maxNodes} <Users fa />
-            </Text>
-          )}
-        </PopoverTrigger>
-        <PopoverContent
-          side="top"
-          css={{
-            background: 'black',
-            p: '$sm $md',
-            maxHeight: 285,
-            overflow: 'auto',
-          }}
-        >
-          <Flex column css={{ gap: '$sm' }}>
-            <Text
-              semibold
-              css={{
-                borderBottom: `1px solid ${nodeBackground}`,
-                pb: '$sm',
-                mb: '$xs',
+                cursor: 'pointer',
+                bottom: '$sm',
+                fontSize: '$small',
+                '@xs': {
+                  fontSize: '$xs',
+                },
               }}
             >
               {tierMessage}
-            </Text>
-            {allNodes}
-          </Flex>
-        </PopoverContent>
-      </Popover>
-      <Box
-        css={{
-          ...tierStyles,
-          background: tierBackground,
-        }}
-      >
-        {nodes}
+              {allNodes.length > maxNodes && (
+                <Text inline css={{ fontSize: '$xs' }}>
+                  + {allNodes.length - maxNodes} <Users fa />
+                </Text>
+              )}
+            </PopoverTrigger>
+            <PopoverContent
+              side="top"
+              css={{
+                background: 'black',
+                p: '$sm $md',
+                maxHeight: 285,
+                overflow: 'auto',
+              }}
+            >
+              <Flex column css={{ gap: '$sm' }}>
+                <Text
+                  semibold
+                  css={{
+                    borderBottom: `1px solid ${nodeBackground}`,
+                    pb: '$sm',
+                    mb: '$xs',
+                  }}
+                >
+                  {tierMessage}
+                </Text>
+                {allNodes}
+              </Flex>
+            </PopoverContent>
+          </Popover>
+        </Text>
       </Box>
-    </>
+      <Box css={{ ...tierStyles }}>{nodes}</Box>
+    </Box>
   );
 };
