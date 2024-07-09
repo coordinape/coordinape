@@ -2,7 +2,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { IS_LOCAL_ENV } from '../../../api-lib/config';
+import { IS_LOCAL_ENV, IS_TEST_ENV } from '../../../api-lib/config';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
@@ -26,7 +26,7 @@ type CoSoul = Awaited<ReturnType<typeof getCoSoulsToUpdate>>[number];
 // This cron ensures that on-chain pgive reflects our local pgive state.
 // This should only process each CoSoul once per month
 async function handler(req: VercelRequest, res: VercelResponse) {
-  if (IS_LOCAL_ENV) {
+  if (IS_LOCAL_ENV && !IS_TEST_ENV) {
     return res.status(200).json({
       message: 'This endpoint is disabled in local environment.',
     });
