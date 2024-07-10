@@ -188,6 +188,7 @@ export const Bullseye = ({
             ...armStyle,
             right: 0,
             borderColor: nodeBackground,
+            // colinks
             ...(tier === 1 && {
               top: -50,
               left: 5,
@@ -204,6 +205,7 @@ export const Bullseye = ({
                 },
               },
             }),
+            // GIVE tx
             ...(tier === 2 && {
               top: -50,
               left: `calc(50% - 45px)`,
@@ -220,6 +222,7 @@ export const Bullseye = ({
                 },
               },
             }),
+            // mutuals
             ...(tier === 3 && {
               top: -50,
               right: 5,
@@ -236,6 +239,7 @@ export const Bullseye = ({
                 },
               },
             }),
+            // Following
             ...(tier === 4 && {
               bottom: -35,
               left: 5,
@@ -251,6 +255,7 @@ export const Bullseye = ({
                 },
               },
             }),
+            // Followers
             ...(tier === 5 && {
               bottom: -35,
               right: 5,
