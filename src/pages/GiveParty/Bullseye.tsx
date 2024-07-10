@@ -196,7 +196,7 @@ export const Bullseye = ({
                 borderColor: nodeBackground,
                 right: '0',
                 transformOrigin: '100% 0',
-                width: 221,
+                width: 222,
                 rotate: '-115deg',
                 '@xs': {
                   width: 151,

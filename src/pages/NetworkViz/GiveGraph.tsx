@@ -155,7 +155,7 @@ export function GiveGraph({
           open={visible}
           onOpenChange={onClose}
           css={{
-            maxWidth: 'calc(460px + $md + $md)',
+            maxWidth: 'calc(490px + $md + $md)',
             p: 0,
             border: 'none',
             background:
