@@ -104,7 +104,10 @@ export const ProfileNetwork = ({
           users={usersTierThree}
           tierMessage={
             <Flex column>
-              <Text semibold>Mutually Linked in FC</Text>{' '}
+              <Text semibold>
+                Mutually Linked <br />
+                in Farcaster
+              </Text>{' '}
             </Flex>
           }
         />

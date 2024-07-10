@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { useState } from 'react';
+
 import { artWidth } from 'features/cosoul';
 import { NavLink } from 'react-router-dom';
 
@@ -9,11 +11,11 @@ import {
   Box,
   Flex,
   Link,
-  Tooltip,
   Text,
   PopoverContent,
   Popover,
   PopoverTrigger,
+  Tooltip,
 } from 'ui';
 
 export interface User {
@@ -31,6 +33,10 @@ export const Bullseye = ({
   users: User[];
   tierMessage: React.ReactNode;
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => setIsHovered(true);
+  const handleMouseLeave = () => setIsHovered(false);
   const tierSizes = ['34%', '53%', '70%', '84%', '98%'];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
@@ -42,7 +48,7 @@ export const Bullseye = ({
   ];
   const nodeBackgrounds = [
     '#9847FF',
-    '#0BBF5F',
+    '#0CCB65',
     '#EEC43A',
     '#C7C7C7',
     '#D5D5D5',
@@ -85,11 +91,16 @@ export const Bullseye = ({
           transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
         }}
       >
-        <Avatar
-          name={user.username}
-          path={user.avatar}
-          css={{ width: '100% !important', height: '100% !important' }}
-        />
+        <Tooltip
+          contentCss={{ background: 'black', color: 'white' }}
+          content={user.username}
+        >
+          <Avatar
+            name={user.username}
+            path={user.avatar}
+            css={{ width: '100% !important', height: '100% !important' }}
+          />
+        </Tooltip>
       </Link>
     );
   });
@@ -117,8 +128,9 @@ export const Bullseye = ({
     outline: `2px solid ${nodeBackground}`,
     outlineOffset: '-2px',
   };
-
+  const handWidth = 100;
   const tierStyles = {
+    cursor: 'pointer',
     position: 'absolute',
     borderRadius: '50%',
     top: '50%',
@@ -133,14 +145,13 @@ export const Bullseye = ({
     '&:hover': {
       ...tierHover,
     },
-    '@media (orientation: landscape)': {
-      height: tierSize,
-      width: 'auto',
-    },
+    ...(isHovered && {
+      ...tierHover,
+    }),
   };
   const armBorderWidth = '2px';
   const armStyle = {
-    width: 100,
+    width: handWidth,
     p: '$sm $xs $md',
     position: 'absolute',
     borderBottom: `${armBorderWidth} solid $border `,
@@ -151,7 +162,7 @@ export const Bullseye = ({
       ...tierHover,
     },
   };
-  const nodeLineStyle = {
+  const armLineStyle = {
     content: '',
     position: 'absolute',
     bottom: `-${armBorderWidth}`,
@@ -161,94 +172,103 @@ export const Bullseye = ({
 
   return (
     // tiers
-    <Box>
-      {/* data arm */}
-      <Box
-        css={{
-          ...armStyle,
-          right: 0,
-          borderColor: nodeBackground,
-          ...(tier === 1 && {
-            top: -50,
-            left: 5,
-            '&:after': {
-              ...nodeLineStyle,
-              borderColor: nodeBackground,
-              right: '0',
-              rotate: '-115deg',
-              transformOrigin: '100% 0',
-              width: 221,
-              '@xs': {
-                width: 160,
+    <Popover>
+      {/* ring */}
+      <PopoverTrigger className="ringTrigger" css={{ ...tierStyles }}>
+        {nodes}
+      </PopoverTrigger>
+      <Box>
+        {/* data arm */}
+        <Box
+          css={{
+            ...armStyle,
+            right: 0,
+            borderColor: nodeBackground,
+            ...(tier === 1 && {
+              top: -50,
+              left: 5,
+              '&:after': {
+                ...armLineStyle,
+                borderColor: nodeBackground,
+                right: '0',
+                rotate: '-115deg',
+                transformOrigin: '100% 0',
+                width: 221,
+                '@xs': {
+                  width: 160,
+                },
               },
-            },
-          }),
-          ...(tier === 2 && {
-            top: -50,
-            left: `calc(50% - 45px)`,
-            '&:after': {
-              ...nodeLineStyle,
-              borderColor: nodeBackground,
-              right: '100%',
-              rotate: '-99deg',
-              transformOrigin: '100% 0',
-              width: 145,
-              '@xs': {
-                width: 113,
-                rotate: '-103deg',
+            }),
+            ...(tier === 2 && {
+              top: -50,
+              left: `calc(50% - 45px)`,
+              '&:after': {
+                ...armLineStyle,
+                borderColor: nodeBackground,
+                right: '100%',
+                rotate: '-99deg',
+                transformOrigin: '100% 0',
+                width: 145,
+                '@xs': {
+                  width: 113,
+                  rotate: '-103deg',
+                },
               },
-            },
-          }),
-          ...(tier === 3 && {
-            top: -50,
-            right: 5,
-            '&:after': {
-              ...nodeLineStyle,
-              borderColor: nodeBackground,
-              right: '100%',
-              rotate: '-66deg',
-              transformOrigin: '100% 0',
-              width: 134,
-              '@xs': {
-                width: 97,
+            }),
+            ...(tier === 3 && {
+              top: -50,
+              right: 5,
+              '&:after': {
+                ...armLineStyle,
+                borderColor: nodeBackground,
+                right: '100%',
+                rotate: '-66deg',
+                transformOrigin: '100% 0',
+                width: 134,
+                '@xs': {
+                  width: 97,
+                },
               },
-            },
-          }),
-          ...(tier === 4 && {
-            bottom: -35,
-            left: 5,
-            '&:after': {
-              ...nodeLineStyle,
-              borderColor: nodeBackground,
-              right: '0',
-              rotate: '114deg',
-              transformOrigin: '100% 0',
-              width: 105,
-              '@xs': {
-                width: 79,
+            }),
+            ...(tier === 4 && {
+              bottom: -35,
+              left: 5,
+              '&:after': {
+                ...armLineStyle,
+                borderColor: nodeBackground,
+                right: '0',
+                rotate: '114deg',
+                transformOrigin: '100% 0',
+                width: 105,
+                '@xs': {
+                  width: 79,
+                },
               },
-            },
-          }),
-          ...(tier === 5 && {
-            bottom: -35,
-            right: 5,
-            '&:after': {
-              ...nodeLineStyle,
-              borderColor: nodeBackground,
-              right: '100%',
-              rotate: '66deg',
-              transformOrigin: '100% 0',
-              width: 71,
-              '@xs': {
-                width: 55,
+            }),
+            ...(tier === 5 && {
+              bottom: -35,
+              right: 5,
+              '&:after': {
+                ...armLineStyle,
+                borderColor: nodeBackground,
+                right: '100%',
+                rotate: '66deg',
+                transformOrigin: '100% 0',
+                width: 71,
+                '@xs': {
+                  width: 55,
+                },
               },
-            },
-          }),
-        }}
-      >
-        <Text className="nodeSubHeader">
-          <Popover>
+            }),
+          }}
+        >
+          <Text
+            className="nodeSubHeader"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
             <PopoverTrigger
+              className="armTrigger"
               css={{
                 position: 'absolute',
                 cursor: 'pointer',
@@ -268,10 +288,12 @@ export const Bullseye = ({
             </PopoverTrigger>
             <PopoverContent
               side="top"
+              sideOffset={-50}
               css={{
                 background: 'black',
                 p: '$sm $md',
                 maxHeight: 285,
+                maxWidth: handWidth + 60,
                 overflow: 'auto',
               }}
             >
@@ -289,10 +311,9 @@ export const Bullseye = ({
                 {allNodes}
               </Flex>
             </PopoverContent>
-          </Popover>
-        </Text>
+          </Text>
+        </Box>
       </Box>
-      <Box css={{ ...tierStyles }}>{nodes}</Box>
-    </Box>
+    </Popover>
   );
 };
