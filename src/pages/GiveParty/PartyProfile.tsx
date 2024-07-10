@@ -18,7 +18,7 @@ import { PartyProfileContent } from './PartyProfileContent';
 const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
 export const profileColumnWidth = 520;
-export const profileColumnWidthMobile = 380;
+export const profileColumnWidthMobile = 360;
 export const PartyProfile = () => {
   const { address } = useParams();
   const { data } = useQuery([QUERY_KEY_PARTY_PROFILE, address, 'profile'], () =>

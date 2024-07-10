@@ -195,11 +195,12 @@ export const Bullseye = ({
                 ...armLineStyle,
                 borderColor: nodeBackground,
                 right: '0',
-                rotate: '-115deg',
                 transformOrigin: '100% 0',
                 width: 221,
+                rotate: '-115deg',
                 '@xs': {
-                  width: 160,
+                  width: 151,
+                  rotate: '-110deg',
                 },
               },
             }),
@@ -214,8 +215,8 @@ export const Bullseye = ({
                 transformOrigin: '100% 0',
                 width: 145,
                 '@xs': {
-                  width: 113,
-                  rotate: '-103deg',
+                  width: 109,
+                  rotate: '-105deg',
                 },
               },
             }),
@@ -230,7 +231,8 @@ export const Bullseye = ({
                 transformOrigin: '100% 0',
                 width: 134,
                 '@xs': {
-                  width: 97,
+                  width: 91,
+                  rotate: '-68deg',
                 },
               },
             }),
@@ -245,7 +247,7 @@ export const Bullseye = ({
                 transformOrigin: '100% 0',
                 width: 105,
                 '@xs': {
-                  width: 79,
+                  width: 74,
                 },
               },
             }),
@@ -260,7 +262,7 @@ export const Bullseye = ({
                 transformOrigin: '100% 0',
                 width: 71,
                 '@xs': {
-                  width: 55,
+                  width: 52,
                 },
               },
             }),
