@@ -7,10 +7,17 @@ import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse, InternalServerError } from '../../api-lib/HttpError.ts';
 import { fetchUserByAddress } from '../../api-lib/neynar.ts';
 
-const MUTUAL_FOLLOW_SCORE = 10000;
-const MUTUAL_LINK_SCORE = 1000;
-const GIVE_SENT_SCORE = 10;
-const GIVE_RECEIVED_SCORE = 10;
+// missing:
+
+const MAX_NODES_PER_CATEGORY = 50;
+
+const FARCASTER_FOLLOWER_SCORE = 1;
+const FARCASTER_FOLLOWS_SCORE = 10;
+const FARCASTER_MUTUAL_FOLLOW_SCORE = 100;
+const GIVE_SENT_TO_SCORE = 1000;
+const GIVE_RECEIVED_FROM_SCORE = 1000;
+// TODO: handle mutuals and both sides of link
+const COLINKED_SCORE = 10000;
 
 type NetworkNode = {
   address: string;
@@ -19,7 +26,9 @@ type NetworkNode = {
   tier: number;
   score: number;
   mutualFollows: boolean;
-  mutualLinks: boolean;
+  farcasterFollower: boolean;
+  farcasterFollows: boolean;
+  linkHolder: boolean;
   sentGiveTo: boolean;
   receivedGiveFrom: boolean;
   hasCoLinks: boolean;
@@ -89,49 +98,166 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 const getMutualFollowers = async (fid: number) => {
-  const { farcaster_mutual_follows } = await adminClient.query(
-    {
-      farcaster_mutual_follows: [
-        {
-          where: {
-            fid: { _eq: fid },
+  const { farcaster_mutual_follows, farcaster_mutual_follows_aggregate } =
+    await adminClient.query(
+      {
+        farcaster_mutual_follows: [
+          {
+            where: {
+              fid: { _eq: fid },
+            },
+            limit: MAX_NODES_PER_CATEGORY,
           },
-          limit: 1000,
-        },
-        {
-          target_fid: true,
-          target_profile_with_address: {
-            fname: true,
-            // display_name: true,
-            avatar_url: true,
-            // bio: true,
-            verified_addresses: [{}, true],
-            fids: {
-              custody_address: true,
+          {
+            target_fid: true,
+            target_profile_with_address: {
+              fname: true,
+              // display_name: true,
+              avatar_url: true,
+              // bio: true,
+              verified_addresses: [{}, true],
+              fids: {
+                custody_address: true,
+              },
             },
           },
-        },
-      ],
-    },
-    {
-      operationName: 'getNetwork__getMutualFollowers',
-    }
-  );
+        ],
+        farcaster_mutual_follows_aggregate: [
+          {
+            where: {
+              fid: { _eq: fid },
+            },
+          },
+          {
+            aggregate: {
+              count: [{}, true],
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'getNetwork__getMutualFollowers',
+      }
+    );
 
-  assert(farcaster_mutual_follows, 'error fetching mutual followers');
-
-  return farcaster_mutual_follows;
+  return {
+    farcaster_mutuals: farcaster_mutual_follows ?? [],
+    farcaster_mutuals_count:
+      farcaster_mutual_follows_aggregate?.aggregate?.count ?? 0,
+  };
 };
 
-const getMutualLinks = async (address: string) => {
-  const { mutual_link_holders } = await adminClient.query(
+const getFarcasterFollowers = async (fid: number) => {
+  const { farcaster_links, farcaster_links_aggregate } =
+    await adminClient.query(
+      {
+        farcaster_links: [
+          {
+            where: {
+              target_fid: { _eq: fid },
+              deleted_at: { _is_null: true },
+            },
+            limit: MAX_NODES_PER_CATEGORY,
+          },
+          {
+            target_fid: true,
+            profile_with_address: {
+              fname: true,
+              // display_name: true,
+              avatar_url: true,
+              // bio: true,
+              verified_addresses: [{}, true],
+              fids: {
+                custody_address: true,
+              },
+            },
+          },
+        ],
+        farcaster_links_aggregate: [
+          {
+            where: {
+              target_fid: { _eq: fid },
+              deleted_at: { _is_null: true },
+            },
+          },
+          {
+            aggregate: {
+              count: [{}, true],
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'getNetwork__getFarcasterFollowers',
+      }
+    );
+
+  return {
+    farcaster_followers: farcaster_links ?? [],
+    farcaster_followers_count: farcaster_links_aggregate?.aggregate?.count ?? 0,
+  };
+};
+
+const getFarcasterFollows = async (fid: number) => {
+  const { farcaster_links, farcaster_links_aggregate } =
+    await adminClient.query(
+      {
+        farcaster_links: [
+          {
+            where: {
+              fid: { _eq: fid },
+              deleted_at: { _is_null: true },
+            },
+            limit: MAX_NODES_PER_CATEGORY,
+          },
+          {
+            fid: true,
+            target_profile_with_address: {
+              fname: true,
+              // display_name: true,
+              avatar_url: true,
+              // bio: true,
+              verified_addresses: [{}, true],
+              fids: {
+                custody_address: true,
+              },
+            },
+          },
+        ],
+        farcaster_links_aggregate: [
+          {
+            where: {
+              fid: { _eq: fid },
+              deleted_at: { _is_null: true },
+            },
+          },
+          {
+            aggregate: {
+              count: [{}, true],
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'getNetwork__getFarcasterFollows',
+      }
+    );
+
+  return {
+    farcaster_follows: farcaster_links ?? [],
+    farcaster_follows_count: farcaster_links_aggregate?.aggregate?.count ?? 0,
+  };
+};
+
+const getLinks = async (address: string) => {
+  const { link_holders, link_holders_aggregate } = await adminClient.query(
     {
-      mutual_link_holders: [
+      link_holders: [
         {
           where: {
-            target: { _eq: address },
+            _or: [{ target: { _eq: address } }, { holder: { _eq: address } }],
           },
-          limit: 1000,
+          limit: MAX_NODES_PER_CATEGORY,
         },
         {
           holder_profile_public: {
@@ -141,15 +267,28 @@ const getMutualLinks = async (address: string) => {
           },
         },
       ],
+      link_holders_aggregate: [
+        {
+          where: {
+            _or: [{ target: { _eq: address } }, { holder: { _eq: address } }],
+          },
+        },
+        {
+          aggregate: {
+            count: [{}, true],
+          },
+        },
+      ],
     },
     {
-      operationName: 'getNetwork__getMutualFollowers',
+      operationName: 'getNetwork__getLinks',
     }
   );
 
-  assert(mutual_link_holders, 'no mutual link holders found');
-
-  return mutual_link_holders;
+  return {
+    link_holders: link_holders ?? [],
+    link_holders_count: link_holders_aggregate?.aggregate?.count ?? 0,
+  };
 };
 
 const getGiveNetwork = async (profileId: number) => {
@@ -206,7 +345,7 @@ const buildNetwork = async ({
   address: string;
   profileId?: number;
   fid?: number;
-}): Promise<NetworkNode[]> => {
+}) => {
   if (!profileId && !fid) {
     return [];
   }
@@ -238,16 +377,37 @@ const buildNetwork = async ({
     return node;
   };
 
-  if (profileId) {
-    const mutualLinks = await getMutualLinks(address);
+  const getNodeFromFarcasterProfile = (profile: {
+    verified_addresses?: any;
+    fids?: { custody_address: any };
+    fname?: string;
+    avatar_url?: string;
+  }) => {
+    const verifiedAddress = profile.verified_addresses[0];
 
-    for (const link of mutualLinks) {
+    const custodyAddress = hexToAddress(profile.fids?.custody_address ?? '');
+
+    const node = getOrCreateNetworkNode({
+      address: verifiedAddress ?? custodyAddress,
+      username: profile.fname || 'unknown',
+      avatar: profile.avatar_url,
+    });
+    return node;
+  };
+
+  let link_holders_count = 0;
+  if (profileId) {
+    const { link_holders, link_holders_count: lhc } = await getLinks(address);
+
+    link_holders_count = lhc;
+
+    for (const link of link_holders) {
       const node = getOrCreateNetworkNode({
         address: link.holder_profile_public?.address ?? 'unknown',
         username: link.holder_profile_public?.name,
         avatar: link.holder_profile_public?.avatar,
       });
-      node.mutualLinks = true;
+      node.linkHolder = true;
       node.hasCoLinks = true; // TODO: might have a colinks and not be mutual, not inclusive
     }
 
@@ -272,55 +432,104 @@ const buildNetwork = async ({
     }
   }
 
+  let farcaster_mutuals_count,
+    farcaster_followers_count,
+    farcaster_follows_count = 0;
+
   if (fid) {
-    const mutualFollowers = await getMutualFollowers(fid);
+    //mutuals
+    const { farcaster_mutuals, farcaster_mutuals_count: fmc } =
+      await getMutualFollowers(fid);
 
-    for (const follower of mutualFollowers) {
+    farcaster_mutuals_count = fmc;
+
+    for (const follower of farcaster_mutuals) {
       if (follower.target_profile_with_address) {
-        const verifiedAddress =
-          follower.target_profile_with_address.verified_addresses[0];
-
-        const custodyAddress = hexToAddress(
-          follower.target_profile_with_address.fids?.custody_address
+        const node = getNodeFromFarcasterProfile(
+          follower.target_profile_with_address
         );
-
-        const node = getOrCreateNetworkNode({
-          address: verifiedAddress ?? custodyAddress,
-          username: follower.target_profile_with_address.fname || 'unknown',
-          avatar: follower.target_profile_with_address?.avatar_url,
-        });
         node.mutualFollows = true;
+      }
+    }
+
+    // followers
+    const { farcaster_followers, farcaster_followers_count: ffc } =
+      await getFarcasterFollowers(fid);
+
+    farcaster_followers_count = ffc;
+
+    for (const follower of farcaster_followers) {
+      if (follower.profile_with_address) {
+        const node = getNodeFromFarcasterProfile(follower.profile_with_address);
+        node.farcasterFollower = true;
+      }
+    }
+
+    // following
+    const { farcaster_follows, farcaster_follows_count: foc } =
+      await getFarcasterFollows(fid);
+
+    farcaster_follows_count = foc;
+
+    for (const follower of farcaster_follows) {
+      if (follower.target_profile_with_address) {
+        const node = getNodeFromFarcasterProfile(
+          follower.target_profile_with_address
+        );
+        node.farcasterFollows = true;
       }
     }
   }
 
-  return Object.values(relations)
-    .map(node => {
-      return { ...node, ...calcScore(node) };
-    })
-    .sort((a, b) => b.score - a.score);
+  return {
+    nodes: Object.values(relations)
+      .map(node => {
+        return { ...node, ...calcScore(node) };
+      })
+      .sort((a, b) => b.score - a.score),
+    link_holders_count,
+    farcaster_mutuals_count,
+    farcaster_followers_count,
+    farcaster_follows_count,
+  };
 };
 
 const calcScore = (node: NetworkNode) => {
   let score = 0;
 
+  if (node.farcasterFollower) {
+    score += FARCASTER_FOLLOWER_SCORE;
+  }
+  if (node.farcasterFollows) {
+    score += FARCASTER_FOLLOWS_SCORE;
+  }
   if (node.mutualFollows) {
-    score += MUTUAL_FOLLOW_SCORE;
+    score += FARCASTER_MUTUAL_FOLLOW_SCORE;
   }
-
-  if (node.mutualLinks) {
-    score += MUTUAL_LINK_SCORE;
-  }
-
   if (node.sentGiveTo) {
-    score += GIVE_SENT_SCORE;
+    score += GIVE_SENT_TO_SCORE;
   }
-
   if (node.receivedGiveFrom) {
-    score += GIVE_RECEIVED_SCORE;
+    score += GIVE_RECEIVED_FROM_SCORE;
+  }
+  if (node.linkHolder) {
+    score += COLINKED_SCORE;
   }
 
+  const tier =
+    score >= COLINKED_SCORE
+      ? 5
+      : score >= GIVE_RECEIVED_FROM_SCORE
+        ? 4
+        : score >= FARCASTER_MUTUAL_FOLLOW_SCORE
+          ? 3
+          : score >= FARCASTER_FOLLOWS_SCORE
+            ? 2
+            : score >= FARCASTER_FOLLOWER_SCORE
+              ? 1
+              : 0;
   return {
+    tier,
     score,
   };
 };
