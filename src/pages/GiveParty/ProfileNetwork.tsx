@@ -26,19 +26,21 @@ export const ProfileNetwork = ({
   );
 
   const profile = data?.profile;
-  const nodes = data?.nodes ?? [];
 
-  const filterNodesByScore = (minScore: number, maxScore: number) =>
-    nodes.filter(
-      (node: { score: number }) =>
-        node.score > minScore && node.score <= maxScore
-    );
+  const network:
+    | {
+        nodes: any[];
+        tier_counts: { 1: number; 2: number; 3: number; 4: number; 5: number };
+      }
+    | undefined = data?.network;
 
-  const usersTierOne = filterNodesByScore(1000, Infinity); // score > 1000
-  const usersTierTwo = filterNodesByScore(500, 1000); // score > 500 and <= 1000
-  const usersTierThree = filterNodesByScore(100, 500); // score > 100 and <= 500
-  const usersTierFour = filterNodesByScore(10, 100); // score > 10 and <= 100
-  const usersTierFive = filterNodesByScore(-Infinity, 10); // score <= 10
+  const nodes = network?.nodes ?? [];
+
+  const usersTierOne = nodes.filter((n: any) => n.tier === 1);
+  const usersTierTwo = nodes.filter((n: any) => n.tier === 2);
+  const usersTierThree = nodes.filter((n: any) => n.tier === 3);
+  const usersTierFour = nodes.filter((n: any) => n.tier === 4);
+  const usersTierFive = nodes.filter((n: any) => n.tier === 5);
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -91,6 +93,7 @@ export const ProfileNetwork = ({
         )}
         <Bullseye
           tier={5}
+          totalCount={network?.tier_counts[5] ?? 0}
           users={usersTierFive}
           tierMessage={
             <Text semibold>
@@ -101,6 +104,7 @@ export const ProfileNetwork = ({
         />
         <Bullseye
           tier={4}
+          totalCount={network?.tier_counts[4] ?? 0}
           users={usersTierFour}
           tierMessage={
             <Text semibold>
@@ -113,6 +117,7 @@ export const ProfileNetwork = ({
         <Bullseye
           tier={3}
           users={usersTierThree}
+          totalCount={network?.tier_counts[3] ?? 0}
           tierMessage={
             <Flex column>
               <Text semibold>
@@ -126,6 +131,7 @@ export const ProfileNetwork = ({
         <Bullseye
           tier={2}
           users={usersTierTwo}
+          totalCount={network?.tier_counts[2] ?? 0}
           tierMessage={
             <Flex column>
               <Text semibold css={{ mb: '$xs' }}>
@@ -138,6 +144,7 @@ export const ProfileNetwork = ({
         <Bullseye
           tier={1}
           users={usersTierOne}
+          totalCount={network?.tier_counts[1] ?? 0}
           tierMessage={
             <Flex column>
               <Text semibold css={{ mb: '$xs' }}>

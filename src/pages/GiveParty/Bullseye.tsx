@@ -11,10 +11,10 @@ import {
   Box,
   Flex,
   Link,
-  Text,
-  PopoverContent,
   Popover,
+  PopoverContent,
   PopoverTrigger,
+  Text,
   Tooltip,
 } from 'ui';
 
@@ -30,9 +30,11 @@ export const Bullseye = ({
   tier,
   users,
   tierMessage,
+  totalCount,
 }: {
   tier: number;
   users: User[];
+  totalCount: number;
   tierMessage: React.ReactNode;
 }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -296,6 +298,7 @@ export const Bullseye = ({
                   + {abbreviateNumber(nodesCount - maxNodes)} <Users fa />
                 </Text>
               )}
+              TOTALCOUNT:{totalCount}
             </PopoverTrigger>
             <PopoverContent
               side="top"

@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getAddress } from 'ethers/lib/utils';
 
+import { colinks_gives_select_column } from '../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse, InternalServerError } from '../../api-lib/HttpError.ts';
 import { fetchUserByAddress } from '../../api-lib/neynar.ts';
@@ -84,14 +85,14 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
   }
 
-  const nodes = await buildNetwork({
+  const network = await buildNetwork({
     address,
     profileId: targetProfile?.id,
     fid: fcUser?.fid,
   });
 
   try {
-    return res.status(200).json({ profile: targetProfile, nodes });
+    return res.status(200).json({ profile: targetProfile, network });
   } catch (e) {
     throw new InternalServerError('Unable to gather network data', e);
   }
@@ -292,16 +293,39 @@ const getLinks = async (address: string) => {
 };
 
 const getGiveNetwork = async (profileId: number) => {
-  const { sentGiveTo, receivedGiveFrom } = await adminClient.query(
+  const { sentGiveTo, receivedGiveFrom, giverCounts } = await adminClient.query(
     {
       __alias: {
+        giverCounts: {
+          colinks_gives_aggregate: [
+            {
+              where: {
+                _or: [
+                  { profile_id: { _eq: profileId } },
+                  { target_profile_id: { _eq: profileId } },
+                ],
+              },
+              // TODO: This count is inflated if both gave to each other, not sure what to do yet
+              distinct_on: [
+                colinks_gives_select_column.profile_id,
+                colinks_gives_select_column.target_profile_id,
+              ],
+            },
+            {
+              aggregate: {
+                count: [{}, true],
+              },
+            },
+          ],
+        },
         sentGiveTo: {
           colinks_gives: [
             {
               where: {
                 profile_id: { _eq: profileId },
               },
-              limit: 1000,
+              distinct_on: [colinks_gives_select_column.target_profile_id],
+              limit: MAX_NODES_PER_CATEGORY,
             },
             {
               target_profile_public: {
@@ -318,7 +342,8 @@ const getGiveNetwork = async (profileId: number) => {
               where: {
                 target_profile_id: { _eq: profileId },
               },
-              limit: 1000,
+              distinct_on: [colinks_gives_select_column.profile_id],
+              limit: MAX_NODES_PER_CATEGORY,
             },
             {
               giver_profile_public: {
@@ -334,7 +359,11 @@ const getGiveNetwork = async (profileId: number) => {
     { operationName: 'api_network__getGiveNetwork' }
   );
 
-  return { sentGiveTo, receivedGiveFrom };
+  return {
+    sentGiveTo,
+    receivedGiveFrom,
+    giverCounts: giverCounts?.aggregate?.count ?? 0,
+  };
 };
 
 const buildNetwork = async ({
@@ -396,6 +425,7 @@ const buildNetwork = async ({
   };
 
   let link_holders_count = 0;
+  let give_transferred_count = 0;
   if (profileId) {
     const { link_holders, link_holders_count: lhc } = await getLinks(address);
 
@@ -411,8 +441,10 @@ const buildNetwork = async ({
       node.hasCoLinks = true; // TODO: might have a colinks and not be mutual, not inclusive
     }
 
-    const { sentGiveTo, receivedGiveFrom } = await getGiveNetwork(profileId);
+    const { sentGiveTo, receivedGiveFrom, giverCounts } =
+      await getGiveNetwork(profileId);
 
+    give_transferred_count = giverCounts;
     for (const give of sentGiveTo) {
       const node = getOrCreateNetworkNode({
         address: give.target_profile_public?.address ?? 'unknown',
@@ -487,10 +519,13 @@ const buildNetwork = async ({
         return { ...node, ...calcScore(node) };
       })
       .sort((a, b) => b.score - a.score),
-    link_holders_count,
-    farcaster_mutuals_count,
-    farcaster_followers_count,
-    farcaster_follows_count,
+    tier_counts: {
+      5: farcaster_followers_count,
+      4: farcaster_follows_count,
+      3: farcaster_mutuals_count,
+      2: give_transferred_count,
+      1: link_holders_count,
+    },
   };
 };
 
