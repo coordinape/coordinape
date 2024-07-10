@@ -92,12 +92,23 @@ export const ProfileNetwork = ({
         <Bullseye
           tier={5}
           users={usersTierFive}
-          tierMessage={<Text semibold>Followers</Text>}
+          tierMessage={
+            <Text semibold>
+              Followers <br />
+              in Farcaster
+            </Text>
+          }
         />
         <Bullseye
           tier={4}
           users={usersTierFour}
-          tierMessage={<Text semibold>Following</Text>}
+          tierMessage={
+            <Text semibold>
+              Following
+              <br />
+              in Farcaster
+            </Text>
+          }
         />
         <Bullseye
           tier={3}

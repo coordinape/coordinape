@@ -18,6 +18,8 @@ import {
   Tooltip,
 } from 'ui';
 
+import { abbreviateNumber } from './PartyStats';
+
 export interface User {
   username: string;
   avatar: string;
@@ -59,10 +61,13 @@ export const Bullseye = ({
   const nodeBackground = nodeBackgrounds[tier - 1];
   const nodeSize = '1.5em';
   const maxNodes = 25;
-  const numberOfNodes = users.length;
+  const nodesCount = users.length;
+  const maxPopoverUsers = 200;
+  const popoverUsers = users.slice(0, maxPopoverUsers);
+  const popoverUsersOverflowCount = nodesCount - maxPopoverUsers;
 
   const nodes = users.slice(0, maxNodes).map((user, i) => {
-    const angle = (i / Math.min(numberOfNodes, maxNodes)) * 2 * Math.PI;
+    const angle = (i / Math.min(nodesCount, maxNodes)) * 2 * Math.PI;
     const x = 50 + 50 * Math.cos(angle);
     const y = 50 + 50 * Math.sin(angle);
 
@@ -104,8 +109,7 @@ export const Bullseye = ({
       </Link>
     );
   });
-
-  const allNodes = users.map(user => (
+  const popoverNodes = popoverUsers.map(user => (
     <Link
       as={NavLink}
       to={coLinksPaths.partyProfile(user.address || '')}
@@ -280,9 +284,9 @@ export const Bullseye = ({
               }}
             >
               {tierMessage}
-              {allNodes.length > maxNodes && (
+              {nodesCount > maxNodes && (
                 <Text inline css={{ fontSize: '$xs' }}>
-                  + {allNodes.length - maxNodes} <Users fa />
+                  + {abbreviateNumber(nodesCount - maxNodes)} <Users fa />
                 </Text>
               )}
             </PopoverTrigger>
@@ -308,7 +312,12 @@ export const Bullseye = ({
                 >
                   {tierMessage}
                 </Text>
-                {allNodes}
+                {popoverNodes}
+                {popoverUsersOverflowCount > 0 && (
+                  <Text size="xs">
+                    ...and {abbreviateNumber(popoverUsersOverflowCount)} more
+                  </Text>
+                )}
               </Flex>
             </PopoverContent>
           </Text>
