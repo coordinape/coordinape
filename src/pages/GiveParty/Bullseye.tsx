@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from 'react';
 
 import { artWidth } from 'features/cosoul';
@@ -42,6 +41,8 @@ export const Bullseye = ({
   const handleMouseEnter = () => setIsHovered(true);
   const handleMouseLeave = () => setIsHovered(false);
   const tierSizes = ['34%', '53%', '70%', '84%', '98%'];
+  const nodeSizes = ['30px', '24px', '20px', '18px', '14px'];
+  const maxNodesInTier = [20, 24, 30, 22, 45];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
     'radial-gradient(circle at center, rgba(0,0,0,0.2) 20%, rgb(153 13 235 / 68%) 75%)',
@@ -61,12 +62,12 @@ export const Bullseye = ({
   const tierZIndex = tierZIndexes[tier - 1];
   const tierBackground = tierBackgrounds[tier - 1];
   const nodeBackground = nodeBackgrounds[tier - 1];
-  const nodeSize = '1.5em';
-  const maxNodes = 25;
+  const nodeSize = nodeSizes[tier - 1];
+  const maxNodes = maxNodesInTier[tier - 1];
   const nodesCount = users.length;
-  const maxPopoverUsers = 200;
+  const maxPopoverUsers = 48;
   const popoverUsers = users.slice(0, maxPopoverUsers);
-  const popoverUsersOverflowCount = nodesCount - maxPopoverUsers;
+  const popoverUsersOverflowCount = totalCount - maxPopoverUsers;
 
   const nodes = users.slice(0, maxNodes).map((user, i) => {
     const angle = (i / Math.min(nodesCount, maxNodes)) * 2 * Math.PI;
@@ -293,12 +294,12 @@ export const Bullseye = ({
               }}
             >
               {tierMessage}
-              {nodesCount > maxNodes && (
+              {totalCount > maxNodes && (
                 <Text inline css={{ fontSize: '$xs' }}>
-                  + {abbreviateNumber(nodesCount - maxNodes)} <Users fa />
+                  + {abbreviateNumber(totalCount - maxNodes)} <Users fa />
                 </Text>
               )}
-              TOTALCOUNT:{totalCount}
+              {/* TOTALCOUNT:{totalCount} */}
             </PopoverTrigger>
             <PopoverContent
               side="top"

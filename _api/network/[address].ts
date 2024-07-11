@@ -553,15 +553,15 @@ const calcScore = (node: NetworkNode) => {
 
   const tier =
     score >= COLINKED_SCORE
-      ? 5
+      ? 1
       : score >= GIVE_RECEIVED_FROM_SCORE
-        ? 4
+        ? 2
         : score >= FARCASTER_MUTUAL_FOLLOW_SCORE
           ? 3
           : score >= FARCASTER_FOLLOWS_SCORE
-            ? 2
+            ? 4
             : score >= FARCASTER_FOLLOWER_SCORE
-              ? 1
+              ? 5
               : 0;
   return {
     tier,

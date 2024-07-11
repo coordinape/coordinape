@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
@@ -41,15 +39,6 @@ export const ProfileNetwork = ({
   const usersTierThree = nodes.filter((n: any) => n.tier === 3);
   const usersTierFour = nodes.filter((n: any) => n.tier === 4);
   const usersTierFive = nodes.filter((n: any) => n.tier === 5);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('bullseye networkNodes:', nodes);
-  }, [nodes]);
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('bullseye profile:', profile);
-  }, [profile]);
 
   return (
     <>
