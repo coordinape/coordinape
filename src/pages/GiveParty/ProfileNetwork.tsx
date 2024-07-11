@@ -1,57 +1,151 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import React, { useEffect } from 'react';
-
-import { fetchCoSoul } from 'features/colinks/fetchCoSouls';
-import { anonClient } from 'lib/anongql/anonClient';
-import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 
-import { Avatar, Box } from 'ui';
+import { coLinksPaths } from 'routes/paths';
+import { Avatar, Box, Flex, Link, Text } from 'ui';
 
-import { NodesOnCircle, User } from './NodesOnCircle';
+import { Bullseye } from './Bullseye';
 
 const QUERY_KEY_NETWORK = 'network';
 
-export const ProfileNetwork: React.FC = () => {
-  const { address } = useParams();
-  const { data: networkNodes } = useQuery(
+export const ProfileNetwork = ({
+  targetAddress,
+  fullscreen = false,
+}: {
+  targetAddress?: string;
+  fullscreen?: boolean;
+}) => {
+  const { address: paramAddress } = useParams<{ address: string }>();
+  const address = targetAddress ?? paramAddress;
+  const { data } = useQuery(
     [QUERY_KEY_NETWORK, address, 'profile'],
     async () => await fetchNetworkNodes(address!),
     { enabled: !!address }
   );
-  const usersTierOne = (networkNodes?.nodes ?? []).slice(0, 10);
-  const usersTierTwo = (networkNodes?.nodes ?? []).slice(11, 20);
-  const usersTierThree = (networkNodes?.nodes ?? []).slice(21, 30);
-  const usersTierFour = (networkNodes?.nodes ?? []).slice(31, 40);
-  const usersTierFive = (networkNodes?.nodes ?? []).slice(41, 60);
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(networkNodes);
-  }, [networkNodes]);
+
+  const profile = data?.profile;
+
+  const network:
+    | {
+        nodes: any[];
+        tier_counts: { 1: number; 2: number; 3: number; 4: number; 5: number };
+      }
+    | undefined = data?.network;
+
+  const nodes = network?.nodes ?? [];
+
+  const usersTierOne = nodes.filter((n: any) => n.tier === 1);
+  const usersTierTwo = nodes.filter((n: any) => n.tier === 2);
+  const usersTierThree = nodes.filter((n: any) => n.tier === 3);
+  const usersTierFour = nodes.filter((n: any) => n.tier === 4);
+  const usersTierFive = nodes.filter((n: any) => n.tier === 5);
 
   return (
-    <Box css={{ position: 'relative', width: '100vw', height: '100vh' }}>
-      {/* {profile && (
-        <Avatar
-          name={profile.name}
-          path={profile.avatar}
-          css={{
-            position: 'absolute',
-            transform: `translate(calc(50vw - 3vmin), calc(50vh - 3vmin))`,
-            zIndex: 6,
-            width: '6vmin !important',
-            height: '6vmin',
-          }}
+    <>
+      <Box
+        css={{
+          position: 'relative',
+          width: '100%',
+          aspectRatio: '1 / 1',
+          my: 100,
+          ...(fullscreen
+            ? {
+                fontSize: 17,
+                // marginTop: 150,
+                '@media (orientation: landscape)': {
+                  height: 'calc(100vh - 220px)',
+                  minHeight: 600,
+                },
+              }
+            : {
+                fontSize: 14,
+              }),
+          '@xs': {
+            fontSize: '12px',
+          },
+        }}
+      >
+        {profile && (
+          <Link as={NavLink} to={coLinksPaths.partyProfile(`${address}`)}>
+            <Avatar
+              name={profile.name}
+              path={profile.avatar}
+              css={{
+                transform: `translate(-50%, -50%)`,
+                left: '50%',
+                top: '50%',
+                position: 'absolute',
+                zIndex: 6,
+              }}
+            />
+          </Link>
+        )}
+        <Bullseye
+          tier={5}
+          totalCount={network?.tier_counts[5] ?? 0}
+          users={usersTierFive}
+          tierMessage={
+            <Text semibold>
+              Followers <br />
+              in Farcaster
+            </Text>
+          }
         />
-      )} */}
-      <NodesOnCircle tier={1} users={usersTierOne} />
-      <NodesOnCircle tier={2} users={usersTierTwo} />
-      <NodesOnCircle tier={3} users={usersTierThree} />
-      <NodesOnCircle tier={4} users={usersTierFour} />
-      <NodesOnCircle tier={5} users={usersTierFive} />
-    </Box>
+        <Bullseye
+          tier={4}
+          totalCount={network?.tier_counts[4] ?? 0}
+          users={usersTierFour}
+          tierMessage={
+            <Text semibold>
+              Following
+              <br />
+              in Farcaster
+            </Text>
+          }
+        />
+        <Bullseye
+          tier={3}
+          users={usersTierThree}
+          totalCount={network?.tier_counts[3] ?? 0}
+          tierMessage={
+            <Flex column>
+              <Text semibold>
+                Mutually Linked <br />
+                in Farcaster
+              </Text>{' '}
+            </Flex>
+          }
+        />
+
+        <Bullseye
+          tier={2}
+          users={usersTierTwo}
+          totalCount={network?.tier_counts[2] ?? 0}
+          tierMessage={
+            <Flex column>
+              <Text semibold css={{ mb: '$xs' }}>
+                GIVE Transferred
+              </Text>{' '}
+              <Text size="xs">& Mutuals</Text>
+            </Flex>
+          }
+        />
+        <Bullseye
+          tier={1}
+          users={usersTierOne}
+          totalCount={network?.tier_counts[1] ?? 0}
+          tierMessage={
+            <Flex column>
+              <Text semibold css={{ mb: '$xs' }}>
+                Owns Colinks
+              </Text>{' '}
+              <Text size="xs">& GIVE tx</Text>
+              <Text size="xs">& Mutuals</Text>
+            </Flex>
+          }
+        />
+      </Box>
+    </>
   );
 };
 

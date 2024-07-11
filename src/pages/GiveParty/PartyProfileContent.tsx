@@ -13,6 +13,7 @@ import { Button, Flex, Link, Text } from 'ui';
 
 import { PartyProfileGives } from './PartyProfileGives';
 import { PartyProfileHeader } from './PartyProfileHeader';
+import { ProfileNetwork } from './ProfileNetwork';
 
 const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
 
@@ -72,10 +73,6 @@ export const PartyProfileContent = ({
         backgroundColor: 'rgb(8 18 29 / 25%)',
         borderRadius: '$2',
         margin: 'auto',
-        width: `calc(${artWidthMobile} + 140px)`,
-        '@xs': {
-          width: `calc(${artWidthMobile} + 30px)`,
-        },
         ...css,
       }}
     >
@@ -123,6 +120,7 @@ export const PartyProfileContent = ({
             alignItems: 'center',
           }}
         >
+          <ProfileNetwork targetAddress={address} />
           <PartyProfileGives profileId={targetProfile.id} />
           <Flex
             column

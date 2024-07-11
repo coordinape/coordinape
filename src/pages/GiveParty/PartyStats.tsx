@@ -61,7 +61,7 @@ export const PartyStats = ({
   );
 };
 
-function abbreviateNumber(num: number): string {
+export function abbreviateNumber(num: number): string {
   if (num < 1000) {
     return num.toString();
   } else if (num < 10000) {

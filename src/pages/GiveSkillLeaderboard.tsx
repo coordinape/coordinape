@@ -4,12 +4,13 @@ import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
 import { webAppURL } from '../config/webAppURL';
-import { Wand } from '../icons/__generated';
+import { Maximize, Wand } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
 import { disabledStyle } from '../stitches.config';
 import { shortenAddressWithFrontLength } from '../utils';
+import { LoadingIndicator } from 'components/LoadingIndicator';
 import { Avatar, Button, Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
@@ -40,7 +41,7 @@ export const GiveSkillLeaderboard = () => {
     }
   };
 
-  const { data } = useQuery(['give_leaderboard'], async () => {
+  const { data, isLoading } = useQuery(['give_leaderboard'], async () => {
     const { colinks_gives_skill_count } = await anonClient.query(
       {
         colinks_gives_skill_count: [
@@ -116,6 +117,16 @@ export const GiveSkillLeaderboard = () => {
   }, [data, sort, desc]);
 
   const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
+
+  if (!data || isLoading)
+    return (
+      <>
+        <Flex column css={{ width: '100%', mb: '$1xl' }}>
+          <LoadingIndicator />
+        </Flex>
+      </>
+    );
+
   return (
     <>
       <PartyBody css={{ gap: '$lg' }}>
@@ -207,6 +218,7 @@ export const GiveSkillLeaderboard = () => {
                   color={'cta'}
                   size="xs"
                 >
+                  <Maximize />
                   Expand View
                 </Button>
               </Flex>
