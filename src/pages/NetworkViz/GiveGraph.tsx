@@ -133,8 +133,6 @@ export function GiveGraph({
         });
       }
     }
-    // eslint-disable-next-line no-console
-    console.log('forcegraph data:', data);
   }, [data, isFetched, setGraphReady]);
 
   if (!data || isLoading || !graphReady)
