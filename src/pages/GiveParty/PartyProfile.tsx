@@ -1,9 +1,4 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useEffect } from 'react';
-
 import { useWindowSize } from '@react-hook/window-size';
-import { artWidthMobile } from 'features/cosoul';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
@@ -25,10 +20,6 @@ export const PartyProfile = () => {
     fetchCoLinksProfile(address!)
   );
   const [width] = useWindowSize();
-
-  useEffect(() => {
-    console.log('width:', width);
-  }, []);
 
   const mapWidth = width - profileColumnWidth;
   const desktop = width > 1140;

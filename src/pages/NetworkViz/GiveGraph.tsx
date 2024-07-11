@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect, useRef, useState, lazy } from 'react';
 
 import { NodeObject } from 'react-force-graph-2d';
