@@ -8,8 +8,6 @@ import { adminClient } from '../../api-lib/gql/adminClient.ts';
 import { errorResponse, InternalServerError } from '../../api-lib/HttpError.ts';
 import { fetchUserByAddress } from '../../api-lib/neynar.ts';
 
-// missing:
-
 const MAX_NODES_PER_CATEGORY = 50;
 
 const FARCASTER_FOLLOWER_SCORE = 1;
