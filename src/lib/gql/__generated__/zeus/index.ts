@@ -16261,6 +16261,7 @@ export type ValueTypes = {
     colinks_engagement_score?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     email_score?: boolean | `@${string}`;
+    farcaster_score?: boolean | `@${string}`;
     github_score?: boolean | `@${string}`;
     invite_score?: boolean | `@${string}`;
     linkedin_score?: boolean | `@${string}`;
@@ -16268,6 +16269,7 @@ export type ValueTypes = {
     pgive_score?: boolean | `@${string}`;
     poap_score?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    social_give_score?: boolean | `@${string}`;
     total_score?: boolean | `@${string}`;
     twitter_score?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -16284,6 +16286,7 @@ export type ValueTypes = {
       | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     email_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    farcaster_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     github_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     invite_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     linkedin_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -16291,6 +16294,7 @@ export type ValueTypes = {
     pgive_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     poap_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    social_give_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     total_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     twitter_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -16300,6 +16304,7 @@ export type ValueTypes = {
     colinks_engagement_score?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     email_score?: ValueTypes['order_by'] | undefined | null;
+    farcaster_score?: ValueTypes['order_by'] | undefined | null;
     github_score?: ValueTypes['order_by'] | undefined | null;
     invite_score?: ValueTypes['order_by'] | undefined | null;
     linkedin_score?: ValueTypes['order_by'] | undefined | null;
@@ -16307,6 +16312,7 @@ export type ValueTypes = {
     pgive_score?: ValueTypes['order_by'] | undefined | null;
     poap_score?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    social_give_score?: ValueTypes['order_by'] | undefined | null;
     total_score?: ValueTypes['order_by'] | undefined | null;
     twitter_score?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -16325,6 +16331,7 @@ export type ValueTypes = {
     colinks_engagement_score?: number | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     email_score?: number | undefined | null;
+    farcaster_score?: number | undefined | null;
     github_score?: number | undefined | null;
     invite_score?: number | undefined | null;
     linkedin_score?: number | undefined | null;
@@ -16332,6 +16339,7 @@ export type ValueTypes = {
     pgive_score?: number | undefined | null;
     poap_score?: number | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
+    social_give_score?: number | undefined | null;
     total_score?: number | undefined | null;
     twitter_score?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -26671,6 +26679,7 @@ export type ModelTypes = {
     colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
+    farcaster_score: number;
     github_score: number;
     invite_score: number;
     linkedin_score: number;
@@ -26678,6 +26687,7 @@ export type ModelTypes = {
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
+    social_give_score: number;
     total_score: number;
     twitter_score: number;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -38575,6 +38585,7 @@ export type GraphQLTypes = {
     colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score: number;
+    farcaster_score: number;
     github_score: number;
     invite_score: number;
     linkedin_score: number;
@@ -38582,6 +38593,7 @@ export type GraphQLTypes = {
     pgive_score: number;
     poap_score: number;
     profile_id: GraphQLTypes['bigint'];
+    social_give_score: number;
     total_score: number;
     twitter_score: number;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -38594,6 +38606,7 @@ export type GraphQLTypes = {
     colinks_engagement_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     email_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    farcaster_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     github_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     invite_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     linkedin_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -38601,6 +38614,7 @@ export type GraphQLTypes = {
     pgive_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     poap_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    social_give_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     total_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     twitter_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -38610,6 +38624,7 @@ export type GraphQLTypes = {
     colinks_engagement_score?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     email_score?: GraphQLTypes['order_by'] | undefined;
+    farcaster_score?: GraphQLTypes['order_by'] | undefined;
     github_score?: GraphQLTypes['order_by'] | undefined;
     invite_score?: GraphQLTypes['order_by'] | undefined;
     linkedin_score?: GraphQLTypes['order_by'] | undefined;
@@ -38617,6 +38632,7 @@ export type GraphQLTypes = {
     pgive_score?: GraphQLTypes['order_by'] | undefined;
     poap_score?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    social_give_score?: GraphQLTypes['order_by'] | undefined;
     total_score?: GraphQLTypes['order_by'] | undefined;
     twitter_score?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -38635,6 +38651,7 @@ export type GraphQLTypes = {
     colinks_engagement_score?: number | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     email_score?: number | undefined;
+    farcaster_score?: number | undefined;
     github_score?: number | undefined;
     invite_score?: number | undefined;
     linkedin_score?: number | undefined;
@@ -38642,6 +38659,7 @@ export type GraphQLTypes = {
     pgive_score?: number | undefined;
     poap_score?: number | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
+    social_give_score?: number | undefined;
     total_score?: number | undefined;
     twitter_score?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -41569,6 +41587,7 @@ export const enum reputation_scores_select_column {
   colinks_engagement_score = 'colinks_engagement_score',
   created_at = 'created_at',
   email_score = 'email_score',
+  farcaster_score = 'farcaster_score',
   github_score = 'github_score',
   invite_score = 'invite_score',
   linkedin_score = 'linkedin_score',
@@ -41576,6 +41595,7 @@ export const enum reputation_scores_select_column {
   pgive_score = 'pgive_score',
   poap_score = 'poap_score',
   profile_id = 'profile_id',
+  social_give_score = 'social_give_score',
   total_score = 'total_score',
   twitter_score = 'twitter_score',
   updated_at = 'updated_at',

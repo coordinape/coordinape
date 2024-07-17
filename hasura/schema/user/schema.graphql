@@ -22354,6 +22354,7 @@ type reputation_scores {
   colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int!
+  farcaster_score: Int!
   github_score: Int!
   invite_score: Int!
   linkedin_score: Int!
@@ -22361,6 +22362,7 @@ type reputation_scores {
   pgive_score: Int!
   poap_score: Int!
   profile_id: bigint!
+  social_give_score: Int!
   total_score: Int!
   twitter_score: Int!
   updated_at: timestamptz
@@ -22376,6 +22378,7 @@ input reputation_scores_bool_exp {
   colinks_engagement_score: Int_comparison_exp
   created_at: timestamptz_comparison_exp
   email_score: Int_comparison_exp
+  farcaster_score: Int_comparison_exp
   github_score: Int_comparison_exp
   invite_score: Int_comparison_exp
   linkedin_score: Int_comparison_exp
@@ -22383,6 +22386,7 @@ input reputation_scores_bool_exp {
   pgive_score: Int_comparison_exp
   poap_score: Int_comparison_exp
   profile_id: bigint_comparison_exp
+  social_give_score: Int_comparison_exp
   total_score: Int_comparison_exp
   twitter_score: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -22395,6 +22399,7 @@ input reputation_scores_order_by {
   colinks_engagement_score: order_by
   created_at: order_by
   email_score: order_by
+  farcaster_score: order_by
   github_score: order_by
   invite_score: order_by
   linkedin_score: order_by
@@ -22402,6 +22407,7 @@ input reputation_scores_order_by {
   pgive_score: order_by
   poap_score: order_by
   profile_id: order_by
+  social_give_score: order_by
   total_score: order_by
   twitter_score: order_by
   updated_at: order_by
@@ -22425,6 +22431,11 @@ enum reputation_scores_select_column {
   column name
   """
   email_score
+
+  """
+  column name
+  """
+  farcaster_score
 
   """
   column name
@@ -22464,6 +22475,11 @@ enum reputation_scores_select_column {
   """
   column name
   """
+  social_give_score
+
+  """
+  column name
+  """
   total_score
 
   """
@@ -22499,6 +22515,7 @@ input reputation_scores_stream_cursor_value_input {
   colinks_engagement_score: Int
   created_at: timestamptz
   email_score: Int
+  farcaster_score: Int
   github_score: Int
   invite_score: Int
   linkedin_score: Int
@@ -22506,6 +22523,7 @@ input reputation_scores_stream_cursor_value_input {
   pgive_score: Int
   poap_score: Int
   profile_id: bigint
+  social_give_score: Int
   total_score: Int
   twitter_score: Int
   updated_at: timestamptz

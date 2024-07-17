@@ -10640,6 +10640,11 @@ unique or primary key constraints on table "cosouls"
 """
 enum cosouls_constraint {
   """
+  unique or primary key constraint on columns "address"
+  """
+  cosouls_index_address
+
+  """
   unique or primary key constraint on columns "id"
   """
   cosouls_pkey

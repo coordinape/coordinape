@@ -27,6 +27,7 @@ select_permissions:
         - colinks_engagement_score
         - created_at
         - email_score
+        - farcaster_score
         - github_score
         - invite_score
         - linkedin_score
@@ -34,6 +35,7 @@ select_permissions:
         - pgive_score
         - poap_score
         - profile_id
+        - social_give_score
         - total_score
         - twitter_score
         - updated_at

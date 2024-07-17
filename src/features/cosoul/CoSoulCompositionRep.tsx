@@ -232,10 +232,14 @@ export const CoSoulCompositionRep = ({
               )}
               {coSoulMinted && (
                 <Text className="nodeHeader">
-                  {numberWithCommas(cosoul_data.totalPgive, 0)}
+                  {numberWithCommas(
+                    cosoul_data.totalPgive +
+                      cosoul_data.reputation?.social_give_score,
+                    0
+                  )}
                 </Text>
               )}
-              <Text className="nodeSubHeader">pGIVE</Text>
+              <Text className="nodeSubHeader">GIVE</Text>
             </Box>
             {/* Node */}
             <Box
@@ -448,10 +452,10 @@ export const CoSoulCompositionRep = ({
               )}
               {coSoulMinted && (
                 <Text className="nodeHeader">
-                  {numberWithCommas(cosoul_data.reputation?.invite_score, 0)}
+                  {numberWithCommas(cosoul_data.reputation?.farcaster_score, 0)}
                 </Text>
               )}
-              <Text className="nodeSubHeader">Invites</Text>
+              <Text className="nodeSubHeader">Farcaster</Text>
             </Box>
           </Flex>
         </CSSTransition>
@@ -468,7 +472,7 @@ export const CoSoulCompositionRep = ({
               },
             }}
           >
-            <Text variant="label">pGIVE Details</Text>
+            <Text variant="label">GIVE Details</Text>
             <Panel
               css={{
                 display: 'grid',
@@ -486,7 +490,7 @@ export const CoSoulCompositionRep = ({
                 <Text className="nodeHeader">
                   {numberWithCommas(cosoul_data.totalPgive, 0)}
                 </Text>
-                <Text className="nodeSubHeader">pGIVE</Text>
+                <Text className="nodeSubHeader">GIVE</Text>
               </Box>
               <Box css={{ ...nodePanelStyle }}>
                 <Text className="nodeHeader">
@@ -517,6 +521,15 @@ export const CoSoulCompositionRep = ({
                   {numberWithCommas(cosoul_data.epochCount, 0)}
                 </Text>
                 <Text className="nodeSubHeader">Active Epochs</Text>
+              </Box>
+              <Box css={{ ...nodePanelStyle }}>
+                <Text className="nodeHeader">
+                  {numberWithCommas(
+                    cosoul_data.reputation?.social_give_score,
+                    0
+                  )}
+                </Text>
+                <Text className="nodeSubHeader">Social Give Score</Text>
               </Box>
             </Panel>
           </Flex>
