@@ -153,8 +153,8 @@ dependencies:
     specifier: ^1.1.2
     version: 1.1.2(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)
   '@rainbow-me/rainbowkit':
-    specifier: ^1.3.6
-    version: 1.3.7(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.1)(wagmi@2.5.5)
+    specifier: ^2.1.3
+    version: 2.1.3(@tanstack/react-query@5.51.3)(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.1)(wagmi@2.5.5)
   '@react-hook/window-size':
     specifier: ^3.1.1
     version: 3.1.1(react@18.2.0)
@@ -7188,15 +7188,25 @@ packages:
       '@babel/runtime': 7.23.6
     dev: false
 
+<<<<<<< HEAD
   /@rainbow-me/rainbowkit@1.3.7(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.1)(wagmi@2.5.5):
     resolution: {integrity: sha512-VZ12R8mgpwSuupajG5pkEHftKHP+h16Ci5JBmjuFzPhERqYTL3S/FzRDhha7gl+ZpQMWzF7NkMjURMK8Xjdb8A==}
+||||||| parent of 6186a7ca (WIP: Setup rainbow kit)
+  /@rainbow-me/rainbowkit@1.3.6(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.1)(wagmi@2.5.5):
+    resolution: {integrity: sha512-NA9jAX3Niw0T0OMJQ1jsjPmB3XHbifK2+6e75YJEwxPR4JDFRF0wjW25kzHBSpn6VgayPK7dOZM5Z+zURClvug==}
+=======
+  /@rainbow-me/rainbowkit@2.1.3(@tanstack/react-query@5.51.3)(@types/react@18.2.39)(react-dom@18.2.0)(react@18.2.0)(viem@2.7.1)(wagmi@2.5.5):
+    resolution: {integrity: sha512-teeB0HVQR75xSOUqMWCI0m6JJ/TvYXmbDSMr252/oElkV2UF0m/FFKGW04MBtQOg6wo9WK3nD5HVNEola4p7yA==}
+>>>>>>> 6186a7ca (WIP: Setup rainbow kit)
     engines: {node: '>=12.4'}
     peerDependencies:
-      react: '>=17'
-      react-dom: '>=17'
-      viem: ~0.3.19 || ^1.0.0
-      wagmi: ~1.0.1 || ~1.1.0 || ~1.2.0 || ~1.3.0 || ~1.4.0
+      '@tanstack/react-query': '>=5.0.0'
+      react: '>=18'
+      react-dom: '>=18'
+      viem: 2.x
+      wagmi: ^2.9.0
     dependencies:
+      '@tanstack/react-query': 5.51.3(react@18.2.0)
       '@vanilla-extract/css': 1.14.0
       '@vanilla-extract/dynamic': 2.1.0
       '@vanilla-extract/sprinkles': 1.6.1(@vanilla-extract/css@1.14.0)
