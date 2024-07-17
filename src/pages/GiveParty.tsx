@@ -1,12 +1,29 @@
 import { useEffect, useState } from 'react';
 
 import { RainbowKitProvider, ConnectButton } from '@rainbow-me/rainbowkit';
+import { http, createConfig } from '@wagmi/core';
+import {
+  arbitrum,
+  base,
+  mainnet,
+  optimism,
+  optimismSepolia,
+  polygon,
+  sepolia,
+} from '@wagmi/core/chains';
 import copy from 'copy-to-clipboard';
+import {
+  ETHEREUM_RPC_URL,
+  ETHEREUM_SEPOLIA_RPC_URL,
+  OPTIMISM_RPC_URL,
+  OPTIMISM_SEPOLIA_RPC_URL,
+} from 'features/auth/connectors';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { disabledStyle } from 'stitches.config';
+import { defineChain } from 'viem';
 import { WagmiProvider } from 'wagmi';
 import { z } from 'zod';
 
-import { wagmiConfig } from '../features/DecentSwap/config';
 import { useToast } from 'hooks';
 import { Copy, GemCoOutline, Wand } from 'icons/__generated';
 import {
@@ -21,6 +38,45 @@ import { PartyBody } from './GiveParty/PartyBody';
 import { PartyHeader } from './GiveParty/PartyHeader';
 import { partyNavButtonStyle } from './GiveParty/PartyNav';
 
+const localhost = defineChain({
+  id: 1338,
+  name: 'Localhost 8546',
+  rpcUrls: {
+    default: {
+      http: ['http://localhost:8546'],
+    },
+  },
+  nativeCurrency: {
+    name: 'ETH',
+    symbol: 'ETH',
+    decimals: 18,
+  },
+  gasSettings: {},
+});
+
+const wagmiConfig = createConfig({
+  chains: [
+    mainnet,
+    optimism,
+    polygon,
+    optimismSepolia,
+    localhost,
+    sepolia,
+    base,
+    arbitrum,
+  ],
+  transports: {
+    [mainnet.id]: http(ETHEREUM_RPC_URL),
+    [optimism.id]: http(OPTIMISM_RPC_URL),
+    [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
+    [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
+    [localhost.id]: http('http://localhost:8546'),
+    [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
+    [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
+    [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
+  },
+});
+const queryClient = new QueryClient();
 const skillSchema = z
   .string()
   .trim()
@@ -41,9 +97,11 @@ const usernameSchema = z
 
 export const GiveParty = () => {
   return (
-    <WagmiProvider config={wagmiConfig}>
-      <PartyPage />
-    </WagmiProvider>
+    <QueryClientProvider client={queryClient}>
+      <WagmiProvider config={wagmiConfig}>
+        <PartyPage />
+      </WagmiProvider>
+    </QueryClientProvider>
   );
 };
 
