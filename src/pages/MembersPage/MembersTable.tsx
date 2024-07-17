@@ -427,16 +427,6 @@ export const MemberRow = ({
                   }`
                 : '-'}
             </TD>
-            <TD
-              css={{
-                textAlign: 'center !important',
-              }}
-            >
-              {user.give_token_received === 0 &&
-              (!!user.fixed_non_receiver || !!user.non_receiver)
-                ? '-'
-                : user.give_token_received}
-            </TD>
           </>
         )}
         {me && (
@@ -921,11 +911,6 @@ export const MembersTable = ({
       isHidden: !isAdmin,
     },
     {
-      title: `${circle.token_name} received`,
-      css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !isAdmin,
-    },
-    {
       title: 'Actions',
       css: { ...headerStyles, textAlign: 'right' },
       isHidden: !me,
@@ -965,11 +950,6 @@ export const MembersTable = ({
           if (index === 7)
             return (u: QueryUser) =>
               !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
-          if (index === 8)
-            return (u: QueryUser) =>
-              !!u.fixed_non_receiver || !!u.non_receiver
-                ? -1
-                : u.give_token_received;
           return (u: QueryUser) => u.profile.name.toLowerCase();
         }}
       >
