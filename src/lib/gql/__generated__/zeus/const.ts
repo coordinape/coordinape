@@ -2637,6 +2637,40 @@ export const AllTypesProps: Record<string, any> = {
     timestamp: 'timestamp',
     updated_at: 'timestamp',
   },
+  farcaster_profile_with_addresses: {
+    verified_addresses: {},
+  },
+  farcaster_profile_with_addresses_bool_exp: {
+    _and: 'farcaster_profile_with_addresses_bool_exp',
+    _not: 'farcaster_profile_with_addresses_bool_exp',
+    _or: 'farcaster_profile_with_addresses_bool_exp',
+    avatar_url: 'String_comparison_exp',
+    bio: 'String_comparison_exp',
+    display_name: 'String_comparison_exp',
+    fid: 'bigint_comparison_exp',
+    fname: 'String_comparison_exp',
+    updated_at: 'timestamp_comparison_exp',
+    verified_addresses: 'jsonb_comparison_exp',
+  },
+  farcaster_profile_with_addresses_order_by: {
+    avatar_url: 'order_by',
+    bio: 'order_by',
+    display_name: 'order_by',
+    fid: 'order_by',
+    fname: 'order_by',
+    updated_at: 'order_by',
+    verified_addresses: 'order_by',
+  },
+  farcaster_profile_with_addresses_select_column: true,
+  farcaster_profile_with_addresses_stream_cursor_input: {
+    initial_value: 'farcaster_profile_with_addresses_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  farcaster_profile_with_addresses_stream_cursor_value_input: {
+    fid: 'bigint',
+    updated_at: 'timestamp',
+    verified_addresses: 'jsonb',
+  },
   float8: 'String',
   float8_comparison_exp: {
     _eq: 'float8',
@@ -5779,6 +5813,11 @@ export const AllTypesProps: Record<string, any> = {
     farcaster_casts_by_pk: {
       id: 'bigint',
     },
+    farcaster_profile_with_addresses: {
+      distinct_on: 'farcaster_profile_with_addresses_select_column',
+      order_by: 'farcaster_profile_with_addresses_order_by',
+      where: 'farcaster_profile_with_addresses_bool_exp',
+    },
     getGuildInfo: {
       payload: 'GuildInfoInput',
     },
@@ -7030,6 +7069,15 @@ export const AllTypesProps: Record<string, any> = {
     farcaster_casts_stream: {
       cursor: 'farcaster_casts_stream_cursor_input',
       where: 'farcaster_casts_bool_exp',
+    },
+    farcaster_profile_with_addresses: {
+      distinct_on: 'farcaster_profile_with_addresses_select_column',
+      order_by: 'farcaster_profile_with_addresses_order_by',
+      where: 'farcaster_profile_with_addresses_bool_exp',
+    },
+    farcaster_profile_with_addresses_stream: {
+      cursor: 'farcaster_profile_with_addresses_stream_cursor_input',
+      where: 'farcaster_profile_with_addresses_bool_exp',
     },
     gift_private: {
       distinct_on: 'gift_private_select_column',
@@ -9823,6 +9871,15 @@ export const ReturnTypes: Record<string, any> = {
     timestamp: 'timestamp',
     updated_at: 'timestamp',
   },
+  farcaster_profile_with_addresses: {
+    avatar_url: 'String',
+    bio: 'String',
+    display_name: 'String',
+    fid: 'bigint',
+    fname: 'String',
+    updated_at: 'timestamp',
+    verified_addresses: 'jsonb',
+  },
   gift_private: {
     gift_id: 'bigint',
     note: 'String',
@@ -11111,6 +11168,7 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_accounts_by_pk: 'farcaster_accounts',
     farcaster_casts: 'farcaster_casts',
     farcaster_casts_by_pk: 'farcaster_casts',
+    farcaster_profile_with_addresses: 'farcaster_profile_with_addresses',
     getGuildInfo: 'GuildInfoOutput',
     getHeadlines: 'HeadlinesOutput',
     getSimilarProfiles: 'SimilarProfileOutput',
@@ -11605,6 +11663,8 @@ export const ReturnTypes: Record<string, any> = {
     farcaster_casts: 'farcaster_casts',
     farcaster_casts_by_pk: 'farcaster_casts',
     farcaster_casts_stream: 'farcaster_casts',
+    farcaster_profile_with_addresses: 'farcaster_profile_with_addresses',
+    farcaster_profile_with_addresses_stream: 'farcaster_profile_with_addresses',
     gift_private: 'gift_private',
     gift_private_stream: 'gift_private',
     github_accounts: 'github_accounts',

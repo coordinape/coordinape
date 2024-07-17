@@ -8421,6 +8421,121 @@ input farcaster_casts_stream_cursor_value_input {
   updated_at: timestamp
 }
 
+"""
+columns and relationships of "farcaster.profile_with_addresses"
+"""
+type farcaster_profile_with_addresses {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb
+}
+
+"""
+Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'.
+"""
+input farcaster_profile_with_addresses_bool_exp {
+  _and: [farcaster_profile_with_addresses_bool_exp!]
+  _not: farcaster_profile_with_addresses_bool_exp
+  _or: [farcaster_profile_with_addresses_bool_exp!]
+  avatar_url: String_comparison_exp
+  bio: String_comparison_exp
+  display_name: String_comparison_exp
+  fid: bigint_comparison_exp
+  fname: String_comparison_exp
+  updated_at: timestamp_comparison_exp
+  verified_addresses: jsonb_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "farcaster.profile_with_addresses".
+"""
+input farcaster_profile_with_addresses_order_by {
+  avatar_url: order_by
+  bio: order_by
+  display_name: order_by
+  fid: order_by
+  fname: order_by
+  updated_at: order_by
+  verified_addresses: order_by
+}
+
+"""
+select columns of table "farcaster.profile_with_addresses"
+"""
+enum farcaster_profile_with_addresses_select_column {
+  """
+  column name
+  """
+  avatar_url
+
+  """
+  column name
+  """
+  bio
+
+  """
+  column name
+  """
+  display_name
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  fname
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  verified_addresses
+}
+
+"""
+Streaming cursor of the table "farcaster_profile_with_addresses"
+"""
+input farcaster_profile_with_addresses_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: farcaster_profile_with_addresses_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input farcaster_profile_with_addresses_stream_cursor_value_input {
+  avatar_url: String
+  bio: String
+  display_name: String
+  fid: bigint
+  fname: String
+  updated_at: timestamp
+  verified_addresses: jsonb
+}
+
 scalar float8
 
 """
@@ -18725,6 +18840,36 @@ type query_root {
   fetch data from the table: "farcaster.casts" using primary key columns
   """
   farcaster_casts_by_pk(id: bigint!): farcaster_casts
+
+  """
+  fetch data from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
@@ -24017,6 +24162,56 @@ type subscription_root {
     """
     where: farcaster_casts_bool_exp
   ): [farcaster_casts!]!
+
+  """
+  fetch data from the table: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_profile_with_addresses_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_profile_with_addresses_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
+
+  """
+  fetch data from the table in a streaming manner: "farcaster.profile_with_addresses"
+  """
+  farcaster_profile_with_addresses_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [farcaster_profile_with_addresses_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_profile_with_addresses_bool_exp
+  ): [farcaster_profile_with_addresses!]!
 
   """
   fetch data from the table: "gift_private"

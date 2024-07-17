@@ -11,3 +11,17 @@ object_relationships:
         remote_table:
           name: fids
           schema: farcaster
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - fid
+        - verified_addresses
+        - avatar_url
+        - bio
+        - display_name
+        - fname
+        - updated_at
+      filter: {}
+      limit: 100
+    comment: ""

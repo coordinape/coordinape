@@ -2,8 +2,9 @@ import { useState } from 'react';
 
 import { CSS } from '@stitches/react';
 
+import { SearchBox } from '../../features/SearchBox/SearchBox';
 import { coLinksPaths } from 'routes/paths';
-import { Text, AppLink, Button, Flex, Modal } from 'ui';
+import { AppLink, Button, Flex, Modal, Text } from 'ui';
 
 export const partyNavButtonStyle = {
   fontSize: 20,
@@ -66,6 +67,19 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
       >
         world of give
       </Button>
+      <Flex
+        css={{
+          ...partyNavButtonStyle,
+          ...(location.pathname == '/givemap' && {
+            borderColor: 'rgba(0,0,0,0.15) !important',
+            background: 'rgba(0,0,0,0.15) !important',
+            cursor: 'default',
+            pointerEvents: 'none',
+          }),
+        }}
+      >
+        <SearchBox />
+      </Flex>
       {visible && (
         <Modal
           open={visible}

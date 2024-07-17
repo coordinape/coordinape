@@ -5,8 +5,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
 import { Search } from '../../icons/__generated';
-import { POSTS } from '../../pages/colinks/SearchPage';
-import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
 
 import { SearchResults } from './SearchResults';
@@ -19,10 +17,12 @@ export const SearchBox = ({
   placeholder,
   size = 'medium',
   registerKeyDown = true,
+  viewResultsPathFunc,
 }: {
   placeholder?: string;
   size?: 'medium' | 'large';
   registerKeyDown?: boolean;
+  viewResultsPathFunc?: (currentInput?: string) => string;
 }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -100,32 +100,27 @@ export const SearchBox = ({
         <ComboBox fullScreen filter={() => 1}>
           <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
         </ComboBox>
-        <Flex
-          css={{
-            background: '$surface',
-            p: '$sm $sm',
-            borderTop: '1px solid $borderDim',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            size="xs"
-            color="transparent"
-            onClick={() =>
-              navigate(
-                inputRef.current?.value
-                  ? coLinksPaths.searchResult(
-                      inputRef.current?.value ?? '',
-                      POSTS
-                    )
-                  : coLinksPaths.search
-              )
-            }
+        {viewResultsPathFunc && (
+          <Flex
+            css={{
+              background: '$surface',
+              p: '$sm $sm',
+              borderTop: '1px solid $borderDim',
+              justifyContent: 'flex-end',
+            }}
           >
-            <Search />
-            View all results
-          </Button>
-        </Flex>
+            <Button
+              size="xs"
+              color="transparent"
+              onClick={() =>
+                navigate(viewResultsPathFunc(inputRef.current?.value))
+              }
+            >
+              <Search />
+              View all results
+            </Button>
+          </Flex>
+        )}
       </Modal>
     </>
   );
