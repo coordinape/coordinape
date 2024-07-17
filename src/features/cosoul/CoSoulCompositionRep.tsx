@@ -233,7 +233,7 @@ export const CoSoulCompositionRep = ({
               {coSoulMinted && (
                 <Text className="nodeHeader">
                   {numberWithCommas(
-                    cosoul_data.totalPgive +
+                    (cosoul_data.reputation?.pgive_score ?? 0) +
                       cosoul_data.reputation?.social_give_score,
                     0
                   )}
