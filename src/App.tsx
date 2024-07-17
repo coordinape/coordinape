@@ -1,18 +1,14 @@
-import { getDefaultConfig, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { initFrontend as initAnalytics } from 'features/analytics';
 import { Helmet } from 'react-helmet';
 import { HelmetProvider } from 'react-helmet-async';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
-import { WagmiProvider, http } from 'wagmi';
-import { mainnet, base, optimism, arbitrum, polygon } from 'wagmi/chains';
 
 import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles';
 
 import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
-import { WALLET_CONNECT_V2_PROJECT_ID } from 'config/env';
 import { Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
@@ -23,15 +19,6 @@ import { globalStyles } from './stitches.config';
 
 import './App.css';
 import '@rainbow-me/rainbowkit/styles.css';
-
-const config = getDefaultConfig({
-  appName: 'CoLinks | Coordinape',
-  projectId: WALLET_CONNECT_V2_PROJECT_ID, //WalletConnect cloud project ID
-  chains: [optimism, mainnet, base, arbitrum, polygon],
-  transports: {
-    [mainnet.id]: http(),
-  },
-});
 
 const theme = createTheme();
 const queryClient = new QueryClient();
@@ -78,22 +65,18 @@ function App() {
       )}
       <RecoilRoot>
         <ErrorBoundary>
-          <WagmiProvider config={config}>
-            <ToastContainer />
-            <QueryClientProvider client={queryClient}>
-              <RainbowKitProvider>
-                <DeprecatedMuiThemeProvider theme={theme}>
-                  <ThemeProvider>
-                    <Web3ReactProvider>
-                      <BrowserRouter>
-                        <AppRoutes />
-                      </BrowserRouter>
-                    </Web3ReactProvider>
-                  </ThemeProvider>
-                </DeprecatedMuiThemeProvider>
-              </RainbowKitProvider>
-            </QueryClientProvider>
-          </WagmiProvider>
+          <ToastContainer />
+          <QueryClientProvider client={queryClient}>
+            <DeprecatedMuiThemeProvider theme={theme}>
+              <ThemeProvider>
+                <Web3ReactProvider>
+                  <BrowserRouter>
+                    <AppRoutes />
+                  </BrowserRouter>
+                </Web3ReactProvider>
+              </ThemeProvider>
+            </DeprecatedMuiThemeProvider>
+          </QueryClientProvider>
         </ErrorBoundary>
       </RecoilRoot>
     </HelmetProvider>
