@@ -1,33 +1,9 @@
 import { useEffect, useState } from 'react';
 
-import {
-  RainbowKitProvider,
-  ConnectButton,
-  darkTheme,
-  RainbowKitAuthenticationProvider,
-} from '@rainbow-me/rainbowkit';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { http, createConfig } from '@wagmi/core';
-import {
-  arbitrum,
-  base,
-  mainnet,
-  optimism,
-  optimismSepolia,
-  polygon,
-  sepolia,
-} from '@wagmi/core/chains';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import copy from 'copy-to-clipboard';
-import {
-  ETHEREUM_RPC_URL,
-  ETHEREUM_SEPOLIA_RPC_URL,
-  OPTIMISM_RPC_URL,
-  OPTIMISM_SEPOLIA_RPC_URL,
-} from 'features/auth/connectors';
-import { authenticationAdapter } from 'features/rainbowkit/siwe';
+import { Rainbowify } from 'features/rainbowkit/Rainbowify';
 import { disabledStyle } from 'stitches.config';
-import { defineChain } from 'viem';
-import { WagmiProvider, useSignMessage } from 'wagmi';
 import { z } from 'zod';
 
 import { useToast } from 'hooks';
@@ -44,45 +20,6 @@ import { PartyBody } from './GiveParty/PartyBody';
 import { PartyHeader } from './GiveParty/PartyHeader';
 import { partyNavButtonStyle } from './GiveParty/PartyNav';
 
-const localhost = defineChain({
-  id: 1338,
-  name: 'Localhost 8546',
-  rpcUrls: {
-    default: {
-      http: ['http://localhost:8546'],
-    },
-  },
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  gasSettings: {},
-});
-
-const wagmiConfig = createConfig({
-  chains: [
-    mainnet,
-    optimism,
-    polygon,
-    optimismSepolia,
-    localhost,
-    sepolia,
-    base,
-    arbitrum,
-  ],
-  transports: {
-    [mainnet.id]: http(ETHEREUM_RPC_URL),
-    [optimism.id]: http(OPTIMISM_RPC_URL),
-    [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
-    [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
-    [localhost.id]: http('http://localhost:8546'),
-    [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
-    [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
-    [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
-  },
-});
-const queryClient = new QueryClient();
 const skillSchema = z
   .string()
   .trim()
@@ -102,206 +39,181 @@ const usernameSchema = z
   .max(24, { message: 'Username is max 24 characters' });
 
 export const GiveParty = () => {
-  return (
-    <WagmiProvider config={wagmiConfig}>
-      <QueryClientProvider client={queryClient}>
-        <PartyPage />
-      </QueryClientProvider>
-    </WagmiProvider>
-  );
-};
-
-const AUTHENTICATION_STATUS = 'unauthenticated';
-// You'll need to resolve AUTHENTICATION_STATUS here
-// using your application's authentication system.
-// It needs to be either 'loading' (during initial load),
-// 'unauthenticated' or 'authenticated'.
-
-export const PartyPage = () => {
   const [activeTab, setActiveTab] = useState<'giveParty' | 'surpriseParty'>(
     'surpriseParty'
   );
 
-  const { signMessage } = useSignMessage();
+  // TODO: if address cahnges handle it, ie metamask switch connected address
   return (
-    <RainbowKitAuthenticationProvider
-      adapter={authenticationAdapter}
-      status={AUTHENTICATION_STATUS}
-    >
-      <RainbowKitProvider theme={darkTheme()}>
-        <PartyBody>
-          <PartyHeader />
+    <Rainbowify>
+      <PartyBody>
+        <PartyHeader />
+
+        <Flex
+          column
+          css={{
+            width: '90%',
+            margin: 'auto',
+            maxWidth: 800,
+            marginTop: 50,
+            alignItems: 'flex-start',
+            gap: 30,
+          }}
+        >
+          <Text h1 display css={{ fontSize: '46px' }}>
+            {`There are Two Ways to Party!`}
+          </Text>
+          <ConnectButton />
+
+          <Flex css={{ flexDirection: 'row', gap: '$md' }}>
+            <Button
+              onClick={() => setActiveTab('surpriseParty')}
+              // outlined={true}
+              css={{ opacity: activeTab === 'surpriseParty' ? 1.0 : 0.5 }}
+            >
+              Individual Party
+            </Button>
+            <Button
+              onClick={() => setActiveTab('giveParty')}
+              // outlined={true}
+              css={{ opacity: activeTab === 'giveParty' ? 1.0 : 0.5 }}
+            >
+              Skill Party
+            </Button>
+          </Flex>
+          {activeTab === 'surpriseParty' && <StartSurpriseParty />}
+          {activeTab === 'giveParty' && <StartGiveParty />}
 
           <Flex
             column
             css={{
-              width: '90%',
-              margin: 'auto',
-              maxWidth: 800,
-              marginTop: 50,
+              mt: '$3xl',
+              pt: '$3xl',
+              pb: '$1xl',
+              borderTop: '1px solid #00000033',
+              gap: '20px',
               alignItems: 'flex-start',
-              gap: 30,
             }}
           >
-            <Text h1 display css={{ fontSize: '46px' }}>
-              {`There are Two Ways to Party!`}
+            <Text
+              h2
+              display
+              css={{
+                fontWeight: 400,
+                letterSpacing: -1,
+                lineHeight: 1.1,
+              }}
+            >
+              When it comes to creating onchain reputation, we mean business.
             </Text>
-            <ConnectButton />
-
-            <button onClick={() => signMessage({ message: 'hello world' })}>
-              Sign message
-            </button>
-            <Flex css={{ flexDirection: 'row', gap: '$md' }}>
-              <Button
-                onClick={() => setActiveTab('surpriseParty')}
-                // outlined={true}
-                css={{ opacity: activeTab === 'surpriseParty' ? 1.0 : 0.5 }}
-              >
-                Individual Party
-              </Button>
-              <Button
-                onClick={() => setActiveTab('giveParty')}
-                // outlined={true}
-                css={{ opacity: activeTab === 'giveParty' ? 1.0 : 0.5 }}
-              >
-                Skill Party
-              </Button>
+            <Text
+              h2
+              display
+              css={{
+                fontWeight: 600,
+                letterSpacing: -1,
+                lineHeight: 1.1,
+              }}
+            >
+              And when we mean business,
+              <br />
+              we mean party!
+            </Text>
+            <Button
+              as={AppLink}
+              to={coLinksPaths.giveBoard}
+              color="transparent"
+              css={{
+                ...partyNavButtonStyle,
+                mt: '$sm',
+              }}
+            >
+              leaderboard
+            </Button>
+          </Flex>
+          <Flex
+            column
+            css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
+          >
+            <Text h2 display>
+              {' '}
+              How does this work?
+            </Text>
+            <ul
+              style={{
+                padding: '0 1em',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 10,
+                fontSize: 22,
+                lineHeight: 1.2,
+              }}
+            >
+              <li>Cast the URL to start a GIVE Party</li>
+              <li>
+                <strong>Skill Party</strong> - Celebrate a skill. Anyone on
+                Farcaster can use the frame to name people who they think are
+                awesome at that skill.
+              </li>
+              <li>
+                <strong>Individual Party </strong> - Celebrate an individual.
+                Anyone on Farcaster can use the frame to celebrate the skills of
+                a specific user.
+              </li>
+              <li>
+                Party Starters will get Coordinape Rep Points for their parties!
+                Every party gets a little, really big parties get a lot.
+              </li>
+              <li>
+                GIVE will be sent by Coordinape to create a map of this skill
+                party.
+              </li>
+              <li>
+                <PartyDisplayText text="Party" />
+              </li>
+            </ul>
+          </Flex>
+          <Flex
+            column
+            css={{
+              borderTop: '1px solid #00000033',
+              pt: '$xl',
+              mt: '$md',
+              width: '100%',
+            }}
+          >
+            <Flex
+              css={{
+                alignItems: 'center',
+                mb: '$xl',
+                gap: 10,
+              }}
+            >
+              <GemCoOutline size="2xl" fa />
+              <Text css={{ fontSize: 26 }}>give.party</Text>
             </Flex>
-            {activeTab === 'surpriseParty' && <StartSurpriseParty />}
-            {activeTab === 'giveParty' && <StartGiveParty />}
-
+            <Text h2>Wanna know more?</Text>
             <Flex
               column
               css={{
-                mt: '$3xl',
-                pt: '$3xl',
-                pb: '$1xl',
-                borderTop: '1px solid #00000033',
-                gap: '20px',
-                alignItems: 'flex-start',
+                gap: 10,
+                pt: 10,
+                a: {
+                  textDecoration: 'underline',
+                },
               }}
             >
-              <Text
-                h2
-                display
-                css={{
-                  fontWeight: 400,
-                  letterSpacing: -1,
-                  lineHeight: 1.1,
-                }}
-              >
-                When it comes to creating onchain reputation, we mean business.
-              </Text>
-              <Text
-                h2
-                display
-                css={{
-                  fontWeight: 600,
-                  letterSpacing: -1,
-                  lineHeight: 1.1,
-                }}
-              >
-                And when we mean business,
-                <br />
-                we mean party!
-              </Text>
-              <Button
-                as={AppLink}
-                to={coLinksPaths.giveBoard}
-                color="transparent"
-                css={{
-                  ...partyNavButtonStyle,
-                  mt: '$sm',
-                }}
-              >
-                leaderboard
-              </Button>
-            </Flex>
-            <Flex
-              column
-              css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
-            >
-              <Text h2 display>
-                {' '}
-                How does this work?
-              </Text>
-              <ul
-                style={{
-                  padding: '0 1em',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 10,
-                  fontSize: 22,
-                  lineHeight: 1.2,
-                }}
-              >
-                <li>Cast the URL to start a GIVE Party</li>
-                <li>
-                  <strong>Skill Party</strong> - Celebrate a skill. Anyone on
-                  Farcaster can use the frame to name people who they think are
-                  awesome at that skill.
-                </li>
-                <li>
-                  <strong>Individual Party </strong> - Celebrate an individual.
-                  Anyone on Farcaster can use the frame to celebrate the skills
-                  of a specific user.
-                </li>
-                <li>
-                  Party Starters will get Coordinape Rep Points for their
-                  parties! Every party gets a little, really big parties get a
-                  lot.
-                </li>
-                <li>
-                  GIVE will be sent by Coordinape to create a map of this skill
-                  party.
-                </li>
-                <li>
-                  <PartyDisplayText text="Party" />
-                </li>
-              </ul>
-            </Flex>
-            <Flex
-              column
-              css={{
-                borderTop: '1px solid #00000033',
-                pt: '$xl',
-                mt: '$md',
-                width: '100%',
-              }}
-            >
-              <Flex
-                css={{
-                  alignItems: 'center',
-                  mb: '$xl',
-                  gap: 10,
-                }}
-              >
-                <GemCoOutline size="2xl" fa />
-                <Text css={{ fontSize: 26 }}>give.party</Text>
-              </Flex>
-              <Text h2>Wanna know more?</Text>
-              <Flex
-                column
-                css={{
-                  gap: 10,
-                  pt: 10,
-                  a: {
-                    textDecoration: 'underline',
-                  },
-                }}
-              >
-                <Link inlineLink href={EXTERNAL_URL_DOCS_GIVE} target="_blank">
-                  Docs
-                </Link>
-                <Link inlineLink href={EXTERNAL_URL_BLOG} target="_blank">
-                  Blog
-                </Link>
-              </Flex>
+              <Link inlineLink href={EXTERNAL_URL_DOCS_GIVE} target="_blank">
+                Docs
+              </Link>
+              <Link inlineLink href={EXTERNAL_URL_BLOG} target="_blank">
+                Blog
+              </Link>
             </Flex>
           </Flex>
-        </PartyBody>
-      </RainbowKitProvider>
-    </RainbowKitAuthenticationProvider>
+        </Flex>
+      </PartyBody>
+    </Rainbowify>
   );
 };
 

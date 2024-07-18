@@ -41,6 +41,31 @@ function getCookieDomain(): string {
 
 const emptyData = () => ({ data: {} });
 
+export const clearSavedAuth = () => saveAllData(emptyData());
+
+export const logoutAndClearSavedAuth = () => {
+  clearSavedAuth();
+  setAuthToken('');
+};
+
+export const setAuthTokenForAddress = (address: string, token: string) => {
+  const allData = getAllData();
+  allData.data[address.toLowerCase()] = { token };
+  allData.recent = address.toLowerCase();
+  saveAllData(allData);
+  setAuthToken(token);
+};
+
+export const reloadAuthFromCookie = () => {
+  const allData = getAllData();
+  const { recent, data } = allData;
+  if (recent) {
+    const auth = data[recent] ?? {};
+    setAuthToken(auth.token);
+    return true;
+  }
+};
+
 const getAllData = (): IAuth => {
   try {
     const stored = Cookies.get(AUTH_COOKIE);
@@ -98,8 +123,6 @@ export const useSavedAuth = (): UseSavedAuthReturn => {
     if (address !== recent) saveAllData({ recent: address, data });
     return data[address.toLowerCase()] ?? {};
   };
-
-  const clearSavedAuth = () => saveAllData(emptyData());
 
   return { savedAuth, setSavedAuth, getAndUpdate, clearSavedAuth };
 };
