@@ -2,6 +2,7 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
+import { farcaster_fnames_select_column } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -22,6 +23,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             fname: { _ilike: '%' + search + '%' },
           },
           limit: 10,
+          distinct_on: [farcaster_fnames_select_column.fid],
         },
         {
           custody_address: true,

@@ -10,6 +10,7 @@ import { coLinksPaths } from '../../routes/paths';
 import { Flex, Text } from '../../ui';
 import { SkillTag } from '../colinks/SkillTag';
 
+import { FarcasterUserResult } from './FarcasterUserResult';
 import { fetchFarcasterUserResults } from './fetchFarcasterUserResults';
 import { fetchPartyProfileResults } from './fetchPartyProfileResults';
 import { PeopleResult } from './PeopleResult';
@@ -47,7 +48,7 @@ export const PartySearchResults = ({
       [QUERY_KEY_SEARCH, 'farcasterUsers', JSON.stringify(debouncedSearch)],
       async () =>
         await fetchFarcasterUserResults({
-          search: JSON.stringify(debouncedSearch),
+          search: debouncedSearch,
         }),
       {
         enabled: debouncedSearch !== '',
@@ -118,7 +119,7 @@ export const PartySearchResults = ({
                     setPopoverOpen(false);
                   }}
                 >
-                  <PeopleResult profile={user} />
+                  <FarcasterUserResult user={user} />
                 </Command.Item>
               ))}
             </Command.Group>

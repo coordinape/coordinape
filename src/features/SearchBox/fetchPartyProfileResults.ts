@@ -1,4 +1,4 @@
-import { client } from '../../lib/gql/client';
+import { anonClient } from '../../lib/anongql/anonClient';
 
 // TODO: search by farcaster username, farcaster address - this is tricky due to how the address data is structured
 export const fetchPartyProfileResults = async ({
@@ -6,7 +6,7 @@ export const fetchPartyProfileResults = async ({
 }: {
   search: string;
 }) => {
-  const { profiles_public } = await client.query(
+  const { profiles_public } = await anonClient.query(
     {
       profiles_public: [
         {
