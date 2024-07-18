@@ -85,7 +85,13 @@ const port = process.argv[2];
 
 // handlers are typed to only accept VercelRequest and VercelResponse
 // so we shim them with this (tf = "type fudge")
-const tf = (handler: any) => (req: any, res: any) => handler(req, res);
+const tf = (handler: any) => (req: any, res: any) => {
+  try {
+    return handler(req, res);
+  } catch (e: any) {
+    return res.status(500).json(e);
+  }
+};
 
 app.get('/api/discord/oauth', tf(discord));
 app.get('/api/hasura/auth', tf(auth));

@@ -17755,6 +17755,11 @@ type farcaster_links {
   """
   profile_with_address: farcaster_profile_with_addresses
   target_fid: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_with_address: farcaster_profile_with_addresses
   timestamp: timestamp!
   type: String
   updated_at: timestamp!
@@ -17809,6 +17814,7 @@ input farcaster_links_bool_exp {
   id: bigint_comparison_exp
   profile_with_address: farcaster_profile_with_addresses_bool_exp
   target_fid: bigint_comparison_exp
+  target_profile_with_address: farcaster_profile_with_addresses_bool_exp
   timestamp: timestamp_comparison_exp
   type: String_comparison_exp
   updated_at: timestamp_comparison_exp
@@ -17853,6 +17859,7 @@ input farcaster_links_insert_input {
   hash: bytea
   profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
   target_fid: bigint
+  target_profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
   timestamp: timestamp
   type: String
   updated_at: timestamp
@@ -17924,6 +17931,7 @@ input farcaster_links_order_by {
   id: order_by
   profile_with_address: farcaster_profile_with_addresses_order_by
   target_fid: order_by
+  target_profile_with_address: farcaster_profile_with_addresses_order_by
   timestamp: order_by
   type: order_by
   updated_at: order_by

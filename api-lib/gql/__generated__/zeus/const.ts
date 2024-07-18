@@ -4533,6 +4533,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     profile_with_address: 'farcaster_profile_with_addresses_bool_exp',
     target_fid: 'bigint_comparison_exp',
+    target_profile_with_address: 'farcaster_profile_with_addresses_bool_exp',
     timestamp: 'timestamp_comparison_exp',
     type: 'String_comparison_exp',
     updated_at: 'timestamp_comparison_exp',
@@ -4551,6 +4552,8 @@ export const AllTypesProps: Record<string, any> = {
     profile_with_address:
       'farcaster_profile_with_addresses_obj_rel_insert_input',
     target_fid: 'bigint',
+    target_profile_with_address:
+      'farcaster_profile_with_addresses_obj_rel_insert_input',
     timestamp: 'timestamp',
     updated_at: 'timestamp',
   },
@@ -4568,6 +4571,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     profile_with_address: 'farcaster_profile_with_addresses_order_by',
     target_fid: 'order_by',
+    target_profile_with_address: 'farcaster_profile_with_addresses_order_by',
     timestamp: 'order_by',
     type: 'order_by',
     updated_at: 'order_by',
@@ -19796,6 +19800,7 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     profile_with_address: 'farcaster_profile_with_addresses',
     target_fid: 'bigint',
+    target_profile_with_address: 'farcaster_profile_with_addresses',
     timestamp: 'timestamp',
     type: 'String',
     updated_at: 'timestamp',

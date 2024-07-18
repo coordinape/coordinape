@@ -11,3 +11,12 @@ object_relationships:
         remote_table:
           name: profile_with_addresses
           schema: farcaster
+  - name: target_profile_with_address
+    using:
+      manual_configuration:
+        column_mapping:
+          target_fid: fid
+        insertion_order: null
+        remote_table:
+          name: profile_with_addresses
+          schema: farcaster
