@@ -34,7 +34,7 @@ export const PartySearchResults = ({
       [QUERY_KEY_SEARCH, 'partyProfiles', JSON.stringify(debouncedSearch)],
       async () =>
         await fetchPartyProfileResults({
-          search: JSON.stringify(debouncedSearch),
+          search: debouncedSearch,
         }),
       {
         enabled: debouncedSearch !== '',
