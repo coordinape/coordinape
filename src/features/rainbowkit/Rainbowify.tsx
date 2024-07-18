@@ -19,6 +19,7 @@ import {
   setAuthState,
 } from 'features/rainbowkit/siwe';
 import { useAccount, WagmiProvider } from 'wagmi';
+import '@rainbow-me/rainbowkit/styles.css';
 
 import { Text } from 'ui';
 
