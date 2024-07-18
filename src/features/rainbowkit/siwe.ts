@@ -11,6 +11,8 @@ import {
 import { client } from 'lib/gql/client';
 import { generateNonce, SiweMessage } from 'siwe';
 
+import { refreshEmitter } from './refreshEmitter';
+
 export let authState: AuthenticationStatus = 'unauthenticated';
 
 export const setAuthState = (state: AuthenticationStatus) => {
@@ -47,53 +49,55 @@ export const authenticationAdapter = createAuthenticationAdapter({
     return message.prepareMessage();
   },
   verify: async ({ message, signature }) => {
-    const data = message.prepareMessage();
-
-    const payload = {
-      signature,
-      hash: '',
-      address: message.address,
-      data,
-      connectorName: 'injected',
-    };
-    const resp = await fetch('/api/login', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ input: { payload } }),
-    });
-
-    const loginData = await resp.json();
-
-    setAuthTokenForAddress(loginData.address, loginData.token);
-
-    setAuthState('authenticated');
-    // TODO: NEED TO cause the page to update and re-render
-
-    // TODO: remove this request
-    const { profiles } = await client.query(
-      {
-        profiles: [
-          { limit: 1 },
-          {
-            address: true,
-            name: true,
-          },
-        ],
-      },
-      {
-        operationName: 'getProfile',
-      }
-    );
     try {
+      const data = message.prepareMessage();
+
+      const payload = {
+        signature,
+        hash: '',
+        address: message.address,
+        data,
+        connectorName: 'injected',
+      };
+      const resp = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ input: { payload } }),
+      });
+
+      const loginData = await resp.json();
+
+      setAuthTokenForAddress(loginData.address, loginData.token);
+
+      setAuthState('authenticated');
+      // TODO: NEED TO cause the page to update and re-render
+
+      // TODO: remove this request
+      const { profiles } = await client.query(
+        {
+          profiles: [
+            { limit: 1 },
+            {
+              address: true,
+              name: true,
+            },
+          ],
+        },
+        {
+          operationName: 'getProfile',
+        }
+      );
       assert(profiles.length === 1);
+
+      refreshEmitter.emit();
+      return Boolean(resp.ok);
     } catch (e) {
       console.error(e);
+      throw e;
     }
-
-    return Boolean(resp.ok);
   },
   signOut: async () => {
     try {
@@ -102,6 +106,7 @@ export const authenticationAdapter = createAuthenticationAdapter({
         { operationName: 'logout' }
       );
       logoutAndClearSavedAuth();
+      refreshEmitter.emit();
     } catch (e) {
       console.error(e);
     }
