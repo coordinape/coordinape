@@ -6273,7 +6273,7 @@ export type ValueTypes = {
     pfp_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
-    profile_public?: ValueTypes['profiles_public'];
+    profile_public?: ValueTypes['profiles'];
     updated_at?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6292,7 +6292,7 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -6315,7 +6315,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     pfp_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
@@ -6448,73 +6448,6 @@ export type ValueTypes = {
     text?: string | undefined | null;
     timestamp?: ValueTypes['timestamp'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
-  };
-  /** columns and relationships of "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses']: AliasType<{
-    avatar_url?: boolean | `@${string}`;
-    bio?: boolean | `@${string}`;
-    display_name?: boolean | `@${string}`;
-    fid?: boolean | `@${string}`;
-    fname?: boolean | `@${string}`;
-    updated_at?: boolean | `@${string}`;
-    verified_addresses?: [
-      {
-        /** JSON select path */ path?: string | undefined | null;
-      },
-      boolean | `@${string}`,
-    ];
-    __typename?: boolean | `@${string}`;
-  }>;
-  /** Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'. */
-  ['farcaster_profile_with_addresses_bool_exp']: {
-    _and?:
-      | Array<ValueTypes['farcaster_profile_with_addresses_bool_exp']>
-      | undefined
-      | null;
-    _not?:
-      | ValueTypes['farcaster_profile_with_addresses_bool_exp']
-      | undefined
-      | null;
-    _or?:
-      | Array<ValueTypes['farcaster_profile_with_addresses_bool_exp']>
-      | undefined
-      | null;
-    avatar_url?: ValueTypes['String_comparison_exp'] | undefined | null;
-    bio?: ValueTypes['String_comparison_exp'] | undefined | null;
-    display_name?: ValueTypes['String_comparison_exp'] | undefined | null;
-    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    fname?: ValueTypes['String_comparison_exp'] | undefined | null;
-    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
-    verified_addresses?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
-  };
-  /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
-  ['farcaster_profile_with_addresses_order_by']: {
-    avatar_url?: ValueTypes['order_by'] | undefined | null;
-    bio?: ValueTypes['order_by'] | undefined | null;
-    display_name?: ValueTypes['order_by'] | undefined | null;
-    fid?: ValueTypes['order_by'] | undefined | null;
-    fname?: ValueTypes['order_by'] | undefined | null;
-    updated_at?: ValueTypes['order_by'] | undefined | null;
-    verified_addresses?: ValueTypes['order_by'] | undefined | null;
-  };
-  /** select columns of table "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses_select_column']: farcaster_profile_with_addresses_select_column;
-  /** Streaming cursor of the table "farcaster_profile_with_addresses" */
-  ['farcaster_profile_with_addresses_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: ValueTypes['farcaster_profile_with_addresses_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['farcaster_profile_with_addresses_stream_cursor_value_input']: {
-    avatar_url?: string | undefined | null;
-    bio?: string | undefined | null;
-    display_name?: string | undefined | null;
-    fid?: ValueTypes['bigint'] | undefined | null;
-    fname?: string | undefined | null;
-    updated_at?: ValueTypes['timestamp'] | undefined | null;
-    verified_addresses?: ValueTypes['jsonb'] | undefined | null;
   };
   ['float8']: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -13682,32 +13615,6 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_casts'],
     ];
-    farcaster_profile_with_addresses?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['farcaster_profile_with_addresses_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['farcaster_profile_with_addresses_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?:
-          | ValueTypes['farcaster_profile_with_addresses_bool_exp']
-          | undefined
-          | null;
-      },
-      ValueTypes['farcaster_profile_with_addresses'],
-    ];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput'],
@@ -17426,48 +17333,6 @@ export type ValueTypes = {
         where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
       },
       ValueTypes['farcaster_casts'],
-    ];
-    farcaster_profile_with_addresses?: [
-      {
-        /** distinct select on columns */
-        distinct_on?:
-          | Array<ValueTypes['farcaster_profile_with_addresses_select_column']>
-          | undefined
-          | null /** limit the number of rows returned */;
-        limit?:
-          | number
-          | undefined
-          | null /** skip the first n rows. Use only with order_by */;
-        offset?:
-          | number
-          | undefined
-          | null /** sort the rows by one or more columns */;
-        order_by?:
-          | Array<ValueTypes['farcaster_profile_with_addresses_order_by']>
-          | undefined
-          | null /** filter the rows returned */;
-        where?:
-          | ValueTypes['farcaster_profile_with_addresses_bool_exp']
-          | undefined
-          | null;
-      },
-      ValueTypes['farcaster_profile_with_addresses'],
-    ];
-    farcaster_profile_with_addresses_stream?: [
-      {
-        /** maximum number of rows returned in a single batch */
-        batch_size: number /** cursor to stream the results returned by the query */;
-        cursor: Array<
-          | ValueTypes['farcaster_profile_with_addresses_stream_cursor_input']
-          | undefined
-          | null
-        > /** filter the rows returned */;
-        where?:
-          | ValueTypes['farcaster_profile_with_addresses_bool_exp']
-          | undefined
-          | null;
-      },
-      ValueTypes['farcaster_profile_with_addresses'],
     ];
     gift_private?: [
       {
@@ -23528,7 +23393,7 @@ export type ModelTypes = {
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -23580,26 +23445,6 @@ export type ModelTypes = {
   ['farcaster_casts_stream_cursor_input']: GraphQLTypes['farcaster_casts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['farcaster_casts_stream_cursor_value_input']: GraphQLTypes['farcaster_casts_stream_cursor_value_input'];
-  /** columns and relationships of "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses']: {
-    avatar_url?: string | undefined;
-    bio?: string | undefined;
-    display_name?: string | undefined;
-    fid?: GraphQLTypes['bigint'] | undefined;
-    fname?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    verified_addresses?: GraphQLTypes['jsonb'] | undefined;
-  };
-  /** Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'. */
-  ['farcaster_profile_with_addresses_bool_exp']: GraphQLTypes['farcaster_profile_with_addresses_bool_exp'];
-  /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
-  ['farcaster_profile_with_addresses_order_by']: GraphQLTypes['farcaster_profile_with_addresses_order_by'];
-  /** select columns of table "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses_select_column']: GraphQLTypes['farcaster_profile_with_addresses_select_column'];
-  /** Streaming cursor of the table "farcaster_profile_with_addresses" */
-  ['farcaster_profile_with_addresses_stream_cursor_input']: GraphQLTypes['farcaster_profile_with_addresses_stream_cursor_input'];
-  /** Initial value of the column from where the streaming should start */
-  ['farcaster_profile_with_addresses_stream_cursor_value_input']: GraphQLTypes['farcaster_profile_with_addresses_stream_cursor_value_input'];
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: GraphQLTypes['float8_comparison_exp'];
@@ -26113,10 +25958,6 @@ export type ModelTypes = {
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
-    /** fetch data from the table: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -27036,14 +26877,6 @@ export type ModelTypes = {
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.casts" */
     farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
-    /** fetch data from the table: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
-    /** fetch data from the table in a streaming manner: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses_stream: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -32473,7 +32306,7 @@ export type GraphQLTypes = {
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -32491,7 +32324,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -32514,7 +32347,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     pfp_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
@@ -32635,65 +32468,6 @@ export type GraphQLTypes = {
     text?: string | undefined;
     timestamp?: GraphQLTypes['timestamp'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
-  };
-  /** columns and relationships of "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses']: {
-    __typename: 'farcaster_profile_with_addresses';
-    avatar_url?: string | undefined;
-    bio?: string | undefined;
-    display_name?: string | undefined;
-    fid?: GraphQLTypes['bigint'] | undefined;
-    fname?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    verified_addresses?: GraphQLTypes['jsonb'] | undefined;
-  };
-  /** Boolean expression to filter rows from the table "farcaster.profile_with_addresses". All fields are combined with a logical 'AND'. */
-  ['farcaster_profile_with_addresses_bool_exp']: {
-    _and?:
-      | Array<GraphQLTypes['farcaster_profile_with_addresses_bool_exp']>
-      | undefined;
-    _not?:
-      | GraphQLTypes['farcaster_profile_with_addresses_bool_exp']
-      | undefined;
-    _or?:
-      | Array<GraphQLTypes['farcaster_profile_with_addresses_bool_exp']>
-      | undefined;
-    avatar_url?: GraphQLTypes['String_comparison_exp'] | undefined;
-    bio?: GraphQLTypes['String_comparison_exp'] | undefined;
-    display_name?: GraphQLTypes['String_comparison_exp'] | undefined;
-    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    fname?: GraphQLTypes['String_comparison_exp'] | undefined;
-    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
-    verified_addresses?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
-  };
-  /** Ordering options when selecting data from "farcaster.profile_with_addresses". */
-  ['farcaster_profile_with_addresses_order_by']: {
-    avatar_url?: GraphQLTypes['order_by'] | undefined;
-    bio?: GraphQLTypes['order_by'] | undefined;
-    display_name?: GraphQLTypes['order_by'] | undefined;
-    fid?: GraphQLTypes['order_by'] | undefined;
-    fname?: GraphQLTypes['order_by'] | undefined;
-    updated_at?: GraphQLTypes['order_by'] | undefined;
-    verified_addresses?: GraphQLTypes['order_by'] | undefined;
-  };
-  /** select columns of table "farcaster.profile_with_addresses" */
-  ['farcaster_profile_with_addresses_select_column']: farcaster_profile_with_addresses_select_column;
-  /** Streaming cursor of the table "farcaster_profile_with_addresses" */
-  ['farcaster_profile_with_addresses_stream_cursor_input']: {
-    /** Stream column input with initial value */
-    initial_value: GraphQLTypes['farcaster_profile_with_addresses_stream_cursor_value_input'];
-    /** cursor ordering */
-    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
-  };
-  /** Initial value of the column from where the streaming should start */
-  ['farcaster_profile_with_addresses_stream_cursor_value_input']: {
-    avatar_url?: string | undefined;
-    bio?: string | undefined;
-    display_name?: string | undefined;
-    fid?: GraphQLTypes['bigint'] | undefined;
-    fname?: string | undefined;
-    updated_at?: GraphQLTypes['timestamp'] | undefined;
-    verified_addresses?: GraphQLTypes['jsonb'] | undefined;
   };
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -37649,10 +37423,6 @@ export type GraphQLTypes = {
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
-    /** fetch data from the table: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -39132,14 +38902,6 @@ export type GraphQLTypes = {
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.casts" */
     farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
-    /** fetch data from the table: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
-    /** fetch data from the table in a streaming manner: "farcaster.profile_with_addresses" */
-    farcaster_profile_with_addresses_stream: Array<
-      GraphQLTypes['farcaster_profile_with_addresses']
-    >;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -41388,16 +41150,6 @@ export const enum farcaster_casts_select_column {
   text = 'text',
   timestamp = 'timestamp',
   updated_at = 'updated_at',
-}
-/** select columns of table "farcaster.profile_with_addresses" */
-export const enum farcaster_profile_with_addresses_select_column {
-  avatar_url = 'avatar_url',
-  bio = 'bio',
-  display_name = 'display_name',
-  fid = 'fid',
-  fname = 'fname',
-  updated_at = 'updated_at',
-  verified_addresses = 'verified_addresses',
 }
 /** select columns of table "gift_private" */
 export const enum gift_private_select_column {

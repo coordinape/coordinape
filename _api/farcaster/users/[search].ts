@@ -3,7 +3,6 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';
-import { errorResponse } from '../../../api-lib/HttpError.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   let search: string | undefined;
@@ -15,12 +14,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   assert(search, 'no address provided');
 
-  adminClient.query(
+  const { farcaster_fnames } = await adminClient.query(
     {
       farcaster_fnames: [
-        {},
+        {
+          where: {
+            fname: { _ilike: '%' + search + '%' },
+          },
+          limit: 10,
+        },
         {
           custody_address: true,
+          fname: true,
+          profile_with_address: {
+            verified_addresses: [{}, true],
+            avatar_url: true,
+            display_name: true,
+          },
         },
       ],
     },
@@ -29,11 +39,12 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   );
 
-  if (!fcUser) {
-    return errorResponse(
-      res,
-      'no CoLinks or Farcaster user found for this address'
-    );
-  }
-  return res.status(200).json(fcUser);
+  const matches = farcaster_fnames.map(u => ({
+    fname: u.fname,
+    avatar_url: u.profile_with_address?.avatar_url,
+    display_name: u.profile_with_address?.display_name,
+    address: u.profile_with_address?.verified_addresses[0] ?? u.custody_address,
+  }));
+
+  return res.status(200).json(matches);
 }

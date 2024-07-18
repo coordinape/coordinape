@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, useEffect, useRef, useState } from 'react';
 
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -6,8 +6,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ComboBox } from '../../components/ComboBox';
 import { Search } from '../../icons/__generated';
 import { Button, Flex, Modal, Text } from '../../ui';
-
-import { SearchResults } from './SearchResults';
 
 export function isMacBrowser(): boolean {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -18,11 +16,19 @@ export const SearchBox = ({
   size = 'medium',
   registerKeyDown = true,
   viewResultsPathFunc,
+  resultsFunc,
 }: {
   placeholder?: string;
   size?: 'medium' | 'large';
   registerKeyDown?: boolean;
   viewResultsPathFunc?: (currentInput?: string) => string;
+  resultsFunc({
+    setPopoverOpen,
+    inputRef,
+  }: {
+    setPopoverOpen: Dispatch<React.SetStateAction<boolean>>;
+    inputRef: React.RefObject<HTMLInputElement>;
+  }): React.ReactNode;
 }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -98,7 +104,7 @@ export const SearchBox = ({
         closeButtonStyles={{ opacity: 0.2, right: '$md', top: '19px' }}
       >
         <ComboBox fullScreen filter={() => 1}>
-          <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
+          {resultsFunc({ setPopoverOpen, inputRef })}
         </ComboBox>
         {viewResultsPathFunc && (
           <Flex

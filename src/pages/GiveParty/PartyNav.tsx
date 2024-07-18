@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { CSS } from '@stitches/react';
 
-import { SearchBox } from '../../features/SearchBox/SearchBox';
+import { PartySearchBox } from '../../features/SearchBox/PartySearchBox';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Button, Flex, Modal, Text } from 'ui';
 
@@ -78,7 +78,7 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
           }),
         }}
       >
-        <SearchBox />
+        <PartySearchBox />
       </Flex>
       {visible && (
         <Modal
