@@ -89,6 +89,7 @@ const tf = (handler: any) => (req: any, res: any) => {
   try {
     return handler(req, res);
   } catch (e: any) {
+    console.error(e);
     return res.status(500).json(e);
   }
 };
