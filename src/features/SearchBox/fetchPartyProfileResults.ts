@@ -11,13 +11,9 @@ export const fetchPartyProfileResults = async ({
       profiles_public: [
         {
           where: {
-            _or: [
-              { name: { _ilike: '%' + search + '%' } },
-              {
-                address: { _ilike: '%' + search + '%' },
-              },
-            ],
+            name: { _ilike: '%' + search + '%' },
           },
+          limit: 10,
         },
         {
           id: true,
