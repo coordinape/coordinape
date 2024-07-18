@@ -10,8 +10,8 @@ import { ExternalLink, Farcaster, Github, Twitter } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Avatar, Flex, Link, Text } from 'ui';
 
-import { PublicProfile } from './PartyProfile';
 import { PartyStats } from './PartyStats';
+import { PublicProfile } from './useCoLinksProfile';
 
 export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
   const { data: details } = useQuery(['twitter', profile.id], async () => {
