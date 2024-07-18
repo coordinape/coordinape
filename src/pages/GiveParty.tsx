@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import copy from 'copy-to-clipboard';
 import { Rainbowify } from 'features/rainbowkit/Rainbowify';
 import { disabledStyle } from 'stitches.config';
@@ -43,7 +42,6 @@ export const GiveParty = () => {
     'surpriseParty'
   );
 
-  // TODO: if address cahnges handle it, ie metamask switch connected address
   return (
     <Rainbowify>
       <PartyBody>
@@ -63,7 +61,6 @@ export const GiveParty = () => {
           <Text h1 display css={{ fontSize: '46px' }}>
             {`There are Two Ways to Party!`}
           </Text>
-          <ConnectButton />
 
           <Flex css={{ flexDirection: 'row', gap: '$md' }}>
             <Button
