@@ -1,7 +1,7 @@
 import { writeContract, readContract } from '@wagmi/core';
 import { Address, erc20Abi } from 'viem';
 
-import { wagmiConfig } from './config';
+import { wagmiConfig } from '../wagmi/config';
 
 export const approveToken = async ({
   token,
