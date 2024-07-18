@@ -5,12 +5,9 @@ import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { getMagicProvider } from 'features/auth/magic';
 import { useSavedAuth } from 'features/auth/useSavedAuth';
-import {
-  wagmiConfig,
-  wagmiChain,
-  defaultAvailableChains,
-} from 'features/DecentSwap/config';
+import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
+import { wagmiConfig, wagmiChain } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { Address } from 'viem';
 

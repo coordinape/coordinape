@@ -1,23 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 import { useEffect, useRef, useState } from 'react';
 
 import {
   RainbowKitProvider,
-  darkTheme,
   RainbowKitAuthenticationProvider,
-  AuthenticationStatus,
   ConnectButton,
 } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getAuthToken } from 'features/auth/token';
 import { reloadAuthFromCookie } from 'features/auth/useSavedAuth';
-import { wagmiConfig } from 'features/DecentSwap/config';
 import {
   authState,
   authenticationAdapter,
   setAuthState,
 } from 'features/rainbowkit/siwe';
+import { wagmiConfig } from 'features/wagmi/config';
 import { useAccount, WagmiProvider } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
 
