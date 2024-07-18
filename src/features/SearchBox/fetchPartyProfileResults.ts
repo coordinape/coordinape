@@ -12,7 +12,7 @@ export const fetchPartyProfileResults = async ({
         {
           where: {
             _or: [
-              { name: { _ilike: '%s' + search + '%' } },
+              { name: { _ilike: '%' + search + '%' } },
               {
                 address: { _ilike: '%' + search + '%' },
               },
