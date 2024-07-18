@@ -72,6 +72,7 @@ export const authenticationAdapter = createAuthenticationAdapter({
     setAuthState('authenticated');
     // TODO: NEED TO cause the page to update and re-render
 
+    // TODO: remove this request
     const { profiles } = await client.query(
       {
         profiles: [
