@@ -1,10 +1,36 @@
-import { createAuthenticationAdapter } from '@rainbow-me/rainbowkit';
+import assert from 'assert';
+
+import {
+  AuthenticationStatus,
+  createAuthenticationAdapter,
+} from '@rainbow-me/rainbowkit';
+import {
+  logoutAndClearSavedAuth,
+  setAuthTokenForAddress,
+} from 'features/auth/useSavedAuth';
 import { client } from 'lib/gql/client';
 import { generateNonce, SiweMessage } from 'siwe';
 
+export let authState: AuthenticationStatus = 'unauthenticated';
+
+export const setAuthState = (state: AuthenticationStatus) => {
+  authState = state;
+};
+
+export const getAuthState = () => {
+  return authState;
+};
+
 export const authenticationAdapter = createAuthenticationAdapter({
   getNonce: async () => {
-    return generateNonce();
+    let nonce: string;
+    try {
+      const nonceReq = await fetch('/api/time');
+      ({ nonce } = JSON.parse(await nonceReq.text()));
+    } catch (e) {
+      nonce = generateNonce();
+    }
+    return nonce;
   },
   createMessage: ({ nonce, address, chainId }) => {
     return new SiweMessage({
@@ -21,13 +47,6 @@ export const authenticationAdapter = createAuthenticationAdapter({
     return message.prepareMessage();
   },
   verify: async ({ message, signature }) => {
-    // const data = generateMessage({ address, time, nonce, chainId });
-    // // this triggers a signature prompt for the user
-    // const { signature, hash } = await getSignature(
-    //   data,
-    //   provider,
-    //   connectorName != 'magic'
-    // );
     const data = message.prepareMessage();
 
     const payload = {
@@ -37,7 +56,6 @@ export const authenticationAdapter = createAuthenticationAdapter({
       data,
       connectorName: 'injected',
     };
-    console.log({ payload });
     const resp = await fetch('/api/login', {
       method: 'POST',
       headers: {
@@ -47,12 +65,44 @@ export const authenticationAdapter = createAuthenticationAdapter({
       body: JSON.stringify({ input: { payload } }),
     });
 
+    const loginData = await resp.json();
+
+    setAuthTokenForAddress(loginData.address, loginData.token);
+
+    setAuthState('authenticated');
+    // TODO: NEED TO cause the page to update and re-render
+
+    const { profiles } = await client.query(
+      {
+        profiles: [
+          { limit: 1 },
+          {
+            address: true,
+            name: true,
+          },
+        ],
+      },
+      {
+        operationName: 'getProfile',
+      }
+    );
+    try {
+      assert(profiles.length === 1);
+    } catch (e) {
+      console.error(e);
+    }
+
     return Boolean(resp.ok);
   },
   signOut: async () => {
-    await client.mutate(
-      { logoutUser: { id: true } },
-      { operationName: 'logout' }
-    );
+    try {
+      await client.mutate(
+        { logoutUser: { id: true } },
+        { operationName: 'logout' }
+      );
+      logoutAndClearSavedAuth();
+    } catch (e) {
+      console.error(e);
+    }
   },
 });
