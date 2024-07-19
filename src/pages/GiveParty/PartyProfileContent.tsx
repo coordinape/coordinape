@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { webAppURL } from 'config/webAppURL';
-import { Farcaster, Links, Wand } from 'icons/__generated';
+import { Farcaster, Give, Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Link, Text } from 'ui';
@@ -40,6 +40,11 @@ export const PartyProfileContent = ({
 
   const appURL = webAppURL('colinks');
   const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
+
+  const sendGive = () => {
+    // eslint-disable-next-line no-console
+    console.log('todo');
+  };
 
   const { data: details } = useQuery(
     ['fc_profile', targetProfile?.id],
@@ -116,6 +121,12 @@ export const PartyProfileContent = ({
             <Wand fa />
             <Text medium css={{ ml: '$xs' }}>
               Cast Profile
+            </Text>
+          </Button>
+          <Button onClick={sendGive}>
+            <Give fa />
+            <Text medium css={{ ml: '$xs' }}>
+              Give
             </Text>
           </Button>
         </Flex>
