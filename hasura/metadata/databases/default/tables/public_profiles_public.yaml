@@ -101,7 +101,7 @@ select_permissions:
         - joined_colinks_at
         - name
       filter: {}
-      limit: 1
+      limit: 10
     comment: ""
   - role: user
     permission:

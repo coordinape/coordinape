@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 
 import { LeaderboardProfileResults } from 'features/colinks/LeaderboardProfileResults';
 import { PostResults } from 'features/colinks/PostResults';
-import { SearchBox } from 'features/SearchBox/SearchBox';
 import { useNavigate, useParams } from 'react-router-dom';
 
+import { CoLinksSearchBox } from '../../features/SearchBox/CoLinksSearchBox';
 import { coLinksPaths } from '../../routes/paths';
 import { ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
@@ -70,7 +70,11 @@ export const SearchPage = () => {
           <Text h2 display>
             Search Results
           </Text>
-          <SearchBox size="large" placeholder={query} registerKeyDown={false} />
+          <CoLinksSearchBox
+            size="large"
+            placeholder={query}
+            registerKeyDown={false}
+          />
         </Flex>
       </ContentHeader>
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>

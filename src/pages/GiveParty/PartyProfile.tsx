@@ -1,6 +1,4 @@
 import { useWindowSize } from '@react-hook/window-size';
-import { anonClient } from 'lib/anongql/anonClient';
-import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
@@ -9,23 +7,23 @@ import { Flex } from 'ui';
 import { PartyBody } from './PartyBody';
 import { PartyHeader } from './PartyHeader';
 import { PartyProfileContent } from './PartyProfileContent';
-
-const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
+import { useCoLinksProfile } from './useCoLinksProfile';
+import { useFarcasterUser } from './useFarcasterUser';
 
 export const profileColumnWidth = 520;
 export const profileColumnWidthMobile = 360;
 export const PartyProfile = () => {
   const { address } = useParams();
-  const { data } = useQuery([QUERY_KEY_PARTY_PROFILE, address, 'profile'], () =>
-    fetchCoLinksProfile(address!)
-  );
+  const { data: targetProfile } = useCoLinksProfile(address!);
+  const { data: fcUser } = useFarcasterUser(address!);
   const [width] = useWindowSize();
 
   const mapWidth = width - profileColumnWidth;
   const desktop = width > 1140;
 
-  const targetProfile = data as PublicProfile;
-  if (!targetProfile) return;
+  // TODO: return a profile/farcaster user not found thing here
+  if (!targetProfile && !fcUser) return;
+
   return (
     <>
       <PartyBody css={{ width: '100%', margin: desktop ? 0 : 'auto' }}>
@@ -79,41 +77,3 @@ export const PartyProfile = () => {
     </>
   );
 };
-
-const fetchCoLinksProfile = async (address: string) => {
-  const { profiles_public } = await anonClient.query(
-    {
-      profiles_public: [
-        {
-          where: {
-            address: {
-              _ilike: address,
-            },
-          },
-        },
-        {
-          id: true,
-          name: true,
-          avatar: true,
-          address: true,
-          website: true,
-          links: true,
-          description: true,
-          reputation_score: {
-            total_score: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'coLinks_profile',
-    }
-  );
-  const profile = profiles_public.pop();
-
-  return profile ? profile : null;
-};
-
-export type PublicProfile = NonNullable<
-  Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
->;

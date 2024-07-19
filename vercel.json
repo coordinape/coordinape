@@ -66,6 +66,14 @@
       "destination": "/api/network/[address]?address=:address"
     },
     {
+      "source": "/api/farcaster/user/:address",
+      "destination": "/api/farcaster/user/[address]?address=:address"
+    },
+    {
+      "source": "/api/farcaster/users/:search",
+      "destination": "/api/farcaster/users/[search]?search=:search"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

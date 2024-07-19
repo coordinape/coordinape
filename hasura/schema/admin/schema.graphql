@@ -16018,7 +16018,7 @@ type farcaster_accounts {
   """
   An object relationship
   """
-  profile_public: profiles_public
+  profile_public: profiles!
   updated_at: timestamptz!
   username: String!
 }
@@ -16074,7 +16074,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
-  profile_public: profiles_public_bool_exp
+  profile_public: profiles_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -16117,7 +16117,7 @@ input farcaster_accounts_insert_input {
   name: String
   pfp_url: String
   profile_id: bigint
-  profile_public: profiles_public_obj_rel_insert_input
+  profile_public: profiles_obj_rel_insert_input
   updated_at: timestamptz
   username: String
 }
@@ -16205,7 +16205,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
-  profile_public: profiles_public_order_by
+  profile_public: profiles_order_by
   updated_at: order_by
   username: order_by
 }
@@ -17395,6 +17395,11 @@ type farcaster_fnames {
   expires_at: timestamp
   fid: bigint
   fname: String!
+
+  """
+  An object relationship
+  """
+  profile_with_address: farcaster_profile_with_addresses
   updated_at: timestamp!
 }
 
@@ -17443,6 +17448,7 @@ input farcaster_fnames_bool_exp {
   expires_at: timestamp_comparison_exp
   fid: bigint_comparison_exp
   fname: String_comparison_exp
+  profile_with_address: farcaster_profile_with_addresses_bool_exp
   updated_at: timestamp_comparison_exp
 }
 
@@ -17473,6 +17479,7 @@ input farcaster_fnames_insert_input {
   expires_at: timestamp
   fid: bigint
   fname: String
+  profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
   updated_at: timestamp
 }
 
@@ -17534,6 +17541,7 @@ input farcaster_fnames_order_by {
   expires_at: order_by
   fid: order_by
   fname: order_by
+  profile_with_address: farcaster_profile_with_addresses_order_by
   updated_at: order_by
 }
 

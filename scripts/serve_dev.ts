@@ -10,6 +10,8 @@ import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
+import farcaster_user from '../_api/farcaster/user/[address]';
+import farcaster_search from '../_api/farcaster/users/[search]';
 import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
@@ -83,7 +85,14 @@ const port = process.argv[2];
 
 // handlers are typed to only accept VercelRequest and VercelResponse
 // so we shim them with this (tf = "type fudge")
-const tf = (handler: any) => (req: any, res: any) => handler(req, res);
+const tf = (handler: any) => (req: any, res: any) => {
+  try {
+    return handler(req, res);
+  } catch (e: any) {
+    console.error(e);
+    return res.status(500).json(e);
+  }
+};
 
 app.get('/api/discord/oauth', tf(discord));
 app.get('/api/hasura/auth', tf(auth));
@@ -200,6 +209,15 @@ app.get('/api/github/login', tf(github_login));
 app.get('/api/github/callback', tf(github_callback));
 app.get('/api/linkedin/login', tf(linkedin_login));
 app.get('/api/linkedin/callback', tf(linkedin_callback));
+
+app.get('/api/farcaster/user/:address', (req, res) => {
+  return tf(farcaster_user)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/farcaster/users/:search', (req, res) => {
+  return tf(farcaster_search)({ ...req, query: req.params }, res);
+});
+
 app.all('/api/frames/router/:path*', (req, res) => {
   let path = req.url as string;
   // trim the first character if it's a slash

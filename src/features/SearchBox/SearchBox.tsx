@@ -1,15 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { Dispatch, useEffect, useRef, useState } from 'react';
 
 import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
 import { Search } from '../../icons/__generated';
-import { POSTS } from '../../pages/colinks/SearchPage';
-import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
-
-import { SearchResults } from './SearchResults';
 
 export function isMacBrowser(): boolean {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -19,10 +15,20 @@ export const SearchBox = ({
   placeholder,
   size = 'medium',
   registerKeyDown = true,
+  viewResultsPathFunc,
+  resultsFunc,
 }: {
   placeholder?: string;
   size?: 'medium' | 'large';
   registerKeyDown?: boolean;
+  viewResultsPathFunc?: (currentInput?: string) => string;
+  resultsFunc({
+    setPopoverOpen,
+    inputRef,
+  }: {
+    setPopoverOpen: Dispatch<React.SetStateAction<boolean>>;
+    inputRef: React.RefObject<HTMLInputElement>;
+  }): React.ReactNode;
 }) => {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
@@ -98,34 +104,29 @@ export const SearchBox = ({
         closeButtonStyles={{ opacity: 0.2, right: '$md', top: '19px' }}
       >
         <ComboBox fullScreen filter={() => 1}>
-          <SearchResults setPopoverOpen={setPopoverOpen} inputRef={inputRef} />
+          {resultsFunc({ setPopoverOpen, inputRef })}
         </ComboBox>
-        <Flex
-          css={{
-            background: '$surface',
-            p: '$sm $sm',
-            borderTop: '1px solid $borderDim',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            size="xs"
-            color="transparent"
-            onClick={() =>
-              navigate(
-                inputRef.current?.value
-                  ? coLinksPaths.searchResult(
-                      inputRef.current?.value ?? '',
-                      POSTS
-                    )
-                  : coLinksPaths.search
-              )
-            }
+        {viewResultsPathFunc && (
+          <Flex
+            css={{
+              background: '$surface',
+              p: '$sm $sm',
+              borderTop: '1px solid $borderDim',
+              justifyContent: 'flex-end',
+            }}
           >
-            <Search />
-            View all results
-          </Button>
-        </Flex>
+            <Button
+              size="xs"
+              color="transparent"
+              onClick={() =>
+                navigate(viewResultsPathFunc(inputRef.current?.value))
+              }
+            >
+              <Search />
+              View all results
+            </Button>
+          </Flex>
+        )}
       </Modal>
     </>
   );

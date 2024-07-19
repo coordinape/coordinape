@@ -10,7 +10,7 @@ import { coLinksPaths } from '../../routes/paths';
 import { Flex, HR, IconButton, Link, Text } from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
-import { SearchBox } from '../SearchBox/SearchBox';
+import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
 import {
   Ai,
@@ -169,7 +169,7 @@ export const CoLinksNav = () => {
           column
         >
           <Flex css={{ mb: '$lg' }}>
-            <SearchBox />
+            <CoLinksSearchBox />
           </Flex>
           <NavItem path={coLinksPaths.home}>
             <HouseFill size="lg" nostroke />

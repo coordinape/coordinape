@@ -14,8 +14,11 @@ import { Button, Flex, Link, Text } from 'ui';
 import { PartyProfileGives } from './PartyProfileGives';
 import { PartyProfileHeader } from './PartyProfileHeader';
 import { ProfileNetwork } from './ProfileNetwork';
-
-const QUERY_KEY_PARTY_PROFILE = 'partyProfile';
+import {
+  QUERY_KEY_PARTY_PROFILE,
+  useCoLinksProfile,
+} from './useCoLinksProfile';
+import { useFarcasterUser } from './useFarcasterUser';
 
 export const PartyProfileContent = ({
   address,
@@ -24,10 +27,10 @@ export const PartyProfileContent = ({
   address: string;
   css?: CSS;
 }) => {
-  const { data, isLoading: fetchCoLinksProfileIsLoading } = useQuery(
-    [QUERY_KEY_PARTY_PROFILE, address, 'profile'],
-    () => fetchCoLinksProfile(address!)
-  );
+  const { data: targetProfile, isLoading: fetchCoLinksProfileIsLoading } =
+    useCoLinksProfile(address);
+  const { data: fcUser } = useFarcasterUser(address!);
+
   const { data: cosoul } = useQuery(
     [QUERY_KEY_PARTY_PROFILE, address, 'cosoul'],
     async () => {
@@ -35,7 +38,6 @@ export const PartyProfileContent = ({
     }
   );
 
-  const targetProfile = data as PublicProfile;
   const appURL = webAppURL('colinks');
   const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
 
@@ -46,7 +48,7 @@ export const PartyProfileContent = ({
         {
           farcaster_accounts_by_pk: [
             {
-              profile_id: targetProfile.id,
+              profile_id: targetProfile!.id,
             },
             {
               username: true,
@@ -61,10 +63,14 @@ export const PartyProfileContent = ({
       return {
         farcaster: farcaster ? farcaster.username : undefined,
       };
+    },
+    {
+      enabled: !!targetProfile,
     }
   );
 
-  if (!targetProfile) return;
+  // TODO: handle this better
+  if (!targetProfile && !fcUser) return;
   return (
     <Flex
       css={{
@@ -79,24 +85,26 @@ export const PartyProfileContent = ({
       {fetchCoLinksProfileIsLoading && '...loading'}
 
       <Flex column css={{ gap: '$md', alignItems: 'center' }}>
-        <PartyProfileHeader profile={targetProfile} />
+        <PartyProfileHeader profile={targetProfile} fcUser={fcUser} />
         <Flex css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}>
-          <Button
-            as={NavLink}
-            to={coLinksPaths.profile(targetProfile?.address ?? '')}
-          >
-            {' '}
-            <Links fa />
-            <Text medium css={{ ml: '$xs' }}>
-              Buy CoLink
-            </Text>
-          </Button>
-          {details?.farcaster && (
+          {targetProfile && (
+            <Button
+              as={NavLink}
+              to={coLinksPaths.profile(targetProfile.address ?? '')}
+            >
+              {' '}
+              <Links fa />
+              <Text medium css={{ ml: '$xs' }}>
+                Buy CoLink
+              </Text>
+            </Button>
+          )}
+          {(details?.farcaster || fcUser) && (
             <Button
               as={Link}
               target="_blank"
               rel="noreferrer"
-              href={`https://warpcast.com/${details.farcaster}`}
+              href={`https://warpcast.com/${details?.farcaster || fcUser?.username}`}
             >
               <Farcaster fa />
               <Text medium css={{ ml: '$xs' }}>
@@ -121,7 +129,12 @@ export const PartyProfileContent = ({
           }}
         >
           <ProfileNetwork targetAddress={address} />
-          <PartyProfileGives profileId={targetProfile.id} />
+          {targetProfile ? (
+            <PartyProfileGives profileId={targetProfile.id} />
+          ) : (
+            // TODO: handle this better
+            <Text>no gives yet </Text>
+          )}
           <Flex
             column
             css={{
@@ -138,41 +151,3 @@ export const PartyProfileContent = ({
     </Flex>
   );
 };
-
-const fetchCoLinksProfile = async (address: string) => {
-  const { profiles_public } = await anonClient.query(
-    {
-      profiles_public: [
-        {
-          where: {
-            address: {
-              _ilike: address,
-            },
-          },
-        },
-        {
-          id: true,
-          name: true,
-          avatar: true,
-          address: true,
-          website: true,
-          links: true,
-          description: true,
-          reputation_score: {
-            total_score: true,
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'partyProfileContent__fetchCoLinksProfile',
-    }
-  );
-  const profile = profiles_public.pop();
-
-  return profile ? profile : null;
-};
-
-export type PublicProfile = NonNullable<
-  Required<Awaited<ReturnType<typeof fetchCoLinksProfile>>>
->;

@@ -490,7 +490,7 @@ export const CoSoulCompositionRep = ({
                 <Text className="nodeHeader">
                   {numberWithCommas(cosoul_data.reputation?.pgive_score, 0)}
                 </Text>
-                <Text className="nodeSubHeader">pGIVE</Text>
+                <Text className="nodeSubHeader">GIVE</Text>
               </Box>
               <Box css={{ ...nodePanelStyle }}>
                 <Text className="nodeHeader">
