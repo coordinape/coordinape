@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import {
   AuthenticationStatus,
   createAuthenticationAdapter,
@@ -71,27 +69,7 @@ export const authenticationAdapter = createAuthenticationAdapter({
       const loginData = await resp.json();
 
       setAuthTokenForAddress(loginData.address, loginData.token);
-
       setAuthState('authenticated');
-      // TODO: NEED TO cause the page to update and re-render
-
-      // TODO: remove this request
-      const { profiles } = await client.query(
-        {
-          profiles: [
-            { limit: 1 },
-            {
-              address: true,
-              name: true,
-            },
-          ],
-        },
-        {
-          operationName: 'getProfile',
-        }
-      );
-      assert(profiles.length === 1);
-
       refreshEmitter.emit();
       return Boolean(resp.ok);
     } catch (e) {
