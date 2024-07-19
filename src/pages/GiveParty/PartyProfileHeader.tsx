@@ -1,3 +1,4 @@
+import { User } from '@neynar/nodejs-sdk/build/neynar-api/v2/openapi-farcaster/models/user';
 import { abbreviateString } from 'abbreviateString';
 import { order_by } from 'lib/anongql/__generated__/zeus';
 import { anonClient } from 'lib/anongql/anonClient';
@@ -11,71 +12,83 @@ import { coLinksPaths } from 'routes/paths';
 import { Avatar, Flex, Link, Text } from 'ui';
 
 import { PartyStats } from './PartyStats';
-import { PublicProfile } from './useCoLinksProfile';
+import { useCoLinksProfile } from './useCoLinksProfile';
 
-export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
-  const { data: details } = useQuery(['twitter', profile.id], async () => {
-    const {
-      twitter_accounts_by_pk: twitter,
-      github_accounts_by_pk: github,
-      farcaster_accounts_by_pk: farcaster,
-      profile_skills,
-    } = await anonClient.query(
-      {
-        profile_skills: [
-          {
-            where: {
-              profile_id: {
-                _eq: profile.id,
-              },
-            },
-            order_by: [{ skill_name: order_by.asc }],
-          },
-          {
-            skill_name: true,
-          },
-        ],
-        twitter_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-        github_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-        farcaster_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-      },
-      {
-        operationName: 'twitter_profile',
+export const PartyProfileHeader = ({
+  profile,
+  fcUser,
+}: {
+  profile: ReturnType<typeof useCoLinksProfile>['data'];
+  fcUser?: User;
+}) => {
+  const { data: details } = useQuery(
+    ['partyProfileHeader', profile?.id],
+    async () => {
+      if (!profile) {
+        return undefined;
       }
-    );
+      const {
+        twitter_accounts_by_pk: twitter,
+        github_accounts_by_pk: github,
+        farcaster_accounts_by_pk: farcaster,
+        profile_skills,
+      } = await anonClient.query(
+        {
+          profile_skills: [
+            {
+              where: {
+                profile_id: {
+                  _eq: profile.id,
+                },
+              },
+              order_by: [{ skill_name: order_by.asc }],
+            },
+            {
+              skill_name: true,
+            },
+          ],
+          twitter_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+          github_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+          farcaster_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+        },
+        {
+          operationName: 'twitter_profile',
+        }
+      );
 
-    return {
-      twitter: twitter ? twitter.username : undefined,
-      github: github ? github.username : undefined,
-      farcaster: farcaster ? farcaster.username : undefined,
-      skills: profile_skills.map(ps => ps.skill_name),
-    };
-  });
+      return {
+        twitter: twitter ? twitter.username : undefined,
+        github: github ? github.username : undefined,
+        farcaster: farcaster ? farcaster.username : undefined,
+        skills: profile_skills.map(ps => ps.skill_name),
+      };
+    },
+    {
+      enabled: !!profile,
+    }
+  );
 
-  if (!profile) {
-    return;
-  }
   return (
     <Flex
       column
@@ -99,36 +112,45 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
       >
         <Flex column alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
           <Flex column css={{ mb: '$sm' }}>
-            <NavLink to={coLinksPaths.partyProfile(profile.address)}>
+            <NavLink
+              to={coLinksPaths.partyProfile(
+                profile?.address ??
+                  fcUser?.verified_addresses.eth_addresses[0] ??
+                  fcUser?.custody_address ??
+                  ''
+              )}
+            >
               <Avatar
                 size="xl"
-                name={profile.name}
-                path={profile.avatar}
+                name={profile?.name ?? fcUser?.username}
+                path={profile?.avatar ?? fcUser?.pfp_url}
                 margin="none"
               />
             </NavLink>
           </Flex>
           <Flex column css={{ gap: '$sm', alignItems: 'center' }}>
             <Text h2 display>
-              {profile.name}
+              {profile?.name ?? fcUser?.username}
             </Text>
             <Flex
               column
               css={{ gap: '$sm', flexWrap: 'wrap', alignItems: 'center' }}
             >
-              <PartyStats
-                profileId={profile.id}
-                links={profile.links ?? 0}
-                score={profile.reputation_score?.total_score ?? 0}
-                size={'medium'}
-              />
+              {profile && (
+                <PartyStats
+                  profileId={profile.id}
+                  links={profile.links ?? 0}
+                  score={profile.reputation_score?.total_score ?? 0}
+                  size={'medium'}
+                />
+              )}
               <Flex
                 css={{ gap: '$lg', flexWrap: 'wrap', justifyContent: 'center' }}
               >
-                {details?.farcaster && (
+                {(details?.farcaster || fcUser) && (
                   <Flex
                     as={Link}
-                    href={`https://warpcast.com/${details?.farcaster}`}
+                    href={`https://warpcast.com/${details?.farcaster ?? fcUser?.username}`}
                     target="_blank"
                     rel="noreferrer"
                     css={{
@@ -256,7 +278,7 @@ export const PartyProfileHeader = ({ profile }: { profile: PublicProfile }) => {
           </Flex>
         </>
       )}
-      {profile.description && (
+      {profile?.description && (
         <Flex
           css={{
             mt: '$sm',

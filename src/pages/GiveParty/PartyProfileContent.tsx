@@ -85,7 +85,7 @@ export const PartyProfileContent = ({
       {fetchCoLinksProfileIsLoading && '...loading'}
 
       <Flex column css={{ gap: '$md', alignItems: 'center' }}>
-        <PartyProfileHeader profile={targetProfile} />
+        <PartyProfileHeader profile={targetProfile} fcUser={fcUser} />
         <Flex css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}>
           {targetProfile && (
             <Button

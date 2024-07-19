@@ -68,15 +68,15 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
         world of give
       </Button>
       <Flex
-        css={{
-          ...partyNavButtonStyle,
-          ...(location.pathname == '/givemap' && {
-            borderColor: 'rgba(0,0,0,0.15) !important',
-            background: 'rgba(0,0,0,0.15) !important',
-            cursor: 'default',
-            pointerEvents: 'none',
-          }),
-        }}
+        css={
+          {
+            // ...partyNavButtonStyle,
+            // ...(location.pathname == '/givemap' && {
+            //   cursor: 'default',
+            //   pointerEvents: 'none',
+            // }),
+          }
+        }
       >
         <PartySearchBox />
       </Flex>

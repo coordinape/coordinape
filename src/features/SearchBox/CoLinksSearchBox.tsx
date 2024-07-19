@@ -1,4 +1,4 @@
-import { Dispatch } from 'react';
+import { ComponentProps, Dispatch } from 'react';
 
 import { POSTS } from '../../pages/colinks/SearchPage';
 import { coLinksPaths } from '../../routes/paths';
@@ -6,7 +6,12 @@ import { coLinksPaths } from '../../routes/paths';
 import { SearchBox } from './SearchBox';
 import { SearchResults } from './SearchResults';
 
-export const CoLinksSearchBox = () => {
+export const CoLinksSearchBox = (
+  props: Omit<
+    ComponentProps<typeof SearchBox>,
+    'resultsFunc' | 'viewResultsPathFunc'
+  >
+) => {
   const viewResultsPathFunc = (value?: string) => {
     return value
       ? coLinksPaths.searchResult(value ?? '', POSTS)
@@ -29,6 +34,7 @@ export const CoLinksSearchBox = () => {
     <SearchBox
       viewResultsPathFunc={viewResultsPathFunc}
       resultsFunc={resultsFunc}
+      {...props}
     />
   );
 };
