@@ -207,19 +207,35 @@ export const GiveReceived = ({
                       p: '$sm $sm',
                     }}
                   >
-                    <AppLink
-                      to={coLinksPaths.exploreSkill(g.skill)}
+                    <Flex
+                      column
                       css={{
-                        fontSize: '$small',
-                        color: '$complete',
-                        fontWeight: '$semibold',
                         borderBottom: '0.5px solid $border',
                         pb: '$xs',
                         mb: '$sm',
+                        gap: '$xs',
                       }}
                     >
-                      {g.skill}
-                    </AppLink>
+                      <AppLink
+                        to={coLinksPaths.exploreSkill(g.skill)}
+                        css={{
+                          fontSize: '$small',
+                          color: '$complete',
+                          fontWeight: '$semibold',
+                        }}
+                      >
+                        {g.skill}
+                      </AppLink>
+                      <AppLink
+                        to={coLinksPaths.giveBoardSkill(g.skill)}
+                        css={{
+                          fontSize: '$xs',
+                          color: '$complete',
+                        }}
+                      >
+                        View GIVE Leaderboard
+                      </AppLink>
+                    </Flex>
                     <Flex column css={{ gap: '$sm' }}>
                       {g.gives
                         .filter(give => give.giver_profile_public?.name)
