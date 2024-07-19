@@ -66,6 +66,7 @@ export const updateRepScore = async (profileId: number) => {
               reputation_scores_update_column.colinks_engagement_score,
               reputation_scores_update_column.total_score,
               reputation_scores_update_column.farcaster_score,
+              reputation_scores_update_column.social_give_score,
             ],
           },
         },

@@ -35,6 +35,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
             { profile_id: profileId },
             {
               email_score: true,
+              farcaster_score: true,
               github_score: true,
               invite_score: true,
               links_score: true,
@@ -43,6 +44,7 @@ export const getCoSoulData = async (profileId: number, address: string) => {
               poap_score: true,
               twitter_score: true,
               profile_id: true,
+              social_give_score: true,
               total_score: true,
             },
           ],

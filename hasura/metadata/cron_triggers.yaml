@@ -16,15 +16,6 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: make sure everyone has a reputation, in batches
-- name: syncCoSoulReputation
-  webhook: '{{HASURA_API_BASE_URL}}/cron/syncCoSoulReputation'
-  schedule: '* * * * *'
-  include_in_metadata: true
-  payload: {}
-  headers:
-    - name: verification_key
-      value_from_env: HASURA_EVENT_SECRET
-  comment: sync all reputation on chain in batches
 - name: bigQuestionEmails
   webhook: '{{HASURA_API_BASE_URL}}/cron/bigQuestionEmails'
   schedule: '*/2 * * * *'
@@ -177,6 +168,15 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: tracks pending vault transactions in case the frontend doesn't update the state upon deployment
+- name: syncCoSoulReputation
+  webhook: '{{HASURA_API_BASE_URL}}/cron/syncCoSoulReputation'
+  schedule: '* * * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: sync all reputation on chain in batches
 - name: syncCoSouls
   webhook: '{{HASURA_API_BASE_URL}}/cron/syncCoSouls'
   schedule: '* * * * *'

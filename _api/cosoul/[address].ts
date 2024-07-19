@@ -89,6 +89,7 @@ async function getCosoulData(address: string) {
             { profile_id: profileId },
             {
               email_score: true,
+              farcaster_score: true,
               github_score: true,
               invite_score: true,
               links_score: true,
@@ -98,6 +99,7 @@ async function getCosoulData(address: string) {
               profile_id: true,
               total_score: true,
               twitter_score: true,
+              social_give_score: true,
               colinks_engagement_score: true,
             },
           ],
