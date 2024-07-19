@@ -62,12 +62,13 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
       status={state}
     >
       <RainbowKitProvider>
-        {/* DEBUG */}
+        {/* = = = = = = = = = = DEBUG ==========  */}
         <Text>account: {account.address}</Text>
         <p>Refresh count: {refreshKey}</p>
         <Text>auth token: {token}</Text>
-
         <ConnectButton />
+        {/* = = = = = = = = = = END DEBUG ==========  */}
+
         {children}
       </RainbowKitProvider>
     </RainbowKitAuthenticationProvider>
