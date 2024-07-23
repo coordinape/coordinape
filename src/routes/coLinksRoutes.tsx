@@ -10,6 +10,7 @@ import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayo
 import { CoLinksSplashPage } from '../features/colinks/CoLinksSplashPage';
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
+import GivePartyLayout from '../features/party/GivePartyLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
 import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
@@ -75,41 +76,58 @@ export const coLinksRoutes = [
       element={<AuthenticatePage />}
     />
   </Route>,
-  <Route key={'giveparty'}>
-    <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
-  </Route>,
-  <Route key={'givemap'}>
-    <Route path={coLinksPaths.givemap} element={<GiveMap />} />
-  </Route>,
-  <Route key={'linksmap'}>
-    <Route path={coLinksPaths.linksmap} element={<LinksMap />} />
-  </Route>,
-  <Route key={'giveparty'}>
-    <Route
-      path={coLinksPaths.partyProfile(':address')}
-      element={<PartyProfile />}
-    />
-  </Route>,
-  <Route key={'network'}>
-    <Route
-      path={coLinksPaths.profileNetwork(':address')}
-      element={<ProfileNetworkPage />}
-    />
-  </Route>,
-  <Route key={'giveboard'}>
-    <Route path={coLinksPaths.giveBoard} element={<GiveLeaderboard />} />
-  </Route>,
-  <Route key={'giveboard'}>
-    <Route
-      path={coLinksPaths.giveBoardSkill(':skill')}
-      element={<GiveSkillLeaderboard />}
-    />
-  </Route>,
-  <Route key={'givemap'}>
-    <Route
-      path={coLinksPaths.giveSkillMap(':skill')}
-      element={<GiveSkillMap />}
-    />
+  <Route
+    key={'give_world_routes'}
+    element={
+      <GivePartyLayout>
+        <Outlet />
+      </GivePartyLayout>
+    }
+  >
+    <Route key={'giveparty'}>
+      <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
+    </Route>
+    ,
+    <Route key={'givemap'}>
+      <Route path={coLinksPaths.givemap} element={<GiveMap />} />
+    </Route>
+    ,
+    <Route key={'linksmap'}>
+      <Route path={coLinksPaths.linksmap} element={<LinksMap />} />
+    </Route>
+    ,
+    <Route key={'giveparty'}>
+      <Route
+        path={coLinksPaths.partyProfile(':address')}
+        element={<PartyProfile />}
+      />
+    </Route>
+    ,
+    <Route key={'network'}>
+      <Route
+        path={coLinksPaths.profileNetwork(':address')}
+        element={<ProfileNetworkPage />}
+      />
+    </Route>
+    ,
+    <Route key={'giveboard'}>
+      <Route path={coLinksPaths.giveBoard} element={<GiveLeaderboard />} />
+    </Route>
+    ,
+    <Route key={'giveboard'}>
+      <Route
+        path={coLinksPaths.giveBoardSkill(':skill')}
+        element={<GiveSkillLeaderboard />}
+      />
+    </Route>
+    ,
+    <Route key={'givemap'}>
+      <Route
+        path={coLinksPaths.giveSkillMap(':skill')}
+        element={<GiveSkillMap />}
+      />
+    </Route>
+    ,
   </Route>,
 
   <Route

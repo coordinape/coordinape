@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { webAppURL } from 'config/webAppURL';
-import { Farcaster, Links, Wand } from 'icons/__generated';
+import { Farcaster, Give, Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Link, Text } from 'ui';
@@ -116,6 +116,12 @@ export const PartyProfileContent = ({
             <Wand fa />
             <Text medium css={{ ml: '$xs' }}>
               Cast Profile
+            </Text>
+          </Button>
+          <Button as={Link} href={castProfileUrl}>
+            <Give fa />
+            <Text medium css={{ ml: '$xs' }}>
+              Give
             </Text>
           </Button>
         </Flex>

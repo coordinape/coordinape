@@ -4,6 +4,7 @@ import {
   RainbowKitProvider,
   RainbowKitAuthenticationProvider,
   ConnectButton,
+  darkTheme,
 } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { reloadAuthFromCookie } from 'features/auth/helpers';
@@ -16,8 +17,6 @@ import {
 import { wagmiConfig } from 'features/wagmi/config';
 import { useAccount, WagmiProvider } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
-
-import { Text } from 'ui';
 
 import { useRefresh } from './useRefresh';
 
@@ -61,12 +60,11 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
       adapter={authenticationAdapter}
       status={state}
     >
-      <RainbowKitProvider>
+      <RainbowKitProvider theme={darkTheme()}>
         {/* = = = = = = = = = = DEBUG ==========  */}
-        <Text>account: {account.address}</Text>
+        <p>account: {account.address}</p>
         <p>Refresh count: {refreshKey}</p>
-        <Text>auth token: {token}</Text>
-        <ConnectButton />
+        <p>auth token: {token}</p>
         {/* = = = = = = = = = = END DEBUG ==========  */}
 
         {children}
