@@ -701,6 +701,7 @@ export const AllTypesProps: Record<string, any> = {
       holder: 'citext',
       target: 'citext',
     },
+    price_per_share: {},
     profile_skills: {
       distinct_on: 'profile_skills_select_column',
       order_by: 'profile_skills_order_by',
@@ -1260,6 +1261,7 @@ export const ReturnTypes: Record<string, any> = {
     link_holders: 'link_holders',
     link_holders_aggregate: 'link_holders_aggregate',
     link_holders_by_pk: 'link_holders',
+    price_per_share: 'Float',
     profile_skills: 'profile_skills',
     profile_skills_by_pk: 'profile_skills',
     profiles_public: 'profiles_public',
