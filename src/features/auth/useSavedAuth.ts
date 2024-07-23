@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 
 import Cookies from 'js-cookie';
 
+import { getAllData, clearSavedAuth, AUTH_COOKIE } from './helpers';
 import type { ProviderType } from './store';
 import { setAuthToken } from './token';
 
@@ -21,8 +22,6 @@ export interface IAuth {
   data: { [address: string]: IAuthValue };
 }
 
-const AUTH_COOKIE = 'coordinape_auth_cookie';
-
 function getCookieDomain(): string {
   const url = new URL(window.origin).hostname;
 
@@ -39,42 +38,7 @@ function getCookieDomain(): string {
   return `${domainParts[1]}.${domainParts[0]}`;
 }
 
-const emptyData = () => ({ data: {} });
-
-export const clearSavedAuth = () => saveAllData(emptyData());
-
-export const logoutAndClearSavedAuth = () => {
-  clearSavedAuth();
-  setAuthToken('');
-};
-
-export const setAuthTokenForAddress = (address: string, token: string) => {
-  const allData = getAllData();
-  allData.data[address.toLowerCase()] = { token };
-  allData.recent = address.toLowerCase();
-  saveAllData(allData);
-  setAuthToken(token);
-};
-
-export const reloadAuthFromCookie = () => {
-  const allData = getAllData();
-  const { recent, data } = allData;
-  if (recent) {
-    const auth = data[recent] ?? {};
-    setAuthToken(auth.token);
-    return true;
-  }
-};
-
-const getAllData = (): IAuth => {
-  try {
-    const stored = Cookies.get(AUTH_COOKIE);
-    if (!stored) return emptyData();
-    return JSON.parse(stored);
-  } catch {
-    return emptyData();
-  }
-};
+export const emptyData = () => ({ data: {} });
 
 // only exporting for testing purposes
 export const saveAllData = (allData: IAuth) => {

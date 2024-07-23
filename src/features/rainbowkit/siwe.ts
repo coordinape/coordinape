@@ -5,7 +5,7 @@ import {
 import {
   logoutAndClearSavedAuth,
   setAuthTokenForAddress,
-} from 'features/auth/useSavedAuth';
+} from 'features/auth/helpers';
 import { client } from 'lib/gql/client';
 import { generateNonce, SiweMessage } from 'siwe';
 

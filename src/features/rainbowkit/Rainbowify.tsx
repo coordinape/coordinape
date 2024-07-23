@@ -6,8 +6,8 @@ import {
   ConnectButton,
 } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { reloadAuthFromCookie } from 'features/auth/helpers';
 import { getAuthToken } from 'features/auth/token';
-import { reloadAuthFromCookie } from 'features/auth/useSavedAuth';
 import {
   authState,
   authenticationAdapter,
