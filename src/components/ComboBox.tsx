@@ -155,7 +155,7 @@ export const ComboBox = ({
         ? {
             height: '100%',
             minHeight: '200px',
-            maxHeight: '400px',
+            maxHeight: '600px',
             p: '$sm $sm $lg',
             '@media screen and (max-height: 650px)': {
               maxHeight: `calc(100vh - ($4xl * 3))`,

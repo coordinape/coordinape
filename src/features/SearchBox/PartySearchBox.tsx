@@ -16,5 +16,7 @@ export const PartySearchBox = () => {
     );
   };
 
-  return <SearchBox resultsFunc={resultsFunc} />;
+  return (
+    <SearchBox resultsFunc={resultsFunc} placeholder="Search Skill or Person" />
+  );
 };
