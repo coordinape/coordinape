@@ -94,54 +94,60 @@ export const PartySearchResults = ({
         <>
           {(partyProfileResults?.length ?? 0) > 0 && (
             <Command.Group heading={'CoLinks Members'}>
-              {partyProfileResults?.map(profile => (
-                <Command.Item
-                  key={profile.id}
-                  value={profile.address}
-                  onSelect={address => {
-                    onSelectAddress(address);
-                    setPopoverOpen(false);
-                  }}
-                >
-                  <PeopleResult profile={profile} />
-                </Command.Item>
-              ))}
+              {partyProfileResults
+                ?.filter(p => p.name && p.id)
+                .map(profile => (
+                  <Command.Item
+                    key={profile.id}
+                    value={profile.name}
+                    onSelect={address => {
+                      onSelectAddress(address);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <PeopleResult profile={profile} />
+                  </Command.Item>
+                ))}
             </Command.Group>
           )}
           {(farcasterUserResults?.length ?? 0) > 0 && (
             <Command.Group heading={'Farcaster Users'}>
-              {farcasterUserResults?.map(user => (
-                <Command.Item
-                  key={user.fname}
-                  value={user.address}
-                  onSelect={address => {
-                    onSelectAddress(address);
-                    setPopoverOpen(false);
-                  }}
-                >
-                  <FarcasterUserResult user={user} />
-                </Command.Item>
-              ))}
+              {farcasterUserResults
+                ?.filter(u => u.fname && u.address)
+                .map(user => (
+                  <Command.Item
+                    key={user.fname}
+                    value={user.fname}
+                    onSelect={address => {
+                      onSelectAddress(address);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <FarcasterUserResult user={user} />
+                  </Command.Item>
+                ))}
             </Command.Group>
           )}
           {(giveSkills?.length ?? 0) > 0 && (
             <Command.Group heading={'Skills'}>
-              {giveSkills?.map(skill => (
-                <Command.Item
-                  key={skill.skill}
-                  value={skill.skill}
-                  onSelect={name => {
-                    onSelectInterest(name);
-                    setPopoverOpen(false);
-                  }}
-                >
-                  <SkillTag
-                    skill={skill.skill}
-                    count={skill.gives}
-                    size={'medium'}
-                  />
-                </Command.Item>
-              ))}
+              {giveSkills
+                ?.filter(skill => skill.skill)
+                .map(skill => (
+                  <Command.Item
+                    key={skill.skill}
+                    value={skill.skill}
+                    onSelect={name => {
+                      onSelectInterest(name);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <SkillTag
+                      skill={skill.skill}
+                      count={skill.gives}
+                      size={'medium'}
+                    />
+                  </Command.Item>
+                ))}
             </Command.Group>
           )}
         </>
