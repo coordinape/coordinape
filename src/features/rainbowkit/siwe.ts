@@ -68,7 +68,7 @@ export const authenticationAdapter = createAuthenticationAdapter({
 
       const loginData = await resp.json();
 
-      setAuthTokenForAddress(loginData.address, loginData.token);
+      setAuthTokenForAddress(loginData.address, loginData.token, loginData.id);
       setAuthState('authenticated');
       refreshEmitter.emit();
       return Boolean(resp.ok);

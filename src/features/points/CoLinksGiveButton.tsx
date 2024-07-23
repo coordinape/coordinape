@@ -24,13 +24,17 @@ const DISMISSIBLE_AS = `banner:colinks_give_intro`;
 
 export const CoLinksGiveButton = ({
   activityId,
+  castHash,
+  targetAddress,
   targetProfileId,
-  isMyPost,
+  isMyPost = false,
   gives,
 }: {
-  activityId: number;
-  targetProfileId: number;
-  isMyPost: boolean;
+  activityId?: number;
+  castHash?: string;
+  targetAddress?: string;
+  targetProfileId?: number;
+  isMyPost?: boolean;
   gives: {
     id: number;
     skill?: string;
@@ -40,7 +44,7 @@ export const CoLinksGiveButton = ({
     };
   }[];
 }) => {
-  const profileId = useProfileId(true);
+  const profileId = useProfileId(false);
   const { showError } = useToast();
 
   const queryClient = useQueryClient();
@@ -69,6 +73,8 @@ export const CoLinksGiveButton = ({
           {
             payload: {
               activity_id: activityId,
+              cast_hash: castHash,
+              address: targetAddress,
               skill,
             },
           },
@@ -104,6 +110,9 @@ export const CoLinksGiveButton = ({
     },
   });
 
+  if (!profileId) {
+    return null;
+  }
   return (
     <>
       <Flex column css={{ cursor: 'default', gap: '$sm' }}>
@@ -220,7 +229,7 @@ export const CoLinksGiveButton = ({
 };
 
 type PickOneSkillProps = {
-  targetProfileId: number;
+  targetProfileId?: number;
   setSkill: (skill: string | undefined) => void;
   placeholder?: string;
   trigger: React.ReactNode;
@@ -234,6 +243,9 @@ export const PickOneSkill = ({
   const { data: profile_skills } = useQuery(
     ['target_give_skills', targetProfileId],
     async () => {
+      if (!targetProfileId) {
+        return [];
+      }
       const { profile_skills } = await client.query(
         {
           profile_skills: [
@@ -301,7 +313,10 @@ export const PickOneSkill = ({
       placeholder={placeholder}
       trigger={trigger}
       sortSkills={sortSkills}
-      skillQueryKey={[QUERY_KEY_SKILLS, targetProfileId.toString()]}
+      skillQueryKey={[
+        QUERY_KEY_SKILLS,
+        targetProfileId ? targetProfileId.toString() : '',
+      ]}
       popoverCss={{ mt: -56 }}
       customRender={skill => {
         const skillOnProfile = profile_skills.find(
