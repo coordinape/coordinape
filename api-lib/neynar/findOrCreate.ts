@@ -4,7 +4,11 @@ import assert from 'assert';
 import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
-import { fetchUserByFid, fetchUserByUsername } from '../neynar.ts';
+import {
+  fetchUserByAddress,
+  fetchUserByFid,
+  fetchUserByUsername,
+} from '../neynar.ts';
 
 const INITIAL_POINTS = MAX_POINTS_CAP * 0.6; // start with 15 gives
 const findProfileByAddresses = async (addresses: string[]) => {
@@ -45,6 +49,51 @@ export const findOrCreateProfileByFid = async (fid: number) => {
   const fc_profile = await fetchUserByFid(fid);
   return findOrCreateUser(fc_profile);
 };
+
+export async function findOrCreateProfileByAddress(address: string) {
+  // lets try to figure out the user based on address
+  const { targetProfiles } = await adminClient.query(
+    {
+      __alias: {
+        targetProfiles: {
+          profiles: [
+            {
+              where: {
+                address: { _ilike: address },
+              },
+            },
+            {
+              id: true,
+              name: true,
+              avatar: true,
+              address: true,
+              farcaster_account: {
+                fid: true,
+                custody_address: true,
+              },
+            },
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'getNetwork__getTargetProfileByAddress',
+    }
+  );
+  const targetProfile = targetProfiles.pop();
+
+  if (targetProfile) {
+    return targetProfile;
+  }
+
+  const fcUser = await fetchUserByAddress(address);
+
+  if (fcUser) {
+    const profile = await findOrCreateProfileByFid(fcUser.fid);
+    return profile;
+  }
+  return undefined;
+}
 
 const findOrCreateUser = async (fc_profile: {
   username: string;

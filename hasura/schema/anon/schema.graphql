@@ -2587,7 +2587,6 @@ type query_root {
   fetch data from the table: "link_holders" using primary key columns
   """
   link_holders_by_pk(holder: citext!, target: citext!): link_holders
-  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship

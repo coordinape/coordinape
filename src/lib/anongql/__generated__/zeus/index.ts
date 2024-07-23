@@ -2331,10 +2331,6 @@ export type ValueTypes = {
       { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
       ValueTypes['link_holders'],
     ];
-    price_per_share?: [
-      { chain_id: number; token_address?: string | undefined | null },
-      boolean | `@${string}`,
-    ];
     profile_skills?: [
       {
         /** distinct select on columns */
@@ -3668,7 +3664,6 @@ export type ModelTypes = {
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
@@ -5004,7 +4999,6 @@ export type GraphQLTypes = {
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
-    price_per_share: number;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */

@@ -6,7 +6,7 @@ import { IS_LOCAL_ENV } from '../../config.ts';
 import { adminClient } from '../../gql/adminClient.ts';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { insertCoLinksGive } from '../../insertCoLinksGive.ts';
-import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
+import { findOrCreateProfileByUsername } from '../../neynar/findOrCreate.ts';
 import { generateWarpCastUrl, publishCast } from '../../neynar.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { fetchProfileInfo } from '../give/fetchProfileInfo.tsx';
