@@ -5,12 +5,9 @@ import { ChainId } from '@decent.xyz/box-common';
 import { BigNumber } from '@ethersproject/bignumber';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
-import {
-  defaultAvailableChains,
-  wagmiChain,
-  wagmiConfig,
-} from 'features/DecentSwap/config';
+import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
+import { wagmiChain, wagmiConfig } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import type { CSS } from 'stitches.config';
 import { Address } from 'viem';
