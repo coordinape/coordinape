@@ -99,7 +99,7 @@ export const PartySearchResults = ({
                 .map(profile => (
                   <Command.Item
                     key={profile.id}
-                    value={profile.name}
+                    value={profile.address}
                     onSelect={address => {
                       onSelectAddress(address);
                       setPopoverOpen(false);
@@ -117,7 +117,7 @@ export const PartySearchResults = ({
                 .map(user => (
                   <Command.Item
                     key={user.fname}
-                    value={user.fname}
+                    value={user.address}
                     onSelect={address => {
                       onSelectAddress(address);
                       setPopoverOpen(false);
