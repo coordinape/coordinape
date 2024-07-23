@@ -1,15 +1,17 @@
 import { artWidthMobile } from 'features/cosoul/constants';
-import { order_by } from 'lib/gql/__generated__/zeus';
+import {
+  link_holders_select_column,
+  order_by,
+} from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
-import 'react-farcaster-embed/dist/styles.css'; // include default styles or write your own
-import { FarcasterEmbed } from 'react-farcaster-embed/dist/client';
+import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { coLinksPaths } from '../../routes/paths';
-import { ContentHeader, Flex, Text } from '../../ui';
+import { Avatar, ContentHeader, Flex, Link, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
 import { BarChart } from 'icons/__generated';
 
@@ -106,16 +108,114 @@ const CastsList = () => {
             }}
             key={cast.hash}
           >
-            <FarcasterEmbed
-              username={cast?.farcaster_account?.username}
-              hash={`0${cast.hash.slice(1, 9)}`}
-            />
+            <Flex column>
+              <AvatarAndName
+                cast={cast}
+                profile={cast.farcaster_account?.profile_public}
+              />
+              <Link color="neutral" href={warpcastUrl(cast)}>
+                <Text
+                  key={cast.hash}
+                  css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
+                >
+                  {cast.text}
+                </Text>
+              </Link>
+            </Flex>
           </Flex>
         );
       })}
     </Flex>
   );
 };
+
+const AvatarAndName = ({
+  cast,
+  profile,
+}: {
+  cast: Cast;
+  profile: CoLinksUser;
+}) => {
+  if (!profile) return null;
+
+  return (
+    <Link as={NavLink} to={coLinksPaths.profile(profile.address || '')}>
+      <Flex
+        alignItems="center"
+        css={{
+          flexGrow: 0,
+          minWidth: 0,
+        }}
+      >
+        <Avatar
+          size="small"
+          name={profile.name}
+          path={profile.avatar}
+          hasCoSoul={!!profile.cosoul}
+          css={{ mr: '$sm' }}
+        />
+        <Text color="heading" semibold css={{ textDecoration: 'none' }}>
+          {profile.name}
+        </Text>
+
+        <Text
+          size="small"
+          css={{
+            pl: '$sm',
+            color: '$neutral',
+            textDecoration: 'none',
+          }}
+        >
+          {DateTime.fromISO(cast.created_at).toRelative()}
+        </Text>
+      </Flex>
+    </Link>
+  );
+};
+
+type CoLinksUser = Awaited<ReturnType<typeof fetchColinksUsers>>[number];
+const fetchColinksUsers = async () => {
+  const { link_holders } = await client.query(
+    {
+      link_holders: [
+        {
+          distinct_on: [link_holders_select_column.holder],
+          where: {
+            holder_profile_public: {
+              farcaster_account: {},
+            },
+          },
+          limit: 1000,
+        },
+        {
+          holder_profile_public: {
+            avatar: true,
+            name: true,
+            address: true,
+            cosoul: {
+              id: true,
+            },
+            farcaster_account: {
+              fid: true,
+              followers_count: true,
+              custody_address: true,
+              username: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'CastsPage__fetchColinksFids @cached(ttl: 300)',
+    }
+  );
+
+  if (!link_holders) return [];
+
+  return link_holders.map(lh => lh.holder_profile_public);
+};
+
+type Cast = Awaited<ReturnType<typeof fetchCasts>>[number];
 
 const fetchCasts = async () => {
   const { farcaster_casts } = await client.query(
@@ -161,4 +261,9 @@ const fetchCasts = async () => {
   );
 
   return farcaster_casts;
+};
+
+const warpcastUrl = (cast: Cast) => {
+  const p = cast.farcaster_account;
+  return `https://warpcast.com/${p?.username}/0${cast.hash.slice(1, 9)}`;
 };
