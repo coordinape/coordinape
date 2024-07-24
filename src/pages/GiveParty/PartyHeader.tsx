@@ -6,9 +6,10 @@ import { PointsBar } from '../../features/points/PointsBar';
 import useProfileId from '../../hooks/useProfileId';
 import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { AppLink, Box, Flex } from 'ui';
+import { AppLink, Flex } from 'ui';
 
 import { PartyNav } from './PartyNav';
+import { profileColumnWidth } from './PartyProfile';
 
 export const PartyHeader = ({ css }: { css?: CSS }) => {
   return (
@@ -28,11 +29,10 @@ const MyPartyProfile = () => {
   const profileId = useProfileId(false);
 
   return (
-    <Box css={{ backgroundColor: 'black' }}>
-      <p>account: {account.address}</p>
+    <Flex column css={{ maxWidth: profileColumnWidth, gap: '$sm' }}>
       {walletConnected && profileId ? (
         <>
-          <PointsBar />
+          <PointsBar forceTheme="dark" />
           <ConnectButton />
         </>
       ) : (
@@ -42,6 +42,6 @@ const MyPartyProfile = () => {
           <ConnectButton />
         </>
       )}
-    </Box>
+    </Flex>
   );
 };
