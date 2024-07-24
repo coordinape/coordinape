@@ -4,8 +4,6 @@ import { useParams } from 'react-router-dom';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { Flex } from 'ui';
 
-import { PartyBody } from './PartyBody';
-import { PartyHeader } from './PartyHeader';
 import { PartyProfileContent } from './PartyProfileContent';
 import { useCoLinksProfile } from './useCoLinksProfile';
 import { useFarcasterUser } from './useFarcasterUser';

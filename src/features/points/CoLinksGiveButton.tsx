@@ -18,6 +18,7 @@ import { client } from '../../lib/gql/client';
 import { Avatar, Button, Flex, Modal, Text } from '../../ui';
 
 import { GiveAvailablePopover } from './GiveAvailablePopover';
+import { GIVE_RECEIVED_QUERY_KEY } from './GiveReceived';
 import { POINTS_QUERY_KEY, usePoints } from './usePoints';
 
 const DISMISSIBLE_AS = `banner:colinks_give_intro`;
@@ -96,6 +97,10 @@ export const CoLinksGiveButton = ({
     ]);
   };
 
+  const invalidateProfileGives = () => {
+    queryClient.invalidateQueries([GIVE_RECEIVED_QUERY_KEY, targetProfileId]);
+  };
+
   const invalidatePointsBar = () => {
     queryClient.invalidateQueries([POINTS_QUERY_KEY]);
   };
@@ -103,6 +108,7 @@ export const CoLinksGiveButton = ({
   const { mutate: createGive } = useMutation(createGiveMutation, {
     onSuccess: () => {
       invalidateActivities();
+      invalidateProfileGives();
       invalidatePointsBar();
     },
     onError: error => {
