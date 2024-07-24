@@ -50,7 +50,7 @@ export const PartyBody = ({
         css={{
           position: 'relative',
           width: '80%',
-          margin: 'auto',
+          margin: '0px auto',
           gap: '$xl',
           flexFlow: 'column nowrap',
           '@md': {
