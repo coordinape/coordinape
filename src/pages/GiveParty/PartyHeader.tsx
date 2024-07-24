@@ -32,8 +32,27 @@ const MyPartyProfile = () => {
     <Flex column css={{ maxWidth: profileColumnWidth, gap: '$sm' }}>
       {walletConnected && profileId ? (
         <>
+          <Flex
+            css={{
+              '>div': {
+                flexDirection: 'column',
+                gap: '$sm !important',
+                button: {
+                  borderRadius: '$3 !important',
+                  fontSize: '$small !important',
+                  '>div': {
+                    borderRadius: '$3 !important',
+                  },
+                  'svg title+path': {
+                    fill: 'transparent',
+                  },
+                },
+              },
+            }}
+          >
+            <ConnectButton />
+          </Flex>
           <PointsBar forceTheme="dark" />
-          <ConnectButton />
         </>
       ) : (
         <>
