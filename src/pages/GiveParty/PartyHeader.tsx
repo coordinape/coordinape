@@ -29,6 +29,7 @@ const MyPartyProfile = () => {
 
   return (
     <Box css={{ backgroundColor: 'black' }}>
+      <p>account: {account.address}</p>
       {walletConnected && profileId ? (
         <>
           <PointsBar />

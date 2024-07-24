@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { wagmiConfig } from 'features/wagmi/config';
-import { useAccount, WagmiProvider } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
 
 import { RainbowKitSiweProvider } from './SiweProvider';
@@ -19,7 +19,7 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
   //   }
   // }, [refreshKey]);
 
-  const account = useAccount();
+  // const account = useAccount();
 
   // // if we have a connected wallet and auth token in memory is null, reload from cookie
   // useEffect(() => {
@@ -45,7 +45,7 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
     <RainbowKitSiweProvider>
       <RainbowKitProvider theme={darkTheme()}>
         {/* = = = = = = = = = = DEBUG ==========  */}
-        <p>account: {account.address}</p>
+        {/* <p>account: {account.address}</p> */}
         {/*<p>Refresh count: {refreshKey}</p>*/}
         {/*<p>auth token: {token}</p>*/}
         {/* = = = = = = = = = = END DEBUG ==========  */}
