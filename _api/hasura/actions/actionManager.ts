@@ -32,6 +32,7 @@ import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
 import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
+import getBigQuestions from './_handlers/getBigQuestions';
 import guildInfo from './_handlers/getGuildInfo';
 import getHeadlines from './_handlers/getHeadlines';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
@@ -52,6 +53,7 @@ import share from './_handlers/share';
 import syncCoSoul from './_handlers/syncCoSoul';
 import syncLinks from './_handlers/syncLinks';
 import updateAllocations from './_handlers/updateAllocations';
+import updateBigQuestion from './_handlers/updateBigQuestion';
 import updateCircle from './_handlers/updateCircle';
 import updateCircleStartingGive from './_handlers/updateCircleStartingGive';
 import updateContribution from './_handlers/updateContribution';
@@ -96,6 +98,7 @@ const HANDLERS: HandlerDict = {
   checkEthDenverInvitee,
   generateApiKey,
   getHeadlines,
+  getBigQuestions,
   getSimilarProfiles,
   giveCsv,
   guildInfo,
@@ -115,6 +118,7 @@ const HANDLERS: HandlerDict = {
   syncCoSoul,
   syncLinks,
   updateAllocations,
+  updateBigQuestion,
   updateCircle,
   updateCircleStartingGive,
   updateContribution,

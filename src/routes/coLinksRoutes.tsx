@@ -45,6 +45,7 @@ import { GiveSkillLeaderboard } from '../pages/GiveSkillLeaderboard';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import { EditBigQuestionsPage } from 'pages/colinks/EditBigQuestionsPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveMap } from 'pages/GiveMap';
@@ -200,6 +201,10 @@ export const coLinksRoutes = [
 
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
       <Route path={coLinksPaths.bigQuestions} element={<BigQuestionsPage />} />
+      <Route
+        path={coLinksPaths.bigQuestionsEdit}
+        element={<EditBigQuestionsPage />}
+      />
       <Route
         path={coLinksPaths.bigQuestion(':id')}
         element={<BigQuestionPage />}

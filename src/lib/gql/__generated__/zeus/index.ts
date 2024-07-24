@@ -591,6 +591,10 @@ export type ValueTypes = {
     tos_agreed_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  ['ActivitiesAggregate']: AliasType<{
+    aggregate?: ValueTypes['Aggregate'];
+    __typename?: boolean | `@${string}`;
+  }>;
   ['AddEmailInput']: {
     co_links: boolean;
     email: string;
@@ -606,6 +610,10 @@ export type ValueTypes = {
     role?: number | undefined | null;
     starting_tokens?: number | undefined | null;
   };
+  ['Aggregate']: AliasType<{
+    count?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['Allocation']: {
     note: string;
     recipient_id: number;
@@ -631,6 +639,18 @@ export type ValueTypes = {
   ['AllocationsResponse']: AliasType<{
     user?: ValueTypes['users'];
     user_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['BigQuestionsOutput']: AliasType<{
+    activities_aggregate?: ValueTypes['ActivitiesAggregate'];
+    bigQuestion?: ValueTypes['big_questions'];
+    cover_image_url?: boolean | `@${string}`;
+    css_background_position?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    expire_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    prompt?: boolean | `@${string}`;
+    publish_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
@@ -1007,6 +1027,20 @@ export type ValueTypes = {
   };
   ['SyncCoSoulOutput']: AliasType<{
     token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['UpdateBigQuestionInput']: {
+    big_question_id?: number | undefined | null;
+    cover_image_url: string;
+    css_background_position?: string | undefined | null;
+    description?: string | undefined | null;
+    expire_at?: string | undefined | null;
+    prompt: string;
+    publish_at?: string | undefined | null;
+  };
+  ['UpdateBigQuestionResponse']: AliasType<{
+    bigQuestion?: ValueTypes['big_questions'];
+    id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['UpdateCircleInput']: {
@@ -8818,6 +8852,10 @@ export type ValueTypes = {
       { payload: ValueTypes['Allocations'] },
       ValueTypes['AllocationsResponse'],
     ];
+    updateBigQuestion?: [
+      { payload: ValueTypes['UpdateBigQuestionInput'] },
+      ValueTypes['UpdateBigQuestionResponse'],
+    ];
     updateCircle?: [
       { payload: ValueTypes['UpdateCircleInput'] },
       ValueTypes['UpdateCircleOutput'],
@@ -13615,6 +13653,8 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_casts'],
     ];
+    /** get all big questions for specific users */
+    getBigQuestions?: ValueTypes['BigQuestionsOutput'];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput'],
@@ -21514,8 +21554,14 @@ export type ModelTypes = {
   ['AcceptTOSOutput']: {
     tos_agreed_at: string;
   };
+  ['ActivitiesAggregate']: {
+    aggregate?: GraphQLTypes['Aggregate'] | undefined;
+  };
   ['AddEmailInput']: GraphQLTypes['AddEmailInput'];
   ['AdminUpdateUserInput']: GraphQLTypes['AdminUpdateUserInput'];
+  ['Aggregate']: {
+    count: number;
+  };
   ['Allocation']: GraphQLTypes['Allocation'];
   ['AllocationCsvInput']: GraphQLTypes['AllocationCsvInput'];
   ['AllocationCsvResponse']: {
@@ -21525,6 +21571,17 @@ export type ModelTypes = {
   ['AllocationsResponse']: {
     user?: GraphQLTypes['users'] | undefined;
     user_id: number;
+  };
+  ['BigQuestionsOutput']: {
+    activities_aggregate: GraphQLTypes['ActivitiesAggregate'];
+    bigQuestion?: GraphQLTypes['big_questions'] | undefined;
+    cover_image_url: string;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: string | undefined;
+    id: number;
+    prompt: string;
+    publish_at?: string | undefined;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
@@ -21679,6 +21736,11 @@ export type ModelTypes = {
   ['SyncCoSoulInput']: GraphQLTypes['SyncCoSoulInput'];
   ['SyncCoSoulOutput']: {
     token_id?: string | undefined;
+  };
+  ['UpdateBigQuestionInput']: GraphQLTypes['UpdateBigQuestionInput'];
+  ['UpdateBigQuestionResponse']: {
+    bigQuestion?: GraphQLTypes['big_questions'] | undefined;
+    id: number;
   };
   ['UpdateCircleInput']: GraphQLTypes['UpdateCircleInput'];
   ['UpdateCircleOutput']: {
@@ -24415,6 +24477,8 @@ export type ModelTypes = {
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
+    /** update and insert big questions by sepecific users */
+    updateBigQuestion?: GraphQLTypes['UpdateBigQuestionResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
     updateCircleStartingGive?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -25958,6 +26022,10 @@ export type ModelTypes = {
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** get all big questions for specific users */
+    getBigQuestions?:
+      | Array<GraphQLTypes['BigQuestionsOutput'] | undefined>
+      | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -27806,6 +27874,10 @@ export type GraphQLTypes = {
     __typename: 'AcceptTOSOutput';
     tos_agreed_at: string;
   };
+  ['ActivitiesAggregate']: {
+    __typename: 'ActivitiesAggregate';
+    aggregate?: GraphQLTypes['Aggregate'] | undefined;
+  };
   ['AddEmailInput']: {
     co_links: boolean;
     email: string;
@@ -27820,6 +27892,10 @@ export type GraphQLTypes = {
     profile_id: number;
     role?: number | undefined;
     starting_tokens?: number | undefined;
+  };
+  ['Aggregate']: {
+    __typename: 'Aggregate';
+    count: number;
   };
   ['Allocation']: {
     note: string;
@@ -27847,6 +27923,18 @@ export type GraphQLTypes = {
     __typename: 'AllocationsResponse';
     user?: GraphQLTypes['users'] | undefined;
     user_id: number;
+  };
+  ['BigQuestionsOutput']: {
+    __typename: 'BigQuestionsOutput';
+    activities_aggregate: GraphQLTypes['ActivitiesAggregate'];
+    bigQuestion?: GraphQLTypes['big_questions'] | undefined;
+    cover_image_url: string;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: string | undefined;
+    id: number;
+    prompt: string;
+    publish_at?: string | undefined;
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: {
@@ -28202,6 +28290,20 @@ export type GraphQLTypes = {
   ['SyncCoSoulOutput']: {
     __typename: 'SyncCoSoulOutput';
     token_id?: string | undefined;
+  };
+  ['UpdateBigQuestionInput']: {
+    big_question_id?: number | undefined;
+    cover_image_url: string;
+    css_background_position?: string | undefined;
+    description?: string | undefined;
+    expire_at?: string | undefined;
+    prompt: string;
+    publish_at?: string | undefined;
+  };
+  ['UpdateBigQuestionResponse']: {
+    __typename: 'UpdateBigQuestionResponse';
+    bigQuestion?: GraphQLTypes['big_questions'] | undefined;
+    id: number;
   };
   ['UpdateCircleInput']: {
     alloc_text?: string | undefined;
@@ -34310,6 +34412,8 @@ export type GraphQLTypes = {
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
     updateAllocations?: GraphQLTypes['AllocationsResponse'] | undefined;
+    /** update and insert big questions by sepecific users */
+    updateBigQuestion?: GraphQLTypes['UpdateBigQuestionResponse'] | undefined;
     updateCircle?: GraphQLTypes['UpdateCircleOutput'] | undefined;
     /** Update starting GIVE for all circle members */
     updateCircleStartingGive?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -37423,6 +37527,10 @@ export type GraphQLTypes = {
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** get all big questions for specific users */
+    getBigQuestions?:
+      | Array<GraphQLTypes['BigQuestionsOutput'] | undefined>
+      | undefined;
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;

@@ -106,6 +106,7 @@ export const coLinksPaths = {
   verifyWaitList: (uuid: string) => `/email/verifywaitlist/${uuid}`,
   wizard: '/wizard',
   wizardStart: '/start',
+  bigQuestionsEdit: '/editBigquestions',
 };
 
 export const coSoulPaths = {
