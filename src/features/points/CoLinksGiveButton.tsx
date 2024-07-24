@@ -46,7 +46,7 @@ export const CoLinksGiveButton = ({
   }[];
 }) => {
   const profileId = useProfileId(false);
-  const { showError } = useToast();
+  const { showError, showSuccess } = useToast();
 
   const queryClient = useQueryClient();
 
@@ -110,6 +110,7 @@ export const CoLinksGiveButton = ({
       invalidateActivities();
       invalidateProfileGives();
       invalidatePointsBar();
+      showSuccess('GIVE delivered!');
     },
     onError: error => {
       showError(error);
