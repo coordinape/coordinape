@@ -115,6 +115,10 @@ type Mutation {
 }
 
 type Query {
+  getCasts(payload: GetCastsInput!): GetCastsOutput!
+}
+
+type Query {
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
 }
 
@@ -636,6 +640,10 @@ input NetworkInput {
   farcaster_id: Int
 }
 
+input GetCastsInput {
+  fid: Int
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -862,6 +870,34 @@ type NetworkNode {
 
 type NetworkOutput {
   nodes: [NetworkNode!]
+}
+
+type IntArray {
+  values: [Int!]!
+}
+
+type CastMention {
+  fname: String!
+  address: String!
+}
+
+type Cast {
+  text: String!
+  text_with_mentions: String!
+  like_count: Int!
+  recast_count: Int!
+  replies_count: Int!
+  created_at: String!
+  hash: String!
+  fid: Int!
+  fname: String!
+  avatar_url: String!
+  address: String!
+  mentioned_addresses: [CastMention!]!
+}
+
+type GetCastsOutput {
+  casts: [Cast!]!
 }
 
 scalar timestamptz

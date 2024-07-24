@@ -645,6 +645,26 @@ export type ValueTypes = {
     _neq?: boolean | undefined | null;
     _nin?: Array<boolean> | undefined | null;
   };
+  ['Cast']: AliasType<{
+    address?: boolean | `@${string}`;
+    avatar_url?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    fname?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    like_count?: boolean | `@${string}`;
+    mentioned_addresses?: ValueTypes['CastMention'];
+    recast_count?: boolean | `@${string}`;
+    replies_count?: boolean | `@${string}`;
+    text?: boolean | `@${string}`;
+    text_with_mentions?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['CastMention']: AliasType<{
+    address?: boolean | `@${string}`;
+    fname?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['CheckEthDenverInviteeOutput']: AliasType<{
     is_eth_denver_invitee?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -817,6 +837,13 @@ export type ValueTypes = {
     api_key?: boolean | `@${string}`;
     circleApiKey?: ValueTypes['circle_api_keys'];
     hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['GetCastsInput']: {
+    fid?: number | undefined | null;
+  };
+  ['GetCastsOutput']: AliasType<{
+    casts?: ValueTypes['Cast'];
     __typename?: boolean | `@${string}`;
   }>;
   ['GiveCsvInput']: {
@@ -6362,6 +6389,98 @@ export type ValueTypes = {
     parent_fid?: boolean | `@${string}`;
     parent_hash?: boolean | `@${string}`;
     parent_url?: boolean | `@${string}`;
+    reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions'],
+    ];
+    reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions_aggregate'],
+    ];
+    replies?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts'],
+    ];
+    replies_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts_aggregate'],
+    ];
     root_parent_hash?: boolean | `@${string}`;
     root_parent_url?: boolean | `@${string}`;
     text?: boolean | `@${string}`;
@@ -6369,6 +6488,90 @@ export type ValueTypes = {
     updated_at?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** aggregated selection of "farcaster.casts" */
+  ['farcaster_casts_aggregate']: AliasType<{
+    aggregate?: ValueTypes['farcaster_casts_aggregate_fields'];
+    nodes?: ValueTypes['farcaster_casts'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['farcaster_casts_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['farcaster_casts_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['farcaster_casts_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['farcaster_casts_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "farcaster.casts" */
+  ['farcaster_casts_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['farcaster_casts_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['farcaster_casts_max_fields'];
+    min?: ValueTypes['farcaster_casts_min_fields'];
+    stddev?: ValueTypes['farcaster_casts_stddev_fields'];
+    stddev_pop?: ValueTypes['farcaster_casts_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['farcaster_casts_stddev_samp_fields'];
+    sum?: ValueTypes['farcaster_casts_sum_fields'];
+    var_pop?: ValueTypes['farcaster_casts_var_pop_fields'];
+    var_samp?: ValueTypes['farcaster_casts_var_samp_fields'];
+    variance?: ValueTypes['farcaster_casts_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "farcaster.casts" */
+  ['farcaster_casts_aggregate_order_by']: {
+    avg?: ValueTypes['farcaster_casts_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['farcaster_casts_max_order_by'] | undefined | null;
+    min?: ValueTypes['farcaster_casts_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['farcaster_casts_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['farcaster_casts_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['farcaster_casts_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['farcaster_casts_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['farcaster_casts_var_pop_order_by'] | undefined | null;
+    var_samp?:
+      | ValueTypes['farcaster_casts_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['farcaster_casts_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_casts_avg_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "farcaster.casts" */
+  ['farcaster_casts_avg_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
   ['farcaster_casts_bool_exp']: {
     _and?: Array<ValueTypes['farcaster_casts_bool_exp']> | undefined | null;
@@ -6392,11 +6595,83 @@ export type ValueTypes = {
     parent_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
     parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    reactions?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['farcaster_reactions_aggregate_bool_exp']
+      | undefined
+      | null;
+    replies?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+    replies_aggregate?:
+      | ValueTypes['farcaster_casts_aggregate_bool_exp']
+      | undefined
+      | null;
     root_parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
     root_parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     text?: ValueTypes['String_comparison_exp'] | undefined | null;
     timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['farcaster_casts_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mentions?: boolean | `@${string}`;
+    mentions_positions?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    parent_url?: boolean | `@${string}`;
+    root_parent_url?: boolean | `@${string}`;
+    text?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "farcaster.casts" */
+  ['farcaster_casts_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    mentions?: ValueTypes['order_by'] | undefined | null;
+    mentions_positions?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+    parent_url?: ValueTypes['order_by'] | undefined | null;
+    root_parent_url?: ValueTypes['order_by'] | undefined | null;
+    text?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['farcaster_casts_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mentions?: boolean | `@${string}`;
+    mentions_positions?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    parent_url?: boolean | `@${string}`;
+    root_parent_url?: boolean | `@${string}`;
+    text?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "farcaster.casts" */
+  ['farcaster_casts_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    mentions?: ValueTypes['order_by'] | undefined | null;
+    mentions_positions?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+    parent_url?: ValueTypes['order_by'] | undefined | null;
+    root_parent_url?: ValueTypes['order_by'] | undefined | null;
+    text?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
   };
   /** Ordering options when selecting data from "farcaster.casts". */
   ['farcaster_casts_order_by']: {
@@ -6415,6 +6690,14 @@ export type ValueTypes = {
     parent_fid?: ValueTypes['order_by'] | undefined | null;
     parent_hash?: ValueTypes['order_by'] | undefined | null;
     parent_url?: ValueTypes['order_by'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['farcaster_reactions_aggregate_order_by']
+      | undefined
+      | null;
+    replies_aggregate?:
+      | ValueTypes['farcaster_casts_aggregate_order_by']
+      | undefined
+      | null;
     root_parent_hash?: ValueTypes['order_by'] | undefined | null;
     root_parent_url?: ValueTypes['order_by'] | undefined | null;
     text?: ValueTypes['order_by'] | undefined | null;
@@ -6423,6 +6706,45 @@ export type ValueTypes = {
   };
   /** select columns of table "farcaster.casts" */
   ['farcaster_casts_select_column']: farcaster_casts_select_column;
+  /** aggregate stddev on columns */
+  ['farcaster_casts_stddev_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_casts_stddev_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_pop_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_casts_stddev_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_samp_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
   /** Streaming cursor of the table "farcaster_casts" */
   ['farcaster_casts_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -6448,6 +6770,374 @@ export type ValueTypes = {
     text?: string | undefined | null;
     timestamp?: ValueTypes['timestamp'] | undefined | null;
     updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_casts_sum_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "farcaster.casts" */
+  ['farcaster_casts_sum_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_casts_var_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_pop_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_casts_var_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_samp_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_casts_variance_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "farcaster.casts" */
+  ['farcaster_casts_variance_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** columns and relationships of "farcaster.reactions" */
+  ['farcaster_reactions']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    target_hash?: boolean | `@${string}`;
+    target_url?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate']: AliasType<{
+    aggregate?: ValueTypes['farcaster_reactions_aggregate_fields'];
+    nodes?: ValueTypes['farcaster_reactions'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['farcaster_reactions_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['farcaster_reactions_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['farcaster_reactions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['farcaster_reactions_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['farcaster_reactions_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['farcaster_reactions_max_fields'];
+    min?: ValueTypes['farcaster_reactions_min_fields'];
+    stddev?: ValueTypes['farcaster_reactions_stddev_fields'];
+    stddev_pop?: ValueTypes['farcaster_reactions_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['farcaster_reactions_stddev_samp_fields'];
+    sum?: ValueTypes['farcaster_reactions_sum_fields'];
+    var_pop?: ValueTypes['farcaster_reactions_var_pop_fields'];
+    var_samp?: ValueTypes['farcaster_reactions_var_samp_fields'];
+    variance?: ValueTypes['farcaster_reactions_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_order_by']: {
+    avg?: ValueTypes['farcaster_reactions_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['farcaster_reactions_max_order_by'] | undefined | null;
+    min?: ValueTypes['farcaster_reactions_min_order_by'] | undefined | null;
+    stddev?:
+      | ValueTypes['farcaster_reactions_stddev_order_by']
+      | undefined
+      | null;
+    stddev_pop?:
+      | ValueTypes['farcaster_reactions_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['farcaster_reactions_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['farcaster_reactions_sum_order_by'] | undefined | null;
+    var_pop?:
+      | ValueTypes['farcaster_reactions_var_pop_order_by']
+      | undefined
+      | null;
+    var_samp?:
+      | ValueTypes['farcaster_reactions_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['farcaster_reactions_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_reactions_avg_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_avg_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "farcaster.reactions". All fields are combined with a logical 'AND'. */
+  ['farcaster_reactions_bool_exp']: {
+    _and?: Array<ValueTypes['farcaster_reactions_bool_exp']> | undefined | null;
+    _not?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['farcaster_reactions_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    reaction_type?: ValueTypes['smallint_comparison_exp'] | undefined | null;
+    target_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    target_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    target_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['farcaster_reactions_max_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    target_url?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_max_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+    target_url?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['farcaster_reactions_min_fields']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    target_url?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_min_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+    target_url?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "farcaster.reactions". */
+  ['farcaster_reactions_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+    target_hash?: ValueTypes['order_by'] | undefined | null;
+    target_url?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "farcaster.reactions" */
+  ['farcaster_reactions_select_column']: farcaster_reactions_select_column;
+  /** aggregate stddev on columns */
+  ['farcaster_reactions_stddev_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_reactions_stddev_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_pop_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_reactions_stddev_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_samp_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "farcaster_reactions" */
+  ['farcaster_reactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['farcaster_reactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_reactions_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    hash?: ValueTypes['bytea'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    reaction_type?: ValueTypes['smallint'] | undefined | null;
+    target_fid?: ValueTypes['bigint'] | undefined | null;
+    target_hash?: ValueTypes['bytea'] | undefined | null;
+    target_url?: string | undefined | null;
+    timestamp?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_reactions_sum_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_sum_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_reactions_var_pop_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_pop_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_reactions_var_samp_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_samp_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_reactions_variance_fields']: AliasType<{
+    fid?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    reaction_type?: boolean | `@${string}`;
+    target_fid?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_variance_order_by']: {
+    fid?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    reaction_type?: ValueTypes['order_by'] | undefined | null;
+    target_fid?: ValueTypes['order_by'] | undefined | null;
   };
   ['float8']: unknown;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -13611,9 +14301,86 @@ export type ValueTypes = {
       },
       ValueTypes['farcaster_casts'],
     ];
+    farcaster_casts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts_aggregate'],
+    ];
     farcaster_casts_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_casts'],
+    ];
+    farcaster_reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions'],
+    ];
+    farcaster_reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions_aggregate'],
+    ];
+    farcaster_reactions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_reactions'],
+    ];
+    getCasts?: [
+      { payload: ValueTypes['GetCastsInput'] },
+      ValueTypes['GetCastsOutput'],
     ];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
@@ -16449,6 +17216,18 @@ export type ValueTypes = {
     _neq?: Array<ValueTypes['smallint']> | undefined | null;
     _nin?: Array<Array<ValueTypes['smallint']> | undefined | null>;
   };
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_comparison_exp']: {
+    _eq?: ValueTypes['smallint'] | undefined | null;
+    _gt?: ValueTypes['smallint'] | undefined | null;
+    _gte?: ValueTypes['smallint'] | undefined | null;
+    _in?: Array<ValueTypes['smallint']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['smallint'] | undefined | null;
+    _lte?: ValueTypes['smallint'] | undefined | null;
+    _neq?: ValueTypes['smallint'] | undefined | null;
+    _nin?: Array<ValueTypes['smallint']> | undefined | null;
+  };
   ['subscription_root']: AliasType<{
     activities?: [
       {
@@ -17319,6 +18098,29 @@ export type ValueTypes = {
       },
       ValueTypes['farcaster_casts'],
     ];
+    farcaster_casts_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts_aggregate'],
+    ];
     farcaster_casts_by_pk?: [
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_casts'],
@@ -17333,6 +18135,69 @@ export type ValueTypes = {
         where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
       },
       ValueTypes['farcaster_casts'],
+    ];
+    farcaster_reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions'],
+    ];
+    farcaster_reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions_aggregate'],
+    ];
+    farcaster_reactions_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['farcaster_reactions'],
+    ];
+    farcaster_reactions_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          | ValueTypes['farcaster_reactions_stream_cursor_input']
+          | undefined
+          | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions'],
     ];
     gift_private?: [
       {
@@ -21528,6 +22393,24 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Boolean". All fields are combined with logical 'AND'. */
   ['Boolean_comparison_exp']: GraphQLTypes['Boolean_comparison_exp'];
+  ['Cast']: {
+    address: string;
+    avatar_url: string;
+    created_at: string;
+    fid: number;
+    fname: string;
+    hash: string;
+    like_count: number;
+    mentioned_addresses: Array<GraphQLTypes['CastMention']>;
+    recast_count: number;
+    replies_count: number;
+    text: string;
+    text_with_mentions: string;
+  };
+  ['CastMention']: {
+    address: string;
+    fname: string;
+  };
   ['CheckEthDenverInviteeOutput']: {
     is_eth_denver_invitee: boolean;
   };
@@ -21588,6 +22471,10 @@ export type ModelTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
+  };
+  ['GetCastsInput']: GraphQLTypes['GetCastsInput'];
+  ['GetCastsOutput']: {
+    casts: Array<GraphQLTypes['Cast']>;
   };
   ['GiveCsvInput']: GraphQLTypes['GiveCsvInput'];
   ['GiveCsvResponse']: {
@@ -23429,22 +24316,306 @@ export type ModelTypes = {
     parent_fid?: GraphQLTypes['bigint'] | undefined;
     parent_hash?: GraphQLTypes['bytea'] | undefined;
     parent_url?: string | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** An array relationship */
+    replies: Array<GraphQLTypes['farcaster_casts']>;
+    /** An aggregate relationship */
+    replies_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     root_parent_hash?: GraphQLTypes['bytea'] | undefined;
     root_parent_url?: string | undefined;
     text: string;
     timestamp: GraphQLTypes['timestamp'];
     updated_at: GraphQLTypes['timestamp'];
   };
+  /** aggregated selection of "farcaster.casts" */
+  ['farcaster_casts_aggregate']: {
+    aggregate?: GraphQLTypes['farcaster_casts_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['farcaster_casts']>;
+  };
+  ['farcaster_casts_aggregate_bool_exp']: GraphQLTypes['farcaster_casts_aggregate_bool_exp'];
+  ['farcaster_casts_aggregate_bool_exp_count']: GraphQLTypes['farcaster_casts_aggregate_bool_exp_count'];
+  /** aggregate fields of "farcaster.casts" */
+  ['farcaster_casts_aggregate_fields']: {
+    avg?: GraphQLTypes['farcaster_casts_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_casts_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_casts_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_casts_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['farcaster_casts_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_casts_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_casts_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_casts_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_casts_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_casts_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "farcaster.casts" */
+  ['farcaster_casts_aggregate_order_by']: GraphQLTypes['farcaster_casts_aggregate_order_by'];
+  /** aggregate avg on columns */
+  ['farcaster_casts_avg_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by avg() on columns of table "farcaster.casts" */
+  ['farcaster_casts_avg_order_by']: GraphQLTypes['farcaster_casts_avg_order_by'];
   /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
   ['farcaster_casts_bool_exp']: GraphQLTypes['farcaster_casts_bool_exp'];
+  /** aggregate max on columns */
+  ['farcaster_casts_max_fields']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by max() on columns of table "farcaster.casts" */
+  ['farcaster_casts_max_order_by']: GraphQLTypes['farcaster_casts_max_order_by'];
+  /** aggregate min on columns */
+  ['farcaster_casts_min_fields']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by min() on columns of table "farcaster.casts" */
+  ['farcaster_casts_min_order_by']: GraphQLTypes['farcaster_casts_min_order_by'];
   /** Ordering options when selecting data from "farcaster.casts". */
   ['farcaster_casts_order_by']: GraphQLTypes['farcaster_casts_order_by'];
   /** select columns of table "farcaster.casts" */
   ['farcaster_casts_select_column']: GraphQLTypes['farcaster_casts_select_column'];
+  /** aggregate stddev on columns */
+  ['farcaster_casts_stddev_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_order_by']: GraphQLTypes['farcaster_casts_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['farcaster_casts_stddev_pop_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_pop_order_by']: GraphQLTypes['farcaster_casts_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['farcaster_casts_stddev_samp_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_samp_order_by']: GraphQLTypes['farcaster_casts_stddev_samp_order_by'];
   /** Streaming cursor of the table "farcaster_casts" */
   ['farcaster_casts_stream_cursor_input']: GraphQLTypes['farcaster_casts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['farcaster_casts_stream_cursor_value_input']: GraphQLTypes['farcaster_casts_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['farcaster_casts_sum_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "farcaster.casts" */
+  ['farcaster_casts_sum_order_by']: GraphQLTypes['farcaster_casts_sum_order_by'];
+  /** aggregate var_pop on columns */
+  ['farcaster_casts_var_pop_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_pop_order_by']: GraphQLTypes['farcaster_casts_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['farcaster_casts_var_samp_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_samp_order_by']: GraphQLTypes['farcaster_casts_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['farcaster_casts_variance_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by variance() on columns of table "farcaster.casts" */
+  ['farcaster_casts_variance_order_by']: GraphQLTypes['farcaster_casts_variance_order_by'];
+  /** columns and relationships of "farcaster.reactions" */
+  ['farcaster_reactions']: {
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    reaction_type: GraphQLTypes['smallint'];
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_hash?: GraphQLTypes['bytea'] | undefined;
+    target_url?: string | undefined;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** aggregated selection of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate']: {
+    aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['farcaster_reactions']>;
+  };
+  ['farcaster_reactions_aggregate_bool_exp']: GraphQLTypes['farcaster_reactions_aggregate_bool_exp'];
+  ['farcaster_reactions_aggregate_bool_exp_count']: GraphQLTypes['farcaster_reactions_aggregate_bool_exp_count'];
+  /** aggregate fields of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_fields']: {
+    avg?: GraphQLTypes['farcaster_reactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_reactions_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_reactions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_reactions_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_reactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_reactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_reactions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_reactions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_reactions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_reactions_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_order_by']: GraphQLTypes['farcaster_reactions_aggregate_order_by'];
+  /** aggregate avg on columns */
+  ['farcaster_reactions_avg_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by avg() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_avg_order_by']: GraphQLTypes['farcaster_reactions_avg_order_by'];
+  /** Boolean expression to filter rows from the table "farcaster.reactions". All fields are combined with a logical 'AND'. */
+  ['farcaster_reactions_bool_exp']: GraphQLTypes['farcaster_reactions_bool_exp'];
+  /** aggregate max on columns */
+  ['farcaster_reactions_max_fields']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_url?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by max() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_max_order_by']: GraphQLTypes['farcaster_reactions_max_order_by'];
+  /** aggregate min on columns */
+  ['farcaster_reactions_min_fields']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_url?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by min() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_min_order_by']: GraphQLTypes['farcaster_reactions_min_order_by'];
+  /** Ordering options when selecting data from "farcaster.reactions". */
+  ['farcaster_reactions_order_by']: GraphQLTypes['farcaster_reactions_order_by'];
+  /** select columns of table "farcaster.reactions" */
+  ['farcaster_reactions_select_column']: GraphQLTypes['farcaster_reactions_select_column'];
+  /** aggregate stddev on columns */
+  ['farcaster_reactions_stddev_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_order_by']: GraphQLTypes['farcaster_reactions_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['farcaster_reactions_stddev_pop_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_pop_order_by']: GraphQLTypes['farcaster_reactions_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['farcaster_reactions_stddev_samp_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_samp_order_by']: GraphQLTypes['farcaster_reactions_stddev_samp_order_by'];
+  /** Streaming cursor of the table "farcaster_reactions" */
+  ['farcaster_reactions_stream_cursor_input']: GraphQLTypes['farcaster_reactions_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_reactions_stream_cursor_value_input']: GraphQLTypes['farcaster_reactions_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['farcaster_reactions_sum_fields']: {
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_sum_order_by']: GraphQLTypes['farcaster_reactions_sum_order_by'];
+  /** aggregate var_pop on columns */
+  ['farcaster_reactions_var_pop_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_pop_order_by']: GraphQLTypes['farcaster_reactions_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['farcaster_reactions_var_samp_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_samp_order_by']: GraphQLTypes['farcaster_reactions_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['farcaster_reactions_variance_fields']: {
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by variance() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_variance_order_by']: GraphQLTypes['farcaster_reactions_variance_order_by'];
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
   ['float8_comparison_exp']: GraphQLTypes['float8_comparison_exp'];
@@ -25956,8 +27127,18 @@ export type ModelTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table: "farcaster.casts" */
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch aggregated fields from the table: "farcaster.casts" */
+    farcaster_casts_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** fetch data from the table: "farcaster.reactions" */
+    farcaster_reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** fetch aggregated fields from the table: "farcaster.reactions" */
+    farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** fetch data from the table: "farcaster.reactions" using primary key columns */
+    farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
+    /** getCasts */
+    getCasts: GraphQLTypes['GetCastsOutput'];
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -26744,6 +27925,8 @@ export type ModelTypes = {
   ['smallint']: any;
   /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
   ['smallint_array_comparison_exp']: GraphQLTypes['smallint_array_comparison_exp'];
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_comparison_exp']: GraphQLTypes['smallint_comparison_exp'];
   ['subscription_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -26873,10 +28056,20 @@ export type ModelTypes = {
     farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster.casts" */
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch aggregated fields from the table: "farcaster.casts" */
+    farcaster_casts_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.casts" */
     farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.reactions" */
+    farcaster_reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** fetch aggregated fields from the table: "farcaster.reactions" */
+    farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** fetch data from the table: "farcaster.reactions" using primary key columns */
+    farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster.reactions" */
+    farcaster_reactions_stream: Array<GraphQLTypes['farcaster_reactions']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -27860,6 +29053,26 @@ export type GraphQLTypes = {
     _neq?: boolean | undefined;
     _nin?: Array<boolean> | undefined;
   };
+  ['Cast']: {
+    __typename: 'Cast';
+    address: string;
+    avatar_url: string;
+    created_at: string;
+    fid: number;
+    fname: string;
+    hash: string;
+    like_count: number;
+    mentioned_addresses: Array<GraphQLTypes['CastMention']>;
+    recast_count: number;
+    replies_count: number;
+    text: string;
+    text_with_mentions: string;
+  };
+  ['CastMention']: {
+    __typename: 'CastMention';
+    address: string;
+    fname: string;
+  };
   ['CheckEthDenverInviteeOutput']: {
     __typename: 'CheckEthDenverInviteeOutput';
     is_eth_denver_invitee: boolean;
@@ -28012,6 +29225,13 @@ export type GraphQLTypes = {
     api_key: string;
     circleApiKey?: GraphQLTypes['circle_api_keys'] | undefined;
     hash: string;
+  };
+  ['GetCastsInput']: {
+    fid?: number | undefined;
+  };
+  ['GetCastsOutput']: {
+    __typename: 'GetCastsOutput';
+    casts: Array<GraphQLTypes['Cast']>;
   };
   ['GiveCsvInput']: {
     circle_id: number;
@@ -32390,11 +33610,86 @@ export type GraphQLTypes = {
     parent_fid?: GraphQLTypes['bigint'] | undefined;
     parent_hash?: GraphQLTypes['bytea'] | undefined;
     parent_url?: string | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** An array relationship */
+    replies: Array<GraphQLTypes['farcaster_casts']>;
+    /** An aggregate relationship */
+    replies_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     root_parent_hash?: GraphQLTypes['bytea'] | undefined;
     root_parent_url?: string | undefined;
     text: string;
     timestamp: GraphQLTypes['timestamp'];
     updated_at: GraphQLTypes['timestamp'];
+  };
+  /** aggregated selection of "farcaster.casts" */
+  ['farcaster_casts_aggregate']: {
+    __typename: 'farcaster_casts_aggregate';
+    aggregate?: GraphQLTypes['farcaster_casts_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['farcaster_casts']>;
+  };
+  ['farcaster_casts_aggregate_bool_exp']: {
+    count?:
+      | GraphQLTypes['farcaster_casts_aggregate_bool_exp_count']
+      | undefined;
+  };
+  ['farcaster_casts_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<GraphQLTypes['farcaster_casts_select_column']>
+      | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['farcaster_casts_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "farcaster.casts" */
+  ['farcaster_casts_aggregate_fields']: {
+    __typename: 'farcaster_casts_aggregate_fields';
+    avg?: GraphQLTypes['farcaster_casts_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_casts_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_casts_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_casts_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['farcaster_casts_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_casts_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_casts_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_casts_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_casts_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_casts_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "farcaster.casts" */
+  ['farcaster_casts_aggregate_order_by']: {
+    avg?: GraphQLTypes['farcaster_casts_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['farcaster_casts_max_order_by'] | undefined;
+    min?: GraphQLTypes['farcaster_casts_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['farcaster_casts_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_casts_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_casts_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_casts_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_casts_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_casts_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['farcaster_casts_variance_order_by'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_casts_avg_fields']: {
+    __typename: 'farcaster_casts_avg_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by avg() on columns of table "farcaster.casts" */
+  ['farcaster_casts_avg_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
   };
   /** Boolean expression to filter rows from the table "farcaster.casts". All fields are combined with a logical 'AND'. */
   ['farcaster_casts_bool_exp']: {
@@ -32415,11 +33710,81 @@ export type GraphQLTypes = {
     parent_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
     parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    reactions?: GraphQLTypes['farcaster_reactions_bool_exp'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_bool_exp']
+      | undefined;
+    replies?: GraphQLTypes['farcaster_casts_bool_exp'] | undefined;
+    replies_aggregate?:
+      | GraphQLTypes['farcaster_casts_aggregate_bool_exp']
+      | undefined;
     root_parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
     root_parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     text?: GraphQLTypes['String_comparison_exp'] | undefined;
     timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['farcaster_casts_max_fields']: {
+    __typename: 'farcaster_casts_max_fields';
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by max() on columns of table "farcaster.casts" */
+  ['farcaster_casts_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    mentions?: GraphQLTypes['order_by'] | undefined;
+    mentions_positions?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+    parent_url?: GraphQLTypes['order_by'] | undefined;
+    root_parent_url?: GraphQLTypes['order_by'] | undefined;
+    text?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_casts_min_fields']: {
+    __typename: 'farcaster_casts_min_fields';
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_url?: string | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by min() on columns of table "farcaster.casts" */
+  ['farcaster_casts_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    mentions?: GraphQLTypes['order_by'] | undefined;
+    mentions_positions?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+    parent_url?: GraphQLTypes['order_by'] | undefined;
+    root_parent_url?: GraphQLTypes['order_by'] | undefined;
+    text?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
   };
   /** Ordering options when selecting data from "farcaster.casts". */
   ['farcaster_casts_order_by']: {
@@ -32435,6 +33800,12 @@ export type GraphQLTypes = {
     parent_fid?: GraphQLTypes['order_by'] | undefined;
     parent_hash?: GraphQLTypes['order_by'] | undefined;
     parent_url?: GraphQLTypes['order_by'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_order_by']
+      | undefined;
+    replies_aggregate?:
+      | GraphQLTypes['farcaster_casts_aggregate_order_by']
+      | undefined;
     root_parent_hash?: GraphQLTypes['order_by'] | undefined;
     root_parent_url?: GraphQLTypes['order_by'] | undefined;
     text?: GraphQLTypes['order_by'] | undefined;
@@ -32443,6 +33814,45 @@ export type GraphQLTypes = {
   };
   /** select columns of table "farcaster.casts" */
   ['farcaster_casts_select_column']: farcaster_casts_select_column;
+  /** aggregate stddev on columns */
+  ['farcaster_casts_stddev_fields']: {
+    __typename: 'farcaster_casts_stddev_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_casts_stddev_pop_fields']: {
+    __typename: 'farcaster_casts_stddev_pop_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_pop_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_casts_stddev_samp_fields']: {
+    __typename: 'farcaster_casts_stddev_samp_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_stddev_samp_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
   /** Streaming cursor of the table "farcaster_casts" */
   ['farcaster_casts_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -32468,6 +33878,359 @@ export type GraphQLTypes = {
     text?: string | undefined;
     timestamp?: GraphQLTypes['timestamp'] | undefined;
     updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_casts_sum_fields']: {
+    __typename: 'farcaster_casts_sum_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "farcaster.casts" */
+  ['farcaster_casts_sum_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_casts_var_pop_fields']: {
+    __typename: 'farcaster_casts_var_pop_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_pop_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_casts_var_samp_fields']: {
+    __typename: 'farcaster_casts_var_samp_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "farcaster.casts" */
+  ['farcaster_casts_var_samp_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_casts_variance_fields']: {
+    __typename: 'farcaster_casts_variance_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    parent_fid?: number | undefined;
+  };
+  /** order by variance() on columns of table "farcaster.casts" */
+  ['farcaster_casts_variance_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** columns and relationships of "farcaster.reactions" */
+  ['farcaster_reactions']: {
+    __typename: 'farcaster_reactions';
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    reaction_type: GraphQLTypes['smallint'];
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_hash?: GraphQLTypes['bytea'] | undefined;
+    target_url?: string | undefined;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** aggregated selection of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate']: {
+    __typename: 'farcaster_reactions_aggregate';
+    aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_fields']
+      | undefined;
+    nodes: Array<GraphQLTypes['farcaster_reactions']>;
+  };
+  ['farcaster_reactions_aggregate_bool_exp']: {
+    count?:
+      | GraphQLTypes['farcaster_reactions_aggregate_bool_exp_count']
+      | undefined;
+  };
+  ['farcaster_reactions_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<GraphQLTypes['farcaster_reactions_select_column']>
+      | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['farcaster_reactions_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_fields']: {
+    __typename: 'farcaster_reactions_aggregate_fields';
+    avg?: GraphQLTypes['farcaster_reactions_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['farcaster_reactions_max_fields'] | undefined;
+    min?: GraphQLTypes['farcaster_reactions_min_fields'] | undefined;
+    stddev?: GraphQLTypes['farcaster_reactions_stddev_fields'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_reactions_stddev_pop_fields']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_reactions_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_reactions_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_reactions_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['farcaster_reactions_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['farcaster_reactions_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "farcaster.reactions" */
+  ['farcaster_reactions_aggregate_order_by']: {
+    avg?: GraphQLTypes['farcaster_reactions_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['farcaster_reactions_max_order_by'] | undefined;
+    min?: GraphQLTypes['farcaster_reactions_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['farcaster_reactions_stddev_order_by'] | undefined;
+    stddev_pop?:
+      | GraphQLTypes['farcaster_reactions_stddev_pop_order_by']
+      | undefined;
+    stddev_samp?:
+      | GraphQLTypes['farcaster_reactions_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['farcaster_reactions_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['farcaster_reactions_var_pop_order_by'] | undefined;
+    var_samp?:
+      | GraphQLTypes['farcaster_reactions_var_samp_order_by']
+      | undefined;
+    variance?:
+      | GraphQLTypes['farcaster_reactions_variance_order_by']
+      | undefined;
+  };
+  /** aggregate avg on columns */
+  ['farcaster_reactions_avg_fields']: {
+    __typename: 'farcaster_reactions_avg_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by avg() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_avg_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "farcaster.reactions". All fields are combined with a logical 'AND'. */
+  ['farcaster_reactions_bool_exp']: {
+    _and?: Array<GraphQLTypes['farcaster_reactions_bool_exp']> | undefined;
+    _not?: GraphQLTypes['farcaster_reactions_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['farcaster_reactions_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    reaction_type?: GraphQLTypes['smallint_comparison_exp'] | undefined;
+    target_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    target_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    target_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['farcaster_reactions_max_fields']: {
+    __typename: 'farcaster_reactions_max_fields';
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_url?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by max() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_max_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+    target_url?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['farcaster_reactions_min_fields']: {
+    __typename: 'farcaster_reactions_min_fields';
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_url?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** order by min() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_min_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+    target_url?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "farcaster.reactions". */
+  ['farcaster_reactions_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+    target_hash?: GraphQLTypes['order_by'] | undefined;
+    target_url?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "farcaster.reactions" */
+  ['farcaster_reactions_select_column']: farcaster_reactions_select_column;
+  /** aggregate stddev on columns */
+  ['farcaster_reactions_stddev_fields']: {
+    __typename: 'farcaster_reactions_stddev_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['farcaster_reactions_stddev_pop_fields']: {
+    __typename: 'farcaster_reactions_stddev_pop_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_pop_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['farcaster_reactions_stddev_samp_fields']: {
+    __typename: 'farcaster_reactions_stddev_samp_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_stddev_samp_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "farcaster_reactions" */
+  ['farcaster_reactions_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['farcaster_reactions_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['farcaster_reactions_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    hash?: GraphQLTypes['bytea'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+    target_hash?: GraphQLTypes['bytea'] | undefined;
+    target_url?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['farcaster_reactions_sum_fields']: {
+    __typename: 'farcaster_reactions_sum_fields';
+    fid?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    reaction_type?: GraphQLTypes['smallint'] | undefined;
+    target_fid?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_sum_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['farcaster_reactions_var_pop_fields']: {
+    __typename: 'farcaster_reactions_var_pop_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_pop_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['farcaster_reactions_var_samp_fields']: {
+    __typename: 'farcaster_reactions_var_samp_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_var_samp_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['farcaster_reactions_variance_fields']: {
+    __typename: 'farcaster_reactions_variance_fields';
+    fid?: number | undefined;
+    id?: number | undefined;
+    reaction_type?: number | undefined;
+    target_fid?: number | undefined;
+  };
+  /** order by variance() on columns of table "farcaster.reactions" */
+  ['farcaster_reactions_variance_order_by']: {
+    fid?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    reaction_type?: GraphQLTypes['order_by'] | undefined;
+    target_fid?: GraphQLTypes['order_by'] | undefined;
   };
   ['float8']: any;
   /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
@@ -37421,8 +39184,18 @@ export type GraphQLTypes = {
     farcaster_accounts_by_pk?: GraphQLTypes['farcaster_accounts'] | undefined;
     /** fetch data from the table: "farcaster.casts" */
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch aggregated fields from the table: "farcaster.casts" */
+    farcaster_casts_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
+    /** fetch data from the table: "farcaster.reactions" */
+    farcaster_reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** fetch aggregated fields from the table: "farcaster.reactions" */
+    farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** fetch data from the table: "farcaster.reactions" using primary key columns */
+    farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
+    /** getCasts */
+    getCasts: GraphQLTypes['GetCastsOutput'];
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -38768,6 +40541,18 @@ export type GraphQLTypes = {
     _neq?: Array<GraphQLTypes['smallint']> | undefined;
     _nin?: Array<Array<GraphQLTypes['smallint']> | undefined>;
   };
+  /** Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'. */
+  ['smallint_comparison_exp']: {
+    _eq?: GraphQLTypes['smallint'] | undefined;
+    _gt?: GraphQLTypes['smallint'] | undefined;
+    _gte?: GraphQLTypes['smallint'] | undefined;
+    _in?: Array<GraphQLTypes['smallint']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['smallint'] | undefined;
+    _lte?: GraphQLTypes['smallint'] | undefined;
+    _neq?: GraphQLTypes['smallint'] | undefined;
+    _nin?: Array<GraphQLTypes['smallint']> | undefined;
+  };
   ['subscription_root']: {
     __typename: 'subscription_root';
     /** An array relationship */
@@ -38898,10 +40683,20 @@ export type GraphQLTypes = {
     farcaster_accounts_stream: Array<GraphQLTypes['farcaster_accounts']>;
     /** fetch data from the table: "farcaster.casts" */
     farcaster_casts: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch aggregated fields from the table: "farcaster.casts" */
+    farcaster_casts_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
     /** fetch data from the table: "farcaster.casts" using primary key columns */
     farcaster_casts_by_pk?: GraphQLTypes['farcaster_casts'] | undefined;
     /** fetch data from the table in a streaming manner: "farcaster.casts" */
     farcaster_casts_stream: Array<GraphQLTypes['farcaster_casts']>;
+    /** fetch data from the table: "farcaster.reactions" */
+    farcaster_reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** fetch aggregated fields from the table: "farcaster.reactions" */
+    farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** fetch data from the table: "farcaster.reactions" using primary key columns */
+    farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
+    /** fetch data from the table in a streaming manner: "farcaster.reactions" */
+    farcaster_reactions_stream: Array<GraphQLTypes['farcaster_reactions']>;
     /** fetch data from the table: "gift_private" */
     gift_private: Array<GraphQLTypes['gift_private']>;
     /** fetch data from the table in a streaming manner: "gift_private" */
@@ -41148,6 +42943,20 @@ export const enum farcaster_casts_select_column {
   root_parent_hash = 'root_parent_hash',
   root_parent_url = 'root_parent_url',
   text = 'text',
+  timestamp = 'timestamp',
+  updated_at = 'updated_at',
+}
+/** select columns of table "farcaster.reactions" */
+export const enum farcaster_reactions_select_column {
+  created_at = 'created_at',
+  deleted_at = 'deleted_at',
+  fid = 'fid',
+  hash = 'hash',
+  id = 'id',
+  reaction_type = 'reaction_type',
+  target_fid = 'target_fid',
+  target_hash = 'target_hash',
+  target_url = 'target_url',
   timestamp = 'timestamp',
   updated_at = 'updated_at',
 }

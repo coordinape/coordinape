@@ -32,6 +32,7 @@ import deleteUsers from './_handlers/deleteUsers';
 import endEpoch from './_handlers/endEpoch';
 import generateApiKey from './_handlers/generateApiKey';
 import generateOneTimeUpload from './_handlers/generateOneTimeUpload';
+import getCasts from './_handlers/getCasts';
 import guildInfo from './_handlers/getGuildInfo';
 import getHeadlines from './_handlers/getHeadlines';
 import getSimilarProfiles from './_handlers/getSimilarProfiles';
@@ -95,6 +96,7 @@ const HANDLERS: HandlerDict = {
   endEpoch,
   checkEthDenverInvitee,
   generateApiKey,
+  getCasts,
   getHeadlines,
   getSimilarProfiles,
   giveCsv,
