@@ -85,7 +85,7 @@ export const SearchBox = ({
       >
         <Flex
           className="cmdkInner"
-          css={{ justifyContent: 'space-between', width: '100%' }}
+          css={{ justifyContent: 'space-between', width: '100%', gap: '$sm' }}
         >
           <Text className="cmdkPlaceholder">
             {placeholder ?? 'Search Anything'}

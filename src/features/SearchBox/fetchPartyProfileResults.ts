@@ -13,7 +13,7 @@ export const fetchPartyProfileResults = async ({
           where: {
             name: { _ilike: '%' + search + '%' },
           },
-          limit: 10,
+          limit: 6,
         },
         {
           id: true,

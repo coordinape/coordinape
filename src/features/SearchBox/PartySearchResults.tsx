@@ -76,9 +76,8 @@ export const PartySearchResults = ({
         placeholder={'Search Anything'}
         maxLength={30}
       />
-
       <Command.List>
-        <Command.Empty>No results found.</Command.Empty>
+        <Command.Empty>Search for a Skill or Person</Command.Empty>
         {(partyProfileFetching || farcasterUserFetching) && (
           <Command.Loading>
             <Flex column css={{ width: '100%', alignItems: 'center' }}>
@@ -92,6 +91,28 @@ export const PartySearchResults = ({
           </Command.Loading>
         )}
         <>
+          {(giveSkills?.length ?? 0) > 0 && (
+            <Command.Group heading={'Skills'}>
+              {giveSkills
+                ?.filter(skill => skill.skill)
+                .map(skill => (
+                  <Command.Item
+                    key={skill.skill}
+                    value={skill.skill}
+                    onSelect={name => {
+                      onSelectInterest(name);
+                      setPopoverOpen(false);
+                    }}
+                  >
+                    <SkillTag
+                      skill={skill.skill}
+                      count={skill.gives}
+                      size={'medium'}
+                    />
+                  </Command.Item>
+                ))}
+            </Command.Group>
+          )}
           {(partyProfileResults?.length ?? 0) > 0 && (
             <Command.Group heading={'CoLinks Members'}>
               {partyProfileResults
@@ -124,28 +145,6 @@ export const PartySearchResults = ({
                     }}
                   >
                     <FarcasterUserResult user={user} />
-                  </Command.Item>
-                ))}
-            </Command.Group>
-          )}
-          {(giveSkills?.length ?? 0) > 0 && (
-            <Command.Group heading={'Skills'}>
-              {giveSkills
-                ?.filter(skill => skill.skill)
-                .map(skill => (
-                  <Command.Item
-                    key={skill.skill}
-                    value={skill.skill}
-                    onSelect={name => {
-                      onSelectInterest(name);
-                      setPopoverOpen(false);
-                    }}
-                  >
-                    <SkillTag
-                      skill={skill.skill}
-                      count={skill.gives}
-                      size={'medium'}
-                    />
                   </Command.Item>
                 ))}
             </Command.Group>
