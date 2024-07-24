@@ -100,6 +100,7 @@ export const PointsBar = ({
           overflow: 'clip',
           alignItems: 'center',
           gap: '0',
+          width: '100%',
           background:
             forceTheme === 'dark'
               ? '#1A1B1F'

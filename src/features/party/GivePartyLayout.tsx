@@ -11,7 +11,7 @@ const GivePartyLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Rainbowify>
-      <PartyBody css={{ width: '100%', margin: desktop ? 0 : '0 auto' }}>
+      <PartyBody css={{ width: '98%', margin: desktop ? 0 : '0 auto' }}>
         <PartyHeader />
         {children}
       </PartyBody>
