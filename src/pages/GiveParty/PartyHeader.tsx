@@ -11,10 +11,13 @@ export const PartyHeader = ({ css }: { css?: CSS }) => {
   return (
     <Flex
       css={{
-        alignItems: 'flex-start',
         gap: '$md',
         pt: '$lg',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        '@sm': {
+          alignItems: 'flex-start',
+        },
       }}
     >
       <Flex css={{ alignItems: 'center', gap: '$md', ...css }}>

@@ -6,7 +6,7 @@ import { PointsBar } from 'features/points/PointsBar';
 import { useAccount } from 'wagmi';
 
 import useProfileId from 'hooks/useProfileId';
-import { Flex, Text } from 'ui';
+import { Button, Flex, Text } from 'ui';
 
 import { profileColumnWidth } from './GiveParty/PartyProfile';
 
@@ -27,7 +27,11 @@ export const PartyWalletMenu = () => {
         !ref.current.contains(event.target as Node)
       ) {
         setOpen(false);
+        // eslint-disable-next-line no-console
+        console.log('close');
       }
+      // eslint-disable-next-line no-console
+      console.log('nope');
     };
     document.addEventListener('click', handleClickOutside, true);
     return () => {
@@ -41,42 +45,55 @@ export const PartyWalletMenu = () => {
 
   return (
     <Flex
+      ref={ref}
       column
+      tabIndex={0}
+      onClick={() => setOpen(prev => !prev)}
       css={{
-        minWidth: 226,
+        minWidth: 242,
         maxWidth: profileColumnWidth,
-        gap: '$sm',
         position: 'absolute',
         right: 0,
-        // top: '$sm',
         alignItems: 'flex-end',
         zIndex: 3,
+        background: 'purple',
+        borderRadius: '$3',
+        p: '$sm',
+        cursor: 'pointer',
       }}
     >
       {walletConnected && profileId ? (
-        <>
-          <Flex
-            css={{
-              '>div': {
-                flexDirection: 'column',
-                gap: '$sm !important',
-                button: {
-                  borderRadius: '$3 !important',
-                  fontSize: '$small !important',
+        <Flex>
+          {open ? (
+            <Flex column css={{ gap: '$sm' }}>
+              <Flex
+                css={{
                   '>div': {
-                    borderRadius: '$3 !important',
+                    flexDirection: 'column',
+                    gap: '$sm !important',
+                    button: {
+                      borderRadius: '$3 !important',
+                      fontSize: '$small !important',
+                      '>div': {
+                        borderRadius: '$3 !important',
+                      },
+                      'svg title+path': {
+                        fill: 'transparent',
+                      },
+                    },
                   },
-                  'svg title+path': {
-                    fill: 'transparent',
-                  },
-                },
-              },
-            }}
-          >
-            <ConnectButton />
-          </Flex>
-          <PointsBar forceTheme="dark" />
-        </>
+                }}
+              >
+                <ConnectButton />
+              </Flex>
+              <PointsBar forceTheme="dark" />
+              <Text>walletConnected: {walletConnected.toString()}</Text>
+              <Text>profileId: {profileId}</Text>
+            </Flex>
+          ) : (
+            <Text>Avatar / name / GIVE ct</Text>
+          )}
+        </Flex>
       ) : (
         <Flex
           css={{
