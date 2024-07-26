@@ -1,14 +1,23 @@
 import { useQuery } from 'react-query';
 
+import useConnectedAddress from 'hooks/useConnectedAddress';
 import { Link, Text } from 'ui';
 
 import { getEmails } from './EditEmailForm';
 import { EmailModal } from './EmailModal';
 
 export const EmailBanner = () => {
-  const { data: emails } = useQuery('emails', async () => {
-    return getEmails();
-  });
+  const account = useConnectedAddress(false);
+
+  const { data: emails } = useQuery(
+    'emails',
+    async () => {
+      return getEmails();
+    },
+    {
+      enabled: !!account,
+    }
+  );
 
   const verifiedEmails = emails?.filter(email => email.verified_at) || [];
   // If user has > 1 emails, but 0 verified, show banner

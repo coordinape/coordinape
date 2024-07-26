@@ -3,8 +3,8 @@ import { ComponentProps } from 'react';
 import { useQuery } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { order_by } from '../../lib/anongql/__generated__/zeus';
+import { anonClient } from '../../lib/anongql/anonClient';
 import {
   CoLinksMember,
   coLinksMemberSelector,
@@ -22,11 +22,11 @@ export const LeaderboardMostLinks = ({
   hideRank?: boolean;
   size?: ComponentProps<typeof CoLinksMember>['size'];
 }) => {
-  const currentAddress = useConnectedAddress(true);
+  const currentAddress = useConnectedAddress(false);
   const { data: leaders } = useQuery(
     [QUERY_KEY_COLINKS, 'leaderboard', 'holders'],
     async () => {
-      const { most_links } = await client.query(
+      const { most_links } = await anonClient.query(
         {
           __alias: {
             most_links: {

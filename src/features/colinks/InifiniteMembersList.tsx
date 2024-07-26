@@ -26,14 +26,14 @@ export const InfiniteMembersList = ({
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
-  const currentAddress = useConnectedAddress(true);
+  const currentAddress = useConnectedAddress(false);
 
   const { data, isFetchingNextPage } = useInfiniteMembers(
     observerRef,
-    currentAddress,
     [QUERY_KEY_COLINKS, MEMBERS_QUERY_KEY, ...queryKey],
     where,
-    orderBy
+    orderBy,
+    currentAddress
   );
 
   if (!data) {

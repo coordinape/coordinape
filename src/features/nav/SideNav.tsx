@@ -237,7 +237,7 @@ export const SideNav = () => {
           {data && (
             <>
               <Flex column css={{ gap: '$sm' }}>
-                <EmailCTA />
+                {address && <EmailCTA />}
                 <>
                   <Button
                     color="cta"

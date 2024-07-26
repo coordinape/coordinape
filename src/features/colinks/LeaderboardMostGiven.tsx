@@ -1,19 +1,19 @@
 import { useQuery } from 'react-query';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { order_by } from '../../lib/anongql/__generated__/zeus';
+import { anonClient } from '../../lib/anongql/anonClient';
 import { coLinksMemberSelector } from '../../pages/colinks/explore/CoLinksMember';
 
 import { Leaderboard } from './Leaderboard';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 export const LeaderboardMostGiven = ({ limit = 100 }: { limit?: number }) => {
-  const currentAddress = useConnectedAddress(true);
+  const currentAddress = useConnectedAddress(false);
   const { data: leaders } = useQuery(
     [QUERY_KEY_COLINKS, 'leaderboard', 'most_given'],
     async () => {
-      const { most_given } = await client.query(
+      const { most_given } = await anonClient.query(
         {
           __alias: {
             most_given: {

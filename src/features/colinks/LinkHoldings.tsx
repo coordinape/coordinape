@@ -1,17 +1,17 @@
+import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
 import {
   link_holders_select_column,
   order_by,
-} from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+} from '../../lib/anongql/__generated__/zeus';
 import { Flex, Text } from '../../ui';
 
 import { CoLinksNameAndAvatar } from './CoLinksNameAndAvatar';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
 const getLinkHolders = async (holder: string, limit: number) => {
-  const { link_holders } = await client.query(
+  const { link_holders } = await anonClient.query(
     {
       link_holders: [
         {
@@ -91,7 +91,7 @@ export const LinkHoldings = ({
   const { data: heldCount } = useQuery(
     [QUERY_KEY_COLINKS, holder, 'heldCount', limit],
     async () => {
-      const { link_holders_aggregate } = await client.query(
+      const { link_holders_aggregate } = await anonClient.query(
         {
           link_holders_aggregate: [
             {

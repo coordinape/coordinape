@@ -17,7 +17,6 @@ import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { currentPrompt } from '../ActivityPage';
 import {
   ExternalLink,
-  Eye,
   Farcaster,
   Github,
   Plus,
@@ -39,7 +38,7 @@ export const CoLinksProfileHeader = ({
   showLoading: boolean;
   setShowLoading: Dispatch<React.SetStateAction<boolean>>;
   target: CoLinksProfile;
-  currentUserAddress: string;
+  currentUserAddress?: string;
   targetAddress: string;
 }) => {
   const [showPostForm, setPostForm] = useState<boolean>(false);
@@ -52,70 +51,77 @@ export const CoLinksProfileHeader = ({
 
   const queryClient = useQueryClient();
   const isCurrentUser =
+    currentUserAddress &&
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
   const [promptOffset, setPromptOffset] = useState(0);
   const bumpPromptOffset = () => {
     setPromptOffset(prev => prev + 1);
   };
 
-  const { data: details } = useQuery(['twitter', profile.id], async () => {
-    const {
-      twitter_accounts_by_pk: twitter,
-      github_accounts_by_pk: github,
-      farcaster_accounts_by_pk: farcaster,
-      profile_skills,
-    } = await client.query(
-      {
-        profile_skills: [
-          {
-            where: {
-              profile_id: {
-                _eq: profile.id,
+  const { data: details } = useQuery(
+    ['twitter', profile.id],
+    async () => {
+      const {
+        twitter_accounts_by_pk: twitter,
+        github_accounts_by_pk: github,
+        farcaster_accounts_by_pk: farcaster,
+        profile_skills,
+      } = await client.query(
+        {
+          profile_skills: [
+            {
+              where: {
+                profile_id: {
+                  _eq: profile.id,
+                },
               },
+              order_by: [{ skill_name: order_by.asc }],
             },
-            order_by: [{ skill_name: order_by.asc }],
-          },
-          {
-            skill_name: true,
-          },
-        ],
-        farcaster_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-        twitter_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-        github_accounts_by_pk: [
-          {
-            profile_id: profile.id,
-          },
-          {
-            username: true,
-          },
-        ],
-      },
-      {
-        operationName: 'twitter_profile',
-      }
-    );
+            {
+              skill_name: true,
+            },
+          ],
+          farcaster_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+          twitter_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+          github_accounts_by_pk: [
+            {
+              profile_id: profile.id,
+            },
+            {
+              username: true,
+            },
+          ],
+        },
+        {
+          operationName: 'twitter_profile',
+        }
+      );
 
-    return {
-      twitter: twitter ? twitter.username : undefined,
-      github: github ? github.username : undefined,
-      farcaster: farcaster ? farcaster.username : undefined,
-      skills: profile_skills.map(ps => ps.skill_name),
-    };
-  });
+      return {
+        twitter: twitter ? twitter.username : undefined,
+        github: github ? github.username : undefined,
+        farcaster: farcaster ? farcaster.username : undefined,
+        skills: profile_skills.map(ps => ps.skill_name),
+      };
+    },
+    {
+      enabled: !!profile?.id,
+    }
+  );
 
   return (
     <ContentHeader css={{ '@sm': { mb: 0 } }}>
@@ -246,17 +252,6 @@ export const CoLinksProfileHeader = ({
             </Flex>
           </Flex>
           <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
-            <Button
-              as={AppLink}
-              color="neutral"
-              outlined
-              size="small"
-              to={coLinksPaths.partyProfile(targetAddress)}
-              target="_blank"
-            >
-              <Eye />
-              Public Profile
-            </Button>
             {isCurrentUser ? (
               <Button
                 as={AppLink}

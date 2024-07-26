@@ -1,7 +1,7 @@
 import { Helmet } from 'react-helmet';
 
 import { InfiniteMembersList } from '../../../features/colinks/InifiniteMembersList';
-import { order_by } from '../../../lib/gql/__generated__/zeus';
+import { order_by } from '../../../lib/anongql/__generated__/zeus';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 

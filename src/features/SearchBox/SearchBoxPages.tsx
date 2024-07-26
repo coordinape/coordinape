@@ -17,42 +17,51 @@ import {
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, Text } from '../../ui';
 
-const searchPages = (address: string) => [
-  {
-    name: 'Home',
-    path: coLinksPaths.home,
-    icon: <HouseFill size="lg" nostroke />,
-  },
+const searchPages = (address?: string) => [
+  ...(address
+    ? [
+        {
+          name: 'Home',
+          path: coLinksPaths.home,
+          icon: <HouseFill size="lg" nostroke />,
+        },
+      ]
+    : []),
   {
     name: 'Explore',
     path: coLinksPaths.explore,
     icon: <PlanetFill size="lg" nostroke />,
   },
-  {
-    name: 'Notifications',
-    path: coLinksPaths.notifications,
-    icon: <BoltFill size="lg" nostroke />,
-  },
-  {
-    name: 'Profile',
-    path: coLinksPaths.profile(address),
-    icon: <UserFill size="lg" nostroke />,
-  },
-  {
-    name: 'Edit Profile',
-    path: coLinksPaths.account,
-    icon: <Settings css={{ path: { fill: 'transparent !important' } }} />,
-  },
-  {
-    name: 'Rep Score',
-    path: coLinksPaths.score(address),
-    icon: <CertificateFill size="lg" nostroke />,
-  },
-  {
-    name: 'Invites',
-    path: coLinksPaths.invites,
-    icon: <PaperPlane size="lg" nostroke />,
-  },
+  // only show profile if user is logged in and we have `address`
+  ...(address
+    ? [
+        {
+          name: 'Notifications',
+          path: coLinksPaths.notifications,
+          icon: <BoltFill size="lg" nostroke />,
+        },
+        {
+          name: 'Profile',
+          path: coLinksPaths.profile(address),
+          icon: <UserFill size="lg" nostroke />,
+        },
+        {
+          name: 'Edit Profile',
+          path: coLinksPaths.account,
+          icon: <Settings css={{ path: { fill: 'transparent !important' } }} />,
+        },
+        {
+          name: 'Rep Score',
+          path: coLinksPaths.score(address),
+          icon: <CertificateFill size="lg" nostroke />,
+        },
+        {
+          name: 'Invites',
+          path: coLinksPaths.invites,
+          icon: <PaperPlane size="lg" nostroke />,
+        },
+      ]
+    : []),
   {
     name: 'Top Interests',
     path: coLinksPaths.exploreSkills,
@@ -82,7 +91,7 @@ const searchPages = (address: string) => [
 
 export const SearchBoxPages = ({ search }: { search: string }) => {
   const navigate = useNavigate();
-  const address = useConnectedAddress(true);
+  const address = useConnectedAddress(false);
 
   return (
     <Command.Group heading={'Pages'}>

@@ -1,14 +1,14 @@
-import { order_by } from '../../../lib/gql/__generated__/zeus';
-import { client } from '../../../lib/gql/client';
+import { order_by } from '../../../lib/anongql/__generated__/zeus';
+import { anonClient } from '../../../lib/anongql/anonClient';
 
 import { coLinksMemberSelector } from './CoLinksMember';
 
 const MAX_PEOPLE_WITH_SKILL = 100;
 export const fetchPeopleWithSkill = async (
   skill: string,
-  currentUserAddress: string
+  currentUserAddress?: string
 ) => {
-  const { profile_skills } = await client.query(
+  const { profile_skills } = await anonClient.query(
     {
       profile_skills: [
         {

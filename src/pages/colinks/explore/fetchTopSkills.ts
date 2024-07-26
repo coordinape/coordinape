@@ -1,10 +1,10 @@
-import { order_by } from '../../../lib/gql/__generated__/zeus';
-import { client } from '../../../lib/gql/client';
+import { order_by } from '../../../lib/anongql/__generated__/zeus';
+import { anonClient } from '../../../lib/anongql/anonClient';
 
 const MAX_POTENTIAL_SKILLS = 100;
 
 export const fetchTopSkills = async (skillName: string | undefined) => {
-  const { skills } = await client.query(
+  const { skills } = await anonClient.query(
     {
       skills: [
         {

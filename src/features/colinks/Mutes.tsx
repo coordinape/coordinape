@@ -1,13 +1,13 @@
 import assert from 'assert';
 
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
-import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Button } from '../../ui';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingIndicator } from 'components/LoadingIndicator';
+import useProfileId from 'hooks/useProfileId';
 
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -20,12 +20,13 @@ export const Mutes = ({
   targetProfileId: number;
   targetProfileAddress: string;
 }) => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId(false);
 
   const queryClient = useQueryClient();
-  assert(profileId, 'profileId required');
+  // assert(profileId, 'profileId required');
 
   const fetchMutes = async () => {
+    assert(profileId, 'profileId required');
     const { mutedThem, imMuted } = await client.query(
       {
         __alias: {
@@ -65,7 +66,10 @@ export const Mutes = ({
 
   const { data: mutes, isLoading } = useQuery(
     [QUERY_KEY_MUTES, profileId, targetProfileId],
-    fetchMutes
+    fetchMutes,
+    {
+      enabled: !!profileId,
+    }
   );
 
   const { mutate: muteThem } = useMutation(
@@ -111,6 +115,7 @@ export const Mutes = ({
 
   const { mutate: unmuteThem } = useMutation(
     async () => {
+      assert(profileId, 'profileId required');
       const { delete_mutes_by_pk } = await client.mutate(
         {
           delete_mutes_by_pk: [
@@ -147,6 +152,10 @@ export const Mutes = ({
       },
     }
   );
+
+  if (!profileId) {
+    return null;
+  }
 
   if (isLoading || !mutes) {
     return <LoadingIndicator />;

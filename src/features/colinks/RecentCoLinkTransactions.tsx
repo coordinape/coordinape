@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
+import { anonClient } from 'lib/anongql/anonClient';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { LinkTx } from '../../pages/colinks/NotificationsPage';
 import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Flex, Link, Text } from '../../ui';
@@ -21,7 +21,7 @@ export const RecentCoLinkTransactions = ({
   const { data: txs } = useQuery(
     [QUERY_KEY_COLINKS, target, 'history'],
     async () => {
-      const { link_tx } = await client.query(
+      const { link_tx } = await anonClient.query(
         {
           link_tx: [
             {

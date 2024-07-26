@@ -11,7 +11,7 @@ import { CoLinksMember } from './CoLinksMember';
 import { fetchPeopleWithSkill } from './fetchPeopleWithSkills';
 
 export const PeopleWithSkill = ({ skill }: { skill: string }) => {
-  const address = useConnectedAddress(true);
+  const address = useConnectedAddress(false);
   const { data: profiles } = useQuery(['explorePeopleWithSkill', skill], () =>
     fetchPeopleWithSkill(skill, address)
   );

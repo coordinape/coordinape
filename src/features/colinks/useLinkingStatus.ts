@@ -13,7 +13,7 @@ export const useLinkingStatus = ({
   address,
   target,
 }: {
-  address: string;
+  address?: string;
   target: string;
 }) => {
   const { coLinksReadOnly } = useContext(CoLinksContext);
@@ -22,6 +22,8 @@ export const useLinkingStatus = ({
     [QUERY_KEY_COLINKS, address, target],
     async () => {
       assert(coLinksReadOnly);
+      assert(address);
+      assert(target);
       // your balance of them
       const balance = (
         await coLinksReadOnly.linkBalance(target, address)
@@ -35,7 +37,7 @@ export const useLinkingStatus = ({
       return { balance, targetBalance, supply, superFriend };
     },
     {
-      enabled: !!coLinksReadOnly,
+      enabled: !!coLinksReadOnly && !!address && !!target,
     }
   );
 
@@ -55,5 +57,14 @@ export const useLinkingStatus = ({
     }, 2000);
   };
 
+  if (!address) {
+    return {
+      balance: 0,
+      targetBalance: 0,
+      supply: 0,
+      superFriend: false,
+      refresh: () => {},
+    };
+  }
   return { ...balances, refresh };
 };
