@@ -7,6 +7,7 @@ if [ -z "${PROD_POSTGRES_URL}" ]; then
 fi
 
 INITIAL_FIDS="382051,244292,380810"
+PROFILE_IDS="2947,3238,3201,3199,4229,670,5988,7588,1346,1933"
 LINKS_LIMIT=2000
 
 IGNORE_FIDS="(fid>10 AND fid!=354669)"
@@ -27,18 +28,32 @@ function sql() {
   echo "Done"
 }
 
-# grabTableData uses the arg to the function as the table name to grab
-function grabTableData() {
+# grabFCTableData uses the arg to the function as the table name to grab
+function grabFCTableData() {
   TABLE=$1
   sql "\copy (SELECT * FROM farcaster.${TABLE} WHERE fid IN (${SELECT_FIDS})) TO '${SEED_DIR}/${DATE_WITH_TIME}.farcaster.${TABLE}.csv' WITH CSV HEADER"
 }
 
+function grabTableData() {
+  TABLE=$1
+  sql "\copy (SELECT * FROM ${TABLE}) TO '${SEED_DIR}/${DATE_WITH_TIME}.${TABLE}.csv' WITH CSV HEADER"
+}
+
+function grabTableDataWhere() {
+  TABLE=$1
+  WHERE=$2
+  sql "\copy (SELECT * FROM ${TABLE} WHERE ${WHERE}) TO '${SEED_DIR}/${DATE_WITH_TIME}.${TABLE}.csv' WITH CSV HEADER"
+}
 
 # uncomment these to get more tables
 
-grabTableData "fids"
-grabTableData "fnames"
-grabTableData "verifications"
-grabTableData "user_data"
-grabTableData "casts"
-grabTableData "links"
+# grabFCTableData "fids"
+# grabFCTableData "fnames"
+# grabFCTableData "verifications"
+# grabFCTableData "user_data"
+# grabFCTableData "casts"
+grabFCTableData "reactions"
+# grabTableData "public.link_holders"
+# grabTableData "public.colinks_gives"
+# grabTableData "public.farcaster_accounts"
+# grabTableDataWhere "public.profiles" "id IN (${PROFILE_IDS})"
