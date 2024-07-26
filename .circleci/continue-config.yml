@@ -15,6 +15,8 @@ jobs:
       - image: node:20
     resource_class: large
     parallelism: 2
+    environment:
+      PUPPETEER_SKIP_DOWNLOAD: true
     steps:
       - checkout
       - node/install:
@@ -147,6 +149,7 @@ jobs:
       LOCAL_POSTGRES_USER: postgres
       LOCAL_POSTGRES_PASSWORD: postgrespassword
       LOCAL_POSTGRES_DATABASE: postgres
+      PUPPETEER_SKIP_DOWNLOAD: true
     steps:
       - run:
           name: check node version

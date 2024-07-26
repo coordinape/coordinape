@@ -11,6 +11,43 @@ object_relationships:
         remote_table:
           name: farcaster_accounts
           schema: public
+  - name: farcaster_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: profile_with_addresses
+          schema: farcaster
+  - name: fids
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: fids
+          schema: farcaster
+array_relationships:
+  - name: reactions
+    using:
+      manual_configuration:
+        column_mapping:
+          hash: target_hash
+        insertion_order: null
+        remote_table:
+          name: reactions
+          schema: farcaster
+  - name: replies
+    using:
+      manual_configuration:
+        column_mapping:
+          hash: parent_hash
+        insertion_order: null
+        remote_table:
+          name: casts
+          schema: farcaster
 select_permissions:
   - role: user
     permission:
@@ -33,4 +70,5 @@ select_permissions:
         - updated_at
       filter: {}
       limit: 100
+      allow_aggregations: true
     comment: ""

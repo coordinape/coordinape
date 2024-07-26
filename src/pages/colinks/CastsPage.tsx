@@ -1,19 +1,15 @@
 import { artWidthMobile } from 'features/cosoul/constants';
-import {
-  link_holders_select_column,
-  order_by,
-} from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
+import Linkify from 'linkify-react';
 import { DateTime } from 'luxon';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import '../../features/mentions';
 
-import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
 import { coLinksPaths } from '../../routes/paths';
 import { Avatar, ContentHeader, Flex, Link, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import { BarChart } from 'icons/__generated';
 
 export const CastsPage = () => {
   return (
@@ -50,31 +46,10 @@ export const CastsPage = () => {
           >
             <CastsList />
           </Flex>
-          <Flex column css={{ gap: '$xl', maxWidth: `${artWidthMobile}` }}>
-            <Text
-              as={NavLink}
-              to={coLinksPaths.linking}
-              h2
-              semibold
-              css={{ textDecoration: 'none', color: '$text' }}
-            >
-              <Flex
-                css={{
-                  // justifyContent: 'space-between',
-                  alignItems: 'baseline',
-                  gap: '$md',
-                  width: '100%',
-                }}
-              >
-                <BarChart /> Linking Activity
-                <Text size="xs" color={'cta'}>
-                  View More
-                </Text>
-              </Flex>
-            </Text>
-
-            <RecentCoLinkTransactions limit={14} />
-          </Flex>
+          <Flex
+            column
+            css={{ gap: '$xl', maxWidth: `${artWidthMobile}` }}
+          ></Flex>
         </Flex>
       </Flex>
     </SingleColumnLayout>
@@ -97,49 +72,84 @@ const CastsList = () => {
   return (
     <Flex column>
       {casts?.map(cast => {
-        return (
-          <Flex
-            css={{
-              gap: '$md',
-              background: '$surface',
-              p: '$md',
-              m: '$sm',
-              borderRadius: '$2',
-            }}
-            key={cast.hash}
-          >
-            <Flex column>
-              <AvatarAndName
-                cast={cast}
-                profile={cast.farcaster_account?.profile_public}
-              />
-              <Link color="neutral" href={warpcastUrl(cast)}>
-                <Text
-                  key={cast.hash}
-                  css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
-                >
-                  {cast.text}
-                </Text>
-              </Link>
-            </Flex>
-          </Flex>
-        );
+        return <Cast key={cast.hash} cast={cast} />;
       })}
     </Flex>
   );
 };
 
-const AvatarAndName = ({
-  cast,
-  profile,
-}: {
-  cast: Cast;
-  profile: CoLinksUser;
-}) => {
-  if (!profile) return null;
-
+const Cast = ({ cast }: { cast: Cast }) => {
   return (
-    <Link as={NavLink} to={coLinksPaths.profile(profile.address || '')}>
+    <Flex
+      css={{
+        gap: '$md',
+        background: '$surface',
+        p: '$md',
+        m: '$sm',
+        borderRadius: '$2',
+      }}
+      key={cast.hash}
+    >
+      <Flex column>
+        <AvatarAndName cast={cast} />
+        <Link
+          color="neutral"
+          target="_blank"
+          rel="noreferrer"
+          href={warpcastUrl(cast)}
+        >
+          <Flex column>
+            <Text
+              inline
+              key={cast.hash}
+              css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
+            >
+              <Linkify
+                options={{
+                  render: {
+                    mention: ({ attributes, content }) => {
+                      const { ...props } = attributes;
+                      const mentionedAddress = cast.mentioned_addresses?.find(
+                        ma => ma.fname == content.substring(1)
+                      )?.address;
+                      if (!mentionedAddress) {
+                        return <span {...props}>{content}</span>;
+                      }
+                      return (
+                        <NavLink
+                          to={coLinksPaths.partyProfile(mentionedAddress)}
+                        >
+                          {content}
+                        </NavLink>
+                      );
+                    },
+                  },
+                }}
+              >
+                {cast.text_with_mentions}
+              </Linkify>
+            </Text>
+            <Flex>
+              <Text size="small" css={{ color: '$neutral' }}>
+                {cast.like_count} likes
+              </Text>
+              <Text size="small" css={{ color: '$neutral', pl: '$sm' }}>
+                {cast.recast_count} recasts
+              </Text>
+              <Text size="small" css={{ color: '$neutral', pl: '$sm' }}>
+                {cast.replies_count} replies
+              </Text>
+            </Flex>
+          </Flex>
+        </Link>
+      </Flex>
+    </Flex>
+  );
+};
+
+const AvatarAndName = ({ cast }: { cast: Cast }) => {
+  return (
+    <Link as={NavLink} to={coLinksPaths.profile(cast.address || '')}>
       <Flex
         alignItems="center"
         css={{
@@ -149,13 +159,12 @@ const AvatarAndName = ({
       >
         <Avatar
           size="small"
-          name={profile.name}
-          path={profile.avatar}
-          hasCoSoul={!!profile.cosoul}
+          name={cast.fname}
+          path={cast.avatar_url}
           css={{ mr: '$sm' }}
         />
         <Text color="heading" semibold css={{ textDecoration: 'none' }}>
-          {profile.name}
+          {cast.fname}
         </Text>
 
         <Text
@@ -173,97 +182,41 @@ const AvatarAndName = ({
   );
 };
 
-type CoLinksUser = Awaited<ReturnType<typeof fetchColinksUsers>>[number];
-const fetchColinksUsers = async () => {
-  const { link_holders } = await client.query(
-    {
-      link_holders: [
-        {
-          distinct_on: [link_holders_select_column.holder],
-          where: {
-            holder_profile_public: {
-              farcaster_account: {},
-            },
-          },
-          limit: 1000,
-        },
-        {
-          holder_profile_public: {
-            avatar: true,
-            name: true,
-            address: true,
-            cosoul: {
-              id: true,
-            },
-            farcaster_account: {
-              fid: true,
-              followers_count: true,
-              custody_address: true,
-              username: true,
-            },
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'CastsPage__fetchColinksFids @cached(ttl: 300)',
-    }
-  );
-
-  if (!link_holders) return [];
-
-  return link_holders.map(lh => lh.holder_profile_public);
-};
-
 type Cast = Awaited<ReturnType<typeof fetchCasts>>[number];
 
 const fetchCasts = async () => {
-  const { farcaster_casts } = await client.query(
+  const { getCasts } = await client.query(
     {
-      farcaster_casts: [
+      getCasts: [
         {
-          where: {
-            farcaster_account: {
-              profile_public: {
-                links_held: { _gt: 0 },
-              },
-            },
-            parent_hash: { _is_null: true }, // only top-level casts
-          },
-          order_by: [{ created_at: order_by.desc }],
-          limit: 100,
+          payload: {},
         },
         {
-          created_at: true,
-          text: true,
-          hash: true,
-          fid: true,
-          farcaster_account: {
+          casts: {
+            text: true,
+            text_with_mentions: true,
+            like_count: true,
+            recast_count: true,
+            replies_count: true,
+            created_at: true,
+            hash: true,
             fid: true,
-            followers_count: true,
-            custody_address: true,
-            username: true,
-            profile_public: {
-              avatar: true,
-              name: true,
-              address: true,
-              cosoul: {
-                id: true,
-              },
-            },
+            mentioned_addresses: { address: true, fname: true },
+            fname: true,
+            avatar_url: true,
+            address: true,
           },
         },
       ],
     },
     {
-      operationName: 'CastsPage__fetchCasts @cached(ttl: 300)',
+      operationName: 'CastsPage__getCasts @cached(ttl: 300)',
     }
   );
 
-  return farcaster_casts;
+  return getCasts?.casts ?? [];
 };
 
 const warpcastUrl = (cast: Cast) => {
-  const p = cast.farcaster_account;
-  return `https://warpcast.com/${p?.username}/0${cast.hash.slice(1, 9)}`;
+  return `https://warpcast.com/${cast.fname}/0${cast.hash.slice(1, 9)}`;
 };

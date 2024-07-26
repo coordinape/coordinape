@@ -1,3 +1,22 @@
 table:
   name: reactions
   schema: farcaster
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - fid
+        - id
+        - target_fid
+        - hash
+        - target_hash
+        - reaction_type
+        - target_url
+        - created_at
+        - deleted_at
+        - timestamp
+        - updated_at
+      filter: {}
+      limit: 100
+      allow_aggregations: true
+    comment: ""

@@ -273,6 +273,16 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: getCasts
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getCasts'
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: getCasts
   - name: getGuildInfo
     definition:
       kind: ""
@@ -655,6 +665,7 @@ custom_types:
     - name: ShareInput
     - name: AddFarcasterInput
     - name: NetworkInput
+    - name: GetCastsInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -930,5 +941,9 @@ custom_types:
     - name: CheckEthDenverInviteeOutput
     - name: NetworkNode
     - name: NetworkOutput
+    - name: IntArray
+    - name: CastMention
+    - name: Cast
+    - name: GetCastsOutput
   scalars:
     - name: timestamptz

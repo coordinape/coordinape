@@ -91,6 +91,26 @@ input Boolean_comparison_exp {
   _nin: [Boolean!]
 }
 
+type Cast {
+  address: String!
+  avatar_url: String!
+  created_at: String!
+  fid: Int!
+  fname: String!
+  hash: String!
+  like_count: Int!
+  mentioned_addresses: [CastMention!]!
+  recast_count: Int!
+  replies_count: Int!
+  text: String!
+  text_with_mentions: String!
+}
+
+type CastMention {
+  address: String!
+  fname: String!
+}
+
 type CheckEthDenverInviteeOutput {
   is_eth_denver_invitee: Boolean!
 }
@@ -323,6 +343,14 @@ type GenerateApiKeyResponse {
   api_key: String!
   circleApiKey: circle_api_keys
   hash: String!
+}
+
+input GetCastsInput {
+  fid: Int
+}
+
+type GetCastsOutput {
+  casts: [Cast!]!
 }
 
 input GiveCsvInput {
@@ -16485,7 +16513,17 @@ type farcaster_casts {
   An object relationship
   """
   farcaster_account: farcaster_accounts
+
+  """
+  An object relationship
+  """
+  farcaster_profile: farcaster_profile_with_addresses
   fid: bigint!
+
+  """
+  An object relationship
+  """
+  fids: farcaster_fids
   hash: bytea!
   id: bigint!
   mentions: [bigint!]!
@@ -16493,6 +16531,126 @@ type farcaster_casts {
   parent_fid: bigint
   parent_hash: bytea
   parent_url: String
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): [farcaster_reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): farcaster_reactions_aggregate!
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): [farcaster_casts!]!
+
+  """
+  An aggregate relationship
+  """
+  replies_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): farcaster_casts_aggregate!
   root_parent_hash: bytea
   root_parent_url: String
   text: String!
@@ -16506,6 +16664,17 @@ aggregated selection of "farcaster.casts"
 type farcaster_casts_aggregate {
   aggregate: farcaster_casts_aggregate_fields
   nodes: [farcaster_casts!]!
+}
+
+input farcaster_casts_aggregate_bool_exp {
+  count: farcaster_casts_aggregate_bool_exp_count
+}
+
+input farcaster_casts_aggregate_bool_exp_count {
+  arguments: [farcaster_casts_select_column!]
+  distinct: Boolean
+  filter: farcaster_casts_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -16526,10 +16695,39 @@ type farcaster_casts_aggregate_fields {
 }
 
 """
+order by aggregate values of table "farcaster.casts"
+"""
+input farcaster_casts_aggregate_order_by {
+  avg: farcaster_casts_avg_order_by
+  count: order_by
+  max: farcaster_casts_max_order_by
+  min: farcaster_casts_min_order_by
+  stddev: farcaster_casts_stddev_order_by
+  stddev_pop: farcaster_casts_stddev_pop_order_by
+  stddev_samp: farcaster_casts_stddev_samp_order_by
+  sum: farcaster_casts_sum_order_by
+  var_pop: farcaster_casts_var_pop_order_by
+  var_samp: farcaster_casts_var_samp_order_by
+  variance: farcaster_casts_variance_order_by
+}
+
+"""
 append existing jsonb value of filtered columns with new jsonb value
 """
 input farcaster_casts_append_input {
   embeds: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "farcaster.casts"
+"""
+input farcaster_casts_arr_rel_insert_input {
+  data: [farcaster_casts_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: farcaster_casts_on_conflict
 }
 
 """
@@ -16539,6 +16737,15 @@ type farcaster_casts_avg_fields {
   fid: Float
   id: Float
   parent_fid: Float
+}
+
+"""
+order by avg() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_avg_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
 }
 
 """
@@ -16552,7 +16759,9 @@ input farcaster_casts_bool_exp {
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
   farcaster_account: farcaster_accounts_bool_exp
+  farcaster_profile: farcaster_profile_with_addresses_bool_exp
   fid: bigint_comparison_exp
+  fids: farcaster_fids_bool_exp
   hash: bytea_comparison_exp
   id: bigint_comparison_exp
   mentions: bigint_array_comparison_exp
@@ -16560,6 +16769,10 @@ input farcaster_casts_bool_exp {
   parent_fid: bigint_comparison_exp
   parent_hash: bytea_comparison_exp
   parent_url: String_comparison_exp
+  reactions: farcaster_reactions_bool_exp
+  reactions_aggregate: farcaster_reactions_aggregate_bool_exp
+  replies: farcaster_casts_bool_exp
+  replies_aggregate: farcaster_casts_aggregate_bool_exp
   root_parent_hash: bytea_comparison_exp
   root_parent_url: String_comparison_exp
   text: String_comparison_exp
@@ -16619,13 +16832,17 @@ input farcaster_casts_insert_input {
   deleted_at: timestamp
   embeds: jsonb
   farcaster_account: farcaster_accounts_obj_rel_insert_input
+  farcaster_profile: farcaster_profile_with_addresses_obj_rel_insert_input
   fid: bigint
+  fids: farcaster_fids_obj_rel_insert_input
   hash: bytea
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
   parent_hash: bytea
   parent_url: String
+  reactions: farcaster_reactions_arr_rel_insert_input
+  replies: farcaster_casts_arr_rel_insert_input
   root_parent_hash: bytea
   root_parent_url: String
   text: String
@@ -16652,6 +16869,24 @@ type farcaster_casts_max_fields {
 }
 
 """
+order by max() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_max_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  id: order_by
+  mentions: order_by
+  mentions_positions: order_by
+  parent_fid: order_by
+  parent_url: order_by
+  root_parent_url: order_by
+  text: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type farcaster_casts_min_fields {
@@ -16667,6 +16902,24 @@ type farcaster_casts_min_fields {
   text: String
   timestamp: timestamp
   updated_at: timestamp
+}
+
+"""
+order by min() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_min_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  id: order_by
+  mentions: order_by
+  mentions_positions: order_by
+  parent_fid: order_by
+  parent_url: order_by
+  root_parent_url: order_by
+  text: order_by
+  timestamp: order_by
+  updated_at: order_by
 }
 
 """
@@ -16701,7 +16954,9 @@ input farcaster_casts_order_by {
   deleted_at: order_by
   embeds: order_by
   farcaster_account: farcaster_accounts_order_by
+  farcaster_profile: farcaster_profile_with_addresses_order_by
   fid: order_by
+  fids: farcaster_fids_order_by
   hash: order_by
   id: order_by
   mentions: order_by
@@ -16709,6 +16964,8 @@ input farcaster_casts_order_by {
   parent_fid: order_by
   parent_hash: order_by
   parent_url: order_by
+  reactions_aggregate: farcaster_reactions_aggregate_order_by
+  replies_aggregate: farcaster_casts_aggregate_order_by
   root_parent_hash: order_by
   root_parent_url: order_by
   text: order_by
@@ -16846,6 +17103,15 @@ type farcaster_casts_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_stddev_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type farcaster_casts_stddev_pop_fields {
@@ -16855,12 +17121,30 @@ type farcaster_casts_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_stddev_pop_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type farcaster_casts_stddev_samp_fields {
   fid: Float
   id: Float
   parent_fid: Float
+}
+
+"""
+order by stddev_samp() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_stddev_samp_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
 }
 
 """
@@ -16907,6 +17191,15 @@ type farcaster_casts_sum_fields {
   fid: bigint
   id: bigint
   parent_fid: bigint
+}
+
+"""
+order by sum() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_sum_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
 }
 
 """
@@ -17041,6 +17334,15 @@ type farcaster_casts_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_var_pop_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type farcaster_casts_var_samp_fields {
@@ -17050,12 +17352,30 @@ type farcaster_casts_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_var_samp_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type farcaster_casts_variance_fields {
   fid: Float
   id: Float
   parent_fid: Float
+}
+
+"""
+order by variance() on columns of table "farcaster.casts"
+"""
+input farcaster_casts_variance_order_by {
+  fid: order_by
+  id: order_by
+  parent_fid: order_by
 }
 
 """
@@ -17389,6 +17709,11 @@ type farcaster_fnames {
   deleted_at: timestamp
   expires_at: timestamp
   fid: bigint
+
+  """
+  An object relationship
+  """
+  fids: farcaster_fids
   fname: String!
 
   """
@@ -17442,6 +17767,7 @@ input farcaster_fnames_bool_exp {
   deleted_at: timestamp_comparison_exp
   expires_at: timestamp_comparison_exp
   fid: bigint_comparison_exp
+  fids: farcaster_fids_bool_exp
   fname: String_comparison_exp
   profile_with_address: farcaster_profile_with_addresses_bool_exp
   updated_at: timestamp_comparison_exp
@@ -17473,6 +17799,7 @@ input farcaster_fnames_insert_input {
   deleted_at: timestamp
   expires_at: timestamp
   fid: bigint
+  fids: farcaster_fids_obj_rel_insert_input
   fname: String
   profile_with_address: farcaster_profile_with_addresses_obj_rel_insert_input
   updated_at: timestamp
@@ -17535,6 +17862,7 @@ input farcaster_fnames_order_by {
   deleted_at: order_by
   expires_at: order_by
   fid: order_by
+  fids: farcaster_fids_order_by
   fname: order_by
   profile_with_address: farcaster_profile_with_addresses_order_by
   updated_at: order_by
@@ -18696,6 +19024,17 @@ type farcaster_reactions_aggregate {
   nodes: [farcaster_reactions!]!
 }
 
+input farcaster_reactions_aggregate_bool_exp {
+  count: farcaster_reactions_aggregate_bool_exp_count
+}
+
+input farcaster_reactions_aggregate_bool_exp_count {
+  arguments: [farcaster_reactions_select_column!]
+  distinct: Boolean
+  filter: farcaster_reactions_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "farcaster.reactions"
 """
@@ -18714,6 +19053,35 @@ type farcaster_reactions_aggregate_fields {
 }
 
 """
+order by aggregate values of table "farcaster.reactions"
+"""
+input farcaster_reactions_aggregate_order_by {
+  avg: farcaster_reactions_avg_order_by
+  count: order_by
+  max: farcaster_reactions_max_order_by
+  min: farcaster_reactions_min_order_by
+  stddev: farcaster_reactions_stddev_order_by
+  stddev_pop: farcaster_reactions_stddev_pop_order_by
+  stddev_samp: farcaster_reactions_stddev_samp_order_by
+  sum: farcaster_reactions_sum_order_by
+  var_pop: farcaster_reactions_var_pop_order_by
+  var_samp: farcaster_reactions_var_samp_order_by
+  variance: farcaster_reactions_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "farcaster.reactions"
+"""
+input farcaster_reactions_arr_rel_insert_input {
+  data: [farcaster_reactions_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: farcaster_reactions_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type farcaster_reactions_avg_fields {
@@ -18721,6 +19089,16 @@ type farcaster_reactions_avg_fields {
   id: Float
   reaction_type: Float
   target_fid: Float
+}
+
+"""
+order by avg() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_avg_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
 }
 
 """
@@ -18799,6 +19177,21 @@ type farcaster_reactions_max_fields {
 }
 
 """
+order by max() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_max_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+  target_url: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type farcaster_reactions_min_fields {
@@ -18811,6 +19204,21 @@ type farcaster_reactions_min_fields {
   target_url: String
   timestamp: timestamp
   updated_at: timestamp
+}
+
+"""
+order by min() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_min_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+  target_url: order_by
+  timestamp: order_by
+  updated_at: order_by
 }
 
 """
@@ -18948,6 +19356,16 @@ type farcaster_reactions_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_stddev_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type farcaster_reactions_stddev_pop_fields {
@@ -18958,6 +19376,16 @@ type farcaster_reactions_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_stddev_pop_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type farcaster_reactions_stddev_samp_fields {
@@ -18965,6 +19393,16 @@ type farcaster_reactions_stddev_samp_fields {
   id: Float
   reaction_type: Float
   target_fid: Float
+}
+
+"""
+order by stddev_samp() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_stddev_samp_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
 }
 
 """
@@ -19007,6 +19445,16 @@ type farcaster_reactions_sum_fields {
   id: bigint
   reaction_type: smallint
   target_fid: bigint
+}
+
+"""
+order by sum() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_sum_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
 }
 
 """
@@ -19092,6 +19540,16 @@ type farcaster_reactions_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_var_pop_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type farcaster_reactions_var_samp_fields {
@@ -19102,6 +19560,16 @@ type farcaster_reactions_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_var_samp_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type farcaster_reactions_variance_fields {
@@ -19109,6 +19577,16 @@ type farcaster_reactions_variance_fields {
   id: Float
   reaction_type: Float
   target_fid: Float
+}
+
+"""
+order by variance() on columns of table "farcaster.reactions"
+"""
+input farcaster_reactions_variance_order_by {
+  fid: order_by
+  id: order_by
+  reaction_type: order_by
+  target_fid: order_by
 }
 
 """
@@ -48236,6 +48714,11 @@ type query_root {
   farcaster_warpcast_power_users_by_pk(
     fid: bigint!
   ): farcaster_warpcast_power_users
+
+  """
+  getCasts
+  """
+  getCasts(payload: GetCastsInput!): GetCastsOutput!
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!
