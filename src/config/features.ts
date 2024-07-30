@@ -7,6 +7,7 @@ export type FeatureName =
   | 'share_post'
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt'
+  | 'cast_activities'
   | 'test_decent';
 
 // this is a very simple implementation of build-time feature flags that you can
@@ -37,5 +38,3 @@ const isLocallyOn = (name: FeatureName) => {
 
 export const isFeatureEnabled = (featureName: FeatureName): boolean =>
   !!staticFeatureFlags[featureName] || isLocallyOn(featureName);
-
-export default isFeatureEnabled;

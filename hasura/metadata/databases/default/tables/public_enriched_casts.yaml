@@ -1,0 +1,64 @@
+table:
+  name: enriched_casts
+  schema: public
+object_relationships:
+  - name: farcaster_profile
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: profile_with_addresses
+          schema: farcaster
+  - name: fids
+    using:
+      manual_configuration:
+        column_mapping:
+          fid: fid
+        insertion_order: null
+        remote_table:
+          name: fids
+          schema: farcaster
+  - name: profile_public
+    using:
+      manual_configuration:
+        column_mapping:
+          profile_id: id
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+array_relationships:
+  - name: reactions
+    using:
+      manual_configuration:
+        column_mapping:
+          hash: target_hash
+        insertion_order: null
+        remote_table:
+          name: reactions
+          schema: farcaster
+  - name: replies
+    using:
+      manual_configuration:
+        column_mapping:
+          hash: parent_hash
+        insertion_order: null
+        remote_table:
+          name: casts
+          schema: farcaster
+event_triggers:
+  - name: activityEnrichedCastInsert
+    definition:
+      enable_manual: false
+      insert:
+        columns: '*'
+    retry_conf:
+      interval_sec: 10
+      num_retries: 0
+      timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=activityHandler'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET

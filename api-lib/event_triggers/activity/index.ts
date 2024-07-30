@@ -10,7 +10,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   type Events =
     | EventTriggerPayload<'contributions', 'INSERT'>
     | EventTriggerPayload<'epochs', 'INSERT'>
-    | EventTriggerPayload<'users', 'INSERT'>;
+    | EventTriggerPayload<'users', 'INSERT'>
+    | EventTriggerPayload<'enriched_casts', 'INSERT'>;
 
   try {
     const {
@@ -18,6 +19,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }: Events = req.body;
 
     switch (table_name) {
+      case 'enriched_casts': {
+        await handleCast(req);
+        break;
+      }
       case 'contributions': {
         const {
           event: {
@@ -92,7 +97,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         break;
       }
       default: {
-        throw 'unknown table name for activity';
+        throw `unknown table name for activity ${table_name}`;
       }
     }
 
@@ -162,10 +167,21 @@ export type ContributionActivityInput = Required<
   >
 > & { circle_id?: any; organization_id?: any };
 
+export type CastActivityInput = Required<
+  Pick<
+    Parameters<typeof insertActivity>[0],
+    'cast_id' | 'actor_profile_id' | 'created_at'
+  >
+>;
+
 export async function insertContributionActivity(
   input: ContributionActivityInput
 ) {
   await insertActivity({ action: 'contributions_insert', ...input });
+}
+
+export async function insertCastActivity(input: CastActivityInput) {
+  await insertActivity({ action: 'enriched_casts_insert', ...input });
 }
 
 export type NewUserActivityInput = Required<
@@ -196,4 +212,51 @@ export type NewEpochActivityInput = Required<
 
 export async function insertNewEpochActivity(input: NewEpochActivityInput) {
   await insertActivity({ action: 'epochs_insert', ...input });
+}
+
+async function handleCast(req: VercelRequest) {
+  const {
+    event: {
+      data: {
+        new: { id, created_at, fid, deleted_at },
+      },
+    },
+  }: EventTriggerPayload<'enriched_casts', 'INSERT'> = req.body;
+
+  if (deleted_at) {
+    // no need to store casts that are already deleted
+    return;
+  }
+
+  const { farcaster_accounts } = await adminClient.query(
+    {
+      farcaster_accounts: [
+        {
+          where: {
+            fid: { _eq: fid },
+          },
+        },
+        {
+          profile_id: true,
+        },
+      ],
+    },
+    {
+      operationName: 'handleActivity__checkIfCastIsFromExistingProfile',
+    }
+  );
+
+  if (farcaster_accounts.length === 0) {
+    // this isn't a user w/ a profile
+    return;
+  }
+
+  const profile_id = farcaster_accounts[0].profile_id;
+
+  await insertCastActivity({
+    cast_id: id,
+    actor_profile_id: profile_id,
+    created_at: created_at,
+  });
+  return;
 }

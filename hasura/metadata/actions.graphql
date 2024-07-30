@@ -644,6 +644,7 @@ input NetworkInput {
 
 input GetCastsInput {
   fid: Int
+  cast_ids: [Int!]
 }
 
 type CreateCircleResponse {
@@ -874,16 +875,18 @@ type NetworkOutput {
   nodes: [NetworkNode!]
 }
 
-type IntArray {
-  values: [Int!]!
-}
-
 type CastMention {
   fname: String!
   address: String!
 }
 
+type CastEmbed {
+  type: String!
+  url: String!
+}
+
 type Cast {
+  id: Int!
   text: String!
   text_with_mentions: String!
   like_count: Int!
@@ -896,6 +899,7 @@ type Cast {
   avatar_url: String!
   address: String!
   mentioned_addresses: [CastMention!]!
+  embeds: [CastEmbed!]!
 }
 
 type GetCastsOutput {

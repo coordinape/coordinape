@@ -21,8 +21,9 @@ import {
   sendEpochEndingSoonEmail,
   sendEpochStartedEmail,
 } from '../api-lib/email/postmark';
+import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
-import { publishCast, generateWarpCastUrl } from '../api-lib/neynar';
+import { generateWarpCastUrl, publishCast } from '../api-lib/neynar';
 import { genPgives } from '../api-lib/pgives';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import {
@@ -62,6 +63,7 @@ const init = async () => {
     sendCoLinksNotificationsEmail,
     getLocalPGIVE,
     generateWarpCastUrl,
+    backfillCastActivity,
     nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };

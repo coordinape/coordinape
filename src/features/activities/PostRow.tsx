@@ -15,7 +15,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { PostForm } from '../colinks/PostForm';
-import isFeatureEnabled from 'config/features';
+import { isFeatureEnabled } from 'config/features';
 import { Edit, Message, Messages, ShareSolid } from 'icons/__generated';
 import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
 

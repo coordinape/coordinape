@@ -23,6 +23,15 @@ object_relationships:
   - name: contribution
     using:
       foreign_key_constraint_on: contribution_id
+  - name: enriched_cast
+    using:
+      manual_configuration:
+        column_mapping:
+          cast_id: id
+        insertion_order: null
+        remote_table:
+          name: enriched_casts
+          schema: public
   - name: epoch
     using:
       foreign_key_constraint_on: epoch_id
@@ -84,6 +93,7 @@ select_permissions:
         - action
         - actor_profile_id
         - big_question_id
+        - cast_id
         - circle_id
         - contribution_id
         - created_at

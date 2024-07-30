@@ -3,7 +3,8 @@ import React from 'react';
 import * as Sentry from '@sentry/react';
 
 import { Flex, Text } from '../../ui';
-import isFeatureEnabled from 'config/features';
+import { CastRow } from '../farcaster/casts/CastRow';
+import { isFeatureEnabled } from 'config/features';
 
 import { ContributionRow } from './ContributionRow';
 import { DeletedRow } from './DeletedRow';
@@ -14,6 +15,7 @@ import { NewUserRow } from './NewUserRow';
 import { PostRow } from './PostRow';
 import {
   Activity,
+  IsCast,
   IsContribution,
   IsDeleted,
   IsEpochCreated,
@@ -73,6 +75,8 @@ const validActivity = (
         <ContributionRow activity={activity} drawer={drawer} focus={focus} />
       );
     }
+  } else if (IsCast(activity)) {
+    return <CastRow cast={activity.cast} activity={activity} />;
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {

@@ -80,16 +80,16 @@ do
         if [ "$truncate_set" = true ]; then
             echo
             echo "Truncating table $schema_and_table_name"
-            command="psql postgres://postgres@localhost:5432/postgres -c \"TRUNCATE TABLE $schema_and_table_name;\""
+            command="psql postgres://postgres@localhost:5432/postgres -c \"TRUNCATE TABLE $schema_and_table_name CASCADE;\""
             echo "Executing: $command"
             eval "$command"
         fi
 
 
-        # Disable triggers
-        command="psql postgres://postgres@localhost:5432/postgres -c \"ALTER TABLE $schema_and_table_name DISABLE TRIGGER ALL;\""
-        echo "Executing: $command"
-        eval "$command"
+#        # Disable triggers
+#        command="psql postgres://postgres@localhost:5432/postgres -c \"ALTER TABLE $schema_and_table_name DISABLE TRIGGER ALL;\""
+#        echo "Executing: $command"
+#        eval "$command"
 
         # Construct and execute the COPY command
         command="psql postgres://postgres@localhost:5432/postgres -c \"\COPY $schema_and_table_name FROM '$file' CSV HEADER;\""
@@ -98,10 +98,10 @@ do
         eval "$command"
 
 
-       # Enable triggers
-        command="psql postgres://postgres@localhost:5432/postgres -c \"ALTER TABLE $schema_and_table_name ENABLE TRIGGER ALL;\""
-        echo "Executing: $command"
-        eval "$command"
+#       # Enable triggers
+#        command="psql postgres://postgres@localhost:5432/postgres -c \"ALTER TABLE $schema_and_table_name ENABLE TRIGGER ALL;\""
+#        echo "Executing: $command"
+#        eval "$command"
 
         echo "Finished copying data from $file to $schema_and_table_name"
         echo

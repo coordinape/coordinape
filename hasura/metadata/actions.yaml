@@ -941,8 +941,8 @@ custom_types:
     - name: CheckEthDenverInviteeOutput
     - name: NetworkNode
     - name: NetworkOutput
-    - name: IntArray
     - name: CastMention
+    - name: CastEmbed
     - name: Cast
     - name: GetCastsOutput
   scalars:
