@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { dark, theme as light } from '../../stitches.config';
+import { party, dark, theme as light } from '../../stitches.config';
 
 import {
   getMediaTheme,
@@ -19,7 +19,7 @@ const { createContext, useState, useEffect } = React;
 const defaultThemeName = 'dark';
 const defaultTheme = dark;
 
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'party';
 
 type ThemeProviderType = {
   themePreference: ThemePreference;
@@ -38,10 +38,11 @@ const initialValues: ThemeProviderType = {
 export const ThemeContext = createContext<ThemeProviderType>(initialValues);
 
 type AvailableThemes = {
-  [x: string]: typeof light | typeof dark;
+  [x: string]: typeof light | typeof dark | typeof party;
 };
 
 const available_themes: AvailableThemes = {
+  party: party,
   dark: dark,
   light: light,
 };
