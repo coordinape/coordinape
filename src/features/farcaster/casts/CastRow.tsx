@@ -33,10 +33,7 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
       >
         <AvatarAndName cast={cast} />
         <Flex css={{ gap: '$sm', alignItems: 'center' }}>
-          <Text tag color="farcaster" size={'xs'} bold>
-            Farcaster
-            <Farcaster fa />
-          </Text>
+          <Farcaster fa />
         </Flex>
       </Flex>
       <Flex
@@ -120,6 +117,12 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
           }}
         >
           <Flex css={{ gap: '$sm' }}>
+            <Flex css={{ gap: '$sm', alignItems: 'center' }}>
+              <Text tag color="farcaster" size={'xs'} bold>
+                Farcaster
+                <Farcaster fa />
+              </Text>
+            </Flex>
             <Text size="small" css={{ color: '$neutral' }}>
               {cast.like_count} likes
             </Text>
