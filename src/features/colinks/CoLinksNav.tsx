@@ -16,12 +16,12 @@ import {
   Ai,
   BoltFill,
   CertificateFill,
+  Gear,
   HouseFill,
   Menu,
   MessagesQuestion,
   PaperPlane,
   PlanetFill,
-  Settings,
   UserFill,
   X,
 } from 'icons/__generated';
@@ -201,8 +201,8 @@ export const CoLinksNav = () => {
             <Flex
               css={{
                 '--bg-size': '400%',
-                '--color-one': '$colors$success',
-                '--color-two': '$colors$cta',
+                '--color-one': '$colors$bigQuestion1',
+                '--color-two': '$colors$bigQuestion2',
                 background:
                   'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
                 color: 'transparent',
@@ -235,7 +235,7 @@ export const CoLinksNav = () => {
                   fontSize: '$small',
                   color: '$secondaryText',
                   '&:hover': {
-                    color: '$linkHover',
+                    path: { fill: '$linkHover' },
                   },
                 }}
                 onClick={e => {
@@ -243,7 +243,7 @@ export const CoLinksNav = () => {
                   navigate(coLinksPaths.account);
                 }}
               >
-                <Settings css={{ path: { fill: 'transparent !important' } }} />
+                <Gear fa />
               </IconButton>
             </Flex>
           </NavItem>
@@ -333,17 +333,17 @@ const NavItem = ({
       css={{
         fontSize: '$h2',
         '&:hover': {
-          background: '$surfaceNested',
+          background: '$navLinkHoverBackground',
         },
-        color: isCurrentPage ? '$cta' : '$navLinkText',
-        background: isCurrentPage ? '$surfaceNested' : 'transparent',
+        color: isCurrentPage ? '$navLinkActiveText' : '$navLinkText',
+        background: isCurrentPage ? '$navLinkActiveBackground' : 'transparent',
         p: '$sm $md',
         display: 'flex',
         gap: '$md',
         alignItems: 'center',
         borderRadius: '$3',
         path: {
-          fill: isCurrentPage ? '$cta' : '$navLinkText',
+          fill: isCurrentPage ? '$navLinkActiveText' : '$navLinkText',
         },
       }}
     >

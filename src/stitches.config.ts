@@ -87,8 +87,13 @@ export const colors = {
   surface: figmaColors.grey2,
   surfaceNested: figmaColors.grey1,
   surfaceDim: figmaColors.grey3,
+
   navLinkText: figmaColors.grey7,
+  navLinkHoverText: figmaColors.grey1,
   navLinkHoverBackground: figmaColors.grey1,
+  navLinkActiveText: figmaColors.secondary3,
+  navLinkActiveBackground: figmaColors.grey1,
+
   highlight: figmaColors.secondary1,
   hr: figmaColors.grey5,
   contentHeaderBorder: figmaColors.grey3,
@@ -171,6 +176,8 @@ export const colors = {
   neutral: figmaColors.neutral4,
   complete: '$success',
   blurple: '#5865f2',
+  bigQuestion1: figmaColors.success5,
+  bigQuestion2: figmaColors.secondary4,
 
   avatarFallback: figmaColors.grey6,
   avatarFallbackText: figmaColors.grey2,
@@ -198,6 +205,11 @@ export const colors = {
   formRadioBorderUnselected: figmaColors.secondary3,
   formRadioBorderSelected: figmaColors.secondary5,
   formRadioBackground: figmaColors.grey2,
+
+  cmdkInputBackground: '#FFFFFF66',
+  cmdkInputBorder: figmaColors.grey6,
+  cmdkInputBorderFocus: figmaColors.secondary5,
+  cmdkInputPlaceholder: figmaColors.grey4,
 
   panelInfoText: figmaColors.secondary9,
   panelInfoBackground: figmaColors.secondary1,
@@ -353,6 +365,7 @@ export const {
     ...MediaQueryKeys,
     motion: '(prefers-reduced-motion)',
     hover: '(any-hover: hover)',
+    party: '(prefers-color-scheme: party)',
     dark: '(prefers-color-scheme: dark)',
     light: '(prefers-color-scheme: light)',
   },
@@ -558,6 +571,9 @@ export const dark = createTheme({
     tagDefaultText: figmaColors.grey2,
     tagDefaultBackground: figmaColors.grey7,
 
+    bigQuestion1: figmaColors.success5,
+    bigQuestion2: figmaColors.primary3,
+
     formInputText: figmaColors.grey5,
     formInputBackground: figmaColors.grey9,
     formInputBorderlessBright: figmaColors.grey8,
@@ -572,6 +588,11 @@ export const dark = createTheme({
     formRadioBackground: figmaColors.primary10,
     formInputSelectBackground: figmaColors.grey8,
     formInputSelectHover: figmaColors.grey9,
+
+    cmdkInputBackground: figmaColors.grey9,
+    cmdkInputBorder: figmaColors.grey7,
+    cmdkInputBorderFocus: figmaColors.primary4,
+    cmdkInputPlaceholder: figmaColors.grey6,
 
     toggleBackground: figmaColors.grey8,
     toggleText: figmaColors.grey4,
@@ -598,8 +619,12 @@ export const dark = createTheme({
     toastifyTextColorError: figmaColors.error5,
     toastifyBorderColorError: figmaColors.error6,
     toastifyIconBackgroundError: figmaColors.error10,
+
     navLinkText: figmaColors.grey4,
+    navLinkHoverText: figmaColors.grey1,
     navLinkHoverBackground: figmaColors.grey8,
+    navLinkActiveText: figmaColors.primary4,
+    navLinkActiveBackground: figmaColors.grey8,
 
     reactionButtonBorderMine: figmaColors.primary7,
     reactionButtonBorderHover: figmaColors.primary3,
@@ -617,7 +642,213 @@ export const dark = createTheme({
   },
 });
 
-export type Theme = 'dark' | undefined;
+export const party = createTheme({
+  colors: {
+    coLinks: figmaColors.secondary3,
+    coLinksCta: figmaColors.secondary4,
+    coLinksCtaDim: figmaColors.secondary2,
+    coLinksCtaHover: figmaColors.secondary5,
+    coLinksTextOnCta: figmaColors.secondary1,
+
+    cta: figmaColors.secondary4,
+    ctaDim: figmaColors.secondary5,
+    ctaHover: '$ctaDim',
+    textOnCta: figmaColors.grey1,
+
+    primary: figmaColors.grey7,
+    primaryHover: figmaColors.grey8,
+    textOnPrimary: figmaColors.grey1,
+
+    primaryButton: figmaColors.grey7,
+    primaryButtonHover: figmaColors.grey8,
+    primaryButtonText: figmaColors.grey1,
+    primaryButtonBorderFocus: figmaColors.primary3,
+
+    secondaryButton: figmaColors.grey8,
+    secondaryButtonHover: figmaColors.grey9,
+    secondaryButtonText: figmaColors.grey5,
+    secondaryButtonTextHover: figmaColors.primary4,
+    secondaryButtonBorderHover: figmaColors.primary4,
+    secondaryButtonBorderFocus: figmaColors.primary3,
+
+    walletButton: figmaColors.grey8,
+    walletButtonHover: figmaColors.grey8,
+    walletButtonText: figmaColors.grey5,
+    walletButtonTextHover: figmaColors.primary4,
+    walletButtonBorderHover: figmaColors.primary4,
+    walletButtonBorderFocus: figmaColors.primary3,
+
+    destructiveButton: figmaColors.error6,
+    destructiveButtonHover: figmaColors.error5,
+    destructiveButtonText: figmaColors.error1,
+    destructiveButtonBorderFocus: figmaColors.error5,
+
+    successButton: figmaColors.success6,
+    successButtonHover: figmaColors.success5,
+    successButtonText: figmaColors.success1,
+    successButtonBorderFocus: figmaColors.success5,
+
+    neutralButton: figmaColors.grey6,
+    neutralButtonOutlineBackground: figmaColors.grey9,
+    neutralButtonOutlineText: figmaColors.grey4,
+    neutralButtonHover: figmaColors.grey5,
+    neutralButtonText: figmaColors.grey9,
+    neutralButtonTextHover: figmaColors.grey9,
+
+    secondary: figmaColors.secondary5,
+    textOnSecondary: figmaColors.grey3,
+
+    neutral: 'rgba(255,255,255,0.45)',
+    dim: 'rgba(0,0,0,0.35)',
+    dimText: figmaColors.grey7,
+    dimButtonHover: figmaColors.grey9,
+    textOnDim: figmaColors.grey5,
+    modalBackground: '#0000007d',
+    modalBorderColor: figmaColors.grey8,
+    activePanel: figmaColors.grey8,
+
+    profileGradientStart: figmaColors.grey10,
+    profileGradientEnd: figmaColors.grey8,
+
+    background: figmaColors.grey10,
+    navBackground:
+      'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
+    surface: figmaColors.grey9,
+    surfaceNested: figmaColors.grey10,
+    surfaceDim: figmaColors.grey8,
+
+    text: figmaColors.grey4,
+    headingText: figmaColors.grey2,
+    secondaryText: figmaColors.grey6,
+
+    info: figmaColors.secondary10,
+    textOnInfo: figmaColors.grey1,
+    link: figmaColors.secondary4,
+    linkHover: figmaColors.secondary3,
+    alert: figmaColors.error6,
+    warning: figmaColors.orange5,
+    complete: figmaColors.success5,
+    toggleButtonYes: '$cta',
+    toggleButtonNo: '$alert',
+
+    highlight: figmaColors.primary10,
+    avatarFallback: figmaColors.grey7,
+    avatarFallbackText: figmaColors.grey2,
+
+    borderDim: 'rgba(0,0,0,0.15)',
+    border: 'rgba(0,0,0,0.25)',
+    borderContrast: figmaColors.grey6,
+    contentHeaderBorder: figmaColors.grey7,
+    borderFocus: figmaColors.primary5,
+    borderFocusBright: figmaColors.primary3,
+    borderTable: figmaColors.grey7,
+
+    currentEpochDate: figmaColors.primary2,
+    currentEpochDescription: figmaColors.primary6,
+
+    panelInfoText: figmaColors.grey4,
+    panelInfoBackground: figmaColors.grey7,
+
+    tagActiveText: figmaColors.warning8,
+    tagActiveBackground: figmaColors.warning10,
+
+    tagWarningText: figmaColors.orange5,
+    tagWarningBackground: figmaColors.orange10,
+
+    tagSuccessText: figmaColors.success5,
+    tagSuccessBackground: figmaColors.success10,
+
+    tagAlertText: figmaColors.error6,
+    tagAlertBackground: figmaColors.error10,
+
+    tagPrimaryText: figmaColors.primary7,
+    tagPrimaryBackground: figmaColors.primary9,
+
+    tagCtaText: figmaColors.primary6,
+    tagCtaBackground: figmaColors.primary9,
+
+    tagSecondaryText: figmaColors.secondary3,
+    tagSecondaryBackground: figmaColors.secondary8,
+    tagSecondaryBackgroundDim: figmaColors.secondary9,
+
+    tagNeutralText: figmaColors.neutral4,
+    tagNeutralBackground: figmaColors.neutral8,
+
+    tagDefaultText: figmaColors.grey2,
+    tagDefaultBackground: figmaColors.grey7,
+
+    bigQuestion1: figmaColors.orange5,
+    bigQuestion2: figmaColors.success5,
+
+    formInputText: figmaColors.grey5,
+    formInputBackground: figmaColors.grey9,
+    formInputBorderlessBright: figmaColors.grey8,
+    formInputBorder: figmaColors.grey7,
+    formInputBorderFocus: figmaColors.primary4,
+    formInputPlaceholder: figmaColors.grey6,
+    formInputErrorText: figmaColors.error9,
+    formInputErrorBackground: figmaColors.error4,
+    formInputErrorBorder: figmaColors.error7,
+    formRadioBorderUnselected: figmaColors.primary7,
+    formRadioBorderSelected: figmaColors.primary4,
+    formRadioBackground: figmaColors.primary10,
+    formInputSelectBackground: figmaColors.grey8,
+    formInputSelectHover: figmaColors.grey9,
+
+    cmdkInputBackground: 'rgba(0,0,0,0.15)',
+    cmdkInputBorder: 'rgba(0,0,0,0.15)',
+    cmdkInputBorderFocus: figmaColors.grey2,
+    cmdkInputPlaceholder: figmaColors.grey3,
+
+    toggleBackground: 'rgba(0,0,0,0.25)',
+    toggleText: figmaColors.grey3,
+    toggleTextHover: figmaColors.grey1,
+    toggleSelectedBackground: figmaColors.secondary5,
+    toggleSelectedText: figmaColors.grey1,
+
+    mapNodeHighlight: figmaColors.warning7,
+    mapNodeMoreHighlight: figmaColors.warning4,
+    mapGive: figmaColors.secondary8,
+    mapReceive: figmaColors.secondary2,
+    mapCirculate: figmaColors.secondary5,
+    mapNode: figmaColors.grey2,
+    mapGiveLink: figmaColors.success5,
+    mapReceiveLink: figmaColors.orange6,
+    mapNodeFade: '#FFFFFF20',
+    mapLink: '#FFFFFF15',
+    mapLinkDim: '#FFFFFF08',
+
+    toastifyBackground: figmaColors.grey8,
+    toastifyBorderColorDefault: figmaColors.grey6,
+    toastifyBorderColorSuccess: figmaColors.success6,
+    toastifyIconBackgroundSuccess: figmaColors.success10,
+    toastifyTextColorError: figmaColors.error5,
+    toastifyBorderColorError: figmaColors.error6,
+    toastifyIconBackgroundError: figmaColors.error10,
+
+    navLinkText: figmaColors.grey1,
+    navLinkHoverText: figmaColors.grey1,
+    navLinkHoverBackground: 'rgba(0,0,0,0.3)',
+    navLinkActiveText: figmaColors.secondary3,
+    navLinkActiveBackground: 'rgba(0,0,0,0.45)',
+
+    reactionButtonBorderMine: figmaColors.primary7,
+    reactionButtonBorderHover: figmaColors.primary3,
+    reactionButton: figmaColors.neutral8,
+
+    reactionButtonText: '$text',
+    reactionButtonTextHover: '$reactionButtonBorderHover',
+  },
+  shadows: {
+    shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',
+    toastifyShadow: '0px 5px 25px -5px black',
+    modalShadow: '0 5px 70px 28px rgba(0,0,0,0.4)',
+    coSoulGlow:
+      'rgba(198, 219, 137, 0.5) 0px 0px .9375em 0.1875em, rgba(198, 219, 137, 0.5) 0px -0.09em .25em 0px',
+  },
+});
+
+export type Theme = 'dark' | 'party' | undefined;
 
 export const disabledStyle = {
   pointerEvents: 'none',

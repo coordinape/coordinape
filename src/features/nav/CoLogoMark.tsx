@@ -60,7 +60,10 @@ export const CoLogoMark = ({
               {mark ? (
                 <img
                   src={
-                    theme == 'dark' || forceTheme == 'dark'
+                    theme == 'dark' ||
+                    forceTheme == 'dark' ||
+                    theme == 'party' ||
+                    forceTheme == 'party'
                       ? '/imgs/logo/coordinape-mark-grey6i.png'
                       : '/imgs/logo/coordinape-mark-grey6.png'
                   }
@@ -71,7 +74,10 @@ export const CoLogoMark = ({
                   src={
                     muted
                       ? '/imgs/logo/coordinape-logo-grey6.png'
-                      : theme == 'dark' || forceTheme == 'dark'
+                      : theme == 'dark' ||
+                          forceTheme == 'dark' ||
+                          theme == 'party' ||
+                          forceTheme == 'party'
                         ? '/imgs/logo/coordinape-logo-grey1.png'
                         : '/imgs/logo/coordinape-logo-grey7.png'
                   }

@@ -1,6 +1,6 @@
 import { CSS } from '@stitches/react';
 
-import { Moon, Sun } from '../../icons/__generated';
+import { Moon, PartyHard, Sun } from '../../icons/__generated';
 import { Button, Flex, IconButton } from '../../ui';
 
 import { ThemeContext } from './ThemeProvider';
@@ -53,16 +53,32 @@ export const ThemeSwitcher = ({ css }: { css?: CSS }) => {
                 transition: 'all 0.2s ease-in-out',
                 zIndex: 0,
                 left:
-                  themePreference === 'dark'
+                  themePreference === 'party'
                     ? '2px'
-                    : themePreference === 'light'
-                      ? `calc(100% - ${handleHeight} - 2px)`
-                      : themePreference === 'auto'
-                        ? `calc(50% - ${handleHeight})`
-                        : 'auto',
+                    : themePreference === 'dark'
+                      ? `calc(${handleHeight} + 6px)`
+                      : themePreference === 'light'
+                        ? `calc(100% - ${handleHeight} - 2px)`
+                        : themePreference === 'auto'
+                          ? `calc(50% - 11px)`
+                          : 'auto',
               },
             }}
           >
+            <IconButton
+              css={{
+                ...themeOptionStyles,
+                color:
+                  themePreference === 'party'
+                    ? '$toggleSelectedText !important'
+                    : '$toggleText',
+              }}
+              onClick={() => {
+                setTheme('party');
+              }}
+            >
+              <PartyHard fa />
+            </IconButton>
             <IconButton
               css={{
                 ...themeOptionStyles,

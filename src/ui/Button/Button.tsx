@@ -190,14 +190,14 @@ export const Button = styled('button', {
           backgroundColor: '$reactionButton',
         },
       },
-      inputStyle: {
-        background: '$formInputBackground',
+      cmdk: {
+        background: '$cmdkInputBackground',
         padding: '$sm',
-        border: '1px solid $formInputBorder',
+        border: '1px solid $cmdkInputBorder',
         '&:focus': {
-          borderColor: '$formInputBorderFocus',
+          borderColor: '$cmdkInputBorderFocus',
         },
-        color: '$formInputPlaceholder',
+        color: '$cmdkInputPlaceholder',
         display: 'flex',
         flexDirection: 'row',
         borderRadius: '$3',
@@ -358,7 +358,7 @@ export const Button = styled('button', {
     },
     {
       size: 'large',
-      color: 'inputStyle',
+      color: 'cmdk',
       css: {
         color: '$neutralButtonOutlineText',
         minWidth: '400px',

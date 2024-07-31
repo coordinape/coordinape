@@ -77,7 +77,7 @@ export const SearchBox = ({
   return (
     <>
       <Button
-        color="inputStyle"
+        color="cmdk"
         size={size}
         ref={previouslyFocusedRef}
         onClick={() => openPopover()}
