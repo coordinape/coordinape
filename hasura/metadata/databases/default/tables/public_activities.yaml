@@ -109,6 +109,8 @@ select_permissions:
         _or:
           - actor_profile_id:
               _eq: X-Hasura-User-Id
+          - cast_id:
+              _is_null: false
           - organization:
               members:
                 profile_id:
@@ -122,8 +124,6 @@ select_permissions:
               - private_stream_visibility:
                   profile_id:
                     _eq: X-Hasura-User-Id
-              - cast_id:
-                  _is_null: false
           - _and:
               - big_question_id:
                   _is_null: false
