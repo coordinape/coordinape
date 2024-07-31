@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."activities" add column "cast_id" int8
---  null;
+alter table "public"."activities" drop column "cast_id"
