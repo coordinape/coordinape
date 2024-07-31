@@ -126,6 +126,7 @@ export const Text = styled('span', {
       coLinks: { color: '$coLinks' },
       coLinksCta: { color: '$coLinksCta' },
       secondary: { color: '$secondaryText' },
+      farcaster: { color: '$farcaster' },
       active: { color: '$tagActiveText' },
       complete: { color: '$complete' },
       inherit: { color: 'inherit' },
@@ -210,6 +211,14 @@ export const Text = styled('span', {
       css: {
         color: '$tagSecondaryText',
         backgroundColor: '$tagSecondaryBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'farcaster',
+      css: {
+        color: '$tagFarcasterText',
+        backgroundColor: '$tagFarcasterBackground',
       },
     },
     {

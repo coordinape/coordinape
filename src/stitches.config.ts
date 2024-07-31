@@ -176,6 +176,9 @@ export const colors = {
   neutral: figmaColors.neutral4,
   complete: '$success',
   blurple: '#5865f2',
+  farcaster: '#472991',
+  tagFarcasterText: '#472991',
+  tagFarcasterBackground: '#f7f4fd',
   bigQuestion1: figmaColors.success5,
   bigQuestion2: figmaColors.secondary4,
 
@@ -571,6 +574,8 @@ export const dark = createTheme({
     tagDefaultText: figmaColors.grey2,
     tagDefaultBackground: figmaColors.grey7,
 
+    tagFarcasterText: '#dcceff',
+    tagFarcasterBackground: '#472991',
     bigQuestion1: figmaColors.success5,
     bigQuestion2: figmaColors.primary3,
 
@@ -777,6 +782,8 @@ export const party = createTheme({
     tagDefaultText: figmaColors.grey2,
     tagDefaultBackground: figmaColors.grey7,
 
+    tagFarcasterText: '#dcceff',
+    tagFarcasterBackground: '#472991',
     bigQuestion1: figmaColors.orange5,
     bigQuestion2: figmaColors.success5,
 
