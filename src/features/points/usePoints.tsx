@@ -4,6 +4,7 @@ import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
 import { client } from '../../lib/gql/client';
+import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import {
   EMISSION_PER_SECOND,
@@ -14,6 +15,8 @@ import {
 export const POINTS_QUERY_KEY = 'points_query_key';
 
 export const usePoints = () => {
+  const address = useConnectedAddress();
+
   const { data: points } = useQuery(
     [POINTS_QUERY_KEY],
     async () => {
@@ -23,6 +26,7 @@ export const usePoints = () => {
       onError: error => {
         console.error(error);
       },
+      enabled: !!address,
     }
   );
 

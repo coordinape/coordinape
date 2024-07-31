@@ -1,5 +1,5 @@
-import { order_by, ValueTypes } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { order_by, ValueTypes } from '../../lib/anongql/__generated__/zeus';
+import { anonClient } from '../../lib/anongql/anonClient';
 
 type ProfilesWhere = ValueTypes['profiles_public_bool_exp'];
 type SkillsWhere = ValueTypes['skills_bool_exp'];
@@ -13,7 +13,7 @@ export const fetchSearchResults = async ({
   skillsWhere: SkillsWhere;
   // contributionsWhere?: ProfilesWhere;
 }) => {
-  const { profiles_public, skills } = await client.query(
+  const { profiles_public, skills } = await anonClient.query(
     {
       profiles_public: [
         {

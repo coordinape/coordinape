@@ -21,6 +21,22 @@ object_relationships:
           name: profiles_public
           schema: public
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - buy
+        - eth_amount
+        - protocol_fee_amount
+        - link_amount
+        - target_fee_amount
+        - supply
+        - created_at
+        - target
+        - holder
+        - tx_hash
+      filter: {}
+      limit: 100
+    comment: ""
   - role: user
     permission:
       columns:
@@ -35,6 +51,7 @@ select_permissions:
         - holder
         - tx_hash
       filter: {}
+      limit: 1000
     comment: ""
 event_triggers:
   - name: linkTxInteractionEvent

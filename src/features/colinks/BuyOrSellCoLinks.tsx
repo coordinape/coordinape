@@ -9,6 +9,7 @@ import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { wagmiChain, wagmiConfig } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
 import { Address } from 'viem';
 
@@ -24,6 +25,7 @@ import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
 import { IN_PREVIEW } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
+import { coLinksPaths } from 'routes/paths';
 
 import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
@@ -41,7 +43,7 @@ export const BuyOrSellCoLinks = ({
   css,
 }: {
   subject: string;
-  address: string;
+  address?: string;
   hideTitle?: boolean;
   constrainWidth?: boolean;
   buyOneOnly?: boolean;
@@ -60,7 +62,8 @@ export const BuyOrSellCoLinks = ({
   const [sellPrice, setSellPrice] = useState<string | null>(null);
   const [supply, setSupply] = useState<number | null>(null);
 
-  const subjectIsCurrentUser = subject.toLowerCase() == address.toLowerCase();
+  const subjectIsCurrentUser =
+    address && subject.toLowerCase() == address.toLowerCase();
 
   const [progress, setProgress] = useState('');
 
@@ -188,6 +191,16 @@ export const BuyOrSellCoLinks = ({
     }
   };
 
+  if (!address) {
+    return (
+      <Flex css={{ width: '100%', justifyContent: 'center' }}>
+        <Button as={NavLink} to={coLinksPaths.wizardStart}>
+          Connect Wallet
+        </Button>
+      </Flex>
+    );
+  }
+
   if (!subjectProfile) {
     return null;
   }
@@ -279,7 +292,7 @@ export const BuyOrSellCoLinks = ({
                 <Button
                   onClick={sellLink}
                   disabled={
-                    awaitingWallet || (supply == 1 && subjectIsCurrentUser)
+                    awaitingWallet || (supply == 1 && !!subjectIsCurrentUser)
                   }
                 >
                   Sell Link

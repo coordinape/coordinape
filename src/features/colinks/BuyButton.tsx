@@ -38,7 +38,7 @@ export const BuyButton = ({
   const queryClient = useQueryClient();
   const { awaitingWallet, setAwaitingWallet } = useContext(CoLinksContext);
 
-  const currentUserAddress = useConnectedAddress(true);
+  const currentUserAddress = useConnectedAddress(false);
 
   const { refresh } = useLinkingStatus({
     address: currentUserAddress,

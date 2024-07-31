@@ -1,8 +1,8 @@
+import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
 import { Circle2 } from '../../icons/__generated';
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { Flex, Image, Link, Text } from '../../ui';
 
 import { RightColumnSection } from './RightColumnSection';
@@ -45,7 +45,7 @@ const DEMO_DATA = {
 };
 
 const fetchPoaps = async (address: string) => {
-  const { poap_holders, poap_holders_aggregate } = await client.query(
+  const { poap_holders, poap_holders_aggregate } = await anonClient.query(
     {
       poap_holders_aggregate: [
         {

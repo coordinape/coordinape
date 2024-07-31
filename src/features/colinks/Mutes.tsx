@@ -1,13 +1,13 @@
 import assert from 'assert';
 
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
-import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 import { Button } from '../../ui';
 import { ConfirmationModal } from 'components/ConfirmationModal';
 import { LoadingIndicator } from 'components/LoadingIndicator';
+import useProfileId from 'hooks/useProfileId';
 
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -20,7 +20,28 @@ export const Mutes = ({
   targetProfileId: number;
   targetProfileAddress: string;
 }) => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId(false);
+
+  if (!profileId) {
+    return null;
+  }
+
+  return (
+    <MutesImplementation
+      targetProfileId={targetProfileId}
+      targetProfileAddress={targetProfileAddress}
+    />
+  );
+};
+
+const MutesImplementation = ({
+  targetProfileId,
+  targetProfileAddress,
+}: {
+  targetProfileId: number;
+  targetProfileAddress: string;
+}) => {
+  const profileId = useProfileId(false);
 
   const queryClient = useQueryClient();
   assert(profileId, 'profileId required');

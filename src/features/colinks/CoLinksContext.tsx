@@ -45,7 +45,7 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [awaitingWallet, setAwaitingWallet] = useState(false);
-  const { data } = useCoLinksNavQuery();
+  const { data, isLoading } = useCoLinksNavQuery();
 
   const [showConnectWallet, setShowConnectWallet] = useState(false);
 
@@ -64,26 +64,28 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   // }, [onCorrectChain]);
 
   useEffect(() => {
-    if (data) {
-      if (data?.profile) {
-        if (!data.profile.invite_code_redeemed_at) {
-          navigate(coLinksPaths.wizard);
-        } else if (!data.profile.tos_agreed_at) {
-          navigate(coLinksPaths.wizard);
-        } else if (!data.profile.cosoul) {
-          // show the mint button
-          navigate(coLinksPaths.wizard);
-        } else if (!data.profile.links_held) {
-          // redirect to wizard so they can buy their own link
-          // we might already be on the wizard
-          if (location.pathname !== coLinksPaths.wizard) {
+    if (address) {
+      if (data) {
+        if (data?.profile) {
+          if (!data.profile.invite_code_redeemed_at) {
             navigate(coLinksPaths.wizard);
-          }
-        } else {
-          const tosAgreedAt = new Date(data.profile.tos_agreed_at);
-          const tosUpdatedAt = new Date(TOS_UPDATED_AT);
-          if (tosAgreedAt < tosUpdatedAt) {
+          } else if (!data.profile.tos_agreed_at) {
             navigate(coLinksPaths.wizard);
+          } else if (!data.profile.cosoul) {
+            // show the mint button
+            navigate(coLinksPaths.wizard);
+          } else if (!data.profile.links_held) {
+            // redirect to wizard so they can buy their own link
+            // we might already be on the wizard
+            if (location.pathname !== coLinksPaths.wizard) {
+              navigate(coLinksPaths.wizard);
+            }
+          } else {
+            const tosAgreedAt = new Date(data.profile.tos_agreed_at);
+            const tosUpdatedAt = new Date(TOS_UPDATED_AT);
+            if (tosAgreedAt < tosUpdatedAt) {
+              navigate(coLinksPaths.wizard);
+            }
           }
         }
       }
@@ -99,13 +101,10 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   //   return <LoadingIndicator />;
   // }
 
-  if (data === undefined) {
+  if (isLoading) {
     return <LoadingModal visible={true} />;
   }
 
-  if (!data) {
-    return <Text>Loading...</Text>;
-  }
   const coLinksReadOnly = getCoLinksContract();
   if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;

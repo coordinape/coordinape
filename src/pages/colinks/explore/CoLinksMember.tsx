@@ -311,7 +311,7 @@ export const CoLinksMember = ({
   );
 };
 
-export const coLinksMemberSelector = (currentUserAddress: string) =>
+export const coLinksMemberSelector = (currentUserAddress?: string) =>
   Selector('profiles_public')({
     avatar: true,
     name: true,
@@ -323,18 +323,20 @@ export const coLinksMemberSelector = (currentUserAddress: string) =>
     reputation_score: {
       total_score: true,
     },
-    link_target: [
-      {
-        where: {
-          holder: {
-            _eq: currentUserAddress.toLowerCase(),
+    ...(currentUserAddress && {
+      link_target: [
+        {
+          where: {
+            holder: {
+              _eq: currentUserAddress.toLowerCase(),
+            },
           },
         },
-      },
-      {
-        amount: true,
-      },
-    ],
+        {
+          amount: true,
+        },
+      ],
+    }),
     profile_skills: [
       {},
       {

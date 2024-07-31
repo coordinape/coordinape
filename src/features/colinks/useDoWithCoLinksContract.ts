@@ -12,7 +12,7 @@ import { switchNetwork } from 'utils/provider';
 import { CoLinksContext } from './CoLinksContext';
 
 export const useDoWithCoLinksContract = () => {
-  const authAccount = useConnectedAddress(true);
+  const authAccount = useConnectedAddress(false);
   const {
     library,
     account: web3Account,
@@ -35,6 +35,11 @@ export const useDoWithCoLinksContract = () => {
   ) => {
     if (!signedContract) {
       setShowConnectWallet(true);
+      return;
+    }
+
+    if (!authAccount) {
+      showError('Please connect your wallet');
       return;
     }
 

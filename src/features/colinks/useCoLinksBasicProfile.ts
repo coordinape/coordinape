@@ -1,12 +1,11 @@
+import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
-
-import { client } from '../../lib/gql/client';
 
 export const useCoLinksBasicProfile = (address?: string) => {
   const { data, isLoading } = useQuery(
     ['colinks', address, 'basic_profile'],
     async () => {
-      const { profiles_public } = await client.query(
+      const { profiles_public } = await anonClient.query(
         {
           profiles_public: [
             {

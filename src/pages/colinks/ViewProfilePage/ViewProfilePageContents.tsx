@@ -3,12 +3,12 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
 import { artWidthMobile } from 'features/cosoul/constants';
+import { anonClient } from 'lib/anongql/anonClient';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { ActivityList } from '../../../features/activities/ActivityList';
-import { useAuthStore } from '../../../features/auth';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
@@ -26,6 +26,7 @@ import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
 import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
+import useProfileId from 'hooks/useProfileId';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -42,18 +43,12 @@ export const ViewProfilePageContents = ({
 }) => {
   const { address } = useContext(CoLinksContext);
 
-  const profileId = useAuthStore(state => state.profileId);
-  if (!profileId) {
-    return null;
-  }
+  const profileId = useProfileId(false);
 
   if (!isAddress(targetAddress) && !targetAddress.endsWith('.eth')) {
     return <NotFound />;
   }
 
-  if (!address) {
-    return <LoadingIndicator />;
-  }
   return (
     <PageContents
       currentUserAddress={address}
@@ -65,9 +60,50 @@ export const ViewProfilePageContents = ({
 
 const fetchCoLinksProfile = async (
   address: string,
-  currentProfileId: number
+  currentProfileId?: number
 ) => {
-  const { profiles_public, mutedThem, imMuted } = await client.query(
+  const { profiles_public } = await anonClient.query(
+    {
+      profiles_public: [
+        {
+          where: {
+            address: {
+              _ilike: address,
+            },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          avatar: true,
+          address: true,
+          website: true,
+          links: true,
+          description: true,
+          reputation_score: {
+            total_score: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'fetch_coLinks_profile_anonClient',
+    }
+  );
+
+  // Need to check mutes only if currentProfileId is set
+  if (!currentProfileId) {
+    assert(profiles_public.length == 1, 'profile not found');
+    const p = profiles_public.pop();
+    assert(p, 'profile not found');
+    return {
+      profile: p,
+      mutedThem: false,
+      imMuted: false,
+    };
+  }
+
+  const { mutedThem, imMuted } = await client.query(
     {
       __alias: {
         mutedThem: {
@@ -111,30 +147,9 @@ const fetchCoLinksProfile = async (
           ],
         },
       },
-      profiles_public: [
-        {
-          where: {
-            address: {
-              _ilike: address,
-            },
-          },
-        },
-        {
-          id: true,
-          name: true,
-          avatar: true,
-          address: true,
-          website: true,
-          links: true,
-          description: true,
-          reputation_score: {
-            total_score: true,
-          },
-        },
-      ],
     },
     {
-      operationName: 'coLinks_profile',
+      operationName: 'coLinks_profile_fetch_mutes',
     }
   );
   const profile = profiles_public.pop();
@@ -158,8 +173,8 @@ const PageContents = ({
   currentUserProfileId,
   targetAddress,
 }: {
-  currentUserAddress: string;
-  currentUserProfileId: number;
+  currentUserAddress?: string;
+  currentUserProfileId?: number;
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
@@ -169,6 +184,7 @@ const PageContents = ({
     target: targetAddress,
   });
   const targetIsCurrentUser =
+    currentUserAddress &&
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
@@ -375,40 +391,42 @@ const PageContents = ({
               </>
             )}
           </Flex>
-          <Flex column>
-            <ActivityList
-              queryKey={[
-                QUERY_KEY_COLINKS,
-                'activity',
-                targetProfile.profile.id,
-              ]}
-              pollForNewActivity={showLoading}
-              onSettled={() => setShowLoading(false)}
-              where={{
-                _or: [
-                  {
-                    big_question_id: { _is_null: false },
-                  },
-                  { private_stream: { _eq: true } },
-                ],
-                actor_profile_id: { _eq: targetProfile.profile.id },
-              }}
-              noPosts={
-                (targetProfile.mutedThem ||
-                  targetIsCurrentUser ||
-                  weAreLinked) && (
-                  <Panel noBorder>
-                    {targetProfile.mutedThem
-                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                      : (targetIsCurrentUser
-                          ? "You haven't"
-                          : `${targetProfile.profile.name} hasn't`) +
-                        ' posted yet.'}
-                  </Panel>
-                )
-              }
-            />
-          </Flex>
+          {currentUserAddress && (
+            <Flex column>
+              <ActivityList
+                queryKey={[
+                  QUERY_KEY_COLINKS,
+                  'activity',
+                  targetProfile.profile.id,
+                ]}
+                pollForNewActivity={showLoading}
+                onSettled={() => setShowLoading(false)}
+                where={{
+                  _or: [
+                    {
+                      big_question_id: { _is_null: false },
+                    },
+                    { private_stream: { _eq: true } },
+                  ],
+                  actor_profile_id: { _eq: targetProfile.profile.id },
+                }}
+                noPosts={
+                  (targetProfile.mutedThem ||
+                    targetIsCurrentUser ||
+                    weAreLinked) && (
+                    <Panel noBorder>
+                      {targetProfile.mutedThem
+                        ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                        : (targetIsCurrentUser
+                            ? "You haven't"
+                            : `${targetProfile.profile.name} hasn't`) +
+                          ' posted yet.'}
+                    </Panel>
+                  )
+                }
+              />
+            </Flex>
+          )}
         </Flex>
         <Flex
           column

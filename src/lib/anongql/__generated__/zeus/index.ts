@@ -1229,6 +1229,52 @@ export type ValueTypes = {
       ValueTypes['link_holders_aggregate'],
     ];
     pgive?: boolean | `@${string}`;
+    poaps?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
+    poaps_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders_aggregate'],
+    ];
     /** An object relationship */
     profile_public?: ValueTypes['profiles_public'];
     synced_at?: boolean | `@${string}`;
@@ -1257,6 +1303,11 @@ export type ValueTypes = {
       | undefined
       | null;
     pgive?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    poaps?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+    poaps_aggregate?:
+      | ValueTypes['poap_holders_aggregate_bool_exp']
+      | undefined
+      | null;
     profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
@@ -1278,6 +1329,10 @@ export type ValueTypes = {
       | undefined
       | null;
     pgive?: ValueTypes['order_by'] | undefined | null;
+    poaps_aggregate?:
+      | ValueTypes['poap_holders_aggregate_order_by']
+      | undefined
+      | null;
     profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     synced_at?: ValueTypes['order_by'] | undefined | null;
     token_id?: ValueTypes['order_by'] | undefined | null;
@@ -1306,6 +1361,19 @@ export type ValueTypes = {
   };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  ['date']: unknown;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ['date_comparison_exp']: {
+    _eq?: ValueTypes['date'] | undefined | null;
+    _gt?: ValueTypes['date'] | undefined | null;
+    _gte?: ValueTypes['date'] | undefined | null;
+    _in?: Array<ValueTypes['date']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['date'] | undefined | null;
+    _lte?: ValueTypes['date'] | undefined | null;
+    _neq?: ValueTypes['date'] | undefined | null;
+    _nin?: Array<ValueTypes['date']> | undefined | null;
+  };
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: AliasType<{
     bio_text?: boolean | `@${string}`;
@@ -1317,6 +1385,8 @@ export type ValueTypes = {
     name?: boolean | `@${string}`;
     pfp_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
     updated_at?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -1335,6 +1405,7 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -1349,6 +1420,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     pfp_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
@@ -1374,6 +1446,19 @@ export type ValueTypes = {
     profile_id?: ValueTypes['bigint'] | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
     username?: string | undefined | null;
+  };
+  ['float8']: unknown;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ['float8_comparison_exp']: {
+    _eq?: ValueTypes['float8'] | undefined | null;
+    _gt?: ValueTypes['float8'] | undefined | null;
+    _gte?: ValueTypes['float8'] | undefined | null;
+    _in?: Array<ValueTypes['float8']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['float8'] | undefined | null;
+    _lte?: ValueTypes['float8'] | undefined | null;
+    _neq?: ValueTypes['float8'] | undefined | null;
+    _nin?: Array<ValueTypes['float8']> | undefined | null;
   };
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: AliasType<{
@@ -1644,8 +1729,470 @@ export type ValueTypes = {
   ['link_holders_variance_order_by']: {
     amount?: ValueTypes['order_by'] | undefined | null;
   };
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: AliasType<{
+    buy?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    eth_amount?: boolean | `@${string}`;
+    holder?: boolean | `@${string}`;
+    /** An object relationship */
+    holder_profile?: ValueTypes['profiles_public'];
+    link_amount?: boolean | `@${string}`;
+    protocol_fee_amount?: boolean | `@${string}`;
+    supply?: boolean | `@${string}`;
+    target?: boolean | `@${string}`;
+    target_fee_amount?: boolean | `@${string}`;
+    /** An object relationship */
+    target_profile?: ValueTypes['profiles_public'];
+    tx_hash?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: {
+    _and?: Array<ValueTypes['link_tx_bool_exp']> | undefined | null;
+    _not?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['link_tx_bool_exp']> | undefined | null;
+    buy?: ValueTypes['Boolean_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    eth_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    holder?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    holder_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    link_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    protocol_fee_amount?:
+      | ValueTypes['String_comparison_exp']
+      | undefined
+      | null;
+    supply?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    target?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    target_fee_amount?: ValueTypes['String_comparison_exp'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    tx_hash?: ValueTypes['citext_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: {
+    buy?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    eth_amount?: ValueTypes['order_by'] | undefined | null;
+    holder?: ValueTypes['order_by'] | undefined | null;
+    holder_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    link_amount?: ValueTypes['order_by'] | undefined | null;
+    protocol_fee_amount?: ValueTypes['order_by'] | undefined | null;
+    supply?: ValueTypes['order_by'] | undefined | null;
+    target?: ValueTypes['order_by'] | undefined | null;
+    target_fee_amount?: ValueTypes['order_by'] | undefined | null;
+    target_profile?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    tx_hash?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: link_tx_select_column;
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['link_tx_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['link_tx_stream_cursor_value_input']: {
+    buy?: boolean | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    eth_amount?: string | undefined | null;
+    holder?: ValueTypes['citext'] | undefined | null;
+    link_amount?: string | undefined | null;
+    protocol_fee_amount?: string | undefined | null;
+    supply?: ValueTypes['numeric'] | undefined | null;
+    target?: ValueTypes['citext'] | undefined | null;
+    target_fee_amount?: string | undefined | null;
+    tx_hash?: ValueTypes['citext'] | undefined | null;
+  };
+  ['numeric']: unknown;
+  /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
+  ['numeric_comparison_exp']: {
+    _eq?: ValueTypes['numeric'] | undefined | null;
+    _gt?: ValueTypes['numeric'] | undefined | null;
+    _gte?: ValueTypes['numeric'] | undefined | null;
+    _in?: Array<ValueTypes['numeric']> | undefined | null;
+    _is_null?: boolean | undefined | null;
+    _lt?: ValueTypes['numeric'] | undefined | null;
+    _lte?: ValueTypes['numeric'] | undefined | null;
+    _neq?: ValueTypes['numeric'] | undefined | null;
+    _nin?: Array<ValueTypes['numeric']> | undefined | null;
+  };
   /** column ordering options */
   ['order_by']: order_by;
+  /** Poap event info */
+  ['poap_events']: AliasType<{
+    city?: boolean | `@${string}`;
+    country?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    end_date?: boolean | `@${string}`;
+    event_url?: boolean | `@${string}`;
+    expiry_date?: boolean | `@${string}`;
+    fancy_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    poap_id?: boolean | `@${string}`;
+    similarity?: boolean | `@${string}`;
+    start_date?: boolean | `@${string}`;
+    supply?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    year?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "poap_events". All fields are combined with a logical 'AND'. */
+  ['poap_events_bool_exp']: {
+    _and?: Array<ValueTypes['poap_events_bool_exp']> | undefined | null;
+    _not?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['poap_events_bool_exp']> | undefined | null;
+    city?: ValueTypes['String_comparison_exp'] | undefined | null;
+    country?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    description?: ValueTypes['String_comparison_exp'] | undefined | null;
+    end_date?: ValueTypes['date_comparison_exp'] | undefined | null;
+    event_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    expiry_date?: ValueTypes['date_comparison_exp'] | undefined | null;
+    fancy_id?: ValueTypes['String_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    name?: ValueTypes['String_comparison_exp'] | undefined | null;
+    poap_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    similarity?: ValueTypes['float8_comparison_exp'] | undefined | null;
+    start_date?: ValueTypes['date_comparison_exp'] | undefined | null;
+    supply?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    year?: ValueTypes['Int_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "poap_events". */
+  ['poap_events_order_by']: {
+    city?: ValueTypes['order_by'] | undefined | null;
+    country?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    description?: ValueTypes['order_by'] | undefined | null;
+    end_date?: ValueTypes['order_by'] | undefined | null;
+    event_url?: ValueTypes['order_by'] | undefined | null;
+    expiry_date?: ValueTypes['order_by'] | undefined | null;
+    fancy_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    poap_id?: ValueTypes['order_by'] | undefined | null;
+    similarity?: ValueTypes['order_by'] | undefined | null;
+    start_date?: ValueTypes['order_by'] | undefined | null;
+    supply?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+    year?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "poap_events" */
+  ['poap_events_select_column']: poap_events_select_column;
+  /** Streaming cursor of the table "poap_events" */
+  ['poap_events_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['poap_events_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['poap_events_stream_cursor_value_input']: {
+    city?: string | undefined | null;
+    country?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    description?: string | undefined | null;
+    end_date?: ValueTypes['date'] | undefined | null;
+    event_url?: string | undefined | null;
+    expiry_date?: ValueTypes['date'] | undefined | null;
+    fancy_id?: string | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    image_url?: string | undefined | null;
+    name?: string | undefined | null;
+    poap_id?: number | undefined | null;
+    similarity?: ValueTypes['float8'] | undefined | null;
+    start_date?: ValueTypes['date'] | undefined | null;
+    supply?: number | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+    year?: number | undefined | null;
+  };
+  /** columns and relationships of "poap_holders" */
+  ['poap_holders']: AliasType<{
+    address?: boolean | `@${string}`;
+    chain?: boolean | `@${string}`;
+    /** An object relationship */
+    cosoul?: ValueTypes['cosouls'];
+    created_at?: boolean | `@${string}`;
+    /** An object relationship */
+    event?: ValueTypes['poap_events'];
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    poap_created?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregated selection of "poap_holders" */
+  ['poap_holders_aggregate']: AliasType<{
+    aggregate?: ValueTypes['poap_holders_aggregate_fields'];
+    nodes?: ValueTypes['poap_holders'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['poap_holders_aggregate_bool_exp']: {
+    count?:
+      | ValueTypes['poap_holders_aggregate_bool_exp_count']
+      | undefined
+      | null;
+  };
+  ['poap_holders_aggregate_bool_exp_count']: {
+    arguments?:
+      | Array<ValueTypes['poap_holders_select_column']>
+      | undefined
+      | null;
+    distinct?: boolean | undefined | null;
+    filter?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+    predicate: ValueTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "poap_holders" */
+  ['poap_holders_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['poap_holders_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['poap_holders_max_fields'];
+    min?: ValueTypes['poap_holders_min_fields'];
+    stddev?: ValueTypes['poap_holders_stddev_fields'];
+    stddev_pop?: ValueTypes['poap_holders_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['poap_holders_stddev_samp_fields'];
+    sum?: ValueTypes['poap_holders_sum_fields'];
+    var_pop?: ValueTypes['poap_holders_var_pop_fields'];
+    var_samp?: ValueTypes['poap_holders_var_samp_fields'];
+    variance?: ValueTypes['poap_holders_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "poap_holders" */
+  ['poap_holders_aggregate_order_by']: {
+    avg?: ValueTypes['poap_holders_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['poap_holders_max_order_by'] | undefined | null;
+    min?: ValueTypes['poap_holders_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['poap_holders_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['poap_holders_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['poap_holders_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['poap_holders_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['poap_holders_var_pop_order_by'] | undefined | null;
+    var_samp?: ValueTypes['poap_holders_var_samp_order_by'] | undefined | null;
+    variance?: ValueTypes['poap_holders_variance_order_by'] | undefined | null;
+  };
+  /** aggregate avg on columns */
+  ['poap_holders_avg_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by avg() on columns of table "poap_holders" */
+  ['poap_holders_avg_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "poap_holders". All fields are combined with a logical 'AND'. */
+  ['poap_holders_bool_exp']: {
+    _and?: Array<ValueTypes['poap_holders_bool_exp']> | undefined | null;
+    _not?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['poap_holders_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    chain?: ValueTypes['String_comparison_exp'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_bool_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    event?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+    event_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    poap_created?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    token_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** aggregate max on columns */
+  ['poap_holders_max_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    chain?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    poap_created?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by max() on columns of table "poap_holders" */
+  ['poap_holders_max_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    poap_created?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate min on columns */
+  ['poap_holders_min_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    chain?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    poap_created?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by min() on columns of table "poap_holders" */
+  ['poap_holders_min_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    poap_created?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "poap_holders". */
+  ['poap_holders_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    cosoul?: ValueTypes['cosouls_order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    event?: ValueTypes['poap_events_order_by'] | undefined | null;
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    poap_created?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "poap_holders" */
+  ['poap_holders_select_column']: poap_holders_select_column;
+  /** aggregate stddev on columns */
+  ['poap_holders_stddev_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev() on columns of table "poap_holders" */
+  ['poap_holders_stddev_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_pop on columns */
+  ['poap_holders_stddev_pop_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_pop() on columns of table "poap_holders" */
+  ['poap_holders_stddev_pop_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate stddev_samp on columns */
+  ['poap_holders_stddev_samp_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by stddev_samp() on columns of table "poap_holders" */
+  ['poap_holders_stddev_samp_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "poap_holders" */
+  ['poap_holders_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['poap_holders_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['poap_holders_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    chain?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    event_id?: ValueTypes['bigint'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    poap_created?: ValueTypes['timestamptz'] | undefined | null;
+    token_id?: ValueTypes['bigint'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** aggregate sum on columns */
+  ['poap_holders_sum_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by sum() on columns of table "poap_holders" */
+  ['poap_holders_sum_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_pop on columns */
+  ['poap_holders_var_pop_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_pop() on columns of table "poap_holders" */
+  ['poap_holders_var_pop_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate var_samp on columns */
+  ['poap_holders_var_samp_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by var_samp() on columns of table "poap_holders" */
+  ['poap_holders_var_samp_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** aggregate variance on columns */
+  ['poap_holders_variance_fields']: AliasType<{
+    event_id?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    token_id?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by variance() on columns of table "poap_holders" */
+  ['poap_holders_variance_order_by']: {
+    event_id?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: AliasType<{
     profile_id?: boolean | `@${string}`;
@@ -2331,6 +2878,107 @@ export type ValueTypes = {
       { holder: ValueTypes['citext']; target: ValueTypes['citext'] },
       ValueTypes['link_holders'],
     ];
+    link_tx?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_tx_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_tx_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_tx'],
+    ];
+    link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
+    poap_events?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_events_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_events_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_events'],
+    ];
+    poap_events_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['poap_events'],
+    ];
+    poap_holders?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
+    poap_holders_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders_aggregate'],
+    ];
+    poap_holders_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['poap_holders'],
+    ];
     price_per_share?: [
       { chain_id: number; token_address?: string | undefined | null },
       boolean | `@${string}`,
@@ -2462,6 +3110,78 @@ export type ValueTypes = {
     twitter_accounts_by_pk?: [
       { profile_id: number },
       ValueTypes['twitter_accounts'],
+    ];
+    vector_search_poap_events?: [
+      {
+        /** input parameters for function "vector_search_poap_events" */
+        args: ValueTypes['vector_search_poap_events_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_events_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_events_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_events'],
+    ];
+    vector_search_poap_holders?: [
+      {
+        /** input parameters for function "vector_search_poap_holders" */
+        args: ValueTypes['vector_search_poap_holders_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
+    vector_search_poap_holders_aggregate?: [
+      {
+        /** input parameters for function "vector_search_poap_holders_aggregate" */
+        args: ValueTypes['vector_search_poap_holders_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders_aggregate'],
     ];
     __typename?: boolean | `@${string}`;
   }>;
@@ -2905,6 +3625,140 @@ export type ValueTypes = {
       },
       ValueTypes['link_holders'],
     ];
+    link_tx?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['link_tx_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['link_tx_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_tx'],
+    ];
+    link_tx_by_pk?: [{ tx_hash: ValueTypes['citext'] }, ValueTypes['link_tx']];
+    link_tx_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['link_tx_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['link_tx_bool_exp'] | undefined | null;
+      },
+      ValueTypes['link_tx'],
+    ];
+    poap_events?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_events_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_events_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_events'],
+    ];
+    poap_events_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['poap_events'],
+    ];
+    poap_events_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['poap_events_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_events'],
+    ];
+    poap_holders?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
+    poap_holders_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders_aggregate'],
+    ];
+    poap_holders_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['poap_holders'],
+    ];
+    poap_holders_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['poap_holders_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
     profile_skills?: [
       {
         /** distinct select on columns */
@@ -3088,6 +3942,78 @@ export type ValueTypes = {
       },
       ValueTypes['twitter_accounts'],
     ];
+    vector_search_poap_events?: [
+      {
+        /** input parameters for function "vector_search_poap_events" */
+        args: ValueTypes['vector_search_poap_events_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_events_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_events_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_events_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_events'],
+    ];
+    vector_search_poap_holders?: [
+      {
+        /** input parameters for function "vector_search_poap_holders" */
+        args: ValueTypes['vector_search_poap_holders_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders'],
+    ];
+    vector_search_poap_holders_aggregate?: [
+      {
+        /** input parameters for function "vector_search_poap_holders_aggregate" */
+        args: ValueTypes['vector_search_poap_holders_args'] /** distinct select on columns */;
+        distinct_on?:
+          | Array<ValueTypes['poap_holders_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['poap_holders_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['poap_holders_bool_exp'] | undefined | null;
+      },
+      ValueTypes['poap_holders_aggregate'],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   ['timestamp']: unknown;
@@ -3152,6 +4078,17 @@ export type ValueTypes = {
     id?: string | undefined | null;
     profile_id?: number | undefined | null;
     username?: string | undefined | null;
+  };
+  ['vector']: unknown;
+  ['vector_search_poap_events_args']: {
+    limit_count?: number | undefined | null;
+    match_threshold?: ValueTypes['float8'] | undefined | null;
+    target_vector?: ValueTypes['vector'] | undefined | null;
+  };
+  ['vector_search_poap_holders_args']: {
+    limit_count?: number | undefined | null;
+    match_threshold?: ValueTypes['float8'] | undefined | null;
+    target_vector?: ValueTypes['vector'] | undefined | null;
   };
 };
 
@@ -3376,6 +4313,10 @@ export type ModelTypes = {
     /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
+    /** An array relationship */
+    poaps: Array<GraphQLTypes['poap_holders']>;
+    /** An aggregate relationship */
+    poaps_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -3394,6 +4335,9 @@ export type ModelTypes = {
   ['cosouls_stream_cursor_value_input']: GraphQLTypes['cosouls_stream_cursor_value_input'];
   /** ordering argument of a cursor */
   ['cursor_ordering']: GraphQLTypes['cursor_ordering'];
+  ['date']: any;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: {
     bio_text?: string | undefined;
@@ -3405,6 +4349,8 @@ export type ModelTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -3418,6 +4364,9 @@ export type ModelTypes = {
   ['farcaster_accounts_stream_cursor_input']: GraphQLTypes['farcaster_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['farcaster_accounts_stream_cursor_value_input']: GraphQLTypes['farcaster_accounts_stream_cursor_value_input'];
+  ['float8']: any;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ['float8_comparison_exp']: GraphQLTypes['float8_comparison_exp'];
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: {
     profile_id: GraphQLTypes['bigint'];
@@ -3547,8 +4496,206 @@ export type ModelTypes = {
   };
   /** order by variance() on columns of table "link_holders" */
   ['link_holders_variance_order_by']: GraphQLTypes['link_holders_variance_order_by'];
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: {
+    buy: boolean;
+    created_at: GraphQLTypes['timestamptz'];
+    eth_amount: string;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_profile?: GraphQLTypes['profiles_public'] | undefined;
+    link_amount: string;
+    protocol_fee_amount: string;
+    supply: GraphQLTypes['numeric'];
+    target: GraphQLTypes['citext'];
+    target_fee_amount: string;
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: GraphQLTypes['link_tx_bool_exp'];
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: GraphQLTypes['link_tx_order_by'];
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: GraphQLTypes['link_tx_select_column'];
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: GraphQLTypes['link_tx_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['link_tx_stream_cursor_value_input']: GraphQLTypes['link_tx_stream_cursor_value_input'];
+  ['numeric']: any;
+  /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
+  ['numeric_comparison_exp']: GraphQLTypes['numeric_comparison_exp'];
   /** column ordering options */
   ['order_by']: GraphQLTypes['order_by'];
+  /** Poap event info */
+  ['poap_events']: {
+    city: string;
+    country: string;
+    created_at: GraphQLTypes['timestamptz'];
+    description: string;
+    end_date: GraphQLTypes['date'];
+    event_url: string;
+    expiry_date: GraphQLTypes['date'];
+    fancy_id: string;
+    id: GraphQLTypes['bigint'];
+    image_url: string;
+    name: string;
+    poap_id: number;
+    similarity?: GraphQLTypes['float8'] | undefined;
+    start_date: GraphQLTypes['date'];
+    supply: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    year: number;
+  };
+  /** Boolean expression to filter rows from the table "poap_events". All fields are combined with a logical 'AND'. */
+  ['poap_events_bool_exp']: GraphQLTypes['poap_events_bool_exp'];
+  /** Ordering options when selecting data from "poap_events". */
+  ['poap_events_order_by']: GraphQLTypes['poap_events_order_by'];
+  /** select columns of table "poap_events" */
+  ['poap_events_select_column']: GraphQLTypes['poap_events_select_column'];
+  /** Streaming cursor of the table "poap_events" */
+  ['poap_events_stream_cursor_input']: GraphQLTypes['poap_events_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['poap_events_stream_cursor_value_input']: GraphQLTypes['poap_events_stream_cursor_value_input'];
+  /** columns and relationships of "poap_holders" */
+  ['poap_holders']: {
+    address: GraphQLTypes['citext'];
+    chain: string;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
+    event_id: GraphQLTypes['bigint'];
+    id: GraphQLTypes['bigint'];
+    poap_created: GraphQLTypes['timestamptz'];
+    token_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "poap_holders" */
+  ['poap_holders_aggregate']: {
+    aggregate?: GraphQLTypes['poap_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['poap_holders']>;
+  };
+  ['poap_holders_aggregate_bool_exp']: GraphQLTypes['poap_holders_aggregate_bool_exp'];
+  ['poap_holders_aggregate_bool_exp_count']: GraphQLTypes['poap_holders_aggregate_bool_exp_count'];
+  /** aggregate fields of "poap_holders" */
+  ['poap_holders_aggregate_fields']: {
+    avg?: GraphQLTypes['poap_holders_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['poap_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['poap_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['poap_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['poap_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['poap_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['poap_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['poap_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['poap_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['poap_holders_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "poap_holders" */
+  ['poap_holders_aggregate_order_by']: GraphQLTypes['poap_holders_aggregate_order_by'];
+  /** aggregate avg on columns */
+  ['poap_holders_avg_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "poap_holders" */
+  ['poap_holders_avg_order_by']: GraphQLTypes['poap_holders_avg_order_by'];
+  /** Boolean expression to filter rows from the table "poap_holders". All fields are combined with a logical 'AND'. */
+  ['poap_holders_bool_exp']: GraphQLTypes['poap_holders_bool_exp'];
+  /** aggregate max on columns */
+  ['poap_holders_max_fields']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    chain?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by max() on columns of table "poap_holders" */
+  ['poap_holders_max_order_by']: GraphQLTypes['poap_holders_max_order_by'];
+  /** aggregate min on columns */
+  ['poap_holders_min_fields']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    chain?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "poap_holders" */
+  ['poap_holders_min_order_by']: GraphQLTypes['poap_holders_min_order_by'];
+  /** Ordering options when selecting data from "poap_holders". */
+  ['poap_holders_order_by']: GraphQLTypes['poap_holders_order_by'];
+  /** select columns of table "poap_holders" */
+  ['poap_holders_select_column']: GraphQLTypes['poap_holders_select_column'];
+  /** aggregate stddev on columns */
+  ['poap_holders_stddev_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "poap_holders" */
+  ['poap_holders_stddev_order_by']: GraphQLTypes['poap_holders_stddev_order_by'];
+  /** aggregate stddev_pop on columns */
+  ['poap_holders_stddev_pop_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "poap_holders" */
+  ['poap_holders_stddev_pop_order_by']: GraphQLTypes['poap_holders_stddev_pop_order_by'];
+  /** aggregate stddev_samp on columns */
+  ['poap_holders_stddev_samp_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "poap_holders" */
+  ['poap_holders_stddev_samp_order_by']: GraphQLTypes['poap_holders_stddev_samp_order_by'];
+  /** Streaming cursor of the table "poap_holders" */
+  ['poap_holders_stream_cursor_input']: GraphQLTypes['poap_holders_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['poap_holders_stream_cursor_value_input']: GraphQLTypes['poap_holders_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['poap_holders_sum_fields']: {
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "poap_holders" */
+  ['poap_holders_sum_order_by']: GraphQLTypes['poap_holders_sum_order_by'];
+  /** aggregate var_pop on columns */
+  ['poap_holders_var_pop_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "poap_holders" */
+  ['poap_holders_var_pop_order_by']: GraphQLTypes['poap_holders_var_pop_order_by'];
+  /** aggregate var_samp on columns */
+  ['poap_holders_var_samp_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "poap_holders" */
+  ['poap_holders_var_samp_order_by']: GraphQLTypes['poap_holders_var_samp_order_by'];
+  /** aggregate variance on columns */
+  ['poap_holders_variance_fields']: {
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "poap_holders" */
+  ['poap_holders_variance_order_by']: GraphQLTypes['poap_holders_variance_order_by'];
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: {
     profile_id: number;
@@ -3668,6 +4815,20 @@ export type ModelTypes = {
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table: "poap_events" */
+    poap_events: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_events" using primary key columns */
+    poap_events_by_pk?: GraphQLTypes['poap_events'] | undefined;
+    /** fetch data from the table: "poap_holders" */
+    poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** fetch aggregated fields from the table: "poap_holders" */
+    poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "poap_holders" using primary key columns */
+    poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
@@ -3687,6 +4848,12 @@ export type ModelTypes = {
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
     twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** execute function "vector_search_poap_events" which returns "poap_events" */
+    vector_search_poap_events: Array<GraphQLTypes['poap_events']>;
+    /** execute function "vector_search_poap_holders" which returns "poap_holders" */
+    vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
+    vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
@@ -3779,6 +4946,26 @@ export type ModelTypes = {
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "link_holders" */
     link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_tx" */
+    link_tx_stream: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "poap_events" */
+    poap_events: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_events" using primary key columns */
+    poap_events_by_pk?: GraphQLTypes['poap_events'] | undefined;
+    /** fetch data from the table in a streaming manner: "poap_events" */
+    poap_events_stream: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_holders" */
+    poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** fetch aggregated fields from the table: "poap_holders" */
+    poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "poap_holders" using primary key columns */
+    poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "poap_holders" */
+    poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
@@ -3807,6 +4994,12 @@ export type ModelTypes = {
     twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
     /** fetch data from the table in a streaming manner: "twitter_accounts" */
     twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
+    /** execute function "vector_search_poap_events" which returns "poap_events" */
+    vector_search_poap_events: Array<GraphQLTypes['poap_events']>;
+    /** execute function "vector_search_poap_holders" which returns "poap_holders" */
+    vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
+    vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -3830,6 +5023,9 @@ export type ModelTypes = {
   ['twitter_accounts_stream_cursor_input']: GraphQLTypes['twitter_accounts_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['twitter_accounts_stream_cursor_value_input']: GraphQLTypes['twitter_accounts_stream_cursor_value_input'];
+  ['vector']: any;
+  ['vector_search_poap_events_args']: GraphQLTypes['vector_search_poap_events_args'];
+  ['vector_search_poap_holders_args']: GraphQLTypes['vector_search_poap_holders_args'];
 };
 
 export type GraphQLTypes = {
@@ -4353,6 +5549,10 @@ export type GraphQLTypes = {
     /** An aggregate relationship */
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     pgive?: number | undefined;
+    /** An array relationship */
+    poaps: Array<GraphQLTypes['poap_holders']>;
+    /** An aggregate relationship */
+    poaps_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -4378,6 +5578,10 @@ export type GraphQLTypes = {
       | GraphQLTypes['link_holders_aggregate_bool_exp']
       | undefined;
     pgive?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    poaps?: GraphQLTypes['poap_holders_bool_exp'] | undefined;
+    poaps_aggregate?:
+      | GraphQLTypes['poap_holders_aggregate_bool_exp']
+      | undefined;
     profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
@@ -4397,6 +5601,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['link_holders_aggregate_order_by']
       | undefined;
     pgive?: GraphQLTypes['order_by'] | undefined;
+    poaps_aggregate?:
+      | GraphQLTypes['poap_holders_aggregate_order_by']
+      | undefined;
     profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     synced_at?: GraphQLTypes['order_by'] | undefined;
     token_id?: GraphQLTypes['order_by'] | undefined;
@@ -4425,6 +5632,19 @@ export type GraphQLTypes = {
   };
   /** ordering argument of a cursor */
   ['cursor_ordering']: cursor_ordering;
+  ['date']: any;
+  /** Boolean expression to compare columns of type "date". All fields are combined with logical 'AND'. */
+  ['date_comparison_exp']: {
+    _eq?: GraphQLTypes['date'] | undefined;
+    _gt?: GraphQLTypes['date'] | undefined;
+    _gte?: GraphQLTypes['date'] | undefined;
+    _in?: Array<GraphQLTypes['date']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['date'] | undefined;
+    _lte?: GraphQLTypes['date'] | undefined;
+    _neq?: GraphQLTypes['date'] | undefined;
+    _nin?: Array<GraphQLTypes['date']> | undefined;
+  };
   /** columns and relationships of "farcaster_accounts" */
   ['farcaster_accounts']: {
     __typename: 'farcaster_accounts';
@@ -4437,6 +5657,8 @@ export type GraphQLTypes = {
     name: string;
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -4454,6 +5676,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -4468,6 +5691,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     pfp_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
@@ -4493,6 +5717,19 @@ export type GraphQLTypes = {
     profile_id?: GraphQLTypes['bigint'] | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
     username?: string | undefined;
+  };
+  ['float8']: any;
+  /** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+  ['float8_comparison_exp']: {
+    _eq?: GraphQLTypes['float8'] | undefined;
+    _gt?: GraphQLTypes['float8'] | undefined;
+    _gte?: GraphQLTypes['float8'] | undefined;
+    _in?: Array<GraphQLTypes['float8']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['float8'] | undefined;
+    _lte?: GraphQLTypes['float8'] | undefined;
+    _neq?: GraphQLTypes['float8'] | undefined;
+    _nin?: Array<GraphQLTypes['float8']> | undefined;
   };
   /** columns and relationships of "github_accounts" */
   ['github_accounts']: {
@@ -4738,8 +5975,446 @@ export type GraphQLTypes = {
   ['link_holders_variance_order_by']: {
     amount?: GraphQLTypes['order_by'] | undefined;
   };
+  /** columns and relationships of "link_tx" */
+  ['link_tx']: {
+    __typename: 'link_tx';
+    buy: boolean;
+    created_at: GraphQLTypes['timestamptz'];
+    eth_amount: string;
+    holder: GraphQLTypes['citext'];
+    /** An object relationship */
+    holder_profile?: GraphQLTypes['profiles_public'] | undefined;
+    link_amount: string;
+    protocol_fee_amount: string;
+    supply: GraphQLTypes['numeric'];
+    target: GraphQLTypes['citext'];
+    target_fee_amount: string;
+    /** An object relationship */
+    target_profile?: GraphQLTypes['profiles_public'] | undefined;
+    tx_hash: GraphQLTypes['citext'];
+  };
+  /** Boolean expression to filter rows from the table "link_tx". All fields are combined with a logical 'AND'. */
+  ['link_tx_bool_exp']: {
+    _and?: Array<GraphQLTypes['link_tx_bool_exp']> | undefined;
+    _not?: GraphQLTypes['link_tx_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['link_tx_bool_exp']> | undefined;
+    buy?: GraphQLTypes['Boolean_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    eth_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    holder?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    holder_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    link_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    supply?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    target?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    target_fee_amount?: GraphQLTypes['String_comparison_exp'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    tx_hash?: GraphQLTypes['citext_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "link_tx". */
+  ['link_tx_order_by']: {
+    buy?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    eth_amount?: GraphQLTypes['order_by'] | undefined;
+    holder?: GraphQLTypes['order_by'] | undefined;
+    holder_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    link_amount?: GraphQLTypes['order_by'] | undefined;
+    protocol_fee_amount?: GraphQLTypes['order_by'] | undefined;
+    supply?: GraphQLTypes['order_by'] | undefined;
+    target?: GraphQLTypes['order_by'] | undefined;
+    target_fee_amount?: GraphQLTypes['order_by'] | undefined;
+    target_profile?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    tx_hash?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "link_tx" */
+  ['link_tx_select_column']: link_tx_select_column;
+  /** Streaming cursor of the table "link_tx" */
+  ['link_tx_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['link_tx_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['link_tx_stream_cursor_value_input']: {
+    buy?: boolean | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    eth_amount?: string | undefined;
+    holder?: GraphQLTypes['citext'] | undefined;
+    link_amount?: string | undefined;
+    protocol_fee_amount?: string | undefined;
+    supply?: GraphQLTypes['numeric'] | undefined;
+    target?: GraphQLTypes['citext'] | undefined;
+    target_fee_amount?: string | undefined;
+    tx_hash?: GraphQLTypes['citext'] | undefined;
+  };
+  ['numeric']: any;
+  /** Boolean expression to compare columns of type "numeric". All fields are combined with logical 'AND'. */
+  ['numeric_comparison_exp']: {
+    _eq?: GraphQLTypes['numeric'] | undefined;
+    _gt?: GraphQLTypes['numeric'] | undefined;
+    _gte?: GraphQLTypes['numeric'] | undefined;
+    _in?: Array<GraphQLTypes['numeric']> | undefined;
+    _is_null?: boolean | undefined;
+    _lt?: GraphQLTypes['numeric'] | undefined;
+    _lte?: GraphQLTypes['numeric'] | undefined;
+    _neq?: GraphQLTypes['numeric'] | undefined;
+    _nin?: Array<GraphQLTypes['numeric']> | undefined;
+  };
   /** column ordering options */
   ['order_by']: order_by;
+  /** Poap event info */
+  ['poap_events']: {
+    __typename: 'poap_events';
+    city: string;
+    country: string;
+    created_at: GraphQLTypes['timestamptz'];
+    description: string;
+    end_date: GraphQLTypes['date'];
+    event_url: string;
+    expiry_date: GraphQLTypes['date'];
+    fancy_id: string;
+    id: GraphQLTypes['bigint'];
+    image_url: string;
+    name: string;
+    poap_id: number;
+    similarity?: GraphQLTypes['float8'] | undefined;
+    start_date: GraphQLTypes['date'];
+    supply: number;
+    updated_at: GraphQLTypes['timestamptz'];
+    year: number;
+  };
+  /** Boolean expression to filter rows from the table "poap_events". All fields are combined with a logical 'AND'. */
+  ['poap_events_bool_exp']: {
+    _and?: Array<GraphQLTypes['poap_events_bool_exp']> | undefined;
+    _not?: GraphQLTypes['poap_events_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['poap_events_bool_exp']> | undefined;
+    city?: GraphQLTypes['String_comparison_exp'] | undefined;
+    country?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    description?: GraphQLTypes['String_comparison_exp'] | undefined;
+    end_date?: GraphQLTypes['date_comparison_exp'] | undefined;
+    event_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    expiry_date?: GraphQLTypes['date_comparison_exp'] | undefined;
+    fancy_id?: GraphQLTypes['String_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    name?: GraphQLTypes['String_comparison_exp'] | undefined;
+    poap_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    similarity?: GraphQLTypes['float8_comparison_exp'] | undefined;
+    start_date?: GraphQLTypes['date_comparison_exp'] | undefined;
+    supply?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    year?: GraphQLTypes['Int_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "poap_events". */
+  ['poap_events_order_by']: {
+    city?: GraphQLTypes['order_by'] | undefined;
+    country?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    description?: GraphQLTypes['order_by'] | undefined;
+    end_date?: GraphQLTypes['order_by'] | undefined;
+    event_url?: GraphQLTypes['order_by'] | undefined;
+    expiry_date?: GraphQLTypes['order_by'] | undefined;
+    fancy_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    poap_id?: GraphQLTypes['order_by'] | undefined;
+    similarity?: GraphQLTypes['order_by'] | undefined;
+    start_date?: GraphQLTypes['order_by'] | undefined;
+    supply?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+    year?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "poap_events" */
+  ['poap_events_select_column']: poap_events_select_column;
+  /** Streaming cursor of the table "poap_events" */
+  ['poap_events_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['poap_events_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['poap_events_stream_cursor_value_input']: {
+    city?: string | undefined;
+    country?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    description?: string | undefined;
+    end_date?: GraphQLTypes['date'] | undefined;
+    event_url?: string | undefined;
+    expiry_date?: GraphQLTypes['date'] | undefined;
+    fancy_id?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    image_url?: string | undefined;
+    name?: string | undefined;
+    poap_id?: number | undefined;
+    similarity?: GraphQLTypes['float8'] | undefined;
+    start_date?: GraphQLTypes['date'] | undefined;
+    supply?: number | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+    year?: number | undefined;
+  };
+  /** columns and relationships of "poap_holders" */
+  ['poap_holders']: {
+    __typename: 'poap_holders';
+    address: GraphQLTypes['citext'];
+    chain: string;
+    /** An object relationship */
+    cosoul?: GraphQLTypes['cosouls'] | undefined;
+    created_at: GraphQLTypes['timestamptz'];
+    /** An object relationship */
+    event: GraphQLTypes['poap_events'];
+    event_id: GraphQLTypes['bigint'];
+    id: GraphQLTypes['bigint'];
+    poap_created: GraphQLTypes['timestamptz'];
+    token_id: GraphQLTypes['bigint'];
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** aggregated selection of "poap_holders" */
+  ['poap_holders_aggregate']: {
+    __typename: 'poap_holders_aggregate';
+    aggregate?: GraphQLTypes['poap_holders_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['poap_holders']>;
+  };
+  ['poap_holders_aggregate_bool_exp']: {
+    count?: GraphQLTypes['poap_holders_aggregate_bool_exp_count'] | undefined;
+  };
+  ['poap_holders_aggregate_bool_exp_count']: {
+    arguments?: Array<GraphQLTypes['poap_holders_select_column']> | undefined;
+    distinct?: boolean | undefined;
+    filter?: GraphQLTypes['poap_holders_bool_exp'] | undefined;
+    predicate: GraphQLTypes['Int_comparison_exp'];
+  };
+  /** aggregate fields of "poap_holders" */
+  ['poap_holders_aggregate_fields']: {
+    __typename: 'poap_holders_aggregate_fields';
+    avg?: GraphQLTypes['poap_holders_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['poap_holders_max_fields'] | undefined;
+    min?: GraphQLTypes['poap_holders_min_fields'] | undefined;
+    stddev?: GraphQLTypes['poap_holders_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['poap_holders_stddev_pop_fields'] | undefined;
+    stddev_samp?: GraphQLTypes['poap_holders_stddev_samp_fields'] | undefined;
+    sum?: GraphQLTypes['poap_holders_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['poap_holders_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['poap_holders_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['poap_holders_variance_fields'] | undefined;
+  };
+  /** order by aggregate values of table "poap_holders" */
+  ['poap_holders_aggregate_order_by']: {
+    avg?: GraphQLTypes['poap_holders_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['poap_holders_max_order_by'] | undefined;
+    min?: GraphQLTypes['poap_holders_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['poap_holders_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['poap_holders_stddev_pop_order_by'] | undefined;
+    stddev_samp?: GraphQLTypes['poap_holders_stddev_samp_order_by'] | undefined;
+    sum?: GraphQLTypes['poap_holders_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['poap_holders_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['poap_holders_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['poap_holders_variance_order_by'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['poap_holders_avg_fields']: {
+    __typename: 'poap_holders_avg_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by avg() on columns of table "poap_holders" */
+  ['poap_holders_avg_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "poap_holders". All fields are combined with a logical 'AND'. */
+  ['poap_holders_bool_exp']: {
+    _and?: Array<GraphQLTypes['poap_holders_bool_exp']> | undefined;
+    _not?: GraphQLTypes['poap_holders_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['poap_holders_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    chain?: GraphQLTypes['String_comparison_exp'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_bool_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    event?: GraphQLTypes['poap_events_bool_exp'] | undefined;
+    event_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    token_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** aggregate max on columns */
+  ['poap_holders_max_fields']: {
+    __typename: 'poap_holders_max_fields';
+    address?: GraphQLTypes['citext'] | undefined;
+    chain?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by max() on columns of table "poap_holders" */
+  ['poap_holders_max_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    poap_created?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate min on columns */
+  ['poap_holders_min_fields']: {
+    __typename: 'poap_holders_min_fields';
+    address?: GraphQLTypes['citext'] | undefined;
+    chain?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by min() on columns of table "poap_holders" */
+  ['poap_holders_min_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    poap_created?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "poap_holders". */
+  ['poap_holders_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    cosoul?: GraphQLTypes['cosouls_order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    event?: GraphQLTypes['poap_events_order_by'] | undefined;
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    poap_created?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "poap_holders" */
+  ['poap_holders_select_column']: poap_holders_select_column;
+  /** aggregate stddev on columns */
+  ['poap_holders_stddev_fields']: {
+    __typename: 'poap_holders_stddev_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev() on columns of table "poap_holders" */
+  ['poap_holders_stddev_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['poap_holders_stddev_pop_fields']: {
+    __typename: 'poap_holders_stddev_pop_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev_pop() on columns of table "poap_holders" */
+  ['poap_holders_stddev_pop_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['poap_holders_stddev_samp_fields']: {
+    __typename: 'poap_holders_stddev_samp_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by stddev_samp() on columns of table "poap_holders" */
+  ['poap_holders_stddev_samp_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "poap_holders" */
+  ['poap_holders_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['poap_holders_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['poap_holders_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    chain?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    poap_created?: GraphQLTypes['timestamptz'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** aggregate sum on columns */
+  ['poap_holders_sum_fields']: {
+    __typename: 'poap_holders_sum_fields';
+    event_id?: GraphQLTypes['bigint'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    token_id?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** order by sum() on columns of table "poap_holders" */
+  ['poap_holders_sum_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['poap_holders_var_pop_fields']: {
+    __typename: 'poap_holders_var_pop_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by var_pop() on columns of table "poap_holders" */
+  ['poap_holders_var_pop_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['poap_holders_var_samp_fields']: {
+    __typename: 'poap_holders_var_samp_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by var_samp() on columns of table "poap_holders" */
+  ['poap_holders_var_samp_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** aggregate variance on columns */
+  ['poap_holders_variance_fields']: {
+    __typename: 'poap_holders_variance_fields';
+    event_id?: number | undefined;
+    id?: number | undefined;
+    token_id?: number | undefined;
+  };
+  /** order by variance() on columns of table "poap_holders" */
+  ['poap_holders_variance_order_by']: {
+    event_id?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
   /** columns and relationships of "profile_skills" */
   ['profile_skills']: {
     __typename: 'profile_skills';
@@ -5004,6 +6679,20 @@ export type GraphQLTypes = {
     link_holders_aggregate: GraphQLTypes['link_holders_aggregate'];
     /** fetch data from the table: "link_holders" using primary key columns */
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table: "poap_events" */
+    poap_events: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_events" using primary key columns */
+    poap_events_by_pk?: GraphQLTypes['poap_events'] | undefined;
+    /** fetch data from the table: "poap_holders" */
+    poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** fetch aggregated fields from the table: "poap_holders" */
+    poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "poap_holders" using primary key columns */
+    poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
     price_per_share: number;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
@@ -5023,6 +6712,12 @@ export type GraphQLTypes = {
     twitter_accounts: Array<GraphQLTypes['twitter_accounts']>;
     /** fetch data from the table: "twitter_accounts" using primary key columns */
     twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
+    /** execute function "vector_search_poap_events" which returns "poap_events" */
+    vector_search_poap_events: Array<GraphQLTypes['poap_events']>;
+    /** execute function "vector_search_poap_holders" which returns "poap_holders" */
+    vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
+    vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
   };
   /** columns and relationships of "reputation_scores" */
   ['reputation_scores']: {
@@ -5196,6 +6891,26 @@ export type GraphQLTypes = {
     link_holders_by_pk?: GraphQLTypes['link_holders'] | undefined;
     /** fetch data from the table in a streaming manner: "link_holders" */
     link_holders_stream: Array<GraphQLTypes['link_holders']>;
+    /** fetch data from the table: "link_tx" */
+    link_tx: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "link_tx" using primary key columns */
+    link_tx_by_pk?: GraphQLTypes['link_tx'] | undefined;
+    /** fetch data from the table in a streaming manner: "link_tx" */
+    link_tx_stream: Array<GraphQLTypes['link_tx']>;
+    /** fetch data from the table: "poap_events" */
+    poap_events: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_events" using primary key columns */
+    poap_events_by_pk?: GraphQLTypes['poap_events'] | undefined;
+    /** fetch data from the table in a streaming manner: "poap_events" */
+    poap_events_stream: Array<GraphQLTypes['poap_events']>;
+    /** fetch data from the table: "poap_holders" */
+    poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** fetch aggregated fields from the table: "poap_holders" */
+    poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
+    /** fetch data from the table: "poap_holders" using primary key columns */
+    poap_holders_by_pk?: GraphQLTypes['poap_holders'] | undefined;
+    /** fetch data from the table in a streaming manner: "poap_holders" */
+    poap_holders_stream: Array<GraphQLTypes['poap_holders']>;
     /** An array relationship */
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profile_skills" using primary key columns */
@@ -5224,6 +6939,12 @@ export type GraphQLTypes = {
     twitter_accounts_by_pk?: GraphQLTypes['twitter_accounts'] | undefined;
     /** fetch data from the table in a streaming manner: "twitter_accounts" */
     twitter_accounts_stream: Array<GraphQLTypes['twitter_accounts']>;
+    /** execute function "vector_search_poap_events" which returns "poap_events" */
+    vector_search_poap_events: Array<GraphQLTypes['poap_events']>;
+    /** execute function "vector_search_poap_holders" which returns "poap_holders" */
+    vector_search_poap_holders: Array<GraphQLTypes['poap_holders']>;
+    /** execute function "vector_search_poap_holders" and query aggregates on result of table type "poap_holders" */
+    vector_search_poap_holders_aggregate: GraphQLTypes['poap_holders_aggregate'];
   };
   ['timestamp']: any;
   /** Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'. */
@@ -5287,6 +7008,17 @@ export type GraphQLTypes = {
     id?: string | undefined;
     profile_id?: number | undefined;
     username?: string | undefined;
+  };
+  ['vector']: any;
+  ['vector_search_poap_events_args']: {
+    limit_count?: number | undefined;
+    match_threshold?: GraphQLTypes['float8'] | undefined;
+    target_vector?: GraphQLTypes['vector'] | undefined;
+  };
+  ['vector_search_poap_holders_args']: {
+    limit_count?: number | undefined;
+    match_threshold?: GraphQLTypes['float8'] | undefined;
+    target_vector?: GraphQLTypes['vector'] | undefined;
   };
 };
 /** select columns of table "colinks_give_count" */
@@ -5361,6 +7093,19 @@ export const enum link_holders_select_column {
   target = 'target',
   updated_at = 'updated_at',
 }
+/** select columns of table "link_tx" */
+export const enum link_tx_select_column {
+  buy = 'buy',
+  created_at = 'created_at',
+  eth_amount = 'eth_amount',
+  holder = 'holder',
+  link_amount = 'link_amount',
+  protocol_fee_amount = 'protocol_fee_amount',
+  supply = 'supply',
+  target = 'target',
+  target_fee_amount = 'target_fee_amount',
+  tx_hash = 'tx_hash',
+}
 /** column ordering options */
 export const enum order_by {
   asc = 'asc',
@@ -5369,6 +7114,37 @@ export const enum order_by {
   desc = 'desc',
   desc_nulls_first = 'desc_nulls_first',
   desc_nulls_last = 'desc_nulls_last',
+}
+/** select columns of table "poap_events" */
+export const enum poap_events_select_column {
+  city = 'city',
+  country = 'country',
+  created_at = 'created_at',
+  description = 'description',
+  end_date = 'end_date',
+  event_url = 'event_url',
+  expiry_date = 'expiry_date',
+  fancy_id = 'fancy_id',
+  id = 'id',
+  image_url = 'image_url',
+  name = 'name',
+  poap_id = 'poap_id',
+  similarity = 'similarity',
+  start_date = 'start_date',
+  supply = 'supply',
+  updated_at = 'updated_at',
+  year = 'year',
+}
+/** select columns of table "poap_holders" */
+export const enum poap_holders_select_column {
+  address = 'address',
+  chain = 'chain',
+  created_at = 'created_at',
+  event_id = 'event_id',
+  id = 'id',
+  poap_created = 'poap_created',
+  token_id = 'token_id',
+  updated_at = 'updated_at',
 }
 /** select columns of table "profile_skills" */
 export const enum profile_skills_select_column {
