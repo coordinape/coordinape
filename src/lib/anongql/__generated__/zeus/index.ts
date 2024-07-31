@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { DebugLogger } from 'common-lib/log';
+import { DebugLogger } from '../../../../common-lib/log';
 const logger = new DebugLogger('zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
