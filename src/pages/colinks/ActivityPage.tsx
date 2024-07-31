@@ -111,7 +111,14 @@ const CoLinksActivityPageContents = ({
                 },
                 { private_stream: { _eq: true } },
                 ...(isFeatureEnabled('cast_activities')
-                  ? [{ cast_id: { _is_null: false } }]
+                  ? [
+                      {
+                        _and: [
+                          { private_stream_visibility: {} },
+                          { cast_id: { _is_null: false } },
+                        ],
+                      },
+                    ]
                   : []),
               ],
             }}

@@ -849,8 +849,8 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['GetCastsInput']: {
-    cast_ids?: Array<number> | undefined | null;
-    fid?: number | undefined | null;
+    cast_ids?: Array<ValueTypes['bigint']> | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
   };
   ['GetCastsOutput']: AliasType<{
     casts?: ValueTypes['Cast'];
@@ -22432,10 +22432,10 @@ export type ModelTypes = {
     avatar_url: string;
     created_at: string;
     embeds: Array<GraphQLTypes['CastEmbed']>;
-    fid: number;
+    fid: GraphQLTypes['bigint'];
     fname: string;
     hash: string;
-    id: number;
+    id: GraphQLTypes['bigint'];
     like_count: number;
     mentioned_addresses: Array<GraphQLTypes['CastMention']>;
     recast_count: number;
@@ -29110,10 +29110,10 @@ export type GraphQLTypes = {
     avatar_url: string;
     created_at: string;
     embeds: Array<GraphQLTypes['CastEmbed']>;
-    fid: number;
+    fid: GraphQLTypes['bigint'];
     fname: string;
     hash: string;
-    id: number;
+    id: GraphQLTypes['bigint'];
     like_count: number;
     mentioned_addresses: Array<GraphQLTypes['CastMention']>;
     recast_count: number;
@@ -29287,8 +29287,8 @@ export type GraphQLTypes = {
     hash: string;
   };
   ['GetCastsInput']: {
-    cast_ids?: Array<number> | undefined;
-    fid?: number | undefined;
+    cast_ids?: Array<GraphQLTypes['bigint']> | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
   };
   ['GetCastsOutput']: {
     __typename: 'GetCastsOutput';

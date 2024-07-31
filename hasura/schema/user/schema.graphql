@@ -90,10 +90,10 @@ type Cast {
   avatar_url: String!
   created_at: String!
   embeds: [CastEmbed!]!
-  fid: Int!
+  fid: bigint!
   fname: String!
   hash: String!
-  id: Int!
+  id: bigint!
   like_count: Int!
   mentioned_addresses: [CastMention!]!
   recast_count: Int!
@@ -315,8 +315,8 @@ type GenerateApiKeyResponse {
 }
 
 input GetCastsInput {
-  cast_ids: [Int!]
-  fid: Int
+  cast_ids: [bigint!]
+  fid: bigint
 }
 
 type GetCastsOutput {

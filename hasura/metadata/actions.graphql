@@ -643,8 +643,8 @@ input NetworkInput {
 }
 
 input GetCastsInput {
-  fid: Int
-  cast_ids: [Int!]
+  fid: bigint
+  cast_ids: [bigint!]
 }
 
 type CreateCircleResponse {
@@ -886,7 +886,7 @@ type CastEmbed {
 }
 
 type Cast {
-  id: Int!
+  id: bigint!
   text: String!
   text_with_mentions: String!
   like_count: Int!
@@ -894,7 +894,7 @@ type Cast {
   replies_count: Int!
   created_at: String!
   hash: String!
-  fid: Int!
+  fid: bigint!
   fname: String!
   avatar_url: String!
   address: String!
