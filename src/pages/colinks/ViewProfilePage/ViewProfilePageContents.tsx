@@ -49,10 +49,6 @@ export const ViewProfilePageContents = ({
     return <NotFound />;
   }
 
-  // if (!address) {
-  //   return <LoadingIndicator />;
-  // }
-
   return (
     <PageContents
       currentUserAddress={address}

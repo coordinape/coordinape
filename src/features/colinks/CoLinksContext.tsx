@@ -105,9 +105,6 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
     return <LoadingModal visible={true} />;
   }
 
-  // if (!data) {
-  //   return <Text>Loading...</Text>;
-  // }
   const coLinksReadOnly = getCoLinksContract();
   if (!coLinksReadOnly) {
     return <Text>CoLinks not available.</Text>;
