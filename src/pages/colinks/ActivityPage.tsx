@@ -110,11 +110,9 @@ const CoLinksActivityPageContents = ({
                   private_stream_visibility: {},
                 },
                 { private_stream: { _eq: true } },
-                {
-                  ...(isFeatureEnabled('cast_activities')
-                    ? { cast_id: { _is_null: false } }
-                    : {}),
-                },
+                ...(isFeatureEnabled('cast_activities')
+                  ? [{ cast_id: { _is_null: false } }]
+                  : []),
               ],
             }}
             pollForNewActivity={showLoading}

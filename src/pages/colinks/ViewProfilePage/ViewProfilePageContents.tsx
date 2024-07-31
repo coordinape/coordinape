@@ -408,11 +408,9 @@ const PageContents = ({
                       big_question_id: { _is_null: false },
                     },
                     { private_stream: { _eq: true } },
-                    {
-                      ...(isFeatureEnabled('cast_activities')
-                        ? { cast_id: { _is_null: false } }
-                        : {}),
-                    },
+                    ...(isFeatureEnabled('cast_activities')
+                      ? [{ cast_id: { _is_null: false } }]
+                      : []),
                   ],
                   actor_profile_id: { _eq: targetProfile.profile.id },
                 }}
