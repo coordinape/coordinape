@@ -135,6 +135,7 @@ export const useInfiniteActivities = (
         return lastPage.length == 0 ? undefined : allPages.length;
       },
       onSuccess: data => {
+        R;
         setLatestActivityId(data.pages[0][0]?.id || 0);
       },
 

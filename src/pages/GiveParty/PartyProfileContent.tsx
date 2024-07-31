@@ -5,7 +5,6 @@ import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
-import { CoLinksGiveButton } from '../../features/points/CoLinksGiveButton';
 import { webAppURL } from 'config/webAppURL';
 import { Farcaster, Links, Wand } from 'icons/__generated';
 import { CoSoulItemParty } from 'pages/CoSoulExplorePage/CoSoulItemParty';
@@ -119,11 +118,11 @@ export const PartyProfileContent = ({
               Cast Profile
             </Text>
           </Button>
-          <CoLinksGiveButton
-            gives={[]}
-            targetProfileId={targetProfile?.id}
-            targetAddress={address}
-          />
+          {/*<CoLinksGiveButton*/}
+          {/*  gives={[]}*/}
+          {/*  targetProfileId={targetProfile?.id}*/}
+          {/*  targetAddress={address}*/}
+          {/*/>*/}
         </Flex>
         <Flex
           column

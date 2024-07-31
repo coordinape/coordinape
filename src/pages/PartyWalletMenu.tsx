@@ -6,7 +6,7 @@ import { PointsBar } from 'features/points/PointsBar';
 import { useAccount } from 'wagmi';
 
 import useProfileId from 'hooks/useProfileId';
-import { Button, Flex, Text } from 'ui';
+import { Flex, Text } from 'ui';
 
 import { profileColumnWidth } from './GiveParty/PartyProfile';
 
@@ -42,6 +42,8 @@ export const PartyWalletMenu = () => {
   const account = useAccount();
   const walletConnected = !!account.address;
   const profileId = useProfileId(false);
+
+  return null;
 
   return (
     <Flex
