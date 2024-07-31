@@ -32,7 +32,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           const { text_with_mentions, mentioned_addresses } =
             getTextWithMentions(cast, mentionsMap);
 
-          // TODO: when we do infinite scroll it seems to loop forever somehow ?? maybe we have a bunch of dupe inserted casts
           // TODO: this needs to be cached!!!
           const embeds = await getEmbeds(cast);
 
@@ -139,10 +138,7 @@ const getMentionsMap = async (casts: Cast[]) => {
   return mentionsMap;
 };
 
-// TODO: some of these joins should be handled at insert time in the trigger
-// TODO: not sure if the text to bytea joins will work
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// TODO: Add db infra to cache the aggregate counts at insert time
 const fetchCasts = async ({
   fid,
   cast_ids,
@@ -158,7 +154,6 @@ const fetchCasts = async ({
             deleted_at: { _is_null: true },
             ...(fid ? { fid: { _eq: fid } } : {}),
             ...(cast_ids ? { id: { _in: cast_ids } } : {}),
-            // fid: fid ? { _eq: fid } : null,
             parent_hash: { _is_null: true }, // only top-level casts
             // farcaster_account: {},
           },
