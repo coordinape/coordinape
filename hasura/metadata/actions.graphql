@@ -644,7 +644,7 @@ input NetworkInput {
 
 input GetCastsInput {
   fid: bigint
-  cast_ids: [Int!]
+  cast_ids: [bigint!]
 }
 
 type CreateCircleResponse {

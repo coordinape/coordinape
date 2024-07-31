@@ -52,6 +52,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   GenerateApiKeyInput: {},
   GetCastsInput: {
+    cast_ids: 'bigint',
     fid: 'bigint',
   },
   GiveCsvInput: {},
