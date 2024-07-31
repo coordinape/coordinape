@@ -22,11 +22,31 @@ export const Mutes = ({
 }) => {
   const profileId = useProfileId(false);
 
+  if (!profileId) {
+    return null;
+  }
+
+  return (
+    <MutesImplementation
+      targetProfileId={targetProfileId}
+      targetProfileAddress={targetProfileAddress}
+    />
+  );
+};
+
+const MutesImplementation = ({
+  targetProfileId,
+  targetProfileAddress,
+}: {
+  targetProfileId: number;
+  targetProfileAddress: string;
+}) => {
+  const profileId = useProfileId(false);
+
   const queryClient = useQueryClient();
-  // assert(profileId, 'profileId required');
+  assert(profileId, 'profileId required');
 
   const fetchMutes = async () => {
-    assert(profileId, 'profileId required');
     const { mutedThem, imMuted } = await client.query(
       {
         __alias: {
@@ -66,10 +86,7 @@ export const Mutes = ({
 
   const { data: mutes, isLoading } = useQuery(
     [QUERY_KEY_MUTES, profileId, targetProfileId],
-    fetchMutes,
-    {
-      enabled: !!profileId,
-    }
+    fetchMutes
   );
 
   const { mutate: muteThem } = useMutation(
@@ -115,7 +132,6 @@ export const Mutes = ({
 
   const { mutate: unmuteThem } = useMutation(
     async () => {
-      assert(profileId, 'profileId required');
       const { delete_mutes_by_pk } = await client.mutate(
         {
           delete_mutes_by_pk: [
@@ -152,10 +168,6 @@ export const Mutes = ({
       },
     }
   );
-
-  if (!profileId) {
-    return null;
-  }
 
   if (isLoading || !mutes) {
     return <LoadingIndicator />;
