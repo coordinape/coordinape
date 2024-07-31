@@ -1195,6 +1195,11 @@ type farcaster_accounts {
   name: String!
   pfp_url: String
   profile_id: bigint!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
   updated_at: timestamptz!
   username: String!
 }
@@ -1215,6 +1220,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
+  profile_public: profiles_public_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -1232,6 +1238,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
+  profile_public: profiles_public_order_by
   updated_at: order_by
   username: order_by
 }
