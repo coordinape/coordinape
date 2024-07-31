@@ -14248,12 +14248,12 @@ type enriched_casts {
   An object relationship
   """
   fids: farcaster_fids
-  hash: String!
+  hash: bytea!
   id: bigint!
   mentions: [bigint!]!
   mentions_positions: [smallint!]!
   parent_fid: bigint
-  parent_hash: String
+  parent_hash: bytea
   parent_url: String
   profile_id: bigint
 
@@ -14381,9 +14381,10 @@ type enriched_casts {
     """
     where: farcaster_casts_bool_exp
   ): farcaster_casts_aggregate!
-  root_parent_hash: String
+  root_parent_hash: bytea
   root_parent_url: String
   text: String!
+  timestamp: timestamp!
   updated_at: timestamp!
 }
 
@@ -14442,12 +14443,12 @@ input enriched_casts_bool_exp {
   farcaster_profile: farcaster_profile_with_addresses_bool_exp
   fid: bigint_comparison_exp
   fids: farcaster_fids_bool_exp
-  hash: String_comparison_exp
+  hash: bytea_comparison_exp
   id: bigint_comparison_exp
   mentions: bigint_array_comparison_exp
   mentions_positions: smallint_array_comparison_exp
   parent_fid: bigint_comparison_exp
-  parent_hash: String_comparison_exp
+  parent_hash: bytea_comparison_exp
   parent_url: String_comparison_exp
   profile_id: bigint_comparison_exp
   profile_public: profiles_public_bool_exp
@@ -14455,9 +14456,10 @@ input enriched_casts_bool_exp {
   reactions_aggregate: farcaster_reactions_aggregate_bool_exp
   replies: farcaster_casts_bool_exp
   replies_aggregate: farcaster_casts_aggregate_bool_exp
-  root_parent_hash: String_comparison_exp
+  root_parent_hash: bytea_comparison_exp
   root_parent_url: String_comparison_exp
   text: String_comparison_exp
+  timestamp: timestamp_comparison_exp
   updated_at: timestamp_comparison_exp
 }
 
@@ -14517,20 +14519,21 @@ input enriched_casts_insert_input {
   farcaster_profile: farcaster_profile_with_addresses_obj_rel_insert_input
   fid: bigint
   fids: farcaster_fids_obj_rel_insert_input
-  hash: String
+  hash: bytea
   id: bigint
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
-  parent_hash: String
+  parent_hash: bytea
   parent_url: String
   profile_id: bigint
   profile_public: profiles_public_obj_rel_insert_input
   reactions: farcaster_reactions_arr_rel_insert_input
   replies: farcaster_casts_arr_rel_insert_input
-  root_parent_hash: String
+  root_parent_hash: bytea
   root_parent_url: String
   text: String
+  timestamp: timestamp
   updated_at: timestamp
 }
 
@@ -14541,17 +14544,15 @@ type enriched_casts_max_fields {
   created_at: timestamp
   deleted_at: timestamp
   fid: bigint
-  hash: String
   id: bigint
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
-  parent_hash: String
   parent_url: String
   profile_id: bigint
-  root_parent_hash: String
   root_parent_url: String
   text: String
+  timestamp: timestamp
   updated_at: timestamp
 }
 
@@ -14562,17 +14563,15 @@ type enriched_casts_min_fields {
   created_at: timestamp
   deleted_at: timestamp
   fid: bigint
-  hash: String
   id: bigint
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
-  parent_hash: String
   parent_url: String
   profile_id: bigint
-  root_parent_hash: String
   root_parent_url: String
   text: String
+  timestamp: timestamp
   updated_at: timestamp
 }
 
@@ -14636,6 +14635,7 @@ input enriched_casts_order_by {
   root_parent_hash: order_by
   root_parent_url: order_by
   text: order_by
+  timestamp: order_by
   updated_at: order_by
 }
 
@@ -14735,6 +14735,11 @@ enum enriched_casts_select_column {
   """
   column name
   """
+  timestamp
+
+  """
+  column name
+  """
   updated_at
 }
 
@@ -14746,17 +14751,18 @@ input enriched_casts_set_input {
   deleted_at: timestamp
   embeds: jsonb
   fid: bigint
-  hash: String
+  hash: bytea
   id: bigint
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
-  parent_hash: String
+  parent_hash: bytea
   parent_url: String
   profile_id: bigint
-  root_parent_hash: String
+  root_parent_hash: bytea
   root_parent_url: String
   text: String
+  timestamp: timestamp
   updated_at: timestamp
 }
 
@@ -14813,17 +14819,18 @@ input enriched_casts_stream_cursor_value_input {
   deleted_at: timestamp
   embeds: jsonb
   fid: bigint
-  hash: String
+  hash: bytea
   id: bigint
   mentions: [bigint!]
   mentions_positions: [smallint!]
   parent_fid: bigint
-  parent_hash: String
+  parent_hash: bytea
   parent_url: String
   profile_id: bigint
-  root_parent_hash: String
+  root_parent_hash: bytea
   root_parent_url: String
   text: String
+  timestamp: timestamp
   updated_at: timestamp
 }
 
@@ -14915,6 +14922,11 @@ enum enriched_casts_update_column {
   column name
   """
   text
+
+  """
+  column name
+  """
+  timestamp
 
   """
   column name
@@ -16870,7 +16882,7 @@ type farcaster_accounts {
   """
   An object relationship
   """
-  profile_public: profiles_public
+  profile_public: profiles!
   updated_at: timestamptz!
   username: String!
 }
@@ -16926,7 +16938,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
-  profile_public: profiles_public_bool_exp
+  profile_public: profiles_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -16969,7 +16981,7 @@ input farcaster_accounts_insert_input {
   name: String
   pfp_url: String
   profile_id: bigint
-  profile_public: profiles_public_obj_rel_insert_input
+  profile_public: profiles_obj_rel_insert_input
   updated_at: timestamptz
   username: String
 }
@@ -17057,7 +17069,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
-  profile_public: profiles_public_order_by
+  profile_public: profiles_order_by
   updated_at: order_by
   username: order_by
 }
