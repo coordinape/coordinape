@@ -15,6 +15,7 @@ export const LightboxImage = ({ src, alt }: { src: string; alt: string }) => {
           position: 'relative',
           overflow: 'hidden',
           backgroundImage: `url('${src}')`,
+          cursor: 'pointer',
         }}
       >
         <Image src={src} alt={alt} />

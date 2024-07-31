@@ -7,6 +7,7 @@ import { coLinksPaths } from '../../../routes/paths';
 import { Avatar, Flex, Link, Text } from '../../../ui';
 import { Cast } from '../../activities/cast';
 import { Activity } from '../../activities/useInfiniteActivities';
+import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 const warpcastUrl = (cast: Cast) => {
   return `https://warpcast.com/${cast.fname}/0${cast.hash.slice(1, 9)}`;
@@ -15,28 +16,49 @@ const warpcastUrl = (cast: Cast) => {
 export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
   return (
     <Flex
+      column
       css={{
-        gap: '$md',
         background: '$surface',
-        p: '$md',
-        m: '$sm',
         borderRadius: '$2',
+        overflow: 'clip',
       }}
       key={cast.hash}
     >
-      <Flex column css={{ gap: '$md', width: '100%' }}>
-        <Flex css={{ gap: '$sm' }}>
-          <Farcaster fa />
-          <Text size={'xs'} bold>
-            From Farcaster
-          </Text>
-        </Flex>
+      <Flex
+        css={{
+          justifyContent: 'space-between',
+          background: '$surfaceDim',
+          p: '$sm $md',
+        }}
+      >
         <AvatarAndName cast={cast} />
+        <Flex css={{ gap: '$sm', alignItems: 'center' }}>
+          <Farcaster fa />
+        </Flex>
+      </Flex>
+      <Flex
+        column
+        css={{
+          gap: '$md',
+          width: '100%',
+          p: '$md',
+        }}
+      >
         <Flex column>
           <Text
             inline
             key={cast.hash}
-            css={{ whiteSpace: 'pre-wrap', pl: '40px' }}
+            css={{
+              whiteSpace: 'pre-wrap',
+              a: {
+                color: '$link',
+                textDecoration: 'none',
+                '&:hover, &:focus': {
+                  textDecoration: 'underline',
+                  color: '$linkHover',
+                },
+              },
+            }}
           >
             <Linkify
               options={{
@@ -62,24 +84,20 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
             </Linkify>
           </Text>
         </Flex>
-        <Flex>
+        <Flex column>
           {/*images*/}
           {cast.embeds
             .filter(emb => emb.type === 'image')
             .map(embed => (
-              <Link
+              <LightboxImage
                 key={embed.url}
-                target="_blank"
-                rel="noreferrer"
-                href={embed.url}
-                css={{ color: '$neutral', pl: '$sm' }}
-              >
-                <img alt="embedded url" src={embed.url} />
-              </Link>
+                alt={embed.url || ''}
+                src={embed.url || ''}
+              />
             ))}
           {/*everything else*/}
           {/*TODO: this doesnt handle embedded casts, it assumes url*/}
-          {cast.embeds
+          {/* {cast.embeds
             .filter(emb => emb.type !== 'image')
             .map(embed => (
               <Link
@@ -87,11 +105,11 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
                 target="_blank"
                 rel="noreferrer"
                 href={embed.url}
-                css={{ color: '$neutral', pl: '$sm' }}
+                css={{ color: '$neutral' }}
               >
                 <Text>{embed.url}</Text>
               </Link>
-            ))}
+            ))} */}
         </Flex>
         <Flex
           css={{
@@ -99,6 +117,12 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
           }}
         >
           <Flex css={{ gap: '$sm' }}>
+            <Flex css={{ gap: '$sm', alignItems: 'center' }}>
+              <Text tag color="farcaster" size={'xs'} bold>
+                Farcaster
+                <Farcaster fa />
+              </Text>
+            </Flex>
             <Text size="small" css={{ color: '$neutral' }}>
               {cast.like_count} likes
             </Text>
