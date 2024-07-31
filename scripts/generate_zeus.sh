@@ -40,7 +40,7 @@ const logger = new DebugLogger('zeus')\\
 " "$TMP_GEN_PATH"/zeus/index.ts
     else
       sed -E -i "" "2i\\
-import {DebugLogger} from \'common-lib/log\';\\
+import {DebugLogger} from \'../../../../common-lib/log\';\\
 const logger = new DebugLogger('zeus')\\
 " "$TMP_GEN_PATH"/zeus/index.ts
     fi

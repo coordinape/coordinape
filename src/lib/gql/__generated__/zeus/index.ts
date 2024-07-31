@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { DebugLogger } from 'common-lib/log';
+import { DebugLogger } from '../../../../common-lib/log';
 const logger = new DebugLogger('zeus');
 
 import { AllTypesProps, ReturnTypes, Ops } from './const';
@@ -649,15 +649,22 @@ export type ValueTypes = {
     address?: boolean | `@${string}`;
     avatar_url?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
+    embeds?: ValueTypes['CastEmbed'];
     fid?: boolean | `@${string}`;
     fname?: boolean | `@${string}`;
     hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
     like_count?: boolean | `@${string}`;
     mentioned_addresses?: ValueTypes['CastMention'];
     recast_count?: boolean | `@${string}`;
     replies_count?: boolean | `@${string}`;
     text?: boolean | `@${string}`;
     text_with_mentions?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  ['CastEmbed']: AliasType<{
+    type?: boolean | `@${string}`;
+    url?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
   ['CastMention']: AliasType<{
@@ -842,6 +849,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['GetCastsInput']: {
+    cast_ids?: Array<number> | undefined | null;
     fid?: number | undefined | null;
   };
   ['GetCastsOutput']: AliasType<{
@@ -1191,6 +1199,7 @@ export type ValueTypes = {
     /** An object relationship */
     big_question?: ValueTypes['big_questions'];
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     /** An object relationship */
     circle?: ValueTypes['circles'];
     circle_id?: boolean | `@${string}`;
@@ -1471,6 +1480,7 @@ export type ValueTypes = {
   ['activities_avg_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1485,6 +1495,7 @@ export type ValueTypes = {
   ['activities_avg_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1508,6 +1519,7 @@ export type ValueTypes = {
       | null;
     big_question?: ValueTypes['big_questions_bool_exp'] | undefined | null;
     big_question_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    cast_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     circle?: ValueTypes['circles_bool_exp'] | undefined | null;
     circle_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
@@ -1554,6 +1566,7 @@ export type ValueTypes = {
     action?: boolean | `@${string}`;
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -1571,6 +1584,7 @@ export type ValueTypes = {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -1587,6 +1601,7 @@ export type ValueTypes = {
     action?: boolean | `@${string}`;
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
@@ -1604,6 +1619,7 @@ export type ValueTypes = {
     action?: ValueTypes['order_by'] | undefined | null;
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
@@ -1626,6 +1642,7 @@ export type ValueTypes = {
       | null;
     big_question?: ValueTypes['big_questions_order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle?: ValueTypes['circles_order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution?: ValueTypes['contributions_order_by'] | undefined | null;
@@ -1674,6 +1691,7 @@ export type ValueTypes = {
   ['activities_stddev_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1688,6 +1706,7 @@ export type ValueTypes = {
   ['activities_stddev_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1701,6 +1720,7 @@ export type ValueTypes = {
   ['activities_stddev_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1715,6 +1735,7 @@ export type ValueTypes = {
   ['activities_stddev_pop_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1728,6 +1749,7 @@ export type ValueTypes = {
   ['activities_stddev_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1742,6 +1764,7 @@ export type ValueTypes = {
   ['activities_stddev_samp_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1763,6 +1786,7 @@ export type ValueTypes = {
     action?: string | undefined | null;
     actor_profile_id?: ValueTypes['bigint'] | undefined | null;
     big_question_id?: ValueTypes['bigint'] | undefined | null;
+    cast_id?: ValueTypes['bigint'] | undefined | null;
     circle_id?: ValueTypes['bigint'] | undefined | null;
     contribution_id?: ValueTypes['bigint'] | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -1779,6 +1803,7 @@ export type ValueTypes = {
   ['activities_sum_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1793,6 +1818,7 @@ export type ValueTypes = {
   ['activities_sum_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1806,6 +1832,7 @@ export type ValueTypes = {
   ['activities_var_pop_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1820,6 +1847,7 @@ export type ValueTypes = {
   ['activities_var_pop_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1833,6 +1861,7 @@ export type ValueTypes = {
   ['activities_var_samp_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1847,6 +1876,7 @@ export type ValueTypes = {
   ['activities_var_samp_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -1860,6 +1890,7 @@ export type ValueTypes = {
   ['activities_variance_fields']: AliasType<{
     actor_profile_id?: boolean | `@${string}`;
     big_question_id?: boolean | `@${string}`;
+    cast_id?: boolean | `@${string}`;
     circle_id?: boolean | `@${string}`;
     contribution_id?: boolean | `@${string}`;
     epoch_id?: boolean | `@${string}`;
@@ -1874,6 +1905,7 @@ export type ValueTypes = {
   ['activities_variance_order_by']: {
     actor_profile_id?: ValueTypes['order_by'] | undefined | null;
     big_question_id?: ValueTypes['order_by'] | undefined | null;
+    cast_id?: ValueTypes['order_by'] | undefined | null;
     circle_id?: ValueTypes['order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
@@ -6302,7 +6334,7 @@ export type ValueTypes = {
     pfp_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     /** An object relationship */
-    profile_public?: ValueTypes['profiles_public'];
+    profile_public?: ValueTypes['profiles'];
     updated_at?: boolean | `@${string}`;
     username?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
@@ -6321,7 +6353,7 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     pfp_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
-    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_bool_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     username?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
@@ -6344,7 +6376,7 @@ export type ValueTypes = {
     name?: ValueTypes['order_by'] | undefined | null;
     pfp_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
-    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
     username?: ValueTypes['order_by'] | undefined | null;
   };
@@ -22399,15 +22431,21 @@ export type ModelTypes = {
     address: string;
     avatar_url: string;
     created_at: string;
+    embeds: Array<GraphQLTypes['CastEmbed']>;
     fid: number;
     fname: string;
     hash: string;
+    id: number;
     like_count: number;
     mentioned_addresses: Array<GraphQLTypes['CastMention']>;
     recast_count: number;
     replies_count: number;
     text: string;
     text_with_mentions: string;
+  };
+  ['CastEmbed']: {
+    type: string;
+    url: string;
   };
   ['CastMention']: {
     address: string;
@@ -22639,6 +22677,7 @@ export type ModelTypes = {
     /** An object relationship */
     big_question?: GraphQLTypes['big_questions'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -22708,6 +22747,7 @@ export type ModelTypes = {
   ['activities_avg_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22726,6 +22766,7 @@ export type ModelTypes = {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -22744,6 +22785,7 @@ export type ModelTypes = {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -22769,6 +22811,7 @@ export type ModelTypes = {
   ['activities_stddev_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22784,6 +22827,7 @@ export type ModelTypes = {
   ['activities_stddev_pop_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22799,6 +22843,7 @@ export type ModelTypes = {
   ['activities_stddev_samp_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22818,6 +22863,7 @@ export type ModelTypes = {
   ['activities_sum_fields']: {
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
@@ -22833,6 +22879,7 @@ export type ModelTypes = {
   ['activities_var_pop_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22848,6 +22895,7 @@ export type ModelTypes = {
   ['activities_var_samp_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -22863,6 +22911,7 @@ export type ModelTypes = {
   ['activities_variance_fields']: {
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -24282,7 +24331,7 @@ export type ModelTypes = {
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -29060,15 +29109,22 @@ export type GraphQLTypes = {
     address: string;
     avatar_url: string;
     created_at: string;
+    embeds: Array<GraphQLTypes['CastEmbed']>;
     fid: number;
     fname: string;
     hash: string;
+    id: number;
     like_count: number;
     mentioned_addresses: Array<GraphQLTypes['CastMention']>;
     recast_count: number;
     replies_count: number;
     text: string;
     text_with_mentions: string;
+  };
+  ['CastEmbed']: {
+    __typename: 'CastEmbed';
+    type: string;
+    url: string;
   };
   ['CastMention']: {
     __typename: 'CastMention';
@@ -29231,6 +29287,7 @@ export type GraphQLTypes = {
     hash: string;
   };
   ['GetCastsInput']: {
+    cast_ids?: Array<number> | undefined;
     fid?: number | undefined;
   };
   ['GetCastsOutput']: {
@@ -29581,6 +29638,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     big_question?: GraphQLTypes['big_questions'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     /** An object relationship */
     circle?: GraphQLTypes['circles'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
@@ -29686,6 +29744,7 @@ export type GraphQLTypes = {
     __typename: 'activities_avg_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -29699,6 +29758,7 @@ export type GraphQLTypes = {
   ['activities_avg_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -29719,6 +29779,7 @@ export type GraphQLTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     big_question?: GraphQLTypes['big_questions_bool_exp'] | undefined;
     big_question_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    cast_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     circle?: GraphQLTypes['circles_bool_exp'] | undefined;
     circle_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
@@ -29759,6 +29820,7 @@ export type GraphQLTypes = {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -29775,6 +29837,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -29792,6 +29855,7 @@ export type GraphQLTypes = {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -29808,6 +29872,7 @@ export type GraphQLTypes = {
     action?: GraphQLTypes['order_by'] | undefined;
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
@@ -29827,6 +29892,7 @@ export type GraphQLTypes = {
     actor_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     big_question?: GraphQLTypes['big_questions_order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle?: GraphQLTypes['circles_order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution?: GraphQLTypes['contributions_order_by'] | undefined;
@@ -29869,6 +29935,7 @@ export type GraphQLTypes = {
     __typename: 'activities_stddev_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -29882,6 +29949,7 @@ export type GraphQLTypes = {
   ['activities_stddev_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -29896,6 +29964,7 @@ export type GraphQLTypes = {
     __typename: 'activities_stddev_pop_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -29909,6 +29978,7 @@ export type GraphQLTypes = {
   ['activities_stddev_pop_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -29923,6 +29993,7 @@ export type GraphQLTypes = {
     __typename: 'activities_stddev_samp_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -29936,6 +30007,7 @@ export type GraphQLTypes = {
   ['activities_stddev_samp_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -29957,6 +30029,7 @@ export type GraphQLTypes = {
     action?: string | undefined;
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -29974,6 +30047,7 @@ export type GraphQLTypes = {
     __typename: 'activities_sum_fields';
     actor_profile_id?: GraphQLTypes['bigint'] | undefined;
     big_question_id?: GraphQLTypes['bigint'] | undefined;
+    cast_id?: GraphQLTypes['bigint'] | undefined;
     circle_id?: GraphQLTypes['bigint'] | undefined;
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
@@ -29987,6 +30061,7 @@ export type GraphQLTypes = {
   ['activities_sum_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -30001,6 +30076,7 @@ export type GraphQLTypes = {
     __typename: 'activities_var_pop_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -30014,6 +30090,7 @@ export type GraphQLTypes = {
   ['activities_var_pop_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -30028,6 +30105,7 @@ export type GraphQLTypes = {
     __typename: 'activities_var_samp_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -30041,6 +30119,7 @@ export type GraphQLTypes = {
   ['activities_var_samp_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -30055,6 +30134,7 @@ export type GraphQLTypes = {
     __typename: 'activities_variance_fields';
     actor_profile_id?: number | undefined;
     big_question_id?: number | undefined;
+    cast_id?: number | undefined;
     circle_id?: number | undefined;
     contribution_id?: number | undefined;
     epoch_id?: number | undefined;
@@ -30068,6 +30148,7 @@ export type GraphQLTypes = {
   ['activities_variance_order_by']: {
     actor_profile_id?: GraphQLTypes['order_by'] | undefined;
     big_question_id?: GraphQLTypes['order_by'] | undefined;
+    cast_id?: GraphQLTypes['order_by'] | undefined;
     circle_id?: GraphQLTypes['order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
@@ -33530,7 +33611,7 @@ export type GraphQLTypes = {
     pfp_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     /** An object relationship */
-    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    profile_public: GraphQLTypes['profiles'];
     updated_at: GraphQLTypes['timestamptz'];
     username: string;
   };
@@ -33548,7 +33629,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     pfp_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
-    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_bool_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     username?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
@@ -33571,7 +33652,7 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['order_by'] | undefined;
     pfp_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
-    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
     username?: GraphQLTypes['order_by'] | undefined;
   };
@@ -42613,6 +42694,7 @@ export const enum activities_select_column {
   action = 'action',
   actor_profile_id = 'actor_profile_id',
   big_question_id = 'big_question_id',
+  cast_id = 'cast_id',
   circle_id = 'circle_id',
   contribution_id = 'contribution_id',
   created_at = 'created_at',

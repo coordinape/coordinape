@@ -4,13 +4,7 @@ table:
 object_relationships:
   - name: profile_public
     using:
-      manual_configuration:
-        column_mapping:
-          profile_id: id
-        insertion_order: null
-        remote_table:
-          name: profiles_public
-          schema: public
+      foreign_key_constraint_on: profile_id
 select_permissions:
   - role: anon
     permission:

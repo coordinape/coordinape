@@ -6,12 +6,17 @@ import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient.ts';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
+import {
+  checkURLType,
+  URLType,
+} from '../../../../src/features/farcaster/checkURLType.ts';
 
 const LIMIT = 10;
 
 const getCastsSchema = z.object({
   // TODO: paging
   fid: z.number().optional(),
+  cast_ids: z.array(z.number()).optional(),
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -20,32 +25,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
     const casts = await fetchCasts(payload);
     const mentionsMap = await getMentionsMap(casts);
-    const enrichedCasts = casts
-      .filter(c => c.farcaster_profile)
-      .map(cast => {
-        const { text_with_mentions, mentioned_addresses } = getTextWithMentions(
-          cast,
-          mentionsMap
-        );
-        return {
-          text_with_mentions,
-          like_count: cast.like_count?.aggregate?.count ?? 0,
-          recast_count: cast.recast_count?.aggregate?.count ?? 0,
-          replies_count: cast.replies_count?.aggregate?.count ?? 0,
-          created_at: cast.created_at,
-          hash: new String(cast.hash).replaceAll('\\', '0'),
-          fid: cast.fid,
-          text: cast.text,
-          avatar_url: cast.farcaster_profile?.avatar_url,
-          fname: cast.farcaster_profile?.fname,
-          address: new String(
-            cast.farcaster_profile?.verified_addresses?.[0] ??
-              cast.fids?.custody_address
-          ).replaceAll('\\', '0'),
+    const enrichedCasts = await Promise.all(
+      casts
+        .filter(c => c.farcaster_profile)
+        .map(async cast => {
+          const { text_with_mentions, mentioned_addresses } =
+            getTextWithMentions(cast, mentionsMap);
 
-          mentioned_addresses,
-        };
-      });
+          // TODO: this needs to be cached!!!
+          const embeds = await getEmbeds(cast);
+
+          return {
+            text_with_mentions,
+            id: cast.id,
+            embeds,
+            like_count: cast.like_count?.aggregate?.count ?? 0,
+            recast_count: cast.recast_count?.aggregate?.count ?? 0,
+            replies_count: cast.replies_count?.aggregate?.count ?? 0,
+            created_at: cast.created_at,
+            hash: new String(cast.hash).replaceAll('\\', '0'),
+            fid: cast.fid,
+            text: cast.text,
+            avatar_url: cast.farcaster_profile?.avatar_url,
+            fname: cast.farcaster_profile?.fname,
+            address: new String(
+              cast.farcaster_profile?.verified_addresses?.[0] ??
+                cast.fids?.custody_address
+            ).replaceAll('\\', '0'),
+
+            mentioned_addresses,
+          };
+        })
+    );
     return res.status(200).json({ casts: enrichedCasts });
   } catch (e) {
     console.error(e);
@@ -127,29 +138,35 @@ const getMentionsMap = async (casts: Cast[]) => {
   return mentionsMap;
 };
 
-// TODO: paging
-// TODO: fid handling
-// @ts-ignore
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const fetchCasts = async ({ fid }: { fid?: number }) => {
-  const { farcaster_casts } = await adminClient.query(
+// TODO: Add db infra to cache the aggregate counts at insert time
+const fetchCasts = async ({
+  fid,
+  cast_ids,
+}: {
+  fid?: number;
+  cast_ids?: number[];
+}) => {
+  const { enriched_casts } = await adminClient.query(
     {
-      farcaster_casts: [
+      enriched_casts: [
         {
           where: {
             deleted_at: { _is_null: true },
-            // fid: fid ? { _eq: fid } : null,
+            ...(fid ? { fid: { _eq: fid } } : {}),
+            ...(cast_ids ? { id: { _in: cast_ids } } : {}),
             parent_hash: { _is_null: true }, // only top-level casts
-            farcaster_account: {},
+            // farcaster_account: {},
           },
           order_by: [{ created_at: order_by.desc }],
           limit: LIMIT,
         },
         {
+          id: true,
           created_at: true,
           text: true,
           hash: true,
           fid: true,
+          embeds: [{}, true],
           mentions: true,
           mentions_positions: true,
           fids: {
@@ -202,5 +219,21 @@ const fetchCasts = async ({ fid }: { fid?: number }) => {
     }
   );
 
-  return farcaster_casts;
+  return enriched_casts;
+};
+
+type CastEmbed = {
+  type: URLType;
+  url: string;
+};
+
+const getEmbeds = (cast: Cast): Promise<CastEmbed[]> => {
+  return Promise.all(
+    cast.embeds
+      .filter((emb: any) => emb.url)
+      .map(async (emb: any) => {
+        const type = await checkURLType(emb.url);
+        return { type, url: emb.url };
+      })
+  );
 };

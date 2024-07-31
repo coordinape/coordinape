@@ -89,15 +89,22 @@ type Cast {
   address: String!
   avatar_url: String!
   created_at: String!
+  embeds: [CastEmbed!]!
   fid: Int!
   fname: String!
   hash: String!
+  id: Int!
   like_count: Int!
   mentioned_addresses: [CastMention!]!
   recast_count: Int!
   replies_count: Int!
   text: String!
   text_with_mentions: String!
+}
+
+type CastEmbed {
+  type: String!
+  url: String!
 }
 
 type CastMention {
@@ -308,6 +315,7 @@ type GenerateApiKeyResponse {
 }
 
 input GetCastsInput {
+  cast_ids: [Int!]
   fid: Int
 }
 
@@ -732,6 +740,7 @@ type activities {
   """
   big_question: big_questions
   big_question_id: bigint
+  cast_id: bigint
 
   """
   An object relationship
@@ -1065,6 +1074,7 @@ aggregate avg on columns
 type activities_avg_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1081,6 +1091,7 @@ order by avg() on columns of table "activities"
 input activities_avg_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1104,6 +1115,7 @@ input activities_bool_exp {
   actor_profile_public: profiles_public_bool_exp
   big_question: big_questions_bool_exp
   big_question_id: bigint_comparison_exp
+  cast_id: bigint_comparison_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   contribution: contributions_bool_exp
@@ -1138,6 +1150,7 @@ type activities_max_fields {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1157,6 +1170,7 @@ input activities_max_order_by {
   action: order_by
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1176,6 +1190,7 @@ type activities_min_fields {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1195,6 +1210,7 @@ input activities_min_order_by {
   action: order_by
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1217,6 +1233,7 @@ input activities_order_by {
   actor_profile_public: profiles_public_order_by
   big_question: big_questions_order_by
   big_question_id: order_by
+  cast_id: order_by
   circle: circles_order_by
   circle_id: order_by
   contribution: contributions_order_by
@@ -1259,6 +1276,11 @@ enum activities_select_column {
   column name
   """
   big_question_id
+
+  """
+  column name
+  """
+  cast_id
 
   """
   column name
@@ -1342,6 +1364,7 @@ aggregate stddev on columns
 type activities_stddev_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1358,6 +1381,7 @@ order by stddev() on columns of table "activities"
 input activities_stddev_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1374,6 +1398,7 @@ aggregate stddev_pop on columns
 type activities_stddev_pop_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1390,6 +1415,7 @@ order by stddev_pop() on columns of table "activities"
 input activities_stddev_pop_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1406,6 +1432,7 @@ aggregate stddev_samp on columns
 type activities_stddev_samp_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1422,6 +1449,7 @@ order by stddev_samp() on columns of table "activities"
 input activities_stddev_samp_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1454,6 +1482,7 @@ input activities_stream_cursor_value_input {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1473,6 +1502,7 @@ aggregate sum on columns
 type activities_sum_fields {
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   epoch_id: bigint
@@ -1489,6 +1519,7 @@ order by sum() on columns of table "activities"
 input activities_sum_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1505,6 +1536,7 @@ aggregate var_pop on columns
 type activities_var_pop_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1521,6 +1553,7 @@ order by var_pop() on columns of table "activities"
 input activities_var_pop_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1537,6 +1570,7 @@ aggregate var_samp on columns
 type activities_var_samp_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1553,6 +1587,7 @@ order by var_samp() on columns of table "activities"
 input activities_var_samp_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1569,6 +1604,7 @@ aggregate variance on columns
 type activities_variance_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1585,6 +1621,7 @@ order by variance() on columns of table "activities"
 input activities_variance_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -8097,7 +8134,7 @@ type farcaster_accounts {
   """
   An object relationship
   """
-  profile_public: profiles_public
+  profile_public: profiles!
   updated_at: timestamptz!
   username: String!
 }
@@ -8118,7 +8155,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
-  profile_public: profiles_public_bool_exp
+  profile_public: profiles_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -8151,7 +8188,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
-  profile_public: profiles_public_order_by
+  profile_public: profiles_order_by
   updated_at: order_by
   username: order_by
 }

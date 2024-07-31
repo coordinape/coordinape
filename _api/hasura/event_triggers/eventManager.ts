@@ -51,6 +51,7 @@ const HANDLERS: HandlerDict = {
   activityUserInsert: activityHandler,
   activityEpochInsert: activityHandler,
   activityContributionInsert: activityHandler,
+  activityEnrichedCastInsert: activityHandler,
   connectFarcaster,
   createReplyInteractionEvent,
   checkNomineeDiscord,

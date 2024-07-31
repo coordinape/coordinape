@@ -111,3 +111,16 @@ export const fetchFollowers = async (fid: number, next?: NextCursor) => {
     throw err;
   }
 };
+
+export const fetchCastByHashOrWarpcastUrl = async (hash_or_url: string) => {
+  try {
+    const response = await client.lookUpCastByHashOrWarpcastUrl(
+      hash_or_url,
+      hash_or_url.startsWith('http') ? 'url' : 'hash'
+    );
+    return response.cast;
+  } catch (err) {
+    console.error('Got an error from Neynar attempting fetchCast', err);
+    throw err;
+  }
+};

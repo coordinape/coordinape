@@ -10,6 +10,8 @@ import {
 import { client } from '../../lib/gql/client';
 import { Awaited } from '../../types/shim';
 
+import { fetchCasts } from './cast';
+
 const PAGE_SIZE = 10;
 
 export type Where = ValueTypes['activities_bool_exp'];
@@ -19,6 +21,7 @@ export const activitySelector = Selector('activities')({
   action: true,
   created_at: true,
   private_stream: true,
+  cast_id: true,
   gives: [
     {
       order_by: [
@@ -117,7 +120,23 @@ const getActivities = async (where: Where, page: number) => {
     }
   );
 
-  return activities;
+  // enrich these activities if they have casts
+  const cast_ids = activities.filter(a => a.cast_id).map(a => a.cast_id);
+
+  const casts = await fetchCasts(cast_ids);
+
+  type enrichedActivity = (typeof activities)[number] & {
+    cast?: (typeof casts)[number];
+  };
+
+  const enriched: enrichedActivity[] = activities.map(a => {
+    if (a.cast_id) {
+      return { ...a, cast: casts.find(c => c.id == a.cast_id) };
+    }
+    return a;
+  });
+
+  return enriched;
 };
 
 export const useInfiniteActivities = (
@@ -156,11 +175,24 @@ export type Contribution = Activity &
     >;
   };
 
+export type CastActivity = Activity &
+  Required<Pick<Activity, 'cast' | 'actor_profile_public'>> & {
+    actor_profile_public: Required<
+      NonNullable<Activity['actor_profile_public']>
+    >;
+  };
+
 export function IsContribution(a: Activity): a is Contribution {
   return (
     a.action == 'contributions_insert' &&
     !!a.contribution &&
     !!a.actor_profile_public
+  );
+}
+
+export function IsCast(a: Activity): a is CastActivity {
+  return (
+    a.action == 'enriched_casts_insert' && !!a.cast && !!a.actor_profile_public
   );
 }
 

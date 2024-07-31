@@ -7,6 +7,7 @@ import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
+import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { PostForm } from '../../features/colinks/PostForm';
@@ -109,6 +110,9 @@ const CoLinksActivityPageContents = ({
                   private_stream_visibility: {},
                 },
                 { private_stream: { _eq: true } },
+                ...(isFeatureEnabled('cast_activities')
+                  ? [{ cast_id: { _is_null: false } }]
+                  : []),
               ],
             }}
             pollForNewActivity={showLoading}

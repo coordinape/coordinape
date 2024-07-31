@@ -8,6 +8,7 @@ import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
+import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
@@ -407,6 +408,9 @@ const PageContents = ({
                       big_question_id: { _is_null: false },
                     },
                     { private_stream: { _eq: true } },
+                    ...(isFeatureEnabled('cast_activities')
+                      ? [{ cast_id: { _is_null: false } }]
+                      : []),
                   ],
                   actor_profile_id: { _eq: targetProfile.profile.id },
                 }}

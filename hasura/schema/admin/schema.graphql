@@ -95,15 +95,22 @@ type Cast {
   address: String!
   avatar_url: String!
   created_at: String!
+  embeds: [CastEmbed!]!
   fid: Int!
   fname: String!
   hash: String!
+  id: Int!
   like_count: Int!
   mentioned_addresses: [CastMention!]!
   recast_count: Int!
   replies_count: Int!
   text: String!
   text_with_mentions: String!
+}
+
+type CastEmbed {
+  type: String!
+  url: String!
 }
 
 type CastMention {
@@ -348,6 +355,7 @@ type GenerateApiKeyResponse {
 }
 
 input GetCastsInput {
+  cast_ids: [Int!]
   fid: Int
 }
 
@@ -782,6 +790,7 @@ type activities {
   """
   big_question: big_questions
   big_question_id: bigint
+  cast_id: bigint
 
   """
   An object relationship
@@ -795,6 +804,11 @@ type activities {
   contribution: contributions
   contribution_id: bigint
   created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  enriched_cast: enriched_casts
 
   """
   An object relationship
@@ -1158,6 +1172,7 @@ aggregate avg on columns
 type activities_avg_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1175,6 +1190,7 @@ order by avg() on columns of table "activities"
 input activities_avg_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1199,11 +1215,13 @@ input activities_bool_exp {
   actor_profile_public: profiles_public_bool_exp
   big_question: big_questions_bool_exp
   big_question_id: bigint_comparison_exp
+  cast_id: bigint_comparison_exp
   circle: circles_bool_exp
   circle_id: bigint_comparison_exp
   contribution: contributions_bool_exp
   contribution_id: bigint_comparison_exp
   created_at: timestamptz_comparison_exp
+  enriched_cast: enriched_casts_bool_exp
   epoch: epochs_bool_exp
   epoch_id: bigint_comparison_exp
   gives: colinks_gives_bool_exp
@@ -1233,6 +1251,11 @@ unique or primary key constraints on table "activities"
 """
 enum activities_constraint {
   """
+  unique or primary key constraint on columns "cast_id"
+  """
+  activities_cast_id_key
+
+  """
   unique or primary key constraint on columns "id"
   """
   activities_pkey
@@ -1244,6 +1267,7 @@ input type for incrementing numeric columns in table "activities"
 input activities_inc_input {
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   epoch_id: bigint
@@ -1265,11 +1289,13 @@ input activities_insert_input {
   actor_profile_public: profiles_public_obj_rel_insert_input
   big_question: big_questions_obj_rel_insert_input
   big_question_id: bigint
+  cast_id: bigint
   circle: circles_obj_rel_insert_input
   circle_id: bigint
   contribution: contributions_obj_rel_insert_input
   contribution_id: bigint
   created_at: timestamptz
+  enriched_cast: enriched_casts_obj_rel_insert_input
   epoch: epochs_obj_rel_insert_input
   epoch_id: bigint
   gives: colinks_gives_arr_rel_insert_input
@@ -1297,6 +1323,7 @@ type activities_max_fields {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1317,6 +1344,7 @@ input activities_max_order_by {
   action: order_by
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1337,6 +1365,7 @@ type activities_min_fields {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1357,6 +1386,7 @@ input activities_min_order_by {
   action: order_by
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   created_at: order_by
@@ -1416,11 +1446,13 @@ input activities_order_by {
   actor_profile_public: profiles_public_order_by
   big_question: big_questions_order_by
   big_question_id: order_by
+  cast_id: order_by
   circle: circles_order_by
   circle_id: order_by
   contribution: contributions_order_by
   contribution_id: order_by
   created_at: order_by
+  enriched_cast: enriched_casts_order_by
   epoch: epochs_order_by
   epoch_id: order_by
   gives_aggregate: colinks_gives_aggregate_order_by
@@ -1466,6 +1498,11 @@ enum activities_select_column {
   column name
   """
   big_question_id
+
+  """
+  column name
+  """
+  cast_id
 
   """
   column name
@@ -1555,6 +1592,7 @@ input activities_set_input {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1575,6 +1613,7 @@ aggregate stddev on columns
 type activities_stddev_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1592,6 +1631,7 @@ order by stddev() on columns of table "activities"
 input activities_stddev_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1609,6 +1649,7 @@ aggregate stddev_pop on columns
 type activities_stddev_pop_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1626,6 +1667,7 @@ order by stddev_pop() on columns of table "activities"
 input activities_stddev_pop_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1643,6 +1685,7 @@ aggregate stddev_samp on columns
 type activities_stddev_samp_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1660,6 +1703,7 @@ order by stddev_samp() on columns of table "activities"
 input activities_stddev_samp_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1693,6 +1737,7 @@ input activities_stream_cursor_value_input {
   action: String
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   created_at: timestamptz
@@ -1713,6 +1758,7 @@ aggregate sum on columns
 type activities_sum_fields {
   actor_profile_id: bigint
   big_question_id: bigint
+  cast_id: bigint
   circle_id: bigint
   contribution_id: bigint
   epoch_id: bigint
@@ -1730,6 +1776,7 @@ order by sum() on columns of table "activities"
 input activities_sum_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1759,6 +1806,11 @@ enum activities_update_column {
   column name
   """
   big_question_id
+
+  """
+  column name
+  """
+  cast_id
 
   """
   column name
@@ -1844,6 +1896,7 @@ aggregate var_pop on columns
 type activities_var_pop_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1861,6 +1914,7 @@ order by var_pop() on columns of table "activities"
 input activities_var_pop_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1878,6 +1932,7 @@ aggregate var_samp on columns
 type activities_var_samp_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1895,6 +1950,7 @@ order by var_samp() on columns of table "activities"
 input activities_var_samp_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -1912,6 +1968,7 @@ aggregate variance on columns
 type activities_variance_fields {
   actor_profile_id: Float
   big_question_id: Float
+  cast_id: Float
   circle_id: Float
   contribution_id: Float
   epoch_id: Float
@@ -1929,6 +1986,7 @@ order by variance() on columns of table "activities"
 input activities_variance_order_by {
   actor_profile_id: order_by
   big_question_id: order_by
+  cast_id: order_by
   circle_id: order_by
   contribution_id: order_by
   epoch_id: order_by
@@ -14168,6 +14226,787 @@ input emails_variance_order_by {
 }
 
 """
+farcaster casts that we actually care about, with some materialized fields
+"""
+type enriched_casts {
+  created_at: timestamp!
+  deleted_at: timestamp
+  embeds(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+
+  """
+  An object relationship
+  """
+  farcaster_profile: farcaster_profile_with_addresses
+  fid: bigint!
+
+  """
+  An object relationship
+  """
+  fids: farcaster_fids
+  hash: bytea!
+  id: bigint!
+  mentions: [bigint!]!
+  mentions_positions: [smallint!]!
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): [farcaster_reactions!]!
+
+  """
+  An aggregate relationship
+  """
+  reactions_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_reactions_bool_exp
+  ): farcaster_reactions_aggregate!
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): [farcaster_casts!]!
+
+  """
+  An aggregate relationship
+  """
+  replies_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [farcaster_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [farcaster_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: farcaster_casts_bool_exp
+  ): farcaster_casts_aggregate!
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String!
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+aggregated selection of "enriched_casts"
+"""
+type enriched_casts_aggregate {
+  aggregate: enriched_casts_aggregate_fields
+  nodes: [enriched_casts!]!
+}
+
+"""
+aggregate fields of "enriched_casts"
+"""
+type enriched_casts_aggregate_fields {
+  avg: enriched_casts_avg_fields
+  count(columns: [enriched_casts_select_column!], distinct: Boolean): Int!
+  max: enriched_casts_max_fields
+  min: enriched_casts_min_fields
+  stddev: enriched_casts_stddev_fields
+  stddev_pop: enriched_casts_stddev_pop_fields
+  stddev_samp: enriched_casts_stddev_samp_fields
+  sum: enriched_casts_sum_fields
+  var_pop: enriched_casts_var_pop_fields
+  var_samp: enriched_casts_var_samp_fields
+  variance: enriched_casts_variance_fields
+}
+
+"""
+append existing jsonb value of filtered columns with new jsonb value
+"""
+input enriched_casts_append_input {
+  embeds: jsonb
+}
+
+"""
+aggregate avg on columns
+"""
+type enriched_casts_avg_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "enriched_casts". All fields are combined with a logical 'AND'.
+"""
+input enriched_casts_bool_exp {
+  _and: [enriched_casts_bool_exp!]
+  _not: enriched_casts_bool_exp
+  _or: [enriched_casts_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  embeds: jsonb_comparison_exp
+  farcaster_profile: farcaster_profile_with_addresses_bool_exp
+  fid: bigint_comparison_exp
+  fids: farcaster_fids_bool_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  mentions: bigint_array_comparison_exp
+  mentions_positions: smallint_array_comparison_exp
+  parent_fid: bigint_comparison_exp
+  parent_hash: bytea_comparison_exp
+  parent_url: String_comparison_exp
+  profile_id: bigint_comparison_exp
+  profile_public: profiles_public_bool_exp
+  reactions: farcaster_reactions_bool_exp
+  reactions_aggregate: farcaster_reactions_aggregate_bool_exp
+  replies: farcaster_casts_bool_exp
+  replies_aggregate: farcaster_casts_aggregate_bool_exp
+  root_parent_hash: bytea_comparison_exp
+  root_parent_url: String_comparison_exp
+  text: String_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "enriched_casts"
+"""
+enum enriched_casts_constraint {
+  """
+  unique or primary key constraint on columns "hash"
+  """
+  enriched_casts_hash_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  enriched_casts_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input enriched_casts_delete_at_path_input {
+  embeds: [String!]
+}
+
+"""
+delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+"""
+input enriched_casts_delete_elem_input {
+  embeds: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input enriched_casts_delete_key_input {
+  embeds: String
+}
+
+"""
+input type for incrementing numeric columns in table "enriched_casts"
+"""
+input enriched_casts_inc_input {
+  fid: bigint
+  id: bigint
+  parent_fid: bigint
+  profile_id: bigint
+}
+
+"""
+input type for inserting data into table "enriched_casts"
+"""
+input enriched_casts_insert_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  farcaster_profile: farcaster_profile_with_addresses_obj_rel_insert_input
+  fid: bigint
+  fids: farcaster_fids_obj_rel_insert_input
+  hash: bytea
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+  profile_public: profiles_public_obj_rel_insert_input
+  reactions: farcaster_reactions_arr_rel_insert_input
+  replies: farcaster_casts_arr_rel_insert_input
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate max on columns
+"""
+type enriched_casts_max_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_url: String
+  profile_id: bigint
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate min on columns
+"""
+type enriched_casts_min_fields {
+  created_at: timestamp
+  deleted_at: timestamp
+  fid: bigint
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_url: String
+  profile_id: bigint
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+response of any mutation on the table "enriched_casts"
+"""
+type enriched_casts_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [enriched_casts!]!
+}
+
+"""
+input type for inserting object relation for remote table "enriched_casts"
+"""
+input enriched_casts_obj_rel_insert_input {
+  data: enriched_casts_insert_input!
+
+  """
+  upsert condition
+  """
+  on_conflict: enriched_casts_on_conflict
+}
+
+"""
+on_conflict condition type for table "enriched_casts"
+"""
+input enriched_casts_on_conflict {
+  constraint: enriched_casts_constraint!
+  update_columns: [enriched_casts_update_column!]! = []
+  where: enriched_casts_bool_exp
+}
+
+"""
+Ordering options when selecting data from "enriched_casts".
+"""
+input enriched_casts_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  embeds: order_by
+  farcaster_profile: farcaster_profile_with_addresses_order_by
+  fid: order_by
+  fids: farcaster_fids_order_by
+  hash: order_by
+  id: order_by
+  mentions: order_by
+  mentions_positions: order_by
+  parent_fid: order_by
+  parent_hash: order_by
+  parent_url: order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  reactions_aggregate: farcaster_reactions_aggregate_order_by
+  replies_aggregate: farcaster_casts_aggregate_order_by
+  root_parent_hash: order_by
+  root_parent_url: order_by
+  text: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: enriched_casts
+"""
+input enriched_casts_pk_columns_input {
+  id: bigint!
+}
+
+"""
+prepend existing jsonb value of filtered columns with new jsonb value
+"""
+input enriched_casts_prepend_input {
+  embeds: jsonb
+}
+
+"""
+select columns of table "enriched_casts"
+"""
+enum enriched_casts_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  embeds
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  mentions
+
+  """
+  column name
+  """
+  mentions_positions
+
+  """
+  column name
+  """
+  parent_fid
+
+  """
+  column name
+  """
+  parent_hash
+
+  """
+  column name
+  """
+  parent_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  root_parent_hash
+
+  """
+  column name
+  """
+  root_parent_url
+
+  """
+  column name
+  """
+  text
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "enriched_casts"
+"""
+input enriched_casts_set_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate stddev on columns
+"""
+type enriched_casts_stddev_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type enriched_casts_stddev_pop_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type enriched_casts_stddev_samp_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+Streaming cursor of the table "enriched_casts"
+"""
+input enriched_casts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: enriched_casts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input enriched_casts_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
+aggregate sum on columns
+"""
+type enriched_casts_sum_fields {
+  fid: bigint
+  id: bigint
+  parent_fid: bigint
+  profile_id: bigint
+}
+
+"""
+update columns of table "enriched_casts"
+"""
+enum enriched_casts_update_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  embeds
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  mentions
+
+  """
+  column name
+  """
+  mentions_positions
+
+  """
+  column name
+  """
+  parent_fid
+
+  """
+  column name
+  """
+  parent_hash
+
+  """
+  column name
+  """
+  parent_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  root_parent_hash
+
+  """
+  column name
+  """
+  root_parent_url
+
+  """
+  column name
+  """
+  text
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input enriched_casts_updates {
+  """
+  append existing jsonb value of filtered columns with new jsonb value
+  """
+  _append: enriched_casts_append_input
+
+  """
+  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+  """
+  _delete_at_path: enriched_casts_delete_at_path_input
+
+  """
+  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+  """
+  _delete_elem: enriched_casts_delete_elem_input
+
+  """
+  delete key/value pair or string element. key/value pairs are matched based on their key value
+  """
+  _delete_key: enriched_casts_delete_key_input
+
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: enriched_casts_inc_input
+
+  """
+  prepend existing jsonb value of filtered columns with new jsonb value
+  """
+  _prepend: enriched_casts_prepend_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: enriched_casts_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: enriched_casts_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type enriched_casts_var_pop_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type enriched_casts_var_samp_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type enriched_casts_variance_fields {
+  fid: Float
+  id: Float
+  parent_fid: Float
+  profile_id: Float
+}
+
+"""
 columns and relationships of "epoch_pgive_data"
 """
 type epoch_pgive_data {
@@ -16043,7 +16882,7 @@ type farcaster_accounts {
   """
   An object relationship
   """
-  profile_public: profiles_public
+  profile_public: profiles!
   updated_at: timestamptz!
   username: String!
 }
@@ -16099,7 +16938,7 @@ input farcaster_accounts_bool_exp {
   name: String_comparison_exp
   pfp_url: String_comparison_exp
   profile_id: bigint_comparison_exp
-  profile_public: profiles_public_bool_exp
+  profile_public: profiles_bool_exp
   updated_at: timestamptz_comparison_exp
   username: String_comparison_exp
 }
@@ -16142,7 +16981,7 @@ input farcaster_accounts_insert_input {
   name: String
   pfp_url: String
   profile_id: bigint
-  profile_public: profiles_public_obj_rel_insert_input
+  profile_public: profiles_obj_rel_insert_input
   updated_at: timestamptz
   username: String
 }
@@ -16230,7 +17069,7 @@ input farcaster_accounts_order_by {
   name: order_by
   pfp_url: order_by
   profile_id: order_by
-  profile_public: profiles_public_order_by
+  profile_public: profiles_order_by
   updated_at: order_by
   username: order_by
 }
@@ -27655,6 +28494,21 @@ type mutation_root {
   delete_emails_by_pk(email: citext!, profile_id: Int!): emails
 
   """
+  delete data from the table: "enriched_casts"
+  """
+  delete_enriched_casts(
+    """
+    filter the rows which have to be deleted
+    """
+    where: enriched_casts_bool_exp!
+  ): enriched_casts_mutation_response
+
+  """
+  delete single row from the table: "enriched_casts"
+  """
+  delete_enriched_casts_by_pk(id: bigint!): enriched_casts
+
+  """
   delete data from the table: "epoch_pgive_data"
   """
   delete_epoch_pgive_data(
@@ -29139,6 +29993,36 @@ type mutation_root {
     """
     on_conflict: emails_on_conflict
   ): emails
+
+  """
+  insert data into the table: "enriched_casts"
+  """
+  insert_enriched_casts(
+    """
+    the rows to be inserted
+    """
+    objects: [enriched_casts_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: enriched_casts_on_conflict
+  ): enriched_casts_mutation_response
+
+  """
+  insert a single row into the table: "enriched_casts"
+  """
+  insert_enriched_casts_one(
+    """
+    the row to be inserted
+    """
+    object: enriched_casts_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: enriched_casts_on_conflict
+  ): enriched_casts
 
   """
   insert data into the table: "epoch_pgive_data"
@@ -31921,6 +32805,102 @@ type mutation_root {
     """
     updates: [emails_updates!]!
   ): [emails_mutation_response]
+
+  """
+  update data of the table: "enriched_casts"
+  """
+  update_enriched_casts(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: enriched_casts_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: enriched_casts_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: enriched_casts_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: enriched_casts_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: enriched_casts_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: enriched_casts_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: enriched_casts_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: enriched_casts_bool_exp!
+  ): enriched_casts_mutation_response
+
+  """
+  update single row of the table: "enriched_casts"
+  """
+  update_enriched_casts_by_pk(
+    """
+    append existing jsonb value of filtered columns with new jsonb value
+    """
+    _append: enriched_casts_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: enriched_casts_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    _delete_elem: enriched_casts_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: enriched_casts_delete_key_input
+
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: enriched_casts_inc_input
+
+    """
+    prepend existing jsonb value of filtered columns with new jsonb value
+    """
+    _prepend: enriched_casts_prepend_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: enriched_casts_set_input
+    pk_columns: enriched_casts_pk_columns_input!
+  ): enriched_casts
+
+  """
+  update multiples rows of table: "enriched_casts"
+  """
+  update_enriched_casts_many(
+    """
+    updates to execute, in order
+    """
+    updates: [enriched_casts_updates!]!
+  ): [enriched_casts_mutation_response]
 
   """
   update data of the table: "epoch_pgive_data"
@@ -47751,6 +48731,71 @@ type query_root {
   emails_by_pk(email: citext!, profile_id: Int!): emails
 
   """
+  fetch data from the table: "enriched_casts"
+  """
+  enriched_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
+
+  """
+  fetch aggregated fields from the table: "enriched_casts"
+  """
+  enriched_casts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): enriched_casts_aggregate!
+
+  """
+  fetch data from the table: "enriched_casts" using primary key columns
+  """
+  enriched_casts_by_pk(id: bigint!): enriched_casts
+
+  """
   fetch data from the table: "epoch_pgive_data"
   """
   epoch_pgive_data(
@@ -57219,6 +58264,91 @@ type subscription_root {
     """
     where: emails_bool_exp
   ): [emails!]!
+
+  """
+  fetch data from the table: "enriched_casts"
+  """
+  enriched_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
+
+  """
+  fetch aggregated fields from the table: "enriched_casts"
+  """
+  enriched_casts_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): enriched_casts_aggregate!
+
+  """
+  fetch data from the table: "enriched_casts" using primary key columns
+  """
+  enriched_casts_by_pk(id: bigint!): enriched_casts
+
+  """
+  fetch data from the table in a streaming manner: "enriched_casts"
+  """
+  enriched_casts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [enriched_casts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
 
   """
   fetch data from the table: "epoch_pgive_data"
