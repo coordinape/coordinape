@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 
 import { setAuthToken } from './token';
-import { saveAllData, emptyData, IAuth } from './useSavedAuth';
+import { emptyData, IAuth, saveAllData } from './useSavedAuth';
 
 export const AUTH_COOKIE = 'coordinape_auth_cookie';
 
@@ -12,9 +12,13 @@ export const logoutAndClearSavedAuth = () => {
   setAuthToken('');
 };
 
-export const setAuthTokenForAddress = (address: string, token: string) => {
+export const setAuthTokenForAddress = (
+  address: string,
+  token: string,
+  id: number
+) => {
   const allData = getAllData();
-  allData.data[address.toLowerCase()] = { token };
+  allData.data[address.toLowerCase()] = { token, id };
   allData.recent = address.toLowerCase();
   saveAllData(allData);
   setAuthToken(token);
@@ -26,7 +30,7 @@ export const reloadAuthFromCookie = () => {
   if (recent) {
     const auth = data[recent] ?? {};
     setAuthToken(auth.token);
-    return true;
+    return { address: recent, ...auth };
   }
 };
 export const getAllData = (): IAuth => {

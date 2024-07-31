@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 
 import { ActivityAvatar } from 'features/activities/ActivityAvatar';
+import { GIVE_RECEIVED_QUERY_KEY } from 'features/points/GiveReceived';
 import { groupAndSortGive } from 'features/points/PostGives';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
@@ -31,7 +32,7 @@ export const PartyProfileGives = ({ profileId }: { profileId: number }) => {
   };
 
   const { data } = useQuery(
-    ['skill_counts', profileId],
+    [GIVE_RECEIVED_QUERY_KEY, profileId, 'skill_counts'],
     async () => {
       const { colinks_gives } = await anonClient.query(
         {

@@ -20,6 +20,9 @@ import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
 import { groupAndSortGive } from './PostGives';
+
+export const GIVE_RECEIVED_QUERY_KEY = 'Colnks_give_received';
+
 export const GiveReceived = ({
   address,
   size = 'small',
@@ -55,7 +58,7 @@ export const GiveReceived = ({
     }
   );
   const { data } = useQuery(
-    ['give_received', profileId],
+    [GIVE_RECEIVED_QUERY_KEY, profileId, 'give_received'],
     async () => {
       const { colinks_gives } = await anonClient.query(
         {

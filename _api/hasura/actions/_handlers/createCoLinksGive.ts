@@ -12,13 +12,21 @@ import {
 } from '../../../../api-lib/HttpError';
 import { checkPointsAndCreateGive } from '../../../../api-lib/insertCoLinksGive.ts';
 import {
+  findOrCreateProfileByAddress,
+  findOrCreateProfileByFid,
+} from '../../../../api-lib/neynar/findOrCreate.ts';
+import { fetchCast } from '../../../../api-lib/neynar.ts';
+import {
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
+import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
 
 const createCoLinksGiveInput = z
   .object({
-    activity_id: z.number(),
+    activity_id: z.number().optional(),
+    address: zEthAddress.optional(),
+    cast_hash: z.string().optional(),
     skill: z.string().optional(),
   })
   .strict();
@@ -30,35 +38,58 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       session: { hasuraProfileId: profileId },
     } = await getInput(req, createCoLinksGiveInput);
 
-    // lookup activity by address
-    // make sure its not deleted, and not us
-    const { activities } = await adminClient.query(
-      {
-        activities: [
-          {
-            where: {
-              id: { _eq: payload.activity_id },
-              contribution: { deleted_at: { _is_null: true } },
+    let targetProfileId: number | undefined;
+
+    if (payload.activity_id) {
+      // lookup activity by address
+      // make sure its not deleted, and not us
+      const { activities } = await adminClient.query(
+        {
+          activities: [
+            {
+              where: {
+                id: { _eq: payload.activity_id },
+                contribution: { deleted_at: { _is_null: true } },
+              },
             },
-          },
-          { id: true, actor_profile_id: true },
-        ],
-      },
-      { operationName: 'createCoLinksGive__fetchActivity' }
-    );
+            { id: true, actor_profile_id: true },
+          ],
+        },
+        { operationName: 'createCoLinksGive__fetchActivity' }
+      );
 
-    const activity = activities.pop();
+      const activity = activities.pop();
 
-    if (!activity) {
-      throw new UnprocessableError('post not found');
+      if (!activity) {
+        throw new UnprocessableError('post not found');
+      }
+
+      targetProfileId = activity.actor_profile_id;
+    } else if (payload.cast_hash) {
+      try {
+        const { cast } = await fetchCast(payload.cast_hash);
+        const fid = cast.author.fid;
+        const profile = await findOrCreateProfileByFid(fid);
+        targetProfileId = profile?.id;
+      } catch (e: any) {
+        throw new UnprocessableError('invalid cast_hash');
+      }
+    } else if (payload.address) {
+      const profile = await findOrCreateProfileByAddress(payload.address);
+      targetProfileId = profile?.id;
     }
-    if (activity.actor_profile_id === profileId) {
+
+    if (!targetProfileId) {
+      throw new UnprocessableError('invalid target for giving');
+    }
+
+    if (targetProfileId === profileId) {
       throw new UnprocessableError('cannot give to self');
     }
 
     const { newPoints, giveId } = await checkPointsAndCreateGive(
       profileId,
-      activity.actor_profile_id,
+      targetProfileId,
       payload
     );
 

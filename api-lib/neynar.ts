@@ -12,6 +12,11 @@ type PublishCastOptions = {
   channelId?: string;
 };
 
+export const fetchCast = async (cast_hash: string) => {
+  const cast = await client.lookUpCastByHashOrWarpcastUrl(cast_hash, 'hash');
+  return cast;
+};
+
 export const fetchUserByFid = async (fid: number) => {
   try {
     const response = await client.fetchBulkUsers([fid]);

@@ -1,77 +1,25 @@
-import { useEffect, useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 
-import {
-  RainbowKitProvider,
-  RainbowKitAuthenticationProvider,
-  ConnectButton,
-} from '@rainbow-me/rainbowkit';
+import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { reloadAuthFromCookie } from 'features/auth/helpers';
-import { getAuthToken } from 'features/auth/token';
-import {
-  authState,
-  authenticationAdapter,
-  setAuthState,
-} from 'features/rainbowkit/siwe';
 import { wagmiConfig } from 'features/wagmi/config';
-import { useAccount, WagmiProvider } from 'wagmi';
+import { WagmiProvider } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
 
-import { Text } from 'ui';
-
-import { useRefresh } from './useRefresh';
+import { RainbowKitSiweProvider } from './SiweProvider';
 
 const Rainbow = ({ children }: { children: ReactNode }) => {
-  const refreshKey = useRefresh();
-
-  useEffect(() => {
-    // refresh auth token
-    const t = getAuthToken(false);
-    if (t != token) {
-      setToken(t);
-    }
-  }, [refreshKey]);
-
-  const [token, setToken] = useState<string | undefined>(getAuthToken(false));
-  const state = authState;
-
-  const account = useAccount();
-
-  // if we have a connected wallet and auth token in memory is null, reload from cookie
-  useEffect(() => {
-    if (token) {
-      if (account) {
-        setAuthState('authenticated');
-        return;
-      } else {
-        setAuthState('unauthenticated');
-      }
-    } else {
-      if (reloadAuthFromCookie()) {
-        setAuthState('authenticated');
-        setToken(getAuthToken(false));
-      } else {
-        setAuthState('unauthenticated');
-      }
-    }
-  }, [account, token]);
-
   return (
-    <RainbowKitAuthenticationProvider
-      adapter={authenticationAdapter}
-      status={state}
-    >
-      <RainbowKitProvider>
+    <RainbowKitSiweProvider>
+      <RainbowKitProvider theme={darkTheme()}>
         {/* = = = = = = = = = = DEBUG ==========  */}
-        <Text>account: {account.address}</Text>
-        <p>Refresh count: {refreshKey}</p>
-        <Text>auth token: {token}</Text>
-        <ConnectButton />
+        {/* <p>account: {account.address}</p> */}
+        {/*<p>Refresh count: {refreshKey}</p>*/}
+        {/*<p>auth token: {token}</p>*/}
         {/* = = = = = = = = = = END DEBUG ==========  */}
-
         {children}
       </RainbowKitProvider>
-    </RainbowKitAuthenticationProvider>
+    </RainbowKitSiweProvider>
   );
 };
 

@@ -56,9 +56,11 @@ const progressStyles = {
 export const PointsBar = ({
   open = false,
   barOnly = false,
+  forceTheme,
 }: {
   open?: boolean;
   barOnly?: boolean;
+  forceTheme?: 'dark' | 'light';
 }) => {
   const { give, points } = usePoints();
 
@@ -98,6 +100,13 @@ export const PointsBar = ({
           overflow: 'clip',
           alignItems: 'center',
           gap: '0',
+          width: '100%',
+          background:
+            forceTheme === 'dark'
+              ? '#1A1B1F'
+              : forceTheme === 'light'
+                ? '#f2f2f2'
+                : '$surface',
         }}
       >
         {showInfo && (
@@ -167,9 +176,8 @@ export const PointsBar = ({
             {showInfo && (
               <Flex column css={{ mt: '$sm', gap: '$md' }}>
                 <Text inline size="small">
-                  GIVE is a scarce thing that is more powerful than an emoji
-                  reaction. You can allocate GIVE to members via Posts to
-                  support ideas, skills and signal value.
+                  GIVE is a scarce and powerful way signal of appreciation. You
+                  can allocate GIVE to support ideas, skills and signal value.
                 </Text>
                 <Text inline size="small">
                   GIVEs roll into the receiver&apos;s onchain pGIVE score on

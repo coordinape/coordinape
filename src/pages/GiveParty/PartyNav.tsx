@@ -7,13 +7,12 @@ import { coLinksPaths } from 'routes/paths';
 import { AppLink, Button, Flex, Modal, Text } from 'ui';
 
 export const partyNavButtonStyle = {
-  fontSize: 20,
   minWidth: '7em',
-  fontWeight: '$normal',
-  border: '1px solid rgb(255 255 255 / 20%)',
+  border: '1px solid rgb(255 255 255 / 25%)',
   px: '$md',
   '&:hover': {
-    borderColor: 'white',
+    borderColor: 'rgb(255 255 255 / 75%)',
+    borderStyle: 'dashed',
   },
   '@xs': {
     fontSize: '$h2',
@@ -24,11 +23,8 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
   const onClose = () => setVisible(prev => !prev);
   const [visible, setVisible] = useState(false);
   return (
-    <Flex column css={{ gap: '$md' }}>
-      <Flex
-        row
-        css={{ ...css, gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}
-      >
+    <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
+      <Flex row css={{ ...css, gap: '$md', flexWrap: 'wrap' }}>
         <Button
           as={AppLink}
           to={coLinksPaths.giveParty}
@@ -43,12 +39,6 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
           color="transparent"
           css={{
             ...partyNavButtonStyle,
-            ...(location.pathname == '/giveboard' && {
-              borderColor: 'rgba(0,0,0,0.15) !important',
-              background: 'rgba(0,0,0,0.15) !important',
-              cursor: 'default',
-              pointerEvents: 'none',
-            }),
           }}
         >
           leaderboard
@@ -58,12 +48,6 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
           color="transparent"
           css={{
             ...partyNavButtonStyle,
-            ...(location.pathname == '/givemap' && {
-              borderColor: 'rgba(0,0,0,0.15) !important',
-              background: 'rgba(0,0,0,0.15) !important',
-              cursor: 'default',
-              pointerEvents: 'none',
-            }),
           }}
         >
           world of give

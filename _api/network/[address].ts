@@ -33,16 +33,7 @@ type NetworkNode = {
   hasCoLinks: boolean;
 };
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  let address: string | undefined;
-  if (typeof req.query.address == 'string') {
-    address = req.query.address;
-  } else if (Array.isArray(req.query.address)) {
-    address = req.query.address.pop();
-  }
-
-  assert(address, 'no address provided');
-
+async function getCoLinksAndFarcasterUser(address: string) {
   // lets try to figure out the user based on address
   const { targetProfiles } = await adminClient.query(
     {
@@ -75,6 +66,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   const targetProfile = targetProfiles.pop();
 
   const fcUser = await fetchUserByAddress(address);
+  return { targetProfile, fcUser };
+}
+
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  let address: string | undefined;
+  if (typeof req.query.address == 'string') {
+    address = req.query.address;
+  } else if (Array.isArray(req.query.address)) {
+    address = req.query.address.pop();
+  }
+
+  assert(address, 'no address provided');
+
+  const { targetProfile, fcUser } = await getCoLinksAndFarcasterUser(address);
 
   if (!targetProfile && !fcUser) {
     return errorResponse(

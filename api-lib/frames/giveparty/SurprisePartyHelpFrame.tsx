@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { findOrCreateProfileByUsername } from '../../neynar/findOrCreateProfileByFid.ts';
+import { findOrCreateProfileByUsername } from '../../neynar/findOrCreate.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';
 import { Frame } from '../frames.ts';

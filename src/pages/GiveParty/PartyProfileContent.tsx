@@ -118,6 +118,11 @@ export const PartyProfileContent = ({
               Cast Profile
             </Text>
           </Button>
+          {/*<CoLinksGiveButton*/}
+          {/*  gives={[]}*/}
+          {/*  targetProfileId={targetProfile?.id}*/}
+          {/*  targetAddress={address}*/}
+          {/*/>*/}
         </Flex>
         <Flex
           column

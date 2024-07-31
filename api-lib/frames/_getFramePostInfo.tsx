@@ -2,7 +2,7 @@
 import { VercelRequest } from '@vercel/node';
 
 import { IN_DEVELOPMENT } from '../../src/config/env.ts';
-import { findOrCreateProfileByFid } from '../neynar/findOrCreateProfileByFid.ts';
+import { findOrCreateProfileByFid } from '../neynar/findOrCreate.ts';
 import { validateFrame } from '../neynar.ts';
 
 import { FrameMessage } from './FrameMessage.ts';

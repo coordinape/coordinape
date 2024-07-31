@@ -718,7 +718,9 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['CreateCoLinksGiveInput']: {
-    activity_id: number;
+    activity_id?: number | undefined | null;
+    address?: string | undefined | null;
+    cast_hash?: string | undefined | null;
     skill?: string | undefined | null;
   };
   ['CreateCoLinksGiveResponse']: AliasType<{
@@ -29105,7 +29107,9 @@ export type GraphQLTypes = {
     users: Array<GraphQLTypes['users']>;
   };
   ['CreateCoLinksGiveInput']: {
-    activity_id: number;
+    activity_id?: number | undefined;
+    address?: string | undefined;
+    cast_hash?: string | undefined;
     skill?: string | undefined;
   };
   ['CreateCoLinksGiveResponse']: {

@@ -270,7 +270,9 @@ input CreateCircleInput {
 }
 
 input CreateCoLinksGiveInput {
-  activity_id: Int!
+  activity_id: Int
+  address: String
+  cast_hash: String
   skill: String
 }
 

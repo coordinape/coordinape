@@ -8,7 +8,7 @@ import { insertInteractionEvents } from '../../api-lib/gql/mutations.ts';
 import { errorResponse } from '../../api-lib/HttpError';
 import { insertCoLinksGive } from '../../api-lib/insertCoLinksGive.ts';
 import { publishCast } from '../../api-lib/neynar';
-import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreateProfileByFid.ts';
+import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreate.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
 import { fetchPoints } from '../hasura/actions/_handlers/createCoLinksGive';
 
