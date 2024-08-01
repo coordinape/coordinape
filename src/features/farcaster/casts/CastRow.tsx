@@ -33,6 +33,9 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
       >
         <AvatarAndName cast={cast} />
         <Flex css={{ gap: '$sm', alignItems: 'center' }}>
+          <Text size={'xs'} bold>
+            Farcaster
+          </Text>
           <Farcaster fa />
         </Flex>
       </Flex>
