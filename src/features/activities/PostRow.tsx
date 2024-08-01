@@ -14,31 +14,40 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
-import { PostForm } from '../colinks/PostForm';
 import { isFeatureEnabled } from 'config/features';
 import { Edit, Message, Messages, ShareSolid } from 'icons/__generated';
-import { Button, Flex, IconButton, Link, MarkdownPreview, Text } from 'ui';
+import { Button, Flex, IconButton, Link, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
 import { ReactionBar } from './reactions/ReactionBar';
 import { RepliesBox } from './replies/RepliesBox';
 import { SharePostModal } from './SharePostModal';
-import { Contribution } from './useInfiniteActivities';
+import { ActivityWithValidProfile } from './useInfiniteActivities';
+
+export type PostRowChildProps = {
+  editing: boolean;
+  editable: boolean;
+  setEditing: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
 export const PostRow = ({
   activity,
   focus,
+  editAllowed,
+  children,
 }: {
-  activity: Contribution;
+  activity: ActivityWithValidProfile;
   focus: boolean;
+  editAllowed: boolean;
+  children: React.FC<PostRowChildProps>;
 }) => {
   const queryClient = useQueryClient();
   const location = useLocation();
   const { data } = useNavQuery();
-  const editableContribution =
-    activity.actor_profile_public.id === data?.profile?.id;
-  const [editingContribution, setEditingContribution] = useState(false);
+  const editable =
+    editAllowed && activity.actor_profile_public.id === data?.profile?.id;
+  const [editing, setEditing] = useState(false);
   const [editingReply, setEditingReply] = useState(false);
 
   const [displayComments, setDisplayComments] = useState(false);
@@ -159,7 +168,7 @@ export const PostRow = ({
                 >
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
-                {isFeatureEnabled('share_post') && editableContribution && (
+                {isFeatureEnabled('share_post') && editable && (
                   <SharePostModal activityId={activity.id}>
                     <Link
                       inlineLink
@@ -187,41 +196,16 @@ export const PostRow = ({
                   flexGrow: 'initial',
                 }}
               >
-                {editableContribution && (
-                  <IconButton
-                    onClick={() => setEditingContribution(prev => !prev)}
-                  >
+                {editable && (
+                  <IconButton onClick={() => setEditing(prev => !prev)}>
                     <Edit />
                   </IconButton>
                 )}
               </Flex>
             </Flex>
-            {editableContribution && (
+            {children({ editing, editable, setEditing })}
+            {!editing && (
               <>
-                {editingContribution && (
-                  <>
-                    <PostForm
-                      label={'Edit Post'}
-                      css={{ textarea: { background: '$surfaceNested ' } }}
-                      editContribution={activity.contribution}
-                      setEditingContribution={setEditingContribution}
-                      placeholder={''}
-                    />
-                  </>
-                )}
-              </>
-            )}
-            {!editingContribution && (
-              <>
-                <MarkdownPreview
-                  render
-                  source={activity.contribution.description}
-                  css={{
-                    cursor: 'auto',
-                    mb: '-$xs',
-                    mt: '$xs',
-                  }}
-                />
                 <Flex
                   className="clickThrough"
                   css={{

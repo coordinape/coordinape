@@ -167,6 +167,15 @@ export const useInfiniteActivities = (
 
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
 
+type RequireFields<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
+export type ActivityWithValidProfile = Activity & {
+  actor_profile_public: RequireFields<
+    NonNullable<Activity['actor_profile_public']>,
+    'address' | 'name'
+  >;
+};
+
 export type Contribution = Activity &
   Required<Pick<Activity, 'contribution' | 'actor_profile_public'>> &
   Pick<Activity, 'circle'> & {

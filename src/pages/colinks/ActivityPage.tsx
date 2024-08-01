@@ -18,6 +18,7 @@ import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
 import { useLinkingStatus } from '../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { PointsBar } from '../../features/points/PointsBar';
+import useProfileId from '../../hooks/useProfileId';
 import {
   BarChart,
   HouseFill,
@@ -57,6 +58,9 @@ const CoLinksActivityPageContents = ({
   const bumpPromptOffset = () => {
     setPromptOffset(prev => prev + 1);
   };
+
+  const profileId = useProfileId(true);
+
   return (
     <TwoColumnSmallRightLayout
       css={{
@@ -114,7 +118,16 @@ const CoLinksActivityPageContents = ({
                   ? [
                       {
                         _and: [
-                          { private_stream_visibility: {} },
+                          {
+                            _or: [
+                              { private_stream_visibility: {} },
+                              {
+                                actor_profile_id: {
+                                  _eq: profileId,
+                                },
+                              },
+                            ],
+                          },
                           { cast_id: { _is_null: false } },
                         ],
                       },

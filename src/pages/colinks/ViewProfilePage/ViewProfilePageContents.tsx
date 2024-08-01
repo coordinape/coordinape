@@ -412,7 +412,16 @@ const PageContents = ({
                       ? [
                           {
                             _and: [
-                              { private_stream_visibility: {} },
+                              {
+                                _or: [
+                                  { private_stream_visibility: {} },
+                                  {
+                                    actor_profile_id: {
+                                      _eq: currentUserProfileId,
+                                    },
+                                  },
+                                ],
+                              },
                               { cast_id: { _is_null: false } },
                             ],
                           },
