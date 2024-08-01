@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Linkify from 'linkify-react';
 import { DateTime } from 'luxon';
 import { NavLink } from 'react-router-dom';
@@ -18,24 +19,12 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
     <Flex
       column
       css={{
-        background: '$surface',
+        background: '$surfaceFarcaster',
         borderRadius: '$2',
         overflow: 'clip',
       }}
       key={cast.hash}
     >
-      <Flex
-        css={{
-          justifyContent: 'space-between',
-          background: '$surfaceDim',
-          p: '$sm $md',
-        }}
-      >
-        <AvatarAndName cast={cast} />
-        <Flex css={{ gap: '$sm', alignItems: 'center' }}>
-          <Farcaster fa />
-        </Flex>
-      </Flex>
       <Flex
         column
         css={{
@@ -114,6 +103,7 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
         <Flex
           css={{
             justifyContent: 'space-between',
+            alignItems: 'center',
           }}
         >
           <Flex css={{ gap: '$sm' }}>
@@ -139,7 +129,7 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
             rel="noreferrer"
             href={warpcastUrl(cast)}
           >
-            <Text size="small">
+            <Text size="xs">
               <ExternalLink css={{ mr: '$xs' }} /> View on Warpcast
             </Text>
           </Link>
