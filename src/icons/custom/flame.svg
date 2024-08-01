@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-358.302,-27.1477)">
+        <g id="Flame" transform="matrix(0.13395,0,0,0.149263,332.838,2.14595)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <g id="fire-flame-sharp-solid.svg" transform="matrix(0.349945,0,0,0.314042,279.693,247.896)">
+                <g transform="matrix(1,0,0,1,-192,-256)">
+                    <path d="M203.1,9.7L192,0L180.9,9.7C104.2,76.8 45.7,162.2 10.9,258C3.7,277.8 0,299 0,320.2C0,425.4 86.8,512 192,512C297.2,512 384,425.4 384,320.2C384,299.1 380.3,277.9 373.1,258C338.3,162.2 279.8,76.8 203.1,9.7ZM208,144L208,159.9C208,172.8 213.2,185.1 222.3,194.1L269.4,240.5C291.5,262.2 304,292 304,323C304,383.2 255.2,432 195,432L192,432C130.1,432 80,381.4 80,319.6C80,294.1 92,270 112.4,254.7L128,243L128,298C128,322.3 147.8,342 172.1,342C196.3,342 216,322.4 216,298.2C216,286.6 211.4,275.4 203.2,267.2L186.4,250.4C174.7,238.7 168.1,222.7 168.1,206.1C168.1,187.1 176.7,169.1 191.6,157.2L208,144Z" style="fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

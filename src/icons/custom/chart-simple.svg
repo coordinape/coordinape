@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-411.996,-27.2681)">
+        <g id="chart-simple" transform="matrix(0.13395,0,0,0.149263,386.532,2.26638)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <g id="chart-simple-solid.svg" transform="matrix(0.350554,0,0,0.314589,279.042,247.756)">
+                <g transform="matrix(1,0,0,1,-224,-256)">
+                    <path d="M160,80C160,53.5 181.5,32 208,32L240,32C266.5,32 288,53.5 288,80L288,432C288,458.5 266.5,480 240,480L208,480C181.5,480 160,458.5 160,432L160,80ZM0,272C0,245.5 21.5,224 48,224L80,224C106.5,224 128,245.5 128,272L128,432C128,458.5 106.5,480 80,480L48,480C21.5,480 0,458.5 0,432L0,272ZM368,96L400,96C426.5,96 448,117.5 448,144L448,432C448,458.5 426.5,480 400,480L368,480C341.5,480 320,458.5 320,432L320,144C320,117.5 341.5,96 368,96Z" style="fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

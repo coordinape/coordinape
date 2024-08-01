@@ -36,11 +36,15 @@ export const PostRow = ({
   focus,
   editAllowed,
   children,
+  castByline,
+  postType,
 }: {
   activity: ActivityWithValidProfile;
   focus: boolean;
   editAllowed: boolean;
   children: React.FC<PostRowChildProps>;
+  castByline?: React.ReactNode;
+  postType?: 'cast';
 }) => {
   const queryClient = useQueryClient();
   const location = useLocation();
@@ -82,6 +86,8 @@ export const PostRow = ({
     },
   });
 
+  const isCast = postType === 'cast';
+
   return (
     <>
       {bigQuestion && <BigQuestionCard question={bigQuestion} size="post" />}
@@ -106,7 +112,7 @@ export const PostRow = ({
             '.markdownPreview': {
               cursor: 'pointer',
             },
-            background: '$surface',
+            background: isCast ? '$surfaceFarcaster' : '$surface',
             p: '$md',
             borderRadius: '$2',
             ...(bigQuestion && {
@@ -117,11 +123,11 @@ export const PostRow = ({
             '&:hover': {
               '.iconMessage, .iconReaction': {
                 'svg * ': {
-                  fill: '$ctaHover',
+                  fill: '$link',
                 },
               },
               '.giveButton': {
-                color: '$tagCtaText',
+                color: '$link',
               },
             },
             '@sm': {
@@ -150,6 +156,7 @@ export const PostRow = ({
               css={{
                 gap: '$sm',
                 justifyContent: 'space-between',
+                flexWrap: 'wrap',
               }}
             >
               <Flex
@@ -201,6 +208,7 @@ export const PostRow = ({
                     <Edit />
                   </IconButton>
                 )}
+                {castByline}
               </Flex>
             </Flex>
             {children({ editing, editable, setEditing })}
@@ -251,7 +259,7 @@ export const PostRow = ({
                               minHeight: 0,
                               textDecoration: 'none',
                               '&:hover': {
-                                background: '$tagCtaBackground',
+                                background: '$tagLinkBackground',
                               },
                               '*': {
                                 fill: '$link',
@@ -271,7 +279,7 @@ export const PostRow = ({
                               width: 'auto',
                               minHeight: 0,
                               '&:hover': {
-                                background: '$tagCtaBackground',
+                                background: '$tagLinkBackground',
                               },
                               '*': {
                                 fill: '$secondaryText',
@@ -279,7 +287,7 @@ export const PostRow = ({
                             }}
                             onClick={() => setDisplayComments(prev => !prev)}
                           >
-                            <Text color="cta" className="iconMessage">
+                            <Text color="link" className="iconMessage">
                               <Message nostroke />
                             </Text>
                           </Button>

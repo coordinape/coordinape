@@ -1,6 +1,7 @@
 import React from 'react';
 
 import * as Sentry from '@sentry/react';
+import { CastByline } from 'features/farcaster/casts/CastByline';
 
 import { Flex, Text } from '../../ui';
 import { CastRow } from '../farcaster/casts/CastRow';
@@ -90,7 +91,13 @@ const validActivity = (
   } else if (IsCast(activity)) {
     return (
       <>
-        <PostRow activity={activity} focus={focus} editAllowed={true}>
+        <PostRow
+          activity={activity}
+          focus={focus}
+          editAllowed={true}
+          postType="cast"
+          castByline={<CastByline cast={activity.cast} />}
+        >
           {() => <CastRow cast={activity.cast} activity={activity} />}
         </PostRow>
       </>
