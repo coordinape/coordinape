@@ -171,8 +171,8 @@ export const CoLinksGiveButton = ({
                             fontSize: '$small',
                             borderRadius: '4px',
                             '&:hover': {
-                              background: '$tagCtaBackground',
-                              color: '$tagCtaText',
+                              background: '$tagLinkBackground',
+                              color: '$tagLinkText',
                             },
                           }}
                         >

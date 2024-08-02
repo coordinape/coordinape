@@ -123,6 +123,7 @@ export const Text = styled('span', {
       warning: { color: '$warning' },
       primary: { color: '$primary' },
       cta: { color: '$cta' },
+      link: { color: '$link' },
       coLinks: { color: '$coLinks' },
       coLinksCta: { color: '$coLinksCta' },
       secondary: { color: '$secondaryText' },
@@ -219,6 +220,9 @@ export const Text = styled('span', {
       css: {
         color: '$tagFarcasterText',
         backgroundColor: '$tagFarcasterBackground',
+        '&:hover, &:focus': {
+          backgroundColor: '$tagFarcasterBackgroundHover',
+        },
       },
     },
     {
@@ -227,6 +231,14 @@ export const Text = styled('span', {
       css: {
         color: '$tagCtaText',
         backgroundColor: '$tagCtaBackground',
+      },
+    },
+    {
+      tag: true,
+      color: 'link',
+      css: {
+        color: '$tagLinkText',
+        backgroundColor: '$tagLinkBackground',
       },
     },
     {

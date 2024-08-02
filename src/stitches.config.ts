@@ -177,8 +177,11 @@ export const colors = {
   complete: '$success',
   blurple: '#5865f2',
   farcaster: '#472991',
+  surfaceFarcaster: '#f0edf7',
   tagFarcasterText: '#472991',
   tagFarcasterBackground: '#f7f4fd',
+  tagFarcasterBackgroundHover: '#FDFCFE',
+
   bigQuestion1: figmaColors.success5,
   bigQuestion2: figmaColors.secondary4,
 
@@ -231,6 +234,9 @@ export const colors = {
 
   tagCtaText: figmaColors.secondary5,
   tagCtaBackground: figmaColors.secondary2,
+
+  tagLinkText: figmaColors.secondary5,
+  tagLinkBackground: figmaColors.secondary2,
 
   tagSecondaryText: figmaColors.secondary5,
   tagSecondaryBackground: figmaColors.secondary2,
@@ -564,6 +570,9 @@ export const dark = createTheme({
     tagCtaText: figmaColors.primary6,
     tagCtaBackground: figmaColors.primary9,
 
+    tagLinkText: figmaColors.primary6,
+    tagLinkBackground: figmaColors.primary9,
+
     tagSecondaryText: figmaColors.secondary3,
     tagSecondaryBackground: figmaColors.secondary8,
     tagSecondaryBackgroundDim: figmaColors.secondary9,
@@ -575,7 +584,10 @@ export const dark = createTheme({
     tagDefaultBackground: figmaColors.grey7,
 
     tagFarcasterText: '#dcceff',
+    surfaceFarcaster: '#281c44',
     tagFarcasterBackground: '#472991',
+    tagFarcasterBackgroundHover: '#5732B2',
+
     bigQuestion1: figmaColors.success5,
     bigQuestion2: figmaColors.primary3,
 
@@ -728,8 +740,8 @@ export const party = createTheme({
 
     info: figmaColors.secondary10,
     textOnInfo: figmaColors.grey1,
-    link: figmaColors.secondary4,
-    linkHover: figmaColors.secondary3,
+    link: '#f583ee',
+    linkHover: '#f85def',
     alert: figmaColors.error6,
     warning: figmaColors.orange5,
     complete: figmaColors.success5,
@@ -744,8 +756,8 @@ export const party = createTheme({
     border: 'rgba(0,0,0,0.25)',
     borderContrast: figmaColors.grey6,
     contentHeaderBorder: figmaColors.grey7,
-    borderFocus: figmaColors.primary5,
-    borderFocusBright: figmaColors.primary3,
+    borderFocus: '$link',
+    borderFocusBright: '$linkHover',
     borderTable: figmaColors.grey7,
 
     currentEpochDate: figmaColors.primary2,
@@ -772,6 +784,9 @@ export const party = createTheme({
     tagCtaText: figmaColors.primary6,
     tagCtaBackground: figmaColors.primary9,
 
+    tagLinkText: '#f583ee',
+    tagLinkBackground: '#30042D',
+
     tagSecondaryText: figmaColors.secondary3,
     tagSecondaryBackground: figmaColors.secondary8,
     tagSecondaryBackgroundDim: figmaColors.secondary9,
@@ -783,7 +798,10 @@ export const party = createTheme({
     tagDefaultBackground: figmaColors.grey7,
 
     tagFarcasterText: '#dcceff',
+    surfaceFarcaster: '#281c44',
     tagFarcasterBackground: '#472991',
+    tagFarcasterBackgroundHover: '#5732B2',
+
     bigQuestion1: figmaColors.orange5,
     bigQuestion2: figmaColors.success5,
 
@@ -839,12 +857,12 @@ export const party = createTheme({
     navLinkActiveText: figmaColors.secondary3,
     navLinkActiveBackground: 'rgba(0,0,0,0.45)',
 
-    reactionButtonBorderMine: figmaColors.primary7,
-    reactionButtonBorderHover: figmaColors.primary3,
+    reactionButtonBorderMine: '#bc5db6',
+    reactionButtonBorderHover: '$linkHover',
     reactionButton: figmaColors.neutral8,
 
     reactionButtonText: '$text',
-    reactionButtonTextHover: '$reactionButtonBorderHover',
+    reactionButtonTextHover: '$text',
   },
   shadows: {
     shadow1: '0px 0px 35px 12px rgb(0 0 0 / 40%)',

@@ -1,11 +1,13 @@
 import React from 'react';
 
 import * as Sentry from '@sentry/react';
+import { CastByline } from 'features/farcaster/casts/CastByline';
 
 import { Flex, Text } from '../../ui';
 import { CastRow } from '../farcaster/casts/CastRow';
 import { isFeatureEnabled } from 'config/features';
 
+import { CoLinksPostRowChild } from './CoLinksPostRowChild';
 import { ContributionRow } from './ContributionRow';
 import { DeletedRow } from './DeletedRow';
 import { EpochCreatedRow } from './EpochCreatedRow';
@@ -69,14 +71,37 @@ const validActivity = (
 ) => {
   if (IsContribution(activity)) {
     if (activity.private_stream || activity.big_question) {
-      return <PostRow activity={activity} focus={focus} />;
+      return (
+        <PostRow activity={activity} focus={focus} editAllowed={true}>
+          {({ editing, editable, setEditing }) => (
+            <CoLinksPostRowChild
+              activity={activity}
+              editable={editable}
+              editing={editing}
+              setEditing={setEditing}
+            />
+          )}
+        </PostRow>
+      );
     } else {
       return (
         <ContributionRow activity={activity} drawer={drawer} focus={focus} />
       );
     }
   } else if (IsCast(activity)) {
-    return <CastRow cast={activity.cast} activity={activity} />;
+    return (
+      <>
+        <PostRow
+          activity={activity}
+          focus={focus}
+          editAllowed={true}
+          postType="cast"
+          castByline={<CastByline cast={activity.cast} />}
+        >
+          {() => <CastRow cast={activity.cast} activity={activity} />}
+        </PostRow>
+      </>
+    );
   } else if (IsNewUser(activity)) {
     return <NewUserRow activity={activity} />;
   } else if (IsEpochCreated(activity)) {
