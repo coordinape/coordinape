@@ -186,6 +186,7 @@
     "setup": "./scripts/setup.sh",
     "db-seed-fresh": "./scripts/env.sh scripts/seed_hasura.sh --clean",
     "db-seed": "./scripts/env.sh scripts/seed_hasura.sh",
+    "db-seed-colinks": "./scripts/env.sh scripts/seed_colinks.sh",
     "db-disable-cron": "./scripts/env.sh scripts/disable_cron.sh",
     "db:local:import": "./scripts/env.sh scripts/db-local-import.sh",
     "db:prod:export": "./scripts/env.sh scripts/db-prod-export.sh",
