@@ -246,6 +246,7 @@ export const PostRow = ({
                       targetProfileId={activity.actor_profile_public.id}
                       activityId={activity.id}
                       gives={activity.gives}
+                      castHash={activity.enriched_cast?.hash}
                     />
                     <Flex className="commentButton">
                       <>

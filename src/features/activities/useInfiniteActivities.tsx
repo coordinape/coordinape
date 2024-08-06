@@ -97,6 +97,9 @@ export const activitySelector = Selector('activities')({
       },
     },
   ],
+  enriched_cast: {
+    hash: true,
+  },
 });
 const getActivities = async (where: Where, page: number) => {
   const { activities } = await client.query(
