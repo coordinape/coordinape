@@ -44,6 +44,8 @@ insert_permissions:
                         _is_null: true
             - big_question_id:
                 _is_null: false
+            - cast_id:
+                _is_null: false
             - _and:
                 - private_stream:
                     _eq: true
@@ -76,6 +78,8 @@ select_permissions:
                     - deleted_at:
                         _is_null: true
             - big_question_id:
+                _is_null: false
+            - cast_id:
                 _is_null: false
             - _and:
                 - private_stream:

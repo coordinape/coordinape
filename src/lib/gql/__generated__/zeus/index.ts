@@ -1208,6 +1208,8 @@ export type ValueTypes = {
     contribution_id?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     /** An object relationship */
+    enriched_cast?: ValueTypes['enriched_casts'];
+    /** An object relationship */
     epoch?: ValueTypes['epochs'];
     epoch_id?: boolean | `@${string}`;
     gives?: [
@@ -1525,6 +1527,7 @@ export type ValueTypes = {
     contribution?: ValueTypes['contributions_bool_exp'] | undefined | null;
     contribution_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    enriched_cast?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
     epoch?: ValueTypes['epochs_bool_exp'] | undefined | null;
     epoch_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     gives?: ValueTypes['colinks_gives_bool_exp'] | undefined | null;
@@ -1648,6 +1651,7 @@ export type ValueTypes = {
     contribution?: ValueTypes['contributions_order_by'] | undefined | null;
     contribution_id?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
+    enriched_cast?: ValueTypes['enriched_casts_order_by'] | undefined | null;
     epoch?: ValueTypes['epochs_order_by'] | undefined | null;
     epoch_id?: ValueTypes['order_by'] | undefined | null;
     gives_aggregate?:
@@ -5686,6 +5690,221 @@ export type ValueTypes = {
     email?: ValueTypes['citext'] | undefined | null;
     primary?: boolean | undefined | null;
     verified_at?: ValueTypes['timestamp'] | undefined | null;
+  };
+  /** farcaster casts that we actually care about, with some materialized fields */
+  ['enriched_casts']: AliasType<{
+    created_at?: boolean | `@${string}`;
+    deleted_at?: boolean | `@${string}`;
+    embeds?: [
+      {
+        /** JSON select path */ path?: string | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    fid?: boolean | `@${string}`;
+    hash?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    mentions?: boolean | `@${string}`;
+    mentions_positions?: boolean | `@${string}`;
+    parent_fid?: boolean | `@${string}`;
+    parent_hash?: boolean | `@${string}`;
+    parent_url?: boolean | `@${string}`;
+    profile_id?: boolean | `@${string}`;
+    /** An object relationship */
+    profile_public?: ValueTypes['profiles_public'];
+    reactions?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions'],
+    ];
+    reactions_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_reactions_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_reactions_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_reactions_aggregate'],
+    ];
+    replies?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts'],
+    ];
+    replies_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['farcaster_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['farcaster_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['farcaster_casts_aggregate'],
+    ];
+    root_parent_hash?: boolean | `@${string}`;
+    root_parent_url?: boolean | `@${string}`;
+    text?: boolean | `@${string}`;
+    timestamp?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** Boolean expression to filter rows from the table "enriched_casts". All fields are combined with a logical 'AND'. */
+  ['enriched_casts_bool_exp']: {
+    _and?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
+    _not?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
+    created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    embeds?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
+    fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    mentions?: ValueTypes['bigint_array_comparison_exp'] | undefined | null;
+    mentions_positions?:
+      | ValueTypes['smallint_array_comparison_exp']
+      | undefined
+      | null;
+    parent_fid?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    reactions?: ValueTypes['farcaster_reactions_bool_exp'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['farcaster_reactions_aggregate_bool_exp']
+      | undefined
+      | null;
+    replies?: ValueTypes['farcaster_casts_bool_exp'] | undefined | null;
+    replies_aggregate?:
+      | ValueTypes['farcaster_casts_aggregate_bool_exp']
+      | undefined
+      | null;
+    root_parent_hash?: ValueTypes['bytea_comparison_exp'] | undefined | null;
+    root_parent_url?: ValueTypes['String_comparison_exp'] | undefined | null;
+    text?: ValueTypes['String_comparison_exp'] | undefined | null;
+    timestamp?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "enriched_casts". */
+  ['enriched_casts_order_by']: {
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    deleted_at?: ValueTypes['order_by'] | undefined | null;
+    embeds?: ValueTypes['order_by'] | undefined | null;
+    fid?: ValueTypes['order_by'] | undefined | null;
+    hash?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    mentions?: ValueTypes['order_by'] | undefined | null;
+    mentions_positions?: ValueTypes['order_by'] | undefined | null;
+    parent_fid?: ValueTypes['order_by'] | undefined | null;
+    parent_hash?: ValueTypes['order_by'] | undefined | null;
+    parent_url?: ValueTypes['order_by'] | undefined | null;
+    profile_id?: ValueTypes['order_by'] | undefined | null;
+    profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    reactions_aggregate?:
+      | ValueTypes['farcaster_reactions_aggregate_order_by']
+      | undefined
+      | null;
+    replies_aggregate?:
+      | ValueTypes['farcaster_casts_aggregate_order_by']
+      | undefined
+      | null;
+    root_parent_hash?: ValueTypes['order_by'] | undefined | null;
+    root_parent_url?: ValueTypes['order_by'] | undefined | null;
+    text?: ValueTypes['order_by'] | undefined | null;
+    timestamp?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "enriched_casts" */
+  ['enriched_casts_select_column']: enriched_casts_select_column;
+  /** Streaming cursor of the table "enriched_casts" */
+  ['enriched_casts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['enriched_casts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['enriched_casts_stream_cursor_value_input']: {
+    created_at?: ValueTypes['timestamp'] | undefined | null;
+    deleted_at?: ValueTypes['timestamp'] | undefined | null;
+    embeds?: ValueTypes['jsonb'] | undefined | null;
+    fid?: ValueTypes['bigint'] | undefined | null;
+    hash?: ValueTypes['bytea'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    mentions?: Array<ValueTypes['bigint']> | undefined | null;
+    mentions_positions?: Array<ValueTypes['smallint']> | undefined | null;
+    parent_fid?: ValueTypes['bigint'] | undefined | null;
+    parent_hash?: ValueTypes['bytea'] | undefined | null;
+    parent_url?: string | undefined | null;
+    profile_id?: ValueTypes['bigint'] | undefined | null;
+    root_parent_hash?: ValueTypes['bytea'] | undefined | null;
+    root_parent_url?: string | undefined | null;
+    text?: string | undefined | null;
+    timestamp?: ValueTypes['timestamp'] | undefined | null;
+    updated_at?: ValueTypes['timestamp'] | undefined | null;
   };
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: AliasType<{
@@ -14237,6 +14456,33 @@ export type ValueTypes = {
       },
       ValueTypes['emails'],
     ];
+    enriched_casts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['enriched_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['enriched_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['enriched_casts'],
+    ];
+    enriched_casts_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['enriched_casts'],
+    ];
     epoch_pgive_data?: [
       {
         /** distinct select on columns */
@@ -17998,6 +18244,44 @@ export type ValueTypes = {
         where?: ValueTypes['emails_bool_exp'] | undefined | null;
       },
       ValueTypes['emails'],
+    ];
+    enriched_casts?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['enriched_casts_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['enriched_casts_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['enriched_casts'],
+    ];
+    enriched_casts_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['enriched_casts'],
+    ];
+    enriched_casts_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['enriched_casts_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
+      },
+      ValueTypes['enriched_casts'],
     ];
     epoch_pgive_data?: [
       {
@@ -22686,6 +22970,8 @@ export type ModelTypes = {
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
+    enriched_cast?: GraphQLTypes['enriched_casts'] | undefined;
+    /** An object relationship */
     epoch?: GraphQLTypes['epochs'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
@@ -24206,6 +24492,46 @@ export type ModelTypes = {
   ['emails_stream_cursor_input']: GraphQLTypes['emails_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['emails_stream_cursor_value_input']: GraphQLTypes['emails_stream_cursor_value_input'];
+  /** farcaster casts that we actually care about, with some materialized fields */
+  ['enriched_casts']: {
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds: GraphQLTypes['jsonb'];
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    mentions: Array<GraphQLTypes['bigint']>;
+    mentions_positions: Array<GraphQLTypes['smallint']>;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** An array relationship */
+    replies: Array<GraphQLTypes['farcaster_casts']>;
+    /** An aggregate relationship */
+    replies_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text: string;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** Boolean expression to filter rows from the table "enriched_casts". All fields are combined with a logical 'AND'. */
+  ['enriched_casts_bool_exp']: GraphQLTypes['enriched_casts_bool_exp'];
+  /** Ordering options when selecting data from "enriched_casts". */
+  ['enriched_casts_order_by']: GraphQLTypes['enriched_casts_order_by'];
+  /** select columns of table "enriched_casts" */
+  ['enriched_casts_select_column']: GraphQLTypes['enriched_casts_select_column'];
+  /** Streaming cursor of the table "enriched_casts" */
+  ['enriched_casts_stream_cursor_input']: GraphQLTypes['enriched_casts_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['enriched_casts_stream_cursor_value_input']: GraphQLTypes['enriched_casts_stream_cursor_value_input'];
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
     active_months: number;
@@ -27164,6 +27490,10 @@ export type ModelTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** An array relationship */
     emails: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table: "enriched_casts" */
+    enriched_casts: Array<GraphQLTypes['enriched_casts']>;
+    /** fetch data from the table: "enriched_casts" using primary key columns */
+    enriched_casts_by_pk?: GraphQLTypes['enriched_casts'] | undefined;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -28087,6 +28417,12 @@ export type ModelTypes = {
     emails: Array<GraphQLTypes['emails']>;
     /** fetch data from the table in a streaming manner: "emails" */
     emails_stream: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table: "enriched_casts" */
+    enriched_casts: Array<GraphQLTypes['enriched_casts']>;
+    /** fetch data from the table: "enriched_casts" using primary key columns */
+    enriched_casts_by_pk?: GraphQLTypes['enriched_casts'] | undefined;
+    /** fetch data from the table in a streaming manner: "enriched_casts" */
+    enriched_casts_stream: Array<GraphQLTypes['enriched_casts']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -29647,6 +29983,8 @@ export type GraphQLTypes = {
     contribution_id?: GraphQLTypes['bigint'] | undefined;
     created_at: GraphQLTypes['timestamptz'];
     /** An object relationship */
+    enriched_cast?: GraphQLTypes['enriched_casts'] | undefined;
+    /** An object relationship */
     epoch?: GraphQLTypes['epochs'] | undefined;
     epoch_id?: GraphQLTypes['bigint'] | undefined;
     /** An array relationship */
@@ -29785,6 +30123,7 @@ export type GraphQLTypes = {
     contribution?: GraphQLTypes['contributions_bool_exp'] | undefined;
     contribution_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    enriched_cast?: GraphQLTypes['enriched_casts_bool_exp'] | undefined;
     epoch?: GraphQLTypes['epochs_bool_exp'] | undefined;
     epoch_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     gives?: GraphQLTypes['colinks_gives_bool_exp'] | undefined;
@@ -29898,6 +30237,7 @@ export type GraphQLTypes = {
     contribution?: GraphQLTypes['contributions_order_by'] | undefined;
     contribution_id?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
+    enriched_cast?: GraphQLTypes['enriched_casts_order_by'] | undefined;
     epoch?: GraphQLTypes['epochs_order_by'] | undefined;
     epoch_id?: GraphQLTypes['order_by'] | undefined;
     gives_aggregate?:
@@ -33219,6 +33559,127 @@ export type GraphQLTypes = {
     email?: GraphQLTypes['citext'] | undefined;
     primary?: boolean | undefined;
     verified_at?: GraphQLTypes['timestamp'] | undefined;
+  };
+  /** farcaster casts that we actually care about, with some materialized fields */
+  ['enriched_casts']: {
+    __typename: 'enriched_casts';
+    created_at: GraphQLTypes['timestamp'];
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds: GraphQLTypes['jsonb'];
+    fid: GraphQLTypes['bigint'];
+    hash: GraphQLTypes['bytea'];
+    id: GraphQLTypes['bigint'];
+    mentions: Array<GraphQLTypes['bigint']>;
+    mentions_positions: Array<GraphQLTypes['smallint']>;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    /** An object relationship */
+    profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    /** An array relationship */
+    reactions: Array<GraphQLTypes['farcaster_reactions']>;
+    /** An aggregate relationship */
+    reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
+    /** An array relationship */
+    replies: Array<GraphQLTypes['farcaster_casts']>;
+    /** An aggregate relationship */
+    replies_aggregate: GraphQLTypes['farcaster_casts_aggregate'];
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text: string;
+    timestamp: GraphQLTypes['timestamp'];
+    updated_at: GraphQLTypes['timestamp'];
+  };
+  /** Boolean expression to filter rows from the table "enriched_casts". All fields are combined with a logical 'AND'. */
+  ['enriched_casts_bool_exp']: {
+    _and?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
+    _not?: GraphQLTypes['enriched_casts_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
+    created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    embeds?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
+    fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    mentions?: GraphQLTypes['bigint_array_comparison_exp'] | undefined;
+    mentions_positions?:
+      | GraphQLTypes['smallint_array_comparison_exp']
+      | undefined;
+    parent_fid?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    reactions?: GraphQLTypes['farcaster_reactions_bool_exp'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_bool_exp']
+      | undefined;
+    replies?: GraphQLTypes['farcaster_casts_bool_exp'] | undefined;
+    replies_aggregate?:
+      | GraphQLTypes['farcaster_casts_aggregate_bool_exp']
+      | undefined;
+    root_parent_hash?: GraphQLTypes['bytea_comparison_exp'] | undefined;
+    root_parent_url?: GraphQLTypes['String_comparison_exp'] | undefined;
+    text?: GraphQLTypes['String_comparison_exp'] | undefined;
+    timestamp?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
+  };
+  /** Ordering options when selecting data from "enriched_casts". */
+  ['enriched_casts_order_by']: {
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    deleted_at?: GraphQLTypes['order_by'] | undefined;
+    embeds?: GraphQLTypes['order_by'] | undefined;
+    fid?: GraphQLTypes['order_by'] | undefined;
+    hash?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    mentions?: GraphQLTypes['order_by'] | undefined;
+    mentions_positions?: GraphQLTypes['order_by'] | undefined;
+    parent_fid?: GraphQLTypes['order_by'] | undefined;
+    parent_hash?: GraphQLTypes['order_by'] | undefined;
+    parent_url?: GraphQLTypes['order_by'] | undefined;
+    profile_id?: GraphQLTypes['order_by'] | undefined;
+    profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    reactions_aggregate?:
+      | GraphQLTypes['farcaster_reactions_aggregate_order_by']
+      | undefined;
+    replies_aggregate?:
+      | GraphQLTypes['farcaster_casts_aggregate_order_by']
+      | undefined;
+    root_parent_hash?: GraphQLTypes['order_by'] | undefined;
+    root_parent_url?: GraphQLTypes['order_by'] | undefined;
+    text?: GraphQLTypes['order_by'] | undefined;
+    timestamp?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "enriched_casts" */
+  ['enriched_casts_select_column']: enriched_casts_select_column;
+  /** Streaming cursor of the table "enriched_casts" */
+  ['enriched_casts_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['enriched_casts_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['enriched_casts_stream_cursor_value_input']: {
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    deleted_at?: GraphQLTypes['timestamp'] | undefined;
+    embeds?: GraphQLTypes['jsonb'] | undefined;
+    fid?: GraphQLTypes['bigint'] | undefined;
+    hash?: GraphQLTypes['bytea'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    mentions?: Array<GraphQLTypes['bigint']> | undefined;
+    mentions_positions?: Array<GraphQLTypes['smallint']> | undefined;
+    parent_fid?: GraphQLTypes['bigint'] | undefined;
+    parent_hash?: GraphQLTypes['bytea'] | undefined;
+    parent_url?: string | undefined;
+    profile_id?: GraphQLTypes['bigint'] | undefined;
+    root_parent_hash?: GraphQLTypes['bytea'] | undefined;
+    root_parent_url?: string | undefined;
+    text?: string | undefined;
+    timestamp?: GraphQLTypes['timestamp'] | undefined;
+    updated_at?: GraphQLTypes['timestamp'] | undefined;
   };
   /** columns and relationships of "epoch_pgive_data" */
   ['epoch_pgive_data']: {
@@ -39255,6 +39716,10 @@ export type GraphQLTypes = {
     distributions_by_pk?: GraphQLTypes['distributions'] | undefined;
     /** An array relationship */
     emails: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table: "enriched_casts" */
+    enriched_casts: Array<GraphQLTypes['enriched_casts']>;
+    /** fetch data from the table: "enriched_casts" using primary key columns */
+    enriched_casts_by_pk?: GraphQLTypes['enriched_casts'] | undefined;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -40748,6 +41213,12 @@ export type GraphQLTypes = {
     emails: Array<GraphQLTypes['emails']>;
     /** fetch data from the table in a streaming manner: "emails" */
     emails_stream: Array<GraphQLTypes['emails']>;
+    /** fetch data from the table: "enriched_casts" */
+    enriched_casts: Array<GraphQLTypes['enriched_casts']>;
+    /** fetch data from the table: "enriched_casts" using primary key columns */
+    enriched_casts_by_pk?: GraphQLTypes['enriched_casts'] | undefined;
+    /** fetch data from the table in a streaming manner: "enriched_casts" */
+    enriched_casts_stream: Array<GraphQLTypes['enriched_casts']>;
     /** fetch data from the table: "epoch_pgive_data" */
     epoch_pgive_data: Array<GraphQLTypes['epoch_pgive_data']>;
     /** fetch data from the table: "epoch_pgive_data" using primary key columns */
@@ -42967,6 +43438,26 @@ export const enum emails_select_column {
   email = 'email',
   primary = 'primary',
   verified_at = 'verified_at',
+}
+/** select columns of table "enriched_casts" */
+export const enum enriched_casts_select_column {
+  created_at = 'created_at',
+  deleted_at = 'deleted_at',
+  embeds = 'embeds',
+  fid = 'fid',
+  hash = 'hash',
+  id = 'id',
+  mentions = 'mentions',
+  mentions_positions = 'mentions_positions',
+  parent_fid = 'parent_fid',
+  parent_hash = 'parent_hash',
+  parent_url = 'parent_url',
+  profile_id = 'profile_id',
+  root_parent_hash = 'root_parent_hash',
+  root_parent_url = 'root_parent_url',
+  text = 'text',
+  timestamp = 'timestamp',
+  updated_at = 'updated_at',
 }
 /** select columns of table "epoch_pgive_data" */
 export const enum epoch_pgive_data_select_column {

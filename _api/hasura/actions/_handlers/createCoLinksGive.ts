@@ -40,7 +40,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     let targetProfileId: number | undefined;
 
-    if (payload.activity_id) {
+    if (payload.cast_hash) {
+      // remove the db nonsense
+      payload.cast_hash = payload.cast_hash.replace('\\', '0');
+      try {
+        const { cast } = await fetchCast(payload.cast_hash);
+        const fid = cast.author.fid;
+        const profile = await findOrCreateProfileByFid(fid);
+        targetProfileId = profile?.id;
+      } catch (e: any) {
+        throw new UnprocessableError('invalid cast_hash');
+      }
+    } else if (payload.activity_id) {
       // lookup activity by address
       // make sure its not deleted, and not us
       const { activities } = await adminClient.query(
@@ -65,15 +76,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
 
       targetProfileId = activity.actor_profile_id;
-    } else if (payload.cast_hash) {
-      try {
-        const { cast } = await fetchCast(payload.cast_hash);
-        const fid = cast.author.fid;
-        const profile = await findOrCreateProfileByFid(fid);
-        targetProfileId = profile?.id;
-      } catch (e: any) {
-        throw new UnprocessableError('invalid cast_hash');
-      }
     } else if (payload.address) {
       const profile = await findOrCreateProfileByAddress(payload.address);
       targetProfileId = profile?.id;

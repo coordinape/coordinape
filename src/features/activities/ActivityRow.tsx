@@ -94,7 +94,7 @@ const validActivity = (
         <PostRow
           activity={activity}
           focus={focus}
-          editAllowed={true}
+          editAllowed={false}
           postType="cast"
           castByline={<CastByline cast={activity.cast} />}
         >
