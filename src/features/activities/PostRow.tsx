@@ -20,6 +20,7 @@ import { Button, Flex, IconButton, Link, Text } from 'ui';
 
 import { ActivityAvatar } from './ActivityAvatar';
 import { ActivityProfileName } from './ActivityProfileName';
+import { PostStats } from './PostStats';
 import { ReactionBar } from './reactions/ReactionBar';
 import { RepliesBox } from './replies/RepliesBox';
 import { SharePostModal } from './SharePostModal';
@@ -87,6 +88,8 @@ export const PostRow = ({
   });
 
   const isCast = postType === 'cast';
+  const engagementScore =
+    activity.reactions.length + activity.reply_count + activity.gives.length;
 
   return (
     <>
@@ -208,7 +211,11 @@ export const PostRow = ({
                     <Edit />
                   </IconButton>
                 )}
-                {castByline}
+                {isCast ? (
+                  <>{castByline}</>
+                ) : (
+                  <PostStats engagementScore={engagementScore} />
+                )}
               </Flex>
             </Flex>
             {children({ editing, editable, setEditing })}
