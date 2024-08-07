@@ -96,6 +96,7 @@ const AvatarImage = styled(AvatarPrimitive.Image, {
   borderRadius: 'inherit',
   // for some reason our processed images have a black line at the top.  scaling to hide it for now
   transform: 'scale(1.03)',
+  aspectRatio: '1 / 1',
 });
 
 // WEIRD: using 'span' instead of AvatarPrimitive.Fallback because of a radix component reuse bug

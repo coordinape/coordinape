@@ -2,7 +2,7 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
-import { artWidthMobile } from 'features/cosoul/constants';
+import { colinksProfileColumnWidth } from 'features/cosoul/constants';
 import { anonClient } from 'lib/anongql/anonClient';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
@@ -28,6 +28,7 @@ import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
 import useProfileId from 'hooks/useProfileId';
 import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
+import { ProfileNetwork } from 'pages/GiveParty/ProfileNetwork';
 import { SingleColumnLayout } from 'ui/layouts';
 import { shortenAddressWithFrontLength } from 'utils';
 
@@ -472,13 +473,14 @@ const PageContents = ({
           column
           css={{
             gap: '$lg',
-            width: `${artWidthMobile}`,
+            width: `${colinksProfileColumnWidth}`,
             '@tablet': {
               display: 'none',
             },
           }}
         >
           <CoSoulItem cosoul={cosoul} exploreView={false} />
+          <ProfileNetwork targetAddress={targetAddress} />
           {targetIsCurrentUser && (
             <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
           )}
