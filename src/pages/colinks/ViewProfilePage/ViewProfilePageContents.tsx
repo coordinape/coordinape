@@ -8,7 +8,6 @@ import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
-import { isFeatureEnabled } from '../../../config/features';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
@@ -191,6 +190,7 @@ const PageContents = ({
   const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
     undefined
   );
+  const [showCasts, setShowCasts] = useState<boolean>(true);
 
   const { data: targetProfile, isLoading: fetchCoLinksProfileIsLoading } =
     useQuery([QUERY_KEY_COLINKS, targetAddress, 'profile'], () =>
@@ -393,12 +393,32 @@ const PageContents = ({
             )}
           </Flex>
           {currentUserAddress && (
-            <Flex column>
+            <Flex column css={{ gap: '$md' }}>
+              <Flex css={{ gap: '$sm' }}>
+                <Text semibold size="small">
+                  View
+                </Text>
+                <Button
+                  size="xs"
+                  color={!showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(true)}
+                >
+                  All
+                </Button>
+                <Button
+                  size="xs"
+                  color={showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(false)}
+                >
+                  CoLinks Only
+                </Button>
+              </Flex>
               <ActivityList
                 queryKey={[
                   QUERY_KEY_COLINKS,
                   'activity',
                   targetProfile.profile.id,
+                  showCasts,
                 ]}
                 pollForNewActivity={showLoading}
                 onSettled={() => setShowLoading(false)}
@@ -408,7 +428,7 @@ const PageContents = ({
                       big_question_id: { _is_null: false },
                     },
                     { private_stream: { _eq: true } },
-                    ...(isFeatureEnabled('cast_activities')
+                    ...(showCasts
                       ? [
                           {
                             _and: [

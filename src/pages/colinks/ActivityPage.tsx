@@ -105,19 +105,24 @@ const CoLinksActivityPageContents = ({
             )}
           </Flex>
         </ContentHeader>
-        <Flex column css={{ gap: '$1xl' }}>
-          <Flex css={{ gap: '$md' }}>
+        <Flex column css={{ gap: '$md' }}>
+          <Flex css={{ gap: '$sm' }}>
+            <Text semibold size="small">
+              View
+            </Text>
             <Button
-              color={!showCasts ? 'secondary' : undefined}
+              size="xs"
+              color={!showCasts ? 'secondary' : 'selectedSecondary'}
               onClick={() => setShowCasts(true)}
             >
-              All Posts
+              All
             </Button>
             <Button
-              color={showCasts ? 'secondary' : undefined}
+              size="xs"
+              color={showCasts ? 'secondary' : 'selectedSecondary'}
               onClick={() => setShowCasts(false)}
             >
-              CoLinks Posts Only
+              CoLinks Only
             </Button>
           </Flex>
           <ActivityList
