@@ -7,7 +7,6 @@ import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
-import { isFeatureEnabled } from '../../config/features';
 import { ActivityList } from '../../features/activities/ActivityList';
 import { CoLinksContext } from '../../features/colinks/CoLinksContext';
 import { PostForm } from '../../features/colinks/PostForm';
@@ -26,7 +25,7 @@ import {
   UserFill,
 } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, ContentHeader, Flex, Panel, Text } from '../../ui';
+import { AppLink, Button, ContentHeader, Flex, Panel, Text } from '../../ui';
 import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 
 import { CoLinksTaskCards } from './CoLinksTaskCards';
@@ -48,6 +47,8 @@ const CoLinksActivityPageContents = ({
   const { data } = useCoLinksNavQuery();
 
   const [showLoading, setShowLoading] = useState(false);
+
+  const [showCasts, setShowCasts] = useState<boolean>(true);
 
   const { targetBalance } = useLinkingStatus({
     address: currentUserAddress,
@@ -105,8 +106,22 @@ const CoLinksActivityPageContents = ({
           </Flex>
         </ContentHeader>
         <Flex column css={{ gap: '$1xl' }}>
+          <Flex css={{ gap: '$md' }}>
+            <Button
+              color={!showCasts ? 'secondary' : undefined}
+              onClick={() => setShowCasts(true)}
+            >
+              All Posts
+            </Button>
+            <Button
+              color={showCasts ? 'secondary' : undefined}
+              onClick={() => setShowCasts(false)}
+            >
+              CoLinks Posts Only
+            </Button>
+          </Flex>
           <ActivityList
-            queryKey={[QUERY_KEY_COLINKS, 'activity']}
+            queryKey={[QUERY_KEY_COLINKS, 'activity', showCasts]}
             where={{
               _or: [
                 {
@@ -114,7 +129,7 @@ const CoLinksActivityPageContents = ({
                   private_stream_visibility: {},
                 },
                 { private_stream: { _eq: true } },
-                ...(isFeatureEnabled('cast_activities')
+                ...(showCasts
                   ? [
                       {
                         _and: [
