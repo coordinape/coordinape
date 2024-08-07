@@ -71,7 +71,8 @@ export const Button = styled('button', {
       selectedSecondary: {
         backgroundColor: '$secondaryButtonHover',
         color: '$secondaryButtonTextHover',
-        border: '1px solid $secondaryButtonBorderHover',
+        outline: '1px solid $secondaryButtonBorderHover',
+        outlineOffset: '-1px',
         '&:hover': {
           filter: 'brightness(0.8)',
         },
