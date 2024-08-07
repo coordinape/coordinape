@@ -6,7 +6,10 @@ import { fetchProfileInfo } from '../../api-lib/frames/give/fetchProfileInfo.tsx
 import { FRAME_ROUTER_URL_BASE } from '../../api-lib/frames/routingUrls.ts';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations.ts';
 import { errorResponse } from '../../api-lib/HttpError';
-import { insertCoLinksGive } from '../../api-lib/insertCoLinksGive.ts';
+import {
+  insertCoLinksGive,
+  publishCastGiveDelivered,
+} from '../../api-lib/insertCoLinksGive.ts';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreate.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
@@ -165,19 +168,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       },
     });
 
-    // PRE-CACHE farme and image by calling the URL
-    await fetch(getFrameUrl('give', giveId), {
-      signal: AbortSignal.timeout(10000),
-    });
-    await fetch(getFrameImgUrl('give', giveId), {
-      signal: AbortSignal.timeout(10000),
-    });
-
-    // TODO: change this to no message
-    await publishCast(`GIVE Delivered`, {
-      replyTo: hash,
-      embeds: [{ url: getFrameUrl('give', giveId) }],
-    });
+    await publishCastGiveDelivered(hash, giveId);
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
