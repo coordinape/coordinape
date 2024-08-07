@@ -100,6 +100,9 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
                   as={AppLink}
                   to={coLinksPaths.givemap}
                   color="cta"
+                  onClick={() => {
+                    setVisible(false);
+                  }}
                   css={{
                     ...partyNavButtonStyle,
                     ...(location.pathname == '/givemap' && {
@@ -123,6 +126,9 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
                   color="secondary"
                   as={AppLink}
                   to={coLinksPaths.giveBoard}
+                  onClick={() => {
+                    setVisible(false);
+                  }}
                 >
                   View GIVE for a particular skill
                 </Button>
