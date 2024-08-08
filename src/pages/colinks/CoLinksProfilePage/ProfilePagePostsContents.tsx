@@ -259,36 +259,6 @@ const PageContents = ({
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
           />
-          <Flex css={{ gap: '$sm' }}>
-            <Button
-              size="xs"
-              color={!showCasts ? 'secondary' : 'selectedSecondary'}
-              onClick={() => setShowCasts(true)}
-            >
-              Posts
-            </Button>
-            <Button
-              size="xs"
-              color={showCasts ? 'secondary' : 'selectedSecondary'}
-              onClick={() => setShowCasts(false)}
-            >
-              Network
-            </Button>
-            <Button
-              size="xs"
-              color={showCasts ? 'secondary' : 'selectedSecondary'}
-              onClick={() => setShowCasts(false)}
-            >
-              GIVE
-            </Button>
-            <Button
-              size="xs"
-              color={showCasts ? 'secondary' : 'selectedSecondary'}
-              onClick={() => setShowCasts(false)}
-            >
-              Reputation
-            </Button>
-          </Flex>
           {needsToBuyLink === true ? (
             <Flex
               css={{

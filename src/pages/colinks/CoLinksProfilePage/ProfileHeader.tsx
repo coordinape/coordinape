@@ -1,8 +1,11 @@
+import assert from 'assert';
+
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
@@ -10,12 +13,14 @@ import { Mutes } from '../../../features/colinks/Mutes';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
+import { LoadingIndicator } from 'components/LoadingIndicator';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useProfileId from 'hooks/useProfileId';
 import {
   ExternalLink,
   Farcaster,
   Github,
+  Icebreaker,
   Settings,
   Twitter,
 } from 'icons/__generated';
@@ -34,7 +39,7 @@ export const ProfileHeader = ({ targetAddress }: { targetAddress: string }) => {
       enabled: !!targetAddress,
     }
   );
-  if (!targetProfile) return null;
+  if (!targetProfile) return <LoadingIndicator />;
   return (
     <ProfileHeaderWithProfile
       targetProfile={targetProfile}
@@ -127,45 +132,134 @@ const ProfileHeaderWithProfile = ({
   );
 
   return (
-    <ContentHeader css={{ '@sm': { mb: 0 } }}>
-      <Flex column css={{ gap: '$sm', flexGrow: 1, width: '100%' }}>
-        <Flex
-          css={{
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            width: '100%',
-            gap: '$md',
-            flexWrap: 'wrap',
-          }}
-        >
-          <Flex alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
-            <Flex column css={{ mr: '$md' }}>
-              <Avatar
-                size="xl"
-                name={profile.name}
-                path={profile.avatar}
-                margin="none"
-              />
-            </Flex>
-            <Flex column css={{ gap: '$sm' }}>
-              <Text h2 display css={{ color: '$secondaryButtonText' }}>
-                {profile.name}
-              </Text>
-              <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
-                <CoLinksStats
-                  address={profile.address}
-                  links={profile.links ?? 0}
-                  score={profile.reputation_score?.total_score ?? 0}
-                  size={'medium'}
-                  // We should this elsewhere i guess?
-                  holdingCount={0}
-                  // if we want to show this, this is how but probably needs a restyle
-                  // holdingCount={targetBalance ?? 0}
+    <Flex column css={{ gap: '$sm' }}>
+      <ContentHeader css={{ mb: 0 }}>
+        <Flex column css={{ gap: '$sm' }}>
+          <Flex
+            css={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              gap: '$md',
+              flexWrap: 'wrap',
+            }}
+          >
+            <Flex alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
+              <Flex column css={{ mr: '$md' }}>
+                <Avatar
+                  size="xl"
+                  name={profile.name}
+                  path={profile.avatar}
+                  margin="none"
                 />
-                {details?.farcaster && (
+              </Flex>
+              <Flex column css={{ gap: '$sm' }}>
+                <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                  {profile.name}
+                </Text>
+                <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
+                  <CoLinksStats
+                    address={profile.address}
+                    links={profile.links ?? 0}
+                    score={profile.reputation_score?.total_score ?? 0}
+                    size={'medium'}
+                    // We should this elsewhere i guess?
+                    holdingCount={0}
+                    // if we want to show this, this is how but probably needs a restyle
+                    // holdingCount={targetBalance ?? 0}
+                  />
+                  {details?.farcaster && (
+                    <Flex
+                      as={Link}
+                      href={`https://warpcast.com/${details?.farcaster}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      css={{
+                        alignItems: 'center',
+                        gap: '$xs',
+                        color: '$secondaryText',
+                        fontWeight: '$medium',
+                        '&:hover': {
+                          color: '$linkHover',
+                          'svg path': {
+                            fill: '$linkHover',
+                          },
+                        },
+                      }}
+                    >
+                      <Farcaster fa /> {details?.farcaster}
+                    </Flex>
+                  )}
+                  {details?.github && (
+                    <Flex
+                      as={Link}
+                      href={`https://github.com/${details?.github}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      css={{
+                        alignItems: 'center',
+                        gap: '$xs',
+                        color: '$secondaryText',
+                        fontWeight: '$semibold',
+                        '&:hover': {
+                          color: '$linkHover',
+                          'svg path': {
+                            fill: '$linkHover',
+                          },
+                        },
+                      }}
+                    >
+                      <Github nostroke /> {details?.github}
+                    </Flex>
+                  )}
+                  {details?.twitter && (
+                    <Flex
+                      as={Link}
+                      href={`https://twitter.com/${details?.twitter}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      css={{
+                        alignItems: 'center',
+                        gap: '$xs',
+                        color: '$secondaryText',
+                        fontWeight: '$medium',
+                        '&:hover': {
+                          color: '$linkHover',
+                          'svg path': {
+                            fill: '$linkHover',
+                          },
+                        },
+                      }}
+                    >
+                      <Twitter nostroke /> {details?.twitter}
+                    </Flex>
+                  )}
+                  {profile?.website && (
+                    <Flex
+                      as={Link}
+                      href={profile.website as string}
+                      target="_blank"
+                      rel="noreferrer"
+                      title={profile.website as string}
+                      css={{
+                        alignItems: 'center',
+                        gap: '$xs',
+                        color: '$secondaryText',
+                        '&:hover': {
+                          color: '$linkHover',
+                        },
+                      }}
+                    >
+                      <ExternalLink />{' '}
+                      {abbreviateString(
+                        (profile.website as string).replace(/^https?:\/\//, ''),
+                        20
+                      )}
+                    </Flex>
+                  )}
                   <Flex
                     as={Link}
-                    href={`https://warpcast.com/${details?.farcaster}`}
+                    href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
                     target="_blank"
                     rel="noreferrer"
                     css={{
@@ -181,152 +275,115 @@ const ProfileHeaderWithProfile = ({
                       },
                     }}
                   >
-                    <Farcaster fa /> {details?.farcaster}
+                    <Icebreaker fa /> Icebreaker
                   </Flex>
-                )}
-                {details?.github && (
-                  <Flex
-                    as={Link}
-                    href={`https://github.com/${details?.github}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$secondaryText',
-                      fontWeight: '$semibold',
-                      '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
-                      },
-                    }}
-                  >
-                    <Github nostroke /> {details?.github}
-                  </Flex>
-                )}
-                {details?.twitter && (
-                  <Flex
-                    as={Link}
-                    href={`https://twitter.com/${details?.twitter}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$secondaryText',
-                      fontWeight: '$medium',
-                      '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
-                      },
-                    }}
-                  >
-                    <Twitter nostroke /> {details?.twitter}
-                  </Flex>
-                )}
-                {profile?.website && (
-                  <Flex
-                    as={Link}
-                    href={profile.website as string}
-                    target="_blank"
-                    rel="noreferrer"
-                    title={profile.website as string}
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$secondaryText',
-                      '&:hover': {
-                        color: '$linkHover',
-                      },
-                    }}
-                  >
-                    <ExternalLink />{' '}
-                    {abbreviateString(
-                      (profile.website as string).replace(/^https?:\/\//, ''),
-                      20
-                    )}
-                  </Flex>
-                )}
-                <Flex
-                  as={Link}
-                  href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  css={{
-                    alignItems: 'center',
-                    gap: '$xs',
-                    color: '$secondaryText',
-                    fontWeight: '$medium',
-                    '&:hover': {
-                      color: '$linkHover',
-                      'svg path': {
-                        fill: '$linkHover',
-                      },
-                    },
-                  }}
-                >
-                  Icebreaker
                 </Flex>
               </Flex>
             </Flex>
+            <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
+              {isCurrentUser ? (
+                <Button
+                  as={AppLink}
+                  color="neutral"
+                  outlined
+                  size="small"
+                  to={coLinksPaths.account}
+                >
+                  <Settings />
+                  Edit Profile
+                </Button>
+              ) : (
+                <Mutes
+                  targetProfileId={targetProfile?.profile.id}
+                  targetProfileAddress={targetAddress}
+                />
+              )}
+            </Flex>
           </Flex>
-          <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
-            {isCurrentUser ? (
-              <Button
-                as={AppLink}
-                color="neutral"
-                outlined
-                size="small"
-                to={coLinksPaths.account}
-              >
-                <Settings />
-                Edit Profile
-              </Button>
-            ) : (
-              <Mutes
-                targetProfileId={targetProfile?.profile.id}
-                targetProfileAddress={targetAddress}
-              />
+          <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+            {!isCurrentUser && superFriend && (
+              <Text tag color={'secondary'}>
+                Mutual Link
+              </Text>
             )}
+            {imMuted && (
+              <Text tag color={'alert'}>
+                Muted You
+              </Text>
+            )}
+            {mutedThem && (
+              <Text tag color={'alert'}>
+                Muted
+              </Text>
+            )}
+            {details?.skills.map(s => (
+              <SkillTag key={s} skill={s} css={{ background: '$surface' }} />
+            ))}
           </Flex>
+          {profile.address && (
+            <Flex css={{ gap: '$sm' }}>
+              <GiveReceived address={profile.address} size="large" />
+            </Flex>
+          )}
+          {profile.description && (
+            <Flex css={{ mt: '$xs' }}>
+              <Text color="secondary">{profile.description}</Text>
+            </Flex>
+          )}
         </Flex>
-        <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
-          {!isCurrentUser && superFriend && (
-            <Text tag color={'secondary'}>
-              Mutual Link
-            </Text>
-          )}
-          {imMuted && (
-            <Text tag color={'alert'}>
-              Muted You
-            </Text>
-          )}
-          {mutedThem && (
-            <Text tag color={'alert'}>
-              Muted
-            </Text>
-          )}
-          {details?.skills.map(s => (
-            <SkillTag key={s} skill={s} css={{ background: '$surface' }} />
-          ))}
-        </Flex>
-        {profile.address && (
-          <Flex css={{ gap: '$sm' }}>
-            <GiveReceived address={profile.address} size="large" />
-          </Flex>
-        )}
+      </ContentHeader>
 
-        {profile.description && (
-          <Flex css={{ mt: '$xs' }}>
-            <Text color="secondary">{profile.description}</Text>
-          </Flex>
-        )}
+      <Flex css={{ gap: '$sm' }}>
+        <Button
+          as={NavLink}
+          to={coLinksPaths.profilePosts(targetAddress)}
+          size="xs"
+          color={
+            location.pathname.includes('posts')
+              ? 'selectedSecondary'
+              : 'secondary'
+          }
+        >
+          Posts
+        </Button>
+        <Button
+          as={NavLink}
+          to={coLinksPaths.profileNetwork(targetAddress)}
+          size="xs"
+          color={
+            location.pathname.includes('network')
+              ? 'selectedSecondary'
+              : 'secondary'
+          }
+        >
+          Network
+        </Button>
+        <Button
+          as={NavLink}
+          to={coLinksPaths.profileGive(targetAddress)}
+          size="xs"
+          color={
+            location.pathname.includes('give')
+              ? 'selectedSecondary'
+              : 'secondary'
+          }
+        >
+          GIVE
+        </Button>
+        <Button
+          as={NavLink}
+          to={coLinksPaths.profileReputation(targetAddress)}
+          size="xs"
+          color={
+            location.pathname.includes('reputation')
+              ? 'selectedSecondary'
+              : 'secondary'
+          }
+        >
+          Reputation
+        </Button>
       </Flex>
-    </ContentHeader>
+    </Flex>
   );
 };
 

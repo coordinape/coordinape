@@ -2,7 +2,8 @@ import { useParams } from 'react-router-dom';
 
 import { Box } from '../../../ui';
 
-import { ProfilePagePostsContents } from './ProfilePagePostsContents';
+import { ProfileHeader } from './ProfileHeader';
+// import { ProfilePagePostsContents } from './ProfilePagePostsContents';
 
 export const ViewProfilePagePosts = () => {
   const { address } = useParams();
@@ -12,7 +13,8 @@ export const ViewProfilePagePosts = () => {
   }
   return (
     <>
-      <ProfilePagePostsContents targetAddress={address} />
+      <ProfileHeader targetAddress={address} />
+      {/* <ProfilePagePostsContents targetAddress={address} /> */}
       add post form
     </>
   );
