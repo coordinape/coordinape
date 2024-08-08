@@ -21,7 +21,6 @@ import { Button, Flex, IconButton } from 'ui';
 
 import { NavCircle, NavOrg, useNavQuery } from './getNavData';
 import { NavCircles } from './NavCircles';
-import { NavClaimsButton } from './NavClaimsButton';
 import { NavLogo } from './NavLogo';
 import { NavOrgs } from './NavOrgs';
 import { NavProfile } from './NavProfile';
@@ -62,7 +61,6 @@ export const SideNav = () => {
   );
   const cosoul_data = query.data;
 
-  const showClaimsButton = (data?.claims_aggregate.aggregate?.count || 0) > 0;
   const cosoulCtaClick = () => {
     window.localStorage.setItem('cosoulCtaAnimation', 'hidden');
   };
@@ -237,7 +235,7 @@ export const SideNav = () => {
           {data && (
             <>
               <Flex column css={{ gap: '$sm' }}>
-                {address && <EmailCTA />}
+                <EmailCTA />
                 <>
                   <Button
                     color="cta"
@@ -270,7 +268,6 @@ export const SideNav = () => {
                   </Button>
                   <CoSoulPromoModal minted={!!cosoul_data?.mintInfo} />
                 </>
-                {showClaimsButton && <NavClaimsButton />}
               </Flex>
               <Suspense fallback={null}>
                 <Flex

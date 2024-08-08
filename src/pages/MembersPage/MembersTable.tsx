@@ -1,8 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formatUnits } from 'ethers/lib/utils';
-import { client } from 'lib/gql/client';
 import { isUserAdmin, Role } from 'lib/users';
 import { zEthAddress } from 'lib/zod/formHelpers';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
@@ -15,17 +13,11 @@ import {
   COORDINAPE_USER_ADDRESS,
   COORDINAPE_USER_AVATAR,
 } from 'config/constants';
-import {
-  useApiAdminCircle,
-  useContracts,
-  useNavigation,
-  useToast,
-} from 'hooks';
+import { useApiAdminCircle, useNavigation, useToast } from 'hooks';
 import useMobileDetect from 'hooks/useMobileDetect';
 import { Check, Info, Slash, X } from 'icons/__generated';
-import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE, givePaths } from 'routes/paths';
+import { EXTERNAL_URL_WHY_COORDINAPE_IN_CIRCLE } from 'routes/paths';
 import {
-  AppLink,
   Avatar,
   Box,
   Button,
@@ -41,7 +33,7 @@ import {
   Tooltip,
 } from 'ui';
 import { TwoColumnLayout } from 'ui/layouts';
-import { numberWithCommas, shortenAddress } from 'utils';
+import { shortenAddress } from 'utils';
 
 import { IDeleteUser } from '.';
 import type { QueryCircle, QueryUser } from './getMembersPageData';
@@ -185,8 +177,6 @@ const UserName = ({ user }: { user: QueryUser }) => {
 export const MemberRow = ({
   user,
   myUser: me,
-  fixedPaymentToken,
-  fixedPayment,
   token_name,
   setDeleteUserDialog,
   showLeaveModal,
@@ -194,8 +184,6 @@ export const MemberRow = ({
 }: {
   user: QueryUser;
   myUser: QueryUser | undefined;
-  fixedPaymentToken?: string;
-  fixedPayment: { total: number; number: number; vaultId: number | undefined };
   token_name: string | undefined;
   setDeleteUserDialog: (u: { name: string; profileId: number }) => void;
   showLeaveModal: () => void;
@@ -215,7 +203,7 @@ export const MemberRow = ({
     useApiAdminCircle(circleId);
   const queryClient = useQueryClient();
 
-  const { control, handleSubmit, watch, setValue, reset } =
+  const { control, handleSubmit, setValue, reset } =
     useForm<EditUserFormSchema>({
       resolver: zodResolver(schema),
       mode: 'all',
@@ -245,31 +233,6 @@ export const MemberRow = ({
     defaultValue: user.fixed_non_receiver,
   });
 
-  const watchFixedPaymentAmount = watch('fixed_payment_amount');
-
-  const { fixed_payment_amount } = user.user_private || {};
-
-  const fixedPaymentTotal = (
-    fixedPaymentAmount: number
-  ): { fixedTotal: number; fixedReceivers: number } => {
-    let fixedTotal = fixedPayment?.total ?? 0;
-    let fixedReceivers = fixedPayment?.number ?? 0;
-
-    if (!fixed_payment_amount && fixedPaymentAmount > 0) {
-      fixedTotal = fixedPayment?.total + fixedPaymentAmount;
-      fixedReceivers = (fixedPayment?.number ?? 0) + 1;
-    } else if (fixed_payment_amount && fixedPaymentAmount > 0) {
-      fixedTotal =
-        fixedPayment?.total +
-        (fixedPaymentAmount - (fixed_payment_amount ?? 0));
-      fixedReceivers = fixedPayment?.number ?? 1;
-    }
-    return {
-      fixedTotal,
-      fixedReceivers,
-    };
-  };
-
   const isOptedOut = !!user.fixed_non_receiver || !!user.non_receiver;
   const hasGiveAllocated = !!user.give_token_received;
 
@@ -295,8 +258,6 @@ export const MemberRow = ({
     }
   };
 
-  const [availableInVault, setAvailableInVault] = useState<string>('');
-  const contracts = useContracts();
   const mounted = useRef(false);
 
   useEffect(() => {
@@ -306,29 +267,6 @@ export const MemberRow = ({
       mounted.current = false;
     };
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      if (!contracts || !fixedPayment?.vaultId || !open) return;
-      const { vaults_by_pk: vault } = await client.query(
-        {
-          vaults_by_pk: [
-            { id: fixedPayment.vaultId },
-            {
-              simple_token_address: true,
-              vault_address: true,
-              decimals: true,
-            },
-          ],
-        },
-        { operationName: 'getVaultsMembersPage' }
-      );
-      if (!vault) return;
-      const balance = await contracts.getVaultBalance(vault);
-      const available = formatUnits(balance, vault.decimals);
-      if (mounted.current) setAvailableInVault(numberWithCommas(available));
-    })();
-  }, [contracts, fixedPayment, open]);
 
   const toggleCoordinapeUser = async (user: {
     deleted_at?: string;
@@ -394,12 +332,6 @@ export const MemberRow = ({
               )}
             </TD>
           </>
-        )}
-        {!!fixedPaymentToken && isAdmin && (
-          <TD css={{ textAlign: 'center !important' }}>
-            {fixed_payment_amount === 0 ? '0' : fixed_payment_amount}{' '}
-            {fixedPaymentToken}
-          </TD>
         )}
         <TD
           css={{
@@ -713,70 +645,6 @@ export const MemberRow = ({
                     css={{ width: '140px' }}
                   />
                 </Flex>
-                <Flex column css={{ mt: '-16px' }}>
-                  <Text large css={{ mb: '$md', fontWeight: '$semibold' }}>
-                    Fixed Payment
-                  </Text>
-                  <Flex css={{ gap: '$md', flexWrap: 'wrap', mb: '$md' }}>
-                    <FormInputField
-                      id="fixed_payment_amount"
-                      name="fixed_payment_amount"
-                      number
-                      control={control}
-                      defaultValue={fixed_payment_amount}
-                      label="Member Fixed Payment"
-                      infoTooltip="Fixed Amount tokens allocated to this user regardless of gives received"
-                      showFieldErrors
-                      disabled={!fixedPaymentToken}
-                    />
-                    <Flex column css={{ gap: '$xs' }}>
-                      <Text variant="label" as="label">
-                        Members
-                      </Text>
-                      <TextField
-                        value={
-                          fixedPaymentTotal(watchFixedPaymentAmount)
-                            .fixedReceivers
-                        }
-                        disabled
-                        readOnly
-                      />
-                    </Flex>
-                    <Flex column css={{ gap: '$xs' }}>
-                      <Text variant="label" as="label">
-                        Fixed Payments Total
-                      </Text>
-                      <TextField
-                        value={`${
-                          fixedPaymentTotal(watchFixedPaymentAmount).fixedTotal
-                        } ${fixedPaymentToken ?? ''}`}
-                        disabled
-                        readOnly
-                      />
-                    </Flex>
-                    <Flex column css={{ gap: '$xs' }}>
-                      <Text variant="label" as="label">
-                        Available in Vault
-                      </Text>{' '}
-                      <TextField
-                        value={`${availableInVault ?? ''} ${
-                          fixedPaymentToken ?? ''
-                        }`}
-                        disabled
-                        readOnly
-                      />
-                    </Flex>
-                  </Flex>
-                  <Box css={{ fontSize: '$small', alignSelf: 'flex-end' }}>
-                    Edit Fixed Payment Token in{' '}
-                    <AppLink
-                      inlineLink
-                      to={givePaths.circleAdmin(user.circle_id)}
-                    >
-                      Circle Settings
-                    </AppLink>
-                  </Box>
-                </Flex>
               </TwoColumnLayout>
               <Flex
                 css={{
@@ -934,16 +802,6 @@ export const MembersTable = ({
 
   const epochIsActive = (circle?.epochs.length || [].length) > 0;
 
-  const fixedPayments = usersWithGrantee
-    .filter(user => user.user_private?.fixed_payment_amount > 0)
-    .map(user => user.user_private?.fixed_payment_amount);
-
-  const fixedPayment = {
-    total: fixedPayments?.reduce<number>((a, b) => a + b, 0),
-    number: fixedPayments?.length,
-    vaultId: circle.fixed_payment_vault_id,
-  };
-
   return (
     <>
       <MemberTable
@@ -977,8 +835,6 @@ export const MembersTable = ({
           <MemberRow
             key={member.id}
             user={member}
-            fixedPaymentToken={circle.fixed_payment_token_type}
-            fixedPayment={fixedPayment}
             token_name={circle.token_name}
             myUser={me}
             setDeleteUserDialog={setDeleteUserDialog}
