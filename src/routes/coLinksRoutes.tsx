@@ -47,6 +47,10 @@ import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import { ViewProfilePageGive } from 'pages/colinks/CoLinksProfilePage/ProfilePageGive';
+import { ViewProfilePageNetwork } from 'pages/colinks/CoLinksProfilePage/ProfilePageNetwork';
+import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePagePosts';
+import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveMap } from 'pages/GiveMap';
@@ -106,7 +110,7 @@ export const coLinksRoutes = [
     ,
     <Route key={'network'}>
       <Route
-        path={coLinksPaths.profileNetwork(':address')}
+        path={coLinksPaths.profilePartyNetwork(':address')}
         element={<ProfileNetworkPage />}
       />
     </Route>
@@ -190,6 +194,22 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.profile(':address')}
         element={<ViewProfilePage />}
+      />
+      <Route
+        path={coLinksPaths.profilePosts(':address')}
+        element={<ViewProfilePagePosts />}
+      />
+      <Route
+        path={coLinksPaths.profileGive(':address')}
+        element={<ViewProfilePageGive />}
+      />
+      <Route
+        path={coLinksPaths.profileNetwork(':address')}
+        element={<ViewProfilePageNetwork />}
+      />
+      <Route
+        path={coLinksPaths.profileReputation(':address')}
+        element={<ViewProfilePageReputation />}
       />
       <Route
         path={coLinksPaths.history(':address')}

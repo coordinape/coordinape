@@ -2,7 +2,6 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
-import { artWidthMobile } from 'features/cosoul/constants';
 import { anonClient } from 'lib/anongql/anonClient';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
@@ -24,19 +23,16 @@ import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
-import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
+import { CoLinksProfileHeader } from '../ViewProfilePage/CoLinksProfileHeader';
 import useProfileId from 'hooks/useProfileId';
-import { CoSoulItem } from 'pages/CoSoulExplorePage/CoSoulItem';
 import { SingleColumnLayout } from 'ui/layouts';
 import { shortenAddressWithFrontLength } from 'utils';
-
-import { CoLinksProfileHeader } from './CoLinksProfileHeader';
 
 const LINK_HOLDERS_LIMIT = 5;
 const LINKS_HOLDING_LIMIT = 5;
 
-export const ViewProfilePageContents = ({
+export const ProfilePagePostsContents = ({
   targetAddress,
 }: {
   targetAddress: string;
@@ -203,14 +199,14 @@ const PageContents = ({
     }
   );
 
-  const needsBootstrapping = targetIsCurrentUser && balance == 0n;
-  const ownedByTarget = targetBalance !== undefined && targetBalance > 0n;
+  const needsBootstrapping = targetIsCurrentUser && balance == 0;
+  const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
 
   useEffect(() => {
     if (balance !== undefined) {
-      setNeedsToBuyLink(balance === 0n);
+      setNeedsToBuyLink(balance === 0);
     }
   }, [balance]);
 
@@ -263,6 +259,36 @@ const PageContents = ({
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
           />
+          <Flex css={{ gap: '$sm' }}>
+            <Button
+              size="xs"
+              color={!showCasts ? 'secondary' : 'selectedSecondary'}
+              onClick={() => setShowCasts(true)}
+            >
+              Posts
+            </Button>
+            <Button
+              size="xs"
+              color={showCasts ? 'secondary' : 'selectedSecondary'}
+              onClick={() => setShowCasts(false)}
+            >
+              Network
+            </Button>
+            <Button
+              size="xs"
+              color={showCasts ? 'secondary' : 'selectedSecondary'}
+              onClick={() => setShowCasts(false)}
+            >
+              GIVE
+            </Button>
+            <Button
+              size="xs"
+              color={showCasts ? 'secondary' : 'selectedSecondary'}
+              onClick={() => setShowCasts(false)}
+            >
+              Reputation
+            </Button>
+          </Flex>
           {needsToBuyLink === true ? (
             <Flex
               css={{
@@ -467,47 +493,6 @@ const PageContents = ({
               />
             </Flex>
           )}
-        </Flex>
-        <Flex
-          column
-          css={{
-            gap: '$lg',
-            width: `${artWidthMobile}`,
-            '@tablet': {
-              display: 'none',
-            },
-          }}
-        >
-          <CoSoulItem cosoul={cosoul} exploreView={false} />
-          {targetIsCurrentUser && (
-            <CoLinksTaskCards currentUserAddress={currentUserAddress} small />
-          )}
-          {needsToBuyLink === false && (
-            <RightColumnSection>
-              <Flex column css={{ width: '100%' }}>
-                <BuyOrSellCoLinks
-                  subject={targetAddress}
-                  address={currentUserAddress}
-                />
-                {needsBootstrapping && (
-                  <Panel info css={{ mt: '$lg', gap: '$md' }}>
-                    <Text inline>
-                      <strong>Buy your first Link</strong> to allow other CoLink
-                      holders to buy your Link.
-                    </Text>
-                    <Text>
-                      Your link holders will gain access to X. You will receive
-                      Y% of the price when they buy or sell.
-                    </Text>
-                    <Text>
-                      <Link> Learn More about Links</Link>
-                    </Text>
-                  </Panel>
-                )}
-              </Flex>
-            </RightColumnSection>
-          )}
-          <ProfileLinkDetails targetAddress={targetAddress} />
         </Flex>
       </Flex>
     </SingleColumnLayout>
