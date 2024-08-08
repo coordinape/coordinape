@@ -6,11 +6,11 @@ import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink } from 'react-router-dom';
 import { useDebounce, useElementSize } from 'usehooks-ts';
 
+import { GiveGraph } from '../../NetworkViz/GiveGraph';
 import { Maximize } from 'icons/__generated';
 import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
-import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, Panel, Text } from 'ui';
+import { Box, Button, Flex, Panel, Text } from 'ui';
 
 import { cardMaxWidth } from './ProfileCards';
 
@@ -88,16 +88,35 @@ export const ProfilePageGiveContents = ({
               <Panel noBorder css={{ p: 0, position: 'relative' }}>
                 <ThemeContext.Consumer>
                   {({ stitchesTheme }) => (
-                    <GiveGraph
-                      address={targetAddress}
-                      height={mapHeight}
-                      width={debouncedSize.width}
-                      minZoom={2}
-                      expand={desktop}
-                      stitchesTheme={stitchesTheme}
-                      zoom={false}
-                      compact={true}
-                    />
+                    <Box
+                      css={{
+                        width: '100%',
+                        position: 'relative',
+                        overflow: 'hidden',
+                        height: mapHeight,
+                      }}
+                    >
+                      <Box
+                        css={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: debouncedSize.width,
+                          height: mapHeight,
+                        }}
+                      >
+                        <GiveGraph
+                          address={targetAddress}
+                          height={mapHeight}
+                          width={debouncedSize.width}
+                          minZoom={2}
+                          expand={desktop}
+                          stitchesTheme={stitchesTheme}
+                          zoom={false}
+                          compact={true}
+                        />
+                      </Box>
+                    </Box>
                   )}
                 </ThemeContext.Consumer>
                 <Flex

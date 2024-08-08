@@ -23,10 +23,10 @@ export const ViewProfilePageGive = () => {
           '@sm': { flexDirection: 'column' },
         }}
       >
-        <Flex css={{ width: '100%' }}>
-          <ProfilePageGiveContents targetAddress={address} />
-        </Flex>
+        {/*<ResponsiveColumnLayout css={{ px: 0, mx: 0 }}>*/}
+        <ProfilePageGiveContents targetAddress={address} />
         <ProfileCards targetAddress={address} forceDisplay />
+        {/*</ResponsiveColumnLayout>*/}
       </Flex>
     </SingleColumnLayout>
   );

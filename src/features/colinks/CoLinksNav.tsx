@@ -10,6 +10,7 @@ import { usePoints } from 'features/points/usePoints';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { isFeatureEnabled } from '../../config/features';
 import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
 import {
@@ -350,6 +351,12 @@ const LoggedInItems = ({
         <HouseFill size="lg" nostroke />
         Home
       </NavItem>
+      {isFeatureEnabled('give_zone') && (
+        <NavItem path={coLinksPaths.give}>
+          <GemCoOutline size="lg" nostroke />
+          GIVE
+        </NavItem>
+      )}
       <NavItem path={coLinksPaths.explore}>
         <PlanetFill size="lg" nostroke />
         Explore

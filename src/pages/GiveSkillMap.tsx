@@ -1,10 +1,11 @@
 import { NavLink, useParams } from 'react-router-dom';
+import { useDebounce, useElementSize } from 'usehooks-ts';
 
 import { webAppURL } from '../config/webAppURL';
 import { Wand } from '../icons/__generated';
 import { disabledStyle } from '../stitches.config';
 import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, Link, Text } from 'ui';
+import { Box, Button, Flex, Link, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveGraph } from './NetworkViz/GiveGraph';
@@ -13,13 +14,23 @@ export const GiveSkillMap = () => {
   const { skill } = useParams();
 
   const castMapUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
+
+  const [setRef, size] = useElementSize();
+
+  const widthOffset = 32;
+
+  const debouncedSize = useDebounce(size);
   return (
     <>
       <Flex
+        column
         css={{
           justifyContent: 'center',
+          // width: '100%',
         }}
+        ref={setRef}
       >
+        {/*This div is just for reference width */}
         <Button
           as={Link}
           href={castMapUrl}
@@ -31,7 +42,7 @@ export const GiveSkillMap = () => {
             }),
           }}
         >
-          <Wand fa size={'md'} /> Cast in Farcaster
+          <Wand fa size={'md'} /> {debouncedSize.width} Cast in Farcaster
         </Button>
       </Flex>
 
@@ -81,7 +92,22 @@ export const GiveSkillMap = () => {
               mb: '$sm',
             }}
           >
-            {skill && <GiveGraph skill={skill} height={800} />}
+            {skill && debouncedSize.width > 0 ? (
+              <Box
+                style={{
+                  height: 800,
+                  width: debouncedSize.width - widthOffset,
+                  // overflow: 'clip',
+                }}
+              >
+                <GiveGraph
+                  skill={skill}
+                  width={debouncedSize.width - widthOffset}
+                  height={800}
+                />
+              </Box>
+            ) : //
+            null}
             <Flex
               css={{
                 position: 'absolute',
