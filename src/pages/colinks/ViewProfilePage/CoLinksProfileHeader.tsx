@@ -19,6 +19,7 @@ import {
   ExternalLink,
   Farcaster,
   Github,
+  Icebreaker,
   Plus,
   Settings,
   Twitter,
@@ -248,6 +249,27 @@ export const CoLinksProfileHeader = ({
                     )}
                   </Flex>
                 )}
+
+                <Flex
+                  as={Link}
+                  href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  css={{
+                    alignItems: 'center',
+                    gap: '$xs',
+                    color: '$secondaryText',
+                    fontWeight: '$medium',
+                    '&:hover': {
+                      color: '$linkHover',
+                      'svg path': {
+                        fill: '$linkHover',
+                      },
+                    },
+                  }}
+                >
+                  <Icebreaker fa /> Icebreaker
+                </Flex>
               </Flex>
             </Flex>
           </Flex>

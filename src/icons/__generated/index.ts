@@ -101,6 +101,7 @@ export { default as Grid } from './Grid';
 export { default as HelpCircle } from './HelpCircle';
 export { default as Home } from './Home';
 export { default as HouseFill } from './HouseFill';
+export { default as Icebreaker } from './Icebreaker';
 export { default as Image } from './Image';
 export { default as Info } from './Info';
 export { default as Key } from './Key';
