@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactNode, useMemo, useState } from 'react';
 
 import {
   AuthenticationStatus,
@@ -9,12 +9,11 @@ import { generateNonce, SiweMessage } from 'siwe';
 import { useAccount } from 'wagmi';
 
 import { client } from '../../lib/gql/client';
-import { useAuthStore } from '../auth';
 import {
   logoutAndClearSavedAuth,
-  reloadAuthFromCookie,
   setAuthTokenForAddress,
 } from '../auth/helpers';
+import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
 
 import { refreshEmitter } from './refreshEmitter';
 
@@ -47,17 +46,8 @@ export function RainbowKitSiweProvider({
   const [authState, setAuthState] = useState<AuthenticationStatus>(
     address ? 'authenticated' : 'unauthenticated'
   );
-  const { setProfileId, profileId, setAddress } = useAuthStore();
 
-  useEffect(() => {
-    if (!profileId) {
-      const fromCookie = reloadAuthFromCookie();
-      if (fromCookie && fromCookie.id) {
-        setProfileId(fromCookie.id);
-        setAddress(fromCookie.address);
-      }
-    }
-  }, [profileId]);
+  const { setProfileId, setAddress } = useReloadCookieAuth();
 
   const adapter = useMemo(
     () =>
