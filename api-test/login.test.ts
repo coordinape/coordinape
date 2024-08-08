@@ -50,7 +50,7 @@ test('reject invalid signature', async () => {
 });
 
 test('allow login with valid signature', async () => {
-  await sendMockReq(5);
+  await sendMockReq(10);
   expect(res.json.mock.calls[0][0].token).toMatch(/\d+\|[A-Za-z0-9]{40}/);
 
   const { profiles } = await adminClient.query(
@@ -60,7 +60,7 @@ test('allow login with valid signature', async () => {
         { connector: true },
       ],
     },
-    { operationName: 'test' },
+    { operationName: 'test' }
   );
 
   expect(profiles[0]?.connector).toBe('testing');
