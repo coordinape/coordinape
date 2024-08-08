@@ -20,7 +20,7 @@ import CreateCirclePage from '../pages/CreateCirclePage';
 import DevPortalPage from '../pages/DevPortalPage';
 import DiscordPage from '../pages/DiscordPage';
 import DistributionsPage from '../pages/DistributionsPage';
-import GivePage from '../pages/GivePage';
+import GiftCircleGivePage from '../pages/GiftCircleGivePage';
 import HistoryPage from '../pages/HistoryPage';
 import IntegrationCallbackPage from '../pages/IntegrationCallbackPage';
 import JoinPage from '../pages/JoinPage';
@@ -68,7 +68,7 @@ const GiveRoutes = () => {
       <Route path="circles/:circleId" element={<CircleRouteHandler />}>
         <Route path="epochs" element={<HistoryPage />} />
         <Route path="epochs/:epochId" element={<HistoryPage />} />
-        <Route path="give" element={<GivePage />} />
+        <Route path="give" element={<GiftCircleGivePage />} />
         <Route path="contributions" element={<ContributionsPage />} />
         <Route path="members/add" element={<CircleAdminRouteHandler />}>
           <Route path="" element={<AddMembersPage />} />

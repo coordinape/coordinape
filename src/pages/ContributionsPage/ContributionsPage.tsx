@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
 import { ACTIVITIES_QUERY_KEY } from '../../features/activities/ActivityList';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from '../GiftCircleGivePage/EpochStatementDrawer';
 import { FormInputField, LoadingModal } from 'components';
 import HintBanner from 'components/HintBanner';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -20,7 +21,6 @@ import {
   ChevronUp,
   Trash2,
 } from 'icons/__generated';
-import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from 'pages/GivePage/EpochStatementDrawer';
 import { useCircleIdParam } from 'routes/hooks';
 import { EXTERNAL_URL_DISCORD, givePaths } from 'routes/paths';
 import {

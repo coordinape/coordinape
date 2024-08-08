@@ -74,7 +74,7 @@ const schema = z.object({
 type allocationTextSchema = z.infer<typeof schema>;
 const SAVE_BUFFER_PERIOD = 1000;
 
-const GivePage = () => {
+const GiftCircleGivePage = () => {
   const circleId = useCircleIdParam();
   const { data: circle } = useQuery(
     [QUERY_KEY_GIVE_PAGE, circleId],
@@ -618,7 +618,7 @@ const GivePageInner = ({
   );
 };
 
-export default GivePage;
+export default GiftCircleGivePage;
 
 type AllocateContentsProps = {
   adjustGift(recipientId: number, amount: number): void;
