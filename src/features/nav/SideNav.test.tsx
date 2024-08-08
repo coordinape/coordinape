@@ -135,7 +135,7 @@ test('show circle links for org members under "other circles"', async () => {
   expect(screen.queryByText('GIVE')).toBeFalsy();
 });
 
-test('show org nav links to activity, vaults and members', async () => {
+test('show org nav links to activity and members', async () => {
   (useNavQuery as any).mockReturnValue({
     data: {
       organizations: [
@@ -179,7 +179,6 @@ test('show org nav links to activity, vaults and members', async () => {
 
   expect(screen.getByText(fixtures.organization.name));
   expect(screen.getByText('Activity'));
-  expect(screen.getByText('Vaults'));
   expect(screen.queryByText('Admin')).toBeFalsy();
   expect(screen.queryByText('GIVE')).toBeFalsy();
 });
