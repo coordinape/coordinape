@@ -4,8 +4,8 @@ import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
+import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
-import { NavLink } from 'react-router-dom';
 
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
@@ -26,6 +26,8 @@ import {
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
+
+import { ProfileNav } from './ProfileNav';
 
 export const ProfileHeader = ({ targetAddress }: { targetAddress: string }) => {
   const currentUserProfileId = useProfileId(false);
@@ -132,7 +134,10 @@ const ProfileHeaderWithProfile = ({
   );
 
   return (
-    <Flex column css={{ gap: '$sm' }}>
+    <Flex column css={{ gap: '$lg' }}>
+      <Helmet>
+        <title>{targetProfile.profile.name} / CoLinks</title>
+      </Helmet>
       <ContentHeader css={{ mb: 0 }}>
         <Flex column css={{ gap: '$sm' }}>
           <Flex
@@ -234,6 +239,26 @@ const ProfileHeaderWithProfile = ({
                       <Twitter nostroke /> {details?.twitter}
                     </Flex>
                   )}
+                  <Flex
+                    as={Link}
+                    href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    css={{
+                      alignItems: 'center',
+                      gap: '$xs',
+                      color: '$secondaryText',
+                      fontWeight: '$medium',
+                      '&:hover': {
+                        color: '$linkHover',
+                        'svg path': {
+                          fill: '$linkHover',
+                        },
+                      },
+                    }}
+                  >
+                    <Icebreaker fa /> Icebreaker
+                  </Flex>
                   {profile?.website && (
                     <Flex
                       as={Link}
@@ -257,26 +282,6 @@ const ProfileHeaderWithProfile = ({
                       )}
                     </Flex>
                   )}
-                  <Flex
-                    as={Link}
-                    href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$secondaryText',
-                      fontWeight: '$medium',
-                      '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
-                      },
-                    }}
-                  >
-                    <Icebreaker fa /> Icebreaker
-                  </Flex>
                 </Flex>
               </Flex>
             </Flex>
@@ -332,57 +337,7 @@ const ProfileHeaderWithProfile = ({
           )}
         </Flex>
       </ContentHeader>
-
-      <Flex css={{ gap: '$sm' }}>
-        <Button
-          as={NavLink}
-          to={coLinksPaths.profilePosts(targetAddress)}
-          size="xs"
-          color={
-            location.pathname.includes('posts')
-              ? 'selectedSecondary'
-              : 'secondary'
-          }
-        >
-          Posts
-        </Button>
-        <Button
-          as={NavLink}
-          to={coLinksPaths.profileNetwork(targetAddress)}
-          size="xs"
-          color={
-            location.pathname.includes('network')
-              ? 'selectedSecondary'
-              : 'secondary'
-          }
-        >
-          Network
-        </Button>
-        <Button
-          as={NavLink}
-          to={coLinksPaths.profileGive(targetAddress)}
-          size="xs"
-          color={
-            location.pathname.includes('give')
-              ? 'selectedSecondary'
-              : 'secondary'
-          }
-        >
-          GIVE
-        </Button>
-        <Button
-          as={NavLink}
-          to={coLinksPaths.profileReputation(targetAddress)}
-          size="xs"
-          color={
-            location.pathname.includes('reputation')
-              ? 'selectedSecondary'
-              : 'secondary'
-          }
-        >
-          Reputation
-        </Button>
-      </Flex>
+      <ProfileNav targetAddress={targetAddress} />
     </Flex>
   );
 };

@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 
-import { Box } from '../../../ui';
+import { ProfileNetwork } from 'pages/GiveParty/ProfileNetwork';
+import { Box } from 'ui';
+import { SingleColumnLayout } from 'ui/layouts';
 
 import { ProfileHeader } from './ProfileHeader';
 
@@ -12,9 +14,9 @@ export const ViewProfilePageNetwork = () => {
   }
 
   return (
-    <>
+    <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      network here!
-    </>
+      <ProfileNetwork targetAddress={address} />
+    </SingleColumnLayout>
   );
 };

@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
 import { anonClient } from 'lib/anongql/anonClient';
-import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
@@ -24,10 +23,10 @@ import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
 import { NotFound } from '../NotFound';
-import { CoLinksProfileHeader } from '../ViewProfilePage/CoLinksProfileHeader';
 import useProfileId from 'hooks/useProfileId';
-import { SingleColumnLayout } from 'ui/layouts';
 import { shortenAddressWithFrontLength } from 'utils';
+
+import { AddPost } from './AddPost';
 
 const LINK_HOLDERS_LIMIT = 5;
 const LINKS_HOLDING_LIMIT = 5;
@@ -246,226 +245,215 @@ const PageContents = ({
   }
 
   return (
-    <SingleColumnLayout>
-      <Helmet>
-        <title>{targetProfile.profile.name} / CoLinks</title>
-      </Helmet>
-      <Flex css={{ gap: '$xl' }}>
-        <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
-          <CoLinksProfileHeader
-            showLoading={showLoading}
-            setShowLoading={setShowLoading}
-            target={targetProfile}
-            currentUserAddress={currentUserAddress}
-            targetAddress={targetAddress}
-          />
-          {needsToBuyLink === true ? (
+    <Flex css={{ gap: '$xl' }}>
+      <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
+        {needsToBuyLink === true ? (
+          <Flex
+            css={{
+              alignItems: 'center',
+              borderRadius: '$3',
+              background: '$surface',
+              overflow: 'clip',
+              mb: '$xl',
+              '@sm': { flexDirection: 'column' },
+            }}
+          >
             <Flex
               css={{
-                alignItems: 'center',
-                borderRadius: '$3',
-                background: '$surface',
-                overflow: 'clip',
-                mb: '$xl',
-                '@sm': { flexDirection: 'column' },
+                flexGrow: 1,
+                height: '100%',
+                minHeight: '200px',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'bottom',
+                backgroundSize: 'cover',
+                backgroundImage: "url('/imgs/background/colink-other.jpg')",
+                '@sm': {
+                  width: '100%',
+                  minHeight: '260px',
+                  height: 'auto',
+                },
+              }}
+            ></Flex>
+
+            <Panel
+              css={{
+                flex: 2,
+                p: 0,
+                border: 'none',
+                borderRadius: 0,
               }}
             >
               <Flex
                 css={{
-                  flexGrow: 1,
-                  height: '100%',
-                  minHeight: '200px',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'bottom',
-                  backgroundSize: 'cover',
-                  backgroundImage: "url('/imgs/background/colink-other.jpg')",
-                  '@sm': {
-                    width: '100%',
-                    minHeight: '260px',
-                    height: 'auto',
-                  },
+                  p: '$lg $md $sm',
+                  gap: '$sm',
+                  alignItems: 'center',
                 }}
-              ></Flex>
-
-              <Panel
-                css={{
-                  flex: 2,
-                  p: 0,
-                  border: 'none',
-                  borderRadius: 0,
-                }}
+                column
               >
-                <Flex
-                  css={{
-                    p: '$lg $md $sm',
-                    gap: '$sm',
-                    alignItems: 'center',
-                  }}
-                  column
-                >
-                  <Text semibold>
-                    {targetBalance === undefined ? (
-                      <LoadingIndicator />
-                    ) : targetBalance > 0 ? (
-                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                        <Text size="large" semibold>
-                          Owns Your Link
-                        </Text>
-                        <Text>Buy theirs to become Mutual Friends</Text>
-                      </Flex>
-                    ) : (
-                      <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                        <Text size="large" semibold>
-                          Link Up
-                        </Text>
-                        <Text>{`Connect to see each other's posts`}</Text>
-                      </Flex>
-                    )}
-                  </Text>
-                </Flex>
-                <Flex css={{ p: '$md $md' }}>
-                  <BuyOrSellCoLinks
-                    css={{ alignItems: 'center' }}
-                    subject={targetAddress}
-                    address={currentUserAddress}
-                    hideTitle={true}
-                    constrainWidth={true}
-                  />
-                </Flex>
-              </Panel>
-            </Flex>
-          ) : (
-            <Panel
-              css={{
-                border: 'none',
-                display: 'none',
-                '@tablet': { display: 'block', my: '$lg' },
-              }}
-            >
-              <Flex column css={{ width: '100%' }}>
+                <Text semibold>
+                  {targetBalance === undefined ? (
+                    <LoadingIndicator />
+                  ) : targetBalance > 0 ? (
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <Text size="large" semibold>
+                        Owns Your Link
+                      </Text>
+                      <Text>Buy theirs to become Mutual Friends</Text>
+                    </Flex>
+                  ) : (
+                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
+                      <Text size="large" semibold>
+                        Link Up
+                      </Text>
+                      <Text>{`Connect to see each other's posts`}</Text>
+                    </Flex>
+                  )}
+                </Text>
+              </Flex>
+              <Flex css={{ p: '$md $md' }}>
                 <BuyOrSellCoLinks
+                  css={{ alignItems: 'center' }}
                   subject={targetAddress}
                   address={currentUserAddress}
+                  hideTitle={true}
+                  constrainWidth={true}
                 />
-                {needsBootstrapping && (
-                  <Panel info css={{ mt: '$lg', gap: '$md' }}>
-                    <Text inline>
-                      <strong>Buy your first Link</strong> to allow other CoLink
-                      holders to buy your Link.
-                    </Text>
-                    <Text>
-                      Your link holders will gain access to X. You will receive
-                      Y% of the price when they buy or sell.
-                    </Text>
-                    <Text>
-                      <Link> Learn More about Links</Link>
-                    </Text>
-                  </Panel>
-                )}
               </Flex>
             </Panel>
-          )}
-          <Flex
-            column
+          </Flex>
+        ) : (
+          <Panel
             css={{
-              gap: '$lg',
+              border: 'none',
               display: 'none',
-              '@tablet': { display: 'flex !important', mb: '$lg' },
+              '@tablet': { display: 'block', my: '$lg' },
             }}
           >
-            {!weAreLinked ? (
-              <ProfileLinkDetails targetAddress={targetAddress} />
-            ) : (
-              <>
-                <Button onClick={() => setShowProfileDetails(prev => !prev)}>
-                  {showProfileDetails ? 'Hide' : 'Show'} Profile Details
-                </Button>
-                {showProfileDetails && (
-                  <>
-                    <ProfileLinkDetails targetAddress={targetAddress} />
-                  </>
-                )}
-              </>
-            )}
-          </Flex>
-          {currentUserAddress && (
-            <Flex column css={{ gap: '$md' }}>
-              <Flex css={{ gap: '$sm' }}>
-                <Text semibold size="small">
-                  View
-                </Text>
-                <Button
-                  size="xs"
-                  color={!showCasts ? 'secondary' : 'selectedSecondary'}
-                  onClick={() => setShowCasts(true)}
-                >
-                  All
-                </Button>
-                <Button
-                  size="xs"
-                  color={showCasts ? 'secondary' : 'selectedSecondary'}
-                  onClick={() => setShowCasts(false)}
-                >
-                  CoLinks Only
-                </Button>
-              </Flex>
-              <ActivityList
-                queryKey={[
-                  QUERY_KEY_COLINKS,
-                  'activity',
-                  targetProfile.profile.id,
-                  showCasts,
-                ]}
-                pollForNewActivity={showLoading}
-                onSettled={() => setShowLoading(false)}
-                where={{
-                  _or: [
-                    {
-                      big_question_id: { _is_null: false },
-                    },
-                    { private_stream: { _eq: true } },
-                    ...(showCasts
-                      ? [
-                          {
-                            _and: [
-                              {
-                                _or: [
-                                  { private_stream_visibility: {} },
-                                  {
-                                    actor_profile_id: {
-                                      _eq: currentUserProfileId,
-                                    },
-                                  },
-                                ],
-                              },
-                              { cast_id: { _is_null: false } },
-                            ],
-                          },
-                        ]
-                      : []),
-                  ],
-                  actor_profile_id: { _eq: targetProfile.profile.id },
-                }}
-                noPosts={
-                  (targetProfile.mutedThem ||
-                    targetIsCurrentUser ||
-                    weAreLinked) && (
-                    <Panel noBorder>
-                      {targetProfile.mutedThem
-                        ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                        : (targetIsCurrentUser
-                            ? "You haven't"
-                            : `${targetProfile.profile.name} hasn't`) +
-                          ' posted yet.'}
-                    </Panel>
-                  )
-                }
+            <Flex column css={{ width: '100%' }}>
+              <BuyOrSellCoLinks
+                subject={targetAddress}
+                address={currentUserAddress}
               />
+              {needsBootstrapping && (
+                <Panel info css={{ mt: '$lg', gap: '$md' }}>
+                  <Text inline>
+                    <strong>Buy your first Link</strong> to allow other CoLink
+                    holders to buy your Link.
+                  </Text>
+                  <Text>
+                    Your link holders will gain access to X. You will receive Y%
+                    of the price when they buy or sell.
+                  </Text>
+                  <Text>
+                    <Link> Learn More about Links</Link>
+                  </Text>
+                </Panel>
+              )}
             </Flex>
+          </Panel>
+        )}
+        <Flex
+          column
+          css={{
+            gap: '$lg',
+            display: 'none',
+            '@tablet': { display: 'flex !important', mb: '$lg' },
+          }}
+        >
+          {!weAreLinked ? (
+            <ProfileLinkDetails targetAddress={targetAddress} />
+          ) : (
+            <>
+              <Button onClick={() => setShowProfileDetails(prev => !prev)}>
+                {showProfileDetails ? 'Hide' : 'Show'} Profile Details
+              </Button>
+              {showProfileDetails && (
+                <>
+                  <ProfileLinkDetails targetAddress={targetAddress} />
+                </>
+              )}
+            </>
           )}
         </Flex>
+        {currentUserAddress && (
+          <Flex column css={{ gap: '$md' }}>
+            <AddPost targetAddress={targetAddress} />
+            <Flex css={{ gap: '$sm' }}>
+              <Text semibold size="small">
+                View
+              </Text>
+              <Button
+                size="xs"
+                color={!showCasts ? 'secondary' : 'selectedSecondary'}
+                onClick={() => setShowCasts(true)}
+              >
+                All
+              </Button>
+              <Button
+                size="xs"
+                color={showCasts ? 'secondary' : 'selectedSecondary'}
+                onClick={() => setShowCasts(false)}
+              >
+                CoLinks Only
+              </Button>
+            </Flex>
+            <ActivityList
+              queryKey={[
+                QUERY_KEY_COLINKS,
+                'activity',
+                targetProfile.profile.id,
+                showCasts,
+              ]}
+              pollForNewActivity={showLoading}
+              onSettled={() => setShowLoading(false)}
+              where={{
+                _or: [
+                  {
+                    big_question_id: { _is_null: false },
+                  },
+                  { private_stream: { _eq: true } },
+                  ...(showCasts
+                    ? [
+                        {
+                          _and: [
+                            {
+                              _or: [
+                                { private_stream_visibility: {} },
+                                {
+                                  actor_profile_id: {
+                                    _eq: currentUserProfileId,
+                                  },
+                                },
+                              ],
+                            },
+                            { cast_id: { _is_null: false } },
+                          ],
+                        },
+                      ]
+                    : []),
+                ],
+                actor_profile_id: { _eq: targetProfile.profile.id },
+              }}
+              noPosts={
+                (targetProfile.mutedThem ||
+                  targetIsCurrentUser ||
+                  weAreLinked) && (
+                  <Panel noBorder>
+                    {targetProfile.mutedThem
+                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                      : (targetIsCurrentUser
+                          ? "You haven't"
+                          : `${targetProfile.profile.name} hasn't`) +
+                        ' posted yet.'}
+                  </Panel>
+                )
+              }
+            />
+          </Flex>
+        )}
       </Flex>
-    </SingleColumnLayout>
+    </Flex>
   );
 };
 
