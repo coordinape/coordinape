@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 
 import type { Web3Provider } from '@ethersproject/providers';
-import { supportedChainIds, Contracts } from 'lib/vaults';
+import { supportedChainIds, Contracts } from 'features/cosoul/contracts';
 
 import { useWeb3React } from 'hooks/useWeb3React';
 import { logOnce } from 'utils/logger';

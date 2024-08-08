@@ -22,9 +22,9 @@ test('redirect after login', async () => {
     <TestWrapper
       withRoutes
       routeHistory={[
-        `/login?next=/organizations/${user.circle.organization.id}/vaults`,
+        `/login?next=/organizations/${user.circle.organization.id}`,
       ]}
     />
   );
-  screen.getByTestId('loading-VaultsPage');
+  screen.findByText(user.circle.organization.name);
 });
