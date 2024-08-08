@@ -13,7 +13,7 @@ export const ViewProfilePagePosts = () => {
   return (
     <>
       <ProfilePagePostsContents targetAddress={address} />
-      postssss
+      add post form
     </>
   );
 };

@@ -1,62 +1,65 @@
-import assert from 'assert';
-import { Dispatch, useState } from 'react';
-
-import { CoSoul } from 'features/colinks/fetchCoSouls';
+import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { GiveReceived } from 'features/points/GiveReceived';
+import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQuery } from 'react-query';
 
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
 import { Mutes } from '../../../features/colinks/Mutes';
-import { PostForm } from '../../../features/colinks/PostForm';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
-import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
-import { currentPrompt } from '../ActivityPage';
+import useConnectedAddress from 'hooks/useConnectedAddress';
+import useProfileId from 'hooks/useProfileId';
 import {
   ExternalLink,
   Farcaster,
   Github,
-  Plus,
   Settings,
   Twitter,
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
-import { CoLinksProfile } from './ProfilePagePostsContents';
-
-export const ProfileHeader = ({
-  showLoading,
-  setShowLoading,
-  target,
-  currentUserAddress,
+export const ProfileHeader = ({ targetAddress }: { targetAddress: string }) => {
+  const currentUserProfileId = useProfileId(false);
+  const { data: targetProfile } = useQuery(
+    [QUERY_KEY_COLINKS, targetAddress, 'profile'],
+    () => {
+      if (!targetAddress) return;
+      return fetchCoLinksProfile(targetAddress, currentUserProfileId);
+    },
+    {
+      enabled: !!targetAddress,
+    }
+  );
+  if (!targetProfile) return null;
+  return (
+    <ProfileHeaderWithProfile
+      targetProfile={targetProfile}
+      targetAddress={targetAddress}
+    />
+  );
+};
+const ProfileHeaderWithProfile = ({
+  targetProfile,
   targetAddress,
 }: {
-  showLoading: boolean;
-  setShowLoading: Dispatch<React.SetStateAction<boolean>>;
-  target: CoLinksProfile;
-  currentUserAddress?: string;
+  targetProfile: CoLinksProfile;
   targetAddress: string;
 }) => {
-  const [showPostForm, setPostForm] = useState<boolean>(false);
-  const { targetBalance, superFriend } = useLinkingStatus({
+  const currentUserAddress = useConnectedAddress(false);
+  const { superFriend } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
   });
 
-  const { profile, imMuted, mutedThem } = target;
+  const { profile, imMuted, mutedThem } = targetProfile;
 
-  const queryClient = useQueryClient();
   const isCurrentUser =
     currentUserAddress &&
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
-  const [promptOffset, setPromptOffset] = useState(0);
-  const bumpPromptOffset = () => {
-    setPromptOffset(prev => prev + 1);
-  };
 
   const { data: details } = useQuery(
     ['twitter', profile.id],
@@ -248,6 +251,26 @@ export const ProfileHeader = ({
                     )}
                   </Flex>
                 )}
+                <Flex
+                  as={Link}
+                  href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  css={{
+                    alignItems: 'center',
+                    gap: '$xs',
+                    color: '$secondaryText',
+                    fontWeight: '$medium',
+                    '&:hover': {
+                      color: '$linkHover',
+                      'svg path': {
+                        fill: '$linkHover',
+                      },
+                    },
+                  }}
+                >
+                  Icebreaker
+                </Flex>
               </Flex>
             </Flex>
           </Flex>
@@ -265,7 +288,7 @@ export const ProfileHeader = ({
               </Button>
             ) : (
               <Mutes
-                targetProfileId={target.profile.id}
+                targetProfileId={targetProfile?.profile.id}
                 targetProfileAddress={targetAddress}
               />
             )}
@@ -302,52 +325,117 @@ export const ProfileHeader = ({
             <Text color="secondary">{profile.description}</Text>
           </Flex>
         )}
-
-        {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
-          <Flex column css={{ pt: '$md', alignItems: 'flex-start' }}>
-            {showPostForm ? (
-              <Flex css={{ width: '100%' }}>
-                <PostForm
-                  label={
-                    <Text size={'medium'} semibold color={'heading'}>
-                      {currentPrompt(promptOffset)}
-                    </Text>
-                  }
-                  refreshPrompt={bumpPromptOffset}
-                  showLoading={showLoading}
-                  onSuccess={() =>
-                    queryClient.setQueryData<CoSoul>(
-                      [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
-                      oldData => {
-                        assert(oldData);
-                        return {
-                          ...oldData,
-                          profile_public: {
-                            ...oldData.profile_public,
-                            post_count: oldData.profile_public?.post_count + 1,
-                            post_count_last_30_days:
-                              oldData.profile_public?.post_count_last_30_days +
-                              1,
-                          },
-                        };
-                      }
-                    )
-                  }
-                  onSave={() => setShowLoading(true)}
-                />
-              </Flex>
-            ) : (
-              <Button
-                color="primary"
-                onClick={() => setPostForm(prev => !prev)}
-              >
-                <Plus />
-                Add Post
-              </Button>
-            )}
-          </Flex>
-        )}
       </Flex>
     </ContentHeader>
   );
 };
+
+export const fetchCoLinksProfile = async (
+  address: string,
+  currentProfileId?: number
+) => {
+  const { profiles_public } = await anonClient.query(
+    {
+      profiles_public: [
+        {
+          where: {
+            address: {
+              _ilike: address,
+            },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          avatar: true,
+          address: true,
+          website: true,
+          links: true,
+          description: true,
+          reputation_score: {
+            total_score: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'fetch_coLinks_profile_anonClient',
+    }
+  );
+
+  // Need to check mutes only if currentProfileId is set
+  if (!currentProfileId) {
+    assert(profiles_public.length == 1, 'profile not found');
+    const p = profiles_public.pop();
+    assert(p, 'profile not found');
+    return {
+      profile: p,
+      mutedThem: false,
+      imMuted: false,
+    };
+  }
+
+  const { mutedThem, imMuted } = await client.query(
+    {
+      __alias: {
+        mutedThem: {
+          mutes: [
+            {
+              where: {
+                target_profile: {
+                  address: {
+                    _ilike: address,
+                  },
+                },
+                profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+        imMuted: {
+          mutes: [
+            {
+              where: {
+                profile: {
+                  address: {
+                    _eq: address,
+                  },
+                },
+                target_profile_id: {
+                  _eq: currentProfileId,
+                },
+              },
+            },
+            {
+              profile_id: true,
+              target_profile_id: true,
+            },
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'coLinks_profile_fetch_mutes',
+    }
+  );
+  const profile = profiles_public.pop();
+  const mutedThemI = mutedThem.pop();
+  const imMutedI = imMuted.pop();
+
+  assert(profile, "profile doesn't exist");
+  return {
+    profile,
+    mutedThem: !!mutedThemI,
+    imMuted: !!imMutedI,
+  };
+};
+
+export type CoLinksProfile = Required<
+  Awaited<ReturnType<typeof fetchCoLinksProfile>>
+>;
