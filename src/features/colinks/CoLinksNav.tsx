@@ -17,6 +17,7 @@ import {
   BoltFill,
   CertificateFill,
   Gear,
+  GemCoOutline,
   HouseFill,
   Menu,
   MessagesQuestion,
@@ -303,6 +304,10 @@ const LoggedInItems = ({
       <NavItem path={coLinksPaths.home}>
         <HouseFill size="lg" nostroke />
         Home
+      </NavItem>
+      <NavItem path={coLinksPaths.give}>
+        <GemCoOutline size="lg" nostroke />
+        GIVE
       </NavItem>
       <NavItem path={coLinksPaths.explore}>
         <PlanetFill size="lg" nostroke />

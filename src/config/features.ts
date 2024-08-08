@@ -8,7 +8,8 @@ export type FeatureName =
   // dnt = Do Not Track. enable this feature to debug Mixpanel
   | 'ignore_dnt'
   | 'cast_activities'
-  | 'test_decent';
+  | 'test_decent'
+  | 'give_zone';
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
