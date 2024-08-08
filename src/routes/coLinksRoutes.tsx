@@ -23,6 +23,7 @@ import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksP
 import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
 import { NewestMemberPage } from '../pages/colinks/explore/NewestMembersPage';
 import { ExplorePage } from '../pages/colinks/ExplorePage';
+import { GivePage } from '../pages/colinks/GivePage';
 import { HighlightsPage } from '../pages/colinks/HighlightsPage';
 import { InvitesPage } from '../pages/colinks/InvitesPage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
@@ -161,6 +162,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
+      <Route path={coLinksPaths.give} element={<GivePage />} />
       <Route
         path={coLinksPaths.exploreSkill(':skill')}
         element={<ExploreSkills />}

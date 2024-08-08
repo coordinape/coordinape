@@ -3,7 +3,13 @@ import { Dispatch } from 'react';
 import { PartySearchResults } from './PartySearchResults';
 import { SearchBox } from './SearchBox';
 
-export const PartySearchBox = () => {
+export const PartySearchBox = ({
+  size = 'medium',
+  registerKeyDown = true,
+}: {
+  size?: 'medium' | 'large';
+  registerKeyDown?: boolean;
+}) => {
   const resultsFunc = ({
     setPopoverOpen,
     inputRef,
@@ -17,6 +23,11 @@ export const PartySearchBox = () => {
   };
 
   return (
-    <SearchBox resultsFunc={resultsFunc} placeholder="Search Skill or Person" />
+    <SearchBox
+      size={size}
+      registerKeyDown={registerKeyDown}
+      resultsFunc={resultsFunc}
+      placeholder="Search Skill or Person"
+    />
   );
 };

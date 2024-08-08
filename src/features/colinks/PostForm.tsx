@@ -21,7 +21,7 @@ import {
   deleteContributionMutation,
   updateContributionMutation,
 } from '../../pages/ContributionsPage/mutations';
-import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from '../../pages/GivePage/EpochStatementDrawer';
+import { QUERY_KEY_ALLOCATE_CONTRIBUTIONS } from '../../pages/GiftCircleGivePage/EpochStatementDrawer';
 import { POST_PAGE_QUERY_KEY } from '../../pages/PostPage';
 import { CSS, styled } from '../../stitches.config';
 import { Box, Button, Flex, MarkdownPreview, Text } from '../../ui';

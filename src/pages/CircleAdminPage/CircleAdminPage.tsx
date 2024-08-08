@@ -17,12 +17,12 @@ import * as z from 'zod';
 
 import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { GuildSelector } from '../../features/guild/GuildSelector';
+import { QUERY_KEY_GIVE_PAGE } from '../GiftCircleGivePage/queries';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
 import { useContracts, useToast } from 'hooks';
 import { useCircleOrg } from 'hooks/gql/useCircleOrg';
 import { useVaults } from 'hooks/gql/useVaults';
 import { Info } from 'icons/__generated';
-import { QUERY_KEY_GIVE_PAGE } from 'pages/GivePage/queries';
 import { useCircleIdParam } from 'routes/hooks';
 import { givePaths } from 'routes/paths';
 import {

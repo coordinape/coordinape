@@ -90,7 +90,13 @@ export const SearchBox = ({
           <Text className="cmdkPlaceholder">
             {placeholder ?? 'Search Anything'}
           </Text>
-          <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+          {registerKeyDown ? (
+            <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+          ) : (
+            <Text className="cmdkKey">
+              <Search />
+            </Text>
+          )}
         </Flex>
       </Button>
 
