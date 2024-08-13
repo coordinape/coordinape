@@ -117,6 +117,11 @@ export const NavProfile = ({
             onClick={() => setOpen(false)}
           />
           <MagicLinkWallet />
+          <NavItem
+            label="Claims"
+            to={givePaths.claims}
+            onClick={() => setOpen(false)}
+          />
           <NavItem label="Disconnect" onClick={logout} />
           <ThemeSwitcher />
         </Box>
