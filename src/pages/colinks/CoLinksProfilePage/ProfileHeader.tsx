@@ -138,12 +138,12 @@ const ProfileHeaderWithProfile = ({
       <Helmet>
         <title>{targetProfile.profile.name} / CoLinks</title>
       </Helmet>
-      <ContentHeader css={{ mb: 0 }}>
-        <Flex column css={{ gap: '$sm' }}>
+      <ContentHeader css={{ mb: 0, background: 'transparent' }}>
+        <Flex column css={{ gap: '$sm', width: '100%' }}>
           <Flex
             css={{
               justifyContent: 'space-between',
-              alignItems: 'center',
+              alignItems: 'flex-start',
               width: '100%',
               gap: '$md',
               flexWrap: 'wrap',
@@ -162,17 +162,17 @@ const ProfileHeaderWithProfile = ({
                 <Text h2 display css={{ color: '$secondaryButtonText' }}>
                   {profile.name}
                 </Text>
-                <Flex css={{ gap: '$md', flexWrap: 'wrap' }}>
-                  <CoLinksStats
-                    address={profile.address}
-                    links={profile.links ?? 0}
-                    score={profile.reputation_score?.total_score ?? 0}
-                    size={'medium'}
-                    // We should this elsewhere i guess?
-                    holdingCount={0}
-                    // if we want to show this, this is how but probably needs a restyle
-                    // holdingCount={targetBalance ?? 0}
-                  />
+                <CoLinksStats
+                  address={profile.address}
+                  links={profile.links ?? 0}
+                  score={profile.reputation_score?.total_score ?? 0}
+                  size={'medium'}
+                  // We should this elsewhere i guess?
+                  holdingCount={0}
+                  // if we want to show this, this is how but probably needs a restyle
+                  // holdingCount={targetBalance ?? 0}
+                />
+                <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
                   {details?.farcaster && (
                     <Flex
                       as={Link}

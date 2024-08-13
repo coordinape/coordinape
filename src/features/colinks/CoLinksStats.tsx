@@ -22,7 +22,7 @@ export const CoLinksStats = ({
 }) => {
   const navigate = useNavigate();
   return (
-    <Flex css={{ alignItems: 'center', gap: size === 'xs' ? '$sm' : '$md' }}>
+    <Flex css={{ alignItems: 'center', gap: '$lg' }}>
       <Text
         size={size}
         title={'Rep Score'}
@@ -44,15 +44,16 @@ export const CoLinksStats = ({
           navigate(coLinksPaths.score(address ?? ''));
         }}
       >
+        <Text semibold size={size}>
+          {abbreviateNumber(score)}
+        </Text>
         <CertificateLight
           nostroke
           css={{
             path: { fill: '$secondaryText' },
           }}
         />
-        <Text semibold size={size}>
-          {abbreviateNumber(score)}
-        </Text>
+        {size !== ('xs' || 'small') && <Text>Rep</Text>}
       </Text>
       <Text
         size={size}
@@ -64,7 +65,7 @@ export const CoLinksStats = ({
           navigate(coLinksPaths.holders(address ?? ''));
         }}
         css={{
-          gap: size === 'xs' ? '$xs' : '$sm',
+          gap: '$xs',
           cursor: 'pointer',
           whiteSpace: 'nowrap',
           '&:hover': {
@@ -75,10 +76,11 @@ export const CoLinksStats = ({
           },
         }}
       >
-        <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
         <Text semibold size={size}>
           {abbreviateNumber(links ?? 0)}
         </Text>
+        <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
+        {size !== ('xs' || 'small') && <Text>CoLinks</Text>}
       </Text>
       {address && <GiveReceived size={size} address={address} />}
       {holdingCount > 0 && (

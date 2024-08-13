@@ -4,6 +4,7 @@ import { Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { ProfileHeader } from './ProfileHeader';
+import { ProfilePageReputationContents } from './ProfilePageReputationContents';
 
 export const ViewProfilePageReputation = () => {
   const { address } = useParams();
@@ -14,7 +15,7 @@ export const ViewProfilePageReputation = () => {
   return (
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      rep spider here
+      <ProfilePageReputationContents targetAddress={address} />
     </SingleColumnLayout>
   );
 };
