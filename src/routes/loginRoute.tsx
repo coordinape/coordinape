@@ -1,7 +1,8 @@
+import { Rainbowify } from 'features/rainbowkit/Rainbowify';
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
 import { MainLayout } from '../components';
-import { RequireWeb3Auth } from '../features/auth';
 
 import { RedirectAfterLogin } from './RedirectAfterLogin';
 
@@ -17,9 +18,11 @@ export const loginRoute = [
     <Route
       path="login"
       element={
-        <RequireWeb3Auth>
-          <RedirectAfterLogin />
-        </RequireWeb3Auth>
+        <Rainbowify>
+          <RequireAuth walletRequired={true}>
+            <RedirectAfterLogin />
+          </RequireAuth>
+        </Rainbowify>
       }
     />
   </Route>,
