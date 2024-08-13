@@ -32,9 +32,11 @@ import generatePoapEmbeddings from '../_api/hasura/cron/generatePoapEmbeddings';
 import giveOnchainSyncer from '../_api/hasura/cron/giveOnchainSyncer';
 import hourlyReportEmail from '../_api/hasura/cron/hourlyReportEmail';
 import pGiveHistoricalGen from '../_api/hasura/cron/pGiveHistoricalGen';
+import recoverTransactions from '../_api/hasura/cron/recoverTransactions';
 import syncCoSouls from '../_api/hasura/cron/syncCoSouls';
 import updateMagicEmails from '../_api/hasura/cron/updateMagicEmails';
 import eventManager from '../_api/hasura/event_triggers/eventManager';
+import vaults from '../_api/hasura/remote/vaults';
 import join from '../_api/join/[token]';
 import linkedin_callback from '../_api/linkedin/callback';
 import linkedin_login from '../_api/linkedin/login';
@@ -112,7 +114,10 @@ app.post(
 );
 app.post('/api/hasura/cron/generatePoapEmbeddings', tf(generatePoapEmbeddings));
 app.post('/api/hasura/cron/pGiveHistoricalGen', tf(pGiveHistoricalGen));
+app.post('/api/hasura/cron/recoverTransactions', tf(recoverTransactions));
 app.post('/api/hasura/cron/syncCoSouls', tf(syncCoSouls));
+app.get('/api/hasura/remote/vaults', tf(vaults));
+app.post('/api/hasura/remote/vaults', tf(vaults));
 app.post(
   '/api/hasura/cron/colinksNotificationEmails',
   tf(colinksNotificationEmails)
