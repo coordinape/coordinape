@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
-import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { givePaths } from '../../routes/paths';
 import { Button, CenteredBox, Panel, Text } from '../../ui';
 
 export const VerifyEmailPage = () => {
-  useAuthStateMachine(false);
   const { uuid } = useParams();
   const navigate = useNavigate();
 

@@ -1,98 +1,128 @@
-/* eslint-disable no-console */
-import assert from 'assert';
+import { Hex } from 'viem';
 
-import { CoSoul } from '@coordinape/contracts/typechain';
-
-import { Contracts } from '../contracts';
-import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
+import { testAccounts } from '../../../utils/testing/accountsHelper';
+import { snapshotManager } from '../../../utils/testing/snapshotManager';
+import { localCI } from '../../../utils/viem/chains';
+import { getCoSoulContract } from '../../../utils/viem/contracts';
 
 import {
-  getMintInfo,
-  getOnChainPGive,
   getTokenId,
   mintCoSoulForAddress,
-  setBatchOnChainPGive,
+  getOnChainPGive,
   setOnChainPGive,
+  setBatchOnChainPGive,
+  getMintInfo,
 } from './cosoul';
 
-import { Awaited } from 'types/shim';
+describe('cosoul.ts with LocalCI', () => {
+  let snapshotId: Hex;
+  let cosoul: ReturnType<typeof getCoSoulContract>;
+  const wallet = testAccounts.getWalletClient(8);
 
-let contract: CoSoul;
-let snapshotId: string;
-let mainAccount: string;
-let tokenId: Awaited<ReturnType<typeof getTokenId>>;
-
-beforeEach(async () => {
-  snapshotId = await takeSnapshot();
-
-  mainAccount = (await provider().listAccounts())[0];
-  contract = (await Contracts.fromProvider(provider())).cosoul;
-});
-
-afterEach(async () => {
-  await restoreSnapshot(snapshotId);
-});
-
-test('getTokenId returns undefined if no nft exists', async () => {
-  const tokenIdFetch = await getTokenId(mainAccount);
-  expect(tokenIdFetch).toEqual(undefined);
-});
-
-test('getMintInfo returns mint info', async () => {
-  const tx = await contract.mint();
-  const data = await getMintInfo(tx.hash);
-  expect(data).toEqual({
-    from: '0x0000000000000000000000000000000000000000',
-    to: mainAccount,
-    tokenId: 1,
-  });
-});
-
-test('mintCoSoulForAddress mints to a given address', async () => {
-  const address = (await provider().listAccounts())[10];
-  const tx = await mintCoSoulForAddress(address);
-
-  const data = await getMintInfo(tx.hash);
-  expect(data).toEqual({
-    from: '0x0000000000000000000000000000000000000000',
-    to: address,
-    tokenId: 1,
-  });
-});
-
-describe('with a minted nft', () => {
   beforeEach(async () => {
-    await contract.mint();
+    snapshotId = await snapshotManager.takeSnapshot();
+    cosoul = getCoSoulContract();
   });
 
-  describe('with a tokenId', () => {
-    beforeEach(async () => {
-      tokenId = await getTokenId(mainAccount);
+  afterEach(async () => {
+    await snapshotManager.revertToSnapshot(snapshotId);
+  });
+
+  describe('getTokenId', () => {
+    it('should return undefined if no token', async () => {
+      const result = await getTokenId(wallet.account.address);
+      expect(result).toBeUndefined();
     });
 
-    test('getTokenId returns the tokenId', async () => {
-      expect(tokenId).toEqual(1);
+    it('should return token ID after minting', async () => {
+      await mintCoSoulForAddress(wallet.account.address);
+      const result = await getTokenId(wallet.account.address);
+      expect(result).toBeDefined();
+      expect(typeof result).toBe('bigint');
+    });
+  });
+
+  describe('mintCoSoulForAddress', () => {
+    it('should mint a CoSoul', async () => {
+      const receipt = await mintCoSoulForAddress(wallet.account.address);
+      expect(receipt.status).toBe('success');
+
+      const tokenId = await getTokenId(wallet.account.address);
+      expect(tokenId).toBeDefined();
+    });
+  });
+
+  describe('getOnChainPGive', () => {
+    it('should return 0 for newly minted token', async () => {
+      await mintCoSoulForAddress(wallet.account.address);
+      const tokenId = await getTokenId(wallet.account.address);
+      const pgive = await getOnChainPGive(Number(tokenId));
+      expect(pgive).toBe(0n);
+    });
+  });
+
+  describe('setOnChainPGive', () => {
+    it('should set PGIVE balance for a given token ID', async () => {
+      await mintCoSoulForAddress(wallet.account.address);
+      const tokenId = await getTokenId(wallet.account.address);
+
+      await setOnChainPGive({ tokenId: Number(tokenId), amount: 100 });
+
+      const pgive = await getOnChainPGive(Number(tokenId));
+      expect(pgive).toBe(100n);
+    });
+  });
+
+  describe('setBatchOnChainPGive', () => {
+    it('should set batch PGIVE balances', async () => {
+      await mintCoSoulForAddress(wallet.account.address);
+      const tokenId1 = await getTokenId(wallet.account.address);
+
+      const wallet2 = testAccounts.getWalletClient(1);
+      await mintCoSoulForAddress(wallet2.account.address);
+      const tokenId2 = await getTokenId(wallet2.account.address);
+
+      const params = [
+        { tokenId: Number(tokenId1), amount: 100 },
+        { tokenId: Number(tokenId2), amount: 200 },
+      ];
+
+      await setBatchOnChainPGive(params);
+
+      const pgive1 = await getOnChainPGive(Number(tokenId1));
+      const pgive2 = await getOnChainPGive(Number(tokenId2));
+
+      expect(pgive1).toBe(100n);
+      expect(pgive2).toBe(200n);
+    });
+  });
+
+  describe('getMintInfo', () => {
+    it('should return correct mint info', async () => {
+      // Mint a new CoSoul
+      const receipt = await mintCoSoulForAddress(wallet.account.address);
+
+      // Get the mint info
+      const mintInfo = await getMintInfo(receipt.transactionHash, localCI.id);
+
+      // Verify the mint info
+      expect(mintInfo).toBeDefined();
+      expect(mintInfo?.from).toBe('0x0000000000000000000000000000000000000000'); // Minting is from zero address
+      expect(mintInfo?.to).toBe(wallet.account.address);
+
+      // Verify that the tokenId in mintInfo matches the one we can get from the contract
+      const tokenId = await getTokenId(wallet.account.address);
+      expect(mintInfo?.tokenId).toBe(tokenId);
+
+      // Additional verification: check the balance of the recipient
+      const balance = await cosoul.read.balanceOf([wallet.account.address]);
+      expect(balance).toBe(1n); // Should have 1 token after minting
     });
 
-    test('getOnChainPGive returns 0 before slot is set', async () => {
-      assert(tokenId);
-      expect(await getOnChainPGive(tokenId)).toEqual(0);
-    });
-
-    test('setOnChainPGive sets slot value', async () => {
-      assert(tokenId);
-      const amount = 300;
-      await setOnChainPGive({ tokenId, amount });
-      expect(await getOnChainPGive(tokenId)).toEqual(300);
-    });
-
-    test('setBatchOnChainPGive sets slot value', async () => {
-      assert(tokenId);
-
-      const args = [{ amount: 324, tokenId }];
-
-      await setBatchOnChainPGive(args);
-      expect(await getOnChainPGive(tokenId)).toEqual(324);
+    it('should throw error for non-existent transaction', async () => {
+      const nonExistentHash =
+        '0x1234567890123456789012345678901234567890123456789012345678901234';
+      await expect(getMintInfo(nonExistentHash, localCI.id)).rejects.toThrow();
     });
   });
 });

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { NavItem } from 'features/nav/NavItem';
+import { useAccount } from 'wagmi';
 
 import { Network } from '../../components';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
@@ -12,7 +12,6 @@ import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
 import { AuthDeviceModal } from 'pages/ProfilePage/AuthDevice/AuthDeviceModal';
 import { shortenAddressWithFrontLength } from 'utils';
-
 export const CoLinksNavProfile = ({
   name,
   avatar,
@@ -23,12 +22,13 @@ export const CoLinksNavProfile = ({
   hasCoSoul: boolean;
 }) => {
   const [open, setOpen] = useState(false);
-  const { chainId, logout, address } = useWalletStatus();
+  const { logout } = useWalletStatus();
+
+  const { chainId, address, isConnected } = useAccount();
 
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
   const [showAuthDevice, setShowAuthDevice] = useState(false);
-  const { library } = useWeb3React();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -121,7 +121,7 @@ export const CoLinksNavProfile = ({
             label="Recent Transactions"
             onClick={() => setShowTxModal(true)}
           />
-          {library && (
+          {isConnected && (
             <NavItem
               label="Connect on Mobile"
               onClick={() => setShowAuthDevice(true)}

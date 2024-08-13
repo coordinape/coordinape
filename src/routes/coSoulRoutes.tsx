@@ -1,8 +1,9 @@
 import { Fragment } from 'react';
 
+import { Rainbowify } from 'features/rainbowkit/Rainbowify';
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
-import { RequireWeb3Auth } from '../features/auth';
 import {
   MintPage,
   SplashPage,
@@ -49,9 +50,11 @@ export const coSoulRoutes = [
       <Route
         path="login"
         element={
-          <RequireWeb3Auth>
-            <RedirectAfterLogin />
-          </RequireWeb3Auth>
+          <Rainbowify>
+            <RequireAuth walletRequired={true}>
+              <RedirectAfterLogin />
+            </RequireAuth>
+          </Rainbowify>
         }
       />
       <Route path={coSoulPaths.cosoul} element={<SplashPage />} />
@@ -63,9 +66,11 @@ export const coSoulRoutes = [
       <Route
         path={coSoulPaths.mint}
         element={
-          <RequireWeb3Auth>
-            <MintPage />
-          </RequireWeb3Auth>
+          <Rainbowify>
+            <RequireAuth walletRequired={true}>
+              <MintPage />
+            </RequireAuth>
+          </Rainbowify>
         }
       />
     </Route>

@@ -1,52 +1,32 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import assert from 'assert';
-import { ReactNode, Suspense, useEffect } from 'react';
+import { ReactNode, Suspense } from 'react';
 
-import { NetworkConnector } from '@web3-react/network-connector';
+import {
+  QueryClient as QC,
+  QueryClientProvider as QCP,
+} from '@tanstack/react-query';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
+import { WagmiProvider } from 'wagmi';
 
 import { ThemeProvider as DeprecatedMaterialUIThemeProvider } from '@material-ui/styles';
 
 import ThemeProvider from '../../features/theming/ThemeProvider';
+import { wagmiConfig } from '../../features/wagmi/config';
 import { AppRoutes } from '../../routes/routes';
 import { ToastContainer } from 'components/ToastContainer';
-import { useWeb3React, Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
-
-import {
-  chainId,
-  provider,
-  restoreSnapshot,
-  rpcUrl,
-  takeSnapshot,
-} from './provider';
-
-export { provider, takeSnapshot, restoreSnapshot };
 
 const theme = createTheme();
 
 type TestWrapperProps = {
   children?: ReactNode;
-  getLibrary?: (provider: any) => any; // FIXME
   withRoutes?: boolean;
   withWeb3?: boolean;
   queryClientCallback?: (queryClient: QueryClient) => void;
   routeHistory?: string[];
-};
-
-const connector = new NetworkConnector({
-  urls: { [chainId]: rpcUrl },
-});
-
-type Web3ActivatorProps = { children: ReactNode; enabled: boolean };
-const Web3Activator = ({ children, enabled }: Web3ActivatorProps) => {
-  const web3 = useWeb3React();
-  useEffect(() => {
-    if (enabled) web3.activate(connector);
-  }, []);
-
-  return <>{children}</>;
 };
 
 export const TestWrapper = ({
@@ -57,6 +37,15 @@ export const TestWrapper = ({
   routeHistory = ['/'],
 }: TestWrapperProps) => {
   const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        retry: false,
+      },
+    },
+  });
+
+  // for the newer version of react-query used by Wagmi/Rainbow
+  const qc = new QC({
     defaultOptions: {
       queries: {
         retry: false,
@@ -75,19 +64,21 @@ export const TestWrapper = ({
     <RecoilRoot>
       <ToastContainer />
       <QueryClientProvider client={queryClient}>
-        <Web3ReactProvider>
-          <Web3Activator enabled={withWeb3}>
-            <MemoryRouter initialEntries={routeHistory}>
-              <ThemeProvider>
-                <DeprecatedMaterialUIThemeProvider theme={theme}>
-                  <Suspense fallback="Suspended...">
-                    {withRoutes ? <AppRoutes /> : children}
-                  </Suspense>
-                </DeprecatedMaterialUIThemeProvider>
-              </ThemeProvider>
-            </MemoryRouter>
-          </Web3Activator>
-        </Web3ReactProvider>
+        <WagmiProvider config={wagmiConfig}>
+          <QueryClientProvider client={queryClient}>
+            <QCP client={qc}>
+              <MemoryRouter initialEntries={routeHistory}>
+                <ThemeProvider>
+                  <DeprecatedMaterialUIThemeProvider theme={theme}>
+                    <Suspense fallback="Suspended...">
+                      {withRoutes ? <AppRoutes /> : children}
+                    </Suspense>
+                  </DeprecatedMaterialUIThemeProvider>
+                </ThemeProvider>
+              </MemoryRouter>
+            </QCP>
+          </QueryClientProvider>
+        </WagmiProvider>
       </QueryClientProvider>
     </RecoilRoot>
   );

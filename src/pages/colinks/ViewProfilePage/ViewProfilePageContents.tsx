@@ -203,14 +203,14 @@ const PageContents = ({
     }
   );
 
-  const needsBootstrapping = targetIsCurrentUser && balance == 0;
-  const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
+  const needsBootstrapping = targetIsCurrentUser && balance == 0n;
+  const ownedByTarget = targetBalance !== undefined && targetBalance > 0n;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
 
   useEffect(() => {
     if (balance !== undefined) {
-      setNeedsToBuyLink(balance === 0);
+      setNeedsToBuyLink(balance === 0n);
     }
   }, [balance]);
 

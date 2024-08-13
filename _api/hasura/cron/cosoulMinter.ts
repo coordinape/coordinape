@@ -27,12 +27,17 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     for (const p of profiles) {
       try {
         console.log('Minting CoSouls for address: ', p.address);
-        const tx = await mintCoSoulForAddress(p.address);
-        const txReceipt = await tx.wait();
+        const txReceipt = await mintCoSoulForAddress(p.address);
         const { tokenId } = await getMintInfoFromReceipt(txReceipt);
 
         // sync now or not?
-        await minted(p.address, tx.hash, tokenId, p.id, true);
+        await minted(
+          p.address,
+          txReceipt.transactionHash,
+          Number(tokenId),
+          p.id,
+          true
+        );
         console.log(
           'Success: minted tokenId: ',
           tokenId,

@@ -9,11 +9,11 @@ import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles
 
 import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
-import { Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
 import { useIsCoLinksSite } from './features/colinks/useIsCoLinksSite';
 import { DebugOverlay } from './features/debug/DebugOverlay';
+import { Rainbowify } from './features/rainbowkit/Rainbowify';
 import ThemeProvider from './features/theming/ThemeProvider';
 import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
@@ -67,16 +67,16 @@ function App() {
         <ErrorBoundary>
           <ToastContainer />
           <QueryClientProvider client={queryClient}>
-            <DeprecatedMuiThemeProvider theme={theme}>
-              <ThemeProvider>
-                <Web3ReactProvider>
+            <Rainbowify>
+              <DeprecatedMuiThemeProvider theme={theme}>
+                <ThemeProvider>
                   <BrowserRouter>
                     <AppRoutes />
                   </BrowserRouter>
-                </Web3ReactProvider>
-                <DebugOverlay />
-              </ThemeProvider>
-            </DeprecatedMuiThemeProvider>
+                  <DebugOverlay />
+                </ThemeProvider>
+              </DeprecatedMuiThemeProvider>
+            </Rainbowify>
           </QueryClientProvider>
         </ErrorBoundary>
       </RecoilRoot>

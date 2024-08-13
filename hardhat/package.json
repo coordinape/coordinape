@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig-typechain.json  && ./scripts/cp-declarations.sh",
     "build:clean": "rm -rf ./{artifacts,cache,typechain,dist,data}",
     "codegen": "tsx scripts/generate-deployment-info.ts",
+    "export-abis": "npx hardhat compile && tsx scripts/exportABIs.ts",
     "dev": "./scripts/start-node.sh",
     "deploy": "hardhat deploy",
     "test": "hardhat test",
@@ -46,12 +47,15 @@
     "hardhat-gas-reporter": "^1.0.9",
     "ts-node": "^10.9.2",
     "typechain": "5.0.0",
-    "typescript": "4.4.3"
+    "typescript": "5.5.4"
   },
   "dependencies": {
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@nomicfoundation/hardhat-viem": "^2.0.3",
     "@openzeppelin/contracts-upgradeable": "^4.9.2",
     "hardhat": "^2.19.4",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "viem": "^2.19.4"
   },
   "nodeOptions": "--loader ts-node/esm"
 }

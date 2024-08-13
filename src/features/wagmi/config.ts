@@ -15,20 +15,19 @@ import {
   polygon,
   sepolia,
 } from '@wagmi/core/chains';
-import {
-  ETHEREUM_RPC_URL,
-  ETHEREUM_SEPOLIA_RPC_URL,
-  OPTIMISM_RPC_URL,
-  OPTIMISM_SEPOLIA_RPC_URL,
-} from 'features/auth/connectors';
-import { defineChain } from 'viem';
 
 import {
+  HARDHAT_GANACHE_PORT,
   IN_PREVIEW,
   IN_PRODUCTION,
+  VITE_ALCHEMY_ETH_MAINNET_API_KEY,
+  VITE_ALCHEMY_ETH_SEPOLIA_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
-} from 'config/env';
-import { isFeatureEnabled } from 'config/features';
+} from '../../config/env';
+import { isFeatureEnabled } from '../../config/features';
+import { localhost } from '../../utils/viem/chains';
 
 declare module 'wagmi' {
   interface Register {
@@ -36,21 +35,10 @@ declare module 'wagmi' {
   }
 }
 
-const localhost = defineChain({
-  id: 1338,
-  name: 'Localhost 8546',
-  rpcUrls: {
-    default: {
-      http: ['http://localhost:8546'],
-    },
-  },
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  gasSettings: {},
-});
+export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`;
+export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
+export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
+export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_SEPOLIA_API_KEY}`;
 
 const connectors = connectorsForWallets(
   [
@@ -79,7 +67,7 @@ export const wagmiConfig = IN_PRODUCTION
         [optimism.id]: http(OPTIMISM_RPC_URL),
         [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
         [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
-        [localhost.id]: http('http://localhost:8546'),
+        [localhost.id]: http(`http://localhost:${HARDHAT_GANACHE_PORT}`),
         [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
         [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
         [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
@@ -124,17 +112,21 @@ export const wagmiConfig = IN_PRODUCTION
           [optimism.id]: http(OPTIMISM_RPC_URL),
           [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
           [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
-          [localhost.id]: http('http://localhost:8546'),
+          [localhost.id]: http(`http://localhost:${HARDHAT_GANACHE_PORT}`),
           [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
           [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
           [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
         },
       });
 
-//Used to get the balance of the target chain for that environment
-export const wagmiChain =
-  isFeatureEnabled('test_decent') || IN_PRODUCTION
-    ? optimism
-    : IN_PREVIEW
-      ? optimismSepolia
-      : localhost;
+const getChain = () => {
+  if (isFeatureEnabled('test_decent') || IN_PRODUCTION) {
+    return optimism;
+  } else if (IN_PREVIEW) {
+    return optimismSepolia;
+  } else {
+    return localhost;
+  }
+};
+
+export const wagmiChain = getChain();

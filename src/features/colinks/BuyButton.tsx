@@ -2,14 +2,16 @@
 import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
-import { CoLinks } from '@coordinape/contracts/typechain';
+import { wagmiChain } from 'features/wagmi/config';
 import { useQueryClient } from 'react-query';
+import { Address } from 'viem';
+import { useAccount } from 'wagmi';
 
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
-import { sendAndTrackTx } from '../../utils/contractHelpers';
-import useConnectedAddress from 'hooks/useConnectedAddress';
+import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
+import { CoLinksWithWallet } from 'utils/viem/contracts';
 
 import { CoLinksContext } from './CoLinksContext';
 import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
@@ -19,7 +21,7 @@ import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 type BuyButtonProps = {
   setProgress(s: string): void;
   onSuccess(): void;
-  target: string;
+  target: Address;
   disabled?: boolean;
   size?: ComponentProps<typeof Button>['size'];
   text?: string;
@@ -34,11 +36,10 @@ export const BuyButton = ({
   text = 'Buy Link',
 }: BuyButtonProps) => {
   const { showError } = useToast();
-  // const
   const queryClient = useQueryClient();
   const { awaitingWallet, setAwaitingWallet } = useContext(CoLinksContext);
 
-  const currentUserAddress = useConnectedAddress(false);
+  const { address: currentUserAddress } = useAccount();
 
   const { refresh } = useLinkingStatus({
     address: currentUserAddress,
@@ -64,30 +65,51 @@ export const BuyButton = ({
   };
 
   const buyLinkWithContract = async (
-    signedContract: CoLinks,
+    coLinksWithWallet: CoLinksWithWallet,
     chainId: string
   ) => {
     try {
-      console.log({ signedContract, chainId });
-      assert(chainId);
+      assert(chainId, 'BuyButton chainId is required');
+      assert(currentUserAddress, 'address is required');
       setAwaitingWallet(true);
 
-      const value = await signedContract.getBuyPriceAfterFee(target, 1);
+      const value = await coLinksWithWallet.read.getBuyPriceAfterFee([
+        target as Address,
+        BigInt(1),
+      ] as const);
 
-      console.log('try buy');
+      console.log('buyLinkWithContract', { value });
+
+      const { request } = await coLinksWithWallet.simulate.buyLinks(
+        [target as Address, BigInt(1)] as const,
+        {
+          account: currentUserAddress,
+          value,
+          //@ts-ignore
+          chain: wagmiChain,
+        }
+      );
+
+      console.log('Simulation successful. Estimated gas:', { request });
+
+      console.log('try buy', { value, coLinksWithWallet, currentUserAddress });
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
         () => {
-          console.log({ signedContract });
-          return signedContract.buyLinks(target, 1, {
-            value,
-          });
+          return coLinksWithWallet.write.buyLinks(
+            [target as Address, 1n] as const,
+            {
+              value,
+              account: currentUserAddress,
+              chain: wagmiChain,
+              // gasPrice: 99999999999n,
+            }
+          );
         },
         {
           showDefault: setProgress,
           description: `Buy CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId,
-          contract: signedContract,
         }
       );
       if (receipt) {

@@ -19,9 +19,9 @@ import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
 import { COLINKS_LOCAL_URL, GIVE_LOCAL_URL } from '../src/config/webAppURL';
-import { supportedChainIds } from '../src/features/cosoul/contracts';
 import { getInviteCodeCookieValue } from '../src/features/invites/invitecodes';
 import { updateRepScore } from '../src/features/rep/api/updateRepScore';
+import { supportedChainIds } from '../src/utils/viem/contracts';
 
 import { createSampleCircleForProfile } from './hasura/actions/_handlers/createSampleCircle';
 

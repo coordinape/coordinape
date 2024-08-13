@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
 
-import { Rainbowify } from 'features/rainbowkit/Rainbowify';
 import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
@@ -140,26 +139,17 @@ export const coLinksRoutes = [
       </CoLinksSplashLayout>
     }
   >
-    <Route
-      path="login"
-      element={
-        <Rainbowify>
-          <RedirectAfterLogin />
-        </Rainbowify>
-      }
-    />
+    <Route path="login" element={<RedirectAfterLogin />} />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
   <Fragment key="public">
     <Route
       element={
-        <Rainbowify>
-          <CoLinksProvider>
-            <CoLinksLayout>
-              <Outlet />
-            </CoLinksLayout>
-          </CoLinksProvider>
-        </Rainbowify>
+        <CoLinksProvider>
+          <CoLinksLayout>
+            <Outlet />
+          </CoLinksLayout>
+        </CoLinksProvider>
       }
     >
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
@@ -221,15 +211,13 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <Rainbowify>
-          <RequireAuth walletRequired={true}>
-            <CoLinksProvider>
-              <CoLinksLayout>
-                <Outlet />
-              </CoLinksLayout>
-            </CoLinksProvider>
-          </RequireAuth>
-        </Rainbowify>
+        <RequireAuth walletRequired={true}>
+          <CoLinksProvider>
+            <CoLinksLayout>
+              <Outlet />
+            </CoLinksLayout>
+          </CoLinksProvider>
+        </RequireAuth>
       }
     >
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
@@ -283,13 +271,11 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <Rainbowify>
-          <RequireAuth walletRequired={true}>
-            <CoLinksWizardLayout>
-              <Outlet />
-            </CoLinksWizardLayout>
-          </RequireAuth>
-        </Rainbowify>
+        <RequireAuth walletRequired={true}>
+          <CoLinksWizardLayout>
+            <Outlet />
+          </CoLinksWizardLayout>
+        </RequireAuth>
       }
     >
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />

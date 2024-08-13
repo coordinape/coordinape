@@ -3,6 +3,7 @@ import { useContext } from 'react';
 
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { useQuery, useQueryClient } from 'react-query';
+import { Address } from 'viem';
 
 import { CoLinksContext } from './CoLinksContext';
 import { MEMBERS_QUERY_KEY } from './InifiniteMembersList';
@@ -25,15 +26,19 @@ export const useLinkingStatus = ({
       assert(address);
       assert(target);
       // your balance of them
-      const balance = (
-        await coLinksReadOnly.linkBalance(target, address)
-      ).toNumber();
+      const balance = await coLinksReadOnly.read.linkBalance([
+        target as Address,
+        address as Address,
+      ] as const);
       // their balance of you
-      const targetBalance = (
-        await coLinksReadOnly.linkBalance(address, target)
-      ).toNumber();
-      const supply = (await coLinksReadOnly.linkSupply(target)).toNumber();
-      const superFriend = targetBalance > 0 && balance > 0;
+      const targetBalance = await coLinksReadOnly.read.linkBalance([
+        address as Address,
+        target as Address,
+      ] as const);
+      const supply = await coLinksReadOnly.read.linkSupply([
+        target as Address,
+      ] as const);
+      const superFriend = targetBalance > 0n && balance > 0n;
       return { balance, targetBalance, supply, superFriend };
     },
     {
@@ -59,9 +64,9 @@ export const useLinkingStatus = ({
 
   if (!address) {
     return {
-      balance: 0,
-      targetBalance: 0,
-      supply: 0,
+      balance: 0n,
+      targetBalance: 0n,
+      supply: 0n,
       superFriend: false,
       refresh: () => {},
     };
