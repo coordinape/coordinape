@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ChainId,
   TokenInfo,
@@ -5,12 +6,12 @@ import {
   BoxActionResponse,
 } from '@decent.xyz/box-common';
 import { JsonRpcProvider } from '@ethersproject/providers';
-import { AbstractConnector } from '@web3-react/abstract-connector';
-import { findConnectorName } from 'features/auth/connectors';
+// import { AbstractConnector } from '@web3-react/abstract-connector';
+// import { findConnectorName } from 'features/auth/connectors';
 import { toast } from 'react-toastify';
 import { Address, zeroAddress } from 'viem';
 
-import { EConnectorNames } from 'config/constants';
+// import { EConnectorNames } from 'config/constants';
 import { switchNetwork } from 'utils/provider';
 
 import { getAllowance, approveToken } from './approveToken';
@@ -35,7 +36,7 @@ export const confirmRoute = async ({
   setSubmitting,
   setShowContinue,
   srcDisplay,
-  connector,
+  // connector,
 }: {
   srcChain: ChainId;
   srcToken: TokenInfo;
@@ -50,23 +51,23 @@ export const confirmRoute = async ({
   setSubmitting?: (submitting: boolean) => void;
   setShowContinue?: (showContinue: boolean) => void;
   srcDisplay?: string;
-  connector?: AbstractConnector;
+  // connector?: AbstractConnector;
 }) => {
   const toAddress = connectedAddress;
   setBoxActionArgs(undefined);
   if (chain !== srcChain) {
     if (defaultAvailableChains.includes(srcChain)) {
-      const connectorName = connector ? findConnectorName(connector) : '';
-      if (connectorName === EConnectorNames.Injected) {
-        toast.warning('Please switch networks.', {
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
-        await switchNetwork(srcChain.toString());
-      } else {
-        toast.warning('Please switch networks manually and reconnect.', {
-          position: toast.POSITION.BOTTOM_CENTER,
-        });
-      }
+      // const connectorName = connector ? findConnectorName(connector) : '';
+      // if (connectorName === EConnectorNames.Injected) {
+      toast.warning('Please switch networks.', {
+        position: toast.POSITION.BOTTOM_CENTER,
+      });
+      await switchNetwork(srcChain.toString());
+      // } else {
+      //   toast.warning('Please switch networks manually and reconnect.', {
+      //     position: toast.POSITION.BOTTOM_CENTER,
+      //   });
+      // }
     }
 
     return;
@@ -113,13 +114,13 @@ export const executeTransaction = async ({
   actionResponse,
   setSubmitting,
   setShowContinue,
-  provider,
+  // provider,
 }: {
   connectedAddress: Address | undefined;
   actionResponse: BoxActionResponse | undefined;
   setSubmitting?: (submitting: boolean) => void;
   setShowContinue?: (showContinue: boolean) => void;
-  provider: JsonRpcProvider;
+  // provider: JsonRpcProvider;
 }) => {
   if (!actionResponse) {
     toast.error('Failed to fetch routes', {
@@ -147,12 +148,14 @@ export const executeTransaction = async ({
             console.error('not approved!');
             return;
           }
-          await provider.waitForTransaction(approveHash as string);
+          // FIXME: use viem waitForTransactionReceipt
+          // await provider.waitForTransaction(approveHash as string);
         }
       }
 
       const tx = actionResponse.tx as EvmTransaction;
-      await provider.getSigner().sendTransaction(tx);
+      // await provider.getSigner().sendTransaction(tx);
+      // send with viem cleint isntead of provider
       setSubmitting?.(false);
     } catch (e: any) {
       if (e?.data?.message?.match(/insufficient funds/)) {

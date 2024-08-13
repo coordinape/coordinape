@@ -1,5 +1,6 @@
 import { memo, useContext, useEffect, useState } from 'react';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { useLocation } from 'react-router';
@@ -396,6 +397,8 @@ const LoggedInItems = ({
   );
 };
 const LoggedOutItems = () => {
+  const { openConnectModal, connectModalOpen } = useConnectModal();
+
   return (
     <>
       {/* <NavItem path={coLinksPaths.home}> */}
@@ -439,7 +442,13 @@ const LoggedOutItems = () => {
       {/*   </Flex> */}
       {/* </NavItem> */}
       <HR />
-      <Button as={NavLink} to={coLinksPaths.wizardStart} color="cta">
+      <Button
+        onClick={() => {
+          if (openConnectModal && !connectModalOpen) openConnectModal();
+        }}
+        disabled={connectModalOpen}
+        color="cta"
+      >
         Login or Join CoLinks
       </Button>
     </>

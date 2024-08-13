@@ -3,10 +3,12 @@
 // look into this.
 import { Fragment, lazy, Suspense } from 'react';
 
+import { Rainbowify } from 'features/rainbowkit/Rainbowify';
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { MainLayout } from '../components';
-import { RequireWeb3Auth, useLoginData } from '../features/auth';
+import { useLoginData } from '../features/auth';
 import { OrgPage, OrgSettingsPage } from '../features/orgs';
 import { isUserAdmin, isUserMember } from '../lib/users';
 import AccountPage from '../pages/AccountPage/AccountPage';
@@ -178,9 +180,11 @@ export const giveRoutes = [
   <Fragment key={'giveRoutes'}>
     <Route
       element={
-        <MainLayout>
-          <Outlet />
-        </MainLayout>
+        <Rainbowify>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
+        </Rainbowify>
       }
     >
       <Route path={givePaths.join(':token')} element={<JoinPage />} />
@@ -192,11 +196,11 @@ export const giveRoutes = [
       <Route
         path="*"
         element={
-          <RequireWeb3Auth>
+          <RequireAuth walletRequired={false}>
             <Suspense fallback={null}>
               <GiveRoutes />
             </Suspense>
-          </RequireWeb3Auth>
+          </RequireAuth>
         }
       />
     </Route>

@@ -1,23 +1,20 @@
 import { useMemo } from 'react';
 
-import type { Web3Provider } from '@ethersproject/providers';
+import { useWalletClient } from 'wagmi';
 
-import { useWeb3React } from 'hooks/useWeb3React';
-import { logOnce } from 'utils/logger';
+import {
+  CoSoulWithWallet,
+  getCoSoulContractWithWallet,
+} from '../../utils/viem/contracts';
 
-import { Contracts, supportedChainIds } from './contracts';
+export function useCoSoulContracts(): CoSoulWithWallet | undefined {
+  const { data: client, isFetched } = useWalletClient();
 
-export function useCoSoulContracts(): Contracts | undefined {
-  const { library, active, chainId } = useWeb3React<Web3Provider>();
-
-  return useMemo((): Contracts | undefined => {
-    if (!library || !chainId) return undefined;
-    const isSupportedChainId = supportedChainIds.includes(chainId.toString());
-    if (!isSupportedChainId) {
-      logOnce(`Contracts do not support chain ${chainId}`);
+  return useMemo((): CoSoulWithWallet | undefined => {
+    if (!client || !isFetched) {
       return undefined;
     }
 
-    return new Contracts(chainId, library);
-  }, [active, library, chainId]);
+    return getCoSoulContractWithWallet(client);
+  }, [client, isFetched]);
 }

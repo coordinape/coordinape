@@ -1,8 +1,7 @@
 import { useIsLoggedIn, useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
-
-import { useWeb3React } from 'hooks/useWeb3React';
+import { useAccount } from 'wagmi';
 
 export const getMainHeaderData = (profileId: number, chainId: number) =>
   client.query(
@@ -54,7 +53,7 @@ export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 // we can reuse it
 export const useMainHeaderQuery = () => {
   const profileId = useAuthStore(state => state.profileId);
-  const { chainId } = useWeb3React();
+  const { chainId } = useAccount();
   const isLoggedIn = useIsLoggedIn();
   return useQuery(
     [QUERY_KEY_MAIN_HEADER, profileId],

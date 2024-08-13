@@ -6,16 +6,12 @@ import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
-import { useAuthStateMachine } from '../../../features/auth/RequireWeb3Auth';
 import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, HR, Text } from '../../../ui';
 
 export const WizardStart = () => {
-  // need to call this so address gets conditionally loaded
-  useAuthStateMachine(false, true);
-
   const profileId = useProfileId();
 
   const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);

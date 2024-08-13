@@ -1,9 +1,8 @@
 import { loginSupportedChainIds } from 'common-lib/constants';
-
-import { useWeb3React } from './useWeb3React';
+import { useAccount } from 'wagmi';
 
 export default function useConnectedChain() {
-  const { chainId } = useWeb3React();
+  const { chainId } = useAccount();
   return {
     chainId,
     chainName: chainId ? loginSupportedChainIds[chainId.toString()] : undefined,

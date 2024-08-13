@@ -1,20 +1,18 @@
-import assert from 'assert';
-
+// FIXME: reeanble DecentSwap
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChainId } from '@decent.xyz/box-common';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
-import { getMagicProvider } from 'features/auth/magic';
-import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { wagmiConfig, wagmiChain } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { Address } from 'viem';
+import { useAccount, useSwitchChain } from 'wagmi';
 
+import { localhost } from '../../../src/utils/viem/chains';
 import { useToast } from '../../hooks';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Flex, Panel, Text } from '../../ui';
-import { switchToCorrectChain } from '../web3/chainswitch';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
@@ -28,10 +26,11 @@ import { useCoSoulContracts } from './useCoSoulContracts';
 const MIN_BALANCE = ethers.utils.parseEther('0.001');
 
 export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
-  const { library, chainId, account, setProvider } = useWeb3React();
-  const { savedAuth } = useSavedAuth();
-  const contracts = useCoSoulContracts();
+  const { chainId, address: account } = useAccount();
+  const contract = useCoSoulContracts();
   const { showError } = useToast();
+
+  const { switchChain } = useSwitchChain();
 
   const { data: balance } = useQuery(
     ['balanceOf', account],
@@ -53,13 +52,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
 
   const safeSwitchToCorrectChain = async () => {
     try {
-      if (savedAuth.connectorName == 'magic') {
-        const provider = await getMagicProvider('optimism');
-        await setProvider(provider, 'magic');
-      } else {
-        assert(library);
-        await switchToCorrectChain(library);
-      }
+      switchChain({ chainId: localhost.id });
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }
@@ -86,8 +79,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
             another L2 (eg. Base, Arbitrum).
           </Text>
           <Flex column css={{ mt: '$sm' }}>
-            {defaultAvailableChains.includes(chainId as ChainId) &&
-            (!IN_PREVIEW || (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
+            {/* {defaultAvailableChains.includes(chainId as ChainId) &&             (!IN_PREVIEW || (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
               <BridgeButton>
                 <>
                   <DecentSwap></DecentSwap>
@@ -95,9 +87,9 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
                   <OptimismBridgeButton />
                 </>
               </BridgeButton>
-            ) : (
-              <OptimismBridgeButton />
-            )}
+            ) : (*/}
+
+            <OptimismBridgeButton />
           </Flex>
         </Panel>
       </Flex>
@@ -112,14 +104,14 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     );
   }
 
-  if (!contracts || !account) {
+  if (!contract || !account) {
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }
 
   return (
     <MintOrBurnButton
-      contracts={contracts}
+      contract={contract}
       address={account}
       onReveal={onReveal}
     />

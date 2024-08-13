@@ -63,11 +63,16 @@ const imageNode = async (params: Record<string, string>) => {
 
 export const mintCoSoul = async (mintToAddr: string, profileId: number) => {
   try {
-    const tx = await mintCoSoulForAddress(mintToAddr);
-    const txReceipt = await tx.wait();
+    const txReceipt = await mintCoSoulForAddress(mintToAddr);
     const { tokenId } = await getMintInfoFromReceipt(txReceipt);
 
-    await minted(mintToAddr, tx.hash, tokenId, profileId, false);
+    await minted(
+      mintToAddr,
+      txReceipt.transactionHash,
+      Number(tokenId),
+      profileId,
+      false
+    );
   } catch (e) {
     // hey maybe its already minted
 

@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom';
 import { TokenJoinInfo } from '../../../_api/join/[token]';
 import { ShareTokenType } from '../../common-lib/shareTokens';
 import { LoadingModal } from '../../components';
-import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { givePaths } from '../../routes/paths';
 import { CenteredBox, Panel, Text } from '../../ui';
 import useConnectedAddress from 'hooks/useConnectedAddress';
@@ -21,7 +20,6 @@ import {
 } from './queries';
 
 export const JoinPage = () => {
-  useAuthStateMachine(false);
   const { token } = useParams();
   const navigate = useNavigate();
 

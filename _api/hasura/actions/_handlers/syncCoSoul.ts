@@ -42,10 +42,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // no tokenId on chain, lets clean up
       await burned(address, session.hasuraProfileId);
     } else {
-      await minted(address, payload.tx_hash, tokenId, session.hasuraProfileId);
+      await minted(
+        address,
+        payload.tx_hash,
+        Number(tokenId),
+        session.hasuraProfileId
+      );
     }
 
-    return res.status(200).json({ token_id: tokenId });
+    return res.status(200).json({ token_id: Number(tokenId) });
   } catch (e: any) {
     return errorResponse(res, e);
   }

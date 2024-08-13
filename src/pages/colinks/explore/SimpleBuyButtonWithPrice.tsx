@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 
+import { Address } from 'viem';
+
 import { BuyButton } from '../../../features/colinks/BuyButton';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { Flex, Text } from '../../../ui';
@@ -33,7 +35,7 @@ export const SimpleBuyButtonWithPrice = ({
       <BuyButton
         setProgress={setProgress}
         onSuccess={onSuccess}
-        target={target}
+        target={target as Address}
         disabled={awaitingWallet}
         size={'xs'}
         text={'Buy'}
