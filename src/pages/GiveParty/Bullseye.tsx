@@ -45,11 +45,11 @@ export const Bullseye = ({
   const maxNodesInTier = [20, 24, 30, 22, 45];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
-    'radial-gradient(circle at center, #340074 30%, #9847FF 85%)',
-    'radial-gradient(circle at center, black 30%, #0CCB65 85%)',
-    'radial-gradient(circle at center, black 30%, #EDC53A 90%)',
-    'radial-gradient(circle, rgb(53 53 53) 50%, rgb(120 120 120) 75%)',
-    'radial-gradient(circle, rgb(154 154 154) 50%, rgb(114 114 114) 75%)',
+    'radial-gradient(circle at center, $bullseye1a 30%, $bullseye1b 85%)',
+    'radial-gradient(circle at center, $bullseye2a 30%, $bullseye2b 85%)',
+    'radial-gradient(circle at center, $bullseye3a 30%, $bullseye3b 90%)',
+    'radial-gradient(circle, $bullseye4a 50%, $bullseye4b 75%)',
+    'radial-gradient(circle, $bullseye5a 50%, $bullseye5b 75%)',
   ];
   const nodeBackgrounds = [
     '#9847FF',

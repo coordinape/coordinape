@@ -10,26 +10,15 @@ import { ActivityList } from '../../../features/activities/ActivityList';
 import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
-import { LinkHolders } from '../../../features/colinks/LinkHolders';
-import { LinkHoldings } from '../../../features/colinks/LinkHoldings';
-import { Poaps } from '../../../features/colinks/Poaps';
-import { RecentCoLinkTransactions } from '../../../features/colinks/RecentCoLinkTransactions';
-import { RightColumnSection } from '../../../features/colinks/RightColumnSection';
-import { SimilarProfiles } from '../../../features/colinks/SimilarProfiles';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
-import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
-import { coLinksPaths } from '../../../routes/paths';
-import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
+import { Button, Flex, Link, Panel, Text } from '../../../ui';
 import { NotFound } from '../NotFound';
 import useProfileId from 'hooks/useProfileId';
 import { shortenAddressWithFrontLength } from 'utils';
 
 import { AddPost } from './AddPost';
-
-const LINK_HOLDERS_LIMIT = 5;
-const LINKS_HOLDING_LIMIT = 5;
 
 export const ProfilePagePostsContents = ({
   targetAddress,
@@ -173,7 +162,6 @@ const PageContents = ({
   targetAddress: string;
 }) => {
   const [showLoading, setShowLoading] = useState(false);
-  const [showProfileDetails, setShowProfileDetails] = useState(false);
   const { balance, targetBalance } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
@@ -353,29 +341,6 @@ const PageContents = ({
             </Flex>
           </Panel>
         )}
-        <Flex
-          column
-          css={{
-            gap: '$lg',
-            display: 'none',
-            '@tablet': { display: 'flex !important', mb: '$lg' },
-          }}
-        >
-          {!weAreLinked ? (
-            <ProfileLinkDetails targetAddress={targetAddress} />
-          ) : (
-            <>
-              <Button onClick={() => setShowProfileDetails(prev => !prev)}>
-                {showProfileDetails ? 'Hide' : 'Show'} Profile Details
-              </Button>
-              {showProfileDetails && (
-                <>
-                  <ProfileLinkDetails targetAddress={targetAddress} />
-                </>
-              )}
-            </>
-          )}
-        </Flex>
         {currentUserAddress && (
           <Flex column css={{ gap: '$md' }}>
             <AddPost targetAddress={targetAddress} />
@@ -454,96 +419,5 @@ const PageContents = ({
         )}
       </Flex>
     </Flex>
-  );
-};
-
-const ProfileLinkDetails = ({ targetAddress }: { targetAddress: string }) => {
-  return (
-    <>
-      <LinkHolders target={targetAddress} limit={LINK_HOLDERS_LIMIT}>
-        {(
-          list: React.ReactNode,
-          counts?: { link_holders: number; total_links: number }
-        ) => (
-          <RightColumnSection
-            title={
-              <Flex css={{ justifyContent: 'space-between', width: '100%' }}>
-                <Text
-                  as={AppLink}
-                  to={coLinksPaths.holders(targetAddress)}
-                  color={'default'}
-                  semibold
-                >
-                  <Users /> {counts?.link_holders} Link Holders
-                </Text>
-                <Text
-                  as={AppLink}
-                  to={coLinksPaths.holders(targetAddress)}
-                  color={'default'}
-                  semibold
-                >
-                  {counts?.total_links} Total Links
-                </Text>
-              </Flex>
-            }
-          >
-            <Flex column css={{ width: '100%' }}>
-              {list}
-              {counts?.link_holders &&
-                counts.link_holders > LINK_HOLDERS_LIMIT && (
-                  <Flex css={{ justifyContent: 'flex-end' }}>
-                    <AppLink to={coLinksPaths.holders(targetAddress)}>
-                      <Text size="xs">
-                        View all {counts.link_holders} Holders
-                      </Text>
-                    </AppLink>
-                  </Flex>
-                )}
-            </Flex>
-          </RightColumnSection>
-        )}
-      </LinkHolders>
-      <LinkHoldings holder={targetAddress} limit={LINKS_HOLDING_LIMIT}>
-        {(list: React.ReactNode, heldCount?: number) => (
-          <RightColumnSection
-            title={
-              <Text
-                as={AppLink}
-                to={coLinksPaths.holdings(targetAddress)}
-                color={'default'}
-                semibold
-              >
-                <Briefcase /> Holding {heldCount} Link
-                {heldCount == 1 ? '' : 's'}
-              </Text>
-            }
-          >
-            <Flex column css={{ width: '100%' }}>
-              {list}
-              {heldCount && heldCount > LINKS_HOLDING_LIMIT && (
-                <Flex css={{ justifyContent: 'flex-end' }}>
-                  <AppLink to={coLinksPaths.holdings(targetAddress)}>
-                    <Text size="xs">View all {heldCount} Holdings</Text>
-                  </AppLink>
-                </Flex>
-              )}
-            </Flex>
-          </RightColumnSection>
-        )}
-      </LinkHoldings>
-      <RightColumnSection
-        title={
-          <Flex as={AppLink} to={coLinksPaths.history(targetAddress)}>
-            <Text color={'default'} semibold>
-              <BarChart /> Recent Linking Activity
-            </Text>
-          </Flex>
-        }
-      >
-        <RecentCoLinkTransactions target={targetAddress} limit={5} />
-      </RightColumnSection>
-      <Poaps address={targetAddress} />
-      <SimilarProfiles address={targetAddress} />
-    </>
   );
 };

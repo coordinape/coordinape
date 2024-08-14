@@ -21,17 +21,29 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     background: 'transparent',
     backgroundSize: '400% 100%',
     backgroundPosition: '100% 50%',
-    transition: 'background-position .5s',
+    transition: 'all .5s',
+    '@xs': {
+      minWidth: 0,
+      p: '$xs $sm',
+      gap: '$xxs',
+      fontSize: '$small',
+      svg: {
+        width: '$md',
+        height: '$md',
+      },
+    },
     '&:hover': {
       filter: 'brightness(1)',
       backgroundPosition: '0 0',
       outlineColor: 'transparent',
+      color: 'white',
     },
   };
   const activeTabStyles = {
     outlineColor: 'transparent',
     backgroundPosition: '0 0',
     cursor: 'default',
+    color: 'white',
   };
   return (
     <Flex css={{ gap: '$sm' }}>
