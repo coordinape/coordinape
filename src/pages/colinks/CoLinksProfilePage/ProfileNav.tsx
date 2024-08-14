@@ -7,16 +7,31 @@ import {
   Write,
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Flex, Button, Text } from 'ui';
+import { Flex, Button } from 'ui';
 
 export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
-  const buttonStyles = {
+  const tabStyles = {
     minWidth: 150,
     pr: '$lg',
     fontSize: '$h3',
     gap: '$sm',
     justifyContent: 'flex-start',
+    fontWeight: '$medium',
     alignItems: 'center',
+    background: 'transparent',
+    backgroundSize: '400% 100%',
+    backgroundPosition: '100% 50%',
+    transition: 'background-position .5s',
+    '&:hover': {
+      filter: 'brightness(1)',
+      backgroundPosition: '0 0',
+      outlineColor: 'transparent',
+    },
+  };
+  const activeTabStyles = {
+    outlineColor: 'transparent',
+    backgroundPosition: '0 0',
+    cursor: 'default',
   };
   return (
     <Flex css={{ gap: '$sm' }}>
@@ -29,11 +44,16 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
             : 'secondary'
         }
         css={{
-          ...buttonStyles,
+          ...tabStyles,
+          background:
+            'radial-gradient(circle at 25% 0%, rgb(231, 7, 222) 0%, rgb(246 106 23) 36%, transparent 66%)',
+          ...(location.pathname.includes('posts') && {
+            ...activeTabStyles,
+          }),
         }}
       >
         <Write fa size="lg" />
-        <Text>Posts</Text>
+        Posts
       </Button>
       <Button
         as={NavLink}
@@ -44,10 +64,12 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
             : 'secondary'
         }
         css={{
-          ...buttonStyles,
-          // background: location.pathname.includes('network')
-          //   ? 'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)'
-          //   : 'transparent',
+          ...tabStyles,
+          background:
+            'radial-gradient(circle at 25% 0%, rgb(89 0 255) 0%, rgb(255 185 14) 36%, transparent 66%)',
+          ...(location.pathname.includes('network') && {
+            ...activeTabStyles,
+          }),
         }}
       >
         <Bullseye fa size="lg" />
@@ -60,7 +82,12 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
           location.pathname.includes('give') ? 'selectedSecondary' : 'secondary'
         }
         css={{
-          ...buttonStyles,
+          ...tabStyles,
+          background:
+            'radial-gradient(circle at 25% 0%, rgb(19 236 119) 0%, rgb(94 7 231) 36%, transparent 66%)',
+          ...(location.pathname.includes('give') && {
+            ...activeTabStyles,
+          }),
         }}
       >
         <GemCoOutline fa size="lg" /> GIVE
@@ -74,7 +101,12 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
             : 'secondary'
         }
         css={{
-          ...buttonStyles,
+          ...tabStyles,
+          background:
+            'radial-gradient(circle at 25% 0%, rgb(7 90 231) 0%, rgb(236 19 129) 40%, transparent 66%)',
+          ...(location.pathname.includes('reputation') && {
+            ...activeTabStyles,
+          }),
         }}
       >
         <CertificateLight fa size="lg" /> Reputation
