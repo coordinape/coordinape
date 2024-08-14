@@ -4,6 +4,7 @@ import { Box } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 import { ProfileHeader } from './ProfileHeader';
+import { ProfilePageGiveContents } from './ProfilePageGiveContents';
 
 export const ViewProfilePageGive = () => {
   const { address } = useParams();
@@ -14,7 +15,7 @@ export const ViewProfilePageGive = () => {
   return (
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      give here
+      <ProfilePageGiveContents targetAddress={address} />
     </SingleColumnLayout>
   );
 };

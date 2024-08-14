@@ -1,7 +1,6 @@
 import assert from 'assert';
 
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
-import { GiveReceived } from 'features/points/GiveReceived';
 import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
 import { Helmet } from 'react-helmet';
@@ -267,6 +266,7 @@ const ProfileHeaderWithProfile = ({
                       rel="noreferrer"
                       title={profile.website as string}
                       css={{
+                        fontWeight: '$medium',
                         alignItems: 'center',
                         gap: '$xs',
                         color: '$secondaryText',
@@ -278,7 +278,7 @@ const ProfileHeaderWithProfile = ({
                       <ExternalLink />{' '}
                       {abbreviateString(
                         (profile.website as string).replace(/^https?:\/\//, ''),
-                        20
+                        30
                       )}
                     </Flex>
                   )}
@@ -325,11 +325,11 @@ const ProfileHeaderWithProfile = ({
               <SkillTag key={s} skill={s} css={{ background: '$surface' }} />
             ))}
           </Flex>
-          {profile.address && (
+          {/* {profile.address && (
             <Flex css={{ gap: '$sm' }}>
               <GiveReceived address={profile.address} size="large" />
             </Flex>
-          )}
+          )} */}
           {profile.description && (
             <Flex css={{ mt: '$xs' }}>
               <Text color="secondary">{profile.description}</Text>

@@ -33,7 +33,7 @@ const nodeTextStyle = {
   },
   '.nodeSubHeader': {
     fontSize: '$small',
-    color: '$ctaHover',
+    color: '$link',
   },
 };
 const nodePanelStyle = {
@@ -46,7 +46,7 @@ export const nodeStyle = {
   width: `${nodeWidth}`,
   p: '$sm $sm $md',
   position: 'absolute',
-  borderBottom: `${nodeBorderWidth} solid $border `,
+  borderBottom: `${nodeBorderWidth} solid $borderContrast `,
   zIndex: -1,
   ...nodeTextStyle,
   '@md': {
@@ -64,7 +64,7 @@ export const nodeLineStyle = {
   bottom: `-${nodeBorderWidth}`,
   width: `calc(50vw - (${artWidth} / 2))`,
   maxWidth: `calc(($mediumScreen / 2) - (${artWidth} / 2))`,
-  borderBottom: `${nodeBorderWidth} solid $border `,
+  borderBottom: `${nodeBorderWidth} solid $borderContrast `,
   '@sm': {
     display: 'none',
   },

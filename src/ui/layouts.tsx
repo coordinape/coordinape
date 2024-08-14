@@ -23,7 +23,7 @@ export const SingleColumnLayout = ({
         display: 'flex',
         flexDirection: 'column',
         gap: '$md',
-        '@sm': { p: '$xl $md', gap: 0 },
+        '@sm': { p: '$xl $md' },
         ...css,
       }}
     >

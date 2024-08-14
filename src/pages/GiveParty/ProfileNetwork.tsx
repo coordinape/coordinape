@@ -66,7 +66,7 @@ export const ProfileNetwork = ({
         }}
       >
         {profile && (
-          <Link as={NavLink} to={coLinksPaths.partyProfile(`${address}`)}>
+          <Link as={NavLink} to={coLinksPaths.profile(`${address}`)}>
             <Avatar
               name={profile.name}
               path={profile.avatar}

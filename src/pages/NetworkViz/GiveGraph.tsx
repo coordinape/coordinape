@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, lazy } from 'react';
 
+import { StitchesTheme } from 'features/theming/ThemeProvider';
 import { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
@@ -43,6 +44,7 @@ export function GiveGraph({
   zoom = true,
   compact = false,
   expand = false,
+  stitchesTheme,
 }: {
   address?: string;
   skill?: string;
@@ -52,6 +54,7 @@ export function GiveGraph({
   zoom?: boolean;
   compact?: boolean;
   expand?: boolean;
+  stitchesTheme?: StitchesTheme;
 }) {
   const [graphReady, setGraphReady] = useState(false);
   const onClose = () => setVisible(false);
@@ -184,9 +187,13 @@ export function GiveGraph({
         enableZoomInteraction={zoom}
         linkDirectionalArrowLength={5}
         linkDirectionalArrowRelPos={0.5}
-        linkDirectionalArrowColor={() => 'white'}
+        linkDirectionalArrowColor={() =>
+          stitchesTheme ? stitchesTheme.colors.giveGraphLink.value : 'white'
+        }
         linkColor={() => {
-          return 'rgba(255, 255, 255, .8)';
+          return stitchesTheme
+            ? stitchesTheme.colors.giveGraphLink.value
+            : 'white';
         }}
         nodeLabel={n => `${(n as node).name}`}
         onNodeClick={(node: NodeObject) => {

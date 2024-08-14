@@ -209,6 +209,7 @@ export const GiveReceived = ({
             </Button>
           )}
           <Flex
+            className="giveSkillContainer"
             css={{
               gap: '$sm',
               flexWrap: 'wrap',

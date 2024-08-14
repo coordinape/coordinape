@@ -257,11 +257,12 @@ export const colors = {
   mapReceive: figmaColors.secondary2,
   mapCirculate: figmaColors.secondary5,
   mapNode: figmaColors.grey10,
-  mapGiveLink: figmaColors.success5,
+  giveGraphLink: figmaColors.grey3,
   mapReceiveLink: figmaColors.orange6,
   mapNodeFade: '#00000020',
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
+  mapGiveLink: figmaColors.success5,
 
   coMarkBackground: figmaColors.primary4,
 
@@ -628,6 +629,7 @@ export const dark = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+    giveGraphLink: figmaColors.grey5,
 
     toastifyBackground: figmaColors.grey8,
     toastifyBorderColorDefault: figmaColors.grey6,
@@ -842,6 +844,7 @@ export const party = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+    giveGraphLink: '#f583ee',
 
     toastifyBackground: figmaColors.grey8,
     toastifyBorderColorDefault: figmaColors.grey6,
