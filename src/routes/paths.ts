@@ -137,7 +137,6 @@ export const givePaths = {
     withSearchParams(`/circles/${circleId}/map`, params),
 
   // other
-  claims: '/claims',
   account: '/account',
   createCircle: `/new-circle`,
   developers: '/developers',
@@ -147,9 +146,6 @@ export const givePaths = {
   organization: (orgId: string) => `/organizations/${orgId}`,
   orgActivity: orgPath('activity'),
   organizationSettings: orgPath(`settings`),
-  vaultsForOrg: orgPath(`vaults`),
-  vaultTxs: (orgId: string, address: string) =>
-    `/organizations/${orgId}/vaults/${address}/txs`,
   orgMembers: orgPath(`members`),
   orgMembersAdd: orgPath(`members/add`),
 

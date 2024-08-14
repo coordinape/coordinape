@@ -368,8 +368,7 @@ const Explainer = (props: { back: () => void; continue: () => void }) => {
         .
       </Text>
       <Text p as="p">
-        With this wallet, you can receive tokens from Coordinape CoVaults, and
-        interact with the blockchain.
+        With this wallet, you can interact with the blockchain.
       </Text>
       <Text h2 p as="p" color="neutral">
         How to Login

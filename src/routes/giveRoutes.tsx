@@ -14,7 +14,6 @@ import AddMembersPage from '../pages/AddMembersPage/AddMembersPage';
 import CircleActivityPage from '../pages/CircleActivityPage';
 import CircleAdminPage from '../pages/CircleAdminPage';
 import CirclesPage from '../pages/CirclesPage';
-import ClaimsPage from '../pages/ClaimsPage';
 import ContributionsPage from '../pages/ContributionsPage';
 import CreateCirclePage from '../pages/CreateCirclePage';
 import DevPortalPage from '../pages/DevPortalPage';
@@ -28,8 +27,6 @@ import MembersPage from '../pages/MembersPage';
 import { NewNominationPage } from '../pages/NewNominationPage/NewNominationPage';
 import OrgMembersPage, { OrgMembersAddPage } from '../pages/OrgMembersPage';
 import ProfilePage from '../pages/ProfilePage';
-import VaultsPage from '../pages/VaultsPage';
-import { VaultTransactions } from '../pages/VaultsPage/VaultTransactions';
 import VerifyEmailPage from '../pages/VerifyEmailPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
@@ -86,7 +83,6 @@ const GiveRoutes = () => {
         <Route path="distributions/:epochId" element={<DistributionsPage />} />
       </Route>
 
-      <Route path={givePaths.claims} element={<ClaimsPage />} />
       <Route path={givePaths.account} element={<AccountPage />} />
       <Route path={givePaths.createCircle} element={<CreateCirclePage />} />
       <Route path={givePaths.developers} element={<DevPortalPage />} />
@@ -95,12 +91,6 @@ const GiveRoutes = () => {
       <Route path={givePaths.organization(':orgId')}>
         <Route path="" element={<OrgPage />} />
         <Route path="settings" element={<OrgSettingsPage />} />
-        <Route path="vaults" element={<VaultsPage />}>
-          <Route
-            path={givePaths.vaultTxs(':orgId', ':address')}
-            element={<VaultTransactions />}
-          />
-        </Route>
       </Route>
 
       <Route
