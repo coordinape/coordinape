@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 import { findConnectorName } from 'features/auth/connectors';
-import { supportedChainIds } from 'features/cosoul/contracts';
+import { supportedChainIds } from 'lib/vaults';
 
 import { EConnectorNames } from 'config/constants';
 import { useToast } from 'hooks';

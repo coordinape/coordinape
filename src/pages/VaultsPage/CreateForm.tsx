@@ -1,0 +1,334 @@
+import { MouseEvent, useCallback, useState } from 'react';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ethers } from 'ethers';
+import type { Contracts } from 'lib/vaults';
+import { Asset } from 'lib/vaults';
+import debounce from 'lodash-es/debounce';
+import isEmpty from 'lodash-es/isEmpty';
+import { useController, useForm } from 'react-hook-form';
+import { styled } from 'stitches.config';
+import { z } from 'zod';
+
+import { useContracts } from 'hooks/useContracts';
+import { useVaultFactory } from 'hooks/useVaultFactory';
+import { PlusCircle } from 'icons/__generated';
+import { Box, Button, Form, HR, Link, Panel, Text, TextField } from 'ui';
+import { makeExplorerUrl } from 'utils/provider';
+
+const useFormSetup = (
+  contracts: Contracts | undefined,
+  setCustomSymbol: (s: string | undefined) => void
+) => {
+  const schema = z
+    .object({
+      symbol: z.nativeEnum(Asset).optional(),
+      customAddress: z.string().optional(),
+    })
+    .refine(
+      async ({ symbol, customAddress }) => {
+        if (symbol) return true;
+
+        if (!customAddress || !ethers.utils.isAddress(customAddress)) {
+          setCustomSymbol(undefined);
+          return false;
+        }
+
+        if (!contracts) return false;
+        const token = contracts.getERC20(customAddress);
+        try {
+          await token.decimals(); // just ensuring that this call succeeds
+          setCustomSymbol(await token.symbol());
+          return true;
+        } catch {
+          return false;
+        }
+      },
+      {
+        message: 'Select an asset or enter a valid ERC20 token address',
+        path: ['customAddress'],
+      }
+    );
+
+  type FormSchema = z.infer<typeof schema>;
+  const resolver = zodResolver(schema);
+
+  return useForm<FormSchema>({ resolver, mode: 'onBlur' });
+};
+
+export const CreateForm = ({
+  onSuccess,
+  orgId,
+  setSaving,
+}: {
+  onSuccess: () => void;
+  orgId: number;
+  setSaving?: (saving: boolean) => void;
+}) => {
+  const contracts = useContracts();
+  const { createVault } = useVaultFactory(orgId);
+  const [asset, setAsset] = useState<string | undefined>();
+  const [displayCustomToken, setDisplayCustomToken] = useState(false);
+  const [activeVaultPanel, setActiveVaultPanel] = useState<string | undefined>(
+    'simple'
+  );
+  const [customSymbol, setCustomSymbol] = useState<string | undefined>();
+  const [saving, setSavingLocal] = useState(false);
+  const [txHash, setTxHash] = useState<string>('');
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    clearErrors,
+    trigger,
+  } = useFormSetup(contracts, setCustomSymbol);
+
+  const {
+    field: { onChange, onBlur },
+  } = useController({ name: 'symbol', control });
+
+  const { field: customAddressField } = useController({
+    name: 'customAddress',
+    defaultValue: '',
+    control,
+  });
+
+  const checkCustomAddress = useCallback(
+    debounce(() => trigger('customAddress'), 200),
+    [trigger]
+  );
+
+  if (!contracts)
+    return (
+      <Text
+        bold
+        css={{
+          display: 'block',
+          mb: '$sm',
+          textAlign: 'center',
+        }}
+      >
+        Sorry, this network is not supported.
+      </Text>
+    );
+
+  const pickAsset = (
+    vaultType: 'yearn' | 'simple',
+    symbol: string,
+    event: MouseEvent
+  ) => {
+    if (event) event.preventDefault();
+
+    setAsset(symbol + vaultType);
+    clearErrors('customAddress');
+
+    // customAddress should be empty for Yearn Vaults
+    // customAddress should be defined for simple vaults
+    if (symbol == 'custom') {
+      setDisplayCustomToken(true);
+      customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: undefined } });
+    } else if (vaultType == 'simple') {
+      setDisplayCustomToken(false);
+      if (
+        Object.values(contracts.getAvailableTokens()).some(s => s === symbol)
+      ) {
+        customAddressField.onChange({
+          target: { value: contracts.getTokenAddress(symbol) },
+        });
+        onChange({ target: { value: undefined } });
+      }
+    }
+
+    if (vaultType == 'yearn') {
+      customAddressField.onChange({ target: { value: '' } });
+      onChange({ target: { value: symbol } });
+      setDisplayCustomToken(false);
+      setActiveVaultPanel('yearn');
+    } else {
+      setActiveVaultPanel('simple');
+    }
+
+    onBlur();
+  };
+
+  const onSubmit = ({ symbol, customAddress }: any) => {
+    setSaving?.(true);
+    setSavingLocal(true);
+    createVault({
+      type: symbol,
+      simpleTokenAddress: customAddress,
+      customSymbol,
+      setTxHash,
+    }).then(vault => {
+      setSaving?.(false);
+      setSavingLocal(false);
+      if (!vault) return;
+      onSuccess();
+    });
+  };
+
+  const chainId = Number(contracts.chainId);
+  if (saving) return <SavingInProgress txHash={txHash} chainId={chainId} />;
+
+  return (
+    <Form
+      onSubmit={handleSubmit(onSubmit)}
+      css={{ display: 'flex', flexDirection: 'column' }}
+    >
+      <Panel selected={activeVaultPanel === 'simple'} css={{ gap: '$md' }}>
+        <Text large>CoVault</Text>
+        <Text p as="p">
+          CoVaults allow you to fund your circles with any ERC-20 token as your
+          asset.
+        </Text>
+        <Box css={{ display: 'flex', gap: '$sm', flexWrap: 'wrap' }}>
+          {contracts.getAvailableTokens().map(symbol => (
+            <AssetButton
+              pill
+              color="secondary"
+              key={symbol}
+              data-selected={`${symbol}simple` === asset}
+              onClick={event => pickAsset('simple', symbol, event)}
+            >
+              <img
+                src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
+                alt={symbol}
+                height={25}
+                width={25}
+                style={{ paddingRight: 0 }}
+              />
+              <Text color="inherit" css={{ ml: '$xs' }}>
+                {symbol}
+              </Text>
+            </AssetButton>
+          ))}
+          <AssetButton
+            pill
+            color="secondary"
+            data-selected={'customsimple' === asset}
+            onClick={e => pickAsset('simple', 'custom', e)}
+          >
+            <PlusCircle size="lg" color="neutral" />
+            <Text color="inherit" css={{ ml: '$xs' }}>
+              {'Other ERC-20 Token'}
+            </Text>
+          </AssetButton>
+        </Box>
+        {displayCustomToken && (
+          <Box>
+            <Text variant="label" css={{ width: '100%', mb: '$xs' }}>
+              Token contract address
+              {customSymbol && (
+                <span>
+                  &nbsp;-{' '}
+                  <Text inline bold>
+                    {customSymbol}
+                  </Text>
+                </span>
+              )}
+            </Text>
+            <TextField
+              placeholder="0x0000..."
+              css={{ width: '100%' }}
+              {...customAddressField}
+              onChange={event => {
+                customAddressField.onChange(event);
+                checkCustomAddress();
+              }}
+            />
+          </Box>
+        )}
+      </Panel>
+      <HR />
+      <Panel selected={activeVaultPanel === 'yearn'} css={{ gap: '$md' }}>
+        <Text large>Yield-Generating CoVault</Text>
+        <Text p as="p">
+          Create a CoVault that receives DAI or USDC, and will use{'  '}
+          <Link href="https://docs.yearn.finance/">Yearn Vaults</Link> to earn
+          yield in the background.
+        </Text>
+        <Box css={{ display: 'flex', gap: '$sm', flexWrap: 'wrap' }}>
+          {contracts.getAvailableTokens().map(symbol => (
+            <AssetButton
+              pill
+              color="secondary"
+              key={symbol}
+              data-selected={`${symbol}yearn` === asset}
+              onClick={event => pickAsset('yearn', symbol, event)}
+            >
+              <img
+                src={`/imgs/tokens/${symbol.toLowerCase()}.png`}
+                alt={symbol}
+                height={25}
+                width={25}
+                style={{ paddingRight: 0 }}
+              />
+              <Text color="inherit" css={{ ml: '$xs' }}>
+                Yearn {symbol}
+              </Text>
+            </AssetButton>
+          ))}
+        </Box>
+      </Panel>
+      <Button
+        color="secondary"
+        size="large"
+        css={{ mt: '$lg', width: '100%' }}
+        disabled={saving}
+      >
+        {saving ? 'Saving...' : 'Create CoVault'}
+      </Button>
+      {!isEmpty(errors) && (
+        <Text color="alert" css={{ mt: '$sm' }}>
+          {Object.values(errors)
+            .map(e => e.message)
+            .join('. ')}
+        </Text>
+      )}
+    </Form>
+  );
+};
+
+const AssetButton = styled(Button, {
+  pl: '$sm',
+  pr: '$md',
+  height: '37px',
+  '&[data-selected=true]': {
+    backgroundColor: '$primaryButton',
+    color: '$primaryButtonText',
+  },
+});
+
+const SavingInProgress = ({
+  txHash,
+  chainId,
+}: {
+  txHash: string;
+  chainId: number;
+}) => {
+  return (
+    <>
+      <Text p as="p" css={{ mb: '$md' }}>
+        Please follow the prompts in your wallet to submit a transaction, then
+        wait for the transaction to complete.
+      </Text>
+      <Text p as="p">
+        Do not leave this page.
+      </Text>
+      {txHash ? (
+        <Button
+          css={{ mt: '$md' }}
+          type="button"
+          color="secondary"
+          fullWidth
+          as="a"
+          target="_blank"
+          href={makeExplorerUrl(chainId, txHash)}
+        >
+          View on Etherscan
+        </Button>
+      ) : null}
+    </>
+  );
+};
