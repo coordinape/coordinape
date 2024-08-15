@@ -1,10 +1,6 @@
-import assert from 'assert';
-
 import { ChainId } from '@decent.xyz/box-common';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
-import { getMagicProvider } from 'features/auth/magic';
-import { useSavedAuth } from 'features/auth/useSavedAuth';
 import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { wagmiConfig, wagmiChain } from 'features/wagmi/config';
@@ -21,7 +17,7 @@ import { OrBar } from 'components/OrBar';
 import { IN_PREVIEW, IN_PRODUCTION } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
 
-// import { chain } from './chains';
+import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
 import { useCoSoulContracts } from './useCoSoulContracts';
 
@@ -30,8 +26,7 @@ const MIN_BALANCE = ethers.utils.parseEther('0.001');
 export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
   const { /* library */ chainId, address: account /* setProvider */ } =
     useAccount();
-  const { savedAuth } = useSavedAuth();
-  const contracts = useCoSoulContracts();
+  const contract = useCoSoulContracts();
   const { showError } = useToast();
 
   const { switchChain } = useSwitchChain();
@@ -52,9 +47,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     }
   );
 
-  const chain = chain || localhost;
-
-  const onCorrectChain = chainId === localhost.id; /* Number(chain.chainId); */
+  const onCorrectChain = chainId === Number(chain.chainId);
 
   const safeSwitchToCorrectChain = async () => {
     try {
@@ -115,14 +108,14 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     );
   }
 
-  if (!contracts || !account) {
+  if (!contract || !account) {
     // FIXME: better loading state
     return <Text>Loading...</Text>;
   }
 
   return (
     <MintOrBurnButton
-      contracts={contracts}
+      contract={contract}
       address={account}
       onReveal={onReveal}
     />

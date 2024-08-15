@@ -11,9 +11,10 @@ import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
+import { CoLinksWithWallet } from 'utils/viem/contracts';
 
 import { CoLinksContext } from './CoLinksContext';
-import { CoLinks, useDoWithCoLinksContract } from './useDoWithCoLinksContract';
+import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
 import { useLinkingStatus } from './useLinkingStatus';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -64,7 +65,7 @@ export const BuyButton = ({
   };
 
   const buyLinkWithContract = async (
-    coLinksWithWallet: CoLinks,
+    coLinksWithWallet: CoLinksWithWallet,
     chainId: string
   ) => {
     try {

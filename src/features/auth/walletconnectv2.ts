@@ -3,7 +3,7 @@ import { EthereumProviderOptions } from '@walletconnect/ethereum-provider/dist/t
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { ConnectorUpdate } from '@web3-react/types';
 
-import { supportedChainIds } from '../cosoul/contracts';
+import { supportedChainIds } from '../../utils/viem/contracts';
 
 export class WalletConnectV2Connector extends AbstractConnector {
   provider?: typeof WalletConnectProvider.prototype;

@@ -1,10 +1,8 @@
 /* eslint-disable no-console */
 import assert from 'assert';
 
-import { CoSoul } from '@coordinape/contracts/typechain';
-
-import { Contracts } from '../contracts';
 import { provider, restoreSnapshot, takeSnapshot } from 'utils/testing';
+import { getCoSoulContract } from 'utils/viem/contracts';
 
 import {
   getMintInfo,
@@ -17,7 +15,7 @@ import {
 
 import { Awaited } from 'types/shim';
 
-let contract: CoSoul;
+let cosoul;
 let snapshotId: string;
 let mainAccount: string;
 let tokenId: Awaited<ReturnType<typeof getTokenId>>;
@@ -26,7 +24,7 @@ beforeEach(async () => {
   snapshotId = await takeSnapshot();
 
   mainAccount = (await provider().listAccounts())[0];
-  contract = (await Contracts.fromProvider(provider())).cosoul;
+  cosoul = getCoSoulContract();
 });
 
 afterEach(async () => {
@@ -39,7 +37,8 @@ test('getTokenId returns undefined if no nft exists', async () => {
 });
 
 test('getMintInfo returns mint info', async () => {
-  const tx = await contract.mint();
+  // const tx = await contract.mint();
+  const tx = await cosoul.write;
   const data = await getMintInfo(tx.hash);
   expect(data).toEqual({
     from: '0x0000000000000000000000000000000000000000',

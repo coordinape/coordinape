@@ -1,18 +1,17 @@
-import assert from 'assert';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 import { useAccount, useWalletClient } from 'wagmi';
 
+import {
+  CoLinksWithWallet,
+  getCoLinksContractWithWallet,
+} from '../../utils/viem/contracts';
 import { chain } from '../cosoul/chains';
-import { getCoLinksContractWithWallet } from '../cosoul/contracts';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useToast } from 'hooks/useToast';
 import { switchNetwork } from 'utils/provider';
 
 import { CoLinksContext } from './CoLinksContext';
-
-//define return type for getCoLinksContractWithWallet
-export type CoLinks = ReturnType<typeof getCoLinksContractWithWallet>;
 
 export const useDoWithCoLinksContract = () => {
   const authAddress = useConnectedAddress(false);
@@ -39,7 +38,7 @@ export const useDoWithCoLinksContract = () => {
   const onCorrectChain = walletChain === Number(chain.chainId);
 
   return async (
-    fn: (signedContract: CoLinks, chainId: string) => Promise<void>
+    fn: (signedContract: CoLinksWithWallet, chainId: string) => Promise<void>
   ) => {
     if (!signedContract) {
       setShowConnectWallet(true);

@@ -8,13 +8,12 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
+import { CoLinks, getCoLinksContract } from '../../utils/viem/contracts';
 import { useAuthStore } from '../auth';
 import { useLogout } from '../auth/useLogout';
-import { getCoLinksContract } from '../cosoul/contracts';
 
 import { FaviconNotificationBadge } from './FaviconNotificationBadge';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
-import { CoLinks } from './useDoWithCoLinksContract';
 import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type

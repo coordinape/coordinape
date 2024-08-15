@@ -10,10 +10,10 @@ import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
 import { Account, Address } from 'viem';
+import { useAccount } from 'wagmi';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useToast } from '../../hooks';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
@@ -24,11 +24,12 @@ import { OrBar } from 'components/OrBar';
 import { IN_PREVIEW } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
 import { coLinksPaths } from 'routes/paths';
+import { CoLinksWithWallet } from 'utils/viem/contracts';
 
 import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
 import { LinkTxProgress } from './LinkTxProgress';
-import { CoLinks, useDoWithCoLinksContract } from './useDoWithCoLinksContract';
+import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
 import { useLinkingStatus } from './useLinkingStatus';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -65,7 +66,8 @@ export const BuyOrSellCoLinks = ({
 
   const [progress, setProgress] = useState('');
 
-  const { chainId, account } = useWeb3React();
+  const { chainId, address: account } = useAccount();
+
   const doWithCoLinksContract = useDoWithCoLinksContract();
 
   const { data: opBalance } = useQuery(
@@ -160,7 +162,7 @@ export const BuyOrSellCoLinks = ({
   };
 
   const sellLinkWithContract = async (
-    coLinksWithWallet: CoLinks,
+    coLinksWithWallet: CoLinksWithWallet,
     chainId: string
   ) => {
     try {

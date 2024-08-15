@@ -45,7 +45,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await minted(address, payload.tx_hash, tokenId, session.hasuraProfileId);
     }
 
-    return res.status(200).json({ token_id: tokenId });
+    return res.status(200).json({ token_id: Number(tokenId) });
   } catch (e: any) {
     return errorResponse(res, e);
   }
