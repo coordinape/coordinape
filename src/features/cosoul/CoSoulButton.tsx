@@ -10,28 +10,31 @@ import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { wagmiConfig, wagmiChain } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { Address } from 'viem';
+import { useAccount, useSwitchChain } from 'wagmi';
 
+import { localhost } from '../../../src/utils/viem/chains';
 import { useToast } from '../../hooks';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { Button, Flex, Panel, Text } from '../../ui';
-import { switchToCorrectChain } from '../web3/chainswitch';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
 import { IN_PREVIEW, IN_PRODUCTION } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
 
-import { chain } from './chains';
+// import { chain } from './chains';
 import { MintOrBurnButton } from './MintOrBurnButton';
 import { useCoSoulContracts } from './useCoSoulContracts';
 
 const MIN_BALANCE = ethers.utils.parseEther('0.001');
 
 export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
-  const { library, chainId, account, setProvider } = useWeb3React();
+  const { /* library */ chainId, address: account /* setProvider */ } =
+    useAccount();
   const { savedAuth } = useSavedAuth();
   const contracts = useCoSoulContracts();
   const { showError } = useToast();
+
+  const { switchChain } = useSwitchChain();
 
   const { data: balance } = useQuery(
     ['balanceOf', account],
@@ -49,17 +52,17 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
     }
   );
 
-  const onCorrectChain = chainId === Number(chain.chainId);
+  const chain = chain || localhost;
+
+  const onCorrectChain = chainId === localhost.id; /* Number(chain.chainId); */
 
   const safeSwitchToCorrectChain = async () => {
     try {
-      if (savedAuth.connectorName == 'magic') {
-        const provider = await getMagicProvider('optimism');
-        await setProvider(provider, 'magic');
-      } else {
-        assert(library);
-        await switchToCorrectChain(library);
-      }
+      // // todo: handle magic
+      // if (savedAuth.connectorName == 'magic') {
+      //   const provider = await getMagicProvider('optimism');
+      //   await setProvider(provider, 'magic');
+      switchChain({ chainId: localhost.id });
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }

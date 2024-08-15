@@ -1,30 +1,38 @@
-import { useContext } from 'react';
+import assert from 'assert';
+import { useContext, useEffect } from 'react';
 
-import { CoLinks } from '@coordinape/contracts/typechain';
+import { useAccount, useWalletClient } from 'wagmi';
 
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { chain } from '../cosoul/chains';
-import { getCoLinksContractWithSigner } from '../cosoul/contracts';
+import { getCoLinksContractWithWallet } from '../cosoul/contracts';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useToast } from 'hooks/useToast';
 import { switchNetwork } from 'utils/provider';
 
 import { CoLinksContext } from './CoLinksContext';
 
+//define return type for getCoLinksContractWithWallet
+export type CoLinks = ReturnType<typeof getCoLinksContractWithWallet>;
+
 export const useDoWithCoLinksContract = () => {
-  const authAccount = useConnectedAddress(false);
+  const authAddress = useConnectedAddress(false);
   const {
-    library,
-    account: web3Account,
+    address: walletAddress,
     chainId: walletChain,
-  } = useWeb3React();
+    isConnected,
+  } = useAccount();
+
+  const { data: client, isFetched: walletClientFetched } = useWalletClient({
+    // account: walletAddress, // TODO: ensure this matches profile auth'd address
+    // chainId: walletChain,
+  });
 
   const { showDefault, showError } = useToast();
 
   const { setShowConnectWallet } = useContext(CoLinksContext);
 
-  const signedContract = library
-    ? getCoLinksContractWithSigner(library)
+  const signedContract = client
+    ? getCoLinksContractWithWallet(client)
     : undefined;
 
   const chainId = chain.chainId;
@@ -38,7 +46,17 @@ export const useDoWithCoLinksContract = () => {
       return;
     }
 
-    if (!authAccount) {
+    if (!isConnected) {
+      showError('Please connect your wallet');
+      return;
+    }
+
+    if (!walletClientFetched) {
+      showError('walletClient not fetched yet');
+      return;
+    }
+
+    if (!authAddress) {
       showError('Please connect your wallet');
       return;
     }
@@ -48,10 +66,10 @@ export const useDoWithCoLinksContract = () => {
       await switchNetwork(chainId);
     }
 
-    if (authAccount.toLowerCase() !== web3Account?.toLowerCase()) {
-      console.error({ authAccount, web3Account });
+    if (authAddress.toLowerCase() !== walletAddress?.toLowerCase()) {
+      console.error({ authAddress, walletAddress });
       showError(
-        `You are not connected to the correct wallet. Please switch your wallet to ${authAccount} and try again.`
+        `You are not connected to the correct wallet. Please switch your wallet to ${authAddress} and try again.`
       );
       return;
     }

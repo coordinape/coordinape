@@ -2,10 +2,9 @@ import { useEffect } from 'react';
 
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { useAccount } from 'wagmi';
 
 import { LoadingModal } from '../../components';
-import { useAuthStore } from '../../features/auth';
-import { useAuthStateMachine } from '../../features/auth/RequireWeb3Auth';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
 import { useWeb3React } from '../../hooks/useWeb3React';
 import { client } from '../../lib/gql/client';
@@ -13,9 +12,7 @@ import { coLinksPaths } from '../../routes/paths';
 
 // Routes recently logged in users to either the colinks app or the colinks wizard
 export const LaunchPage = () => {
-  useAuthStateMachine(false, false);
-  const authStep = useAuthStore(state => state.step);
-  const web3Context = useWeb3React();
+  const { isConnected } = useAccount();
 
   const { account: address } = useWeb3React();
   const navigate = useNavigate();
@@ -62,7 +59,7 @@ export const LaunchPage = () => {
 
   useEffect(() => {
     // get a new wallet connection
-    if (authStep === 'connect' && !web3Context.active) {
+    if (!isConnected) {
       navigate(coLinksPaths.wizardStart, {
         replace: true,
       });
@@ -77,7 +74,7 @@ export const LaunchPage = () => {
         });
       }
     }
-  }, [address, keyData, authStep, web3Context]);
+  }, [address, keyData, isConnected]);
 
   return <LoadingModal visible={true} />;
 };

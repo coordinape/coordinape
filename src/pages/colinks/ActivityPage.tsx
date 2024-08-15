@@ -5,6 +5,7 @@ import { useCoLinksNavQuery } from 'features/colinks/useCoLinksNavQuery';
 import { artWidthMobile } from 'features/cosoul/constants';
 import { isMacBrowser } from 'features/SearchBox/SearchBox';
 import { Helmet } from 'react-helmet';
+import { useAccount } from 'wagmi';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { ActivityList } from '../../features/activities/ActivityList';
@@ -31,9 +32,15 @@ import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 import { CoLinksTaskCards } from './CoLinksTaskCards';
 
 export const ActivityPage = () => {
-  const { address } = useContext(CoLinksContext);
+  // const { address } = useContext(CoLinksContext);
+  const { address } = useAccount();
   if (!address) {
-    return <LoadingIndicator />;
+    return (
+      <>
+        <Text>No address in activity page</Text>
+        <LoadingIndicator />
+      </>
+    );
   }
 
   return <CoLinksActivityPageContents currentUserAddress={address} />;

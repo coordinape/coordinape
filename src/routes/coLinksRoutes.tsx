@@ -64,9 +64,11 @@ export const coLinksRoutes = [
   <Route
     key={'not_logged_in'}
     element={
-      <CoLinksLoggedOutLayout>
-        <Outlet />
-      </CoLinksLoggedOutLayout>
+      <Rainbowify>
+        <CoLinksLoggedOutLayout>
+          <Outlet />
+        </CoLinksLoggedOutLayout>
+      </Rainbowify>
     }
   >
     <Route
@@ -135,19 +137,14 @@ export const coLinksRoutes = [
   <Route
     key="splashLayout"
     element={
-      <CoLinksSplashLayout>
-        <Outlet />
-      </CoLinksSplashLayout>
+      <Rainbowify>
+        <CoLinksSplashLayout>
+          <Outlet />
+        </CoLinksSplashLayout>
+      </Rainbowify>
     }
   >
-    <Route
-      path="login"
-      element={
-        <Rainbowify>
-          <RedirectAfterLogin />
-        </Rainbowify>
-      }
-    />
+    <Route path="login" element={<RedirectAfterLogin />} />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
   <Fragment key="public">
@@ -217,7 +214,14 @@ export const coLinksRoutes = [
   </Fragment>,
 
   <Fragment key="loggedin">
-    <Route path={coLinksPaths.launch} element={<LaunchPage />} />
+    <Route
+      path={coLinksPaths.launch}
+      element={
+        <Rainbowify>
+          <LaunchPage />
+        </Rainbowify>
+      }
+    />
 
     <Route
       element={
@@ -260,9 +264,11 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <CoLinksWizardLayout>
-          <Outlet />
-        </CoLinksWizardLayout>
+        <Rainbowify>
+          <CoLinksWizardLayout>
+            <Outlet />
+          </CoLinksWizardLayout>
+        </Rainbowify>
       }
     >
       <Route path={coLinksPaths.root} element={<LaunchPage />} />

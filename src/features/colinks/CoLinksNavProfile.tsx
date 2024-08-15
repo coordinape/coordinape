@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { NavItem } from 'features/nav/NavItem';
+import { useAccount } from 'wagmi';
 
 import { Network } from '../../components';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
@@ -12,7 +12,6 @@ import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
 import { AuthDeviceModal } from 'pages/ProfilePage/AuthDevice/AuthDeviceModal';
 import { shortenAddressWithFrontLength } from 'utils';
-
 export const CoLinksNavProfile = ({
   name,
   avatar,
@@ -25,10 +24,11 @@ export const CoLinksNavProfile = ({
   const [open, setOpen] = useState(false);
   const { chainId, logout, address } = useWalletStatus();
 
+  const { connector, status } = useAccount();
+
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
   const [showAuthDevice, setShowAuthDevice] = useState(false);
-  const { library } = useWeb3React();
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -113,6 +113,9 @@ export const CoLinksNavProfile = ({
               <Network chainId={chainId || 1} />
             </Text>
           )}
+          <Network chainId={chainId || 1} />
+          <Text>Connector: {connector?.name} </Text>
+          <Text>Status: {status} </Text>
         </Box>
       </Flex>
       {open && (
@@ -121,12 +124,13 @@ export const CoLinksNavProfile = ({
             label="Recent Transactions"
             onClick={() => setShowTxModal(true)}
           />
-          {library && (
-            <NavItem
-              label="Connect on Mobile"
-              onClick={() => setShowAuthDevice(true)}
-            />
-          )}
+          {/* TODO: renable mobile */}
+          {/* {library && ( */}
+          {/*   <NavItem */}
+          {/*     label="Connect on Mobile" */}
+          {/*     onClick={() => setShowAuthDevice(true)} */}
+          {/*   /> */}
+          {/* )} */}
           <NavItem
             label="Edit Profile"
             to={coLinksPaths.account}

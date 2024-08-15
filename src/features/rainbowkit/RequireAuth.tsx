@@ -1,10 +1,10 @@
 import { ReactNode, useEffect } from 'react';
 
 import { ConnectButton, useConnectModal } from '@rainbow-me/rainbowkit';
-import { useAccount, useConnect } from 'wagmi';
+import { useAccount } from 'wagmi';
 
 import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
-import { Box, Button } from 'ui';
+import { Box } from 'ui';
 
 const DEBUG = true; // TODO remove
 
@@ -17,25 +17,7 @@ export const RequireAuth = ({
 }) => {
   const { openConnectModal, connectModalOpen } = useConnectModal();
   const { profileId } = useReloadCookieAuth();
-  const {
-    address,
-    isConnected,
-    connector: activeConnector,
-    isDisconnected,
-    status,
-  } = useAccount();
-
-  const { connect, connectors } = useConnect();
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('useEffect invoked:', {
-      profileId,
-      address,
-      status,
-      activeConnector,
-    });
-  });
+  const { address, isConnected, isDisconnected, status } = useAccount();
 
   useEffect(() => {
     // if we have a profileId and walletConnection, render children
@@ -46,27 +28,13 @@ export const RequireAuth = ({
 
     // else: require modal login
     if (openConnectModal && !connectModalOpen) openConnectModal();
-  }, [
-    openConnectModal,
-    connectModalOpen,
-    profileId,
-    isConnected,
-    walletRequired,
-  ]);
+  }, [status, openConnectModal, connectModalOpen, profileId, walletRequired]);
 
+  // TODO: needs styling
   // if isDisconnected and walletRequired, then prompt Modal
   if (!profileId || (walletRequired && isDisconnected)) {
     return (
       <>
-        <Box css={{ flex: 'column' }}>
-          Connectors:
-          {connectors.map(connector => (
-            <Button key={connector.uid} onClick={() => connect({ connector })}>
-              {connector.name}
-            </Button>
-          ))}
-        </Box>
-
         <div>
           {DEBUG && (
             <>
@@ -79,6 +47,7 @@ export const RequireAuth = ({
             </>
           )}
           <ConnectButton />
+          Login Required
         </div>
       </>
     );

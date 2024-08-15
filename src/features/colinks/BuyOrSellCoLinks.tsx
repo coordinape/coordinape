@@ -1,8 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/contracts/typechain';
 import { ChainId } from '@decent.xyz/box-common';
-import { BigNumber } from '@ethersproject/bignumber';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { defaultAvailableChains } from 'features/DecentSwap/config';
@@ -11,7 +9,7 @@ import { wagmiChain, wagmiConfig } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
-import { Address } from 'viem';
+import { Account, Address } from 'viem';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useToast } from '../../hooks';
@@ -19,7 +17,7 @@ import { useWeb3React } from '../../hooks/useWeb3React';
 import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
-import { sendAndTrackTx } from '../../utils/contractHelpers';
+import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
@@ -30,7 +28,7 @@ import { coLinksPaths } from 'routes/paths';
 import { BuyButton } from './BuyButton';
 import { CoLinksContext } from './CoLinksContext';
 import { LinkTxProgress } from './LinkTxProgress';
-import { useDoWithCoLinksContract } from './useDoWithCoLinksContract';
+import { CoLinks, useDoWithCoLinksContract } from './useDoWithCoLinksContract';
 import { useLinkingStatus } from './useLinkingStatus';
 import { QUERY_KEY_COLINKS } from './wizard/CoLinksWizard';
 
@@ -58,9 +56,9 @@ export const BuyOrSellCoLinks = ({
   const { showError } = useToast();
 
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
-  const [buyPriceBN, setBuyPriceBN] = useState<BigNumber | null>(null);
+  const [buyPriceBN, setBuyPriceBN] = useState<bigint | null>(null);
   const [sellPrice, setSellPrice] = useState<string | null>(null);
-  const [supply, setSupply] = useState<number | null>(null);
+  const [supply, setSupply] = useState<bigint | null>(null);
 
   const subjectIsCurrentUser =
     address && subject.toLowerCase() == address.toLowerCase();
@@ -85,8 +83,11 @@ export const BuyOrSellCoLinks = ({
       enabled: !!account,
     }
   );
-  const notEnoughBalance =
-    buyPriceBN && opBalance && buyPriceBN.toBigInt() > opBalance?.value;
+  const notEnoughBalance = !!(
+    buyPriceBN &&
+    opBalance &&
+    buyPriceBN > opBalance?.value
+  );
 
   const { data: subjectProfile } = useQuery(
     [QUERY_KEY_COLINKS, subject, 'profile', 'buykeys'],
@@ -131,20 +132,20 @@ export const BuyOrSellCoLinks = ({
     if (!coLinksReadOnly) {
       return;
     }
-    coLinksReadOnly
-      .getBuyPriceAfterFee(subject, 1)
+    coLinksReadOnly.read
+      .getBuyPriceAfterFee([subject as Address, BigInt(1)] as const)
       .then(b => {
         setBuyPrice(ethers.utils.formatEther(b) + ' ETH');
         setBuyPriceBN(b);
       })
       .catch(e => showError('Error getting buy price: ' + e.message));
-    coLinksReadOnly
-      .linkSupply(subject)
+    coLinksReadOnly.read
+      .linkSupply([subject as Address] as const)
       .then(b => {
-        setSupply(b.toNumber());
-        if (b.toNumber() > 0) {
-          coLinksReadOnly
-            .getSellPriceAfterFee(subject, 1)
+        setSupply(b);
+        if (b > 0) {
+          coLinksReadOnly.read
+            .getSellPriceAfterFee([subject as Address, BigInt(1)] as const)
             .then(b => setSellPrice(ethers.utils.formatEther(b) + ' ETH'))
             .catch(e => showError('Error getting sell price: ' + e.message));
         }
@@ -159,19 +160,25 @@ export const BuyOrSellCoLinks = ({
   };
 
   const sellLinkWithContract = async (
-    coLinksSigner: CoLinks,
+    coLinksWithWallet: CoLinks,
     chainId: string
   ) => {
     try {
       setAwaitingWallet(true);
+
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () => coLinksSigner.sellLinks(subject, 1),
+        () => {
+          const args = [subject as Address, BigInt(1)] as const;
+          return coLinksWithWallet.write.sellLinks(args, {
+            account: account as unknown as Account,
+            chain: wagmiChain,
+          });
+        },
         {
           showDefault: setProgress,
           description: `Sell CoLink`,
           signingMessage: 'Please confirm transaction in your wallet.',
           chainId: chainId.toString(),
-          contract: coLinksSigner,
         }
       );
       if (receipt) {
@@ -223,10 +230,10 @@ export const BuyOrSellCoLinks = ({
         <Flex css={{ flexWrap: 'wrap', gap: '$xs' }}>
           <Link2 css={{ mr: '$xs' }} />
           <Text size={'medium'} semibold>
-            You Have {balance}
+            You Have {balance.toString()}
           </Text>
           <Text semibold>
-            {subjectProfile.name} {balance == 1 ? 'Link' : 'Links'}
+            {subjectProfile.name} {balance == 1n ? 'Link' : 'Links'}
           </Text>{' '}
         </Flex>
       )}
@@ -247,7 +254,7 @@ export const BuyOrSellCoLinks = ({
               <Text tag color={'complete'}>
                 <Check /> You bought this Link
               </Text>
-            ) : supply === 0 &&
+            ) : (supply || 0) === 0 &&
               subject.toLowerCase() !== address.toLowerCase() ? (
               <Text size={'xs'}>
                 {subjectProfile.name} hasn&apos;t opted in to CoLinks yet. They
@@ -269,7 +276,7 @@ export const BuyOrSellCoLinks = ({
                   onSuccess={async () => {
                     refresh();
                   }}
-                  target={subject}
+                  target={subject as Address}
                   disabled={notEnoughBalance ?? false}
                 />
                 <Text color="complete" semibold css={{ textAlign: 'right' }}>
@@ -292,13 +299,14 @@ export const BuyOrSellCoLinks = ({
                 <Button
                   onClick={sellLink}
                   disabled={
-                    awaitingWallet || (supply == 1 && !!subjectIsCurrentUser)
+                    awaitingWallet ||
+                    (supply === BigInt(1) && !!subjectIsCurrentUser)
                   }
                 >
                   Sell Link
                 </Button>
                 <Text semibold color="warning" css={{ textAlign: 'right' }}>
-                  {supply === 1 && subjectIsCurrentUser ? (
+                  {supply === BigInt(1) && subjectIsCurrentUser ? (
                     <Text
                       color="neutral"
                       semibold

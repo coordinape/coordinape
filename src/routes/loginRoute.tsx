@@ -10,19 +10,19 @@ export const loginRoute = [
   <Route
     key={'login'}
     element={
-      <MainLayout>
-        <Outlet />
-      </MainLayout>
+      <Rainbowify>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
+      </Rainbowify>
     }
   >
     <Route
       path="login"
       element={
-        <Rainbowify>
-          <RequireAuth walletRequired={true}>
-            <RedirectAfterLogin />
-          </RequireAuth>
-        </Rainbowify>
+        <RequireAuth walletRequired={true}>
+          <RedirectAfterLogin />
+        </RequireAuth>
       }
     />
   </Route>,

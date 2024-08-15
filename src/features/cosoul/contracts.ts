@@ -1,13 +1,10 @@
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
-import { CoLinks__factory } from '@coordinape/contracts/typechain';
-import { CoSoul } from '@coordinape/contracts/typechain/CoSoul';
-import { CoSoul__factory } from '@coordinape/contracts/typechain/factories/CoSoul__factory';
-import type { Signer } from '@ethersproject/abstract-signer';
-import type { JsonRpcProvider } from '@ethersproject/providers';
+import { PublicClient, WalletClient, getContract } from 'viem';
 
-import { getReadOnlyProvider } from '../../utils/provider';
+import { CoLinksABI, CoSoulABI } from '../../../contracts/abis';
+import { getReadOnlyClient } from '../../utils/viem/publicClient';
 
 import { chain } from './chains';
 
@@ -19,70 +16,71 @@ export const supportedChainIds: string[] = Object.entries(deploymentInfo)
 
 export const getCoLinksContract = () => {
   const chainId = Number(chain.chainId);
-  const provider = getReadOnlyProvider(chainId);
-  if (!provider) {
-    throw new Error(`no provider available for chain ${chainId}`);
+
+  const publicClient = getReadOnlyClient(chainId);
+  if (!publicClient) {
+    throw new Error(`no publicClient available for chain ${chainId}`);
   }
+
   const info = (deploymentInfo as any)[chainId];
   if (!info) {
     throw new Error(`No info for chain ${chainId}`);
   }
-  return CoLinks__factory.connect(info.CoLinks.address, provider);
+  return getContract({
+    address: info.CoLinks.address,
+    abi: CoLinksABI,
+    client: publicClient,
+  });
 };
 
-export const getCoLinksContractWithSigner = (
-  signerProvider: JsonRpcProvider
-) => {
+export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
   const chainId = Number(chain.chainId);
   const info = (deploymentInfo as any)[chainId];
   if (!info) {
     throw new Error(`No info for chain ${chainId}`);
   }
-  return CoLinks__factory.connect(
-    info.CoLinks.address,
-    signerProvider.getSigner()
-  );
+  return getContract({
+    address: info.CoLinks.address,
+    abi: CoLinksABI,
+    client: walletClient, // alt approach client: { wallet: walletClient }, //TODO: use publicCLient for read
+  });
 };
 
 export class Contracts {
-  cosoul: CoSoul;
+  cosoul: ReturnType<typeof getContract>;
   chainId: string;
-  provider: JsonRpcProvider;
-  private _signer?: Signer;
+  publicClient: PublicClient;
+  private _walletClient?: WalletClient;
 
   constructor(
     chainId: number,
-    signerProvider: JsonRpcProvider,
-    readonly = false
+    publicClient: PublicClient,
+    walletClient?: WalletClient
   ) {
     this.chainId = chainId.toString();
-    this.provider = signerProvider;
-
-    if (!readonly) this._signer = signerProvider.getSigner();
+    this.publicClient = publicClient;
+    this._walletClient = walletClient;
 
     const info = (deploymentInfo as any)[chainId];
     if (!info) {
       throw new Error(`No info for chain ${chainId}`);
     }
-    // TODO: deal with this too
-    this.cosoul = CoSoul__factory.connect(
-      info.CoSoul.address,
-      this.signerOrProvider
-    );
+
+    this.cosoul = getContract({
+      address: info.CoSoul.address,
+      abi: CoSoulABI,
+      client: this.publicClient,
+    });
   }
 
-  static async fromProvider(provider: JsonRpcProvider) {
-    const { chainId } = await provider.getNetwork();
-    return new Contracts(chainId, provider);
+  static async fromPublicClient(publicClient: PublicClient) {
+    const chainId = await publicClient.getChainId();
+    return new Contracts(chainId, publicClient);
   }
 
-  get signer() {
-    assert(this._signer, 'Contracts instance is read-only');
-    return this._signer;
-  }
-
-  get signerOrProvider() {
-    return this._signer || this.provider;
+  get walletClient() {
+    assert(this._walletClient, 'Contracts instance is read-only');
+    return this._walletClient;
   }
 
   getDeploymentInfo(): Record<string, any> {

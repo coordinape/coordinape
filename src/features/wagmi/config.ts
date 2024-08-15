@@ -21,7 +21,6 @@ import {
   OPTIMISM_RPC_URL,
   OPTIMISM_SEPOLIA_RPC_URL,
 } from 'features/auth/connectors';
-import { defineChain } from 'viem';
 
 import {
   IN_PREVIEW,
@@ -29,28 +28,13 @@ import {
   WALLET_CONNECT_V2_PROJECT_ID,
 } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
+import { localhost } from 'utils/viem/chains';
 
 declare module 'wagmi' {
   interface Register {
     config: typeof wagmiConfig;
   }
 }
-
-const localhost = defineChain({
-  id: 1338,
-  name: 'Localhost 8546',
-  rpcUrls: {
-    default: {
-      http: ['http://localhost:8546'],
-    },
-  },
-  nativeCurrency: {
-    name: 'ETH',
-    symbol: 'ETH',
-    decimals: 18,
-  },
-  gasSettings: {},
-});
 
 const connectors = connectorsForWallets(
   [
@@ -132,9 +116,10 @@ export const wagmiConfig = IN_PRODUCTION
       });
 
 //Used to get the balance of the target chain for that environment
-export const wagmiChain =
-  isFeatureEnabled('test_decent') || IN_PRODUCTION
-    ? optimism
-    : IN_PREVIEW
-      ? optimismSepolia
-      : localhost;
+// TODO: undo
+export const wagmiChain = localhost;
+// isFeatureEnabled('test_decent') || IN_PRODUCTION
+//   ? optimism
+//   : IN_PREVIEW
+//     ? optimismSepolia
+//     : localhost;

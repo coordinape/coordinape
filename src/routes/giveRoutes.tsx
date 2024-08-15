@@ -180,9 +180,11 @@ export const giveRoutes = [
   <Fragment key={'giveRoutes'}>
     <Route
       element={
-        <MainLayout>
-          <Outlet />
-        </MainLayout>
+        <Rainbowify>
+          <MainLayout>
+            <Outlet />
+          </MainLayout>
+        </Rainbowify>
       }
     >
       <Route path={givePaths.join(':token')} element={<JoinPage />} />
@@ -194,13 +196,11 @@ export const giveRoutes = [
       <Route
         path="*"
         element={
-          <Rainbowify>
-            <RequireAuth walletRequired={true}>
-              <Suspense fallback={null}>
-                <GiveRoutes />
-              </Suspense>
-            </RequireAuth>
-          </Rainbowify>
+          <RequireAuth walletRequired={false}>
+            <Suspense fallback={null}>
+              <GiveRoutes />
+            </Suspense>
+          </RequireAuth>
         }
       />
     </Route>

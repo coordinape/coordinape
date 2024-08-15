@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/contracts/typechain';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
@@ -15,11 +14,12 @@ import { getCoLinksContract } from '../cosoul/contracts';
 
 import { FaviconNotificationBadge } from './FaviconNotificationBadge';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
+import { CoLinks } from './useDoWithCoLinksContract';
 import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
-  coLinksReadOnly?: CoLinks;
+  coLinksReadOnly?: CoLinks; // TODO: need different types for public connected client and wallet client with same contract ofo CoLinks???
   address?: string;
   awaitingWallet: boolean;
   setAwaitingWallet(b: boolean): void;
