@@ -1,4 +1,4 @@
-import { ReactNode, useMemo, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 
 import {
   AuthenticationStatus,
@@ -6,7 +6,6 @@ import {
   RainbowKitAuthenticationProvider,
 } from '@rainbow-me/rainbowkit';
 import { generateNonce, SiweMessage } from 'siwe';
-import { useAccount } from 'wagmi';
 
 import { client } from '../../lib/gql/client';
 import {
@@ -14,8 +13,6 @@ import {
   setAuthTokenForAddress,
 } from '../auth/helpers';
 import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
-
-import { refreshEmitter } from './refreshEmitter';
 
 type UnconfigurableMessageOptions = {
   address: string;
@@ -42,12 +39,22 @@ export function RainbowKitSiweProvider({
   enabled,
   getSiweMessageOptions,
 }: RainbowKitSiweProviderProps) {
-  const { address } = useAccount();
+  const { profileId } = useReloadCookieAuth();
+
   const [authState, setAuthState] = useState<AuthenticationStatus>(
-    address ? 'authenticated' : 'unauthenticated'
+    profileId ? 'authenticated' : 'unauthenticated'
   );
 
   const { setProfileId, setAddress } = useReloadCookieAuth();
+
+  // if we load a profileId from cookie, reset authState
+  useEffect(() => {
+    if (profileId) {
+      setAuthState('authenticated');
+    } else {
+      setAuthState('unauthenticated');
+    }
+  }, [profileId]);
 
   const adapter = useMemo(
     () =>
@@ -106,7 +113,6 @@ export function RainbowKitSiweProvider({
             setProfileId(loginData.id);
             setAddress(loginData.address);
             setAuthState('authenticated');
-            refreshEmitter.emit();
             return Boolean(resp.ok);
           } catch (e) {
             console.error(e);
@@ -124,7 +130,6 @@ export function RainbowKitSiweProvider({
             setProfileId(undefined);
             setAddress(undefined);
             setAuthState('unauthenticated');
-            refreshEmitter.emit();
           } catch (e) {
             console.error(e);
           }
