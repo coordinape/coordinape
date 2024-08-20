@@ -35,7 +35,7 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
         </Button>
         <Button
           as={AppLink}
-          to={coLinksPaths.giveBoard}
+          to={coLinksPaths.givePartyBoard}
           color="transparent"
           css={{
             ...partyNavButtonStyle,
@@ -125,7 +125,7 @@ export const PartyNav = ({ css }: { css?: CSS }) => {
                 <Button
                   color="secondary"
                   as={AppLink}
-                  to={coLinksPaths.giveBoard}
+                  to={coLinksPaths.givePartyBoard}
                   onClick={() => {
                     setVisible(false);
                   }}
