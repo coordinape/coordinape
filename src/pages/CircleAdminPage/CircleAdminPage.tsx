@@ -1,15 +1,7 @@
-import assert from 'assert';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { constants as ethersConstants } from 'ethers';
-import { formatUnits } from 'ethers/lib/utils';
 import { updateCircle } from 'lib/gql/mutations';
-import {
-  getVaultSymbolAddressString,
-  removeAddressSuffix,
-  removeYearnPrefix,
-} from 'lib/vaults';
 import { SubmitHandler, useController, useForm } from 'react-hook-form';
 import { useQuery, useQueryClient } from 'react-query';
 import { useLocation } from 'react-router-dom';
@@ -19,9 +11,7 @@ import { GuildInfoWithMembership } from '../../features/guild/guild-api';
 import { GuildSelector } from '../../features/guild/GuildSelector';
 import { QUERY_KEY_GIVE_PAGE } from '../GiftCircleGivePage/queries';
 import { FormInputField, FormRadioGroup, LoadingModal } from 'components';
-import { useContracts, useToast } from 'hooks';
-import { useCircleOrg } from 'hooks/gql/useCircleOrg';
-import { useVaults } from 'hooks/gql/useVaults';
+import { useToast } from 'hooks';
 import { Info } from 'icons/__generated';
 import { useCircleIdParam } from 'routes/hooks';
 import { givePaths } from 'routes/paths';
@@ -37,12 +27,10 @@ import {
   HR,
   Link,
   Panel,
-  Select,
   Text,
   Tooltip,
 } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
-import { numberWithCommas } from 'utils';
 
 import { AdminIntegrations } from './AdminIntegrations';
 import { CircleApiKeys } from './CircleApi';
@@ -150,7 +138,6 @@ const schema = z.object({
       })
     )
   ),
-  fixed_payment_vault_id: z.optional(z.string().optional()),
   hide_gives: z.boolean(),
   guild_id: z.optional(z.number().or(z.string())),
   guild_role_id: z.optional(z.string()),
@@ -201,41 +188,7 @@ export const CircleAdminPageInner = ({
 
   const queryClient = useQueryClient();
 
-  const contracts = useContracts();
   const { showDefault, showError } = useToast();
-  const orgQuery = useCircleOrg(circleId);
-
-  const vaultsQuery = useVaults({
-    orgId: orgQuery.data?.id,
-    chainId: Number(contracts?.chainId),
-  });
-
-  const vaultOptions = vaultsQuery.data
-    ? [
-        { value: '', label: '- None -' },
-        ...vaultsQuery.data.map(vault => {
-          return { value: vault.id, label: getVaultSymbolAddressString(vault) };
-        }),
-      ]
-    : [
-        {
-          value: '',
-          label:
-            vaultsQuery.isLoading || orgQuery.isLoading
-              ? 'Loading...'
-              : 'None Available',
-        },
-      ];
-
-  const [maxGiftTokens, setMaxGiftTokens] = useState(ethersConstants.Zero);
-
-  const stringifiedVaultId = () => {
-    const id = circle.fixed_payment_vault_id;
-    if (id == null) {
-      return '';
-    }
-    return `${id}`;
-  };
 
   const [circleToRemove, setCircleToRemove] = useState<number | undefined>(
     undefined
@@ -245,16 +198,11 @@ export const CircleAdminPageInner = ({
     handleSubmit,
     register,
     setValue,
-    getValues,
     watch,
     formState: { isDirty },
   } = useForm<CircleAdminFormSchema>({
     resolver: zodResolver(schema),
     mode: 'onChange',
-    defaultValues: {
-      fixed_payment_vault_id: stringifiedVaultId(),
-      fixed_payment_token_type: circle.fixed_payment_token_type || '',
-    },
   });
 
   const { field: vouching } = useController({
@@ -275,16 +223,11 @@ export const CircleAdminPageInner = ({
     defaultValue: circle.circle_private?.discord_webhook || '',
   });
 
-  const watchFixedPaymentVaultId = watch('fixed_payment_vault_id');
   const watchGuild = watch('guild_id');
 
   const [guildInfo, setGuildInfo] = useState<
     GuildInfoWithMembership | undefined
   >(undefined);
-
-  useEffect(() => {
-    if (contracts) updateBalanceState(stringifiedVaultId());
-  }, [contracts, vaultOptions.length]);
 
   const onSubmit: SubmitHandler<CircleAdminFormSchema> = async data => {
     try {
@@ -303,9 +246,6 @@ export const CircleAdminPageInner = ({
         auto_opt_out: data.auto_opt_out,
         fixed_payment_token_type: data.fixed_payment_token_type,
         show_pending_gives: !data.hide_gives,
-        fixed_payment_vault_id: data.fixed_payment_vault_id
-          ? parseInt(data.fixed_payment_vault_id)
-          : null,
         guild_id: guildInfo ? guildInfo.id : null,
         guild_role_id:
           guildInfo && data.guild_role_id && data.guild_role_id != '-1'
@@ -321,48 +261,6 @@ export const CircleAdminPageInner = ({
       console.warn(e);
     }
   };
-
-  const getDecimals = (vaultId: string) => {
-    if (vaultId) {
-      const v = findVault(vaultId);
-      if (v) return v.decimals;
-    }
-    return 0;
-  };
-
-  const findVault = (vaultId: string) => {
-    return vaultsQuery?.data?.find(v => v.id === parseInt(vaultId));
-  };
-
-  const updateBalanceState = async (vaultId: string): Promise<void> => {
-    const vault = findVault(vaultId);
-    assert(contracts, 'This network is not supported');
-
-    if (vault) {
-      const tokenBalance = await contracts.getVaultBalance(vault);
-      setMaxGiftTokens(tokenBalance);
-    } else {
-      setMaxGiftTokens(ethersConstants.Zero);
-    }
-  };
-
-  const fixedPaymentToken = (vaultId: string | undefined) => {
-    const tokenType = circle.fixed_payment_token_type;
-    const fixedVault = findVault(getValues('fixed_payment_vault_id') || '');
-    return vaultId && fixedVault
-      ? removeAddressSuffix(
-          removeYearnPrefix(fixedVault?.symbol ?? ''),
-          fixedVault.vault_address
-        )
-      : tokenType
-        ? tokenType.startsWith('Yearn')
-          ? removeYearnPrefix(tokenType)
-          : tokenType
-        : '';
-  };
-
-  if ((contracts && !vaultsQuery.data) || !orgQuery.data)
-    return <LoadingModal visible />;
 
   const IS_CUSTOM_TOKEN_NAME = circle.token_name !== 'GIVE';
 
@@ -604,85 +502,6 @@ export const CircleAdminPageInner = ({
               </AppLink>{' '}
               by creating or editing an epoch.
             </Text>
-          </Panel>
-        </Panel>
-        <Panel settings>
-          <Text h2>Fixed Payments</Text>
-          <Panel css={{ p: '$sm 0' }}>
-            <Box
-              css={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '$lg',
-                '@sm': { gridTemplateColumns: '1fr' },
-              }}
-            >
-              <Box>
-                <Select
-                  {...(register('fixed_payment_vault_id'),
-                  {
-                    onValueChange: value => {
-                      setValue('fixed_payment_vault_id', value, {
-                        shouldDirty: true,
-                      });
-                      setValue(
-                        'fixed_payment_token_type',
-                        value == '' ? '' : findVault(value)?.symbol,
-                        { shouldDirty: true }
-                      );
-                      if (contracts)
-                        updateBalanceState(
-                          getValues('fixed_payment_vault_id') ?? ''
-                        );
-                    },
-                    defaultValue: stringifiedVaultId(),
-                  })}
-                  id="fixed_payment_vault_id"
-                  options={vaultOptions}
-                  label="Fixed Payment Vault"
-                  disabled={!contracts}
-                />
-              </Box>
-              <FormInputField
-                id="fixed_payment_token_type"
-                name="fixed_payment_token_type"
-                control={control}
-                defaultValue={circle.fixed_payment_token_type}
-                label="Token name for CSV export"
-                infoTooltip="This will be the token name displayed in exported CSVs"
-                disabled={!!watchFixedPaymentVaultId}
-                showFieldErrors
-              />
-            </Box>
-            <Flex css={{ gap: '$lg', mt: '$lg' }}>
-              <Flex column>
-                <Text variant="label" css={{ mb: '$xs' }}>
-                  Members
-                </Text>
-                <Text size="medium">{circle.fixedPayments.number}</Text>
-              </Flex>
-              <Flex column>
-                <Text variant="label" css={{ mb: '$xs' }}>
-                  Fixed Payments Total
-                </Text>
-                <Text size="medium">{`${
-                  circle.fixedPayments.total
-                } ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
-              </Flex>
-              {contracts && (
-                <Flex column>
-                  <Text variant="label" css={{ mb: '$xs' }}>
-                    Available in Vault
-                  </Text>{' '}
-                  <Text size="medium">{`${numberWithCommas(
-                    formatUnits(
-                      maxGiftTokens,
-                      getDecimals(getValues('fixed_payment_vault_id') ?? '')
-                    )
-                  )} ${fixedPaymentToken(watchFixedPaymentVaultId)}`}</Text>
-                </Flex>
-              )}
-            </Flex>
           </Panel>
         </Panel>
 

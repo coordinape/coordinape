@@ -142,10 +142,10 @@ export function generateCsvValues(
         address: u.profile.address,
         fixedDistDecimals: fixedDist?.vault.decimals,
         fixedGifts: fixedDist?.distribution_json.fixedGifts,
-        fixedDistPricePerShare: Number(fixedDist?.vault.price_per_share),
+        fixedDistPricePerShare: Number(1), //fixedDist?.vault.price_per_share),
         circleDistDecimals: circleDist?.vault.decimals,
         circleDistClaimAmount: claimAmt,
-        circleDistPricePerShare: Number(circleDist?.vault.price_per_share),
+        circleDistPricePerShare: Number(1), //circleDist?.vault.price_per_share),
       });
       const received = u.received_gifts.length
         ? u.received_gifts
@@ -219,7 +219,7 @@ export async function getCircleDetails(
                     vault_address: true,
                     simple_token_address: true,
                     decimals: true,
-                    price_per_share: true,
+                    // price_per_share: true,
                   },
                   claims: [
                     {},
