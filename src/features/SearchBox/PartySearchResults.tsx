@@ -21,9 +21,13 @@ const QUERY_KEY_SEARCH = 'partySearchBoxQuery';
 export const PartySearchResults = ({
   setPopoverOpen,
   inputRef,
+  profileFunc = coLinksPaths.partyProfile,
+  skillFunc = coLinksPaths.giveBoardSkill,
 }: {
   inputRef: React.RefObject<HTMLInputElement>;
   setPopoverOpen: React.Dispatch<SetStateAction<boolean>>;
+  profileFunc?(address: string): string;
+  skillFunc?(skill: string): string;
 }) => {
   const search = useCommandState(state => state.search);
   const debouncedSearch = useDebounce(search, 300);
@@ -62,11 +66,11 @@ export const PartySearchResults = ({
   // TODO: dedupe farcaster results if they are in profile results
 
   const onSelectAddress = (address: string) => {
-    navigate(coLinksPaths.partyProfile(address));
+    navigate(profileFunc(address));
   };
 
   const onSelectInterest = (name: string) => {
-    navigate(coLinksPaths.giveBoardSkill(name));
+    navigate(skillFunc(name));
   };
 
   return (

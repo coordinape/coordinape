@@ -7,9 +7,9 @@ import { z } from 'zod';
 import { useToast } from 'hooks';
 import { Copy, GemCoOutline, Wand } from 'icons/__generated';
 import {
+  coLinksPaths,
   EXTERNAL_URL_BLOG,
   EXTERNAL_URL_DOCS_GIVE,
-  coLinksPaths,
 } from 'routes/paths';
 import { AppLink, Button, Flex, Link, Text, TextField } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
@@ -111,7 +111,7 @@ export const GiveParty = () => {
         </Text>
         <Button
           as={AppLink}
-          to={coLinksPaths.giveBoard}
+          to={coLinksPaths.givePartyBoard}
           color="transparent"
           css={{
             ...partyNavButtonStyle,

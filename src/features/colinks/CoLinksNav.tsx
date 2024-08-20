@@ -5,6 +5,7 @@ import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { isFeatureEnabled } from '../../config/features';
 import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, HR, IconButton, Link, Text } from '../../ui';
@@ -305,10 +306,12 @@ const LoggedInItems = ({
         <HouseFill size="lg" nostroke />
         Home
       </NavItem>
-      <NavItem path={coLinksPaths.give}>
-        <GemCoOutline size="lg" nostroke />
-        GIVE
-      </NavItem>
+      {isFeatureEnabled('give_zone') && (
+        <NavItem path={coLinksPaths.give}>
+          <GemCoOutline size="lg" nostroke />
+          GIVE
+        </NavItem>
+      )}
       <NavItem path={coLinksPaths.explore}>
         <PlanetFill size="lg" nostroke />
         Explore

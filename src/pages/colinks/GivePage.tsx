@@ -1,49 +1,16 @@
 import { Helmet } from 'react-helmet';
 
-import { PointsBar } from '../../features/points/PointsBar';
-import { PartySearchBox } from '../../features/SearchBox/PartySearchBox';
 import { coLinksPaths } from '../../routes/paths';
-import { AppLink, Button, ContentHeader, Flex, Panel, Text } from '../../ui';
-import {
-  SingleColumnLayout,
-  TwoColumnSmallRightLayout,
-} from '../../ui/layouts';
+import { AppLink, Button, Flex, Panel, Text } from '../../ui';
+import { TwoColumnSmallRightLayout } from '../../ui/layouts';
 import { GiveLeaderboard } from '../GiveLeaderboard';
 
 export const GivePage = () => {
   return (
     <Flex column>
-      <SingleColumnLayout
-        css={{
-          '@xs': {
-            gap: '0',
-          },
-        }}
-      >
-        <Helmet>
-          <title>GIVE / CoLinks</title>
-        </Helmet>
-        <ContentHeader>
-          <Flex
-            css={{
-              width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <Flex column css={{ gap: '$md' }}>
-              <Text h2 display>
-                GIVE
-              </Text>
-              <Text>
-                Give is a bla bla thing and its really great you should do it
-                too!!!!
-              </Text>
-              <PartySearchBox size={'large'} registerKeyDown={false} />
-            </Flex>
-          </Flex>
-        </ContentHeader>
-      </SingleColumnLayout>
+      <Helmet>
+        <title>GIVE / CoLinks</title>
+      </Helmet>
       <TwoColumnSmallRightLayout
         css={{
           '@xs': {
@@ -51,23 +18,25 @@ export const GivePage = () => {
           },
         }}
       >
-        <GiveLeaderboard />
+        <GiveLeaderboard linkFunc={coLinksPaths.giveSkill} />
         <Flex column css={{ gap: '$xl' }}>
-          <PointsBar />
           <LearnCard
             title="Give bot is a thing"
-            message="you can reply to casts to give"
+            message="show how to use it"
             buttonTitle={'learn how to use Give Bot'}
+            image="/imgs/background/colink-own.jpg"
           />
           <LearnCard
-            title="Give bot is a thing"
-            message="you can reply to casts to give"
-            buttonTitle={'learn how to use Give Bot'}
+            title="Give Party!!!"
+            message="you can do a give party"
+            buttonTitle={'Start a GIVE Party'}
+            image="/imgs/background/colink-rep.jpg"
           />
           <LearnCard
-            title="Give bot is a thing"
-            message="you can reply to casts to give"
-            buttonTitle={'learn how to use Give Bot'}
+            title="How Else Can you GIVE?"
+            message="you can do stuff"
+            buttonTitle={'Learm More'}
+            image="/imgs/background/colink-sniped.jpg"
           />
         </Flex>
       </TwoColumnSmallRightLayout>
@@ -80,11 +49,13 @@ const LearnCard = ({
   title,
   message,
   buttonTitle,
+  image,
 }: {
   small?: boolean;
   title: string;
   message: string;
   buttonTitle: string;
+  image: string;
 }) => {
   const panelStyles = {
     border: 'none',
@@ -117,7 +88,7 @@ const LearnCard = ({
         className="art"
         css={{
           ...artStyles,
-          backgroundImage: "url('/imgs/background/colink-other.jpg')",
+          backgroundImage: `url('${image}')`,
           backgroundPosition: 'bottom',
         }}
       />

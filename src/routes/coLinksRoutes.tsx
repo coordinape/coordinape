@@ -24,6 +24,7 @@ import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
 import { NewestMemberPage } from '../pages/colinks/explore/NewestMembersPage';
 import { ExplorePage } from '../pages/colinks/ExplorePage';
 import { GivePage } from '../pages/colinks/GivePage';
+import { GivePagesLayout } from '../pages/colinks/GivePagesLayout';
 import { HighlightsPage } from '../pages/colinks/HighlightsPage';
 import { InvitesPage } from '../pages/colinks/InvitesPage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
@@ -45,6 +46,7 @@ import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { GiveLeaderboard } from '../pages/GiveLeaderboard';
 import { GiveSkillLeaderboard } from '../pages/GiveSkillLeaderboard';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
+import { GiveSkillPage } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
@@ -112,7 +114,7 @@ export const coLinksRoutes = [
     </Route>
     ,
     <Route key={'giveboard'}>
-      <Route path={coLinksPaths.giveBoard} element={<GiveLeaderboard />} />
+      <Route path={coLinksPaths.givePartyBoard} element={<GiveLeaderboard />} />
     </Route>
     ,
     <Route key={'giveboard'}>
@@ -162,7 +164,20 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
-      <Route path={coLinksPaths.give} element={<GivePage />} />
+      <Route
+        key="givePagesLayout"
+        element={
+          <GivePagesLayout>
+            <Outlet />
+          </GivePagesLayout>
+        }
+      >
+        <Route path={coLinksPaths.give} element={<GivePage />} />
+        <Route
+          path={coLinksPaths.giveSkill(':skill')}
+          element={<GiveSkillPage />}
+        />
+      </Route>
       <Route
         path={coLinksPaths.exploreSkill(':skill')}
         element={<ExploreSkills />}

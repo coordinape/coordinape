@@ -25,7 +25,11 @@ type sortBy =
   | 'gives_last_30_days'
   | 'name';
 
-export const GiveSkillLeaderboard = () => {
+export const GiveSkillLeaderboard = ({
+  profileFunc = coLinksPaths.partyProfile,
+}: {
+  profileFunc?(address: string): string;
+}) => {
   const { skill } = useParams();
   const [sort, setSortRaw] = useState<sortBy>('gives');
   const [desc, setDesc] = useState<boolean>(true);
@@ -193,7 +197,14 @@ export const GiveSkillLeaderboard = () => {
               mb: '$sm',
             }}
           >
-            <GiveGraph skill={skill} height={200} zoom={false} compact={true} />
+            {/*FIXME: this width is a hack to get the thing to fit on the page, we need pct fit or something else*/}
+            <GiveGraph
+              width={300}
+              skill={skill}
+              height={200}
+              zoom={false}
+              compact={true}
+            />
             <Flex
               css={{
                 position: 'absolute',
@@ -266,9 +277,7 @@ export const GiveSkillLeaderboard = () => {
                 >
                   <Flex
                     as={NavLink}
-                    to={coLinksPaths.partyProfile(
-                      member.profile?.address ?? ''
-                    )}
+                    to={profileFunc(member.profile?.address ?? '')}
                     row
                     css={{
                       alignItems: 'center',
