@@ -19,8 +19,6 @@ import createOrgMembers from './_handlers/createOrgMembers';
 import createSampleCircle from './_handlers/createSampleCircle';
 import createUsers from './_handlers/createUsers';
 import createUserWithToken from './_handlers/createUserWithToken';
-import createVault from './_handlers/createVault';
-import createVaultTx from './_handlers/createVaultTx';
 import deleteCircle from './_handlers/deleteCircle';
 import deleteCoLinksGive from './_handlers/deleteCoLinksGive.ts';
 import deleteContribution from './_handlers/deleteContribution';
@@ -41,7 +39,6 @@ import inviteWaitingList from './_handlers/inviteWaitingList';
 import linkDiscordCircle from './_handlers/linkDiscordCircle';
 import linkDiscordUser from './_handlers/linkDiscordUser';
 import logoutUser from './_handlers/logoutUser';
-import markClaimed from './_handlers/markClaimed';
 import redeemInviteCode from './_handlers/redeemInviteCode';
 import replenishInviteCodes from './_handlers/replenishInviteCodes';
 import requestInviteCode from './_handlers/requestInviteCode';
@@ -83,8 +80,6 @@ const HANDLERS: HandlerDict = {
   createSampleCircle,
   createUserWithToken,
   createUsers,
-  createVault,
-  createVaultTx,
   deleteCircle,
   deleteCoLinksGive,
   deleteContribution,
@@ -105,7 +100,6 @@ const HANDLERS: HandlerDict = {
   linkDiscordCircle,
   linkDiscordUser,
   logoutUser,
-  markClaimed,
   redeemInviteCode,
   replenishInviteCodes,
   requestInviteCode,
