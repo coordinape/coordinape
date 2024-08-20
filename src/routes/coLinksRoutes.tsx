@@ -1,9 +1,9 @@
 import { Fragment } from 'react';
 
+import { Rainbowify } from 'features/rainbowkit/Rainbowify';
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
-import { RequireWeb3Auth } from '../features/auth';
-import { RequireLoggedIn } from '../features/auth/RequireWeb3Auth';
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
 import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayout';
@@ -143,9 +143,9 @@ export const coLinksRoutes = [
     <Route
       path="login"
       element={
-        <RequireWeb3Auth>
+        <Rainbowify>
           <RedirectAfterLogin />
-        </RequireWeb3Auth>
+        </Rainbowify>
       }
     />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
@@ -153,11 +153,13 @@ export const coLinksRoutes = [
   <Fragment key="public">
     <Route
       element={
-        <CoLinksProvider>
-          <CoLinksLayout>
-            <Outlet />
-          </CoLinksLayout>
-        </CoLinksProvider>
+        <Rainbowify>
+          <CoLinksProvider>
+            <CoLinksLayout>
+              <Outlet />
+            </CoLinksLayout>
+          </CoLinksProvider>
+        </Rainbowify>
       }
     >
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
@@ -219,13 +221,15 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireLoggedIn>
-          <CoLinksProvider>
-            <CoLinksLayout>
-              <Outlet />
-            </CoLinksLayout>
-          </CoLinksProvider>
-        </RequireLoggedIn>
+        <Rainbowify>
+          <RequireAuth walletRequired={true}>
+            <CoLinksProvider>
+              <CoLinksLayout>
+                <Outlet />
+              </CoLinksLayout>
+            </CoLinksProvider>
+          </RequireAuth>
+        </Rainbowify>
       }
     >
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
@@ -279,11 +283,13 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireWeb3Auth>
-          <CoLinksWizardLayout>
-            <Outlet />
-          </CoLinksWizardLayout>
-        </RequireWeb3Auth>
+        <Rainbowify>
+          <RequireAuth walletRequired={true}>
+            <CoLinksWizardLayout>
+              <Outlet />
+            </CoLinksWizardLayout>
+          </RequireAuth>
+        </Rainbowify>
       }
     >
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />
