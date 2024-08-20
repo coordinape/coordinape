@@ -19,7 +19,6 @@ import createReactionInteractionEvent from '../../../api-lib/event_triggers/crea
 import createReplyInteractionEvent from '../../../api-lib/event_triggers/createReplyInteractionEvent';
 import createVouchedUser from '../../../api-lib/event_triggers/createVouchedUser';
 import discordUserLinked from '../../../api-lib/event_triggers/discordUserLinked';
-import fetchNFTsForNewHolder from '../../../api-lib/event_triggers/fetchNFTsForNewHolder';
 import insertOrgMember from '../../../api-lib/event_triggers/insertOrgMember';
 import linkTxInteractionEvent from '../../../api-lib/event_triggers/linkTxInteractionEvent';
 import linkTxNotification from '../../../api-lib/event_triggers/linkTxNotification';
@@ -75,7 +74,6 @@ const HANDLERS: HandlerDict = {
   createVouchedUser,
   discordUserLinked,
   insertOrgMember,
-  fetchNFTsForNewHolder,
   muteChanged,
   optOutDiscord,
   optOutDiscordBot,

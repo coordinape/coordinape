@@ -14,7 +14,6 @@ import fp from 'lodash/fp';
 import { DateTime } from 'luxon';
 
 import { syncCoSouls } from '../_api/hasura/cron/syncCoSouls';
-import { updateProfileNFTs } from '../_api/nfts/alchemy';
 import {
   sendCoLinksNotificationsEmail,
   sendEpochEndedEmail,
@@ -64,7 +63,6 @@ const init = async () => {
     getLocalPGIVE,
     generateWarpCastUrl,
     backfillCastActivity,
-    nft: updateProfileNFTs,
     ...(await initOrgMembership()),
   };
 };
