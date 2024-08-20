@@ -1,6 +1,4 @@
-import React, { useCallback, useState } from 'react';
-
-import { INTEGRATION_TYPE as HEDGEY } from 'lib/hedgey';
+import { useCallback, useState } from 'react';
 
 import { useCircleIntegrations } from 'hooks/gql/useCircleIntegrations';
 import {
@@ -11,7 +9,6 @@ import {
   Wonder,
   WonderColor,
 } from 'icons/__generated';
-import HedgeyIntegrationSettings from 'pages/CircleAdminPage/HedgeyIntegrationSettings';
 import { givePaths } from 'routes/paths';
 import { Flex, Button, Text, HR, Modal } from 'ui';
 
@@ -46,7 +43,6 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
   const wonderIntegrations = integrations?.data?.filter(integration => {
     return integration.type === 'wonder';
   });
-  const hedgeyIntegration = integrations?.data?.find(i => i.type === HEDGEY);
 
   return (
     <div>
@@ -182,10 +178,6 @@ export const AdminIntegrations = ({ circleId }: { circleId: number }) => {
         </Flex>
       </Modal>
       <HR />
-      <HedgeyIntegrationSettings
-        circleId={circleId}
-        integration={hedgeyIntegration}
-      />
     </div>
   );
 };

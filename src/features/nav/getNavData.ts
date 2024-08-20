@@ -3,9 +3,8 @@ import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import useProfileId from 'hooks/useProfileId';
-import { useWeb3React } from 'hooks/useWeb3React';
 
-export const getNavData = (profileId: number, chainId: number) =>
+export const getNavData = (profileId: number) =>
   client.query(
     {
       organizations: [
@@ -58,19 +57,6 @@ export const getNavData = (profileId: number, chainId: number) =>
           },
         },
       ],
-      claims_aggregate: [
-        {
-          where: {
-            profile_id: { _eq: profileId },
-            txHash: { _is_null: true },
-            distribution: {
-              tx_hash: { _is_null: false },
-              vault: { chain_id: { _eq: chainId } },
-            },
-          },
-        },
-        { aggregate: { count: [{}, true] } },
-      ],
       profiles: [
         { limit: 1, where: { id: { _eq: profileId } } },
         {
@@ -94,13 +80,12 @@ export const QUERY_KEY_NAV = 'Nav';
 
 // FIXME this is redundant with fetchManifest
 export const useNavQuery = () => {
-  const { chainId } = useWeb3React();
   const profileId = useProfileId();
 
   return useQuery(
     [QUERY_KEY_NAV, profileId],
     async () => {
-      const data = await getNavData(profileId as number, chainId as number);
+      const data = await getNavData(profileId as number);
       const profile = data.profiles?.[0];
       if (!profile) {
         throw new Error('no profile for current user');
@@ -108,7 +93,7 @@ export const useNavQuery = () => {
       return { ...data, profile };
     },
     {
-      enabled: !!profileId && !!chainId,
+      enabled: !!profileId,
       staleTime: Infinity,
     }
   );
