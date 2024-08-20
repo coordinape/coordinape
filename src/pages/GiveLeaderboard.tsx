@@ -22,7 +22,7 @@ type sortBy =
 export const GiveLeaderboard = ({
   linkFunc = coLinksPaths.giveBoardSkill,
 }: {
-  linkFunc?(skilll: string): string;
+  linkFunc?(skill: string): string;
 }) => {
   const [sort, setSortRaw] = useState<sortBy>('gives');
   const [desc, setDesc] = useState<boolean>(true);
