@@ -31,7 +31,6 @@ import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
-import { NFTPage } from '../pages/colinks/NFTPage';
 import { NotFound } from '../pages/colinks/NotFound';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
 import { RepScorePage } from '../pages/colinks/RepScorePage';
@@ -240,7 +239,6 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.invites} element={<InvitesPage />} />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />
-      <Route path={coLinksPaths.nfts} element={<NFTPage />} />
       <Route
         path={coLinksPaths.searchResult(':query', ':model')}
         element={<SearchPage />}

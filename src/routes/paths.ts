@@ -94,7 +94,6 @@ export const coLinksPaths = {
   launch: '/launch',
   leaderboard: '/leaderboard',
   linking: '/linking',
-  nfts: '/nfts',
   notifications: '/notifications',
   post: (id: string) => `/post/${id}`,
   profile: (address: string) => `/${address}`,
