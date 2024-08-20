@@ -1,15 +1,21 @@
+import { useWindowSize } from '@react-hook/window-size';
 import { NavLink } from 'react-router-dom';
 
 import {
   Bullseye,
   CertificateLight,
   GemCoOutline,
+  Grid,
   Write,
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
+import { cardColumnMinWidth } from './ProfileCards';
+
 export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
+  const [width] = useWindowSize();
+  const showOverviewTab = width < cardColumnMinWidth;
   const tabStyles = {
     color: '$text',
     minWidth: 150,
@@ -21,12 +27,21 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     fontWeight: '$medium',
     alignItems: 'center',
     borderTop: '5px solid transparent',
-    '@xs': {
-      minWidth: 0,
-      p: '$xs $sm',
-      gap: '$xxs',
-      fontSize: '$xs',
+    '@md': {
+      minWidth: 120,
+      p: '$sm',
+      gap: '$xs',
+      fontSize: '$md',
+    },
+    '@sm': {
+      minWidth: 60,
+      p: '$sm',
+      gap: '$xs',
+      fontSize: '$small',
+      borderWidth: '3px',
+      flexDirection: 'column',
       svg: {
+        margin: 0,
         width: '$md',
         height: '$md',
       },
@@ -47,6 +62,21 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
   };
   return (
     <Flex css={{ gap: '$sm', mt: -3, mb: '$sm', zIndex: 2 }}>
+      {showOverviewTab && (
+        <Button
+          as={NavLink}
+          color="textOnly"
+          to={coLinksPaths.profileOverview(targetAddress)}
+          css={{
+            ...tabStyles,
+            ...(location.pathname.includes('overview') && {
+              ...activeTabStyles,
+            }),
+          }}
+        >
+          <Grid size="lg" /> Overview
+        </Button>
+      )}
       <Button
         as={NavLink}
         color="textOnly"

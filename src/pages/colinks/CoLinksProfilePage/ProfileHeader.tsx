@@ -148,7 +148,17 @@ const ProfileHeaderWithProfile = ({
               flexWrap: 'wrap',
             }}
           >
-            <Flex alignItems="center" css={{ gap: '$sm', mb: '$sm' }}>
+            <Flex
+              alignItems="center"
+              css={{
+                gap: '$sm',
+                mb: '$sm',
+                '@xs': {
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                },
+              }}
+            >
               <Flex column css={{ mr: '$md' }}>
                 <Avatar
                   size="xl"
@@ -158,7 +168,16 @@ const ProfileHeaderWithProfile = ({
                 />
               </Flex>
               <Flex column css={{ gap: '$sm' }}>
-                <Text h2 display css={{ color: '$secondaryButtonText' }}>
+                <Text
+                  h2
+                  display
+                  css={{
+                    color: '$secondaryButtonText',
+                    '@xs': {
+                      fontSize: '$h1',
+                    },
+                  }}
+                >
                   {profile.name}
                 </Text>
                 <CoLinksStats
