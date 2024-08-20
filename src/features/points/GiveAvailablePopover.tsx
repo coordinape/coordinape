@@ -60,7 +60,7 @@ export const GiveAvailablePopover = ({
             </Text>
           )}
           <Flex column>
-            <PointsBar barOnly />
+            <PointsBar barOnly />{' '}
           </Flex>
         </PopoverContent>
       </Popover>

@@ -11,7 +11,7 @@ export const ProfilePageGiveContents = ({
 }) => {
   const [width, height] = useWindowSize();
 
-  const mainNavWidth = 320;
+  const mainNavWidth = 420;
   const mapWidth = width - mainNavWidth;
   const mapHeight = height - 250;
   const desktop = width > 1140;

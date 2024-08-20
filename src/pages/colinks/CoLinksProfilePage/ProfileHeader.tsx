@@ -133,7 +133,7 @@ const ProfileHeaderWithProfile = ({
   );
 
   return (
-    <Flex column css={{ gap: '$lg' }}>
+    <Flex column>
       <Helmet>
         <title>{targetProfile.profile.name} / CoLinks</title>
       </Helmet>
@@ -285,7 +285,7 @@ const ProfileHeaderWithProfile = ({
                 </Flex>
               </Flex>
             </Flex>
-            <Flex css={{ alignItems: 'flex-start', gap: '$md' }}>
+            <Flex css={{ alignItems: 'flex-start', gap: '$md', mb: '$md' }}>
               {isCurrentUser ? (
                 <Button
                   as={AppLink}
