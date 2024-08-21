@@ -17,6 +17,7 @@ export const ActivityList = ({
   onSettled,
   noPosts,
   pollForNewActivity,
+  limit,
 }: {
   queryKey: QueryKey;
   where: Where;
@@ -24,6 +25,7 @@ export const ActivityList = ({
   drawer?: boolean;
   onSettled?: () => void;
   noPosts?: React.ReactNode;
+  limit?: number;
 }) => {
   const observerRef = useRef<HTMLDivElement>(null);
 
@@ -58,7 +60,8 @@ export const ActivityList = ({
       where,
       setLatestActivityId,
       onSettled,
-      refetchInterval
+      refetchInterval,
+      limit
     );
 
   const handleObserver = useCallback<

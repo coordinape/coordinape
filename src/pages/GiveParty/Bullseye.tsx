@@ -88,7 +88,7 @@ export const Bullseye = ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          color: 'white',
+
           textAlign: 'center',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -99,10 +99,7 @@ export const Bullseye = ({
           transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
         }}
       >
-        <Tooltip
-          contentCss={{ background: 'black', color: 'white' }}
-          content={user.username}
-        >
+        <Tooltip content={user.username}>
           <Avatar
             name={user.username}
             path={user.avatar}
@@ -121,7 +118,6 @@ export const Bullseye = ({
         alignItems: 'center',
         gap: '$sm',
         display: 'flex',
-        color: 'white',
       }}
     >
       <Avatar size="xs" name={user.username} path={user.avatar} />
@@ -305,7 +301,6 @@ export const Bullseye = ({
               side="top"
               sideOffset={-50}
               css={{
-                background: 'black',
                 p: '$sm $md',
                 maxHeight: 285,
                 maxWidth: handWidth + 60,

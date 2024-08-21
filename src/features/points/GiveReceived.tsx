@@ -26,9 +26,13 @@ export const GIVE_RECEIVED_QUERY_KEY = 'Colnks_give_received';
 export const GiveReceived = ({
   address,
   size = 'small',
+  receivedNumber,
+  sentNumber,
 }: {
   address: string;
   size?: ComponentProps<typeof Text>['size'];
+  receivedNumber?: boolean;
+  sentNumber?: boolean;
 }) => {
   const { data: profileId } = useQuery(
     ['give_received_lookup_profile_id', address],
@@ -120,6 +124,13 @@ export const GiveReceived = ({
 
   const { colinks_gives, numGiveSent } = data;
   const sortedGives = groupAndSortGive(colinks_gives);
+
+  if (receivedNumber) {
+    return <>{colinks_gives.length}</>;
+  }
+  if (sentNumber) {
+    return <>{numGiveSent}</>;
+  }
 
   if (size === 'small' || size === 'xs') {
     return (

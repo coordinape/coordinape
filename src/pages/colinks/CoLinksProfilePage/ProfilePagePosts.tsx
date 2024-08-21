@@ -1,21 +1,28 @@
 import { useParams } from 'react-router-dom';
 
-import { Box } from 'ui';
+import { Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
+import { ProfileCards } from './ProfileCards';
 import { ProfileHeader } from './ProfileHeader';
+import { profileMainColumnWidth } from './ProfilePageGiveContents';
 import { ProfilePagePostsContents } from './ProfilePagePostsContents';
 
 export const ViewProfilePagePosts = () => {
   const { address } = useParams();
 
   if (!address) {
-    return <Box>address query param required</Box>;
+    return <Flex>address query param required</Flex>;
   }
   return (
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      <ProfilePagePostsContents targetAddress={address} />
+      <Flex css={{ gap: '$md' }}>
+        <Flex css={{ width: '100%', maxWidth: profileMainColumnWidth }}>
+          <ProfilePagePostsContents targetAddress={address} />
+        </Flex>
+        <ProfileCards targetAddress={address} />
+      </Flex>
     </SingleColumnLayout>
   );
 };

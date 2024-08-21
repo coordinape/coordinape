@@ -233,7 +233,11 @@ const PageContents = ({
   }
 
   return (
-    <Flex css={{ gap: '$xl' }}>
+    <Flex
+      css={{
+        gap: '$xl',
+      }}
+    >
       <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
         {needsToBuyLink === true ? (
           <Flex
