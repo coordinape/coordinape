@@ -1,21 +1,20 @@
 // add your own feature names here
 
-export type FeatureName =
-  | 'debug'
-  | 'vector_search'
-  | 'similarity'
-  | 'share_post'
-  // dnt = Do Not Track. enable this feature to debug Mixpanel
-  | 'ignore_dnt'
-  | 'cast_activities'
-  | 'test_decent'
-  | 'give_zone';
+export const FeatureNames = [
+  'debug',
+  'vector_search',
+  'similarity',
+  'share_post',
+  'ignore_dnt',
+  'test_decent',
+  'give_zone',
+] as const;
+
+export type FeatureName = (typeof FeatureNames)[number];
 
 // this is a very simple implementation of build-time feature flags that you can
 // hardcode or set with environment variables
-const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {
-  cast_activities: true,
-};
+const staticFeatureFlags: Partial<Record<FeatureName, boolean>> = {};
 
 // this code is safe to use in a non-browser environment because of the typeof
 // check, but our setup in tsconfig-backend.json still flags the use of `window`
@@ -41,3 +40,17 @@ const isLocallyOn = (name: FeatureName) => {
 
 export const isFeatureEnabled = (featureName: FeatureName): boolean =>
   !!staticFeatureFlags[featureName] || isLocallyOn(featureName);
+
+export const enableFeatureLocally = (featureName: FeatureName) => {
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.localStorage.setItem('feature:' + featureName, 'true');
+  }
+};
+
+export const disableFeatureLocally = (featureName: FeatureName) => {
+  if (typeof window !== 'undefined') {
+    // @ts-ignore
+    window.localStorage.removeItem('feature:' + featureName);
+  }
+};

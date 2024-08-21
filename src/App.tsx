@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 import { initFrontend as initAnalytics } from 'features/analytics';
 import { Helmet } from 'react-helmet';
 import { HelmetProvider } from 'react-helmet-async';
@@ -13,6 +15,7 @@ import { Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
 import { useIsCoLinksSite } from './features/colinks/useIsCoLinksSite';
+import { DebugOverlay } from './features/debug/DebugOverlay';
 import ThemeProvider from './features/theming/ThemeProvider';
 import { AppRoutes } from './routes/routes';
 import { globalStyles } from './stitches.config';
@@ -26,6 +29,7 @@ initAnalytics();
 function App() {
   globalStyles();
   const isCoLinks = useIsCoLinksSite();
+  const [debugOverlay, setDebugOverlay] = useState(false);
 
   // TODO: add this when we have a good favicon
   // useEffect(() => {
@@ -39,6 +43,20 @@ function App() {
   //     link.href = webAppURL('colinks') + '/imgs/logo/colinks-favicon.png';
   //   }
   // }, []);
+
+  useEffect(() => {
+    window.focus();
+    window.addEventListener('keydown', keyDownHandler);
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler);
+    };
+  }, []);
+
+  const keyDownHandler = (event: KeyboardEvent) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'u') {
+      setDebugOverlay(prev => !prev);
+    }
+  };
 
   return (
     <HelmetProvider>
@@ -73,6 +91,7 @@ function App() {
                     <AppRoutes />
                   </BrowserRouter>
                 </Web3ReactProvider>
+                {debugOverlay && <DebugOverlay />}
               </ThemeProvider>
             </DeprecatedMuiThemeProvider>
           </QueryClientProvider>
