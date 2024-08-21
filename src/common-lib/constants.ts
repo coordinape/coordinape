@@ -26,3 +26,5 @@ export const loginSupportedChainIds: Record<string, string> = {
     11155111: 'Eth Sepolia',
   }),
 };
+
+export const BIG_QUESTION_MANAGERS = [31, 1346, 4031, 194851, 249055];

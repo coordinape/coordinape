@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 
 import { RequireAuth } from 'features/rainbowkit/RequireAuth';
+import { BIG_QUESTION_MANAGERS } from 'common-lib/constants';
 import { Outlet, Route } from 'react-router-dom';
 
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
@@ -47,6 +48,7 @@ import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import useProfileId from 'hooks/useProfileId';
 import { EditBigQuestionsPage } from 'pages/colinks/EditBigQuestionsPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
@@ -58,7 +60,15 @@ import { ProfileNetworkPage } from 'pages/ProfileNetworkPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
-import { RedirectAfterLogin } from './RedirectAfterLogin';
+import { Redirect, RedirectAfterLogin } from './RedirectAfterLogin';
+
+export const ManageBigQuestionsRouteHandler = () => {
+  const profileId = useProfileId();
+  if (!profileId || !BIG_QUESTION_MANAGERS.includes(profileId)) {
+    return <Redirect to={coLinksPaths.bigQuestions} note="not admin" />;
+  }
+  return <Outlet />;
+};
 
 export const coLinksRoutes = [
   <Route
@@ -239,10 +249,14 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.search} element={<SearchPage />} />
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
       <Route path={coLinksPaths.bigQuestions} element={<BigQuestionsPage />} />
+
       <Route
         path={coLinksPaths.bigQuestionsEdit}
-        element={<EditBigQuestionsPage />}
-      />
+        element={<ManageBigQuestionsRouteHandler />}
+      >
+        <Route path="" element={<EditBigQuestionsPage />} />
+      </Route>
+
       <Route
         path={coLinksPaths.bigQuestion(':id')}
         element={<BigQuestionPage />}

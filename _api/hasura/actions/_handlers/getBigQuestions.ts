@@ -4,6 +4,7 @@ import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
+import { BIG_QUESTION_MANAGERS } from '../../../../src/common-lib/constants';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const {
@@ -11,8 +12,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   } = await getInput(req);
 
   try {
-    // TODO replace with team members ids
-    console.log(profileId);
+    if (!BIG_QUESTION_MANAGERS.includes(profileId)) {
+      throw new Error('You are not authroized to access this page');
+    }
     const { big_questions } = await adminClient.query(
       {
         big_questions: [

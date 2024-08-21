@@ -2,6 +2,7 @@ import { memo, useContext, useEffect, useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { BIG_QUESTION_MANAGERS } from 'common-lib/constants';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { PointsBar } from 'features/points/PointsBar';
@@ -27,6 +28,7 @@ import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
+import useProfileId from 'hooks/useProfileId';
 import {
   Ai,
   BoltFill,
@@ -54,6 +56,7 @@ export const CoLinksNav = () => {
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
   const { give } = usePoints();
+  const profileId = useProfileId();
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -399,21 +402,25 @@ const LoggedInItems = ({
         >
           The Big Question
         </Flex>
-        <IconButton
-                css={{
-                  fontSize: '$small',
-                  color: '$secondaryText',
-                  '&:hover': {
-                    color: '$linkHover',
-                  },
-                }}
-                onClick={e => {
-                  e.preventDefault();
-                  navigate(coLinksPaths.bigQuestionsEdit);
-                }}
-              >
-                <Settings css={{ path: { fill: 'transparent !important' } }} />
-       </IconButton>
+        {profileId && BIG_QUESTION_MANAGERS.includes(profileId) && (
+                <IconButton
+                  css={{
+                    fontSize: '$small',
+                    color: '$secondaryText',
+                    '&:hover': {
+                      color: '$linkHover',
+                    },
+                  }}
+                  onClick={e => {
+                    e.preventDefault();
+                    navigate(coLinksPaths.bigQuestionsEdit);
+                  }}
+                >
+                  <Settings
+                    css={{ path: { fill: 'transparent !important' } }}
+                  />
+                </IconButton>
+      )}
       </Flex>
       </NavItem>
       <HR />
