@@ -6,7 +6,6 @@ import { useAccount } from 'wagmi';
 
 import { LoadingModal } from '../../components';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
-import { useWeb3React } from '../../hooks/useWeb3React';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
 
@@ -14,7 +13,7 @@ import { coLinksPaths } from '../../routes/paths';
 export const LaunchPage = () => {
   const { isConnected } = useAccount();
 
-  const { account: address } = useWeb3React();
+  const { address } = useAccount();
   const navigate = useNavigate();
 
   const { data: keyData } = useQuery(

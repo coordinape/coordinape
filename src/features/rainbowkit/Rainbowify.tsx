@@ -1,10 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
 import { darkTheme, RainbowKitProvider } from '@rainbow-me/rainbowkit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { wagmiConfig } from 'features/wagmi/config';
-import { WagmiProvider } from 'wagmi';
+import { WagmiProvider, useAccount, useReconnect } from 'wagmi';
 import '@rainbow-me/rainbowkit/styles.css';
+
+import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
 
 import { RainbowKitSiweProvider } from './SiweProvider';
 
@@ -12,15 +14,31 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
   return (
     <RainbowKitSiweProvider>
       <RainbowKitProvider theme={darkTheme()}>
-        {/* = = = = = = = = = = DEBUG ==========  */}
-        {/* <p>account: {account.address}</p> */}
-        {/*<p>Refresh count: {refreshKey}</p>*/}
-        {/*<p>auth token: {token}</p>*/}
-        {/* = = = = = = = = = = END DEBUG ==========  */}
-        {children}
+        <>
+          {children}
+          {/* <ReconnectAuthAndWallet /> */}
+        </>
       </RainbowKitProvider>
     </RainbowKitSiweProvider>
   );
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const ReconnectAuthAndWallet = () => {
+  useReloadCookieAuth();
+  const { isConnected, isReconnecting } = useAccount();
+  const [attemptedReconnect, setAttemptedReconnect] = useState(false);
+
+  const { reconnect } = useReconnect();
+
+  useEffect(() => {
+    if (!isReconnecting && !attemptedReconnect && !isConnected) {
+      setAttemptedReconnect(true);
+      reconnect();
+    }
+  }, [isReconnecting, attemptedReconnect, isConnected]);
+
+  return null;
 };
 
 export const Rainbowify = ({ children }: { children: ReactNode }) => {

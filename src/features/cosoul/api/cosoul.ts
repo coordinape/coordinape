@@ -50,8 +50,8 @@ function coSoulWithWallet() {
 export const getTokenId = async (address: string) => {
   const contract = getCoSoulContract();
 
-  // see if they have any CoSoul tokens
   const balanceOf = await contract.read.balanceOf([
+    // see if they have any CoSoul tokens
     address as Address,
   ] as const);
 

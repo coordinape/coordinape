@@ -9,7 +9,6 @@ import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles
 
 import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
-import { Web3ReactProvider } from 'hooks/useWeb3React';
 import { createTheme } from 'theme';
 
 import { useIsCoLinksSite } from './features/colinks/useIsCoLinksSite';
@@ -68,11 +67,9 @@ function App() {
           <QueryClientProvider client={queryClient}>
             <DeprecatedMuiThemeProvider theme={theme}>
               <ThemeProvider>
-                <Web3ReactProvider>
-                  <BrowserRouter>
-                    <AppRoutes />
-                  </BrowserRouter>
-                </Web3ReactProvider>
+                <BrowserRouter>
+                  <AppRoutes />
+                </BrowserRouter>
               </ThemeProvider>
             </DeprecatedMuiThemeProvider>
           </QueryClientProvider>

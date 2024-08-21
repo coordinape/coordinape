@@ -15,16 +15,14 @@ import {
   polygon,
   sepolia,
 } from '@wagmi/core/chains';
-import {
-  ETHEREUM_RPC_URL,
-  ETHEREUM_SEPOLIA_RPC_URL,
-  OPTIMISM_RPC_URL,
-  OPTIMISM_SEPOLIA_RPC_URL,
-} from 'features/auth/connectors';
 
 import {
   IN_PREVIEW,
   IN_PRODUCTION,
+  VITE_ALCHEMY_ETH_MAINNET_API_KEY,
+  VITE_ALCHEMY_ETH_SEPOLIA_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
 } from 'config/env';
 import { isFeatureEnabled } from 'config/features';
@@ -35,6 +33,11 @@ declare module 'wagmi' {
     config: typeof wagmiConfig;
   }
 }
+
+export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`;
+export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
+export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
+export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_SEPOLIA_API_KEY}`;
 
 const connectors = connectorsForWallets(
   [

@@ -35,7 +35,7 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
   });
 };
 
-export type CoSoul = ReturnType<typeof getCoLinksContract>;
+export type CoSoul = ReturnType<typeof getCoSoulContract>;
 export const getCoSoulContract = () => {
   const publicClient = getReadOnlyClient();
 

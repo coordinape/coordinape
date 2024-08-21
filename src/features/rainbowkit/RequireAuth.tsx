@@ -30,7 +30,7 @@ export const RequireAuth = ({
     if (openConnectModal && !connectModalOpen) openConnectModal();
   }, [status, openConnectModal, connectModalOpen, profileId, walletRequired]);
 
-  // TODO: needs styling
+  // TODO: show anything ehre?
   // if isDisconnected and walletRequired, then prompt Modal
   if (!profileId || (walletRequired && isDisconnected)) {
     return (

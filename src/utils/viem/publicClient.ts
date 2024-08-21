@@ -1,4 +1,4 @@
-import { createPublicClient, http, PublicClient } from 'viem';
+import { createPublicClient, http } from 'viem';
 import { localhost, optimism, optimismSepolia } from 'viem/chains';
 
 import { chain } from '../../features/cosoul/chains';
@@ -7,9 +7,7 @@ import {
   VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
 } from 'config/env';
 
-export function getReadOnlyClient(): PublicClient;
-export function getReadOnlyClient(chainId: number): PublicClient;
-export function getReadOnlyClient(chainId?: number): PublicClient {
+export function getReadOnlyClient(chainId?: number) {
   if (chainId === undefined) {
     chainId = Number(chain.chainId);
   }
