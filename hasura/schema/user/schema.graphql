@@ -20123,14 +20123,14 @@ type query_root {
   farcaster_reactions_by_pk(id: bigint!): farcaster_reactions
 
   """
-  getCasts
-  """
-  getCasts(payload: GetCastsInput!): GetCastsOutput!
-  
-  """
   get all big questions for specific users
   """
   getBigQuestions: [BigQuestionsOutput]
+
+  """
+  getCasts
+  """
+  getCasts(payload: GetCastsInput!): GetCastsOutput!
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!

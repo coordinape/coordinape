@@ -17193,6 +17193,17 @@ export const ReturnTypes: Record<string, any> = {
     user: 'users',
     user_id: 'Int',
   },
+  BigQuestionsOutput: {
+    activities_aggregate: 'ActivitiesAggregate',
+    bigQuestion: 'big_questions',
+    cover_image_url: 'String',
+    css_background_position: 'String',
+    description: 'String',
+    expire_at: 'String',
+    id: 'Int',
+    prompt: 'String',
+    publish_at: 'String',
+  },
   Cast: {
     address: 'String',
     avatar_url: 'String',
@@ -17216,17 +17227,6 @@ export const ReturnTypes: Record<string, any> = {
   CastMention: {
     address: 'String',
     fname: 'String',
-  },
-  BigQuestionsOutput: {
-    activities_aggregate: 'ActivitiesAggregate',
-    bigQuestion: 'big_questions',
-    cover_image_url: 'String',
-    css_background_position: 'String',
-    description: 'String',
-    expire_at: 'String',
-    id: 'Int',
-    prompt: 'String',
-    publish_at: 'String',
   },
   CheckEthDenverInviteeOutput: {
     is_eth_denver_invitee: 'Boolean',

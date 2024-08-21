@@ -49803,14 +49803,14 @@ type query_root {
   ): farcaster_warpcast_power_users
 
   """
-  getCasts
-  """
-  getCasts(payload: GetCastsInput!): GetCastsOutput!
-  
-  """
   get all big questions for specific users
   """
   getBigQuestions: [BigQuestionsOutput]
+
+  """
+  getCasts
+  """
+  getCasts(payload: GetCastsInput!): GetCastsOutput!
   getGuildInfo(payload: GuildInfoInput!): GuildInfoOutput
   getHeadlines: [HeadlinesOutput!]!
   getSimilarProfiles(payload: SimilarProfileInput!): [SimilarProfileOutput!]!

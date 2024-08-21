@@ -14696,12 +14696,12 @@ export type ValueTypes = {
       { id: ValueTypes['bigint'] },
       ValueTypes['farcaster_reactions'],
     ];
+    /** get all big questions for specific users */
+    getBigQuestions?: ValueTypes['BigQuestionsOutput'];
     getCasts?: [
       { payload: ValueTypes['GetCastsInput'] },
       ValueTypes['GetCastsOutput'],
     ];
-    /** get all big questions for specific users */
-    getBigQuestions?: ValueTypes['BigQuestionsOutput'];
     getGuildInfo?: [
       { payload: ValueTypes['GuildInfoInput'] },
       ValueTypes['GuildInfoOutput'],
@@ -27582,12 +27582,12 @@ export type ModelTypes = {
     farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
     /** fetch data from the table: "farcaster.reactions" using primary key columns */
     farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
-    /** getCasts */
-    getCasts: GraphQLTypes['GetCastsOutput'];
     /** get all big questions for specific users */
     getBigQuestions?:
       | Array<GraphQLTypes['BigQuestionsOutput'] | undefined>
       | undefined;
+    /** getCasts */
+    getCasts: GraphQLTypes['GetCastsOutput'];
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
@@ -39848,12 +39848,12 @@ export type GraphQLTypes = {
     farcaster_reactions_aggregate: GraphQLTypes['farcaster_reactions_aggregate'];
     /** fetch data from the table: "farcaster.reactions" using primary key columns */
     farcaster_reactions_by_pk?: GraphQLTypes['farcaster_reactions'] | undefined;
-    /** getCasts */
-    getCasts: GraphQLTypes['GetCastsOutput'];
     /** get all big questions for specific users */
     getBigQuestions?:
       | Array<GraphQLTypes['BigQuestionsOutput'] | undefined>
       | undefined;
+    /** getCasts */
+    getCasts: GraphQLTypes['GetCastsOutput'];
     getGuildInfo?: GraphQLTypes['GuildInfoOutput'] | undefined;
     getHeadlines: Array<GraphQLTypes['HeadlinesOutput']>;
     getSimilarProfiles: Array<GraphQLTypes['SimilarProfileOutput']>;
