@@ -1,11 +1,11 @@
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
-  rainbowWallet,
   coinbaseWallet,
   metaMaskWallet,
+  rainbowWallet,
   walletConnectWallet,
 } from '@rainbow-me/rainbowkit/wallets';
-import { http, createConfig } from '@wagmi/core';
+import { createConfig, http } from '@wagmi/core';
 import {
   arbitrum,
   base,
@@ -20,6 +20,7 @@ import {
   HARDHAT_GANACHE_PORT,
   IN_PREVIEW,
   IN_PRODUCTION,
+  MAGIC_API_KEY,
   VITE_ALCHEMY_ETH_MAINNET_API_KEY,
   VITE_ALCHEMY_ETH_SEPOLIA_API_KEY,
   VITE_ALCHEMY_OPTIMISM_API_KEY,
@@ -28,11 +29,33 @@ import {
 } from '../../config/env';
 import { isFeatureEnabled } from '../../config/features';
 import { localhost } from '../../utils/viem/chains';
+import { getRainbowMagicWallet } from '../magiclink/RainbowMagicConnector';
 
 export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`;
 export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
 export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
 export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_SEPOLIA_API_KEY}`;
+
+type Chains = Parameters<typeof createConfig>[0]['chains'];
+const wagmiChains: Chains = IN_PRODUCTION
+  ? [mainnet, optimism, polygon, base, arbitrum]
+  : IN_PREVIEW
+    ? [mainnet, optimism, polygon, base, arbitrum, optimismSepolia, sepolia]
+    : [
+        mainnet,
+        optimism,
+        polygon,
+        base,
+        arbitrum,
+        optimismSepolia,
+        sepolia,
+        localhost,
+      ];
+
+const magicWallet = getRainbowMagicWallet({
+  chains: [...wagmiChains],
+  apiKey: MAGIC_API_KEY,
+});
 
 const connectors = connectorsForWallets(
   [
@@ -43,6 +66,7 @@ const connectors = connectorsForWallets(
         coinbaseWallet,
         metaMaskWallet,
         walletConnectWallet,
+        magicWallet,
       ],
     },
   ],
@@ -55,7 +79,7 @@ const connectors = connectorsForWallets(
 export const wagmiConfig = IN_PRODUCTION
   ? createConfig({
       connectors,
-      chains: [mainnet, optimism, polygon, base, arbitrum],
+      chains: wagmiChains,
       transports: {
         [mainnet.id]: http(ETHEREUM_RPC_URL),
         [optimism.id]: http(OPTIMISM_RPC_URL),
@@ -70,15 +94,7 @@ export const wagmiConfig = IN_PRODUCTION
   : IN_PREVIEW
     ? createConfig({
         connectors,
-        chains: [
-          mainnet,
-          optimism,
-          polygon,
-          base,
-          arbitrum,
-          optimismSepolia,
-          sepolia,
-        ],
+        chains: wagmiChains,
         transports: {
           [mainnet.id]: http(ETHEREUM_RPC_URL),
           [optimism.id]: http(OPTIMISM_RPC_URL),
@@ -91,16 +107,7 @@ export const wagmiConfig = IN_PRODUCTION
       })
     : createConfig({
         connectors,
-        chains: [
-          mainnet,
-          optimism,
-          polygon,
-          optimismSepolia,
-          localhost,
-          sepolia,
-          base,
-          arbitrum,
-        ],
+        chains: wagmiChains,
         transports: {
           [mainnet.id]: http(ETHEREUM_RPC_URL),
           [optimism.id]: http(OPTIMISM_RPC_URL),
