@@ -14,8 +14,13 @@ import { isMacBrowser } from '../SearchBox/SearchBox';
 export const DebugOverlay = () => {
   const featureNames = [...FeatureNames];
   featureNames.sort((a, b) => a.localeCompare(b));
+
+  const localStorageDebugVar = 'coordinape:debugOverlayEnabled';
+
   const [invalidate, setInvalidate] = useState(0);
-  const [debugOverlay, setDebugOverlay] = useState(false);
+  const [debugOverlay, setDebugOverlay] = useState(
+    !!localStorage.getItem(localStorageDebugVar)
+  );
 
   useEffect(() => {
     window.focus();
@@ -30,6 +35,14 @@ export const DebugOverlay = () => {
       setDebugOverlay(prev => !prev);
     }
   };
+
+  useEffect(() => {
+    if (debugOverlay) {
+      localStorage.setItem(localStorageDebugVar, '1');
+    } else {
+      localStorage.removeItem(localStorageDebugVar);
+    }
+  }, [debugOverlay]);
 
   const setFeature = (featureName: FeatureName, enable: boolean) => {
     if (enable) {
@@ -53,7 +66,7 @@ export const DebugOverlay = () => {
         right: 0,
         zIndex: 9999,
         // width: 200,
-        background: 'rgba(255, 255, 255, 1.0)',
+        background: '$background',
         border: '1px solid $borderFocus',
         borderRadius: '$3',
         p: '$md',
