@@ -7,7 +7,7 @@ import {
   FeatureNames,
   isFeatureEnabled,
 } from '../../config/features';
-import { Check } from '../../icons/__generated';
+import { Check, X } from '../../icons/__generated';
 import { Box, Flex, Text, ToggleButton } from '../../ui';
 import { isMacBrowser } from '../SearchBox/SearchBox';
 
@@ -72,22 +72,59 @@ export const DebugOverlay = () => {
         </Text>
         <Flex column css={{ gap: '$xs' }}>
           {featureNames.map(featureName => (
-            <ToggleButton
-              key={featureName}
-              color="complete"
-              css={{ width: '100%' }}
-              active={isFeatureEnabled(featureName)}
-              name={featureName}
-              onClick={e => {
-                e.preventDefault();
-                setFeature(featureName, !isFeatureEnabled(featureName));
-              }}
-            >
-              <Check size="sm" /> <Text size={'xs'}>{featureName}</Text>
-            </ToggleButton>
+            <Flex key={featureName} style={{ marginBottom: '10px' }}>
+              <FeatureToggle
+                featureName={featureName}
+                setFeature={setFeature}
+              />
+            </Flex>
           ))}
         </Flex>
       </Flex>
     </Box>
+  );
+};
+
+const FeatureToggle = ({
+  featureName,
+  setFeature,
+}: {
+  featureName: FeatureName;
+  setFeature: (featureName: FeatureName, enable: boolean) => void;
+}) => {
+  return (
+    <>
+      <Text size="xs" css={{ mr: '$sm', width: '100px' }}>
+        {featureName}
+      </Text>
+      <Flex
+        css={{
+          width: '50%',
+        }}
+      >
+        <ToggleButton
+          color="complete"
+          css={{ flex: 1, p: '$xs', mr: '$sm' }}
+          active={isFeatureEnabled(featureName)}
+          onClick={e => {
+            e.preventDefault();
+            setFeature(featureName, true);
+          }}
+        >
+          <Check size="sm" /> On
+        </ToggleButton>
+        <ToggleButton
+          color="destructive"
+          css={{ flex: 1, p: '$xs' }}
+          active={!isFeatureEnabled(featureName)}
+          onClick={e => {
+            e.preventDefault();
+            setFeature(featureName, false);
+          }}
+        >
+          <X size="sm" /> Off
+        </ToggleButton>
+      </Flex>
+    </>
   );
 };
