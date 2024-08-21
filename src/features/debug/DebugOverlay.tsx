@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   disableFeatureLocally,
@@ -14,8 +14,22 @@ import { isMacBrowser } from '../SearchBox/SearchBox';
 export const DebugOverlay = () => {
   const featureNames = [...FeatureNames];
   featureNames.sort((a, b) => a.localeCompare(b));
-
   const [invalidate, setInvalidate] = useState(0);
+  const [debugOverlay, setDebugOverlay] = useState(false);
+
+  useEffect(() => {
+    window.focus();
+    window.addEventListener('keydown', debugOverlayKeyDownHandler);
+    return () => {
+      window.removeEventListener('keydown', debugOverlayKeyDownHandler);
+    };
+  }, []);
+
+  const debugOverlayKeyDownHandler = (event: KeyboardEvent) => {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'u') {
+      setDebugOverlay(prev => !prev);
+    }
+  };
 
   const setFeature = (featureName: FeatureName, enable: boolean) => {
     if (enable) {
@@ -25,6 +39,10 @@ export const DebugOverlay = () => {
     }
     setInvalidate(inv => inv + 1);
   };
+
+  if (!debugOverlay) {
+    return null;
+  }
 
   return (
     <Box
