@@ -85,6 +85,7 @@ export const BuyButton = ({
         {
           account: currentUserAddress,
           value,
+          //@ts-ignore
           chain: wagmiChain,
         }
       );
