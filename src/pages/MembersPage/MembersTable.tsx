@@ -62,7 +62,6 @@ const schema = z
     non_receiver: z.boolean(),
     role: z.boolean(),
     starting_tokens: z.number(),
-    fixed_payment_amount: z.number(),
   })
   .strict();
 
@@ -246,7 +245,7 @@ export const MemberRow = ({
         setShowOptOutChangeWarning(true);
       } else {
         setShowOptOutChangeWarning(false);
-        updateUser(user.profile_id, { ...data, role: data.role ? 1 : 0 })
+        await updateUser(user.profile_id, { ...data, role: data.role ? 1 : 0 })
           .then(() => {
             showSuccess('Saved changes');
             queryClient.invalidateQueries(QUERY_KEY_GET_MEMBERS_PAGE_DATA);
@@ -770,11 +769,6 @@ export const MembersTable = ({
       css: { ...headerStyles, textAlign: 'center' },
       isHidden: isMobile,
     },
-    {
-      title: 'Fixed Payment',
-      css: { ...headerStyles, textAlign: 'center' },
-      isHidden: !circle.fixed_payment_token_type || !isAdmin,
-    },
     { title: 'Discord Linked', css: { ...headerStyles }, isHidden: true },
     {
       title: 'Admin',
@@ -817,13 +811,11 @@ export const MembersTable = ({
             return (u: QueryUser) => u.profile.address.toLowerCase();
           if (index === 2) return (u: QueryUser) => u.non_giver;
           if (index === 3) return (u: QueryUser) => u.non_receiver;
-          if (index === 4)
-            return (u: QueryUser) => u.user_private?.fixed_payment_amount;
-          if (index === 6) return (u: QueryUser) => isUserAdmin(u);
-          if (index === 7)
+          if (index === 5) return (u: QueryUser) => isUserAdmin(u);
+          if (index === 6)
             return (u: QueryUser) =>
               !u.non_giver ? u.starting_tokens - u.give_token_remaining : -1;
-          if (index === 8)
+          if (index === 7)
             return (u: QueryUser) =>
               !!u.fixed_non_receiver || !!u.non_receiver
                 ? -1
