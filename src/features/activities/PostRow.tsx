@@ -138,12 +138,14 @@ export const PostRow = ({
             },
           }}
         >
-          <ActivityAvatar
-            profile={activity.actor_profile_public}
-            css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
-          />
+          <Flex className="postAvatar">
+            <ActivityAvatar
+              profile={activity.actor_profile_public}
+              css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
+            />
+          </Flex>
           <Flex
-            className="clickThrough"
+            className="clickThrough postContent"
             column
             css={{
               flexGrow: 1,
@@ -306,13 +308,15 @@ export const PostRow = ({
                 </Flex>
               </>
             )}
-            {(focus || displayComments) && (
-              <RepliesBox
-                activityId={activity.id}
-                activityActorId={activity.actor_profile_public.id}
-                setEditingReply={setEditingReply}
-              />
-            )}
+            <Flex column className="repliesBox">
+              {(focus || displayComments) && (
+                <RepliesBox
+                  activityId={activity.id}
+                  activityActorId={activity.actor_profile_public.id}
+                  setEditingReply={setEditingReply}
+                />
+              )}
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

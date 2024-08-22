@@ -101,7 +101,7 @@ export const activitySelector = Selector('activities')({
     hash: true,
   },
 });
-const getActivities = async (where: Where, page: number, limit?: number) => {
+const getActivities = async (where: Where, page: number) => {
   const { activities } = await client.query(
     {
       activities: [
@@ -112,8 +112,8 @@ const getActivities = async (where: Where, page: number, limit?: number) => {
               created_at: order_by.desc,
             },
           ],
-          offset: page * (limit || PAGE_SIZE),
-          limit: limit || PAGE_SIZE,
+          offset: page * PAGE_SIZE,
+          limit: PAGE_SIZE,
         },
         activitySelector,
       ],
@@ -147,12 +147,11 @@ export const useInfiniteActivities = (
   where: Where,
   setLatestActivityId: Dispatch<SetStateAction<number>>,
   onSettled?: () => void,
-  overrideRefetchInterval?: number,
-  limit?: number
+  overrideRefetchInterval?: number
 ) => {
   return useInfiniteQuery(
     queryKey,
-    ({ pageParam = 0 }) => getActivities(where, pageParam, limit),
+    ({ pageParam = 0 }) => getActivities(where, pageParam),
     {
       getNextPageParam: (lastPage, allPages) => {
         return lastPage.length == 0 ? undefined : allPages.length;
