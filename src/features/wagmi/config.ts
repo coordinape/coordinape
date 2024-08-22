@@ -29,12 +29,6 @@ import {
 import { isFeatureEnabled } from '../../config/features';
 import { localhost } from '../../utils/viem/chains';
 
-declare module 'wagmi' {
-  interface Register {
-    config: typeof wagmiConfig;
-  }
-}
-
 export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`;
 export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
 export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;

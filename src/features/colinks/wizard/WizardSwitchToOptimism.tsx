@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { useSwitchChain } from 'wagmi';
 
 import { useToast } from '../../../hooks';
@@ -23,7 +22,17 @@ export function WizardSwitchToOptimism() {
       switchChain({
         //@ts-ignore
         chainId: Number(chain.chainId),
-        addEthereumChainParameter: _.omit(chain, 'gasSettings', 'chainId'),
+        // addEthereumChainParameter: {
+        //   chainId: chain.chainId,
+        //   chainName: chain.chainName,
+        //   nativeCurrency: {
+        //     name: chain.nativeCurrency.name,
+        //     symbol: chain.nativeCurrency.symbol,
+        //     decimals: chain.nativeCurrency.decimals,
+        //   },
+        //   rpcUrls: chain.rpcUrls,
+        //   blockExplorerUrls: chain.blockExplorerUrls,
+        // },
       });
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);

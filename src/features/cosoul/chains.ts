@@ -65,6 +65,7 @@ const localhost = {
   chainId: '0x53A',
   chainName: 'Localhost 8546',
   rpcUrls: ['http://localhost:8546'], // TOOD: idk if this is work
+  blockExplorerUrls: ['http://localhost:8546'],
   nativeCurrency: {
     name: 'ETH',
     symbol: 'ETH',
