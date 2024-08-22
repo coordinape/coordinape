@@ -9,7 +9,7 @@ import {
 } from 'viem';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
-import { CoSoulABI } from '../../../../contracts/abis';
+import { CoSoulABI } from '../../../contracts/abis';
 import {
   getCoSoulContract,
   getCoSoulContractWithWallet,
