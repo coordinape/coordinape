@@ -7,11 +7,6 @@ export { useLoginData } from './useLoginData';
 export { getAuthToken, setAuthToken } from './token';
 export { useWalletStatus } from './useWalletStatus';
 
-// DEPRECATED: only works with web3
-export const useIsLoggedIn = () => {
-  return useAuthStore(state => state.step) === 'done';
-};
-
 export const useIsEmailWallet = () => {
   const providerType = useAuthStore(state => state.providerType);
   return providerType === MAGIC_PROVIDER_TYPE;

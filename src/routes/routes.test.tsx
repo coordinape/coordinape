@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { useAuthStore } from 'features/auth';
+// import { useAuthStore } from 'features/auth';
 
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { createUser } from '../../api-test/helpers';
@@ -14,10 +14,10 @@ beforeAll(async () => {
 });
 
 test('redirect after login', async () => {
-  useAuthStore.setState({
-    step: 'done',
-    address: user.profile?.address,
-  });
+  // useAuthStore.setState({
+  //   step: 'done',
+  //   address: user.profile?.address,
+  // });
   render(
     <TestWrapper
       withRoutes

@@ -2,7 +2,7 @@ import assert from 'assert';
 
 import { render, screen } from '@testing-library/react';
 import { ShareTokenType } from 'common-lib/shareTokens';
-import { useAuthStore } from 'features/auth';
+// import { useAuthStore } from 'features/auth';
 import { Route, Routes } from 'react-router-dom';
 
 import { adminClient } from '../../../api-lib/gql/adminClient';
@@ -56,7 +56,7 @@ describe('join page', () => {
   });
 
   test('valid token, logged in', async () => {
-    useAuthStore.setState({ step: 'done', address: profile.address });
+    // useAuthStore.setState({ step: 'done', address: profile.address });
     setupMockClientForProfile(profile);
 
     render(

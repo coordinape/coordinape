@@ -1,7 +1,8 @@
-import { useIsLoggedIn, useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useAccount } from 'wagmi';
+
+import useProfileId from '../../hooks/useProfileId';
 
 export const getMainHeaderData = (profileId: number, chainId: number) =>
   client.query(
@@ -52,14 +53,13 @@ export const QUERY_KEY_MAIN_HEADER = 'MainHeader';
 // belongs to is handy for multiple purposes, so if we use the same cache key,
 // we can reuse it
 export const useMainHeaderQuery = () => {
-  const profileId = useAuthStore(state => state.profileId);
+  const profileId = useProfileId();
   const { chainId } = useAccount();
-  const isLoggedIn = useIsLoggedIn();
   return useQuery(
     [QUERY_KEY_MAIN_HEADER, profileId],
     () => getMainHeaderData(profileId as number, chainId as number),
     {
-      enabled: !!profileId && !!chainId && isLoggedIn,
+      enabled: !!profileId && !!chainId,
       staleTime: Infinity,
     }
   );
