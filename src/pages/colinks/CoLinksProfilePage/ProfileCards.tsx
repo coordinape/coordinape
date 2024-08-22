@@ -74,21 +74,24 @@ export const ProfileCardsWithProfile = ({
       column
       css={{
         gap: '$sm',
+        flexGrow: 1,
       }}
     >
-      <Flex
-        column
-        css={{
-          '.postAvatar': {
-            display: 'none',
-          },
-          '.postContent': {
-            ml: 0,
-          },
-        }}
-      >
-        {post && <ActivityRow key={post.id} activity={post} />}
-      </Flex>
+      {!location.pathname.includes('posts') && (
+        <Flex
+          column
+          css={{
+            '.postAvatar': {
+              display: 'none',
+            },
+            '.postContent': {
+              ml: 0,
+            },
+          }}
+        >
+          {post && <ActivityRow key={post.id} activity={post} />}
+        </Flex>
+      )}
       <Panel noBorder>
         <Text>colinks stats</Text>
         <Text>links: {profile.links ?? 0}</Text>
