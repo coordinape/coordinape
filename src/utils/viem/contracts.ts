@@ -1,7 +1,7 @@
 import deploymentInfo from '@coordinape/contracts/deploymentInfo.json' assert { type: 'json' };
 import { WalletClient, getContract } from 'viem';
 
-import { CoLinksABI, CoSoulABI } from '../../../contracts/abis';
+import { CoLinksABI, CoSoulABI } from '../../contracts/abis';
 import { chain } from '../../features/cosoul/chains';
 
 import { getReadOnlyClient } from './publicClient';
