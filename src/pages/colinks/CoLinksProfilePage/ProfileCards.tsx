@@ -7,14 +7,16 @@ import { activitySelector } from 'features/activities/useInfiniteActivities';
 import { CoLinksContext } from 'features/colinks/CoLinksContext';
 import { Poaps } from 'features/colinks/Poaps';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
+import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { GiveReceived } from 'features/points/GiveReceived';
+import { anonClient } from 'lib/anongql/anonClient';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import useProfileId from 'hooks/useProfileId';
-import { GemCoOutline } from 'icons/__generated';
+import { GemCoOutline, Links } from 'icons/__generated';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { Flex, Panel, Text } from 'ui';
 
@@ -26,7 +28,7 @@ export const ProfileCards = ({
   forceDisplay,
 }: {
   targetAddress: string;
-  forceDisplay: boolean;
+  forceDisplay?: boolean;
 }) => {
   const currentUserProfileId = useProfileId(false);
   const { data: targetProfile } = useQuery(
@@ -64,23 +66,31 @@ export const ProfileCardsWithProfile = ({
   const { profile } = targetProfile;
   const profileId = targetProfile.profile.id;
 
-  const { data: post } = useQuery([POST_PAGE_QUERY_KEY, profileId], () =>
+  const { data } = useQuery([POST_PAGE_QUERY_KEY, profileId], () =>
     fetchMostRecentPostByProfileId(Number(profileId))
   );
 
+  const { mostRecentActivity, totalActivitiesCount } = data || {};
+
+  const panelStyles = {
+    // maxHeight: 80,
+    pr: '$lg',
+    // minWidth: 400,
+    // flex: 'auto',
+  };
+
   if (suppressCards && !forceDisplay) return null;
   return (
-    <Flex
-      column
-      css={{
-        gap: '$sm',
-        flexGrow: 1,
-      }}
-    >
+    <Flex column css={{ gap: '$sm', flexShrink: 1 }}>
       {!location.pathname.includes('posts') && (
         <Flex
           column
           css={{
+            flexShrink: 1,
+            width: 'auto',
+            '.contributionRow': {
+              flexGrow: 'initial',
+            },
             '.postAvatar': {
               display: 'none',
             },
@@ -89,30 +99,118 @@ export const ProfileCardsWithProfile = ({
             },
           }}
         >
-          {post && <ActivityRow key={post.id} activity={post} />}
+          {mostRecentActivity && (
+            <ActivityRow
+              key={mostRecentActivity.id}
+              activity={mostRecentActivity}
+            />
+          )}
         </Flex>
       )}
-      <Panel noBorder>
-        <Text>colinks stats</Text>
-        <Text>links: {profile.links ?? 0}</Text>
-        <Text>holding</Text>
-      </Panel>
-      <Panel noBorder>network stats</Panel>
-      <Panel noBorder>
-        <GemCoOutline fa />
-        received: <GiveReceived address={targetAddress} receivedNumber />
-        sent: <GiveReceived address={targetAddress} sentNumber />
-      </Panel>
-      <Panel noBorder>
-        Rep overview {profile.reputation_score?.total_score ?? 0}
-      </Panel>
-      <Poaps address={targetAddress} />
+      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+        <Panel
+          noBorder
+          css={{
+            ...panelStyles,
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, rgb(255 198 54) 20%, rgb(231 7 144) 100%)',
+          }}
+        >
+          <Flex css={{ gap: '$md', alignItems: 'center' }}>
+            <Links fa size="2xl" />
+            <Flex column>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{profile.links ?? 0}</Text>
+                CoLinks
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>
+                  <LinkHoldings holder={targetAddress} />
+                </Text>
+                CoLinks Held
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{totalActivitiesCount}</Text>
+                Posts
+              </Text>
+            </Flex>
+          </Flex>
+        </Panel>
+
+        <Panel noBorder css={{ ...panelStyles }}>
+          network stats
+        </Panel>
+        <Panel
+          noBorder
+          css={{
+            ...panelStyles,
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, $complete 20%, $cta 100%)',
+          }}
+        >
+          <Flex css={{ gap: '$md', alignItems: 'center' }}>
+            <GemCoOutline fa size="2xl" />
+            <Flex column>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>
+                  <GiveReceived address={targetAddress} receivedNumber />
+                </Text>
+                GIVE Received
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>
+                  <GiveReceived address={targetAddress} sentNumber />
+                </Text>
+                GIVE Sent
+              </Text>
+            </Flex>
+          </Flex>
+        </Panel>
+        <Poaps address={targetAddress} />
+        <Flex
+          css={{
+            width: 200,
+            height: 80,
+            borderRadius: '$3',
+            overflow: 'hidden',
+            alignItems: 'center',
+            position: 'relative',
+            canvas: {
+              ml: -100,
+              scale: 0.6,
+            },
+          }}
+        >
+          <CoSoulArt
+            repScore={profile.reputation_score?.total_score ?? 0}
+            address={targetAddress}
+            animate={false}
+          />
+          <Flex
+            column
+            css={{
+              position: 'absolute',
+              left: '$md',
+              zIndex: 1,
+            }}
+          >
+            <Text h1 css={{ color: 'white' }}>
+              {profile.reputation_score?.total_score ?? 0}
+            </Text>
+            <Text semibold css={{ color: 'white' }}>
+              Reputation Score
+            </Text>
+          </Flex>
+        </Flex>
+      </Flex>
     </Flex>
   );
 };
 
 const fetchMostRecentPostByProfileId = async (profileId: number) => {
-  const { activities } = await client.query(
+  const { activities, activities_aggregate } = await client.query(
     {
       activities: [
         {
@@ -132,11 +230,76 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
         },
         activitySelector,
       ],
+      activities_aggregate: [
+        {
+          where: {
+            actor_profile_public: {
+              id: {
+                _eq: profileId,
+              },
+            },
+          },
+        },
+        {
+          aggregate: {
+            count: [{}, true],
+          },
+        },
+      ],
     },
     {
       operationName: 'fetchMostRecentPostByProfileId',
     }
   );
 
-  return activities[0]; // Return the most recent activity
+  const mostRecentActivity = activities[0]; // Return the most recent activity
+  const totalActivitiesCount = activities_aggregate.aggregate?.count ?? 0;
+
+  return { mostRecentActivity, totalActivitiesCount };
+};
+
+const LinkHoldings = ({ holder }: { holder: string }) => {
+  const {
+    data: heldCount,
+    isLoading,
+    error,
+  } = useQuery([QUERY_KEY_COLINKS, holder, 'heldCount'], async () => {
+    const { link_holders_aggregate } = await anonClient.query(
+      {
+        link_holders_aggregate: [
+          {
+            where: {
+              holder: {
+                _eq: holder,
+              },
+              amount: {
+                _gt: 0,
+              },
+            },
+          },
+          {
+            aggregate: {
+              sum: {
+                amount: true,
+              },
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'coLinks_held_count',
+      }
+    );
+    return link_holders_aggregate.aggregate?.sum?.amount ?? 0;
+  });
+
+  if (isLoading) {
+    return <>Loading...</>;
+  }
+
+  if (error) {
+    return <>Error loading held count.</>;
+  }
+
+  return <>{heldCount}</>;
 };
