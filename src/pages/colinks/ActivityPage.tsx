@@ -16,7 +16,6 @@ import { RightColumnSection } from '../../features/colinks/RightColumnSection';
 import { SimilarProfiles } from '../../features/colinks/SimilarProfiles';
 import { useLinkingStatus } from '../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
-import { PointsBar } from '../../features/points/PointsBar';
 import useProfileId from '../../hooks/useProfileId';
 import {
   BarChart,
@@ -171,8 +170,6 @@ const CoLinksActivityPageContents = ({
           },
         }}
       >
-        <PointsBar />
-
         {data?.big_questions[0] && (
           <BigQuestionCard
             question={data.big_questions[0]}
