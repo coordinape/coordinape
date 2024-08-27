@@ -97,14 +97,14 @@ dependencies:
     specifier: ^0.3.2
     version: 0.3.3
   '@magic-ext/connect':
-    specifier: ^3.1.0
-    version: 3.1.0
+    specifier: ^9.1.0
+    version: 9.1.0
   '@magic-sdk/admin':
-    specifier: ^2.1.0
-    version: 2.1.0
+    specifier: ^2.4.1
+    version: 2.4.1
   '@magic-sdk/types':
-    specifier: ^16.3.1
-    version: 16.3.1
+    specifier: ^24.3.0
+    version: 24.3.0
   '@magiclabs/wagmi-connector':
     specifier: ^2.1.0
     version: 2.1.0(@types/react@18.2.39)(localforage@1.10.0)(react-dom@18.2.0)(react-i18next@13.5.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.18.8)(zod@3.22.3)
@@ -346,8 +346,8 @@ dependencies:
     specifier: 3.2.1
     version: 3.2.1
   magic-sdk:
-    specifier: ^19.3.1
-    version: 19.3.1
+    specifier: ^28.5.0
+    version: 28.5.0
   mixpanel:
     specifier: ^0.17.0
     version: 0.17.0
@@ -808,6 +808,10 @@ packages:
 
   /@adraffy/ens-normalize@1.10.0:
     resolution: {integrity: sha512-nA9XHtlAkYfJxY7bce8DcN7eKxWWCWkU+1GR9d+U6MbNpfwQp8TI7vqOsBsMcHoT4mBu2kypKoSKnghEzOOq5Q==}
+    dev: false
+
+  /@adraffy/ens-normalize@1.10.1:
+    resolution: {integrity: sha512-96Z2IP3mYmF1Xg2cDm8f1gWGf/HUVedQ3FMifV4kG/PQ4yEP51xDtRAEfhVNt5f/uzpNkZHwWQuUcu6D6K+Ekw==}
     dev: false
 
   /@ampproject/remapping@2.2.1:
@@ -4892,8 +4896,8 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /@magic-ext/connect@3.1.0:
-    resolution: {integrity: sha512-hptRuAFEAxlfuiOIeradN4Gua8DrEQAMzaa9e5718pxIKEkZdTDgLsNo/o4NmixhgFKwvzNuh0YdbQKC4AJX7A==}
+  /@magic-ext/connect@9.1.0:
+    resolution: {integrity: sha512-0nBZ4621mgz+RGBhgQNhv3JBjlyVSekGV1L9P9TUTlhrLh3EsIMQ4MbD6+3jKS0cILghCn7NOBNu3Vdz4bKR7w==}
     deprecated: Connect extension has been merged to magic-sdk, please download the latest magic-sdk to unlock more features
     dev: false
 
@@ -4903,13 +4907,16 @@ packages:
       '@magic-sdk/types': 15.8.0
     dev: false
 
-  /@magic-sdk/admin@2.1.0:
-    resolution: {integrity: sha512-dWKAe9SOr5krTjEJi8QU2psJ62BiNhbYhuV0UuTczBjZ6yc7owPjNR2ZS/U/iUqAdGXK7I+IRuZoiWAI8gc3jA==}
+  /@magic-sdk/admin@2.4.1:
+    resolution: {integrity: sha512-mx0Z3yMbdY7JXATQiEC298ZKjA414ixfrsBXABdmoQlzvvo6uxUbXbWIpYZGpci0v/INKIg7ksOvdZurGV/F8g==}
     dependencies:
       ethereum-cryptography: 1.2.0
+      ethers: 6.13.2
       node-fetch: 2.7.0
     transitivePeerDependencies:
+      - bufferutil
       - encoding
+      - utf-8-validate
     dev: false
 
   /@magic-sdk/commons@14.6.0(@magic-sdk/provider@18.6.0)(@magic-sdk/types@15.8.0):
@@ -4922,14 +4929,14 @@ packages:
       '@magic-sdk/types': 15.8.0
     dev: false
 
-  /@magic-sdk/commons@15.3.1(@magic-sdk/provider@19.3.1)(@magic-sdk/types@16.3.1):
-    resolution: {integrity: sha512-oAY6CxD/n+58+oFf/8+cFEx3+eQ90P5mV/hr8xJoWyRmx2DOzePQxHYoL5UO7j2EcYOeVLGhydw/1RiS4UarZQ==}
+  /@magic-sdk/commons@24.5.0(@magic-sdk/provider@28.5.0)(@magic-sdk/types@24.3.0):
+    resolution: {integrity: sha512-GxHcBskbpvadNeIIC9H/2nLKkxWRiVfTBek7G2dCNwr//9oZUmY/8gAJunAPj2HU3Yl9PVtms07g3YBba9nOUA==}
     peerDependencies:
       '@magic-sdk/provider': '>=18.6.0'
       '@magic-sdk/types': '>=15.8.0'
     dependencies:
-      '@magic-sdk/provider': 19.3.1(localforage@1.10.0)
-      '@magic-sdk/types': 16.3.1
+      '@magic-sdk/provider': 28.5.0(localforage@1.10.0)
+      '@magic-sdk/types': 24.3.0
     dev: false
 
   /@magic-sdk/provider@18.6.0(localforage@1.10.0):
@@ -4945,12 +4952,12 @@ packages:
       - supports-color
     dev: false
 
-  /@magic-sdk/provider@19.3.1(localforage@1.10.0):
-    resolution: {integrity: sha512-7Rda6jqM03evNCJH0sHTLBN0ubS7C8UtQFb2VvmUp6egRn1T0GOnxz0GmkSgVjnya39UTR9JC/u1iCqGvQ5+Yw==}
+  /@magic-sdk/provider@28.5.0(localforage@1.10.0):
+    resolution: {integrity: sha512-at1Tfp7BnnzdSOvpSfHXup3q+JJ8MpB0S7C8BJRQQflVObz5M1i1xDPjF5ZhY0MZT34Mya9jvMChQdWBLI0bkA==}
     peerDependencies:
       localforage: ^1.7.4
     dependencies:
-      '@magic-sdk/types': 16.3.1
+      '@magic-sdk/types': 24.3.0
       eventemitter3: 4.0.7
       localforage: 1.10.0
       web3-core: 1.5.2
@@ -4962,8 +4969,8 @@ packages:
     resolution: {integrity: sha512-xLQsBAg2JXUn39dRfZW6Z3LUT50qz/3pg6R658oVBr4LbJd/L8iAR0zCRmjLLNXzfYm1RkJYZWuHaxjJgKlkSA==}
     dev: false
 
-  /@magic-sdk/types@16.3.1:
-    resolution: {integrity: sha512-MRs1PpVozTvs5iSuJHZpiI1283RvsaWUUcDA8hw5IZr7SBRyhlnXQJaIWwBXaYwbFfNvInJIdMJZwZoBfh192A==}
+  /@magic-sdk/types@24.3.0:
+    resolution: {integrity: sha512-Kc5hQEh4GOtNzuzR4oqr2693hGuNFVeHrDg9wJBqWHr0McgTPaYfVNiQG8THBpxaYMIcjAuJRP1HM0O/9nIuag==}
     dev: false
 
   /@magiclabs/wagmi-connector@2.1.0(@types/react@18.2.39)(localforage@1.10.0)(react-dom@18.2.0)(react-i18next@13.5.0)(react-native@0.73.6)(react@18.2.0)(typescript@5.3.3)(viem@2.18.8)(zod@3.22.3):
@@ -10392,6 +10399,10 @@ packages:
     resolution: {integrity: sha512-KIGQJyya+opDCFvDSZMNNS899ov5jlNdtN7PypgHWeb8e+5vWISdwTRo/ClsNVlmDihzOGqFyNBDamUs7TQQCA==}
     dev: true
 
+  /@types/node@18.15.13:
+    resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
+    dev: false
+
   /@types/node@18.18.13:
     resolution: {integrity: sha512-vXYZGRrSCreZmq1rEjMRLXJhiy8MrIeVasx+PCVlP414N7CJLHnMf+juVvjdprHyH+XRy3zKZLHeNueOpJCn0g==}
     dependencies:
@@ -12424,6 +12435,10 @@ packages:
   /aes-js@3.1.2:
     resolution: {integrity: sha512-e5pEa2kBnBOgR4Y/p20pskXI74UEz7de8ZGVo58asOtvSVG5YAbJeELPZxOmt+Bnz3rX753YKhfIn4X4l1PPRQ==}
     dev: true
+
+  /aes-js@4.0.0-beta.5:
+    resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
+    dev: false
 
   /agent-base@6.0.2:
     resolution: {integrity: sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==}
@@ -17124,6 +17139,22 @@ packages:
       '@ethersproject/wallet': 5.7.0
       '@ethersproject/web': 5.7.1
       '@ethersproject/wordlists': 5.7.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+    dev: false
+
+  /ethers@6.13.2:
+    resolution: {integrity: sha512-9VkriTTed+/27BGuY1s0hf441kqwHJ1wtN2edksEtiRvXx+soxRX3iSXTfFqq2+YwrOqbDoTHjIhQnjJRlzKmg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@adraffy/ens-normalize': 1.10.1
+      '@noble/curves': 1.2.0
+      '@noble/hashes': 1.3.2
+      '@types/node': 18.15.13
+      aes-js: 4.0.0-beta.5
+      tslib: 2.4.0
+      ws: 8.17.1
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -21832,12 +21863,12 @@ packages:
       - supports-color
     dev: false
 
-  /magic-sdk@19.3.1:
-    resolution: {integrity: sha512-+EX12307WS0PJ2MAZ1DcXWZYAHHLeD1BdpABgFHmq5k8zNkwZp95fozhpcmiuxIqLXghZnyrTMqVBAY49ohzWA==}
+  /magic-sdk@28.5.0:
+    resolution: {integrity: sha512-cO2/mpMMzzlsUaCUYvyUFcWIPUcpTVKqiPJ1jLxHtAdwaKC3yi9RiREMzguGWRJb2NpexSJTArkdC8s66UUZlg==}
     dependencies:
-      '@magic-sdk/commons': 15.3.1(@magic-sdk/provider@19.3.1)(@magic-sdk/types@16.3.1)
-      '@magic-sdk/provider': 19.3.1(localforage@1.10.0)
-      '@magic-sdk/types': 16.3.1
+      '@magic-sdk/commons': 24.5.0(@magic-sdk/provider@28.5.0)(@magic-sdk/types@24.3.0)
+      '@magic-sdk/provider': 28.5.0(localforage@1.10.0)
+      '@magic-sdk/types': 24.3.0
       localforage: 1.10.0
     transitivePeerDependencies:
       - supports-color
@@ -27833,6 +27864,10 @@ packages:
 
   /tslib@1.14.1:
     resolution: {integrity: sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==}
+    dev: false
+
+  /tslib@2.4.0:
+    resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
   /tslib@2.4.1:
