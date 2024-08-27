@@ -24,7 +24,6 @@ const progressStyles = {
     '&:after': {
       content: '',
       borderLeft: '1px solid transparent',
-      // borderColor: '$borderDim',
       height: '1rem',
     },
     '&:last-of-type:after': {
