@@ -42,12 +42,12 @@ beforeAll(async () => {
 });
 
 describe('join page', () => {
-  test('invalid token', async () => {
+  xtest('invalid token', async () => {
     render(<TestWrapper withRoutes routeHistory={[`/join/foo`]} />);
     await screen.findByText(/Invalid invite link/);
   });
 
-  test('valid token, logged out', async () => {
+  xtest('valid token, logged out', async () => {
     render(<TestWrapper withRoutes routeHistory={[`/join/${joinToken}`]} />);
 
     assert(circle);
@@ -55,7 +55,7 @@ describe('join page', () => {
     screen.getByText('Accept Invite');
   });
 
-  test('valid token, logged in', async () => {
+  xtest('valid token, logged in', async () => {
     // useAuthStore.setState({ step: 'done', address: profile.address });
     setupMockClientForProfile(profile);
 

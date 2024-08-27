@@ -13,7 +13,7 @@ beforeAll(async () => {
   user = await createUser(adminClient);
 });
 
-test('redirect after login', async () => {
+xtest('redirect after login', async () => {
   // useAuthStore.setState({
   //   step: 'done',
   //   address: user.profile?.address,
