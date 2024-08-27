@@ -1,14 +1,27 @@
 import { memo, useContext, useEffect, useState } from 'react';
 
+import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
+import { PointsBar } from 'features/points/PointsBar';
+import { PointsBarInfo } from 'features/points/PointsBarInfo';
+import { usePoints } from 'features/points/usePoints';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { isFeatureEnabled } from '../../config/features';
 import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
-import { Button, Flex, HR, IconButton, Link, Text } from '../../ui';
+import {
+  Button,
+  Flex,
+  HR,
+  IconButton,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from '../../ui';
 import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
@@ -39,6 +52,7 @@ export const CoLinksNav = () => {
   const { data } = useCoLinksNavQuery();
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
+  const { give } = usePoints();
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -58,7 +72,7 @@ export const CoLinksNav = () => {
         width: '350px',
         transition: '.2s ease-in-out',
         '@lg': { width: '300px', p: '$lg $lg 0' },
-        '@md': { width: '250px' },
+        '@md': { width: '260px' },
         '@sm': {
           position: 'absolute',
           left: mobileMenuOpen ? '0' : '-100vw',
@@ -182,11 +196,13 @@ export const CoLinksNav = () => {
       <Flex column>
         {data && (
           <Flex
+            column
             css={{
               mt: '$sm',
               mb: '$lg',
               width: '100%',
               position: 'relative',
+              gap: '$md',
               // gradient overlaying overflowing links
               '&::after': {
                 content: '',
@@ -217,6 +233,33 @@ export const CoLinksNav = () => {
                 }}
               />
             )}
+            <Flex column>
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Flex>
+                  <Text semibold size="small">
+                    GIVE Bar
+                  </Text>
+                  <Popover>
+                    <PopoverTrigger css={{ cursor: 'pointer' }}>
+                      <IconButton>
+                        <InfoCircledIcon />
+                      </IconButton>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      align="start"
+                      css={{ maxWidth: 300, overflow: 'clip' }}
+                    >
+                      <PointsBarInfo />
+                    </PopoverContent>
+                  </Popover>
+                </Flex>
+                <Text size="small" semibold color="link">
+                  {give}
+                  <GemCoOutline fa css={{ ml: '$xs' }} />
+                </Text>
+              </Flex>
+              <PointsBar barOnly />
+            </Flex>
             <CoLinksNavProfile
               name={data.profile.name}
               avatar={data.profile.avatar}
@@ -306,12 +349,6 @@ const LoggedInItems = ({
         <HouseFill size="lg" nostroke />
         Home
       </NavItem>
-      {isFeatureEnabled('give_zone') && (
-        <NavItem path={coLinksPaths.give}>
-          <GemCoOutline size="lg" nostroke />
-          GIVE
-        </NavItem>
-      )}
       <NavItem path={coLinksPaths.explore}>
         <PlanetFill size="lg" nostroke />
         Explore
