@@ -1,6 +1,6 @@
 import { BigNumber } from 'ethers';
 
-import { IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
+import { IN_DEVELOPMENT, IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
 import { isFeatureEnabled } from '../../config/features';
 
 const optimism = {
@@ -78,11 +78,15 @@ const localhost = {
 // production: optimism
 // staging: optimismSepolia
 // localhost: localhost ganache
-export const chain =
-  isFeatureEnabled('test_decent') || IN_PRODUCTION
+
+export const chain = IN_DEVELOPMENT
+  ? localhost
+  : IN_PRODUCTION
     ? optimism
     : IN_PREVIEW
-      ? optimismSepolia
-      : localhost;
+      ? optimism
+      : isFeatureEnabled('test_decent')
+        ? optimismSepolia
+        : optimism;
 
 export const baseChain = IN_PRODUCTION ? base : baseSepola;
