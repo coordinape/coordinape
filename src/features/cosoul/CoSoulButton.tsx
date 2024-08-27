@@ -10,7 +10,6 @@ import { useQuery } from 'react-query';
 import { Address } from 'viem';
 import { useAccount, useSwitchChain } from 'wagmi';
 
-import { localhost } from '../../../src/utils/viem/chains';
 import { useToast } from '../../hooks';
 import { Button, Flex, Panel, Text } from '../../ui';
 import { BridgeButton } from 'components/BridgeButton';
@@ -40,6 +39,8 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
           address: account as Address,
           chainId: wagmiChain.id,
         });
+      } else {
+        console.error('No account in getBalance');
       }
     },
     {
@@ -52,7 +53,7 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
 
   const safeSwitchToCorrectChain = async () => {
     try {
-      switchChain({ chainId: localhost.id });
+      switchChain({ chainId: Number(chain.chainId) });
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }
