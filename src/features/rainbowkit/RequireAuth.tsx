@@ -30,9 +30,13 @@ export const RequireAuth = ({
     '/imgs/background/login-steeple.jpg',
   ];
 
-  // Randomly select a background image
-  const randomIndex = Math.floor(Math.random() * backgroundImages.length);
-  const selectedBackgroundImage = backgroundImages[randomIndex];
+  const [selectedBackgroundImage, setSelectedBackgroundImage] =
+    useState<string>('');
+
+  useEffect(() => {
+    const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+    setSelectedBackgroundImage(backgroundImages[randomIndex]);
+  }, []);
 
   useEffect(() => {
     // if we have a profileId and walletConnection, render children
