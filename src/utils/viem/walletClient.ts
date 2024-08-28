@@ -2,7 +2,11 @@ import { createWalletClient, Hex, http, WalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
 import { localhost, optimism, optimismSepolia } from 'viem/chains';
 
-import { HARDHAT_GANACHE_PORT } from '../../config/env';
+import {
+  HARDHAT_GANACHE_PORT,
+  VITE_ALCHEMY_OPTIMISM_API_KEY,
+  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+} from '../../config/env';
 import { chain } from '../../features/cosoul/chains';
 
 export function getWalletClient(privateKey: Hex): WalletClient;
@@ -23,7 +27,7 @@ export function getWalletClient(
         account,
         chain: optimism,
         transport: http(
-          `https://opt-mainnet.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_OPTIMISM_API_KEY}`
+          `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`
         ),
       });
     case 11155420: // Optimism Sepolia
@@ -31,7 +35,7 @@ export function getWalletClient(
         account,
         chain: optimismSepolia,
         transport: http(
-          `https://opt-sepolia.g.alchemy.com/v2/${import.meta.env.VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
+          `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`
         ),
       });
     case 1338: // Local development chain
