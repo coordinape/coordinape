@@ -1,11 +1,13 @@
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import CoLinksSplashLayout from 'features/cosoul/CoLinksSplashLayout';
+import { zoomBackground } from 'keyframes';
 import { useAccount } from 'wagmi';
 
-import { Button, Flex, Text } from '../../ui';
 import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
+import { Button, Flex, Panel, Text } from 'ui';
 
 export const RequireAuth = ({
   children,
@@ -53,11 +55,35 @@ export const RequireAuth = ({
             gap: '$md',
           }}
         >
-          <Text h2>Connection Required</Text>
-          <Text h2>Please connect to continue.</Text>
-          <Button size={'large'} color="cta" onClick={openConnectModal}>
-            Connect Wallet
-          </Button>
+          <Panel
+            noBorder
+            css={{
+              background: 'rgba(0,0,0,0.7)',
+              alignItems: 'center',
+              px: '$1xl',
+            }}
+          >
+            <Text h2>Connection Required</Text>
+            <Text h2>Please connect to continue</Text>
+            <Button size={'large'} color="cta" onClick={openConnectModal}>
+              Connect Wallet
+            </Button>
+          </Panel>
+          <Flex
+            css={{
+              ...fullScreenStyles,
+              background:
+                'radial-gradient(circle, rgb(18 19 21) 0%, #7D3B7B 58%, #3F4F7B 83%, #7AA0B8 100%)',
+            }}
+          />
+          <Flex
+            css={{
+              ...fullScreenStyles,
+              animation: `${zoomBackground} 30s infinite ease-in-out`,
+              animationDirection: 'alternate',
+              backgroundImage: "url('/imgs/background/colink-start.jpg')",
+            }}
+          />
         </Flex>
       </CoLinksSplashLayout>
     );
