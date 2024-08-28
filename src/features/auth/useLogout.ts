@@ -17,17 +17,17 @@ export const useLogout = (remote = false) => {
   return useRecoilLoadCatch(
     ({ set }) =>
       async () => {
+        if (remote) {
+          await client.mutate(
+            { logoutUser: { id: true } },
+            { operationName: 'logout' }
+          );
+        }
         logoutAndClearSavedAuth();
         setProfileId(undefined);
         queryClient.clear();
         set(rApiManifest, undefined);
         disconnect();
-
-        if (remote)
-          await client.mutate(
-            { logoutUser: { id: true } },
-            { operationName: 'logout' }
-          );
       },
     []
   );

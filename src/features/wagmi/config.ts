@@ -38,10 +38,11 @@ export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${
 
 type Chains = Parameters<typeof createConfig>[0]['chains'];
 const wagmiChains: Chains = IN_PRODUCTION
-  ? [mainnet, optimism, polygon, base, arbitrum]
+  ? [optimism, mainnet, polygon, base, arbitrum]
   : IN_PREVIEW
-    ? [mainnet, optimism, polygon, base, arbitrum, optimismSepolia, sepolia]
+    ? [optimismSepolia, mainnet, optimism, polygon, base, arbitrum, sepolia]
     : [
+        localhost,
         mainnet,
         optimism,
         polygon,
@@ -49,7 +50,6 @@ const wagmiChains: Chains = IN_PRODUCTION
         arbitrum,
         optimismSepolia,
         sepolia,
-        localhost,
       ];
 
 const magicWallet = getRainbowMagicWallet({
