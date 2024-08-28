@@ -68,8 +68,6 @@ export const getTokenId = async (address: string) => {
 };
 
 export const mintCoSoulForAddress = async (address: string) => {
-  // TODO: test this
-
   const cosoul = coSoulWithWallet();
   const gasSettings = chain.gasSettings;
 
