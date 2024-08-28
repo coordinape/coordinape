@@ -87,10 +87,8 @@ export const ProfileCardsWithProfile = ({
   const { mostRecentActivity, totalActivitiesCount } = data || {};
 
   const panelStyles = {
-    // maxHeight: 80,
+    minHeight: 90,
     pr: '$lg',
-    // minWidth: 400,
-    // flex: 'auto',
   };
 
   if (suppressCards && !forceDisplay) return null;
@@ -212,7 +210,7 @@ export const ProfileCardsWithProfile = ({
         <Flex
           css={{
             width: 200,
-            height: 80,
+            height: 90,
             borderRadius: '$3',
             overflow: 'hidden',
             alignItems: 'center',
