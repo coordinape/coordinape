@@ -28,6 +28,14 @@ export const coSoulRoutes = [
       }
     >
       <Route
+        path="login"
+        element={
+          <RequireAuth walletRequired={true}>
+            <RedirectAfterLogin />
+          </RequireAuth>
+        }
+      />
+      <Route
         path={coSoulPaths.cosoulArt(':tokenId')}
         element={<CoSoulArtPublic />}
       />

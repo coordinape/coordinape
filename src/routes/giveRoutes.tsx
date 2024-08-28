@@ -3,7 +3,6 @@
 // look into this.
 import { Fragment, lazy, Suspense } from 'react';
 
-import { Rainbowify } from 'features/rainbowkit/Rainbowify';
 import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
@@ -40,7 +39,7 @@ import {
   useRoleInCircle,
 } from './hooks';
 import { givePaths } from './paths';
-import { Redirect } from './RedirectAfterLogin';
+import { Redirect, RedirectAfterLogin } from './RedirectAfterLogin';
 
 const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
@@ -180,13 +179,19 @@ export const giveRoutes = [
   <Fragment key={'giveRoutes'}>
     <Route
       element={
-        <Rainbowify>
-          <MainLayout>
-            <Outlet />
-          </MainLayout>
-        </Rainbowify>
+        <MainLayout>
+          <Outlet />
+        </MainLayout>
       }
     >
+      <Route
+        path="login"
+        element={
+          <RequireAuth walletRequired={true}>
+            <RedirectAfterLogin />
+          </RequireAuth>
+        }
+      />
       <Route path={givePaths.join(':token')} element={<JoinPage />} />
       <Route path={givePaths.verify(':uuid')} element={<VerifyEmailPage />} />
       <Route

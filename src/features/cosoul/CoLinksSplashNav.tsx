@@ -1,4 +1,4 @@
-import { CoLinksWalletMenu, NavProfileWidth } from 'features/CoLinksWalletMenu';
+import { CoLinksWalletMenu } from 'features/CoLinksWalletMenu';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
@@ -24,22 +24,7 @@ export const CoLinksSplashNav = () => {
           </Button>
           <CoLinksWalletMenu />
         </Flex>
-      ) : (
-        <Button
-          as={NavLink}
-          to={`/login?next=${coLinksPaths.launch}`}
-          color="coLinksCta"
-          size="large"
-          css={{
-            width: `calc(${NavProfileWidth} * 1.2)`,
-            '@sm': {
-              width: `${NavProfileWidth}`,
-            },
-          }}
-        >
-          Connect Wallet
-        </Button>
-      )}
+      ) : null}
     </Flex>
   );
 };
