@@ -1,13 +1,13 @@
+import { NavLogo } from 'features/nav/NavLogo';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
-import { useAuthStateMachine } from '../auth/RequireWeb3Auth';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
 export const CoLinksSplashPage = () => {
-  // we need this for the nested connect wallet button to show proper state
-  useAuthStateMachine(false, false);
+  // // we need this for the nested connect wallet button to show proper state
+  // useAuthStateMachine(false, false);
 
   return (
     <Box css={{ position: 'relative' }}>
@@ -65,6 +65,7 @@ export const CoLinksSplashPage = () => {
           overflow: 'hidden',
         }}
       >
+        <NavLogo forceTheme="dark" />
         <Flex
           column
           alignItems="start"

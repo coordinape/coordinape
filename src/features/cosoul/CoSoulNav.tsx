@@ -4,7 +4,6 @@ import { useWalletStatus } from 'features/auth';
 import { MagicLinkWallet } from 'features/magiclink/MagicLinkWallet';
 import { useNavQuery } from 'features/nav/getNavData';
 import { NavItem } from 'features/nav/NavItem';
-import { NavLink } from 'react-router-dom';
 
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { Network } from 'components';
@@ -147,22 +146,7 @@ export const CoSoulNav = () => {
             )}
           </Flex>
         </Flex>
-      ) : (
-        <Button
-          as={NavLink}
-          to={`/login?next=${location.pathname}`}
-          color="cta"
-          size="large"
-          css={{
-            width: `calc(${NavProfileWidth} * 1.2)`,
-            '@sm': {
-              width: `${NavProfileWidth}`,
-            },
-          }}
-        >
-          Connect Wallet
-        </Button>
-      )}
+      ) : null}
     </Flex>
   );
 };

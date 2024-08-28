@@ -14,6 +14,7 @@ import {
 } from '../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
+import { getReadOnlyClient } from '../../../src/utils/viem/publicClient';
 
 Settings.defaultZone = 'utc';
 
@@ -60,7 +61,7 @@ export async function syncCoSouls() {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
     const onChainPGIVE = await getOnChainPGive(cosoul.token_id);
     let success = true;
-    if (localPGIVE !== onChainPGIVE) {
+    if (localPGIVE !== Number(onChainPGIVE)) {
       // update the screenshot
       // this might take a while and might need to be handled in a separate process
       try {
@@ -168,8 +169,14 @@ const syncCoSoulToken = async (
 ) => {
   if (totalPGIVE > 0) {
     totalPGIVE = Math.floor(totalPGIVE);
-    const tx = await setOnChainPGive({ tokenId, amount: totalPGIVE });
-    await tx.wait();
+    const txHash = await setOnChainPGive({ tokenId, amount: totalPGIVE });
+
+    const publicClient = getReadOnlyClient();
+
+    await publicClient.getTransactionReceipt({
+      hash: txHash,
+    });
+
     console.log(
       'set PGIVE on chain for tokenId: ' +
         tokenId +

@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react';
 
 import { MagicModalFixer } from 'features/auth/magic';
+import { wagmiChain } from 'features/wagmi/config';
+import { Address } from 'viem';
 
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, HR, Text } from '../../ui';
-import { sendAndTrackTx } from '../../utils/contractHelpers';
+import { sendAndTrackTx } from 'utils/viem/contractHelpers';
+import { CoSoulWithWallet } from 'utils/viem/contracts';
 
-import { Contracts } from './contracts';
+import { chain } from './chains';
 import { MINTING_STEPS, MintingModal, MintingStep } from './MintingModal';
 import { useCoSoulToken } from './useCoSoulToken';
 
 export const MintOrBurnButton = ({
-  contracts,
+  contract,
   address,
   onReveal,
 }: {
-  contracts: Contracts;
-  address: string;
+  contract: CoSoulWithWallet;
+  address: Address;
   onReveal(): void;
 }) => {
-  const { tokenId, refresh } = useCoSoulToken({ contracts, address });
+  const { tokenId, refresh } = useCoSoulToken({ address });
 
   const [syncing, setSyncing] = useState(false);
 
@@ -73,7 +76,8 @@ export const MintOrBurnButton = ({
     }
     return (
       <BurnButton
-        contracts={contracts}
+        address={address}
+        contract={contract}
         tokenId={tokenId}
         onSuccess={async h => {
           refresh();
@@ -84,7 +88,7 @@ export const MintOrBurnButton = ({
   }
   return (
     <MintButton
-      contracts={contracts}
+      contract={contract}
       onMint={minted}
       onReveal={onReveal}
       address={address}
@@ -93,13 +97,13 @@ export const MintOrBurnButton = ({
 };
 
 const MintButton = ({
-  contracts,
+  contract,
   address,
   onReveal,
   onMint,
 }: {
-  contracts: Contracts;
-  address: string;
+  contract: CoSoulWithWallet;
+  address: Address;
   onMint(txHash: string): void;
   onReveal(): void;
 }) => {
@@ -138,13 +142,18 @@ const MintButton = ({
     try {
       setAwaitingWallet(true);
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () => contracts.cosoul.mint({}),
+        () => {
+          return contract.write.mint({
+            account: address,
+            chain: wagmiChain,
+          });
+        },
+
         {
           showDefault: showProgress,
           description: `Mint CoSoul`,
           signingMessage: 'Please confirm mint transaction in your wallet.',
-          chainId: contracts.chainId,
-          contract: contracts.cosoul,
+          chainId: chain.chainId,
         }
       );
       if (receipt) {
@@ -187,12 +196,14 @@ const MintButton = ({
 };
 
 const BurnButton = ({
-  contracts,
+  contract,
+  address,
   tokenId,
   onSuccess,
 }: {
-  contracts: Contracts;
+  contract: CoSoulWithWallet;
   tokenId: number;
+  address: Address;
   onSuccess(txHash: string): void;
 }) => {
   const { showDefault, showError } = useToast();
@@ -200,12 +211,15 @@ const BurnButton = ({
   const burn = async () => {
     try {
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () => contracts.cosoul.burn(tokenId),
+        () =>
+          contract.write.burn([BigInt(tokenId)] as const, {
+            account: address,
+            chain: wagmiChain,
+          }),
         {
           showDefault,
           description: `Burn CoSoul`,
-          chainId: contracts.chainId,
-          contract: contracts.cosoul,
+          chainId: chain.chainId,
         }
       );
       if (receipt) {

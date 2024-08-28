@@ -1,14 +1,13 @@
 import { useEffect } from 'react';
 
-import { useWalletStatus } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { useNavigate } from 'react-router';
+import { useAccount } from 'wagmi';
 
 import { coLinksPaths } from '../../../routes/paths';
 import { useCoLinksNavQuery } from '../useCoLinksNavQuery';
 import { GlobalUi } from 'components/GlobalUi';
-import { useWeb3React } from 'hooks/useWeb3React';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Flex } from 'ui';
 
@@ -19,8 +18,7 @@ export const QUERY_KEY_COLINKS = 'coLinks';
 
 export const CoLinksWizard = () => {
   const { data } = useCoLinksNavQuery();
-  const { chainId, account } = useWeb3React();
-  const { address } = useWalletStatus();
+  const { chainId, address } = useAccount();
   const navigate = useNavigate();
   const hasCoSoul = !!data?.profile.cosoul;
 
@@ -136,13 +134,7 @@ export const CoLinksWizard = () => {
   );
 
   const readyData =
-    keyData &&
-    myProfile &&
-    data &&
-    chainId &&
-    account &&
-    address &&
-    checkEthDenverInvitee;
+    keyData && myProfile && data && chainId && address && checkEthDenverInvitee;
 
   useEffect(() => {
     if (data?.profile) {

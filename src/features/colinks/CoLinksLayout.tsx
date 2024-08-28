@@ -5,7 +5,6 @@ import { useLocation } from 'react-router-dom';
 import { scrollToTop } from '../../components';
 import { GlobalUi } from 'components/GlobalUi';
 import HelpButton from 'components/HelpButton';
-import { useReloadCookieAuth } from 'hooks/useReloadCookieAuth';
 import { EmailBanner } from 'pages/ProfilePage/EmailSettings/EmailBanner';
 import { Box, Flex, Text } from 'ui';
 
@@ -21,8 +20,6 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
   }, [location]);
 
   const { coLinksReadOnly } = useContext(CoLinksContext);
-
-  useReloadCookieAuth();
 
   // if (library === undefined || onCorrectChain === undefined) {
   //   return <LoadingIndicator />;

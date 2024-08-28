@@ -1,4 +1,3 @@
-import { NavLogo } from 'features/nav/NavLogo';
 import { dark } from 'stitches.config';
 
 import { GlobalUi } from 'components/GlobalUi';
@@ -21,6 +20,7 @@ const CoLinksSplashLayout = ({ children }: { children: React.ReactNode }) => {
         bottom: 0,
         display: 'flex',
         flexDirection: 'column',
+        zIndex: 3,
         '& > main': { flex: 1, flexGrow: 1 },
       }}
     >
@@ -54,7 +54,6 @@ const CoLinksSplashLayout = ({ children }: { children: React.ReactNode }) => {
                   gap: '$md',
                 }}
               >
-                <NavLogo forceTheme="dark" />
                 <CoLinksSplashNav />
               </Flex>
             </SingleColumnLayout>

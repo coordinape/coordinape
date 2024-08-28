@@ -1,9 +1,8 @@
 import { Fragment } from 'react';
 
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
-import { RequireWeb3Auth } from '../features/auth';
-import { RequireLoggedIn } from '../features/auth/RequireWeb3Auth';
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
 import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayout';
@@ -140,14 +139,7 @@ export const coLinksRoutes = [
       </CoLinksSplashLayout>
     }
   >
-    <Route
-      path="login"
-      element={
-        <RequireWeb3Auth>
-          <RedirectAfterLogin />
-        </RequireWeb3Auth>
-      }
-    />
+    <Route path="login" element={<RedirectAfterLogin />} />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
   <Fragment key="public">
@@ -219,13 +211,13 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireLoggedIn>
+        <RequireAuth walletRequired={true}>
           <CoLinksProvider>
             <CoLinksLayout>
               <Outlet />
             </CoLinksLayout>
           </CoLinksProvider>
-        </RequireLoggedIn>
+        </RequireAuth>
       }
     >
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
@@ -279,11 +271,11 @@ export const coLinksRoutes = [
 
     <Route
       element={
-        <RequireWeb3Auth>
+        <RequireAuth walletRequired={true}>
           <CoLinksWizardLayout>
             <Outlet />
           </CoLinksWizardLayout>
-        </RequireWeb3Auth>
+        </RequireAuth>
       }
     >
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />

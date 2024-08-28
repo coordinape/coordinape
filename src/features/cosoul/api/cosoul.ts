@@ -1,10 +1,23 @@
-import { TransactionReceipt } from '@ethersproject/providers';
-import { BigNumber, ethers, Wallet } from 'ethers';
+import {
+  Address,
+  decodeEventLog,
+  Hex,
+  keccak256,
+  Log,
+  toBytes,
+  TransactionReceipt,
+} from 'viem';
 
 import { COSOUL_SIGNER_ADDR_PK } from '../../../../api-lib/config';
-import { getProvider } from '../../../../api-lib/provider';
+import { CoSoulABI } from '../../../contracts/abis';
+import {
+  getCoSoulContract,
+  getCoSoulContractWithWallet,
+} from '../../../utils/viem/contracts';
+import { getReadOnlyClient } from '../../../utils/viem/publicClient';
+import { getWalletClient } from '../../../utils/viem/walletClient';
+import { wagmiChain } from '../../wagmi/config';
 import { chain } from '../chains';
-import { Contracts } from '../contracts';
 
 export const PGIVE_SLOT = 0;
 export const REP_SLOT = 1;
@@ -13,58 +26,70 @@ export const PGIVE_SYNC_DURATION_DAYS = 30;
 type Slot = typeof PGIVE_SLOT | typeof REP_SLOT;
 type CoSoulArgs = { tokenId: number; amount: number };
 
-function getCoSoulContract() {
-  const chainId = Number(chain.chainId);
-  const provider = getProvider(chainId);
-  const contracts = new Contracts(chainId, provider, true);
-  return contracts.cosoul;
+function walletClient() {
+  const client = getWalletClient(COSOUL_SIGNER_ADDR_PK as Hex);
+  if (!client) {
+    throw new Error('Wallet client not found');
+  }
+  return client;
 }
 
-function getSignedCoSoulContract() {
-  // this is the preferred optimism chain id
-  const signerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
-  const chainId = Number(chain.chainId);
-  const provider = getProvider(chainId);
-  const contracts = new Contracts(chainId, provider, true);
-  const signer = signerWallet.connect(provider);
-  return contracts.cosoul.connect(signer);
+function walletAccount() {
+  const account = walletClient().account;
+  if (!account) {
+    throw new Error('Wallet account not found');
+  }
+  return account;
+}
+
+function coSoulWithWallet() {
+  return getCoSoulContractWithWallet(walletClient());
 }
 
 // get the cosoul token id for a given address
 export const getTokenId = async (address: string) => {
   const contract = getCoSoulContract();
 
-  // see if they have any CoSoul tokens
-  const balanceOfBN = await contract.balanceOf(address);
-  const balanceOf = balanceOfBN.toNumber();
+  const balanceOf = await contract.read.balanceOf([
+    // see if they have any CoSoul tokens
+    address as Address,
+  ] as const);
 
   // if they don't have a balance there is nothing more to do
-  if (balanceOf === 0) {
+  if (balanceOf === 0n) {
     return undefined;
   }
 
   // fetch their first token because they can only have one per the contract
-  return (
-    await contract.tokenOfOwnerByIndex(address, BigNumber.from(0))
-  ).toNumber();
+  return await contract.read.tokenOfOwnerByIndex([
+    address as Address,
+    0n,
+  ] as const);
 };
 
 export const mintCoSoulForAddress = async (address: string) => {
-  const contract = getSignedCoSoulContract();
+  const cosoul = coSoulWithWallet();
   const gasSettings = chain.gasSettings;
 
   // eslint-disable-next-line no-console
   console.log('minting CoSoul for address: ', address);
 
-  return await contract.mintTo(address, gasSettings);
+  const txHash = await cosoul.write.mintTo([address as Address] as const, {
+    account: walletAccount(),
+    chain: wagmiChain,
+    ...gasSettings,
+  });
+
+  const publicClient = getReadOnlyClient();
+  return await publicClient.waitForTransactionReceipt({
+    hash: txHash,
+  });
 };
 
 export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
-  const transferEventSignature = ethers.utils.keccak256(
-    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)')
+  const transferEventSignature = keccak256(
+    toBytes('Transfer(address,address,uint256)')
   );
-
-  const iface = getCoSoulContract().interface;
 
   if (receipt.logs === undefined) {
     throw new Error('No logs found in the transaction receipt');
@@ -72,10 +97,14 @@ export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
 
   for (const log of receipt.logs) {
     if (log.topics[0] === transferEventSignature) {
-      const {
-        args: { from, to, tokenId: tokenIdBN },
-      } = iface.parseLog(log);
-      const tokenId = tokenIdBN.toNumber();
+      const decodedLog = decodeEventLog({
+        abi: CoSoulABI,
+        data: log.data,
+        topics: log.topics,
+        eventName: 'Transfer',
+      });
+
+      const { from, to, tokenId } = decodedLog.args;
 
       return { from, to, tokenId };
     }
@@ -84,16 +113,17 @@ export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
   throw new Error('No Transfer event found in the transaction receipt');
 }
 
-export async function getMintInfo(txHash: string) {
-  const chainId = Number(chain.chainId);
-  const provider = getProvider(chainId);
-  const receipt = await provider.getTransactionReceipt(txHash);
+// TODO: test this
+export async function getMintInfo(txHash: string, chainId: number) {
+  const publicClient = getReadOnlyClient(chainId);
 
-  const transferEventSignature = ethers.utils.keccak256(
-    ethers.utils.toUtf8Bytes('Transfer(address,address,uint256)')
+  const receipt = await publicClient.getTransactionReceipt({
+    hash: txHash as `0x${string}`,
+  });
+
+  const transferEventSignature = keccak256(
+    toBytes('Transfer(address,address,uint256)')
   );
-
-  const iface = getCoSoulContract().interface;
 
   if (receipt.logs === undefined) {
     throw new Error('No logs found in the transaction receipt');
@@ -101,32 +131,50 @@ export async function getMintInfo(txHash: string) {
 
   for (const log of receipt.logs) {
     if (log.topics[0] === transferEventSignature) {
-      const {
-        args: { from, to, tokenId: tokenIdBN },
-      } = iface.parseLog(log);
-      const tokenId = tokenIdBN.toNumber();
+      const decodedLog = decodeEventLog({
+        abi: CoSoulABI,
+        data: log.data,
+        topics: log.topics,
+        eventName: 'Transfer',
+      });
 
-      return { from, to, tokenId };
+      const { from, to, tokenId } = decodedLog.args;
+
+      return { from, to, tokenId: tokenId };
     }
   }
 
   throw new Error('No Transfer event found in the transaction receipt');
+}
+
+export async function getMintInfofromLogs(log: Log | undefined) {
+  if (log === undefined) return null;
+
+  try {
+    const decodedLog = decodeEventLog({
+      abi: CoSoulABI,
+      data: log.data,
+      topics: log.topics,
+      eventName: 'Transfer',
+    });
+
+    const { from, to, tokenId } = decodedLog.args;
+
+    return {
+      from,
+      to,
+      tokenId: Number(tokenId), // Convert BigInt to Number
+    };
+  } catch (error) {
+    console.error('Error decoding log:', error);
+    return null;
+  }
 }
 
 export const getOnChainPGive = async (tokenId: number) => {
-  const contract = getCoSoulContract();
-  return (await contract.getSlot(PGIVE_SLOT, tokenId)).toNumber();
+  const cosoul = getCoSoulContract();
+  return await cosoul.read.getSlot([PGIVE_SLOT, BigInt(tokenId)] as const);
 };
-
-export async function getMintInfofromLogs(log: any) {
-  if (log === undefined) return null;
-  const iface = getCoSoulContract().interface;
-  const {
-    args: { from, to, tokenId: tokenIdBN },
-  } = iface.parseLog(log);
-  const tokenId = tokenIdBN.toNumber();
-  return { from, to, tokenId };
-}
 
 export const setOnChainPGive = async (params: CoSoulArgs) => {
   return await setSlotOnChain(PGIVE_SLOT, params);
@@ -138,7 +186,8 @@ export const setOnChainRep = async (params: CoSoulArgs) => {
 
 // set the on-chain PGIVE balance for a given token
 const setSlotOnChain = async (slot: Slot, params: CoSoulArgs) => {
-  const contract = getSignedCoSoulContract();
+  const cosoul = coSoulWithWallet();
+
   const amount = Math.floor(params.amount);
   // eslint-disable-next-line no-console
   console.log(
@@ -147,7 +196,14 @@ const setSlotOnChain = async (slot: Slot, params: CoSoulArgs) => {
 
   const gasSettings = chain.gasSettings;
 
-  return await contract.setSlot(slot, amount, params.tokenId, gasSettings);
+  return await cosoul.write.setSlot(
+    [BigInt(slot), amount, BigInt(params.tokenId)] as const,
+    {
+      account: walletAccount(),
+      chain: wagmiChain,
+      ...gasSettings,
+    }
+  );
 };
 
 const paddedHex = (n: number, length: number = 8): string => {
@@ -198,10 +254,21 @@ export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
 
   // payload is only 0x00 if no pgive needs to be updated on chain
   if (payload.length > 4) {
-    const contract = getSignedCoSoulContract();
+    const cosoul = coSoulWithWallet();
     const gasSettings = chain.gasSettings;
-    const tx = await contract.batchSetSlot_UfO(payload, gasSettings);
-    return await tx.wait();
+
+    const txHash = await cosoul.write.batchSetSlot_UfO(
+      [payload as Hex] as const,
+      {
+        account: walletAccount(),
+        chain: wagmiChain,
+        ...gasSettings,
+      }
+    );
+
+    return await getReadOnlyClient().waitForTransactionReceipt({
+      hash: txHash,
+    });
   } else {
     // eslint-disable-next-line no-console
     console.log('No cosouls to update on chain');

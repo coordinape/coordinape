@@ -3,10 +3,11 @@
 // look into this.
 import { Fragment, lazy, Suspense } from 'react';
 
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { MainLayout } from '../components';
-import { RequireWeb3Auth, useLoginData } from '../features/auth';
+import { useLoginData } from '../features/auth';
 import { OrgPage, OrgSettingsPage } from '../features/orgs';
 import { isUserAdmin, isUserMember } from '../lib/users';
 import AccountPage from '../pages/AccountPage/AccountPage';
@@ -38,7 +39,7 @@ import {
   useRoleInCircle,
 } from './hooks';
 import { givePaths } from './paths';
-import { Redirect } from './RedirectAfterLogin';
+import { Redirect, RedirectAfterLogin } from './RedirectAfterLogin';
 
 const LazyAssetMapPage = lazy(() => import('pages/MapPage'));
 
@@ -183,6 +184,14 @@ export const giveRoutes = [
         </MainLayout>
       }
     >
+      <Route
+        path="login"
+        element={
+          <RequireAuth walletRequired={true}>
+            <RedirectAfterLogin />
+          </RequireAuth>
+        }
+      />
       <Route path={givePaths.join(':token')} element={<JoinPage />} />
       <Route path={givePaths.verify(':uuid')} element={<VerifyEmailPage />} />
       <Route
@@ -192,11 +201,11 @@ export const giveRoutes = [
       <Route
         path="*"
         element={
-          <RequireWeb3Auth>
+          <RequireAuth walletRequired={false}>
             <Suspense fallback={null}>
               <GiveRoutes />
             </Suspense>
-          </RequireWeb3Auth>
+          </RequireAuth>
         }
       />
     </Route>

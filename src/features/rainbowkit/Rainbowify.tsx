@@ -12,12 +12,7 @@ const Rainbow = ({ children }: { children: ReactNode }) => {
   return (
     <RainbowKitSiweProvider>
       <RainbowKitProvider theme={darkTheme()}>
-        {/* = = = = = = = = = = DEBUG ==========  */}
-        {/* <p>account: {account.address}</p> */}
-        {/*<p>Refresh count: {refreshKey}</p>*/}
-        {/*<p>auth token: {token}</p>*/}
-        {/* = = = = = = = = = = END DEBUG ==========  */}
-        {children}
+        <>{children}</>
       </RainbowKitProvider>
     </RainbowKitSiweProvider>
   );

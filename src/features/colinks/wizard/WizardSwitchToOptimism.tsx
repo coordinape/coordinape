@@ -1,15 +1,10 @@
-import assert from 'assert';
-import React from 'react';
-
-import { getMagicProvider } from 'features/auth/magic';
-import { useSavedAuth } from 'features/auth/useSavedAuth';
+import { useSwitchChain } from 'wagmi';
 
 import { useToast } from '../../../hooks';
-import { useWeb3React } from '../../../hooks/useWeb3React';
 import { OptimismLogo } from '../../../icons/__generated';
 import { Button, Flex, Text } from '../../../ui';
 import { chain } from '../../cosoul/chains';
-import { switchOrAddNetwork } from 'utils/provider';
+// import { switchOrAddNetwork } from 'utils/provider';
 
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
@@ -17,18 +12,28 @@ import { fullScreenStyles } from './WizardSteps';
 export function WizardSwitchToOptimism() {
   const { showError } = useToast();
 
-  const { library, setProvider } = useWeb3React();
-  const { savedAuth } = useSavedAuth();
+  const { switchChain } = useSwitchChain();
+
+  // const { savedAuth } = useSavedAuth();
 
   const safeSwitchToCorrectChain = async () => {
+    // TODO: test me with chain not setup
     try {
-      if (savedAuth.connectorName == 'magic') {
-        const provider = await getMagicProvider('optimism');
-        await setProvider(provider, 'magic');
-      } else {
-        assert(library);
-        await switchOrAddNetwork(library);
-      }
+      switchChain({
+        //@ts-ignore
+        chainId: Number(chain.chainId),
+        // addEthereumChainParameter: {
+        //   chainId: chain.chainId,
+        //   chainName: chain.chainName,
+        //   nativeCurrency: {
+        //     name: chain.nativeCurrency.name,
+        //     symbol: chain.nativeCurrency.symbol,
+        //     decimals: chain.nativeCurrency.decimals,
+        //   },
+        //   rpcUrls: chain.rpcUrls,
+        //   blockExplorerUrls: chain.blockExplorerUrls,
+        // },
+      });
     } catch (e: any) {
       showError('Error Switching to ' + chain.chainName + ': ' + e.message);
     }

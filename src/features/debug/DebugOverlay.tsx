@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react';
 
+import { getAllData } from 'features/auth/helpers';
+import { useAccount } from 'wagmi';
+
 import {
   disableFeatureLocally,
   enableFeatureLocally,
@@ -8,14 +11,19 @@ import {
   isFeatureEnabled,
 } from '../../config/features';
 import { Check, X } from '../../icons/__generated';
-import { Box, Flex, Text, ToggleButton } from '../../ui';
+import { Box, Flex, HR, Text, ToggleButton } from '../../ui';
 import { isMacBrowser } from '../SearchBox/SearchBox';
+import useProfileId from 'hooks/useProfileId';
+import { shortenAddressWithFrontLength } from 'utils';
 
 export const DebugOverlay = () => {
   const featureNames = [...FeatureNames];
   featureNames.sort((a, b) => a.localeCompare(b));
 
   const localStorageDebugVar = 'coordinape:debugOverlayEnabled';
+
+  const { connector, status, address: walletAddr } = useAccount();
+  const profileId = useProfileId(false);
 
   const [invalidate, setInvalidate] = useState(0);
   const [debugOverlay, setDebugOverlay] = useState(
@@ -80,6 +88,34 @@ export const DebugOverlay = () => {
         <Text size={'xs'} color={'neutral'}>
           {isMacBrowser() ? '⌘' : 'Ctrl-'}U to Dismiss
         </Text>
+        <HR />
+        <Text size="xs" bold>
+          {profileId ? 'Authenticated' : 'Not Authenticated'}
+        </Text>
+        {profileId && (
+          <Flex column css={{ gap: '$xs' }}>
+            <Text size="xs">Profile Id: {profileId}</Text>
+            <Text size="xs" css={{ overflow: 'wrap', maxWidth: '200px' }}>
+              Cookie Data:
+              {JSON.stringify(getAllData().data)}
+            </Text>
+          </Flex>
+        )}
+        <HR />
+        <Text size="xs" bold>
+          Wallet Connection
+        </Text>
+        <Flex column css={{ gap: '$xs' }}>
+          {connector && <Text size="xs">Connector: {connector?.name}</Text>}
+          <Text size="xs">Status: {status}</Text>
+          {walletAddr && (
+            <Text size="xs">
+              Wallet Addr:{' '}
+              {walletAddr && shortenAddressWithFrontLength(walletAddr, 4)}
+            </Text>
+          )}
+        </Flex>
+        <HR />
         <Text size="xs" bold>
           Feature Flags
         </Text>

@@ -129,6 +129,7 @@ export const SideNav = () => {
       }}
     >
       <Flex
+        className="navLogoContainer"
         css={{
           alignItems: 'center',
           justifyContent: 'space-between',

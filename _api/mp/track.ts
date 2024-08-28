@@ -28,6 +28,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const h = proxyRes.headers;
   const headers: OutgoingHttpHeaders = {};
+  // @ts-ignore
   h.forEach((v, k) => {
     headers[k] = v;
   });

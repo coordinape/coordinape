@@ -3,7 +3,7 @@ import { CSS } from 'stitches.config';
 
 import Countdown from 'components/Countdown';
 import { useCurrentEpochInfo } from 'pages/HistoryPage/useCurrentEpochInfo';
-import { Text } from 'ui';
+import { Flex, Text } from 'ui';
 
 export const EpochEndingNotification = ({
   css,
@@ -51,7 +51,7 @@ export const EpochEndingNotification = ({
               &bull;
             </Text>
           ) : (
-            <>
+            <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
               <Text tag={asTag} color="warning" css={css}>
                 {epochDaysRemaining == 0
                   ? `${message} Today`
@@ -60,7 +60,7 @@ export const EpochEndingNotification = ({
               {showCountdown && epochDaysRemaining == 0 && (
                 <Countdown targetDate={currentEpochEndDate} />
               )}
-            </>
+            </Flex>
           )}
         </>
       )}

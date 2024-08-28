@@ -1,6 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react';
 
-import { CoLinks } from '@coordinape/contracts/typechain';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 
@@ -9,9 +8,9 @@ import CopyCodeTextField from '../../components/CopyCodeTextField';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
+import { CoLinks, getCoLinksContract } from '../../utils/viem/contracts';
 import { useAuthStore } from '../auth';
 import { useLogout } from '../auth/useLogout';
-import { getCoLinksContract } from '../cosoul/contracts';
 
 import { FaviconNotificationBadge } from './FaviconNotificationBadge';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
