@@ -43,6 +43,10 @@ export const BRANCH_URL =
   getEnvValue<string>('VITE_VERCEL_BRANCH_URL', '') ||
   getEnvValue<string>('VERCEL_BRANCH_URL', '');
 
+export const MAGIC_API_KEY = getEnvValue<string>(
+  'VITE_MAGIC_API_KEY',
+  'missing-magic'
+);
 // // eslint-disable-next-line no-console
 // console.log(
 //   'APP_MODE',
