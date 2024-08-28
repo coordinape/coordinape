@@ -1,12 +1,11 @@
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { QUERY_KEY_NETWORK } from 'pages/colinks/CoLinksProfilePage/ProfileCards';
 import { coLinksPaths } from 'routes/paths';
 import { Avatar, Box, Flex, Link, Text } from 'ui';
 
 import { Bullseye } from './Bullseye';
-
-const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileNetwork = ({
   targetAddress,

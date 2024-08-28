@@ -16,12 +16,13 @@ import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import useProfileId from 'hooks/useProfileId';
-import { GemCoOutline, Links } from 'icons/__generated';
+import { Farcaster, GemCoOutline, Links } from 'icons/__generated';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { Flex, Panel, Text } from 'ui';
 
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 export const cardColumnMinWidth = 1280;
+export const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileCards = ({
   targetAddress,
@@ -65,6 +66,19 @@ export const ProfileCardsWithProfile = ({
 
   const { profile } = targetProfile;
   const profileId = targetProfile.profile.id;
+
+  const { data: networkData } = useQuery(
+    [QUERY_KEY_NETWORK, targetAddress, 'profile'],
+    async () => await fetchNetworkNodes(targetAddress!),
+    { enabled: !!targetAddress }
+  );
+
+  const network:
+    | {
+        nodes: any[];
+        tier_counts: { 1: number; 2: number; 3: number; 4: number; 5: number };
+      }
+    | undefined = networkData?.network;
 
   const { data } = useQuery([POST_PAGE_QUERY_KEY, profileId], () =>
     fetchMostRecentPostByProfileId(Number(profileId))
@@ -137,9 +151,32 @@ export const ProfileCardsWithProfile = ({
             </Flex>
           </Flex>
         </Panel>
-
-        <Panel noBorder css={{ ...panelStyles }}>
-          network stats
+        <Panel
+          noBorder
+          css={{
+            ...panelStyles,
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, $farcaster 20%, #5435a0 100%)',
+          }}
+        >
+          <Flex css={{ gap: '$md', alignItems: 'center' }}>
+            <Farcaster fa size="2xl" />
+            <Flex column>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[3]}</Text>
+                Mutually linked in FC
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[4]}</Text>
+                Following in FC
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[5]}</Text>
+                Followers in FC
+              </Text>
+            </Flex>
+          </Flex>
         </Panel>
         <Panel
           noBorder
@@ -147,7 +184,7 @@ export const ProfileCardsWithProfile = ({
             ...panelStyles,
             color: 'white',
             background:
-              'radial-gradient(circle at -10% 10%, $complete 20%, $cta 100%)',
+              'radial-gradient(circle at -10% 10%, #0ecf87 20%, #5528d6 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -165,10 +202,13 @@ export const ProfileCardsWithProfile = ({
                 </Text>
                 GIVE Sent
               </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[1]}</Text>
+                GIVE Connections
+              </Text>
             </Flex>
           </Flex>
         </Panel>
-        <Poaps address={targetAddress} />
         <Flex
           css={{
             width: 200,
@@ -204,6 +244,7 @@ export const ProfileCardsWithProfile = ({
             </Text>
           </Flex>
         </Flex>
+        <Poaps address={targetAddress} />
       </Flex>
     </Flex>
   );
@@ -302,4 +343,10 @@ const LinkHoldings = ({ holder }: { holder: string }) => {
   }
 
   return <>{heldCount}</>;
+};
+
+const fetchNetworkNodes = async (address: string) => {
+  const res = await fetch(`/api/network/${address}`);
+  const data = await res.json();
+  return data;
 };
