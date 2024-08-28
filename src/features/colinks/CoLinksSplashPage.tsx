@@ -1,3 +1,4 @@
+import { NavLogo } from 'features/nav/NavLogo';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../routes/paths';
@@ -64,6 +65,7 @@ export const CoLinksSplashPage = () => {
           overflow: 'hidden',
         }}
       >
+        <NavLogo forceTheme="dark" />
         <Flex
           column
           alignItems="start"

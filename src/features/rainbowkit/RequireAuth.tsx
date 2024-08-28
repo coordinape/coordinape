@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from 'react';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import CoLinksSplashLayout from 'features/cosoul/CoLinksSplashLayout';
+import { NavLogo } from 'features/nav/NavLogo';
 import { zoomBackground } from 'keyframes';
 import { useAccount } from 'wagmi';
 
@@ -20,6 +21,18 @@ export const RequireAuth = ({
   const { openConnectModal, connectModalOpen } = useConnectModal();
   const { profileId } = useReloadCookieAuth();
   const { isConnected, isDisconnected, status } = useAccount();
+  const backgroundImages = [
+    '/imgs/background/login-forest.jpg',
+    '/imgs/background/login-lake.jpg',
+    '/imgs/background/login-mirrors.jpg',
+    '/imgs/background/login-river.jpg',
+    '/imgs/background/login-snow.jpg',
+    '/imgs/background/login-steeple.jpg',
+  ];
+
+  // Randomly select a background image
+  const randomIndex = Math.floor(Math.random() * backgroundImages.length);
+  const selectedBackgroundImage = backgroundImages[randomIndex];
 
   useEffect(() => {
     // if we have a profileId and walletConnection, render children
@@ -58,14 +71,26 @@ export const RequireAuth = ({
           <Panel
             noBorder
             css={{
-              background: 'rgba(0,0,0,0.7)',
+              background: 'rgba(0,0,0,0.75)',
               alignItems: 'center',
-              px: '$1xl',
+              px: '$4xl',
+              py: '$xl',
+              gap: '$md',
+              boxShadow: '$heavy',
             }}
           >
-            <Text h2>Connection Required</Text>
-            <Text h2>Please connect to continue</Text>
-            <Button size={'large'} color="cta" onClick={openConnectModal}>
+            <NavLogo forceTheme="dark" />
+            <Text semibold css={{ textAlign: 'center', color: 'white' }}>
+              Connection required
+              <br />
+              Please connect to continue
+            </Text>
+            <Button
+              color="coLinksCta"
+              size="large"
+              onClick={openConnectModal}
+              css={{ mt: '$sm', width: '100%', fontWeight: '$semibold' }}
+            >
               Connect Wallet
             </Button>
           </Panel>
@@ -73,7 +98,7 @@ export const RequireAuth = ({
             css={{
               ...fullScreenStyles,
               background:
-                'radial-gradient(circle, rgb(18 19 21) 0%, #7D3B7B 58%, #3F4F7B 83%, #7AA0B8 100%)',
+                'radial-gradient(circle, rgb(18, 19, 21) 0%, rgb(47 47 47) 58%, rgb(80 63 123) 83%, rgb(122, 160, 184) 100%)',
             }}
           />
           <Flex
@@ -81,7 +106,7 @@ export const RequireAuth = ({
               ...fullScreenStyles,
               animation: `${zoomBackground} 30s infinite ease-in-out`,
               animationDirection: 'alternate',
-              backgroundImage: "url('/imgs/background/colink-start.jpg')",
+              backgroundImage: `url(${selectedBackgroundImage})`,
             }}
           />
         </Flex>
