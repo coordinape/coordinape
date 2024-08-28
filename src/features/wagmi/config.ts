@@ -52,6 +52,7 @@ const wagmiChains: Chains = IN_PRODUCTION
         sepolia,
       ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const magicWallet = getRainbowMagicWallet({
   chains: [...wagmiChains],
   apiKey: MAGIC_API_KEY,
@@ -66,7 +67,7 @@ const connectors = connectorsForWallets(
         coinbaseWallet,
         metaMaskWallet,
         walletConnectWallet,
-        magicWallet,
+        // magicWallet,
       ],
     },
   ],
