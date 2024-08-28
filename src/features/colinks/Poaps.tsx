@@ -93,7 +93,13 @@ const fetchPoaps = async (address: string) => {
 
 // type Poap = Awaited<ReturnType<typeof fetchPoaps>>['poaps'][number];
 
-export const Poaps = ({ address }: { address: string }) => {
+export const Poaps = ({
+  address,
+  profileCard = false,
+}: {
+  address: string;
+  profileCard?: boolean;
+}) => {
   const { data } = useQuery(['poaps', address], async () => {
     if (USE_DEMO_DATA) {
       return DEMO_DATA;
@@ -103,6 +109,12 @@ export const Poaps = ({ address }: { address: string }) => {
 
   return (
     <RightColumnSection
+      css={{
+        minWidth: 200,
+        '>div': {
+          gap: 0,
+        },
+      }}
       title={
         <Text
           as={Link}
@@ -112,45 +124,66 @@ export const Poaps = ({ address }: { address: string }) => {
           target={'_blank'}
           rel="noreferrer"
         >
-          <Circle2 nostroke />
-          {data?.count} POAPs
+          {profileCard ? (
+            <Flex
+              css={{
+                gap: '$md',
+                alignItems: 'center',
+              }}
+            >
+              <Circle2 fa size="2xl" />
+              <Flex column>
+                <Text css={{ gap: '$xs' }}>
+                  <Text semibold>{data?.count}</Text>
+                  POAPs
+                </Text>
+              </Flex>
+            </Flex>
+          ) : (
+            <>
+              <Circle2 nostroke />
+              {data?.count} POAPs
+            </>
+          )}
         </Text>
       }
     >
-      <Flex column css={{ gap: '$md', width: '100%' }}>
-        {data?.poaps.map(
-          poap =>
-            poap?.event && (
+      {data && data.count > 0 && (
+        <Flex column css={{ gap: '$md', width: '100%', mt: '$md' }}>
+          {data?.poaps.map(
+            poap =>
+              poap?.event && (
+                <Link
+                  key={poap.id}
+                  href={poap.event.event_url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Flex css={{ gap: '$sm', alignItems: 'center' }}>
+                    <Image
+                      src={poap.event.image_url}
+                      width={24}
+                      height={24}
+                      css={{ borderRadius: 9999 }}
+                    />
+                    <Text size="small">{poap.event.name}</Text>
+                  </Flex>
+                </Link>
+              )
+          )}
+          {data?.count !== undefined && data.count > MAX_POAPS_TO_SHOW && (
+            <Flex css={{ justifyContent: 'flex-end' }}>
               <Link
-                key={poap.id}
-                href={poap.event.event_url}
+                href={`https://collectors.poap.xyz/scan/${address}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                <Flex css={{ gap: '$sm', alignItems: 'center' }}>
-                  <Image
-                    src={poap.event.image_url}
-                    width={24}
-                    height={24}
-                    css={{ borderRadius: 9999 }}
-                  />
-                  <Text size="small">{poap.event.name}</Text>
-                </Flex>
+                <Text size="xs">View all {data?.count} POAPs</Text>
               </Link>
-            )
-        )}
-        {data?.count !== undefined && data.count > MAX_POAPS_TO_SHOW && (
-          <Flex css={{ justifyContent: 'flex-end' }}>
-            <Link
-              href={`https://collectors.poap.xyz/scan/${address}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Text size="xs">View all {data?.count} POAPs</Text>
-            </Link>
-          </Flex>
-        )}
-      </Flex>
+            </Flex>
+          )}
+        </Flex>
+      )}
     </RightColumnSection>
   );
 };

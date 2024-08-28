@@ -126,7 +126,7 @@ export const ProfileCardsWithProfile = ({
             ...panelStyles,
             color: 'white',
             background:
-              'radial-gradient(circle at -10% 10%, rgb(255 198 54) 20%, rgb(231 7 144) 100%)',
+              'radial-gradient(circle at -10% 10%, rgb(55 81 208) 20%, rgb(231, 7, 144) 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -242,7 +242,7 @@ export const ProfileCardsWithProfile = ({
             </Text>
           </Flex>
         </Flex>
-        <Poaps address={targetAddress} />
+        <Poaps address={targetAddress} profileCard />
       </Flex>
     </Flex>
   );
