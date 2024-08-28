@@ -84,7 +84,7 @@ export const chain = IN_DEVELOPMENT
   : IN_PRODUCTION
     ? optimism
     : IN_PREVIEW
-      ? optimism
+      ? optimismSepolia
       : isFeatureEnabled('test_decent')
         ? optimismSepolia
         : optimism;
