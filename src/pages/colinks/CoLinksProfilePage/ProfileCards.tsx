@@ -321,7 +321,6 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
                   actor_profile_id: {
                     _eq: profileId,
                   },
-
                   cast_id: {
                     _is_null: false,
                   },

@@ -51,7 +51,11 @@ export const ActivityRow = ({
           }),
         };
         Sentry.captureEvent(event);
-        return <Text>Unknown activity: {activity.action}</Text>;
+        return (
+          <Text>
+            Unknown activity: {activity.action} id:{activity.id}
+          </Text>
+        );
       }
     }
     return null;
