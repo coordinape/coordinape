@@ -18,7 +18,9 @@ export const ViewProfilePagePosts = () => {
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
       <Flex css={{ gap: '$md' }}>
-        <Flex css={{ width: '100%', maxWidth: profileMainColumnWidth }}>
+        <Flex
+          css={{ flexGrow: 1, width: '100%', maxWidth: profileMainColumnWidth }}
+        >
           <ProfilePagePostsContents targetAddress={address} />
         </Flex>
         <ProfileCards targetAddress={address} />

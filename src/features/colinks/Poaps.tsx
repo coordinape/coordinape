@@ -1,7 +1,7 @@
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
-import { Circle2 } from '../../icons/__generated';
+import { Circle2, Wreath } from '../../icons/__generated';
 import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { Flex, Image, Link, Text } from '../../ui';
 
@@ -110,7 +110,9 @@ export const Poaps = ({
   return (
     <RightColumnSection
       css={{
-        minWidth: 200,
+        minWidth: 240,
+        flexGrow: profileCard ? 1 : 0,
+        overflow: 'clip',
         '>div': {
           gap: 0,
         },
@@ -123,20 +125,28 @@ export const Poaps = ({
           semibold
           target={'_blank'}
           rel="noreferrer"
+          css={{ width: '100%' }}
         >
           {profileCard ? (
             <Flex
               css={{
-                gap: '$md',
+                p: '$md',
+                m: '-$md',
                 alignItems: 'center',
+                width: '100%',
+                flexGrow: 1,
+                color: 'white',
+                height: 90,
+                background:
+                  'radial-gradient(circle at -10% 10%, rgb(230 172 9) 20%, rgb(12 235 250) 100%)',
               }}
             >
-              <Circle2 fa size="2xl" />
+              <Wreath fa size="2xl" />
               <Flex column>
-                <Text css={{ gap: '$xs' }}>
+                <Flex css={{ gap: '$xs', color: 'white', ml: '$sm' }}>
                   <Text semibold>{data?.count}</Text>
-                  POAPs
-                </Text>
+                  <Text>POAPs</Text>
+                </Flex>
               </Flex>
             </Flex>
           ) : (
@@ -149,7 +159,10 @@ export const Poaps = ({
       }
     >
       {data && data.count > 0 && (
-        <Flex column css={{ gap: '$md', width: '100%', mt: '$md' }}>
+        <Flex
+          column
+          css={{ gap: '$md', width: '100%', mt: profileCard ? '$xl' : '$md' }}
+        >
           {data?.poaps.map(
             poap =>
               poap?.event && (

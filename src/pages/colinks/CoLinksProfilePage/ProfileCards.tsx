@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { useContext } from 'react';
-
 import { useWindowSize } from '@react-hook/window-size';
 import { ActivityRow } from 'features/activities/ActivityRow';
 import { activitySelector } from 'features/activities/useInfiniteActivities';
-import { CoLinksContext } from 'features/colinks/CoLinksContext';
 import { Poaps } from 'features/colinks/Poaps';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
@@ -18,7 +14,8 @@ import { LoadingIndicator } from 'components/LoadingIndicator';
 import useProfileId from 'hooks/useProfileId';
 import { Farcaster, GemCoOutline, Links } from 'icons/__generated';
 import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
-import { Flex, Panel, Text } from 'ui';
+import { coLinksPaths } from 'routes/paths';
+import { AppLink, Flex, Panel, Text } from 'ui';
 
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 export const cardColumnMinWidth = 1280;
@@ -84,16 +81,28 @@ export const ProfileCardsWithProfile = ({
     fetchMostRecentPostByProfileId(Number(profileId))
   );
 
-  const { mostRecentActivity, totalActivitiesCount } = data || {};
+  const { mostRecentActivity, totalActivitiesCount, mostRecentCast } =
+    data || {};
+
+  const cardMaxWidth = 320;
 
   const panelStyles = {
     minHeight: 90,
+    maxWidth: cardMaxWidth,
     pr: '$lg',
+    flexGrow: 1,
   };
 
   if (suppressCards && !forceDisplay) return null;
   return (
-    <Flex column css={{ gap: '$sm', flexShrink: 1 }}>
+    <Flex
+      column
+      css={{
+        gap: '$sm',
+        flexShrink: 1,
+        maxWidth: 600,
+      }}
+    >
       {!location.pathname.includes('posts') && (
         <Flex
           column
@@ -101,7 +110,7 @@ export const ProfileCardsWithProfile = ({
             flexShrink: 1,
             width: 'auto',
             '.contributionRow': {
-              flexGrow: 'initial',
+              // flexGrow: 1,
             },
             '.postAvatar': {
               display: 'none',
@@ -117,10 +126,24 @@ export const ProfileCardsWithProfile = ({
               activity={mostRecentActivity}
             />
           )}
+          yooo {JSON.stringify(mostRecentCast)}
+          {mostRecentCast && (
+            <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
+          )}
         </Flex>
       )}
-      <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+      <Flex
+        css={{
+          gap: '$sm',
+          flexWrap: 'wrap',
+          '@sm': {
+            flexDirection: 'column',
+          },
+        }}
+      >
         <Panel
+          as={AppLink}
+          to={coLinksPaths.profileNetwork(targetAddress)}
           noBorder
           css={{
             ...panelStyles,
@@ -150,12 +173,14 @@ export const ProfileCardsWithProfile = ({
           </Flex>
         </Panel>
         <Panel
+          as={AppLink}
+          to={coLinksPaths.profileNetwork(targetAddress)}
           noBorder
           css={{
             ...panelStyles,
             color: 'white',
             background:
-              'radial-gradient(circle at -10% 10%, $farcaster 20%, #5435a0 100%)',
+              'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -177,6 +202,8 @@ export const ProfileCardsWithProfile = ({
           </Flex>
         </Panel>
         <Panel
+          as={AppLink}
+          to={coLinksPaths.profileGive(targetAddress)}
           noBorder
           css={{
             ...panelStyles,
@@ -208,8 +235,10 @@ export const ProfileCardsWithProfile = ({
           </Flex>
         </Panel>
         <Flex
+          as={AppLink}
+          to={coLinksPaths.profileReputation(targetAddress)}
           css={{
-            width: 200,
+            width: cardMaxWidth,
             height: 90,
             borderRadius: '$3',
             overflow: 'hidden',
@@ -242,59 +271,109 @@ export const ProfileCardsWithProfile = ({
             </Text>
           </Flex>
         </Flex>
-        <Poaps address={targetAddress} profileCard />
+        <Flex css={{ width: '100%', maxWidth: cardMaxWidth }}>
+          <Poaps address={targetAddress} profileCard />
+        </Flex>
       </Flex>
     </Flex>
   );
 };
 
 const fetchMostRecentPostByProfileId = async (profileId: number) => {
-  const { activities, activities_aggregate } = await client.query(
-    {
-      activities: [
-        {
-          where: {
-            actor_profile_public: {
-              id: {
-                _eq: profileId,
+  const { coLinksPosts, farcasterCasts, activities_aggregate } =
+    await client.query(
+      {
+        __alias: {
+          coLinksPosts: {
+            activities: [
+              {
+                where: {
+                  actor_profile_id: {
+                    _eq: profileId,
+                  },
+                  _or: [
+                    {
+                      private_stream: {
+                        _eq: true,
+                      },
+                    },
+                    {
+                      big_question_id: {
+                        _is_null: false,
+                      },
+                    },
+                  ],
+                },
+                order_by: [
+                  {
+                    created_at: order_by.desc,
+                  },
+                ],
+                limit: 1,
               },
-            },
+              activitySelector,
+            ],
           },
-          order_by: [
-            {
-              created_at: order_by.desc,
-            },
-          ],
-          limit: 1,
-        },
-        activitySelector,
-      ],
-      activities_aggregate: [
-        {
-          where: {
-            actor_profile_public: {
-              id: {
-                _eq: profileId,
-              },
-            },
-          },
-        },
-        {
-          aggregate: {
-            count: [{}, true],
-          },
-        },
-      ],
-    },
-    {
-      operationName: 'fetchMostRecentPostByProfileId',
-    }
-  );
+          farcasterCasts: {
+            activities: [
+              {
+                where: {
+                  actor_profile_id: {
+                    _eq: profileId,
+                  },
 
-  const mostRecentActivity = activities[0]; // Return the most recent activity
+                  cast_id: {
+                    _is_null: false,
+                  },
+                },
+                order_by: [
+                  {
+                    created_at: order_by.desc,
+                  },
+                ],
+                limit: 1,
+              },
+              activitySelector,
+            ],
+          },
+        },
+        activities_aggregate: [
+          {
+            where: {
+              actor_profile_id: {
+                _eq: profileId,
+              },
+              _or: [
+                {
+                  private_stream: {
+                    _eq: true,
+                  },
+                },
+                {
+                  big_question_id: {
+                    _is_null: false,
+                  },
+                },
+              ],
+            },
+          },
+          {
+            aggregate: {
+              count: [{}, true],
+            },
+          },
+        ],
+      },
+      {
+        operationName: 'fetchMostRecentPostByProfileId',
+      }
+    );
+
+  const mostRecentActivity = coLinksPosts[0]; // Return the most recent post
+  const mostRecentCast = farcasterCasts[0]; // Return the most recent cast
   const totalActivitiesCount = activities_aggregate.aggregate?.count ?? 0;
 
-  return { mostRecentActivity, totalActivitiesCount };
+  return { mostRecentActivity, mostRecentCast, totalActivitiesCount };
 };
 
 const LinkHoldings = ({ holder }: { holder: string }) => {

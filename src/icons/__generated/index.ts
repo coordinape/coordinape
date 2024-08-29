@@ -165,6 +165,8 @@ export { default as UserFill } from './UserFill';
 export { default as User } from './User';
 export { default as Users } from './Users';
 export { default as Wand } from './Wand';
+export { default as WreathThin } from './WreathThin';
+export { default as Wreath } from './Wreath';
 export { default as Write } from './Write';
 export { default as XSquare } from './XSquare';
 export { default as X } from './X';
