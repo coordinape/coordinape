@@ -32,6 +32,7 @@ import generatePoapEmbeddings from '../_api/hasura/cron/generatePoapEmbeddings';
 import giveOnchainSyncer from '../_api/hasura/cron/giveOnchainSyncer';
 import hourlyReportEmail from '../_api/hasura/cron/hourlyReportEmail';
 import pGiveHistoricalGen from '../_api/hasura/cron/pGiveHistoricalGen';
+import syncCoSoulReputation from '../_api/hasura/cron/syncCoSoulReputation';
 import syncCoSouls from '../_api/hasura/cron/syncCoSouls';
 import updateMagicEmails from '../_api/hasura/cron/updateMagicEmails';
 import eventManager from '../_api/hasura/event_triggers/eventManager';
@@ -113,6 +114,7 @@ app.post(
 app.post('/api/hasura/cron/generatePoapEmbeddings', tf(generatePoapEmbeddings));
 app.post('/api/hasura/cron/pGiveHistoricalGen', tf(pGiveHistoricalGen));
 app.post('/api/hasura/cron/syncCoSouls', tf(syncCoSouls));
+app.post('/api/hasura/cron/syncCoSoulReputation', tf(syncCoSoulReputation));
 app.post(
   '/api/hasura/cron/colinksNotificationEmails',
   tf(colinksNotificationEmails)
