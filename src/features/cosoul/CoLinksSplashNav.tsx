@@ -15,6 +15,7 @@ export const CoLinksSplashNav = () => {
         gap: '$lg',
         position: 'relative',
         justifyContent: 'flex-end',
+        width: '100%',
       }}
     >
       {address ? (
