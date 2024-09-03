@@ -7,7 +7,7 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getMintInfoFromReceipt,
   mintCoSoulForAddress,
-} from '../../../src/features/cosoul/api/cosoul';
+} from '../../../api-lib/viem/contracts';
 import { minted } from '../actions/_handlers/syncCoSoul';
 
 const LIMIT = 9;

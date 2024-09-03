@@ -2,7 +2,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { IS_LOCAL_ENV } from '../../../api-lib/config';
+import { BE_ALCHEMY_API_KEY, IS_LOCAL_ENV } from '../../../api-lib/config';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
@@ -11,9 +11,10 @@ import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 import {
   getOnChainPGive,
   setOnChainPGive,
-} from '../../../src/features/cosoul/api/cosoul';
+} from '../../../api-lib/viem/contracts';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
+import { chain } from '../../../src/features/cosoul/chains';
 import { getReadOnlyClient } from '../../../src/utils/viem/publicClient';
 
 Settings.defaultZone = 'utc';
@@ -59,7 +60,9 @@ export async function syncCoSouls() {
   const ignored = [];
   for (const cosoul of cosouls) {
     const localPGIVE = await getLocalPGIVE(cosoul.address);
+
     const onChainPGIVE = await getOnChainPGive(cosoul.token_id);
+
     let success = true;
     if (localPGIVE !== Number(onChainPGIVE)) {
       // update the screenshot
@@ -171,7 +174,8 @@ const syncCoSoulToken = async (
     totalPGIVE = Math.floor(totalPGIVE);
     const txHash = await setOnChainPGive({ tokenId, amount: totalPGIVE });
 
-    const publicClient = getReadOnlyClient();
+    const chainId = Number(chain.chainId);
+    const publicClient = getReadOnlyClient(chainId, BE_ALCHEMY_API_KEY);
 
     await publicClient.getTransactionReceipt({
       hash: txHash,

@@ -10,8 +10,7 @@ import { DebugLogger } from '../../common-lib/log';
 import {
   IN_PRODUCTION,
   MAGIC_API_KEY,
-  VITE_ALCHEMY_OPTIMISM_API_KEY,
-  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  VITE_FE_ALCHEMY_API_KEY,
 } from 'config/env';
 
 const logger = new DebugLogger('magic');
@@ -32,11 +31,11 @@ const networks: Record<string, EthNetworkConfiguration> = {
     chainId: 137,
   },
   optimism: {
-    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`,
+    rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`,
     chainId: 10,
   },
   optimism_sepolia: {
-    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`,
+    rpcUrl: `https://opt-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`,
     chainId: 11155420,
   },
 };

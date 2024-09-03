@@ -14,7 +14,7 @@ import { z } from 'zod';
 
 import { zEthAddressOnly } from '../src/lib/zod/formHelpers';
 
-import { ALCHEMY_ETH_MAINNET_API_KEY } from './config';
+import { BE_ALCHEMY_API_KEY } from './config';
 import { errorLog } from './HttpError';
 
 const PERSONAL_SIGN_REGEX = /0x[0-9a-f]{130}/;
@@ -48,7 +48,7 @@ export type SignatureInput = ReturnType<typeof parseInput>;
 
 const provider = new ethers.providers.AlchemyProvider(
   'homestead',
-  ALCHEMY_ETH_MAINNET_API_KEY
+  BE_ALCHEMY_API_KEY
 );
 
 const eip1271WorkingAbi = [

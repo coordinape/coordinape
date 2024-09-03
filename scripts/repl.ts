@@ -11,58 +11,25 @@
 import repl from 'repl';
 
 import fp from 'lodash/fp';
-import { DateTime } from 'luxon';
 
-import { syncCoSouls } from '../_api/hasura/cron/syncCoSouls';
-import {
-  sendCoLinksNotificationsEmail,
-  sendEpochEndedEmail,
-  sendEpochEndingSoonEmail,
-  sendEpochStartedEmail,
-} from '../api-lib/email/postmark';
-import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
-import { generateWarpCastUrl, publishCast } from '../api-lib/neynar';
-import { genPgives } from '../api-lib/pgives';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
-import {
-  getOnChainPGive,
-  getTokenId,
-  setOnChainPGive,
-} from '../src/features/cosoul/api/cosoul';
 // uncomment and change this to import your own repl code
-import { getLocalPGIVE } from '../src/features/cosoul/api/pgive.ts';
-import { storeCoSoulImage } from '../src/features/cosoul/art/screenshot';
 
 import { init as initOrgMembership } from './repl/org_membership';
 
-const syncCirclePGive = async (circleId: number) => {
-  return await genPgives(
-    [circleId],
-    DateTime.fromISO('2022-01-01'),
-    DateTime.now()
-  );
-};
+//const syncCirclePGive = async (circleId: number) => {
+//  return await genPgives(
+//    [circleId],
+//    DateTime.fromISO('2022-01-01'),
+//    DateTime.now()
+//  );
+//};
 
 const init = async () => {
   return {
     // add your init code here
-    syncCirclePGive,
-    publishCast,
-    setOnChainPGive,
-    getTokenId,
-    getOnChainPGive,
-    syncCoSouls,
-    storeCoSoulImage,
-    sendEpochEndedEmail,
-    sendEpochStartedEmail,
-    sendEpochEndingSoonEmail,
-    // generateRandomMnemonics,
     syncPoapDataForCoLinksUsers,
-    sendCoLinksNotificationsEmail,
-    getLocalPGIVE,
-    generateWarpCastUrl,
-    backfillCastActivity,
     ...(await initOrgMembership()),
   };
 };

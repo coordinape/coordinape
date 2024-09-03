@@ -2,11 +2,11 @@ import React from 'react';
 
 import { fetchPoints } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { minted } from '../../../_api/hasura/actions/_handlers/syncCoSoul.ts';
+import { insertInteractionEvents } from '../../gql/mutations.ts';
 import {
   getMintInfoFromReceipt,
   mintCoSoulForAddress,
-} from '../../../src/features/cosoul/api/cosoul.ts';
-import { insertInteractionEvents } from '../../gql/mutations.ts';
+} from '../../viem/contracts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { getViewerFromParams } from '../_getViewerFromParams.ts';
 import { staticResourceIdentifier } from '../_staticResourceIdentifier.ts';

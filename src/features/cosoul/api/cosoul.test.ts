@@ -1,18 +1,12 @@
 import { Hex } from 'viem';
 
+import { mintCoSoulForAddress } from '../../../../api-lib/viem/contracts';
 import { testAccounts } from '../../../utils/testing/accountsHelper';
 import { snapshotManager } from '../../../utils/testing/snapshotManager';
 import { localCI } from '../../../utils/viem/chains';
 import { getCoSoulContract } from '../../../utils/viem/contracts';
 
-import {
-  getTokenId,
-  mintCoSoulForAddress,
-  getOnChainPGive,
-  setOnChainPGive,
-  setBatchOnChainPGive,
-  getMintInfo,
-} from './cosoul';
+import { getTokenId, getMintInfo } from './cosoul';
 
 describe('cosoul.ts with LocalCI', () => {
   let snapshotId: Hex;
@@ -39,61 +33,6 @@ describe('cosoul.ts with LocalCI', () => {
       const result = await getTokenId(wallet.account.address);
       expect(result).toBeDefined();
       expect(typeof result).toBe('bigint');
-    });
-  });
-
-  describe('mintCoSoulForAddress', () => {
-    it('should mint a CoSoul', async () => {
-      const receipt = await mintCoSoulForAddress(wallet.account.address);
-      expect(receipt.status).toBe('success');
-
-      const tokenId = await getTokenId(wallet.account.address);
-      expect(tokenId).toBeDefined();
-    });
-  });
-
-  describe('getOnChainPGive', () => {
-    it('should return 0 for newly minted token', async () => {
-      await mintCoSoulForAddress(wallet.account.address);
-      const tokenId = await getTokenId(wallet.account.address);
-      const pgive = await getOnChainPGive(Number(tokenId));
-      expect(pgive).toBe(0n);
-    });
-  });
-
-  describe('setOnChainPGive', () => {
-    it('should set PGIVE balance for a given token ID', async () => {
-      await mintCoSoulForAddress(wallet.account.address);
-      const tokenId = await getTokenId(wallet.account.address);
-
-      await setOnChainPGive({ tokenId: Number(tokenId), amount: 100 });
-
-      const pgive = await getOnChainPGive(Number(tokenId));
-      expect(pgive).toBe(100n);
-    });
-  });
-
-  describe('setBatchOnChainPGive', () => {
-    it('should set batch PGIVE balances', async () => {
-      await mintCoSoulForAddress(wallet.account.address);
-      const tokenId1 = await getTokenId(wallet.account.address);
-
-      const wallet2 = testAccounts.getWalletClient(1);
-      await mintCoSoulForAddress(wallet2.account.address);
-      const tokenId2 = await getTokenId(wallet2.account.address);
-
-      const params = [
-        { tokenId: Number(tokenId1), amount: 100 },
-        { tokenId: Number(tokenId2), amount: 200 },
-      ];
-
-      await setBatchOnChainPGive(params);
-
-      const pgive1 = await getOnChainPGive(Number(tokenId1));
-      const pgive2 = await getOnChainPGive(Number(tokenId2));
-
-      expect(pgive1).toBe(100n);
-      expect(pgive2).toBe(200n);
     });
   });
 

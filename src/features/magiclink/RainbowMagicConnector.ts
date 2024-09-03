@@ -7,7 +7,7 @@ import { optimism } from '@wagmi/core/chains';
 import { createConnector as createWagmiConnector } from 'wagmi';
 import { Chain } from 'wagmi/chains';
 
-import { VITE_ALCHEMY_OPTIMISM_API_KEY } from '../../config/env';
+import { VITE_FE_ALCHEMY_API_KEY } from '../../config/env';
 
 export const getRainbowMagicWallet = (
   options: Parameters<typeof rainbowMagicWallet>[0]
@@ -37,7 +37,7 @@ export const rainbowMagicWallet = ({
           apiKey: apiKey,
           magicSdkConfiguration: {
             network: {
-              rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`,
+              rpcUrl: `https://opt-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`,
               chainId: optimism.id,
             },
           },

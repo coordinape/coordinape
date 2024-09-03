@@ -21,20 +21,18 @@ import {
   IN_PREVIEW,
   IN_PRODUCTION,
   MAGIC_API_KEY,
-  VITE_ALCHEMY_ETH_MAINNET_API_KEY,
-  VITE_ALCHEMY_ETH_SEPOLIA_API_KEY,
-  VITE_ALCHEMY_OPTIMISM_API_KEY,
-  VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
+  VITE_FE_ALCHEMY_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
 } from '../../config/env';
 import { isFeatureEnabled } from '../../config/features';
 import { localhost } from '../../utils/viem/chains';
 import { getRainbowMagicWallet } from '../magiclink/RainbowMagicConnector';
 
-export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_API_KEY}`;
-export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
-export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
-export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_ALCHEMY_ETH_SEPOLIA_API_KEY}`;
+// TODO: Refactor these to be defined in one place across entire app
+export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
 
 type Chains = Parameters<typeof createConfig>[0]['chains'];
 const wagmiChains: Chains = IN_PRODUCTION

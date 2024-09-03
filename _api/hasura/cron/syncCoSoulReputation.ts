@@ -5,7 +5,7 @@ import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponseWithStatusCode } from '../../../api-lib/HttpError.ts';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { setBatchOnChainRep } from '../../../src/features/cosoul/api/cosoul.ts';
+import { setBatchOnChainRep } from '../../../api-lib/viem/contracts.ts';
 
 const SYNC_BATCH_SIZE = 100;
 
