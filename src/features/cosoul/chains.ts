@@ -1,5 +1,3 @@
-import { BigNumber } from 'ethers';
-
 import { IN_DEVELOPMENT, IN_PREVIEW, IN_PRODUCTION } from '../../config/env';
 import { isFeatureEnabled } from '../../config/features';
 
@@ -14,8 +12,8 @@ const optimism = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('100000000'),
-    maxPriorityFeePerGas: BigNumber.from('50'),
+    maxFeePerGas: 100000000n,
+    maxPriorityFeePerGas: 50n,
   },
 };
 const base = {
@@ -29,8 +27,8 @@ const base = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('100000000'),
-    maxPriorityFeePerGas: BigNumber.from('50'),
+    maxFeePerGas: 100000000n,
+    maxPriorityFeePerGas: 50n,
   },
 };
 const baseSepola = {
@@ -44,8 +42,8 @@ const baseSepola = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: BigNumber.from('1000000'),
-    maxPriorityFeePerGas: BigNumber.from('50'),
+    maxFeePerGas: 1000000n,
+    maxPriorityFeePerGas: 50n,
   },
 };
 
