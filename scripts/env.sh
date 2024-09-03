@@ -55,6 +55,8 @@ if [ "$SET_CI_VARS" ]; then
   export MIXPANEL_PROJECT_TOKEN=mock-mixpanel-token
   export VITE_MIXPANEL_TOKEN=
   export POAP_API_KEY=forpoapdatafetching
+  export VITE_FE_ALCHEMY_API_KEY=get-a-key-from-alchemy
+  export BE_ALCHEMY_API_KEY=get-a-key-from-alchemy
 fi
 
 if [ "$OTHERARGS" ]; then
