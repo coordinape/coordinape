@@ -393,7 +393,7 @@ const LoggedInItems = ({
         </Flex>
       </NavItem>
       <HR />
-      <NavItem path={address ? coLinksPaths.profile(address) : ''}>
+      <NavItem path={address ? coLinksPaths.profileGive(address) : ''}>
         <Flex
           css={{
             justifyContent: 'space-between',

@@ -5,6 +5,7 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
@@ -23,12 +24,19 @@ import {
   Settings,
   Twitter,
 } from 'icons/__generated';
+import { useFarcasterUser } from 'pages/GiveParty/useFarcasterUser';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Avatar, Button, ContentHeader, Flex, Link, Text } from 'ui';
 
 import { ProfileNav } from './ProfileNav';
 
-export const ProfileHeader = ({ targetAddress }: { targetAddress: string }) => {
+export const ProfileHeader = ({
+  targetAddress,
+  drawer = false,
+}: {
+  targetAddress: string;
+  drawer?: boolean;
+}) => {
   const currentUserProfileId = useProfileId(false);
   const { data: targetProfile } = useQuery(
     [QUERY_KEY_COLINKS, targetAddress, 'profile'],
@@ -45,17 +53,21 @@ export const ProfileHeader = ({ targetAddress }: { targetAddress: string }) => {
     <ProfileHeaderWithProfile
       targetProfile={targetProfile}
       targetAddress={targetAddress}
+      drawer={drawer}
     />
   );
 };
 const ProfileHeaderWithProfile = ({
   targetProfile,
   targetAddress,
+  drawer,
 }: {
   targetProfile: CoLinksProfile;
   targetAddress: string;
+  drawer: boolean;
 }) => {
   const currentUserAddress = useConnectedAddress(false);
+  const { data: fcUser } = useFarcasterUser(targetAddress!);
   const { superFriend } = useLinkingStatus({
     address: currentUserAddress,
     target: targetAddress,
@@ -134,10 +146,17 @@ const ProfileHeaderWithProfile = ({
 
   return (
     <Flex column>
-      <Helmet>
-        <title>{targetProfile.profile.name} / CoLinks</title>
-      </Helmet>
-      <ContentHeader css={{ mb: 0, background: 'transparent' }}>
+      {!drawer && (
+        <Helmet>
+          <title>{targetProfile.profile.name} / CoLinks</title>
+        </Helmet>
+      )}
+      <ContentHeader
+        css={{
+          mb: 0,
+          background: 'transparent',
+        }}
+      >
         <Flex column css={{ gap: '$sm', width: '100%' }}>
           <Flex
             css={{
@@ -157,17 +176,30 @@ const ProfileHeaderWithProfile = ({
                   flexDirection: 'column',
                   alignItems: 'flex-start',
                 },
+                ...(drawer && { flexDirection: 'column' }),
               }}
             >
-              <Flex column css={{ mr: '$md' }}>
-                <Avatar
-                  size="xl"
-                  name={profile.name}
-                  path={profile.avatar}
-                  margin="none"
-                />
+              <Flex column css={{ mr: '$md', ...(drawer && { mr: 0 }) }}>
+                <NavLink
+                  to={coLinksPaths.profileGive(
+                    profile?.address ??
+                      fcUser?.verified_addresses.eth_addresses[0] ??
+                      fcUser?.custody_address ??
+                      ''
+                  )}
+                >
+                  <Avatar
+                    size="xl"
+                    name={profile.name}
+                    path={profile.avatar}
+                    margin="none"
+                  />
+                </NavLink>
               </Flex>
-              <Flex column css={{ gap: '$sm' }}>
+              <Flex
+                column
+                css={{ gap: '$sm', ...(drawer && { alignItems: 'center' }) }}
+              >
                 <Text
                   h2
                   display
@@ -189,8 +221,16 @@ const ProfileHeaderWithProfile = ({
                   holdingCount={0}
                   // if we want to show this, this is how but probably needs a restyle
                   // holdingCount={targetBalance ?? 0}
+                  css={{ ...(drawer && { justifyContent: 'center' }) }}
                 />
-                <Flex css={{ gap: '$lg', flexWrap: 'wrap' }}>
+                <Flex
+                  css={{
+                    columnGap: '$lg',
+                    rowGap: '$sm',
+                    flexWrap: 'wrap',
+                    ...(drawer && { justifyContent: 'center' }),
+                  }}
+                >
                   {details?.farcaster && (
                     <Flex
                       as={Link}
@@ -304,27 +344,35 @@ const ProfileHeaderWithProfile = ({
                 </Flex>
               </Flex>
             </Flex>
-            <Flex css={{ alignItems: 'flex-start', gap: '$md', mb: '$md' }}>
-              {isCurrentUser ? (
-                <Button
-                  as={AppLink}
-                  color="neutral"
-                  outlined
-                  size="small"
-                  to={coLinksPaths.account}
-                >
-                  <Settings />
-                  Edit Profile
-                </Button>
-              ) : (
-                <Mutes
-                  targetProfileId={targetProfile?.profile.id}
-                  targetProfileAddress={targetAddress}
-                />
-              )}
-            </Flex>
+            {!drawer && (
+              <Flex css={{ alignItems: 'flex-start', gap: '$md', mb: '$md' }}>
+                {isCurrentUser ? (
+                  <Button
+                    as={AppLink}
+                    color="neutral"
+                    outlined
+                    size="small"
+                    to={coLinksPaths.account}
+                  >
+                    <Settings />
+                    Edit Profile
+                  </Button>
+                ) : (
+                  <Mutes
+                    targetProfileId={targetProfile?.profile.id}
+                    targetProfileAddress={targetAddress}
+                  />
+                )}
+              </Flex>
+            )}
           </Flex>
-          <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
+          <Flex
+            css={{
+              gap: '$sm',
+              flexWrap: 'wrap',
+              ...(drawer && { justifyContent: 'center' }),
+            }}
+          >
             {!isCurrentUser && superFriend && (
               <Text tag color={'secondary'}>
                 Mutual Link
@@ -350,13 +398,20 @@ const ProfileHeaderWithProfile = ({
             </Flex>
           )} */}
           {profile.description && (
-            <Flex css={{ mt: '$xs' }}>
-              <Text color="secondary">{profile.description}</Text>
+            <Flex
+              css={{ mt: '$xs', ...(drawer && { justifyContent: 'center' }) }}
+            >
+              <Text
+                color="secondary"
+                css={{ ...(drawer && { textAlign: 'center' }) }}
+              >
+                {profile.description}
+              </Text>
             </Flex>
           )}
         </Flex>
       </ContentHeader>
-      <ProfileNav targetAddress={targetAddress} />
+      {!drawer && <ProfileNav targetAddress={targetAddress} />}
     </Flex>
   );
 };

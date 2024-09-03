@@ -37,6 +37,7 @@ export const CoSoulItemParty = ({ cosoul }: { cosoul: CoSoul }) => {
           borderBottomLeftRadius: 0,
           borderBottomRightRadius: 0,
           alignItems: 'center',
+          color: 'white',
         }}
       >
         <Text semibold css={{ fontSize: 26 }}>

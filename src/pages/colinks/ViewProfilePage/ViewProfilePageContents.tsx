@@ -24,7 +24,6 @@ import { BarChart, Briefcase, Users } from '../../../icons/__generated';
 import { client } from '../../../lib/gql/client';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, Link, Panel, Text } from '../../../ui';
-import { ProfileNav } from '../CoLinksProfilePage/ProfileNav';
 import { CoLinksTaskCards } from '../CoLinksTaskCards';
 import { NotFound } from '../NotFound';
 import useProfileId from 'hooks/useProfileId';
@@ -264,7 +263,6 @@ const PageContents = ({
             currentUserAddress={currentUserAddress}
             targetAddress={targetAddress}
           />
-          <ProfileNav targetAddress={targetAddress} />
           {needsToBuyLink === true ? (
             <Flex
               css={{

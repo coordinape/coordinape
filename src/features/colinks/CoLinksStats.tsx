@@ -2,6 +2,7 @@ import { ComponentProps } from 'react';
 
 import { GiveReceived } from 'features/points/GiveReceived';
 import { useNavigate } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, Text } from '../../ui';
@@ -13,12 +14,14 @@ export const CoLinksStats = ({
   size = 'xs',
   address,
   holdingCount,
+  css,
 }: {
   links: number;
   score: number;
   address?: string;
   size?: ComponentProps<typeof Text>['size'];
   holdingCount: number;
+  css?: CSS;
 }) => {
   const navigate = useNavigate();
   return (
@@ -28,6 +31,7 @@ export const CoLinksStats = ({
         columnGap: '$lg',
         rowGap: '$sm',
         flexWrap: 'wrap',
+        ...css,
       }}
     >
       <Text

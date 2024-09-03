@@ -5,7 +5,7 @@ import { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { PartyProfileContent } from 'pages/GiveParty/PartyProfileContent';
+import { ProfileDrawerContent } from 'pages/colinks/CoLinksProfilePage/ProfileDrawerContent';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Modal } from 'ui';
 
@@ -110,12 +110,16 @@ export function GiveGraph({
   );
 
   useEffect(() => {
-    // Ensure that the modal state is reset when GiveGraph mounts or unmounts
     return () => {
       setVisible(false);
       setSelectedNodeId(null);
     };
   }, []);
+
+  useEffect(() => {
+    setVisible(false);
+    setSelectedNodeId(null);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (data && isFetched && !graphReady) {
@@ -158,20 +162,15 @@ export function GiveGraph({
             maxWidth: 'calc(490px + $md + $md)',
             p: 0,
             border: 'none',
-            background:
-              'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
+            background: '$background',
             borderRadius: '$3',
             mr: '$md',
             maxHeight: 'calc(100vh - $xl)',
             pb: '$xl',
-            '*': {
-              color: 'white',
-              path: { fill: 'white' },
-            },
           }}
         >
           {selectedNodeId && (
-            <PartyProfileContent
+            <ProfileDrawerContent
               address={selectedNodeId}
               css={{ background: 'none', borderRadius: 0 }}
             />

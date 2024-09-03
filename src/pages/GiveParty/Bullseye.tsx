@@ -79,7 +79,7 @@ export const Bullseye = ({
       <Link
         key={tierZIndex + i}
         as={NavLink}
-        to={coLinksPaths.profile(user.address)}
+        to={coLinksPaths.profileGive(user.address)}
         style={{
           position: 'absolute',
           background: nodeBackground,
@@ -112,7 +112,7 @@ export const Bullseye = ({
   const popoverNodes = popoverUsers.map(user => (
     <Link
       as={NavLink}
-      to={coLinksPaths.partyProfile(user.address || '')}
+      to={coLinksPaths.profileGive(user.address || '')}
       key={user.address}
       css={{
         alignItems: 'center',

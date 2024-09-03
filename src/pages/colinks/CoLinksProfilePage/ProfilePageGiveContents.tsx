@@ -42,19 +42,20 @@ export const ProfilePageGiveContents = ({
           <GiveReceived address={targetAddress} size="large" />
         </Panel>
       </Flex>
-
-      <ThemeContext.Consumer>
-        {({ stitchesTheme }) => (
-          <GiveGraph
-            address={targetAddress}
-            height={mapHeight}
-            width={mapWidth}
-            minZoom={2}
-            expand={desktop}
-            stitchesTheme={stitchesTheme}
-          />
-        )}
-      </ThemeContext.Consumer>
+      <Panel noBorder css={{ p: 0 }}>
+        <ThemeContext.Consumer>
+          {({ stitchesTheme }) => (
+            <GiveGraph
+              address={targetAddress}
+              height={mapHeight}
+              width={mapWidth}
+              minZoom={2}
+              expand={desktop}
+              stitchesTheme={stitchesTheme}
+            />
+          )}
+        </ThemeContext.Consumer>
+      </Panel>
     </Flex>
   );
 };

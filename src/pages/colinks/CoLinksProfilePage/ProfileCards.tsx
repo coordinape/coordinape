@@ -100,7 +100,10 @@ export const ProfileCardsWithProfile = ({
       css={{
         gap: '$sm',
         flexShrink: 1,
-        maxWidth: 600,
+        maxWidth: cardMaxWidth,
+        '@sm': {
+          maxWidth: '100%',
+        },
       }}
     >
       {!location.pathname.includes('posts') && (
@@ -126,7 +129,7 @@ export const ProfileCardsWithProfile = ({
               activity={mostRecentActivity}
             />
           )}
-          yooo {JSON.stringify(mostRecentCast)}
+          <Text size="small">debug yooo {JSON.stringify(mostRecentCast)}</Text>
           {mostRecentCast && (
             <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
           )}
@@ -135,12 +138,42 @@ export const ProfileCardsWithProfile = ({
       <Flex
         css={{
           gap: '$sm',
-          flexWrap: 'wrap',
+          flexDirection: 'column',
           '@sm': {
-            flexDirection: 'column',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
           },
         }}
       >
+        <Panel
+          as={AppLink}
+          to={coLinksPaths.profileNetwork(targetAddress)}
+          noBorder
+          css={{
+            ...panelStyles,
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
+          }}
+        >
+          <Flex css={{ gap: '$md', alignItems: 'center' }}>
+            <Farcaster fa size="2xl" />
+            <Flex column>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[3] || 0}</Text>
+                Mutually linked in FC
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[4] || 0}</Text>
+                Following in FC
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[5] || 0}</Text>
+                Followers in FC
+              </Text>
+            </Flex>
+          </Flex>
+        </Panel>
         <Panel
           as={AppLink}
           to={coLinksPaths.profileNetwork(targetAddress)}
@@ -168,35 +201,6 @@ export const ProfileCardsWithProfile = ({
               <Text css={{ gap: '$xs' }}>
                 <Text semibold>{totalActivitiesCount}</Text>
                 Posts
-              </Text>
-            </Flex>
-          </Flex>
-        </Panel>
-        <Panel
-          as={AppLink}
-          to={coLinksPaths.profileNetwork(targetAddress)}
-          noBorder
-          css={{
-            ...panelStyles,
-            color: 'white',
-            background:
-              'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
-          }}
-        >
-          <Flex css={{ gap: '$md', alignItems: 'center' }}>
-            <Farcaster fa size="2xl" />
-            <Flex column>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[3]}</Text>
-                Mutually linked in FC
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[4]}</Text>
-                Following in FC
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[5]}</Text>
-                Followers in FC
               </Text>
             </Flex>
           </Flex>
@@ -415,7 +419,7 @@ const LinkHoldings = ({ holder }: { holder: string }) => {
   }
 
   if (error) {
-    return <>Error loading held count.</>;
+    return <>?</>;
   }
 
   return <>{heldCount}</>;
