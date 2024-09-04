@@ -22,41 +22,44 @@ export const ProfilePageGiveContents = ({
   const mapHeight = height - 250;
   const desktop = width > 1140;
   return (
-    <Flex column css={{ gap: '$sm' }}>
-      <Text variant="label">GIVE Received</Text>
-      <Flex column>
-        <Panel
-          noBorder
-          css={{
-            width: '100%',
-            p: '$sm',
-            '.giveSkillContainer': {
+    <>
+      <GiveReceived address={targetAddress} receivedNumber />
+      <Flex column css={{ gap: '$sm' }}>
+        <Text variant="label">GIVE Received</Text>
+        <Flex column>
+          <Panel
+            noBorder
+            css={{
               width: '100%',
-              display: 'block',
-              columnWidth: '200px',
-              div: {
-                py: '$xs',
+              p: '$sm',
+              '.giveSkillContainer': {
+                width: '100%',
+                display: 'block',
+                columnWidth: '200px',
+                div: {
+                  py: '$xs',
+                },
               },
-            },
-          }}
-        >
-          <GiveReceived address={targetAddress} size="large" />
+            }}
+          >
+            <GiveReceived address={targetAddress} size="large" />
+          </Panel>
+        </Flex>
+        <Panel noBorder css={{ p: 0 }}>
+          <ThemeContext.Consumer>
+            {({ stitchesTheme }) => (
+              <GiveGraph
+                address={targetAddress}
+                height={mapHeight}
+                width={mapWidth}
+                minZoom={2}
+                expand={desktop}
+                stitchesTheme={stitchesTheme}
+              />
+            )}
+          </ThemeContext.Consumer>
         </Panel>
       </Flex>
-      <Panel noBorder css={{ p: 0 }}>
-        <ThemeContext.Consumer>
-          {({ stitchesTheme }) => (
-            <GiveGraph
-              address={targetAddress}
-              height={mapHeight}
-              width={mapWidth}
-              minZoom={2}
-              expand={desktop}
-              stitchesTheme={stitchesTheme}
-            />
-          )}
-        </ThemeContext.Consumer>
-      </Panel>
-    </Flex>
+    </>
   );
 };

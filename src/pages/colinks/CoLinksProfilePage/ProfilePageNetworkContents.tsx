@@ -64,7 +64,7 @@ export const PageContents = ({
     <Flex
       css={{
         alignItems: 'flex-start',
-        gap: '$md',
+        gap: '$xl',
         '@sm': {
           flexDirection: 'column ',
         },
@@ -72,9 +72,8 @@ export const PageContents = ({
     >
       <Flex
         css={{
-          maxWidth: colinksProfileColumnWidth,
-          width: '100%',
-          margin: '0 auto',
+          minWidth: colinksProfileColumnWidth,
+          width: colinksProfileColumnWidth,
         }}
       >
         <ProfileNetwork targetAddress={targetAddress} />
