@@ -38,6 +38,9 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
   });
 };
 
+const backendReadOnlyClient = () =>
+  getReadOnlyClient(undefined, BE_ALCHEMY_API_KEY);
+
 function walletClient() {
   const client = getWalletClient(COSOUL_SIGNER_ADDR_PK as Hex);
   if (!client) {
@@ -78,7 +81,7 @@ export const mintCoSoulForAddress = async (address: string) => {
     ...gasSettings,
   });
 
-  const publicClient = getReadOnlyClient(undefined, BE_ALCHEMY_API_KEY);
+  const publicClient = backendReadOnlyClient();
   return await publicClient.waitForTransactionReceipt({
     hash: txHash,
   });
@@ -112,9 +115,7 @@ export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
 }
 
 export const getOnChainPGive = async (tokenId: number) => {
-  const cosoul = getCoSoulContract(
-    getReadOnlyClient(undefined, BE_ALCHEMY_API_KEY)
-  );
+  const cosoul = getCoSoulContract(backendReadOnlyClient());
   return await cosoul.read.getSlot([PGIVE_SLOT, BigInt(tokenId)] as const);
 };
 
@@ -208,10 +209,7 @@ export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
       }
     );
 
-    return await getReadOnlyClient(
-      undefined,
-      BE_ALCHEMY_API_KEY
-    ).waitForTransactionReceipt({
+    return await backendReadOnlyClient().waitForTransactionReceipt({
       hash: txHash,
     });
   } else {
