@@ -6,12 +6,15 @@ import { useAccount } from 'wagmi';
 
 import { LoadingModal } from '../../components';
 import { QUERY_KEY_COLINKS } from '../../features/colinks/wizard/CoLinksWizard';
+import useProfileId from '../../hooks/useProfileId';
 import { client } from '../../lib/gql/client';
 import { coLinksPaths } from '../../routes/paths';
 
 // Routes recently logged in users to either the colinks app or the colinks wizard
 export const LaunchPage = () => {
   const { isConnected } = useAccount();
+
+  const profileId = useProfileId();
 
   const { address } = useAccount();
   const navigate = useNavigate();
@@ -52,13 +55,13 @@ export const LaunchPage = () => {
       };
     },
     {
-      enabled: !!address,
+      enabled: !!address && !!profileId,
     }
   );
 
   useEffect(() => {
     // get a new wallet connection
-    if (!isConnected) {
+    if (!isConnected || !profileId) {
       navigate(coLinksPaths.wizardStart, {
         replace: true,
       });
