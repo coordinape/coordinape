@@ -6,12 +6,6 @@ import {
   IN_TEST,
 } from '../../config/env';
 
-export const localhost = getLocalChain();
-
-function getLocalChain() {
-  return IN_TEST ? localCI : localGanache;
-}
-
 const localGanache = defineChain({
   id: 1338,
   name: 'Localhost 8546',
@@ -43,3 +37,9 @@ export const localCI = defineChain({
   },
   gasSettings: {},
 });
+
+function getLocalChain() {
+  return IN_TEST ? localCI : localGanache;
+}
+
+export const localhost = getLocalChain();
