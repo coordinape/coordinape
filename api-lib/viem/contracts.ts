@@ -208,7 +208,10 @@ export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
       }
     );
 
-    return await getReadOnlyClient().waitForTransactionReceipt({
+    return await getReadOnlyClient(
+      undefined,
+      BE_ALCHEMY_API_KEY
+    ).waitForTransactionReceipt({
       hash: txHash,
     });
   } else {
