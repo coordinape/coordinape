@@ -1,8 +1,9 @@
 import { createWalletClient, Hex, http, WalletClient } from 'viem';
 import { privateKeyToAccount } from 'viem/accounts';
-import { localhost, optimism, optimismSepolia } from 'viem/chains';
+import { optimism, optimismSepolia } from 'viem/chains';
 
 import { chain } from '../../src/features/cosoul/chains';
+import { localhost } from '../../src/utils/viem/chains';
 import { BE_ALCHEMY_API_KEY, HARDHAT_GANACHE_PORT } from '../config';
 
 export function getWalletClient(privateKey: Hex): WalletClient;

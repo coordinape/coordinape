@@ -35,9 +35,12 @@ export const APP_MODE =
         'development'
       );
 
+export const NODE_ENV = getEnvValue<'unknown' | 'test'>('NODE_ENV', 'unknown');
+
 export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
+export const IN_TEST = NODE_ENV === 'test';
 
 export const BRANCH_URL =
   getEnvValue<string>('VITE_VERCEL_BRANCH_URL', '') ||

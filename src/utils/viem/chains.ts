@@ -3,9 +3,16 @@ import { defineChain } from 'viem';
 import {
   HARDHAT_GANACHE_CHAIN_ID,
   HARDHAT_GANACHE_PORT,
+  IN_TEST,
 } from '../../config/env';
 
-export const localhost = defineChain({
+export const localhost = getLocalChain();
+
+function getLocalChain() {
+  return IN_TEST ? localCI : localGanache;
+}
+
+const localGanache = defineChain({
   id: 1338,
   name: 'Localhost 8546',
   rpcUrls: {
