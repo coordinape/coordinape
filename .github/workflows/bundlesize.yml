@@ -16,15 +16,15 @@ jobs:
           node-version: '20'
       - uses: pnpm/action-setup@v4
         run_install: true
-      - name: Build project
-        run: pnpm build
-      - name: Upload bundle stats
-        uses: actions/upload-artifact@v3
-        with:
-          name: bundle-stats
-          path: bundle-stats.html
       - name: Analyze bundle size
         uses: jackyef/bundlewatch-gh-action@master
         with:
-          build-script: npm run build
+          build-script: pnpm build
           bundlewatch-github-token: ${{ secrets.BUNDLEWATCH_GITHUB_TOKEN }}
+      - name: Build project
+        run: pnpm build
+      - name: Upload bundle stats
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-stats
+          path: bundle-stats.html
