@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { uploadImage } from 'features/images/upload';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { isEmpty } from 'lodash';
@@ -9,15 +10,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useQueryClient } from 'react-query';
 import * as z from 'zod';
 
-import { FormDatePicker, FormInputField } from 'components';
-import { useToast } from 'hooks';
+import { FormDatePicker, FormFileUpload, FormInputField } from 'components';
+import { useImageUploader, useToast } from 'hooks';
 import { QUERY_KEY_EDIT_BIG_QUESTION } from 'pages/colinks/EditBigQuestionsPage';
-import { Button, Flex } from 'ui';
+import { Box, Button, Flex } from 'ui';
 
 import { BigQuestion } from './useBigQuestions';
 
 const schema = z.object({
-  cover_image_url: z.string(),
   css_background_position: z.string().optional().nullable(),
   description: z.string().optional(),
   expire_at: z.string().optional(),
@@ -34,8 +34,10 @@ export const EditBigQuestionForm = ({
 }) => {
   const [submitting, setSubmitting] = useState(false);
   const { showDefault, showError } = useToast();
+  const [coverImageUrl, setCoverImageUrl] = useState(
+    question?.cover_image_url ?? ''
+  );
 
-  const queryClient = useQueryClient();
   const {
     control,
     handleSubmit,
@@ -46,12 +48,28 @@ export const EditBigQuestionForm = ({
     mode: 'onChange',
   });
 
+  const { imageUrl, formFileUploadProps } = useImageUploader(coverImageUrl);
+  const updateCoverImage = async (newCoverImage: File) => {
+    await uploadImage({
+      file: newCoverImage,
+      onSuccess: async (resp: any) => {
+        const newCoverImage = resp.result.variants.find((s: string) =>
+          s.match(/original$/)
+        );
+        setCoverImageUrl(newCoverImage);
+      },
+    });
+  };
+
+  const queryClient = useQueryClient();
+
   const onSubmit: SubmitHandler<BigQuestionFormSchema> = async data => {
     setSubmitting(true);
 
     try {
       await updateBigQuestion({
         big_question_id: question?.id ?? null,
+        cover_image_url: coverImageUrl ?? '',
         ...data,
       });
 
@@ -64,8 +82,37 @@ export const EditBigQuestionForm = ({
     setSubmitting(false);
   };
 
+  const handleCommit = async (file: File) => {
+    if (formFileUploadProps.hasChanged) {
+      await updateCoverImage(file);
+      formFileUploadProps.onChange(undefined);
+    }
+  };
+
   return (
     <Flex css={{ gap: '$1xl' }} column>
+      <Flex
+        row
+        css={{
+          height: '100%',
+          width: '100%',
+          minHeight: '240px',
+          background: imageUrl ? `url(${imageUrl})` : 'white',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: `${question?.css_background_position ?? 'center'}`,
+          backgroundSize: 'cover',
+        }}
+      >
+        <Box css={{ alignSelf: 'flex-end', m: '$lg' }}>
+          <FormFileUpload
+            editText="Edit Background"
+            uploadText="Upload Background"
+            {...formFileUploadProps}
+            commit={handleCommit}
+            accept="image/gif, image/jpeg, image/png"
+          />
+        </Box>
+      </Flex>
       <Flex css={{ gap: '$1xl' }}>
         <Flex column css={{ gap: '$1xl' }}>
           <FormInputField
@@ -94,14 +141,6 @@ export const EditBigQuestionForm = ({
           />
         </Flex>
         <Flex column css={{ gap: '$1xl' }}>
-          <FormInputField
-            id="cover_image_url"
-            name="cover_image_url"
-            control={control}
-            defaultValue={question?.cover_image_url ?? ''}
-            label="Cover Image Url"
-            showFieldErrors
-          />
           <FormDatePicker
             control={control}
             id="expire_at"

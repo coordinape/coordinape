@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
-import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { BIG_QUESTION_MANAGERS } from 'common-lib/constants';
+import { RequireAuth } from 'features/rainbowkit/RequireAuth';
 import { Outlet, Route } from 'react-router-dom';
 
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
