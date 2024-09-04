@@ -1,4 +1,4 @@
-name: Bundle Size Analysis
+name: "Bundle Size Analysis"
 
 on:
   pull_request:
