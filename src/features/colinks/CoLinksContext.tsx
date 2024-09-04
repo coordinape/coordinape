@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
+import useProfileId from '../../hooks/useProfileId';
 import { coLinksPaths } from '../../routes/paths';
 import { Button, Flex, Modal, Text } from '../../ui';
 import { CoLinks, getCoLinksContract } from '../../utils/viem/contracts';
@@ -131,8 +132,17 @@ const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
 export { CoLinksProvider, CoLinksContext };
 
 const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
-  const address = useConnectedAddress(true);
+  const navigate = useNavigate();
+  const profileId = useProfileId(false);
+  const address = useConnectedAddress();
   const logout = useLogout(true);
+
+  useEffect(() => {
+    if (!profileId || !address) {
+      navigate(coLinksPaths.wizardStart);
+    }
+  }, [profileId, address]);
+
   return (
     <Modal
       open={true}
@@ -148,10 +158,12 @@ const ConnectWalletModal = ({ onClose }: { onClose(): void }) => {
             wallet.
           </Text>
         </Flex>
-        <Flex column>
-          <Text variant={'label'}>Address:</Text>
-          <CopyCodeTextField value={address} tabIndex={-1} />
-        </Flex>
+        {address && (
+          <Flex column>
+            <Text variant={'label'}>Address:</Text>
+            <CopyCodeTextField value={address} tabIndex={-1} />
+          </Flex>
+        )}
         <Flex>
           <Text size={'small'}>Log out and log back in using your wallet.</Text>
         </Flex>
