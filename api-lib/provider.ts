@@ -1,11 +1,7 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 
 import {
-  ALCHEMY_ETH_MAINNET_API_KEY,
-  ALCHEMY_OPTIMISM_API_KEY,
-  ALCHEMY_OPTIMISM_SEPOLIA_API_KEY,
-  ALCHEMY_BASE_MAINNET_API_KEY,
-  ALCHEMY_BASE_SEPOLIA_API_KEY,
+  BE_ALCHEMY_API_KEY,
   HARDHAT_GANACHE_PORT,
   HARDHAT_PORT,
 } from './config';
@@ -15,23 +11,23 @@ export function getProvider(chainId: number) {
     // TODO: return different providers for different production chains
     case 1: // mainnet
       return new JsonRpcProvider(
-        `https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_ETH_MAINNET_API_KEY}`
+        `https://eth-mainnet.g.alchemy.com/v2/${BE_ALCHEMY_API_KEY}`
       );
     case 10: // Optimism
       return new JsonRpcProvider(
-        `https://opt-mainnet.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_API_KEY}`
+        `https://opt-mainnet.g.alchemy.com/v2/${BE_ALCHEMY_API_KEY}`
       );
     case 8453: // Base
       return new JsonRpcProvider(
-        `https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_BASE_MAINNET_API_KEY}`
+        `https://base-mainnet.g.alchemy.com/v2/${BE_ALCHEMY_API_KEY}`
       );
     case 84532: // Base Sepolia
       return new JsonRpcProvider(
-        `https://base-sepolia.g.alchemy.com/v2/${ALCHEMY_BASE_SEPOLIA_API_KEY}`
+        `https://base-sepolia.g.alchemy.com/v2/${BE_ALCHEMY_API_KEY}`
       );
     case 11155420: {
       // Optimism Seplolia
-      const url = `https://opt-sepolia.g.alchemy.com/v2/${ALCHEMY_OPTIMISM_SEPOLIA_API_KEY}`;
+      const url = `https://opt-sepolia.g.alchemy.com/v2/${BE_ALCHEMY_API_KEY}`;
       return new JsonRpcProvider(url);
     }
     case 1337:

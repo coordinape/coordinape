@@ -26,12 +26,13 @@ while [[ "$#" > 0 ]]; do case $1 in
 esac; shift; done
 
 if [ "$SET_CI_VARS" ]; then
-  # backwards compatibility
-  if [ -z "$VITE_ALCHEMY_ETH_MAINNET_API_KEY" ]; then
-    echo '-----------------------------------------------------------------------'
-    echo 'Please add VITE_ALCHEMY_ETH_MAINNET_API_KEY to your .env.'
-    echo '-----------------------------------------------------------------------'
-  fi
+   # tests use a real key to query alchemy 
+   if [ -z "$VITE_FE_ALCHEMY_API_KEY" ]; then
+     echo '-----------------------------------------------------------------------'
+     echo 'Please add VITE_FE_ALCHEMY_API_KEY to your .env.'
+     echo '-----------------------------------------------------------------------'
+   fi
+
   export NODE_ENV=development
   export LOCAL_LOCALSTACK_PORT_RANGE="4666-4683"
   export LOCAL_HASURA_PORT=8087

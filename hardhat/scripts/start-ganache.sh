@@ -27,11 +27,6 @@ if [ ! "$PORT" ]; then
   exit 1
 fi
 
-if [ ! "$VITE_ALCHEMY_ETH_MAINNET_API_KEY" ]; then
-  echo "Env doesn't have VITE_ALCHEMY_ETH_MAINNET_API_KEY set; can't continue."
-  exit 1
-fi
-
 if nc -z 127.0.0.1 $PORT >/dev/null 2>&1; then
   if [ "$NO_REUSE" ]; then
     echo "Error! Testchain is already running at port $PORT but --no-reuse was specified."

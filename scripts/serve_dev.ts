@@ -241,4 +241,4 @@ app.listen(port, () => {
   /* eslint-enable */
 });
 
-export {};
+export { };

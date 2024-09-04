@@ -205,6 +205,7 @@
     "test": "./scripts/ci/manager.sh test --jest -i",
     "test:ci": "./scripts/ci/manager.sh test --all",
     "test:up": "./scripts/ci/manager.sh up",
+    "test:down": "./scripts/ci/manager.sh down",
     "lint:check": "eslint \"{{api,_api,api-lib,cypress,hasura,src}/**/*.{js,ts,tsx,graphql},*.{js,ts,tsx,graphql}}\" --max-warnings 0",
     "lint:fix": "pnpm lint:check --fix",
     "lint:staged": "lint-staged --allow-empty",

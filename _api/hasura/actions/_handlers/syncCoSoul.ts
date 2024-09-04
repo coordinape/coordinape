@@ -12,10 +12,10 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
+import { setOnChainPGive } from '../../../../api-lib/viem/contracts';
 import {
   getTokenId,
   PGIVE_SYNC_DURATION_DAYS,
-  setOnChainPGive,
 } from '../../../../src/features/cosoul/api/cosoul';
 import { getLocalPGIVE } from '../../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../../src/features/cosoul/art/screenshot';

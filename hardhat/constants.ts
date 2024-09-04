@@ -19,10 +19,10 @@ assert(
 );
 
 assert(
-  process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY,
-  'process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY is missing'
+  process.env.BE_ALCHEMY_API_KEY,
+  'process.env.BE_ALCHEMY_API_KEY is missing'
 );
-export const HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
+export const HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.BE_ALCHEMY_API_KEY}`;
 
 export const HARDHAT_OWNER_ADDRESS =
   process.env.HARDHAT_OWNER_ADDRESS ?? AddressZero;

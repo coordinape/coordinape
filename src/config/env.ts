@@ -35,9 +35,12 @@ export const APP_MODE =
         'development'
       );
 
+export const NODE_ENV = getEnvValue<'unknown' | 'test'>('NODE_ENV', 'unknown');
+
 export const IN_PRODUCTION = APP_MODE === 'production';
 export const IN_PREVIEW = APP_MODE === 'preview';
 export const IN_DEVELOPMENT = APP_MODE === 'development';
+export const IN_TEST = NODE_ENV === 'test';
 
 export const BRANCH_URL =
   getEnvValue<string>('VITE_VERCEL_BRANCH_URL', '') ||
@@ -67,21 +70,9 @@ export const STORAGE_URL = getEnvValue(
   'https://missing-s3-url'
 ).replace(/\/$/, '');
 
-export const VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY = getEnvValue(
-  'VITE_ALCHEMY_OPTIMISM_SEPOLIA_API_KEY',
-  'missing-alchemy-optimism-sepolia-api-key'
-);
-export const VITE_ALCHEMY_OPTIMISM_API_KEY = getEnvValue(
-  'VITE_ALCHEMY_OPTIMISM_API_KEY',
-  'missing-alchemy-optimism-api-key'
-);
-export const VITE_ALCHEMY_ETH_MAINNET_API_KEY = getEnvValue(
-  'VITE_ALCHEMY_ETH_MAINNET_API_KEY',
-  'missing-alchemy-eth-mainnet-api-key'
-);
-export const VITE_ALCHEMY_ETH_SEPOLIA_API_KEY = getEnvValue(
-  'VITE_ETH_SEPOLIA_API_KEY',
-  'missing-alchemy-eth-mainnet-api-key'
+export const VITE_FE_ALCHEMY_API_KEY = getEnvValue(
+  'VITE_FE_ALCHEMY_API_KEY',
+  'missing-alchemy-fe-api-key'
 );
 export const DECENT_XYZ_API_KEY = getEnvValue(
   'VITE_DECENT_XYZ_API_KEY',

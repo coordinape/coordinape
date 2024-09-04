@@ -4,7 +4,7 @@ import { WalletClient, getContract } from 'viem';
 import { CoLinksABI, CoSoulABI } from '../../contracts/abis';
 import { chain } from '../../features/cosoul/chains';
 
-import { getReadOnlyClient } from './publicClient';
+import { ReadOnlyClient, getReadOnlyClient } from './publicClient';
 
 const requiredContracts = ['CoSoul'];
 
@@ -24,6 +24,8 @@ export const getCoLinksContract = () => {
 };
 
 export type CoLinksWithWallet = ReturnType<typeof getCoLinksContractWithWallet>;
+
+// only for use in FE
 export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
   return getContract({
     address: getContractAddress('CoLinks'),
@@ -36,13 +38,13 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
 };
 
 export type CoSoul = ReturnType<typeof getCoSoulContract>;
-export const getCoSoulContract = () => {
-  const publicClient = getReadOnlyClient();
+export const getCoSoulContract = (publicClient?: ReadOnlyClient) => {
+  const client = publicClient ?? getReadOnlyClient();
 
   return getContract({
     address: getContractAddress('CoSoul'),
     abi: CoSoulABI,
-    client: publicClient,
+    client: client,
   });
 };
 
@@ -53,14 +55,13 @@ export const getCoSoulContractWithWallet = (walletClient: WalletClient) => {
     abi: CoSoulABI,
     client: {
       wallet: walletClient,
-      public: getReadOnlyClient(),
     },
   });
 };
 
 type ContractNames = 'CoSoul' | 'CoLinks';
 
-const getContractAddress = (contractName: ContractNames) => {
+export const getContractAddress = (contractName: ContractNames) => {
   const chainId = Number(chain.chainId);
   const info = (deploymentInfo as any)[chainId];
   if (!info) {
