@@ -10,6 +10,7 @@ import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 
+import { fetchCasts } from '../../../features/activities/cast';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import useProfileId from 'hooks/useProfileId';
 import { Farcaster, GemCoOutline, Links } from 'icons/__generated';
@@ -18,6 +19,7 @@ import { coLinksPaths } from 'routes/paths';
 import { AppLink, Flex, Panel, Text } from 'ui';
 
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
+
 export const cardColumnMinWidth = 1280;
 export const QUERY_KEY_NETWORK = 'network';
 
@@ -283,6 +285,7 @@ export const ProfileCardsWithProfile = ({
 };
 
 const fetchMostRecentPostByProfileId = async (profileId: number) => {
+  // TODO: switch this to anonClient, maybe other places too
   const { coLinksPosts, farcasterCasts, activities_aggregate } =
     await client.query(
       {
@@ -327,6 +330,7 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
                   cast_id: {
                     _is_null: false,
                   },
+                  enriched_cast: {},
                 },
                 order_by: [
                   {
@@ -372,7 +376,18 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
     );
 
   const mostRecentActivity = coLinksPosts[0]; // Return the most recent post
-  const mostRecentCast = farcasterCasts[0]; // Return the most recent cast
+
+  const rawCast = farcasterCasts[0];
+  let actualCast: Awaited<ReturnType<typeof fetchCasts>>[number] | undefined =
+    undefined;
+
+  if (rawCast) {
+    const c = await fetchCasts([rawCast.cast_id]);
+    actualCast = c[0];
+  }
+  const mostRecentCast = actualCast
+    ? { ...rawCast, cast: actualCast }
+    : undefined; // Return the most recent cast
   const totalActivitiesCount = activities_aggregate.aggregate?.count ?? 0;
 
   return { mostRecentActivity, mostRecentCast, totalActivitiesCount };
