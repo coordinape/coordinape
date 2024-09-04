@@ -15,7 +15,8 @@ jobs:
         with:
           node-version: '20'
       - uses: pnpm/action-setup@v4
-        run_install: true
+        with:
+          run_install: true
       - name: Analyze bundle size
         uses: jackyef/bundlewatch-gh-action@master
         with:
