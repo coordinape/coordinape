@@ -1,8 +1,9 @@
 import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
+import { isAddress } from 'viem';
 
-import { errorResponse } from '../../../api-lib/HttpError.ts';
+import { errorResponseWithStatusCode } from '../../../api-lib/HttpError.ts';
 import { fetchUserByAddress } from '../../../api-lib/neynar.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -14,12 +15,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   assert(address, 'no address provided');
+
+  // validate address is valid
+  if (!isAddress(address, { strict: false })) {
+    return errorResponseWithStatusCode(
+      res,
+      { message: 'The provided address is not valid' },
+      404
+    );
+  }
+
   const fcUser = await fetchUserByAddress(address);
 
   if (!fcUser) {
-    return errorResponse(
+    return errorResponseWithStatusCode(
       res,
-      'no CoLinks or Farcaster user found for this address'
+      'no CoLinks or Farcaster user found for this address',
+      404
     );
   }
   return res.status(200).json(fcUser);
