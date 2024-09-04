@@ -1,4 +1,4 @@
-//import assert from 'assert';
+import assert from 'assert';
 
 import { AddressZero } from '@ethersproject/constants';
 import dotenv from 'dotenv';
@@ -13,16 +13,16 @@ export const OPTIMISM_RPC_URL = process.env.OPTIMISM_RPC_URL;
 export const OPTIMISM_SEPOLIA_RPC_URL =
   process.env.OPTIMISM_SEPOLIA_RPC_URL || 'https://sepolia.optimism.io';
 
-//assert(
-//  OPTIMISM_RPC_URL,
-//  'process.env.OPTIMISM_RPC_URL is missing, provide one in .env'
-//);
-//
-//assert(
-//  process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY,
-//  'process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY is missing'
-//);
-//export const HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.VITE_ALCHEMY_ETH_MAINNET_API_KEY}`;
+assert(
+  OPTIMISM_RPC_URL,
+  'process.env.OPTIMISM_RPC_URL is missing, provide one in .env'
+);
+
+assert(
+  process.env.VITE_FE_ALCHEMY_API_KEY,
+  'process.env.VITE_FE_ALCHEMY_API_KEY is missing'
+);
+export const HARDHAT_ARCHIVE_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${process.env.VITE_FE_ALCHEMY_API_KEY}`;
 
 export const HARDHAT_OWNER_ADDRESS =
   process.env.HARDHAT_OWNER_ADDRESS ?? AddressZero;
