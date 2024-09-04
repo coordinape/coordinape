@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
+import { colinksProfileColumnWidth } from 'features/cosoul/constants';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
@@ -186,14 +187,15 @@ const PageContents = ({
     }
   );
 
-  const needsBootstrapping = targetIsCurrentUser && balance == 0;
+  const balanceNumber = Number(balance);
+  const needsBootstrapping = targetIsCurrentUser && balanceNumber == 0;
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
 
   useEffect(() => {
     if (balance !== undefined) {
-      setNeedsToBuyLink(balance === 0);
+      setNeedsToBuyLink(balanceNumber === 0);
     }
   }, [balance]);
 
@@ -236,9 +238,16 @@ const PageContents = ({
     <Flex
       css={{
         gap: '$xl',
+        width: '100%',
       }}
     >
-      <Flex column css={{ flexGrow: 1, maxWidth: '$readable' }}>
+      <Flex
+        column
+        css={{
+          flexGrow: 1,
+          maxWidth: colinksProfileColumnWidth,
+        }}
+      >
         {needsToBuyLink === true ? (
           <Flex
             css={{

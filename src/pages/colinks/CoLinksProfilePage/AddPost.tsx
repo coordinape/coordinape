@@ -1,3 +1,4 @@
+import assert from 'assert';
 import { useState } from 'react';
 
 import { CoSoul } from 'features/colinks/fetchCoSouls';

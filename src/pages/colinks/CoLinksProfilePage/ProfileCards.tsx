@@ -84,7 +84,7 @@ export const ProfileCardsWithProfile = ({
   const { mostRecentActivity, totalActivitiesCount, mostRecentCast } =
     data || {};
 
-  const cardMaxWidth = 320;
+  const cardMaxWidth = 350;
 
   const panelStyles = {
     minHeight: 90,

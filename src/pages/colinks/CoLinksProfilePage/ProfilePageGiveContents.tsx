@@ -1,11 +1,12 @@
 import { useWindowSize } from '@react-hook/window-size';
+import { colinksProfileColumnWidthInt } from 'features/cosoul/constants';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { Flex, Panel, Text } from 'ui';
 
-export const profileMainColumnWidth = 600;
+export const profileMainColumnWidth = colinksProfileColumnWidthInt;
 export const ProfilePageGiveContents = ({
   targetAddress,
 }: {

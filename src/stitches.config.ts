@@ -268,7 +268,7 @@ export const colors = {
   mapReceive: figmaColors.secondary2,
   mapCirculate: figmaColors.secondary5,
   mapNode: figmaColors.grey10,
-  giveGraphLink: figmaColors.grey3,
+  giveGraphLink: figmaColors.grey4,
   mapReceiveLink: figmaColors.orange6,
   mapNodeFade: '#00000020',
   mapLink: '#00000015',
