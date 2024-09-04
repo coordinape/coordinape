@@ -18,7 +18,6 @@ import CirclesPage from '../pages/CirclesPage';
 import ContributionsPage from '../pages/ContributionsPage';
 import CreateCirclePage from '../pages/CreateCirclePage';
 import DevPortalPage from '../pages/DevPortalPage';
-import DiscordPage from '../pages/DiscordPage';
 import DistributionsPage from '../pages/DistributionsPage';
 import GiftCircleGivePage from '../pages/GiftCircleGivePage';
 import HistoryPage from '../pages/HistoryPage';
@@ -87,7 +86,6 @@ const GiveRoutes = () => {
       <Route path={givePaths.account} element={<AccountPage />} />
       <Route path={givePaths.createCircle} element={<CreateCirclePage />} />
       <Route path={givePaths.developers} element={<DevPortalPage />} />
-      <Route path={givePaths.discordLink} element={<DiscordPage />} />
 
       <Route path={givePaths.organization(':orgId')}>
         <Route path="" element={<OrgPage />} />
