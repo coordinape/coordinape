@@ -57,7 +57,6 @@ export const CoLinksNav = () => {
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
   const { give } = usePoints();
-  const profileId = useProfileId();
 
   useEffect(() => {
     setMobileMenuOpen(false);
