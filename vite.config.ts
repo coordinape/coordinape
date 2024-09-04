@@ -1,10 +1,11 @@
 import reactRefresh from '@vitejs/plugin-react';
-import { defineConfig, loadEnv } from 'vite';
-// import EnvironmentPlugin from 'vite-plugin-environment';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig, loadEnv, type PluginOption } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import svgrPlugin from 'vite-plugin-svgr';
 import vercel from 'vite-plugin-vercel';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
 
 // https://vitejs.dev/config/
 
@@ -31,6 +32,12 @@ export default defineConfig({
     reactRefresh({
       include: '**/*.tsx',
     }),
+    visualizer({
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+      filename: 'bundle-stats.html',
+    }) as PluginOption,
     svgrPlugin({
       svgrOptions: {
         icon: true,
