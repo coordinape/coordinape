@@ -1,6 +1,5 @@
 - "!include discord_circle_api_tokens.yaml"
 - "!include discord_roles_circles.yaml"
-- "!include discord_user_api_tokens.yaml"
 - "!include discord_users.yaml"
 - "!include farcaster_casts.yaml"
 - "!include farcaster_fids.yaml"
