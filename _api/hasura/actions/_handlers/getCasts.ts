@@ -24,6 +24,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const casts = await fetchCasts(payload);
+
     const mentionsMap = await getMentionsMap(casts);
     const enrichedCasts = await Promise.all(
       casts
@@ -154,8 +155,6 @@ const fetchCasts = async ({
             deleted_at: { _is_null: true },
             ...(fid ? { fid: { _eq: fid } } : {}),
             ...(cast_ids ? { id: { _in: cast_ids } } : {}),
-            parent_hash: { _is_null: true }, // only top-level casts
-            // farcaster_account: {},
           },
           order_by: [{ created_at: order_by.desc }],
           limit: LIMIT,
