@@ -129,7 +129,6 @@ export const ProfileCardsWithProfile = ({
               activity={mostRecentActivity}
             />
           )}
-          <Text size="small">debug yooo {JSON.stringify(mostRecentCast)}</Text>
           {mostRecentCast && (
             <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
           )}
