@@ -1,8 +1,10 @@
 import { useWindowSize } from '@react-hook/window-size';
 import { colinksProfileColumnWidthInt } from 'features/cosoul/constants';
+import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 
+import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { Flex, Panel, Text } from 'ui';
 
@@ -21,45 +23,100 @@ export const ProfilePageGiveContents = ({
       : width - gutterWidth;
   const mapHeight = height - 250;
   const desktop = width > 1140;
+  const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
     <>
-      <GiveReceived address={targetAddress} receivedNumber />
-      <Flex column css={{ gap: '$sm' }}>
-        <Text variant="label">GIVE Received</Text>
-        <Flex column>
-          <Panel
-            noBorder
-            css={{
-              width: '100%',
-              p: '$sm',
-              '.giveSkillContainer': {
-                width: '100%',
-                display: 'block',
-                columnWidth: '200px',
-                div: {
-                  py: '$xs',
-                },
-              },
-            }}
-          >
-            <GiveReceived address={targetAddress} size="large" />
-          </Panel>
-        </Flex>
-        <Panel noBorder css={{ p: 0 }}>
-          <ThemeContext.Consumer>
-            {({ stitchesTheme }) => (
-              <GiveGraph
-                address={targetAddress}
-                height={mapHeight}
-                width={mapWidth}
-                minZoom={2}
-                expand={desktop}
-                stitchesTheme={stitchesTheme}
-              />
-            )}
-          </ThemeContext.Consumer>
-        </Panel>
-      </Flex>
+      <GiveReceived address={targetAddress}>
+        {receivedNumber =>
+          receivedNumber > 0 ? (
+            <Flex column css={{ gap: '$sm' }}>
+              <Text variant="label">GIVE Received</Text>
+              <Flex column>
+                <Panel
+                  noBorder
+                  css={{
+                    width: '100%',
+                    p: '$sm',
+                    '.giveSkillContainer': {
+                      width: '100%',
+                      display: 'block',
+                      columnWidth: '200px',
+                      div: {
+                        py: '$xs',
+                      },
+                    },
+                  }}
+                >
+                  <GiveReceived address={targetAddress} size="large" />
+                </Panel>
+              </Flex>
+              <Panel noBorder css={{ p: 0 }}>
+                <ThemeContext.Consumer>
+                  {({ stitchesTheme }) => (
+                    <GiveGraph
+                      address={targetAddress}
+                      height={mapHeight}
+                      width={mapWidth}
+                      minZoom={2}
+                      expand={desktop}
+                      stitchesTheme={stitchesTheme}
+                    />
+                  )}
+                </ThemeContext.Consumer>
+              </Panel>
+            </Flex>
+          ) : (
+            <Flex css={{ alignItems: 'flex-start', flexGrow: 1 }}>
+              <Panel
+                noBorder
+                css={{
+                  p: 0,
+                  gap: '$sm',
+                  width: '100%',
+                  alignItems: 'flex-start',
+                  overflow: 'clip',
+                }}
+              >
+                <Flex
+                  css={{
+                    flexGrow: 1,
+                    width: '100%',
+                    minHeight: '250px',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundImage: "url('/imgs/background/give-none.jpg')",
+                    backgroundPosition: 'center',
+                  }}
+                />
+                <Flex
+                  column
+                  css={{
+                    flex: 2,
+                    gap: '$sm',
+                    alignItems: 'flex-start',
+                    p: '$sm $md $lg',
+                    color: '$text',
+                    'svg path': {
+                      fill: 'currentColor',
+                    },
+                  }}
+                >
+                  <Text variant="label">No GIVE received</Text>
+                  <Text semibold>
+                    Be the first to give {targetProfile?.name} a GIVE!
+                  </Text>
+                  <CoLinksGiveButton
+                    cta
+                    gives={[]}
+                    targetProfileId={targetProfile?.id}
+                    targetAddress={targetAddress}
+                  />
+                </Flex>
+              </Panel>
+            </Flex>
+          )
+        }
+      </GiveReceived>
     </>
   );
 };

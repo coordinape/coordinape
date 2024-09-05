@@ -113,6 +113,7 @@ export const ProfileCardsWithProfile = ({
           column
           css={{
             flexShrink: 1,
+            gap: '$sm',
             width: 'auto',
             '.contributionRow': {
               // flexGrow: 1,
@@ -222,13 +223,17 @@ export const ProfileCardsWithProfile = ({
             <Flex column>
               <Text css={{ gap: '$xs' }}>
                 <Text semibold>
-                  <GiveReceived address={targetAddress} receivedNumber />
+                  <GiveReceived address={targetAddress}>
+                    {receivedNumber => receivedNumber}
+                  </GiveReceived>
                 </Text>
                 GIVE Received
               </Text>
               <Text css={{ gap: '$xs' }}>
                 <Text semibold>
-                  <GiveReceived address={targetAddress} sentNumber />
+                  <GiveReceived address={targetAddress}>
+                    {(_, sentNumber) => sentNumber}
+                  </GiveReceived>
                 </Text>
                 GIVE Sent
               </Text>

@@ -27,6 +27,8 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     fontWeight: '$medium',
     alignItems: 'center',
     borderTop: '5px solid transparent',
+    position: 'relative',
+    zIndex: 2,
     '@md': {
       minWidth: 120,
       p: '$sm',
@@ -61,7 +63,7 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     color: '$link',
   };
   return (
-    <Flex css={{ gap: '$sm', mt: -3, mb: '$sm', zIndex: 2 }}>
+    <Flex css={{ gap: '$sm', mt: -3, mb: '$sm' }}>
       {showOverviewTab && (
         <Button
           as={NavLink}

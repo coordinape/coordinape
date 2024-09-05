@@ -1,6 +1,7 @@
 import assert from 'assert';
 
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
+import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
 import { Helmet } from 'react-helmet';
@@ -345,7 +346,7 @@ const ProfileHeaderWithProfile = ({
               </Flex>
             </Flex>
             {!drawer && (
-              <Flex css={{ alignItems: 'flex-start', gap: '$md', mb: '$md' }}>
+              <Flex css={{ alignItems: 'flex-start', gap: '$sm', mb: '$md' }}>
                 {isCurrentUser ? (
                   <Button
                     as={AppLink}
@@ -363,6 +364,12 @@ const ProfileHeaderWithProfile = ({
                     targetProfileAddress={targetAddress}
                   />
                 )}
+                <CoLinksGiveButton
+                  cta
+                  gives={[]}
+                  targetProfileId={targetProfile?.profile.id}
+                  targetAddress={targetAddress}
+                />
               </Flex>
             )}
           </Flex>
