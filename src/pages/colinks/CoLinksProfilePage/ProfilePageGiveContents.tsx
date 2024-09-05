@@ -40,7 +40,7 @@ export const ProfilePageGiveContents = ({
                     '.giveSkillContainer': {
                       width: '100%',
                       display: 'block',
-                      columnWidth: '200px',
+                      columnWidth: '150px',
                       div: {
                         py: '$xs',
                       },
@@ -101,8 +101,10 @@ export const ProfilePageGiveContents = ({
                     },
                   }}
                 >
-                  <Text variant="label">No GIVE received</Text>
-                  <Text semibold>
+                  <Text size={'medium'} semibold>
+                    {targetProfile?.name} hasn&apos;t received any GIVE
+                  </Text>
+                  <Text>
                     Be the first to give {targetProfile?.name} a GIVE!
                   </Text>
                   <CoLinksGiveButton

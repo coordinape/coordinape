@@ -93,6 +93,7 @@ export const ProfileCardsWithProfile = ({
     maxWidth: cardMaxWidth,
     pr: '$lg',
     flexGrow: 1,
+    color: '$text',
   };
 
   if (suppressCards && !forceDisplay) return null;
@@ -153,9 +154,6 @@ export const ProfileCardsWithProfile = ({
           noBorder
           css={{
             ...panelStyles,
-            color: 'white',
-            background:
-              'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -182,9 +180,6 @@ export const ProfileCardsWithProfile = ({
           noBorder
           css={{
             ...panelStyles,
-            color: 'white',
-            background:
-              'radial-gradient(circle at -10% 10%, rgb(55 81 208) 20%, rgb(231, 7, 144) 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -213,9 +208,6 @@ export const ProfileCardsWithProfile = ({
           noBorder
           css={{
             ...panelStyles,
-            color: 'white',
-            background:
-              'radial-gradient(circle at -10% 10%, #0ecf87 20%, #5528d6 100%)',
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>

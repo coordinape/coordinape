@@ -357,25 +357,27 @@ const PageContents = ({
         {currentUserAddress && (
           <Flex column css={{ gap: '$md' }}>
             <AddPost targetAddress={targetAddress} />
-            <Flex css={{ gap: '$sm' }}>
-              <Text semibold size="small">
-                View
-              </Text>
-              <Button
-                size="xs"
-                color={!showCasts ? 'secondary' : 'selectedSecondary'}
-                onClick={() => setShowCasts(true)}
-              >
-                All
-              </Button>
-              <Button
-                size="xs"
-                color={showCasts ? 'secondary' : 'selectedSecondary'}
-                onClick={() => setShowCasts(false)}
-              >
-                CoLinks Only
-              </Button>
-            </Flex>
+            {targetBalance == undefined && Number(targetBalance) > 0 && (
+              <Flex css={{ gap: '$sm' }}>
+                <Text semibold size="small">
+                  View
+                </Text>
+                <Button
+                  size="xs"
+                  color={!showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(true)}
+                >
+                  All
+                </Button>
+                <Button
+                  size="xs"
+                  color={showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(false)}
+                >
+                  CoLinks Only
+                </Button>
+              </Flex>
+            )}
             <ActivityList
               queryKey={[
                 QUERY_KEY_COLINKS,
@@ -391,25 +393,7 @@ const PageContents = ({
                     big_question_id: { _is_null: false },
                   },
                   { private_stream: { _eq: true } },
-                  ...(showCasts
-                    ? [
-                        {
-                          _and: [
-                            {
-                              _or: [
-                                { private_stream_visibility: {} },
-                                {
-                                  actor_profile_id: {
-                                    _eq: currentUserProfileId,
-                                  },
-                                },
-                              ],
-                            },
-                            { cast_id: { _is_null: false } },
-                          ],
-                        },
-                      ]
-                    : []),
+                  ...(showCasts ? [{ cast_id: { _is_null: false } }] : []),
                 ],
                 actor_profile_id: { _eq: targetProfile.profile.id },
               }}

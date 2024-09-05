@@ -14,7 +14,7 @@ import { PointsBarInfo } from './PointsBarInfo';
 import { usePoints } from './usePoints';
 
 const barGradient =
-  'linear-gradient(90deg, $alert 0%, $complete 30%, $cta 80%)';
+  'linear-gradient(90deg, $alert 0, $complete 70px, $cta 170px)';
 
 const progressStyles = {
   position: 'relative',

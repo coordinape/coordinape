@@ -29,6 +29,7 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     borderTop: '5px solid transparent',
     position: 'relative',
     zIndex: 2,
+    cursor: 'pointer',
     '@md': {
       minWidth: 120,
       p: '$sm',
@@ -40,8 +41,9 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
       p: '$sm',
       gap: '$xs',
       fontSize: '$small',
-      borderWidth: '3px',
+      borderWidth: '4px',
       flexDirection: 'column',
+      mt: -1,
       svg: {
         margin: 0,
         width: '$md',
@@ -63,7 +65,24 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
     color: '$link',
   };
   return (
-    <Flex css={{ gap: '$sm', mt: -3, mb: '$sm' }}>
+    <Flex
+      css={{
+        gap: '$sm',
+        mt: -3,
+        mb: '$sm',
+        '@sm': {
+          mb: 0,
+          px: '$sm',
+          position: 'fixed',
+          bottom: 0,
+          left: 0,
+          background: '$background',
+          width: '100%',
+          borderTop: '1px solid $borderDim',
+          zIndex: 2,
+        },
+      }}
+    >
       {showOverviewTab && (
         <Button
           as={NavLink}
@@ -76,7 +95,7 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
             }),
           }}
         >
-          <Grid size="lg" /> Overview
+          <Grid size="lg" /> About
         </Button>
       )}
       <Button

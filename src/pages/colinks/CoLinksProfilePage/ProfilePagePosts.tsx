@@ -17,7 +17,7 @@ export const ViewProfilePagePosts = () => {
   return (
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      <Flex css={{ gap: '$xl' }}>
+      <Flex css={{ gap: '$xl', justifyContent: 'space-between' }}>
         <Flex
           css={{
             flexGrow: 1,
