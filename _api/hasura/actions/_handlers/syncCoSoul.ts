@@ -12,7 +12,10 @@ import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { errorResponse } from '../../../../api-lib/HttpError';
-import { setOnChainPGive } from '../../../../api-lib/viem/contracts';
+import {
+  backendReadOnlyClient,
+  setOnChainPGive,
+} from '../../../../api-lib/viem/contracts';
 import {
   getTokenId,
   PGIVE_SYNC_DURATION_DAYS,
@@ -36,7 +39,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const { payload, session } = await getInput(req, syncInput);
 
     const address = session.hasuraAddress;
-    const tokenId = await getTokenId(address);
+    const tokenId = await getTokenId(address, backendReadOnlyClient());
 
     if (!tokenId) {
       // no tokenId on chain, lets clean up
