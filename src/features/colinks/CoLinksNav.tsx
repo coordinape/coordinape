@@ -116,7 +116,7 @@ export const CoLinksNav = () => {
             top: 0,
             left: 0,
             width: '100%',
-            p: '$md $lg',
+            p: '$md',
             height: '$3xl',
             button: { display: 'flex' },
           },

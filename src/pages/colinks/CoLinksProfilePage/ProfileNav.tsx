@@ -72,14 +72,14 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
         mb: '$sm',
         '@sm': {
           mb: 0,
-          px: '$sm',
+          justifyContent: 'space-between',
           position: 'fixed',
           bottom: 0,
           left: 0,
           background: '$background',
           width: '100%',
           borderTop: '1px solid $borderDim',
-          zIndex: 2,
+          zIndex: 10,
         },
       }}
     >

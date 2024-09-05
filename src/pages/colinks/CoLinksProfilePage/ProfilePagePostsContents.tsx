@@ -2,6 +2,7 @@ import assert from 'assert';
 import React, { useContext, useEffect, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
+import { Mutes } from 'features/colinks/Mutes';
 import { colinksProfileColumnWidth } from 'features/cosoul/constants';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
@@ -357,25 +358,34 @@ const PageContents = ({
         {currentUserAddress && (
           <Flex column css={{ gap: '$md' }}>
             <AddPost targetAddress={targetAddress} />
-            {targetBalance == undefined && Number(targetBalance) > 0 && (
-              <Flex css={{ gap: '$sm' }}>
-                <Text semibold size="small">
-                  View
-                </Text>
-                <Button
-                  size="xs"
-                  color={!showCasts ? 'secondary' : 'selectedSecondary'}
-                  onClick={() => setShowCasts(true)}
-                >
-                  All
-                </Button>
-                <Button
-                  size="xs"
-                  color={showCasts ? 'secondary' : 'selectedSecondary'}
-                  onClick={() => setShowCasts(false)}
-                >
-                  CoLinks Only
-                </Button>
+            {(targetIsCurrentUser ||
+              (targetBalance == undefined && balanceNumber > 0)) && (
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Flex css={{ gap: '$sm' }}>
+                  <Text semibold size="small">
+                    View
+                  </Text>
+                  <Button
+                    size="xs"
+                    color={!showCasts ? 'secondary' : 'selectedSecondary'}
+                    onClick={() => setShowCasts(true)}
+                  >
+                    All
+                  </Button>
+                  <Button
+                    size="xs"
+                    color={showCasts ? 'secondary' : 'selectedSecondary'}
+                    onClick={() => setShowCasts(false)}
+                  >
+                    CoLinks Only
+                  </Button>
+                </Flex>
+                {!targetIsCurrentUser && (
+                  <Mutes
+                    targetProfileId={targetProfile?.profile.id}
+                    targetProfileAddress={targetAddress}
+                  />
+                )}
               </Flex>
             )}
             <ActivityList

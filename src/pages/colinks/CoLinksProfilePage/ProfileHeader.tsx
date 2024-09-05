@@ -6,16 +6,15 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { client } from 'lib/gql/client';
 import { Helmet } from 'react-helmet';
 import { useQuery } from 'react-query';
-import { NavLink } from 'react-router-dom';
 
 import { abbreviateString } from '../../../abbreviateString';
 import { CoLinksStats } from '../../../features/colinks/CoLinksStats';
-import { Mutes } from '../../../features/colinks/Mutes';
 import { SkillTag } from '../../../features/colinks/SkillTag';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { order_by } from '../../../lib/gql/__generated__/zeus';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import useConnectedAddress from 'hooks/useConnectedAddress';
+import useMobileDetect from 'hooks/useMobileDetect';
 import useProfileId from 'hooks/useProfileId';
 import {
   ExternalLink,
@@ -67,6 +66,7 @@ const ProfileHeaderWithProfile = ({
   targetAddress: string;
   drawer: boolean;
 }) => {
+  const { isMobile } = useMobileDetect();
   const currentUserAddress = useConnectedAddress(false);
   const { data: fcUser } = useFarcasterUser(targetAddress!);
   const { superFriend } = useLinkingStatus({
@@ -81,64 +81,9 @@ const ProfileHeaderWithProfile = ({
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   const { data: details } = useQuery(
-    ['twitter', profile.id],
+    ['profileDetails', profile.id],
     async () => {
-      const {
-        twitter_accounts_by_pk: twitter,
-        github_accounts_by_pk: github,
-        farcaster_accounts_by_pk: farcaster,
-        profile_skills,
-      } = await client.query(
-        {
-          profile_skills: [
-            {
-              where: {
-                profile_id: {
-                  _eq: profile.id,
-                },
-              },
-              order_by: [{ skill_name: order_by.asc }],
-            },
-            {
-              skill_name: true,
-            },
-          ],
-          farcaster_accounts_by_pk: [
-            {
-              profile_id: profile.id,
-            },
-            {
-              username: true,
-            },
-          ],
-          twitter_accounts_by_pk: [
-            {
-              profile_id: profile.id,
-            },
-            {
-              username: true,
-            },
-          ],
-          github_accounts_by_pk: [
-            {
-              profile_id: profile.id,
-            },
-            {
-              username: true,
-            },
-          ],
-        },
-        {
-          operationName: 'twitter_profile',
-        }
-      );
-
-      return {
-        twitter: twitter ? twitter.username : undefined,
-        github: github ? github.username : undefined,
-        farcaster: farcaster ? farcaster.username : undefined,
-        skills: profile_skills.map(ps => ps.skill_name),
-      };
+      return await fetchProfileDetails(profile.id);
     },
     {
       enabled: !!profile?.id,
@@ -156,6 +101,10 @@ const ProfileHeaderWithProfile = ({
         css={{
           mb: 0,
           background: 'transparent',
+          '@sm': {
+            p: '$sm 0 $lg $xl',
+            m: '-$lg 0 $lg -$xl',
+          },
         }}
       >
         <Flex column css={{ gap: '$sm', width: '100%' }}>
@@ -168,183 +117,129 @@ const ProfileHeaderWithProfile = ({
               flexWrap: 'wrap',
             }}
           >
-            <Flex
-              alignItems="center"
-              css={{
-                gap: '$sm',
-                mb: '$sm',
-                '@xs': {
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                },
-                ...(drawer && { flexDirection: 'column' }),
-              }}
-            >
-              <Flex column css={{ mr: '$md', ...(drawer && { mr: 0 }) }}>
-                <NavLink
-                  to={coLinksPaths.profileGive(
-                    profile?.address ??
-                      fcUser?.verified_addresses.eth_addresses[0] ??
-                      fcUser?.custody_address ??
-                      ''
-                  )}
-                >
-                  <Avatar
-                    size="xl"
-                    name={profile.name}
-                    path={profile.avatar}
-                    margin="none"
-                  />
-                </NavLink>
-              </Flex>
-              <Flex
-                column
-                css={{ gap: '$sm', ...(drawer && { alignItems: 'center' }) }}
-              >
-                <Text
-                  h2
-                  display
-                  css={{
-                    color: '$secondaryButtonText',
-                    '@xs': {
-                      fontSize: '$h1',
-                    },
-                  }}
-                >
-                  {profile.name}
-                </Text>
-                <CoLinksStats
-                  address={profile.address}
-                  links={profile.links ?? 0}
-                  score={profile.reputation_score?.total_score ?? 0}
-                  size={'medium'}
-                  // We should this elsewhere i guess?
-                  holdingCount={0}
-                  // if we want to show this, this is how but probably needs a restyle
-                  // holdingCount={targetBalance ?? 0}
-                  css={{ ...(drawer && { justifyContent: 'center' }) }}
-                />
-                <Flex
-                  css={{
-                    columnGap: '$lg',
-                    rowGap: '$sm',
-                    flexWrap: 'wrap',
-                    ...(drawer && { justifyContent: 'center' }),
-                  }}
-                >
-                  {details?.farcaster && (
-                    <Flex
-                      as={Link}
-                      href={`https://warpcast.com/${details?.farcaster}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      css={{
-                        alignItems: 'center',
-                        gap: '$xs',
-                        color: '$secondaryText',
-                        fontWeight: '$medium',
-                        '&:hover': {
-                          color: '$linkHover',
-                          'svg path': {
-                            fill: '$linkHover',
-                          },
-                        },
-                      }}
-                    >
-                      <Farcaster fa /> {details?.farcaster}
-                    </Flex>
-                  )}
-                  {details?.github && (
-                    <Flex
-                      as={Link}
-                      href={`https://github.com/${details?.github}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      css={{
-                        alignItems: 'center',
-                        gap: '$xs',
-                        color: '$secondaryText',
-                        fontWeight: '$semibold',
-                        '&:hover': {
-                          color: '$linkHover',
-                          'svg path': {
-                            fill: '$linkHover',
-                          },
-                        },
-                      }}
-                    >
-                      <Github nostroke /> {details?.github}
-                    </Flex>
-                  )}
-                  {details?.twitter && (
-                    <Flex
-                      as={Link}
-                      href={`https://twitter.com/${details?.twitter}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      css={{
-                        alignItems: 'center',
-                        gap: '$xs',
-                        color: '$secondaryText',
-                        fontWeight: '$medium',
-                        '&:hover': {
-                          color: '$linkHover',
-                          'svg path': {
-                            fill: '$linkHover',
-                          },
-                        },
-                      }}
-                    >
-                      <Twitter nostroke /> {details?.twitter}
-                    </Flex>
-                  )}
-                  <Flex
-                    as={Link}
-                    href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
-                    target="_blank"
-                    rel="noreferrer"
+            {isMobile ? (
+              <Flex column css={{ gap: '$md' }}>
+                <Flex css={{ mr: '$md', ...(drawer && { mr: 0 }) }}>
+                  <AppLink
+                    to={coLinksPaths.profileGive(
+                      profile?.address ??
+                        fcUser?.verified_addresses.eth_addresses[0] ??
+                        fcUser?.custody_address ??
+                        ''
+                    )}
                     css={{
-                      alignItems: 'center',
-                      gap: '$xs',
-                      color: '$secondaryText',
-                      fontWeight: '$medium',
-                      '&:hover': {
-                        color: '$linkHover',
-                        'svg path': {
-                          fill: '$linkHover',
-                        },
-                      },
+                      display: 'flex',
+                      gap: '$sm',
                     }}
                   >
-                    <Icebreaker fa /> Icebreaker
-                  </Flex>
-                  {profile?.website && (
-                    <Flex
-                      as={Link}
-                      href={profile.website as string}
-                      target="_blank"
-                      rel="noreferrer"
-                      title={profile.website as string}
+                    <Avatar
+                      size="small"
+                      name={profile.name}
+                      path={profile.avatar}
+                      margin="none"
+                    />
+                    <Text
+                      h2
+                      display
                       css={{
-                        fontWeight: '$medium',
-                        alignItems: 'center',
-                        gap: '$xs',
-                        color: '$secondaryText',
-                        '&:hover': {
-                          color: '$linkHover',
-                        },
+                        color: '$secondaryButtonText',
                       }}
                     >
-                      <ExternalLink />{' '}
-                      {abbreviateString(
-                        (profile.website as string).replace(/^https?:\/\//, ''),
-                        30
-                      )}
-                    </Flex>
+                      {profile.name}
+                    </Text>
+                  </AppLink>
+                </Flex>
+                <Flex css={{ gap: '$sm' }}>
+                  {details && (
+                    <SocialLinks
+                      details={details}
+                      targetAddress={targetAddress}
+                      profileWebsite={profile?.website}
+                    />
                   )}
                 </Flex>
               </Flex>
-            </Flex>
+            ) : (
+              <>
+                <Flex
+                  alignItems="center"
+                  css={{
+                    gap: '$sm',
+                    mb: '$sm',
+                    '@xs': {
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                    },
+                    ...(drawer && { flexDirection: 'column' }),
+                  }}
+                >
+                  <Flex column css={{ mr: '$md', ...(drawer && { mr: 0 }) }}>
+                    <AppLink
+                      to={coLinksPaths.profileGive(
+                        profile?.address ??
+                          fcUser?.verified_addresses.eth_addresses[0] ??
+                          fcUser?.custody_address ??
+                          ''
+                      )}
+                    >
+                      <Avatar
+                        size="xl"
+                        name={profile.name}
+                        path={profile.avatar}
+                        margin="none"
+                      />
+                    </AppLink>
+                  </Flex>
+                  <Flex
+                    column
+                    css={{
+                      gap: '$sm',
+                      ...(drawer && { alignItems: 'center' }),
+                    }}
+                  >
+                    <Text
+                      h2
+                      display
+                      css={{
+                        color: '$secondaryButtonText',
+                        '@xs': {
+                          fontSize: '$h1',
+                        },
+                      }}
+                    >
+                      {profile.name}
+                    </Text>
+                    <CoLinksStats
+                      address={profile.address}
+                      links={profile.links ?? 0}
+                      score={profile.reputation_score?.total_score ?? 0}
+                      size={'medium'}
+                      // We should this elsewhere i guess?
+                      holdingCount={0}
+                      // if we want to show this, this is how but probably needs a restyle
+                      // holdingCount={targetBalance ?? 0}
+                      css={{ ...(drawer && { justifyContent: 'center' }) }}
+                    />
+                    <Flex
+                      css={{
+                        columnGap: '$lg',
+                        rowGap: '$sm',
+                        flexWrap: 'wrap',
+                        ...(drawer && { justifyContent: 'center' }),
+                      }}
+                    >
+                      {details && (
+                        <SocialLinks
+                          details={details}
+                          targetAddress={targetAddress}
+                          profileWebsite={profile?.website}
+                        />
+                      )}
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </>
+            )}
             {!drawer && (
               <Flex css={{ alignItems: 'flex-start', gap: '$sm', mb: '$md' }}>
                 {isCurrentUser ? (
@@ -359,17 +254,13 @@ const ProfileHeaderWithProfile = ({
                     Edit Profile
                   </Button>
                 ) : (
-                  <Mutes
+                  <CoLinksGiveButton
+                    cta
+                    gives={[]}
                     targetProfileId={targetProfile?.profile.id}
-                    targetProfileAddress={targetAddress}
+                    targetAddress={targetAddress}
                   />
                 )}
-                <CoLinksGiveButton
-                  cta
-                  gives={[]}
-                  targetProfileId={targetProfile?.profile.id}
-                  targetAddress={targetAddress}
-                />
               </Flex>
             )}
           </Flex>
@@ -405,9 +296,7 @@ const ProfileHeaderWithProfile = ({
             </Flex>
           )} */}
           {profile.description && (
-            <Flex
-              css={{ mt: '$xs', ...(drawer && { justifyContent: 'center' }) }}
-            >
+            <Flex css={{ ...(drawer && { justifyContent: 'center' }) }}>
               <Text
                 color="secondary"
                 css={{ ...(drawer && { textAlign: 'center' }) }}
@@ -420,6 +309,131 @@ const ProfileHeaderWithProfile = ({
       </ContentHeader>
       {!drawer && <ProfileNav targetAddress={targetAddress} />}
     </Flex>
+  );
+};
+
+const SocialLinks = ({
+  details,
+  profileWebsite,
+  targetAddress,
+}: {
+  details: ProfileDetails;
+  profileWebsite?: string;
+  targetAddress: string;
+}) => {
+  return (
+    <>
+      {details?.farcaster && (
+        <Flex
+          as={Link}
+          href={`https://warpcast.com/${details?.farcaster}`}
+          target="_blank"
+          rel="noreferrer"
+          css={{
+            alignItems: 'center',
+            gap: '$xs',
+            color: '$secondaryText',
+            fontWeight: '$medium',
+            '&:hover': {
+              color: '$linkHover',
+              'svg path': {
+                fill: '$linkHover',
+              },
+            },
+          }}
+        >
+          <Farcaster fa /> {details?.farcaster}
+        </Flex>
+      )}
+      {details?.github && (
+        <Flex
+          as={Link}
+          href={`https://github.com/${details?.github}`}
+          target="_blank"
+          rel="noreferrer"
+          css={{
+            alignItems: 'center',
+            gap: '$xs',
+            color: '$secondaryText',
+            fontWeight: '$semibold',
+            '&:hover': {
+              color: '$linkHover',
+              'svg path': {
+                fill: '$linkHover',
+              },
+            },
+          }}
+        >
+          <Github nostroke /> {details?.github}
+        </Flex>
+      )}
+      {details?.twitter && (
+        <Flex
+          as={Link}
+          href={`https://twitter.com/${details?.twitter}`}
+          target="_blank"
+          rel="noreferrer"
+          css={{
+            alignItems: 'center',
+            gap: '$xs',
+            color: '$secondaryText',
+            fontWeight: '$medium',
+            '&:hover': {
+              color: '$linkHover',
+              'svg path': {
+                fill: '$linkHover',
+              },
+            },
+          }}
+        >
+          <Twitter nostroke /> {details?.twitter}
+        </Flex>
+      )}
+      <Flex
+        as={Link}
+        href={`https://app.icebreaker.xyz/eth/${targetAddress}`}
+        target="_blank"
+        rel="noreferrer"
+        css={{
+          alignItems: 'center',
+          gap: '$xs',
+          color: '$secondaryText',
+          fontWeight: '$medium',
+          '&:hover': {
+            color: '$linkHover',
+            'svg path': {
+              fill: '$linkHover',
+            },
+          },
+        }}
+      >
+        <Icebreaker fa /> Icebreaker
+      </Flex>
+      {profileWebsite && (
+        <Flex
+          as={Link}
+          href={profileWebsite as string}
+          target="_blank"
+          rel="noreferrer"
+          title={profileWebsite as string}
+          css={{
+            fontWeight: '$medium',
+            alignItems: 'center',
+            gap: '$xs',
+            color: '$secondaryText',
+            '&:hover': {
+              color: '$linkHover',
+            },
+          }}
+        >
+          <ExternalLink />{' '}
+          {abbreviateString(
+            (profileWebsite as string).replace(/^https?:\/\//, ''),
+            30
+          )}
+        </Flex>
+      )}
+    </>
   );
 };
 
@@ -528,6 +542,69 @@ export const fetchCoLinksProfile = async (
     imMuted: !!imMutedI,
   };
 };
+
+const fetchProfileDetails = async (profileId: number) => {
+  const {
+    twitter_accounts_by_pk: twitter,
+    github_accounts_by_pk: github,
+    farcaster_accounts_by_pk: farcaster,
+    profile_skills,
+  } = await client.query(
+    {
+      profile_skills: [
+        {
+          where: {
+            profile_id: {
+              _eq: profileId,
+            },
+          },
+          order_by: [{ skill_name: order_by.asc }],
+        },
+        {
+          skill_name: true,
+        },
+      ],
+      farcaster_accounts_by_pk: [
+        {
+          profile_id: profileId,
+        },
+        {
+          username: true,
+        },
+      ],
+      twitter_accounts_by_pk: [
+        {
+          profile_id: profileId,
+        },
+        {
+          username: true,
+        },
+      ],
+      github_accounts_by_pk: [
+        {
+          profile_id: profileId,
+        },
+        {
+          username: true,
+        },
+      ],
+    },
+    {
+      operationName: 'profile_details',
+    }
+  );
+
+  return {
+    twitter: twitter ? twitter.username : undefined,
+    github: github ? github.username : undefined,
+    farcaster: farcaster ? farcaster.username : undefined,
+    skills: profile_skills.map(ps => ps.skill_name),
+  };
+};
+
+export type ProfileDetails = Required<
+  Awaited<ReturnType<typeof fetchProfileDetails>>
+>;
 
 export type CoLinksProfile = Required<
   Awaited<ReturnType<typeof fetchCoLinksProfile>>

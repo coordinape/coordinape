@@ -342,7 +342,7 @@ export const PickOneSkill = ({
         QUERY_KEY_SKILLS,
         targetProfileId ? targetProfileId.toString() : '',
       ]}
-      popoverCss={{ mt: -56 }}
+      popoverCss={{ mt: -40, mx: 6 }}
       customRender={skill => {
         const skillOnProfile = profile_skills.find(
           s => s.skill_name.toLowerCase() === skill.toLowerCase()
