@@ -17,7 +17,7 @@ import {
   getContractAddress,
 } from '../../src/utils/viem/contracts';
 import { getReadOnlyClient } from '../../src/utils/viem/publicClient';
-import { BE_ALCHEMY_API_KEY, COSOUL_SIGNER_ADDR_PK } from '../config';
+import { COSOUL_SIGNER_ADDR_PK } from '../config';
 
 import { getWalletClient } from './walletClient';
 
@@ -37,9 +37,6 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
     },
   });
 };
-
-const backendReadOnlyClient = () =>
-  getReadOnlyClient(undefined, BE_ALCHEMY_API_KEY);
 
 function walletClient() {
   const client = getWalletClient(COSOUL_SIGNER_ADDR_PK as Hex);
@@ -81,7 +78,7 @@ export const mintCoSoulForAddress = async (address: string) => {
     ...gasSettings,
   });
 
-  const publicClient = backendReadOnlyClient();
+  const publicClient = getReadOnlyClient();
   return await publicClient.waitForTransactionReceipt({
     hash: txHash,
   });
@@ -115,7 +112,7 @@ export async function getMintInfoFromReceipt(receipt: TransactionReceipt) {
 }
 
 export const getOnChainPGive = async (tokenId: number) => {
-  const cosoul = getCoSoulContract(backendReadOnlyClient());
+  const cosoul = getCoSoulContract();
   return await cosoul.read.getSlot([PGIVE_SLOT, BigInt(tokenId)] as const);
 };
 
@@ -209,7 +206,7 @@ export const setBatchSlotOnChain = async (slot: Slot, params: CoSoulArgs[]) => {
       }
     );
 
-    return await backendReadOnlyClient().waitForTransactionReceipt({
+    return await getReadOnlyClient().waitForTransactionReceipt({
       hash: txHash,
     });
   } else {
