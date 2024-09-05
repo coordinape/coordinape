@@ -6,7 +6,6 @@ import svgrPlugin from 'vite-plugin-svgr';
 import vercel from 'vite-plugin-vercel';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-
 // https://vitejs.dev/config/
 
 const env = loadEnv('all', process.cwd());
