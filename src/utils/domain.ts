@@ -1,17 +1,5 @@
 import { STORAGE_URL } from '../config/env';
 
-function hasWindow(): boolean {
-  return typeof window !== 'undefined';
-}
-
-function hasProcess(): boolean {
-  return process?.env !== undefined;
-}
-
-export function isBackend(): boolean {
-  return !hasWindow() && hasProcess();
-}
-
 function hostname(): string {
   if (typeof window !== 'undefined') {
     // this will always be true until we move to nextjs
