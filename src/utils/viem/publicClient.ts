@@ -1,15 +1,17 @@
 import { createPublicClient, http } from 'viem';
 import { localhost, optimism, optimismSepolia } from 'viem/chains';
 
+import { BE_ALCHEMY_API_KEY } from '../../../api-lib/config';
 import {
   HARDHAT_GANACHE_PORT,
   VITE_FE_ALCHEMY_API_KEY,
 } from '../../config/env';
 import { chain } from '../../features/cosoul/chains';
+import { isBackend } from '../domain';
 
 export type ReadOnlyClient = ReturnType<typeof getReadOnlyClient>;
-export function getReadOnlyClient(chainId?: number, alchemyApiKey?: string) {
-  const apiKey = alchemyApiKey ?? VITE_FE_ALCHEMY_API_KEY;
+export function getReadOnlyClient(chainId?: number) {
+  const apiKey = isBackend() ? BE_ALCHEMY_API_KEY : VITE_FE_ALCHEMY_API_KEY;
 
   if (chainId === undefined) {
     chainId = Number(chain.chainId);
