@@ -4,7 +4,7 @@ import { WalletClient, getContract } from 'viem';
 import { CoLinksABI, CoSoulABI } from '../../contracts/abis';
 import { chain } from '../../features/cosoul/chains';
 
-import { getReadOnlyClient } from './publicClient';
+import { ReadOnlyClient, getReadOnlyClient } from './publicClient';
 
 const requiredContracts = ['CoSoul'];
 
@@ -38,11 +38,13 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
 };
 
 export type CoSoul = ReturnType<typeof getCoSoulContract>;
-export const getCoSoulContract = () => {
+export const getCoSoulContract = (publicClient?: ReadOnlyClient) => {
+  const client = publicClient ?? getReadOnlyClient();
+
   return getContract({
     address: getContractAddress('CoSoul'),
     abi: CoSoulABI,
-    client: getReadOnlyClient(),
+    client: client,
   });
 };
 

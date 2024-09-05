@@ -2,7 +2,7 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import { DateTime, Settings } from 'luxon';
 
-import { IS_LOCAL_ENV } from '../../../api-lib/config';
+import { BE_ALCHEMY_API_KEY, IS_LOCAL_ENV } from '../../../api-lib/config';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorLog } from '../../../api-lib/HttpError';
 import { getCirclesNoPgiveWithDateFilter } from '../../../api-lib/pgives';
@@ -14,6 +14,7 @@ import {
 } from '../../../api-lib/viem/contracts';
 import { getLocalPGIVE } from '../../../src/features/cosoul/api/pgive';
 import { storeCoSoulImage } from '../../../src/features/cosoul/art/screenshot';
+import { chain } from '../../../src/features/cosoul/chains';
 import { getReadOnlyClient } from '../../../src/utils/viem/publicClient';
 
 Settings.defaultZone = 'utc';
@@ -173,7 +174,10 @@ const syncCoSoulToken = async (
     totalPGIVE = Math.floor(totalPGIVE);
     const txHash = await setOnChainPGive({ tokenId, amount: totalPGIVE });
 
-    await getReadOnlyClient().getTransactionReceipt({
+    const chainId = Number(chain.chainId);
+    const publicClient = getReadOnlyClient(chainId, BE_ALCHEMY_API_KEY);
+
+    await publicClient.getTransactionReceipt({
       hash: txHash,
     });
 
