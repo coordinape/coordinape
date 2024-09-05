@@ -79,10 +79,6 @@ type Mutation {
 }
 
 type Mutation {
-  deleteDiscordUser(payload: DeleteDiscordUserInput!): ConfirmationResponse
-}
-
-type Mutation {
   deleteEmail(payload: DeleteEmailInput!): ConfirmationResponse
 }
 
@@ -136,14 +132,6 @@ type Mutation {
 
 type Mutation {
   inviteWaitingList(payload: InviteWaitingListInput!): ConfirmationResponse!
-}
-
-type Mutation {
-  linkDiscordCircle(payload: LinkDiscordCircleInput!): LinkDiscordCircleResponse
-}
-
-type Mutation {
-  linkDiscordUser(payload: LinkDiscordUserInput!): LinkDiscordUserResponse
 }
 
 type Mutation {
@@ -491,10 +479,6 @@ input MarkClaimedInput {
   tx_hash: String!
 }
 
-input LinkDiscordUserInput {
-  discord_id: String!
-}
-
 input DeleteUsersInput {
   circle_id: Int!
   addresses: [String!]!
@@ -502,15 +486,6 @@ input DeleteUsersInput {
 
 input UpdateProfileNameInput {
   name: String!
-}
-
-input DeleteDiscordUserInput {
-  user_snowflake: String!
-}
-
-input LinkDiscordCircleInput {
-  circle_id: Int!
-  token: String!
 }
 
 input UpdateProfileInput {
@@ -742,19 +717,11 @@ type MarkClaimedOutput {
   ids: [Int!]!
 }
 
-type LinkDiscordUserResponse {
-  id: Int!
-}
-
 type CreateSampleCircleResponse {
   id: Int!
 }
 
 type UpdateProfileNameResponse {
-  id: Int!
-}
-
-type LinkDiscordCircleResponse {
   id: Int!
 }
 

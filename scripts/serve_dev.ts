@@ -6,7 +6,6 @@ import address from '../_api/cosoul/[address]';
 import artTokenId from '../_api/cosoul/art/[artTokenId]';
 import tokenId from '../_api/cosoul/metadata/[tokenId]';
 import screenshot from '../_api/cosoul/screenshot/[tokenId]';
-import discord from '../_api/discord/oauth';
 import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
@@ -93,7 +92,6 @@ const tf = (handler: any) => (req: any, res: any) => {
   }
 };
 
-app.get('/api/discord/oauth', tf(discord));
 app.get('/api/hasura/auth', tf(auth));
 app.post('/api/hasura/actions/actionManager', tf(actionManager));
 app.post('/api/hasura/event_triggers/eventManager', tf(eventManager));
