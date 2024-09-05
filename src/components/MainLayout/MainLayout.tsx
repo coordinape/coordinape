@@ -48,5 +48,8 @@ export default MainLayout;
 
 // this is in this file because it depends on the <main> tag defined above
 export const scrollToTop = () => {
-  document.getElementsByTagName('main')[0].scrollTop = 0;
+  const main = document.getElementsByTagName('main')[0];
+  if (main) {
+    main.scrollTop = 0;
+  }
 };
