@@ -85,7 +85,7 @@ export const ProfilePageGiveContents = ({
                     backgroundRepeat: 'no-repeat',
                     backgroundSize: 'cover',
                     backgroundImage: "url('/imgs/background/give-none.jpg')",
-                    backgroundPosition: 'center',
+                    backgroundPosition: 'top',
                   }}
                 />
                 <Flex
@@ -94,7 +94,7 @@ export const ProfilePageGiveContents = ({
                     flex: 2,
                     gap: '$sm',
                     alignItems: 'flex-start',
-                    p: '$sm $md $lg',
+                    p: '$sm $md $md',
                     color: '$text',
                     'svg path': {
                       fill: 'currentColor',
