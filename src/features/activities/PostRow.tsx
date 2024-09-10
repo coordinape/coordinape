@@ -171,14 +171,16 @@ export const PostRow = ({
               >
                 <ActivityProfileName profile={activity.actor_profile_public} />
                 <Text
-                  as={NavLink}
+                  as={link ? Link : NavLink}
                   size="small"
-                  to={link ?? coLinksPaths.post(activity.id)}
                   css={{
                     color: '$neutral',
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                   }}
+                  {...(link
+                    ? { target: '_blank', rel: 'noreferrer', href: link }
+                    : { to: coLinksPaths.post(activity.id) })}
                 >
                   {timestampVerb ? timestampVerb + ' ' : ''}
                   {DateTime.fromISO(activity.created_at).toRelative()}
