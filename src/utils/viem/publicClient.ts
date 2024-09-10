@@ -1,5 +1,11 @@
 import { createPublicClient, http } from 'viem';
-import { localhost, optimism, optimismSepolia } from 'viem/chains';
+import {
+  mainnet,
+  localhost,
+  optimism,
+  optimismSepolia,
+  arbitrum,
+} from 'viem/chains';
 
 import {
   HARDHAT_GANACHE_PORT,
@@ -16,10 +22,30 @@ export function getReadOnlyClient(chainId?: number, alchemyApiKey?: string) {
   }
 
   switch (chainId) {
+    case 1: // Ethereum
+      return createPublicClient({
+        chain: mainnet,
+        transport: http(`https://eth-mainnet.g.alchemy.com/v2/${apiKey}`),
+      });
     case 10: // Optimism
       return createPublicClient({
         chain: optimism,
         transport: http(`https://opt-mainnet.g.alchemy.com/v2/${apiKey}`),
+      });
+    case 137: // Polygon
+      return createPublicClient({
+        chain: mainnet,
+        transport: http(`https://polygon-mainnet.g.alchemy.com/v2/${apiKey}`),
+      });
+    case 8453: // Base
+      return createPublicClient({
+        chain: arbitrum,
+        transport: http(`https://base-mainnet.g.alchemy.com/v2/${apiKey}`),
+      });
+    case 42161: // Arbitrum
+      return createPublicClient({
+        chain: arbitrum,
+        transport: http(`https://arb-mainnet.g.alchemy.com/v2/${apiKey}`),
       });
     case 11155420: // Optimism Sepolia
       return createPublicClient({
