@@ -32,12 +32,14 @@ export const ActivityRow = ({
   activity,
   drawer,
   focus = false,
+  timestampVerb,
 }: {
   activity: Activity;
   drawer?: boolean;
   focus?: boolean;
+  timestampVerb?: boolean;
 }) => {
-  const valid = validActivity(activity, focus, drawer);
+  const valid = validActivity(activity, focus, drawer, timestampVerb);
 
   if (!valid) {
     if (isFeatureEnabled('debug')) {
@@ -71,12 +73,18 @@ export const ActivityRow = ({
 const validActivity = (
   activity: Activity,
   focus: boolean,
-  drawer?: boolean
+  drawer?: boolean,
+  timestampVerb?: boolean
 ) => {
   if (IsContribution(activity)) {
     if (activity.private_stream || activity.big_question) {
       return (
-        <PostRow activity={activity} focus={focus} editAllowed={true}>
+        <PostRow
+          timestampVerb={timestampVerb ? 'posted' : undefined}
+          activity={activity}
+          focus={focus}
+          editAllowed={true}
+        >
           {({ editing, editable, setEditing }) => (
             <CoLinksPostRowChild
               activity={activity}
@@ -101,6 +109,7 @@ const validActivity = (
           editAllowed={false}
           postType="cast"
           castByline={<CastByline cast={activity.cast} />}
+          timestampVerb={timestampVerb ? 'casted' : undefined}
         >
           {() => <CastRow cast={activity.cast} activity={activity} />}
         </PostRow>
