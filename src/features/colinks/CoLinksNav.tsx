@@ -2,6 +2,7 @@ import { memo, useContext, useEffect, useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { BIG_QUESTION_MANAGERS } from 'common-lib/constants';
 import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { PointsBar } from 'features/points/PointsBar';
@@ -27,6 +28,7 @@ import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
+import useProfileId from 'hooks/useProfileId';
 import {
   Ai,
   BoltFill,
@@ -38,6 +40,7 @@ import {
   MessagesQuestion,
   PaperPlane,
   PlanetFill,
+  Settings,
   UserFill,
   X,
 } from 'icons/__generated';
@@ -343,6 +346,7 @@ const LoggedInItems = ({
   address: string | undefined;
 }) => {
   const navigate = useNavigate();
+  const profileId = useProfileId();
 
   return (
     <>
@@ -375,21 +379,47 @@ const LoggedInItems = ({
         <MessagesQuestion size="lg" nostroke />
         <Flex
           css={{
-            '--bg-size': '400%',
-            '--color-one': '$colors$bigQuestion1',
-            '--color-two': '$colors$bigQuestion2',
-            background:
-              'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
-            color: 'transparent',
-            backgroundClip: 'text',
-            '-webkit-background-clip': 'text',
-            animation: `${moveBg} 32s infinite linear`,
-            '&:hover': {
-              outline: '$surfaceNested',
-            },
+            gap: '$md',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100%',
           }}
         >
-          The Big Question
+          <Flex
+            css={{
+              '--bg-size': '400%',
+              '--color-one': '$colors$bigQuestion1',
+              '--color-two': '$colors$bigQuestion2',
+              background:
+                'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
+              color: 'transparent',
+              backgroundClip: 'text',
+              '-webkit-background-clip': 'text',
+              animation: `${moveBg} 32s infinite linear`,
+              '&:hover': {
+                outline: '$surfaceNested',
+              },
+            }}
+          >
+            The Big Question
+          </Flex>
+          {profileId && BIG_QUESTION_MANAGERS.includes(profileId) && (
+            <IconButton
+              css={{
+                fontSize: '$small',
+                color: '$secondaryText',
+                '&:hover': {
+                  color: '$linkHover',
+                },
+              }}
+              onClick={e => {
+                e.preventDefault();
+                navigate(coLinksPaths.bigQuestionsEdit);
+              }}
+            >
+              <Settings css={{ path: { fill: 'transparent !important' } }} />
+            </IconButton>
+          )}
         </Flex>
       </NavItem>
       <HR />

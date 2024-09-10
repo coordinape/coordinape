@@ -269,6 +269,17 @@ actions:
           value_from_env: HASURA_EVENT_SECRET
     permissions:
       - role: user
+  - name: getBigQuestions
+    definition:
+      kind: ""
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getBigQuestions'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: get all big questions for specific users      
   - name: getCasts
     definition:
       kind: ""
@@ -448,6 +459,17 @@ actions:
     permissions:
       - role: api-user
       - role: user
+  - name: updateBigQuestion
+    definition:
+      kind: synchronous
+      handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=updateBigQuestion'
+      forward_client_headers: true
+      headers:
+        - name: verification_key
+          value_from_env: HASURA_EVENT_SECRET
+    permissions:
+      - role: user
+    comment: update and insert big questions by sepecific users
   - name: updateCircle
     definition:
       kind: synchronous
@@ -639,6 +661,7 @@ custom_types:
     - name: AddFarcasterInput
     - name: NetworkInput
     - name: GetCastsInput
+    - name: UpdateBigQuestionInput
   objects:
     - name: CreateCircleResponse
       relationships:
@@ -907,5 +930,27 @@ custom_types:
     - name: CastEmbed
     - name: Cast
     - name: GetCastsOutput
+    - name: UpdateBigQuestionResponse
+      relationships:
+        - field_mapping:
+            id: id
+          name: bigQuestion
+          remote_table:
+            name: big_questions
+            schema: public
+          source: default
+          type: object
+    - name: BigQuestionsOutput
+      relationships:
+        - field_mapping:
+            id: id
+          name: bigQuestion
+          remote_table:
+            name: big_questions
+            schema: public
+          source: default
+          type: object
+    - name: ActivitiesAggregate
+    - name: Aggregate
   scalars:
     - name: timestamptz

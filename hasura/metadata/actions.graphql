@@ -111,6 +111,10 @@ type Mutation {
 }
 
 type Query {
+  getBigQuestions: [BigQuestionsOutput]
+}
+
+type Query {
   getCasts(payload: GetCastsInput!): GetCastsOutput!
 }
 
@@ -190,6 +194,10 @@ type Mutation {
 
 type Mutation {
   updateAllocations(payload: Allocations!): AllocationsResponse
+}
+
+type Mutation {
+  updateBigQuestion(payload: UpdateBigQuestionInput!): UpdateBigQuestionResponse
 }
 
 type Mutation {
@@ -617,6 +625,16 @@ input NetworkInput {
   farcaster_id: Int
 }
 
+input UpdateBigQuestionInput {
+  big_question_id: Int
+  prompt: String!
+  description: String
+  cover_image_url: String!
+  publish_at: String
+  expire_at: String
+  css_background_position: String
+}
+
 input GetCastsInput {
   fid: bigint
   cast_ids: [bigint!]
@@ -871,6 +889,29 @@ type Cast {
 
 type GetCastsOutput {
   casts: [Cast!]!
+}
+
+type UpdateBigQuestionResponse {
+  id: Int!
+}
+
+type BigQuestionsOutput {
+  id: Int!
+  prompt: String!
+  description: String
+  cover_image_url: String!
+  publish_at: String
+  expire_at: String
+  css_background_position: String
+  activities_aggregate: ActivitiesAggregate!
+}
+
+type ActivitiesAggregate {
+  aggregate: Aggregate
+}
+
+type Aggregate {
+  count: Int!
 }
 
 scalar timestamptz
