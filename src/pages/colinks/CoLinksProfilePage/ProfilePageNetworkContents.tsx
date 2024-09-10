@@ -16,7 +16,7 @@ import { ProfileNetwork } from 'pages/GiveParty/ProfileNetwork';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Box, Button, Flex, Text } from 'ui';
 
-import { ProfileCards } from './ProfileCards';
+import { ProfileCards, cardMaxWidth } from './ProfileCards';
 
 const LINK_HOLDERS_LIMIT = 5;
 const LINKS_HOLDING_LIMIT = 5;
@@ -76,7 +76,7 @@ export const PageContents = ({
       >
         <ProfileNetwork targetAddress={targetAddress} />
       </Flex>
-      <Flex column css={{ gap: '$md', width: '100%' }}>
+      <Flex column css={{ gap: '$md', width: cardMaxWidth }}>
         <ProfileCards targetAddress={targetAddress} />
         {!weAreLinked ? (
           <ProfileLinkDetails targetAddress={targetAddress} />

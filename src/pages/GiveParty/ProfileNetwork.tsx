@@ -51,7 +51,6 @@ export const ProfileNetwork = ({
           ...(fullscreen
             ? {
                 fontSize: 17,
-                // marginTop: 150,
                 '@media (orientation: landscape)': {
                   height: 'calc(100vh - 220px)',
                   minHeight: 600,

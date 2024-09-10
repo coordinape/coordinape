@@ -22,6 +22,7 @@ import { LinkUpCard } from './LinkUpCard';
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 
 export const cardColumnMinWidth = 1280;
+export const cardMaxWidth = 350;
 export const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileCards = ({
@@ -86,8 +87,6 @@ export const ProfileCardsWithProfile = ({
 
   const { mostRecentActivity, totalActivitiesCount, mostRecentCast } =
     data || {};
-
-  const cardMaxWidth = 350;
 
   const panelStyles = {
     minHeight: 90,
