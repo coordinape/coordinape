@@ -39,6 +39,7 @@ export const PostRow = ({
   children,
   castByline,
   postType,
+  timestampVerb,
 }: {
   activity: ActivityWithValidProfile;
   focus: boolean;
@@ -46,6 +47,7 @@ export const PostRow = ({
   children: React.FC<PostRowChildProps>;
   castByline?: React.ReactNode;
   postType?: 'cast';
+  timestampVerb?: string;
 }) => {
   const queryClient = useQueryClient();
   const location = useLocation();
@@ -176,6 +178,7 @@ export const PostRow = ({
                     '&:hover': { textDecoration: 'underline' },
                   }}
                 >
+                  {timestampVerb ? timestampVerb + ' ' : ''}
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
                 {isFeatureEnabled('share_post') && editable && (
