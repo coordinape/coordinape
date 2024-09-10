@@ -134,6 +134,7 @@ export const ProfileCardsWithProfile = ({
               }}
             >
               <ActivityRow
+                timestampVerb
                 key={mostRecentActivity.id}
                 activity={mostRecentActivity}
               />
@@ -147,7 +148,11 @@ export const ProfileCardsWithProfile = ({
                 gap: '$xs',
               }}
             >
-              <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
+              <ActivityRow
+                timestampVerb
+                key={mostRecentCast.id}
+                activity={mostRecentCast}
+              />
             </Flex>
           )}
         </Flex>
