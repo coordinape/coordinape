@@ -110,7 +110,7 @@ export const LinkUpCard = ({ targetAddress }: { targetAddress: string }) => {
           css={{
             border: 'none',
             display: 'none',
-            '@tablet': { display: 'block', my: '$lg' },
+            '@tablet': { display: 'block', width: '100%' },
           }}
         >
           <Flex column css={{ width: '100%' }}>

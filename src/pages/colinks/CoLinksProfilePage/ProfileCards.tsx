@@ -92,8 +92,10 @@ export const ProfileCardsWithProfile = ({
     minHeight: 90,
     maxWidth: cardMaxWidth,
     pr: '$lg',
-    flexGrow: 1,
     color: '$text',
+    '@sm': {
+      flexGrow: 1,
+    },
   };
 
   if (suppressCards && !forceDisplay) return null;
@@ -104,9 +106,6 @@ export const ProfileCardsWithProfile = ({
         gap: '$sm',
         flexShrink: 1,
         maxWidth: cardMaxWidth,
-        '@sm': {
-          maxWidth: '100%',
-        },
       }}
     >
       {!location.pathname.includes('posts') && (
@@ -156,6 +155,81 @@ export const ProfileCardsWithProfile = ({
           )}
         </Flex>
       )}
+      <Panel
+        as={AppLink}
+        to={coLinksPaths.profileGive(targetAddress)}
+        noBorder
+        css={{
+          ...panelStyles,
+        }}
+      >
+        <Flex css={{ gap: '$md', alignItems: 'center' }}>
+          <GemCoOutline fa size="2xl" />
+          <Flex column>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>
+                <GiveReceived address={targetAddress}>
+                  {receivedNumber => receivedNumber}
+                </GiveReceived>
+              </Text>
+              GIVE Received
+            </Text>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>
+                <GiveReceived address={targetAddress}>
+                  {(_, sentNumber) => sentNumber}
+                </GiveReceived>
+              </Text>
+              GIVE Sent
+            </Text>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>{network?.tier_counts[1]}</Text>
+              GIVE Connections
+            </Text>
+          </Flex>
+        </Flex>
+      </Panel>
+      <Flex
+        as={AppLink}
+        to={coLinksPaths.profileReputation(targetAddress)}
+        css={{
+          width: cardMaxWidth,
+          height: 90,
+          borderRadius: '$3',
+          overflow: 'hidden',
+          alignItems: 'center',
+          position: 'relative',
+          canvas: {
+            ml: -100,
+            scale: 0.6,
+            '@sm': {
+              ml: 30,
+              scale: 1,
+            },
+          },
+        }}
+      >
+        <CoSoulArt
+          repScore={profile.reputation_score?.total_score ?? 0}
+          address={targetAddress}
+          animate={false}
+        />
+        <Flex
+          column
+          css={{
+            position: 'absolute',
+            left: '$md',
+            zIndex: 1,
+          }}
+        >
+          <Text h1 css={{ color: 'white' }}>
+            {profile.reputation_score?.total_score ?? 0}
+          </Text>
+          <Text semibold css={{ color: 'white' }}>
+            Reputation Score
+          </Text>
+        </Flex>
+      </Flex>
       <Flex
         css={{
           gap: '$sm',
@@ -220,77 +294,7 @@ export const ProfileCardsWithProfile = ({
             </Flex>
           </Flex>
         </Panel>
-        <Panel
-          as={AppLink}
-          to={coLinksPaths.profileGive(targetAddress)}
-          noBorder
-          css={{
-            ...panelStyles,
-          }}
-        >
-          <Flex css={{ gap: '$md', alignItems: 'center' }}>
-            <GemCoOutline fa size="2xl" />
-            <Flex column>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>
-                  <GiveReceived address={targetAddress}>
-                    {receivedNumber => receivedNumber}
-                  </GiveReceived>
-                </Text>
-                GIVE Received
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>
-                  <GiveReceived address={targetAddress}>
-                    {(_, sentNumber) => sentNumber}
-                  </GiveReceived>
-                </Text>
-                GIVE Sent
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[1]}</Text>
-                GIVE Connections
-              </Text>
-            </Flex>
-          </Flex>
-        </Panel>
-        <Flex
-          as={AppLink}
-          to={coLinksPaths.profileReputation(targetAddress)}
-          css={{
-            width: cardMaxWidth,
-            height: 90,
-            borderRadius: '$3',
-            overflow: 'hidden',
-            alignItems: 'center',
-            position: 'relative',
-            canvas: {
-              ml: -100,
-              scale: 0.6,
-            },
-          }}
-        >
-          <CoSoulArt
-            repScore={profile.reputation_score?.total_score ?? 0}
-            address={targetAddress}
-            animate={false}
-          />
-          <Flex
-            column
-            css={{
-              position: 'absolute',
-              left: '$md',
-              zIndex: 1,
-            }}
-          >
-            <Text h1 css={{ color: 'white' }}>
-              {profile.reputation_score?.total_score ?? 0}
-            </Text>
-            <Text semibold css={{ color: 'white' }}>
-              Reputation Score
-            </Text>
-          </Flex>
-        </Flex>
+
         <LinkUpCard targetAddress={targetAddress} />
         <Flex css={{ width: '100%', maxWidth: cardMaxWidth }}>
           <Poaps address={targetAddress} profileCard />
