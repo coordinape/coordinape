@@ -485,7 +485,7 @@ export const PostForm = ({
             <LoadingBar
               css={{
                 position: 'absolute',
-                bottom: `calc((1px + $lg) * -1)`,
+                bottom: '-$sm',
                 left: '-$xl',
                 width: `calc(100% + $xl)`,
               }}

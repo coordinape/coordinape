@@ -195,7 +195,7 @@ export const CoLinksGiveButton = ({
                           }}
                         >
                           <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
-                          GIVE
+                          +GIVE
                         </Button>
                       </>
                     }

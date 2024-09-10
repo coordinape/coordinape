@@ -5,7 +5,6 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 import { ProfileCards } from './ProfileCards';
 import { ProfileHeader } from './ProfileHeader';
-import { profileMainColumnWidth } from './ProfilePageGiveContents';
 import { ProfilePagePostsContents } from './ProfilePagePostsContents';
 
 export const ViewProfilePagePosts = () => {
@@ -22,7 +21,6 @@ export const ViewProfilePagePosts = () => {
           css={{
             flexGrow: 1,
             width: '100%',
-            maxWidth: profileMainColumnWidth,
           }}
         >
           <ProfilePagePostsContents targetAddress={address} />

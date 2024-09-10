@@ -1,27 +1,28 @@
 import { useWindowSize } from '@react-hook/window-size';
-import { colinksProfileColumnWidthInt } from 'features/cosoul/constants';
+import { mapMobileWidthInt } from 'features/cosoul/constants';
 import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { ThemeContext } from 'features/theming/ThemeProvider';
+import { NavLink } from 'react-router-dom';
 
+import { Maximize } from 'icons/__generated';
 import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
-import { Flex, Panel, Text } from 'ui';
+import { coLinksPaths } from 'routes/paths';
+import { Button, Flex, Panel, Text } from 'ui';
 
-export const profileMainColumnWidth = colinksProfileColumnWidthInt;
+export const mapMobileWidthWidth = mapMobileWidthInt;
 export const ProfilePageGiveContents = ({
   targetAddress,
 }: {
   targetAddress: string;
 }) => {
-  const [width, height] = useWindowSize();
+  const [width] = useWindowSize();
 
   const gutterWidth = 32;
   const mapWidth =
-    width > profileMainColumnWidth
-      ? profileMainColumnWidth
-      : width - gutterWidth;
-  const mapHeight = height - 250;
+    width > mapMobileWidthWidth ? mapMobileWidthWidth : width - gutterWidth;
+  const mapHeight = 180;
   const desktop = width > 1140;
   const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
@@ -29,28 +30,57 @@ export const ProfilePageGiveContents = ({
       <GiveReceived address={targetAddress}>
         {receivedNumber =>
           receivedNumber > 0 ? (
-            <Flex column css={{ gap: '$sm' }}>
-              <Text variant="label">GIVE Received</Text>
-              <Flex column>
-                <Panel
-                  noBorder
-                  css={{
+            <Flex column css={{ gap: '$sm', width: '100%' }}>
+              <Flex css={{ gap: '$md' }}>
+                <GiveReceived address={targetAddress} size="medium" />
+              </Flex>
+              <Flex
+                css={{
+                  '@sm': {
+                    mr: '-$md',
+                    overflow: 'scroll',
+                  },
+                  '.giveSkillWrapper': {
                     width: '100%',
+                    flexDirection: 'column',
+                    overflow: 'visible',
+                  },
+                  '.giveSkillContainer': {
+                    background:
+                      'linear-gradient(90deg, $complete 25%, $cta 80%)',
                     p: '$sm',
-                    '.giveSkillContainer': {
-                      width: '100%',
-                      display: 'block',
-                      columnWidth: '150px',
+                    borderRadius: '$3',
+                    width: '100%',
+                    display: 'block',
+                    columnWidth: '150px',
+                    div: {
+                      py: '$xs',
+                      flex: '0 1',
+                    },
+                    '@sm': {
+                      background: 'transparent',
+                      p: '$sm 0',
+                      display: 'flex',
+                      flexGrow: 1,
+                      flexFlow: 'wrap',
+                      // flexWrap: 'wrap',
+                      // width: '100%',
+                      minHeight: '$1xl',
+                      height: '76px',
+                      minWidth: '375px',
+                      flexDirection: 'column',
+                      gap: '$sm',
+                      // mx: '$md',
                       div: {
-                        py: '$xs',
+                        py: 0,
                       },
                     },
-                  }}
-                >
-                  <GiveReceived address={targetAddress} size="large" />
-                </Panel>
+                  },
+                }}
+              >
+                <GiveReceived address={targetAddress} size="large" />
               </Flex>
-              <Panel noBorder css={{ p: 0 }}>
+              <Panel noBorder css={{ p: 0, position: 'relative' }}>
                 <ThemeContext.Consumer>
                   {({ stitchesTheme }) => (
                     <GiveGraph
@@ -60,9 +90,30 @@ export const ProfilePageGiveContents = ({
                       minZoom={2}
                       expand={desktop}
                       stitchesTheme={stitchesTheme}
+                      zoom={false}
+                      compact={true}
                     />
                   )}
                 </ThemeContext.Consumer>
+                <Flex
+                  css={{
+                    position: 'absolute',
+                    bottom: '$sm',
+                    width: '100%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Button
+                    as={NavLink}
+                    to={coLinksPaths.profileGiveMap(targetAddress)}
+                    color={'cta'}
+                    size="xs"
+                  >
+                    <Maximize />
+                    Expand View
+                  </Button>
+                </Flex>
               </Panel>
             </Flex>
           ) : (

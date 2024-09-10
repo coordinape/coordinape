@@ -1,21 +1,19 @@
 import assert from 'assert';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 
 import { isAddress } from 'ethers/lib/utils';
 import { Mutes } from 'features/colinks/Mutes';
-import { colinksProfileColumnWidth } from 'features/cosoul/constants';
 import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { ActivityList } from '../../../features/activities/ActivityList';
-import { BuyOrSellCoLinks } from '../../../features/colinks/BuyOrSellCoLinks';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
 import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { client } from '../../../lib/gql/client';
-import { Button, Flex, Link, Panel, Text } from '../../../ui';
+import { Button, Flex, Panel, Text } from '../../../ui';
 import { NotFound } from '../NotFound';
 import useProfileId from 'hooks/useProfileId';
 import { shortenAddressWithFrontLength } from 'utils';
@@ -172,9 +170,6 @@ const PageContents = ({
     currentUserAddress &&
     targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
-  const [needsToBuyLink, setNeedsToBuyLink] = useState<boolean | undefined>(
-    undefined
-  );
   const [showCasts, setShowCasts] = useState<boolean>(true);
 
   const { data: targetProfile, isLoading: fetchCoLinksProfileIsLoading } =
@@ -189,16 +184,9 @@ const PageContents = ({
   );
 
   const balanceNumber = Number(balance);
-  const needsBootstrapping = targetIsCurrentUser && balanceNumber == 0;
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
-
-  useEffect(() => {
-    if (balance !== undefined) {
-      setNeedsToBuyLink(balanceNumber === 0);
-    }
-  }, [balance]);
 
   if (
     (!targetProfile?.profile && !fetchCoLinksProfileIsLoading) ||
@@ -246,115 +234,8 @@ const PageContents = ({
         column
         css={{
           flexGrow: 1,
-          maxWidth: colinksProfileColumnWidth,
         }}
       >
-        {needsToBuyLink === true ? (
-          <Flex
-            css={{
-              alignItems: 'center',
-              borderRadius: '$3',
-              background: '$surface',
-              overflow: 'clip',
-              mb: '$xl',
-              '@sm': { flexDirection: 'column' },
-            }}
-          >
-            <Flex
-              css={{
-                flexGrow: 1,
-                height: '100%',
-                minHeight: '200px',
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'bottom',
-                backgroundSize: 'cover',
-                backgroundImage: "url('/imgs/background/colink-other.jpg')",
-                '@sm': {
-                  width: '100%',
-                  minHeight: '260px',
-                  height: 'auto',
-                },
-              }}
-            ></Flex>
-
-            <Panel
-              css={{
-                flex: 2,
-                p: 0,
-                border: 'none',
-                borderRadius: 0,
-              }}
-            >
-              <Flex
-                css={{
-                  p: '$lg $md $sm',
-                  gap: '$sm',
-                  alignItems: 'center',
-                }}
-                column
-              >
-                <Text semibold>
-                  {targetBalance === undefined ? (
-                    <LoadingIndicator />
-                  ) : targetBalance > 0 ? (
-                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                      <Text size="large" semibold>
-                        Owns Your Link
-                      </Text>
-                      <Text>Buy theirs to become Mutual Friends</Text>
-                    </Flex>
-                  ) : (
-                    <Flex column css={{ alignItems: 'center', gap: '$xs' }}>
-                      <Text size="large" semibold>
-                        Link Up
-                      </Text>
-                      <Text>{`Connect to see each other's posts`}</Text>
-                    </Flex>
-                  )}
-                </Text>
-              </Flex>
-              <Flex css={{ p: '$md $md' }}>
-                <BuyOrSellCoLinks
-                  css={{ alignItems: 'center' }}
-                  subject={targetAddress}
-                  address={currentUserAddress}
-                  hideTitle={true}
-                  constrainWidth={true}
-                />
-              </Flex>
-            </Panel>
-          </Flex>
-        ) : (
-          <Panel
-            css={{
-              border: 'none',
-              display: 'none',
-              '@tablet': { display: 'block', my: '$lg' },
-            }}
-          >
-            <Flex column css={{ width: '100%' }}>
-              <BuyOrSellCoLinks
-                subject={targetAddress}
-                address={currentUserAddress}
-              />
-              {needsBootstrapping && (
-                <Panel info css={{ mt: '$lg', gap: '$md' }}>
-                  <Text inline>
-                    <strong>Buy your first Link</strong> to allow other CoLink
-                    holders to buy your Link.
-                  </Text>
-                  <Text>
-                    Your link holders will gain access to X. You will receive Y%
-                    of the price when they buy or sell.
-                  </Text>
-                  <Text>
-                    <Link> Learn More about Links</Link>
-                  </Text>
-                </Panel>
-              )}
-            </Flex>
-          </Panel>
-        )}
         {currentUserAddress && (
           <Flex column css={{ gap: '$md' }}>
             <AddPost targetAddress={targetAddress} />

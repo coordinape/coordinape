@@ -31,7 +31,7 @@ export const AddPost = ({ targetAddress }: { targetAddress: string }) => {
   return (
     <>
       {isCurrentUser && targetBalance !== undefined && targetBalance > 0 && (
-        <Flex column css={{ pt: '$md', alignItems: 'flex-start' }}>
+        <Flex column css={{ alignItems: 'flex-start' }}>
           {showPostForm ? (
             <Flex css={{ width: '100%' }}>
               <PostForm

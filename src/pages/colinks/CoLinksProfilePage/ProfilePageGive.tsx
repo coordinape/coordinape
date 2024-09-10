@@ -5,10 +5,7 @@ import { SingleColumnLayout } from 'ui/layouts';
 
 import { ProfileCards } from './ProfileCards';
 import { ProfileHeader } from './ProfileHeader';
-import {
-  ProfilePageGiveContents,
-  profileMainColumnWidth,
-} from './ProfilePageGiveContents';
+import { ProfilePageGiveContents } from './ProfilePageGiveContents';
 
 export const ViewProfilePageGive = () => {
   const { address } = useParams();
@@ -20,7 +17,7 @@ export const ViewProfilePageGive = () => {
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
       <Flex css={{ gap: '$xl', justifyContent: 'space-between' }}>
-        <Flex css={{ width: '100%', maxWidth: profileMainColumnWidth }}>
+        <Flex css={{ width: '100%' }}>
           <ProfilePageGiveContents targetAddress={address} />
         </Flex>
         <ProfileCards targetAddress={address} />

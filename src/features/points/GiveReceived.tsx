@@ -182,6 +182,7 @@ export const GiveReceived = ({
     return (
       <>
         <Panel
+          className="giveSkillWrapper"
           css={{
             flexDirection: 'row',
             p: 0,
@@ -250,7 +251,7 @@ export const GiveReceived = ({
                     <PopoverTrigger
                       css={{
                         cursor: 'pointer',
-                        opacity: 0.7,
+                        opacity: 0.9,
                         '&:hover': { opacity: 1 },
                       }}
                     >

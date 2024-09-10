@@ -1,3 +1,4 @@
+import { bullseyeMobileWidth, bullseyeWidth } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
@@ -44,7 +45,7 @@ export const ProfileNetwork = ({
       <Box
         css={{
           position: 'relative',
-          width: '100%',
+          width: bullseyeWidth,
           aspectRatio: '1 / 1',
           my: 100,
           ...(fullscreen
@@ -61,6 +62,7 @@ export const ProfileNetwork = ({
               }),
           '@xs': {
             fontSize: '12px',
+            width: bullseyeMobileWidth,
           },
         }}
       >

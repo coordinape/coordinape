@@ -8,7 +8,6 @@ import { RecentCoLinkTransactions } from 'features/colinks/RecentCoLinkTransacti
 import { RightColumnSection } from 'features/colinks/RightColumnSection';
 import { SimilarProfiles } from 'features/colinks/SimilarProfiles';
 import { useLinkingStatus } from 'features/colinks/useLinkingStatus';
-import { colinksProfileColumnWidth } from 'features/cosoul/constants';
 import { useParams } from 'react-router-dom';
 
 import { NotFound } from '../NotFound';
@@ -72,19 +71,21 @@ export const PageContents = ({
     >
       <Flex
         css={{
-          minWidth: colinksProfileColumnWidth,
-          width: colinksProfileColumnWidth,
+          margin: '0 auto',
         }}
       >
         <ProfileNetwork targetAddress={targetAddress} />
       </Flex>
-      <Flex column css={{ gap: '$md' }}>
+      <Flex column css={{ gap: '$md', width: '100%' }}>
         <ProfileCards targetAddress={targetAddress} />
         {!weAreLinked ? (
           <ProfileLinkDetails targetAddress={targetAddress} />
         ) : (
           <>
-            <Button onClick={() => setShowProfileDetails(prev => !prev)}>
+            <Button
+              onClick={() => setShowProfileDetails(prev => !prev)}
+              css={{ width: '100%' }}
+            >
               {showProfileDetails ? 'Hide' : 'Show'} Network Details
             </Button>
             {showProfileDetails && (

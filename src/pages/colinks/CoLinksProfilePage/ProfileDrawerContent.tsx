@@ -81,12 +81,26 @@ export const ProfileDrawerContent = ({
         backgroundColor: 'rgb(8 18 29 / 25%)',
         borderRadius: '$2',
         margin: 'auto',
+        '.contentHeader': {
+          m: 0,
+          p: '0 0 $md',
+        },
         ...css,
       }}
     >
       {fetchCoLinksProfileIsLoading && '...loading'}
 
-      <Flex column css={{ gap: '$md', alignItems: 'center' }}>
+      <Flex
+        column
+        css={{
+          gap: '$md',
+          alignItems: 'center',
+          mt: '$md',
+          '.profileHeader': {
+            alignItems: 'center',
+          },
+        }}
+      >
         <ProfileHeader targetAddress={targetProfile?.address || ''} drawer />
         <Flex css={{ gap: '$md', flexWrap: 'wrap', justifyContent: 'center' }}>
           {targetProfile && (

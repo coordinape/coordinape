@@ -18,6 +18,7 @@ import { POST_PAGE_QUERY_KEY } from 'pages/PostPage';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Flex, Panel, Text } from 'ui';
 
+import { LinkUpCard } from './LinkUpCard';
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 
 export const cardColumnMinWidth = 1280;
@@ -116,9 +117,6 @@ export const ProfileCardsWithProfile = ({
             flexShrink: 1,
             gap: '$sm',
             width: 'auto',
-            '.contributionRow': {
-              // flexGrow: 1,
-            },
             '.postAvatar': {
               display: 'none',
             },
@@ -128,13 +126,29 @@ export const ProfileCardsWithProfile = ({
           }}
         >
           {mostRecentActivity && (
-            <ActivityRow
-              key={mostRecentActivity.id}
-              activity={mostRecentActivity}
-            />
+            <Flex
+              column
+              css={{
+                borderRadius: '$3',
+                gap: '$xs',
+              }}
+            >
+              <ActivityRow
+                key={mostRecentActivity.id}
+                activity={mostRecentActivity}
+              />
+            </Flex>
           )}
           {mostRecentCast && (
-            <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
+            <Flex
+              column
+              css={{
+                borderRadius: '$3',
+                gap: '$xs',
+              }}
+            >
+              <ActivityRow key={mostRecentCast.id} activity={mostRecentCast} />
+            </Flex>
           )}
         </Flex>
       )}
@@ -160,16 +174,16 @@ export const ProfileCardsWithProfile = ({
             <Farcaster fa size="2xl" />
             <Flex column>
               <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[3] || 0}</Text>
-                Mutually linked in FC
-              </Text>
-              <Text css={{ gap: '$xs' }}>
                 <Text semibold>{network?.tier_counts[4] || 0}</Text>
                 Following in FC
               </Text>
               <Text css={{ gap: '$xs' }}>
                 <Text semibold>{network?.tier_counts[5] || 0}</Text>
                 Followers in FC
+              </Text>
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{network?.tier_counts[3] || 0}</Text>
+                Mutuals
               </Text>
             </Flex>
           </Flex>
@@ -273,6 +287,7 @@ export const ProfileCardsWithProfile = ({
             </Text>
           </Flex>
         </Flex>
+        <LinkUpCard targetAddress={targetAddress} />
         <Flex css={{ width: '100%', maxWidth: cardMaxWidth }}>
           <Poaps address={targetAddress} profileCard />
         </Flex>

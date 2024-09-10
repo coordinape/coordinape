@@ -118,8 +118,11 @@ const ProfileHeaderWithProfile = ({
             }}
           >
             {isMobile ? (
-              <Flex column css={{ gap: '$md' }}>
-                <Flex css={{ mr: '$md', ...(drawer && { mr: 0 }) }}>
+              <Flex className="profileHeader" column css={{ gap: '$md' }}>
+                <Flex
+                  className="avatarName"
+                  css={{ mr: '$md', ...(drawer && { mr: 0 }) }}
+                >
                   <AppLink
                     to={coLinksPaths.profileGive(
                       profile?.address ??
