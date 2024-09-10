@@ -40,6 +40,7 @@ export const PostRow = ({
   castByline,
   postType,
   timestampVerb,
+  link,
 }: {
   activity: ActivityWithValidProfile;
   focus: boolean;
@@ -48,6 +49,7 @@ export const PostRow = ({
   castByline?: React.ReactNode;
   postType?: 'cast';
   timestampVerb?: string;
+  link?: string;
 }) => {
   const queryClient = useQueryClient();
   const location = useLocation();
@@ -173,7 +175,7 @@ export const PostRow = ({
                 <Text
                   as={NavLink}
                   size="small"
-                  to={coLinksPaths.post(activity.id)}
+                  to={link ?? coLinksPaths.post(activity.id)}
                   css={{
                     color: '$neutral',
                     textDecoration: 'none',

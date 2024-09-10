@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as Sentry from '@sentry/react';
-import { CastByline } from 'features/farcaster/casts/CastByline';
+import { CastByline, warpcastUrl } from 'features/farcaster/casts/CastByline';
 
 import { Flex, Text } from '../../ui';
 import { CastRow } from '../farcaster/casts/CastRow';
@@ -108,6 +108,7 @@ const validActivity = (
           focus={focus}
           editAllowed={false}
           postType="cast"
+          link={warpcastUrl(activity.cast)}
           castByline={<CastByline cast={activity.cast} />}
           timestampVerb={timestampVerb ? 'cast' : undefined}
         >
