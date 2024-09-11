@@ -318,7 +318,10 @@ export const MentionReply = ({
         <Icon>
           <AtSign size={'lg'} />
         </Icon>
-        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+        <Link
+          as={NavLink}
+          to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
+        >
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
         </Link>
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
@@ -331,7 +334,7 @@ export const MentionReply = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+              to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {actor?.name}
@@ -386,7 +389,10 @@ export const Reply = ({
         <Icon>
           <MessageSquare size={'lg'} />
         </Icon>
-        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+        <Link
+          as={NavLink}
+          to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
+        >
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
         </Link>
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
@@ -399,7 +405,7 @@ export const Reply = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+              to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {actor?.name}
@@ -429,7 +435,7 @@ export const Reply = ({
                         gap: '$xs',
                         mr: '$xs',
                       }}
-                      to={coLinksPaths.profile(
+                      to={coLinksPaths.profilePosts(
                         threadCreator?.address ?? 'FIXME'
                       )}
                     >
@@ -476,7 +482,10 @@ export const MentionPost = ({
         <Icon>
           <AtSign size={'lg'} />
         </Icon>
-        <Link as={NavLink} to={coLinksPaths.profile(actor?.address ?? 'FIXME')}>
+        <Link
+          as={NavLink}
+          to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
+        >
           <Avatar path={actor?.avatar} name={actor?.name} size="small" />
         </Link>
         <Flex column css={{ pl: '$xs', gap: '$xs' }}>
@@ -489,7 +498,7 @@ export const MentionPost = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(actor?.address ?? 'FIXME')}
+              to={coLinksPaths.profilePosts(actor?.address ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {actor?.name}
@@ -555,7 +564,7 @@ export const LinkTxNotification = ({ tx }: { tx: LinkTx }) => {
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(tx.holder ?? 'FIXME')}
+              to={coLinksPaths.profileNetwork(tx.holder ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {tx.holder_profile?.name}
@@ -619,7 +628,7 @@ export const ReplyReactionNotification = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(
+              to={coLinksPaths.profilePosts(
                 n.actor_profile_public?.address ?? 'FIXME'
               )}
             >
@@ -655,7 +664,7 @@ export const ReplyReactionNotification = ({
                       gap: '$xs',
                       mr: '$xs',
                     }}
-                    to={coLinksPaths.profile(
+                    to={coLinksPaths.profilePosts(
                       reaction.activity?.actor_profile_public?.address ??
                         'FIXME'
                     )}
@@ -714,7 +723,7 @@ export const ReactionNotification = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(
+              to={coLinksPaths.profilePosts(
                 n.actor_profile_public?.address ?? 'FIXME'
               )}
             >
@@ -773,7 +782,7 @@ export const InviteeNotification = ({
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(invitee.address ?? 'FIXME')}
+              to={coLinksPaths.profileNetwork(invitee.address ?? 'FIXME')}
             >
               <Text inline semibold size="small">
                 {invitee.name}
@@ -782,7 +791,7 @@ export const InviteeNotification = ({
 
             <Flex
               as={NavLink}
-              to={coLinksPaths.profile(`${invitee.address}`)}
+              to={coLinksPaths.profileNetwork(`${invitee.address}`)}
               css={{
                 alignItems: 'flex-end',
                 color: '$text',
@@ -824,7 +833,7 @@ export const InvitedNotification = ({ n }: { n: Notification }) => {
                 mr: '$xs',
                 flexWrap: 'wrap',
               }}
-              to={coLinksPaths.profile(
+              to={coLinksPaths.profileNetwork(
                 n.actor_profile_public?.address ?? 'FIXME'
               )}
             >
@@ -863,7 +872,9 @@ const ColinksGiveNotification = ({
 
         <Link
           as={NavLink}
-          to={coLinksPaths.profile(n.actor_profile_public?.address ?? 'FIXME')}
+          to={coLinksPaths.profileGive(
+            n.actor_profile_public?.address ?? 'FIXME'
+          )}
         >
           <Avatar
             path={n.actor_profile_public?.avatar}
@@ -897,7 +908,7 @@ const ColinksGiveNotification = ({
               <Text semibold size="small">
                 <Link
                   as={NavLink}
-                  to={coLinksPaths.profile(
+                  to={coLinksPaths.profileGive(
                     n.actor_profile_public?.address ?? 'FIXME'
                   )}
                 >

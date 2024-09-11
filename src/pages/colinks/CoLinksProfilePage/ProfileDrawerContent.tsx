@@ -106,7 +106,7 @@ export const ProfileDrawerContent = ({
           {targetProfile && (
             <Button
               as={NavLink}
-              to={coLinksPaths.profile(targetProfile.address ?? '')}
+              to={coLinksPaths.profileGive(targetProfile.address ?? '')}
             >
               {' '}
               <Links fa />

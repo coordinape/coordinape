@@ -152,7 +152,9 @@ export const RepliesBox = ({
                     <Flex css={{ flexWrap: 'wrap', gap: '$sm' }}>
                       <Text
                         as={NavLink}
-                        to={coLinksPaths.profile(reply.profile_public.address)}
+                        to={coLinksPaths.profilePosts(
+                          reply.profile_public.address
+                        )}
                         css={{ textDecoration: 'none' }}
                         semibold
                       >

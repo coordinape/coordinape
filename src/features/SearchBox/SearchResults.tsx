@@ -77,7 +77,7 @@ export const SearchResults = ({
   );
 
   const onSelectProfile = (address: string) => {
-    navigate(coLinksPaths.profile(address));
+    navigate(coLinksPaths.profileGive(address));
   };
 
   const onSelectInterest = (name: string) => {

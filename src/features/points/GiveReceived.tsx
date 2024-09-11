@@ -333,7 +333,7 @@ export const GiveReceived = ({
                                   semibold
                                   css={{ textDecoration: 'none' }}
                                   as={NavLink}
-                                  to={coLinksPaths.profile(
+                                  to={coLinksPaths.profileGive(
                                     profile.address || ''
                                   )}
                                 >

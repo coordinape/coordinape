@@ -52,7 +52,7 @@ const AvatarAndName = ({
   };
 }) => {
   return (
-    <Link as={NavLink} to={coLinksPaths.profile(cast.address || '')}>
+    <Link as={NavLink} to={coLinksPaths.profilePosts(cast.address || '')}>
       <Flex
         alignItems="center"
         css={{

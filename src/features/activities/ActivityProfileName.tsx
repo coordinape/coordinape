@@ -19,7 +19,7 @@ export const ActivityProfileName = ({
       css={{ textDecoration: 'none' }}
       to={
         isCoLinksPage
-          ? coLinksPaths.profile(profile.address || '')
+          ? coLinksPaths.profilePosts(profile.address || '')
           : givePaths.profile(profile.address || '')
       }
     >

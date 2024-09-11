@@ -42,7 +42,7 @@ const searchPages = (address?: string) => [
         },
         {
           name: 'Profile',
-          path: coLinksPaths.profile(address),
+          path: coLinksPaths.profileGive(address),
           icon: <UserFill size="lg" nostroke />,
         },
         {

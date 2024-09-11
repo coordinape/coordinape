@@ -40,7 +40,7 @@ export const CoLinksMember = ({
     return (
       <Flex
         as={NavLink}
-        to={coLinksPaths.profile(profile.address || '')}
+        to={coLinksPaths.profileGive(profile.address || '')}
         css={{
           position: 'relative',
           color: '$text',
@@ -66,7 +66,7 @@ export const CoLinksMember = ({
       >
         <Flex
           as={NavLink}
-          to={coLinksPaths.profile(profile.address || '')}
+          to={coLinksPaths.profileGive(profile.address || '')}
           css={{
             position: 'relative',
             color: '$text',
@@ -175,7 +175,7 @@ export const CoLinksMember = ({
     >
       <Flex
         as={NavLink}
-        to={coLinksPaths.profile(profile.address || '')}
+        to={coLinksPaths.profileGive(profile.address || '')}
         className="coLinksMember"
         css={{
           position: 'relative',

@@ -28,7 +28,7 @@ export const ActivityAvatar = ({
       as={NavLink}
       to={
         isCoLinksPage
-          ? coLinksPaths.profile(profile.address || '')
+          ? coLinksPaths.profilePosts(profile.address || '')
           : givePaths.profile(profile.address || '')
       }
       css={{ textDecoration: 'none' }}

@@ -90,7 +90,7 @@ export const PartyProfileContent = ({
           {targetProfile && (
             <Button
               as={NavLink}
-              to={coLinksPaths.profile(targetProfile.address ?? '')}
+              to={coLinksPaths.profileNetwork(targetProfile.address ?? '')}
             >
               {' '}
               <Links fa />

@@ -107,7 +107,7 @@ export const RepScorePage = () => {
                   {cosoul_data.profileInfo.name}
                 </Text>
                 <AppLink
-                  to={coLinksPaths.profile(targetAddress)}
+                  to={coLinksPaths.profileGive(targetAddress)}
                   css={{ ml: '$md' }}
                 >
                   View Profile

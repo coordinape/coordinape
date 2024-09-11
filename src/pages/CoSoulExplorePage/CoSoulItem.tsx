@@ -34,7 +34,7 @@ export const CoSoulItem = ({
         !coLinksSite
           ? coSoulPaths.cosoulView(cosoul.address)
           : exploreView
-            ? coLinksPaths.profile(cosoul.address)
+            ? coLinksPaths.profileReputation(cosoul.address)
             : coLinksPaths.score(cosoul.address)
       }
     >
