@@ -287,32 +287,45 @@ export const ProfileCardsWithProfile = ({
             '@sm': {
               color: 'white',
               background:
-                'radial-gradient(circle at -10% 10%, rgb(55 81 208) 20%, rgb(231, 7, 144) 100%)',
+                'radial-gradient(circle at -10% 10%, rgb(20 213 217) 20%, rgb(212 8 133) 100%)',
             },
           }}
         >
-          <Flex css={{ gap: '$md', alignItems: 'center' }}>
+          <Flex css={{ gap: '$md', alignItems: 'flex-start' }}>
             <Links fa size="2xl" />
-            <Flex column>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{profile.links ?? 0}</Text>
-                CoLinks
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>
-                  <LinkHoldings holder={targetAddress} />
+            <Flex column css={{ flexGrow: 1 }}>
+              <Flex column>
+                <Text css={{ gap: '$xs' }}>
+                  <Text semibold>{profile.links ?? 0}</Text>
+                  CoLinks
                 </Text>
-                CoLinks Held
-              </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{totalActivitiesCount}</Text>
-                Posts
-              </Text>
+                <Text css={{ gap: '$xs' }}>
+                  <Text semibold>
+                    <LinkHoldings holder={targetAddress} />
+                  </Text>
+                  CoLinks Held
+                </Text>
+                {totalActivitiesCount && (
+                  <Text css={{ gap: '$xs' }}>
+                    <Text semibold>{totalActivitiesCount}</Text>
+                    Posts
+                  </Text>
+                )}
+              </Flex>
+              <Flex
+                column
+                css={{
+                  borderTop: '1px solid $borderDim',
+                  mt: '$sm',
+                  width: '100%',
+                }}
+              >
+                <LinkUpCard targetAddress={targetAddress} profileCardContext />
+              </Flex>
             </Flex>
           </Flex>
         </Panel>
 
-        <LinkUpCard targetAddress={targetAddress} profileCard />
         <Flex
           css={{
             width: '100%',

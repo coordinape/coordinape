@@ -16,9 +16,6 @@ export const PointsBarInfo = () => {
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundImage: "url('/imgs/background/colink-give.jpg')",
-          '@sm': {
-            display: 'none',
-          },
         }}
       />
       <Flex
@@ -26,9 +23,6 @@ export const PointsBarInfo = () => {
         css={{
           m: '$sm',
           gap: '$md',
-          '@sm': {
-            mx: 0,
-          },
         }}
       >
         <Text inline size="small">

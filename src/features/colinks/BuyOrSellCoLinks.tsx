@@ -212,7 +212,6 @@ export const BuyOrSellCoLinks = ({
           justifyContent: 'center',
           ...(small && {
             justifyContent: 'flex-start',
-            pb: '$sm',
           }),
         }}
       >

@@ -1,12 +1,21 @@
 import { useWindowSize } from '@react-hook/window-size';
 import { NavLogo } from 'features/nav/NavLogo';
+import { PointsBarInfo } from 'features/points/PointsBarInfo';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink, useParams } from 'react-router-dom';
 
 import { X } from 'icons/__generated';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { coLinksPaths } from 'routes/paths';
-import { Button, Flex, Text } from 'ui';
+import {
+  Button,
+  Flex,
+  Link,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  Text,
+} from 'ui';
 
 import { ProfileAvatarAndName } from './ProfileAvatarAndName';
 
@@ -79,7 +88,7 @@ export const ViewProfilePageGiveMap = () => {
         <Flex
           column
           css={{
-            gap: '$sm',
+            gap: '$md',
             position: 'absolute',
             bottom: '$lg',
             width: '100%',
@@ -87,9 +96,24 @@ export const ViewProfilePageGiveMap = () => {
             justifyContent: 'center',
           }}
         >
-          <Text tag color="cta">
-            GIVE Map
-          </Text>
+          <Flex css={{ gap: '$sm' }}>
+            <Text tag color="cta">
+              GIVE Map
+              <Popover>
+                <PopoverTrigger css={{ cursor: 'pointer' }}>
+                  <Link inlineLink css={{ fontSize: '$small' }}>
+                    What is GIVE?
+                  </Link>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  css={{ maxWidth: 300, overflow: 'clip', mx: '$md' }}
+                >
+                  <PointsBarInfo />
+                </PopoverContent>
+              </Popover>
+            </Text>
+          </Flex>
           <Button
             as={NavLink}
             to={coLinksPaths.profileGive(address)}

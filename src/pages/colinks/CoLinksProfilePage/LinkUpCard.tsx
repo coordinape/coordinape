@@ -5,17 +5,14 @@ import { CoLinksContext } from 'features/colinks/CoLinksContext';
 import { useLinkingStatus } from 'features/colinks/useLinkingStatus';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { Links } from 'icons/__generated';
 import { Flex, Text, Panel, Link } from 'ui';
-
-import { cardMinHeight } from './ProfileCards';
 
 export const LinkUpCard = ({
   targetAddress,
-  profileCard = false,
+  profileCardContext = false,
 }: {
   targetAddress: string;
-  profileCard?: boolean;
+  profileCardContext?: boolean;
 }) => {
   const { address: currentUserAddress } = useContext(CoLinksContext);
   const { balance, targetBalance } = useLinkingStatus({
@@ -50,7 +47,8 @@ export const LinkUpCard = ({
             '@sm': {
               flexDirection: 'column',
             },
-            ...(profileCard && {
+            ...(profileCardContext && {
+              background: 'transparent',
               flexDirection: 'row',
               width: '100%',
             }),
@@ -70,22 +68,19 @@ export const LinkUpCard = ({
                 minHeight: '260px',
                 height: 'auto',
               },
-              ...(profileCard && {
-                flexDirection: 'row',
-                height: '100%',
-                width: 'auto',
-                minHeight: cardMinHeight,
+              ...(profileCardContext && {
+                display: 'none',
               }),
             }}
           ></Flex>
 
           <Panel
             css={{
-              flex: profileCard ? undefined : 2,
+              flex: profileCardContext ? undefined : 2,
               p: 0,
               border: 'none',
               borderRadius: 0,
-              ...(profileCard && {
+              ...(profileCardContext && {
                 alignItems: 'flex-start',
               }),
             }}
@@ -95,8 +90,8 @@ export const LinkUpCard = ({
                 p: '$lg $md $sm',
                 gap: '$sm',
                 alignItems: 'center',
-                ...(profileCard && {
-                  p: '$sm $md $sm',
+                ...(profileCardContext && {
+                  p: '$sm 0',
                 }),
               }}
               column
@@ -110,15 +105,18 @@ export const LinkUpCard = ({
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
-                      ...(profileCard && {
+                      ...(profileCardContext && {
                         alignItems: 'flex-start',
                       }),
                     }}
                   >
-                    <Text size={profileCard ? 'medium' : 'large'} semibold>
+                    <Text
+                      size={profileCardContext ? 'medium' : 'large'}
+                      semibold
+                    >
                       Owns Your Link
                     </Text>
-                    <Text size={profileCard ? 'small' : undefined}>
+                    <Text size={profileCardContext ? 'small' : undefined}>
                       Buy theirs to become Mutual Friends
                     </Text>
                   </Flex>
@@ -128,16 +126,19 @@ export const LinkUpCard = ({
                     css={{
                       alignItems: 'center',
                       gap: '$xs',
-                      ...(profileCard && {
+                      ...(profileCardContext && {
                         alignItems: 'flex-start',
                       }),
                     }}
                   >
-                    <Text size={profileCard ? 'medium' : 'large'} semibold>
+                    <Text
+                      size={profileCardContext ? 'medium' : 'large'}
+                      semibold
+                    >
                       Link Up
                     </Text>
                     <Text
-                      size={profileCard ? 'small' : undefined}
+                      size={profileCardContext ? 'small' : undefined}
                     >{`Connect to see each other's posts`}</Text>
                   </Flex>
                 )}
@@ -146,21 +147,21 @@ export const LinkUpCard = ({
             <Flex
               css={{
                 p: '$md $md',
-                ...(profileCard && {
-                  p: '0 $md $sm',
+                ...(profileCardContext && {
+                  p: 0,
                   width: '100%',
                 }),
               }}
             >
               <BuyOrSellCoLinks
-                small={profileCard}
+                small={profileCardContext}
                 css={{
-                  alignItems: profileCard ? 'flex-start' : 'center',
+                  alignItems: profileCardContext ? 'flex-start' : 'center',
                 }}
                 subject={targetAddress}
                 address={currentUserAddress}
                 hideTitle={true}
-                constrainWidth={!profileCard}
+                constrainWidth={!profileCardContext}
               />
             </Flex>
           </Panel>
@@ -170,20 +171,21 @@ export const LinkUpCard = ({
           noBorder
           css={{
             display: 'none',
-            gap: '$md',
             alignItems: 'center',
             flexDirection: 'row',
             '@tablet': { display: 'block', width: '100%' },
-            ...(profileCard && {
+            ...(profileCardContext && {
+              background: 'transparent',
+              mt: '$sm',
+              p: 0,
               display: 'flex',
               width: '100%',
             }),
           }}
         >
-          <Links fa size="2xl" />
           <Flex column css={{ flexGrow: 1 }}>
             <BuyOrSellCoLinks
-              small={profileCard}
+              small={profileCardContext}
               subject={targetAddress}
               address={currentUserAddress}
             />
