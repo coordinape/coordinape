@@ -148,6 +148,14 @@ export const coLinksRoutes = [
     <Route path="login" element={<RedirectAfterLogin />} />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
+  <Route key={'profilegivemap'}>
+    <Route
+      path={coLinksPaths.profileGiveMap(':address')}
+      element={<ViewProfilePageGiveMap />}
+    />
+    ,
+  </Route>,
+
   <Fragment key="public">
     <Route
       element={
@@ -208,10 +216,6 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.profileGive(':address')}
         element={<ViewProfilePageGive />}
-      />
-      <Route
-        path={coLinksPaths.profileGiveMap(':address')}
-        element={<ViewProfilePageGiveMap />}
       />
       <Route
         path={coLinksPaths.profileNetwork(':address')}
