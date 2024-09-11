@@ -81,6 +81,7 @@ export const LinkUpCard = ({
               border: 'none',
               borderRadius: 0,
               ...(profileCardContext && {
+                background: 'transparent',
                 alignItems: 'flex-start',
               }),
             }}
@@ -190,7 +191,16 @@ export const LinkUpCard = ({
               address={currentUserAddress}
             />
             {needsBootstrapping && (
-              <Panel info css={{ mt: '$lg', gap: '$md' }}>
+              <Panel
+                info
+                css={{
+                  mt: '$lg',
+                  gap: '$md',
+                  ...(profileCardContext && {
+                    background: 'transparent',
+                  }),
+                }}
+              >
                 <Text inline>
                   <strong>Buy your first Link</strong> to allow other CoLink
                   holders to buy your Link.

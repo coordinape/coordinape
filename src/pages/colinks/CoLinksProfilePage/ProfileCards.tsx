@@ -108,6 +108,12 @@ export const ProfileCardsWithProfile = ({
         flexShrink: 1,
         maxWidth: cardMaxWidth,
         margin: '0 auto',
+        // TODO weird tablet style isnt great
+        // '@sm': {
+        //   flexDirection: 'row',
+        //   flexWrap: 'wrap',
+        //   maxWidth: 'none',
+        // },
       }}
     >
       {!location.pathname.includes('posts') && (
@@ -287,7 +293,7 @@ export const ProfileCardsWithProfile = ({
             '@sm': {
               color: 'white',
               background:
-                'radial-gradient(circle at -10% 10%, rgb(20 213 217) 20%, rgb(212 8 133) 100%)',
+                'radial-gradient(circle at -10% 10%, rgb(34 186 198) 20%, rgb(212, 8, 133) 100%)',
             },
           }}
         >
@@ -315,7 +321,7 @@ export const ProfileCardsWithProfile = ({
               <Flex
                 column
                 css={{
-                  borderTop: '1px solid $borderDim',
+                  borderTop: '0.5px solid $borderDim',
                   mt: '$sm',
                   width: '100%',
                 }}

@@ -1,21 +1,15 @@
-import { useWindowSize } from '@react-hook/window-size';
 import { NavLink } from 'react-router-dom';
 
 import {
   Bullseye,
   CertificateLight,
   GemCoOutline,
-  Grid,
   Write,
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
-import { cardColumnMinWidth } from './ProfileCards';
-
 export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
-  const [width] = useWindowSize();
-  const showOverviewTab = width < cardColumnMinWidth;
   const tabStyles = {
     color: '$text',
     minWidth: 150,
@@ -84,33 +78,18 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
         },
       }}
     >
-      {showOverviewTab && (
-        <Button
-          as={NavLink}
-          color="textOnly"
-          to={coLinksPaths.profileOverview(targetAddress)}
-          css={{
-            ...tabStyles,
-            ...(location.pathname.includes('overview') && {
-              ...activeTabStyles,
-            }),
-          }}
-        >
-          <Grid size="lg" /> About
-        </Button>
-      )}
       <Button
         as={NavLink}
         color="textOnly"
         to={coLinksPaths.profileGive(targetAddress)}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('give') && {
+          ...(!location.pathname.substring(1).includes('/') && {
             ...activeTabStyles,
           }),
         }}
       >
-        <GemCoOutline fa size="lg" /> GIVE
+        <GemCoOutline fa size="lg" /> Profile
       </Button>
       <Button
         as={NavLink}

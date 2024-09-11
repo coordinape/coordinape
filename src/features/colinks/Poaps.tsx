@@ -140,7 +140,7 @@ export const Poaps = ({
                 '@sm': {
                   color: 'white',
                   background:
-                    'radial-gradient(circle at -10% 10%, rgb(230 172 9) 20%, rgb(12 235 250) 100%)',
+                    'radial-gradient(circle at -10% 10%, rgb(230, 172, 9) 20%, rgb(163 219 105) 100%)',
                 },
               }}
             >

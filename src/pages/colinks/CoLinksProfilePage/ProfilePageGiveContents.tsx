@@ -11,6 +11,8 @@ import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
 
+import { cardMaxWidth } from './ProfileCards';
+
 export const mapMobileWidthWidth = mapMobileWidthInt;
 export const ProfilePageGiveContents = ({
   targetAddress,
@@ -22,8 +24,8 @@ export const ProfilePageGiveContents = ({
   const gutterWidth = 32;
   const mapWidth =
     width > mapMobileWidthWidth ? mapMobileWidthWidth : width - gutterWidth;
-  const mapHeight = 180;
   const desktop = width > 1140;
+  const mapHeight = desktop ? 450 : 180;
   const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
     <>
@@ -111,13 +113,24 @@ export const ProfilePageGiveContents = ({
                     size="xs"
                   >
                     <Maximize />
-                    Expand View
+                    Expand GIVE Map
                   </Button>
                 </Flex>
               </Panel>
             </Flex>
           ) : (
-            <Flex css={{ alignItems: 'flex-start', flexGrow: 1 }}>
+            <Flex
+              column
+              css={{
+                alignItems: 'flex-start',
+                flexGrow: 1,
+                gap: '$sm',
+                '@sm': {
+                  maxWidth: cardMaxWidth,
+                  margin: 'auto',
+                },
+              }}
+            >
               <Panel
                 noBorder
                 css={{

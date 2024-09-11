@@ -16,6 +16,9 @@ export const PointsBarInfo = () => {
           backgroundPosition: 'center',
           backgroundSize: 'cover',
           backgroundImage: "url('/imgs/background/colink-give.jpg')",
+          '@sm': {
+            display: 'none',
+          },
         }}
       />
       <Flex

@@ -16,11 +16,17 @@ export const ViewProfilePageGive = () => {
   return (
     <SingleColumnLayout>
       <ProfileHeader targetAddress={address} />
-      <Flex css={{ gap: '$xl', justifyContent: 'space-between' }}>
+      <Flex
+        css={{
+          gap: '$xl',
+          justifyContent: 'space-between',
+          '@sm': { flexDirection: 'column' },
+        }}
+      >
         <Flex css={{ width: '100%' }}>
           <ProfilePageGiveContents targetAddress={address} />
         </Flex>
-        <ProfileCards targetAddress={address} />
+        <ProfileCards targetAddress={address} forceDisplay />
       </Flex>
     </SingleColumnLayout>
   );

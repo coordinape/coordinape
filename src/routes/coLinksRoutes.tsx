@@ -50,7 +50,6 @@ import { ViewProfilePageNetwork } from 'pages/colinks/CoLinksProfilePage/Profile
 import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePagePosts';
 import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
 import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
-import { ViewProfilePageOverview } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageOverview';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveMap } from 'pages/GiveMap';
@@ -197,10 +196,6 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.exploreHoldingMost}
         element={<HoldingMostLinksPage />}
-      />
-      <Route
-        path={coLinksPaths.profileOverview(':address')}
-        element={<ViewProfilePageOverview />}
       />
       <Route
         path={coLinksPaths.profilePosts(':address')}
