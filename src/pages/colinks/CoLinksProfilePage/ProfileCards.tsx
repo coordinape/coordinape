@@ -23,6 +23,7 @@ import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 
 export const cardColumnMinWidth = 1280;
 export const cardMaxWidth = 343;
+export const cardMinHeight = 90;
 export const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileCards = ({
@@ -89,7 +90,7 @@ export const ProfileCardsWithProfile = ({
     data || {};
 
   const panelStyles = {
-    minHeight: 90,
+    minHeight: cardMinHeight,
     width: '100%',
     maxWidth: cardMaxWidth,
     color: '$text',
@@ -311,7 +312,7 @@ export const ProfileCardsWithProfile = ({
           </Flex>
         </Panel>
 
-        <LinkUpCard targetAddress={targetAddress} />
+        <LinkUpCard targetAddress={targetAddress} profileCard />
         <Flex
           css={{
             width: '100%',

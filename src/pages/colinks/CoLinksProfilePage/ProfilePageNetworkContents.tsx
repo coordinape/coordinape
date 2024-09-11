@@ -12,6 +12,7 @@ import { useLinkingStatus } from 'features/colinks/useLinkingStatus';
 import { useParams } from 'react-router-dom';
 
 import { NotFound } from '../NotFound';
+import useMobileDetect from 'hooks/useMobileDetect';
 import { BarChart, Briefcase, Links, Users } from 'icons/__generated';
 import { ProfileNetwork } from 'pages/GiveParty/ProfileNetwork';
 import { coLinksPaths } from 'routes/paths';
@@ -51,6 +52,7 @@ export const PageContents = ({
     address: currentUserAddress,
     target: targetAddress,
   });
+  const { isMobile } = useMobileDetect();
 
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
@@ -77,22 +79,24 @@ export const PageContents = ({
       >
         <ProfileNetwork targetAddress={targetAddress} />
       </Flex>
-      <Flex column css={{ gap: '$md', width: cardMaxWidth }}>
+      <Flex column css={{ gap: '$md', width: cardMaxWidth, margin: '0 auto' }}>
         <ProfileCards targetAddress={targetAddress} />
-        <Panel
-          noBorder
-          css={{ gap: '$md', alignItems: 'center', flexDirection: 'row' }}
-        >
-          <Links fa size="2xl" />
-          <BuyOrSellCoLinks
-            small
-            css={{ flexGrow: 1, width: 'auto' }}
-            subject={targetAddress}
-            address={currentUserAddress}
-            hideTitle={false}
-            constrainWidth={false}
-          />
-        </Panel>
+        {isMobile && (
+          <Panel
+            noBorder
+            css={{ gap: '$md', alignItems: 'center', flexDirection: 'row' }}
+          >
+            <Links fa size="2xl" />
+            <BuyOrSellCoLinks
+              small
+              css={{ flexGrow: 1, width: 'auto' }}
+              subject={targetAddress}
+              address={currentUserAddress}
+              hideTitle={false}
+              constrainWidth={false}
+            />
+          </Panel>
+        )}
         {!weAreLinked ? (
           <ProfileLinkDetails targetAddress={targetAddress} />
         ) : (

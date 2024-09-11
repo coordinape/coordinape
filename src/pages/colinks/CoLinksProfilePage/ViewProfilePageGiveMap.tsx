@@ -88,7 +88,7 @@ export const ViewProfilePageGiveMap = () => {
           }}
         >
           <Text tag color="cta">
-            Map of GIVE
+            GIVE Map
           </Text>
           <Button
             as={NavLink}

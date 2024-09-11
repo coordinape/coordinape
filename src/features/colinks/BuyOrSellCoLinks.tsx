@@ -206,8 +206,21 @@ export const BuyOrSellCoLinks = ({
 
   if (!address) {
     return (
-      <Flex css={{ width: '100%', justifyContent: 'center' }}>
-        <Button as={NavLink} to={coLinksPaths.wizardStart}>
+      <Flex
+        css={{
+          width: '100%',
+          justifyContent: 'center',
+          ...(small && {
+            justifyContent: 'flex-start',
+            pb: '$sm',
+          }),
+        }}
+      >
+        <Button
+          size={small ? 'xs' : 'medium'}
+          as={NavLink}
+          to={coLinksPaths.wizardStart}
+        >
           Connect Wallet
         </Button>
       </Flex>
@@ -243,7 +256,7 @@ export const BuyOrSellCoLinks = ({
           </Text>{' '}
         </Flex>
       )}
-      <Flex css={{ gap: '$md' }}>
+      <Flex css={{ gap: '$md', ...(small && { width: '100%' }) }}>
         <Flex
           css={{
             flexGrow: 1,
