@@ -137,11 +137,25 @@ export const Poaps = ({
                 flexGrow: 1,
                 color: '$text',
                 height: 90,
+                '@sm': {
+                  color: 'white',
+                  background:
+                    'radial-gradient(circle at -10% 10%, rgb(230 172 9) 20%, rgb(12 235 250) 100%)',
+                },
               }}
             >
               <Wreath fa size="2xl" />
               <Flex column>
-                <Flex css={{ gap: '$xs', color: '$text', ml: '$sm' }}>
+                <Flex
+                  css={{
+                    gap: '$xs',
+                    color: '$text',
+                    ml: '$sm',
+                    '@sm': {
+                      color: 'white',
+                    },
+                  }}
+                >
                   <Text semibold>{data?.count}</Text>
                   <Text>POAPs</Text>
                 </Flex>

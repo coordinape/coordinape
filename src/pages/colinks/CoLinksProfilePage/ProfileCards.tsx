@@ -22,7 +22,7 @@ import { LinkUpCard } from './LinkUpCard';
 import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 
 export const cardColumnMinWidth = 1280;
-export const cardMaxWidth = 350;
+export const cardMaxWidth = 343;
 export const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileCards = ({
@@ -90,8 +90,8 @@ export const ProfileCardsWithProfile = ({
 
   const panelStyles = {
     minHeight: 90,
+    width: '100%',
     maxWidth: cardMaxWidth,
-    pr: '$lg',
     color: '$text',
     '@sm': {
       flexGrow: 1,
@@ -106,6 +106,7 @@ export const ProfileCardsWithProfile = ({
         gap: '$sm',
         flexShrink: 1,
         maxWidth: cardMaxWidth,
+        margin: '0 auto',
       }}
     >
       {!location.pathname.includes('posts') && (
@@ -161,6 +162,11 @@ export const ProfileCardsWithProfile = ({
         noBorder
         css={{
           ...panelStyles,
+          '@sm': {
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, #0ecf87 20%, #5528d6 100%)',
+          },
         }}
       >
         <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -246,6 +252,11 @@ export const ProfileCardsWithProfile = ({
           noBorder
           css={{
             ...panelStyles,
+            '@sm': {
+              color: 'white',
+              background:
+                'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
+            },
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -272,6 +283,11 @@ export const ProfileCardsWithProfile = ({
           noBorder
           css={{
             ...panelStyles,
+            '@sm': {
+              color: 'white',
+              background:
+                'radial-gradient(circle at -10% 10%, rgb(55 81 208) 20%, rgb(231, 7, 144) 100%)',
+            },
           }}
         >
           <Flex css={{ gap: '$md', alignItems: 'center' }}>
@@ -296,7 +312,12 @@ export const ProfileCardsWithProfile = ({
         </Panel>
 
         <LinkUpCard targetAddress={targetAddress} />
-        <Flex css={{ width: '100%', maxWidth: cardMaxWidth }}>
+        <Flex
+          css={{
+            width: '100%',
+            maxWidth: cardMaxWidth,
+          }}
+        >
           <Poaps address={targetAddress} profileCard />
         </Flex>
       </Flex>

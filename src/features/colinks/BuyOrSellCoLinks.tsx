@@ -41,6 +41,7 @@ export const BuyOrSellCoLinks = ({
   hideTitle = false,
   constrainWidth = false,
   buyOneOnly = false,
+  small = false,
   css,
 }: {
   subject: string;
@@ -48,6 +49,7 @@ export const BuyOrSellCoLinks = ({
   hideTitle?: boolean;
   constrainWidth?: boolean;
   buyOneOnly?: boolean;
+  small?: boolean;
   css?: CSS;
 }) => {
   const { coLinksReadOnly, awaitingWallet, setAwaitingWallet } =
@@ -226,17 +228,17 @@ export const BuyOrSellCoLinks = ({
       css={{
         position: 'relative',
         width: '100%',
-        gap: '$md',
+        gap: small ? '$sm' : '$md',
         ...css,
       }}
     >
       {!hideTitle && (
         <Flex css={{ flexWrap: 'wrap', gap: '$xs' }}>
-          <Link2 css={{ mr: '$xs' }} />
-          <Text size={'medium'} semibold>
+          {!small && <Link2 css={{ mr: '$xs' }} />}
+          <Text size={small ? 'small' : 'medium'} semibold>
             You Have {balance.toString()}
           </Text>
-          <Text semibold>
+          <Text size={small ? 'small' : 'medium'} semibold>
             {subjectProfile.name} {balance == 1n ? 'Link' : 'Links'}
           </Text>{' '}
         </Flex>
@@ -282,8 +284,14 @@ export const BuyOrSellCoLinks = ({
                   }}
                   target={subject as Address}
                   disabled={notEnoughBalance ?? false}
+                  size={small ? 'xs' : 'medium'}
                 />
-                <Text color="complete" semibold css={{ textAlign: 'right' }}>
+                <Text
+                  color="complete"
+                  size={small ? 'small' : undefined}
+                  semibold
+                  css={{ textAlign: 'right' }}
+                >
                   {buyPrice !== null ? buyPrice : '...'}
                 </Text>
               </Flex>
@@ -305,10 +313,16 @@ export const BuyOrSellCoLinks = ({
                   disabled={
                     awaitingWallet || (supply === 1n && !!subjectIsCurrentUser)
                   }
+                  size={small ? 'xs' : 'medium'}
                 >
                   Sell Link
                 </Button>
-                <Text semibold color="warning" css={{ textAlign: 'right' }}>
+                <Text
+                  semibold
+                  color="warning"
+                  size={small ? 'small' : undefined}
+                  css={{ textAlign: 'right' }}
+                >
                   {supply === 1n && subjectIsCurrentUser ? (
                     <Text
                       color="neutral"
