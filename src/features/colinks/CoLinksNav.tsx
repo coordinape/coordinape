@@ -422,7 +422,7 @@ const LoggedInItems = ({
           </IconButton>
         </Flex>
       </NavItem>
-      <NavItem path={address ? coLinksPaths.score(address) : ''}>
+      <NavItem path={address ? coLinksPaths.profileReputation(address) : ''}>
         <CertificateFill size="lg" nostroke />
         Rep Score
       </NavItem>

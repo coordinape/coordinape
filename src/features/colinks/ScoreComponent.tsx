@@ -11,7 +11,7 @@ export const ScoreComponent = ({
   address: string;
 }) => {
   return (
-    <Panel as={AppLink} to={coLinksPaths.score(address)} noBorder>
+    <Panel as={AppLink} to={coLinksPaths.profileReputation(address)} noBorder>
       <Flex column>
         <Text semibold size={'large'} color={'cta'}>
           {score}

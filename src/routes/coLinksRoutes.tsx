@@ -32,12 +32,10 @@ import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NotFound } from '../pages/colinks/NotFound';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
-import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { SearchPage } from '../pages/colinks/SearchPage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { VerifyEmailPage } from '../pages/colinks/VerifyEmailPage';
 import { VerifyWaitListEmailPage } from '../pages/colinks/VerifyWaitListEmailPage';
-import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
@@ -200,11 +198,6 @@ export const coLinksRoutes = [
         path={coLinksPaths.exploreHoldingMost}
         element={<HoldingMostLinksPage />}
       />
-
-      <Route
-        path={coLinksPaths.profile(':address')}
-        element={<ViewProfilePage />}
-      />
       <Route
         path={coLinksPaths.profileOverview(':address')}
         element={<ViewProfilePageOverview />}
@@ -261,7 +254,6 @@ export const coLinksRoutes = [
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}
       />
-      <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.invites} element={<InvitesPage />} />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />

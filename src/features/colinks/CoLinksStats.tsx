@@ -52,7 +52,7 @@ export const CoLinksStats = ({
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-          navigate(coLinksPaths.score(address ?? ''));
+          navigate(coLinksPaths.profileReputation(address ?? ''));
         }}
       >
         <Text semibold size={size}>
