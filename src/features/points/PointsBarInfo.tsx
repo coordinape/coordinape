@@ -6,7 +6,6 @@ export const PointsBarInfo = () => {
   return (
     <>
       <Flex
-        className="art"
         css={{
           flexGrow: 1,
           height: '100%',
@@ -26,6 +25,7 @@ export const PointsBarInfo = () => {
         css={{
           m: '$sm',
           gap: '$md',
+          whiteSpace: 'wrap',
         }}
       >
         <Text inline size="small">
@@ -36,7 +36,7 @@ export const PointsBarInfo = () => {
           GIVEs roll into the receiver&apos;s onchain pGIVE score on their
           CoSoul.
         </Text>
-        <Text size="small">
+        <Text inline size="small">
           Your GIVE bar is always slowly recharging and maxes out at {MAX_GIVE}.
         </Text>
       </Flex>

@@ -32,8 +32,7 @@ export const ViewProfilePageGiveMap = () => {
         css={{
           gap: '$xl',
           justifyContent: 'space-between',
-          background: '$surface',
-          outline: '2px solid gold',
+          background: '$background',
           height: '100vh',
         }}
       >
@@ -101,9 +100,7 @@ export const ViewProfilePageGiveMap = () => {
               GIVE Map
               <Popover>
                 <PopoverTrigger css={{ cursor: 'pointer' }}>
-                  <Link inlineLink css={{ fontSize: '$small' }}>
-                    What is GIVE?
-                  </Link>
+                  <Link css={{ fontSize: '$small' }}>What is GIVE?</Link>
                 </PopoverTrigger>
                 <PopoverContent
                   align="start"

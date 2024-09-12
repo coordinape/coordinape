@@ -11,7 +11,13 @@ import { Box, Flex, Text } from 'ui';
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNav } from './CoLinksNav';
 
-export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
+export const CoLinksLayout = ({
+  children,
+  suppressNav = false,
+}: {
+  children: React.ReactNode;
+  suppressNav?: boolean;
+}) => {
   // Scroll to top on every location change
   const location = useLocation();
 
@@ -44,7 +50,7 @@ export const CoLinksLayout = ({ children }: { children: React.ReactNode }) => {
       }}
     >
       <Flex css={{ height: 'auto' }}>
-        <CoLinksNav />
+        {!suppressNav && <CoLinksNav />}
         <Box css={{ width: '100%' }}>
           <GlobalUi />
           <HelpButton css={{ '@sm': { display: 'none' } }} />
