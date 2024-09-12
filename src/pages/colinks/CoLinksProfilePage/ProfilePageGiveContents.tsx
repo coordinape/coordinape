@@ -4,6 +4,7 @@ import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink } from 'react-router-dom';
+import { useDebounce, useElementSize } from 'usehooks-ts';
 
 import { Maximize } from 'icons/__generated';
 import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
@@ -21,11 +22,13 @@ export const ProfilePageGiveContents = ({
 }) => {
   const [width] = useWindowSize();
 
-  const gutterWidth = 32;
-  const mapWidth =
-    width > mapMobileWidthWidth ? mapMobileWidthWidth : width - gutterWidth;
   const desktop = width > 1140;
   const mapHeight = desktop ? 450 : 180;
+
+  const [setRef, size] = useElementSize();
+
+  const debouncedSize = useDebounce(size);
+
   const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
     <>
@@ -33,7 +36,7 @@ export const ProfilePageGiveContents = ({
         {receivedNumber =>
           receivedNumber > 0 ? (
             <Flex column css={{ gap: '$sm', width: '100%' }}>
-              <Flex css={{ gap: '$md' }}>
+              <Flex css={{ gap: '$md' }} ref={setRef}>
                 <GiveReceived address={targetAddress} size="medium" />
               </Flex>
               <Flex
@@ -88,7 +91,7 @@ export const ProfilePageGiveContents = ({
                     <GiveGraph
                       address={targetAddress}
                       height={mapHeight}
-                      width={mapWidth}
+                      width={debouncedSize.width}
                       minZoom={2}
                       expand={desktop}
                       stitchesTheme={stitchesTheme}
