@@ -302,7 +302,10 @@ export const BuyOrSellCoLinks = ({
                   color="complete"
                   size={small ? 'small' : undefined}
                   semibold
-                  css={{ textAlign: 'right' }}
+                  css={{
+                    textAlign: 'right',
+                    ...(small && { color: 'inherit' }),
+                  }}
                 >
                   {buyPrice !== null ? buyPrice : '...'}
                 </Text>
@@ -333,7 +336,10 @@ export const BuyOrSellCoLinks = ({
                   semibold
                   color="warning"
                   size={small ? 'small' : undefined}
-                  css={{ textAlign: 'right' }}
+                  css={{
+                    textAlign: 'right',
+                    ...(small && { color: 'inherit' }),
+                  }}
                 >
                   {supply === 1n && subjectIsCurrentUser ? (
                     <Text
