@@ -90,6 +90,7 @@ export const ProfileCardsWithProfile = ({
     data || {};
 
   const panelStyles = {
+    height: 'fit-content',
     minHeight: cardMinHeight,
     width: '100%',
     maxWidth: cardMaxWidth,
@@ -108,14 +109,23 @@ export const ProfileCardsWithProfile = ({
         flexShrink: 1,
         maxWidth: cardMaxWidth,
         margin: '0 auto',
-        // TODO weird tablet style isnt great
-        // '@sm': {
-        //   flexDirection: 'row',
-        //   flexWrap: 'wrap',
-        //   maxWidth: 'none',
-        // },
+        '@sm': {
+          maxWidth: 700,
+          margin: '0 auto',
+          display: 'grid',
+          gridAutoFlow: 'dense',
+          gridTemplateColumns: 'minmax(200px, 1fr) minmax(200px, 1fr)',
+          gridGap: '$md',
+        },
+        '@xs': {
+          display: 'flex',
+          maxWidth: cardMaxWidth,
+          margin: '0 auto',
+          flexDirection: 'column',
+        },
       }}
     >
+      {/* Card Post */}
       {!location.pathname.includes('posts') && (
         <Flex
           column
@@ -123,6 +133,12 @@ export const ProfileCardsWithProfile = ({
             flexShrink: 1,
             gap: '$sm',
             width: 'auto',
+            '@sm': {
+              gridColumn: '1 / 3',
+            },
+            '@xs': {
+              gridColumn: 'auto',
+            },
             '.postAvatar': {
               display: 'none',
             },
@@ -146,6 +162,30 @@ export const ProfileCardsWithProfile = ({
               />
             </Flex>
           )}
+        </Flex>
+      )}
+      {/* Card Cast */}
+      {!location.pathname.includes('posts') && (
+        <Flex
+          column
+          css={{
+            flexShrink: 1,
+            gap: '$sm',
+            width: 'auto',
+            '@sm': {
+              gridColumn: '1 / 3',
+            },
+            '@xs': {
+              gridColumn: 'auto',
+            },
+            '.postAvatar': {
+              display: 'none',
+            },
+            '.postContent': {
+              ml: 0,
+            },
+          }}
+        >
           {mostRecentCast && (
             <Flex
               column
@@ -163,6 +203,7 @@ export const ProfileCardsWithProfile = ({
           )}
         </Flex>
       )}
+      {/* Card Give */}
       <Panel
         as={AppLink}
         to={coLinksPaths.profileGive(targetAddress)}
@@ -202,6 +243,7 @@ export const ProfileCardsWithProfile = ({
           </Flex>
         </Flex>
       </Panel>
+      {/* Card Rep */}
       <Flex
         as={AppLink}
         to={coLinksPaths.profileReputation(targetAddress)}
@@ -214,11 +256,19 @@ export const ProfileCardsWithProfile = ({
           position: 'relative',
           canvas: {
             ml: -100,
-            scale: 0.6,
+            scale: 0.9,
             '@sm': {
-              ml: 30,
-              scale: 1,
+              ml: 0,
+              scale: 1.3,
             },
+          },
+          '@sm': {
+            width: '100%',
+            maxWidth: 'none',
+          },
+          '@xs': {
+            width: cardMaxWidth,
+            maxWidth: 'none',
           },
         }}
       >
@@ -243,103 +293,95 @@ export const ProfileCardsWithProfile = ({
           </Text>
         </Flex>
       </Flex>
-      <Flex
+      {/* Card Farcaster */}
+      <Panel
+        as={AppLink}
+        to={coLinksPaths.profileNetwork(targetAddress)}
+        noBorder
         css={{
-          gap: '$sm',
-          flexDirection: 'column',
+          ...panelStyles,
           '@sm': {
-            flexDirection: 'row',
-            flexWrap: 'wrap',
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, $profileCardFarcasterGradientStart 20%, $profileCardFarcasterGradientEnd 100%)',
           },
         }}
       >
-        <Panel
-          as={AppLink}
-          to={coLinksPaths.profileNetwork(targetAddress)}
-          noBorder
-          css={{
-            ...panelStyles,
-            '@sm': {
-              color: 'white',
-              background:
-                'radial-gradient(circle at -10% 10%, $profileCardFarcasterGradientStart 20%, $profileCardFarcasterGradientEnd 100%)',
-            },
-          }}
-        >
-          <Flex css={{ gap: '$md', alignItems: 'center' }}>
-            <Farcaster fa size="2xl" />
+        <Flex css={{ gap: '$md', alignItems: 'center' }}>
+          <Farcaster fa size="2xl" />
+          <Flex column>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>{network?.tier_counts[4] || 0}</Text>
+              Following in FC
+            </Text>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>{network?.tier_counts[5] || 0}</Text>
+              Followers in FC
+            </Text>
+            <Text css={{ gap: '$xs' }}>
+              <Text semibold>{network?.tier_counts[3] || 0}</Text>
+              Mutuals
+            </Text>
+          </Flex>
+        </Flex>
+      </Panel>
+      {/* Card CoLinks */}
+      <Panel
+        as={AppLink}
+        to={coLinksPaths.profileNetwork(targetAddress)}
+        noBorder
+        css={{
+          ...panelStyles,
+          '@sm': {
+            gridColumn: '1 / 3',
+            color: 'white',
+            background:
+              'radial-gradient(circle at -10% 10%, $profileCardCoLinksGradientStart 20%, $profileCardCoLinksGradientEnd 100%)',
+          },
+        }}
+      >
+        <Flex css={{ gap: '$md', alignItems: 'flex-start' }}>
+          <Links fa size="2xl" css={{ minWidth: '$2xl' }} />
+          <Flex column css={{ flexGrow: 1 }}>
             <Flex column>
               <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[4] || 0}</Text>
-                Following in FC
+                <Text semibold>{profile.links ?? 0}</Text>
+                CoLinks
               </Text>
               <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[5] || 0}</Text>
-                Followers in FC
+                <Text semibold>
+                  <LinkHoldings holder={targetAddress} />
+                </Text>
+                CoLinks Held
               </Text>
-              <Text css={{ gap: '$xs' }}>
-                <Text semibold>{network?.tier_counts[3] || 0}</Text>
-                Mutuals
-              </Text>
+              {totalActivitiesCount && (
+                <Text css={{ gap: '$xs' }}>
+                  <Text semibold>{totalActivitiesCount}</Text>
+                  Posts
+                </Text>
+              )}
+            </Flex>
+            <Flex
+              column
+              css={{
+                borderTop: '0.5px solid $borderDim',
+                mt: '$sm',
+                width: '100%',
+              }}
+            >
+              <LinkUpCard targetAddress={targetAddress} profileCardContext />
             </Flex>
           </Flex>
-        </Panel>
-        <Panel
-          as={AppLink}
-          to={coLinksPaths.profileNetwork(targetAddress)}
-          noBorder
-          css={{
-            ...panelStyles,
-            '@sm': {
-              color: 'white',
-              background:
-                'radial-gradient(circle at -10% 10%, $profileCardCoLinksGradientStart 20%, $profileCardCoLinksGradientEnd 100%)',
-            },
-          }}
-        >
-          <Flex css={{ gap: '$md', alignItems: 'flex-start' }}>
-            <Links fa size="2xl" />
-            <Flex column css={{ flexGrow: 1 }}>
-              <Flex column>
-                <Text css={{ gap: '$xs' }}>
-                  <Text semibold>{profile.links ?? 0}</Text>
-                  CoLinks
-                </Text>
-                <Text css={{ gap: '$xs' }}>
-                  <Text semibold>
-                    <LinkHoldings holder={targetAddress} />
-                  </Text>
-                  CoLinks Held
-                </Text>
-                {totalActivitiesCount && (
-                  <Text css={{ gap: '$xs' }}>
-                    <Text semibold>{totalActivitiesCount}</Text>
-                    Posts
-                  </Text>
-                )}
-              </Flex>
-              <Flex
-                column
-                css={{
-                  borderTop: '0.5px solid $borderDim',
-                  mt: '$sm',
-                  width: '100%',
-                }}
-              >
-                <LinkUpCard targetAddress={targetAddress} profileCardContext />
-              </Flex>
-            </Flex>
-          </Flex>
-        </Panel>
-
-        <Flex
-          css={{
-            width: '100%',
-            maxWidth: cardMaxWidth,
-          }}
-        >
-          <Poaps address={targetAddress} profileCard />
         </Flex>
+      </Panel>
+      {/* Card Poaps */}
+      <Flex
+        css={{
+          width: '100%',
+          maxWidth: cardMaxWidth,
+        }}
+      >
+        <Poaps address={targetAddress} profileCard />
       </Flex>
     </Flex>
   );
