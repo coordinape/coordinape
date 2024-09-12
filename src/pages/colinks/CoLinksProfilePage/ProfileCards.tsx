@@ -172,7 +172,7 @@ export const ProfileCardsWithProfile = ({
           '@sm': {
             color: 'white',
             background:
-              'radial-gradient(circle at -10% 10%, #0ecf87 20%, #5528d6 100%)',
+              'radial-gradient(circle at -10% 10%, $profileCardGiveGradientStart 20%, $profileCardGiveGradientEnd 100%)',
           },
         }}
       >
@@ -262,7 +262,7 @@ export const ProfileCardsWithProfile = ({
             '@sm': {
               color: 'white',
               background:
-                'radial-gradient(circle at -10% 10%, $farcaster 20%, #9572eb 100%)',
+                'radial-gradient(circle at -10% 10%, $profileCardFarcasterGradientStart 20%, $profileCardFarcasterGradientEnd 100%)',
             },
           }}
         >
@@ -293,7 +293,7 @@ export const ProfileCardsWithProfile = ({
             '@sm': {
               color: 'white',
               background:
-                'radial-gradient(circle at -10% 10%, rgb(34 186 198) 20%, rgb(212, 8, 133) 100%)',
+                'radial-gradient(circle at -10% 10%, $profileCardCoLinksGradientStart 20%, $profileCardCoLinksGradientEnd 100%)',
             },
           }}
         >

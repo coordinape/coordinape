@@ -181,6 +181,15 @@ export const colors = {
   profileGradientStart: figmaColors.grey4,
   profileGradientEnd: figmaColors.grey2,
 
+  profileCardGiveGradientStart: '#0ecf87',
+  profileCardGiveGradientEnd: '#5528d6',
+  profileCardFarcasterGradientStart: '$farcaster',
+  profileCardFarcasterGradientEnd: '#9572eb',
+  profileCardCoLinksGradientStart: '#36b0e1',
+  profileCardCoLinksGradientEnd: '#dd339b',
+  profileCardPoapsGradientStart: '#ebb417',
+  profileCardPoapsGradientEnd: '#6980db',
+
   alert: figmaColors.error5,
   warning: figmaColors.orange5,
   success: figmaColors.success5,
@@ -537,6 +546,15 @@ export const dark = createTheme({
     profileGradientStart: figmaColors.grey10,
     profileGradientEnd: figmaColors.grey8,
 
+    profileCardGiveGradientStart: '#077c51',
+    profileCardGiveGradientEnd: '#2b1176',
+    profileCardFarcasterGradientStart: '$farcaster',
+    profileCardFarcasterGradientEnd: '#1f0561',
+    profileCardCoLinksGradientStart: '#0b5b87',
+    profileCardCoLinksGradientEnd: '#660c43',
+    profileCardPoapsGradientStart: '#825f00',
+    profileCardPoapsGradientEnd: '#0f005e',
+
     background: figmaColors.grey10,
     navBackground: figmaColors.grey9,
     surface: figmaColors.grey9,
@@ -762,6 +780,15 @@ export const party = createTheme({
     profileGradientStart: figmaColors.grey10,
     profileGradientEnd: figmaColors.grey8,
 
+    profileCardGiveGradientStart: '#077c51',
+    profileCardGiveGradientEnd: '#2b1176',
+    profileCardFarcasterGradientStart: '$farcaster',
+    profileCardFarcasterGradientEnd: '#1f0561',
+    profileCardCoLinksGradientStart: '#0b5b87',
+    profileCardCoLinksGradientEnd: '#660c43',
+    profileCardPoapsGradientStart: '#825f00',
+    profileCardPoapsGradientEnd: '#0f005e',
+
     background: figmaColors.grey10,
     navBackground:
       'radial-gradient(circle at 25% 0%, #5507E7 20%, #E7A607 100%)',
@@ -771,7 +798,7 @@ export const party = createTheme({
 
     text: figmaColors.grey4,
     headingText: figmaColors.grey2,
-    secondaryText: figmaColors.grey6,
+    secondaryText: figmaColors.grey4,
 
     info: figmaColors.secondary10,
     textOnInfo: figmaColors.grey1,

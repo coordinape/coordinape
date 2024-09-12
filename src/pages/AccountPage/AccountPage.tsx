@@ -60,7 +60,14 @@ export default function AccountPage() {
 
         {isCoLinksPage && (
           <>
-            <Flex css={{ gap: '$lg' }}>
+            <Flex
+              css={{
+                gap: '$lg',
+                '@sm': {
+                  flexDirection: 'column',
+                },
+              }}
+            >
               <Panel css={{ maxWidth: '$readable', flex: 1 }}>
                 <Text large semibold css={{ mb: '$lg' }}>
                   Farcaster
@@ -74,7 +81,14 @@ export default function AccountPage() {
                 <ShowOrConnectTwitter />
               </Panel>
             </Flex>
-            <Flex css={{ gap: '$lg' }}>
+            <Flex
+              css={{
+                gap: '$lg',
+                '@sm': {
+                  flexDirection: 'column',
+                },
+              }}
+            >
               <Panel css={{ maxWidth: '$readable', flex: 1 }}>
                 <Text large semibold css={{ mb: '$lg' }}>
                   GitHub

@@ -152,7 +152,7 @@ const ProfileHeaderWithProfile = ({
                     </Text>
                   </AppLink>
                 </Flex>
-                <Flex css={{ gap: '$sm' }}>
+                <Flex css={{ gap: '$sm', flexWrap: 'wrap' }}>
                   {details && (
                     <SocialLinks
                       details={details}
