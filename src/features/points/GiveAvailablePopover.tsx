@@ -14,8 +14,10 @@ import { usePoints } from './usePoints';
 
 export const GiveAvailablePopover = ({
   giveCharging = false,
+  cta = false,
 }: {
   giveCharging?: boolean;
+  cta?: boolean;
 }) => {
   const { give, nextGiveAt } = usePoints();
 
@@ -28,15 +30,32 @@ export const GiveAvailablePopover = ({
             color="dim"
             size="small"
             css={{
-              p: '3px 7px',
-              height: 'auto',
-              minHeight: 0,
-              fontSize: '$small',
-              borderRadius: '4px',
-              '&:hover': {
-                background: '$tagCtaBackground',
-                color: '$tagCtaText',
-              },
+              ...(cta
+                ? {
+                    minHeight: '$xl',
+                    padding: '$sm calc($sm + $xs)',
+                    fontSize: '$medium',
+                    fontWeight: '$medium',
+                    lineHeight: '$none',
+                    borderRadius: '$4',
+                    backgroundColor: '$neutralButton',
+                    color: '$neutralButtonText',
+                    '&:hover': {
+                      backgroundColor: '$neutralButtonHover !important',
+                      color: '$neutralButtonTextHover !important',
+                    },
+                  }
+                : {
+                    p: '3px 7px',
+                    height: 'auto',
+                    minHeight: 0,
+                    fontSize: '$small',
+                    borderRadius: '4px',
+                    '&:hover': {
+                      background: '$tagCtaBackground',
+                      color: '$tagCtaText',
+                    },
+                  }),
             }}
           >
             <BatteryLow fa size="md" css={{ ml: '$xs' }} />
@@ -60,7 +79,7 @@ export const GiveAvailablePopover = ({
             </Text>
           )}
           <Flex column>
-            <PointsBar barOnly />
+            <PointsBar barOnly />{' '}
           </Flex>
         </PopoverContent>
       </Popover>

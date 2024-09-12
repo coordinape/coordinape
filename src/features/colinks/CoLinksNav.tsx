@@ -116,7 +116,7 @@ export const CoLinksNav = () => {
             top: 0,
             left: 0,
             width: '100%',
-            p: '$md $lg',
+            p: '$md',
             height: '$3xl',
             button: { display: 'flex' },
           },
@@ -393,7 +393,7 @@ const LoggedInItems = ({
         </Flex>
       </NavItem>
       <HR />
-      <NavItem path={address ? coLinksPaths.profile(address) : ''}>
+      <NavItem path={address ? coLinksPaths.profileGive(address) : ''}>
         <Flex
           css={{
             justifyContent: 'space-between',
@@ -422,7 +422,7 @@ const LoggedInItems = ({
           </IconButton>
         </Flex>
       </NavItem>
-      <NavItem path={address ? coLinksPaths.score(address) : ''}>
+      <NavItem path={address ? coLinksPaths.profileReputation(address) : ''}>
         <CertificateFill size="lg" nostroke />
         Rep Score
       </NavItem>

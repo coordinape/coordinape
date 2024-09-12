@@ -177,7 +177,7 @@ const MutesImplementation = ({
     <ConfirmationModal
       key={'unmute'}
       trigger={
-        <Button size="small" color={'secondary'}>
+        <Button size="xs" color={'secondary'}>
           Unmute
         </Button>
       }
@@ -189,7 +189,7 @@ const MutesImplementation = ({
     <ConfirmationModal
       key={'mute'}
       trigger={
-        <Button size="small" color={'secondary'}>
+        <Button size="xs" color={'secondary'}>
           Mute
         </Button>
       }

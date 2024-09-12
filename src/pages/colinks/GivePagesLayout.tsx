@@ -43,7 +43,7 @@ export const GivePagesLayout = ({
                 size={'large'}
                 registerKeyDown={false}
                 skillFunc={coLinksPaths.giveSkill}
-                profileFunc={coLinksPaths.profile}
+                profileFunc={coLinksPaths.profileGive}
               />
               <Text>TODO: breadcrumbs or other give navigation</Text>
             </Flex>

@@ -45,11 +45,11 @@ export const Bullseye = ({
   const maxNodesInTier = [20, 24, 30, 22, 45];
   const tierZIndexes = [5, 4, 3, 2, 1];
   const tierBackgrounds = [
-    'radial-gradient(circle at center, rgba(0,0,0,0.2) 20%, rgb(153 13 235 / 68%) 75%)',
-    'radial-gradient(circle at center, rgba(0,0,0,0.2) 49%, rgb(15 208 102 / 58%) 71%)',
-    'radial-gradient(circle at center, rgba(0,0,0,0.2) 50%, rgb(165 151 14 / 80%) 75%)',
-    'radial-gradient(circle at center, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%)',
-    'radial-gradient(circle at center, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.3) 75%)',
+    'radial-gradient(circle at center, $bullseye1a 30%, $bullseye1b 85%)',
+    'radial-gradient(circle at center, $bullseye2a 30%, $bullseye2b 85%)',
+    'radial-gradient(circle at center, $bullseye3a 30%, $bullseye3b 90%)',
+    'radial-gradient(circle, $bullseye4a 50%, $bullseye4b 75%)',
+    'radial-gradient(circle, $bullseye5a 50%, $bullseye5b 75%)',
   ];
   const nodeBackgrounds = [
     '#9847FF',
@@ -79,7 +79,7 @@ export const Bullseye = ({
       <Link
         key={tierZIndex + i}
         as={NavLink}
-        to={coLinksPaths.partyProfile(user.address)}
+        to={coLinksPaths.profileGive(user.address)}
         style={{
           position: 'absolute',
           background: nodeBackground,
@@ -88,7 +88,7 @@ export const Bullseye = ({
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          color: 'white',
+
           textAlign: 'center',
           overflow: 'hidden',
           textOverflow: 'ellipsis',
@@ -99,10 +99,7 @@ export const Bullseye = ({
           transform: `translate(-50%, -50%) rotate(calc(-2deg * ${tier}))`,
         }}
       >
-        <Tooltip
-          contentCss={{ background: 'black', color: 'white' }}
-          content={user.username}
-        >
+        <Tooltip content={user.username}>
           <Avatar
             name={user.username}
             path={user.avatar}
@@ -115,13 +112,12 @@ export const Bullseye = ({
   const popoverNodes = popoverUsers.map(user => (
     <Link
       as={NavLink}
-      to={coLinksPaths.partyProfile(user.address || '')}
+      to={coLinksPaths.profileGive(user.address || '')}
       key={user.address}
       css={{
         alignItems: 'center',
         gap: '$sm',
         display: 'flex',
-        color: 'white',
       }}
     >
       <Avatar size="xs" name={user.username} path={user.avatar} />
@@ -305,7 +301,6 @@ export const Bullseye = ({
               side="top"
               sideOffset={-50}
               css={{
-                background: 'black',
                 p: '$sm $md',
                 maxHeight: 285,
                 maxWidth: handWidth + 60,

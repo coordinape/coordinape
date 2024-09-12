@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-194.688,-27.6356)">
+        <g id="bullseye" transform="matrix(0.13395,0,0,0.149263,169.223,2.6339)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="190.107" y="167.501" width="179.172" height="160.79"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g id="bullseye-light.svg" transform="matrix(0.349945,0,0,0.314042,279.693,247.896)">
+                    <g transform="matrix(1,0,0,1,-256,-256)">
+                        <clipPath id="_clip2">
+                            <rect x="0" y="0" width="512" height="512"/>
+                        </clipPath>
+                        <g clip-path="url(#_clip2)">
+                            <path d="M480,256C480,133.117 378.883,32 256,32C133.117,32 32,133.117 32,256C32,378.883 133.117,480 256,480C378.883,480 480,378.883 480,256ZM0,256C-0,115.563 115.563,0 256,0C396.437,-0 512,115.563 512,256C512,396.437 396.437,512 256,512C115.563,512 0,396.437 0,256ZM256,384C326.219,384 384,326.219 384,256C384,185.781 326.219,128 256,128C185.781,128 128,185.781 128,256C128,326.219 185.781,384 256,384ZM256,96C343.773,96 416,168.227 416,256C416,343.773 343.773,416 256,416C168.227,416 96,343.773 96,256C96,168.227 168.227,96 256,96ZM256,288C273.555,288 288,273.555 288,256C288,238.445 273.555,224 256,224C238.445,224 224,238.445 224,256C224,273.555 238.445,288 256,288ZM256,192C291.109,192 320,220.891 320,256C320,291.109 291.109,320 256,320C220.891,320 192,291.109 192,256C192,220.891 220.891,192 256,192Z" style="fill-rule:nonzero;"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

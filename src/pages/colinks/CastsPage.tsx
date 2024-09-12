@@ -149,7 +149,7 @@ const Cast = ({ cast }: { cast: Cast }) => {
 
 const AvatarAndName = ({ cast }: { cast: Cast }) => {
   return (
-    <Link as={NavLink} to={coLinksPaths.profile(cast.address || '')}>
+    <Link as={NavLink} to={coLinksPaths.profilePosts(cast.address || '')}>
       <Flex
         alignItems="center"
         css={{

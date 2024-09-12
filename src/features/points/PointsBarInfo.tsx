@@ -26,9 +26,6 @@ export const PointsBarInfo = () => {
         css={{
           m: '$sm',
           gap: '$md',
-          '@sm': {
-            mx: 0,
-          },
         }}
       >
         <Text inline size="small">

@@ -29,6 +29,7 @@ export const CoLinksGiveButton = ({
   targetAddress,
   targetProfileId,
   isMyPost = false,
+  cta = false,
   gives,
 }: {
   activityId?: number;
@@ -36,6 +37,7 @@ export const CoLinksGiveButton = ({
   targetAddress?: string;
   targetProfileId?: number;
   isMyPost?: boolean;
+  cta?: boolean;
   gives: {
     id: number;
     skill?: string;
@@ -163,27 +165,43 @@ export const CoLinksGiveButton = ({
                           as="span"
                           color="dim"
                           onClick={shouldShowModal}
-                          size="small"
+                          size={cta ? 'large' : 'small'}
                           css={{
-                            p: '3px 7px',
-                            height: 'auto',
-                            minHeight: 0,
-                            fontSize: '$small',
-                            borderRadius: '4px',
-                            '&:hover': {
-                              background: '$tagLinkBackground',
-                              color: '$tagLinkText',
-                            },
+                            ...(cta
+                              ? {
+                                  minHeight: '$xl',
+                                  padding: '$sm calc($sm + $xs)',
+                                  fontSize: '$medium',
+                                  fontWeight: '$medium',
+                                  lineHeight: '$none',
+                                  borderRadius: '$4',
+                                  backgroundColor: '$cta',
+                                  color: '$textOnCta',
+                                  '&:hover': {
+                                    backgroundColor: '$ctaHover',
+                                  },
+                                }
+                              : {
+                                  p: '3px 7px',
+                                  height: 'auto',
+                                  minHeight: 0,
+                                  fontSize: '$small',
+                                  borderRadius: '4px',
+                                  '&:hover': {
+                                    background: '$tagLinkBackground',
+                                    color: '$tagLinkText',
+                                  },
+                                }),
                           }}
                         >
                           <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
-                          GIVE
+                          +GIVE
                         </Button>
                       </>
                     }
                   />
                 ) : (
-                  <GiveAvailablePopover giveCharging />
+                  <GiveAvailablePopover giveCharging cta={cta} />
                 )}
               </>
             )}
@@ -324,7 +342,7 @@ export const PickOneSkill = ({
         QUERY_KEY_SKILLS,
         targetProfileId ? targetProfileId.toString() : '',
       ]}
-      popoverCss={{ mt: -56 }}
+      popoverCss={{ mt: -40, mx: 6 }}
       customRender={skill => {
         const skillOnProfile = profile_skills.find(
           s => s.skill_name.toLowerCase() === skill.toLowerCase()

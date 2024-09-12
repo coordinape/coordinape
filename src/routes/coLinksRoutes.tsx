@@ -32,12 +32,10 @@ import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NotFound } from '../pages/colinks/NotFound';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
-import { RepScorePage } from '../pages/colinks/RepScorePage';
 import { SearchPage } from '../pages/colinks/SearchPage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { VerifyEmailPage } from '../pages/colinks/VerifyEmailPage';
 import { VerifyWaitListEmailPage } from '../pages/colinks/VerifyWaitListEmailPage';
-import { ViewProfilePage } from '../pages/colinks/ViewProfilePage/ViewProfilePage';
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
@@ -47,6 +45,11 @@ import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
+import { ViewProfilePageGive } from 'pages/colinks/CoLinksProfilePage/ProfilePageGive';
+import { ViewProfilePageNetwork } from 'pages/colinks/CoLinksProfilePage/ProfilePageNetwork';
+import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePagePosts';
+import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
+import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveMap } from 'pages/GiveMap';
@@ -106,7 +109,7 @@ export const coLinksRoutes = [
     ,
     <Route key={'network'}>
       <Route
-        path={coLinksPaths.profileNetwork(':address')}
+        path={coLinksPaths.profilePartyNetwork(':address')}
         element={<ProfileNetworkPage />}
       />
     </Route>
@@ -142,6 +145,14 @@ export const coLinksRoutes = [
     <Route path="login" element={<RedirectAfterLogin />} />
     <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
+  <Route key={'profilegivemap'}>
+    <Route
+      path={coLinksPaths.profileGiveMap(':address')}
+      element={<ViewProfilePageGiveMap />}
+    />
+    ,
+  </Route>,
+
   <Fragment key="public">
     <Route
       element={
@@ -186,10 +197,21 @@ export const coLinksRoutes = [
         path={coLinksPaths.exploreHoldingMost}
         element={<HoldingMostLinksPage />}
       />
-
       <Route
-        path={coLinksPaths.profile(':address')}
-        element={<ViewProfilePage />}
+        path={coLinksPaths.profilePosts(':address')}
+        element={<ViewProfilePagePosts />}
+      />
+      <Route
+        path={coLinksPaths.profileGive(':address')}
+        element={<ViewProfilePageGive />}
+      />
+      <Route
+        path={coLinksPaths.profileNetwork(':address')}
+        element={<ViewProfilePageNetwork />}
+      />
+      <Route
+        path={coLinksPaths.profileReputation(':address')}
+        element={<ViewProfilePageReputation />}
       />
       <Route
         path={coLinksPaths.history(':address')}
@@ -227,7 +249,6 @@ export const coLinksRoutes = [
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}
       />
-      <Route path={coLinksPaths.score(':address')} element={<RepScorePage />} />
       <Route path={coLinksPaths.invites} element={<InvitesPage />} />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />

@@ -42,7 +42,7 @@ const searchPages = (address?: string) => [
         },
         {
           name: 'Profile',
-          path: coLinksPaths.profile(address),
+          path: coLinksPaths.profileGive(address),
           icon: <UserFill size="lg" nostroke />,
         },
         {
@@ -52,7 +52,7 @@ const searchPages = (address?: string) => [
         },
         {
           name: 'Rep Score',
-          path: coLinksPaths.score(address),
+          path: coLinksPaths.profileReputation(address),
           icon: <CertificateFill size="lg" nostroke />,
         },
         {

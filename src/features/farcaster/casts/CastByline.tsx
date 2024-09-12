@@ -5,7 +5,7 @@ import { Avatar, Flex, Link, Text } from '../../../ui';
 import { Cast } from '../../activities/cast';
 import { ChartSimple, Farcaster } from 'icons/__generated';
 
-const warpcastUrl = (cast: Cast) => {
+export const warpcastUrl = (cast: Cast) => {
   return `https://warpcast.com/${cast.fname}/0${cast.hash.slice(1, 9)}`;
 };
 
@@ -52,7 +52,7 @@ const AvatarAndName = ({
   };
 }) => {
   return (
-    <Link as={NavLink} to={coLinksPaths.profile(cast.address || '')}>
+    <Link as={NavLink} to={coLinksPaths.profilePosts(cast.address || '')}>
       <Flex
         alignItems="center"
         css={{

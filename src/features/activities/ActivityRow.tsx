@@ -1,7 +1,7 @@
 import React from 'react';
 
 import * as Sentry from '@sentry/react';
-import { CastByline } from 'features/farcaster/casts/CastByline';
+import { CastByline, warpcastUrl } from 'features/farcaster/casts/CastByline';
 
 import { Flex, Text } from '../../ui';
 import { CastRow } from '../farcaster/casts/CastRow';
@@ -32,12 +32,14 @@ export const ActivityRow = ({
   activity,
   drawer,
   focus = false,
+  timestampVerb,
 }: {
   activity: Activity;
   drawer?: boolean;
   focus?: boolean;
+  timestampVerb?: boolean;
 }) => {
-  const valid = validActivity(activity, focus, drawer);
+  const valid = validActivity(activity, focus, drawer, timestampVerb);
 
   if (!valid) {
     if (isFeatureEnabled('debug')) {
@@ -51,7 +53,11 @@ export const ActivityRow = ({
           }),
         };
         Sentry.captureEvent(event);
-        return <Text>Unknown activity: {activity.action}</Text>;
+        return (
+          <Text>
+            Unknown activity: {activity.action} id:{activity.id}
+          </Text>
+        );
       }
     }
     return null;
@@ -67,12 +73,18 @@ export const ActivityRow = ({
 const validActivity = (
   activity: Activity,
   focus: boolean,
-  drawer?: boolean
+  drawer?: boolean,
+  timestampVerb?: boolean
 ) => {
   if (IsContribution(activity)) {
     if (activity.private_stream || activity.big_question) {
       return (
-        <PostRow activity={activity} focus={focus} editAllowed={true}>
+        <PostRow
+          timestampVerb={timestampVerb ? 'posted' : undefined}
+          activity={activity}
+          focus={focus}
+          editAllowed={true}
+        >
           {({ editing, editable, setEditing }) => (
             <CoLinksPostRowChild
               activity={activity}
@@ -96,7 +108,9 @@ const validActivity = (
           focus={focus}
           editAllowed={false}
           postType="cast"
+          link={warpcastUrl(activity.cast)}
           castByline={<CastByline cast={activity.cast} />}
+          timestampVerb={timestampVerb ? 'cast' : undefined}
         >
           {() => <CastRow cast={activity.cast} activity={activity} />}
         </PostRow>

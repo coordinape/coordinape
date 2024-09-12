@@ -97,7 +97,7 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
               gap: '$xs',
               mr: '$xs',
             }}
-            to={coLinksPaths.profile(tx.holder ?? '')}
+            to={coLinksPaths.profileNetwork(tx.holder ?? '')}
           >
             <Text inline semibold size="small">
               {tx.holder_profile?.name || '?'}
@@ -125,7 +125,7 @@ export const Transaction = ({ tx }: { tx: LinkTx }) => {
                 gap: '$xs',
                 mr: '$xs',
               }}
-              to={coLinksPaths.profile(tx.target ?? 'FIXME')}
+              to={coLinksPaths.profileNetwork(tx.target ?? 'FIXME')}
             >
               <Text inline size="small" semibold>
                 {tx.target_profile?.name || '?'}

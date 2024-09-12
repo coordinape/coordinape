@@ -88,7 +88,7 @@ export const PartyWalletMenu = () => {
               >
                 <ConnectButton />
               </Flex>
-              <PointsBar forceTheme="dark" />
+              <PointsBar />
               <Text>walletConnected: {walletConnected.toString()}</Text>
               <Text>profileId: {profileId}</Text>
             </Flex>

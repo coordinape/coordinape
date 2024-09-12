@@ -105,6 +105,17 @@ export const colors = {
   borderTable: figmaColors.grey4,
   activePanel: figmaColors.secondary1,
 
+  bullseye1a: '#6000d7',
+  bullseye1b: '#9847FF',
+  bullseye2a: '#003b1c',
+  bullseye2b: '#0CCB65',
+  bullseye3a: '#443400',
+  bullseye3b: '#EDC53A',
+  bullseye4a: '#696969',
+  bullseye4b: '#b6b6b6',
+  bullseye5a: '#cdcdcd',
+  bullseye5b: '#eeeeee',
+
   dim: figmaColors.grey1,
   dimText: figmaColors.grey4,
   dimButtonHover: '#FFFFFF',
@@ -257,11 +268,12 @@ export const colors = {
   mapReceive: figmaColors.secondary2,
   mapCirculate: figmaColors.secondary5,
   mapNode: figmaColors.grey10,
-  mapGiveLink: figmaColors.success5,
+  giveGraphLink: figmaColors.grey4,
   mapReceiveLink: figmaColors.orange6,
   mapNodeFade: '#00000020',
   mapLink: '#00000015',
   mapLinkDim: '#00000008',
+  mapGiveLink: figmaColors.success5,
 
   coMarkBackground: figmaColors.primary4,
 
@@ -511,6 +523,17 @@ export const dark = createTheme({
     modalBorderColor: figmaColors.grey8,
     activePanel: figmaColors.grey8,
 
+    bullseye1a: '#4d00ac',
+    bullseye1b: '#9847FF',
+    bullseye2a: '#003b1c',
+    bullseye2b: '#00c65c',
+    bullseye3a: '#443400',
+    bullseye3b: '#e0b82e',
+    bullseye4a: '#393939',
+    bullseye4b: '#535353',
+    bullseye5a: '#1f1f1f',
+    bullseye5b: '#3d3d3d',
+
     profileGradientStart: figmaColors.grey10,
     profileGradientEnd: figmaColors.grey8,
 
@@ -628,6 +651,7 @@ export const dark = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+    giveGraphLink: figmaColors.grey5,
 
     toastifyBackground: figmaColors.grey8,
     toastifyBorderColorDefault: figmaColors.grey6,
@@ -723,6 +747,17 @@ export const party = createTheme({
     modalBackground: '#0000007d',
     modalBorderColor: figmaColors.grey8,
     activePanel: figmaColors.grey8,
+
+    bullseye1a: '#4d00ac',
+    bullseye1b: '#9847FF',
+    bullseye2a: '#003b1c',
+    bullseye2b: '#00c65c',
+    bullseye3a: '#443400',
+    bullseye3b: '#e0b82e',
+    bullseye4a: '#393939',
+    bullseye4b: '#535353',
+    bullseye5a: '#1f1f1f',
+    bullseye5b: '#3d3d3d',
 
     profileGradientStart: figmaColors.grey10,
     profileGradientEnd: figmaColors.grey8,
@@ -842,6 +877,7 @@ export const party = createTheme({
     mapNodeFade: '#FFFFFF20',
     mapLink: '#FFFFFF15',
     mapLinkDim: '#FFFFFF08',
+    giveGraphLink: '#f583ee',
 
     toastifyBackground: figmaColors.grey8,
     toastifyBorderColorDefault: figmaColors.grey6,

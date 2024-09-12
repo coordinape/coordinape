@@ -185,7 +185,7 @@ const Invitee = ({
   return (
     <Panel
       as={AppLink}
-      to={coLinksPaths.profile(invited.address ?? '')}
+      to={coLinksPaths.profileNetwork(invited.address ?? '')}
       noBorder
       css={{ position: 'relative' }}
     >

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-194.688,-83.3935)">
+        <g id="write" transform="matrix(0.13395,0,0,0.149263,169.223,58.3917)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <g id="pen-line-light.svg" transform="matrix(0.311062,0,0,0.279149,279.693,247.896)">
+                <g transform="matrix(1,0,0,1,-288,-256)">
+                    <clipPath id="_clip1">
+                        <rect x="0" y="0" width="576" height="512"/>
+                    </clipPath>
+                    <g clip-path="url(#_clip1)">
+                        <path d="M429.8,39.6C420.4,30.2 405.2,30.2 395.9,39.6L341,94.4L417.6,171L472.4,116.2C481.8,106.8 481.8,91.6 472.4,82.3L429.8,39.6ZM83.1,352.4C75.5,360 70,369.3 67,379.6L39.6,472.4L132.4,445.1C142.7,442.1 152,436.5 159.6,429L395,193.6L318.4,117L83.1,352.4ZM373.2,17C395.1,-4.9 430.5,-4.9 452.4,17L495,59.6C516.9,81.5 516.9,116.9 495,138.8L182.3,451.6C170.9,463 156.9,471.3 141.5,475.8L20.5,511.4C14.9,513.1 8.8,511.5 4.7,507.4C0.6,503.3 -1,497.2 0.7,491.6L36.3,370.6C40.8,355.2 49.2,341.2 60.5,329.8L373.2,17ZM240,480L560,480C568.8,480 576,487.2 576,496C576,504.8 568.8,512 560,512L240,512C231.2,512 224,504.8 224,496C224,487.2 231.2,480 240,480Z" style="fill-rule:nonzero;"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

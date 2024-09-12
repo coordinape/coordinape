@@ -130,7 +130,7 @@ export const PostGives = ({
                                 semibold
                                 css={{ textDecoration: 'none' }}
                                 as={NavLink}
-                                to={coLinksPaths.profile(
+                                to={coLinksPaths.profileGive(
                                   give.giver_profile_public.address || ''
                                 )}
                               >

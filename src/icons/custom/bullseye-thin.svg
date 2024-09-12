@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-166.853,-27.6356)">
+        <g id="bullseye" transform="matrix(0.13395,0,0,0.149263,141.388,2.6339)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="190.107" y="167.501" width="179.172" height="160.79"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g id="bullseye-thin.svg" transform="matrix(0.349945,0,0,0.314042,279.693,247.896)">
+                    <g transform="matrix(1,0,0,1,-256,-256)">
+                        <clipPath id="_clip2">
+                            <rect x="0" y="0" width="512" height="512"/>
+                        </clipPath>
+                        <g clip-path="url(#_clip2)">
+                            <path d="M256,16C387.66,16 496,124.34 496,256C496,387.66 387.66,496 256,496C124.34,496 16,387.66 16,256C16,124.34 124.34,16 256,16ZM256,512C396.437,512 512,396.437 512,256C512,115.563 396.437,0 256,0C115.563,0 -0,115.563 0,256C0,396.437 115.563,512 256,512ZM256,104C339.385,104 408,172.615 408,256C408,339.385 339.385,408 256,408C172.615,408 104,339.385 104,256C104,172.615 172.615,104 256,104ZM256,424C348.162,424 424,348.162 424,256C424,163.838 348.162,88 256,88C163.838,88 88,163.838 88,256C88,348.162 163.838,424 256,424ZM200,256C200,225.279 225.279,200 256,200C286.721,200 312,225.279 312,256C312,286.721 286.721,312 256,312C225.279,312 200,286.721 200,256ZM328,256C328,216.502 295.498,184 256,184C216.502,184 184,216.502 184,256C184,295.498 216.502,328 256,328C295.498,328 328,295.498 328,256Z" style="fill-rule:nonzero;"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

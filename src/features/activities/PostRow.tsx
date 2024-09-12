@@ -39,6 +39,8 @@ export const PostRow = ({
   children,
   castByline,
   postType,
+  timestampVerb,
+  link,
 }: {
   activity: ActivityWithValidProfile;
   focus: boolean;
@@ -46,6 +48,8 @@ export const PostRow = ({
   children: React.FC<PostRowChildProps>;
   castByline?: React.ReactNode;
   postType?: 'cast';
+  timestampVerb?: string;
+  link?: string;
 }) => {
   const queryClient = useQueryClient();
   const location = useLocation();
@@ -138,12 +142,14 @@ export const PostRow = ({
             },
           }}
         >
-          <ActivityAvatar
-            profile={activity.actor_profile_public}
-            css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
-          />
+          <Flex className="postAvatar">
+            <ActivityAvatar
+              profile={activity.actor_profile_public}
+              css={{ '@sm': { width: '$1xl !important', height: '$1xl' } }}
+            />
+          </Flex>
           <Flex
-            className="clickThrough"
+            className="clickThrough postContent"
             column
             css={{
               flexGrow: 1,
@@ -167,15 +173,18 @@ export const PostRow = ({
               >
                 <ActivityProfileName profile={activity.actor_profile_public} />
                 <Text
-                  as={NavLink}
+                  as={link ? Link : NavLink}
                   size="small"
-                  to={coLinksPaths.post(activity.id)}
                   css={{
                     color: '$neutral',
                     textDecoration: 'none',
                     '&:hover': { textDecoration: 'underline' },
                   }}
+                  {...(link
+                    ? { target: '_blank', rel: 'noreferrer', href: link }
+                    : { to: coLinksPaths.post(activity.id) })}
                 >
+                  {timestampVerb ? timestampVerb + ' ' : ''}
                   {DateTime.fromISO(activity.created_at).toRelative()}
                 </Text>
                 {isFeatureEnabled('share_post') && editable && (
@@ -306,13 +315,15 @@ export const PostRow = ({
                 </Flex>
               </>
             )}
-            {(focus || displayComments) && (
-              <RepliesBox
-                activityId={activity.id}
-                activityActorId={activity.actor_profile_public.id}
-                setEditingReply={setEditingReply}
-              />
-            )}
+            <Flex column className="repliesBox">
+              {(focus || displayComments) && (
+                <RepliesBox
+                  activityId={activity.id}
+                  activityActorId={activity.actor_profile_public.id}
+                  setEditingReply={setEditingReply}
+                />
+              )}
+            </Flex>
           </Flex>
         </Flex>
       </Flex>

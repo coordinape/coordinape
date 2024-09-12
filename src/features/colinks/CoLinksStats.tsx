@@ -2,6 +2,7 @@ import { ComponentProps } from 'react';
 
 import { GiveReceived } from 'features/points/GiveReceived';
 import { useNavigate } from 'react-router-dom';
+import { CSS } from 'stitches.config';
 
 import { coLinksPaths } from '../../routes/paths';
 import { Flex, Text } from '../../ui';
@@ -13,16 +14,26 @@ export const CoLinksStats = ({
   size = 'xs',
   address,
   holdingCount,
+  css,
 }: {
   links: number;
   score: number;
   address?: string;
   size?: ComponentProps<typeof Text>['size'];
   holdingCount: number;
+  css?: CSS;
 }) => {
   const navigate = useNavigate();
   return (
-    <Flex css={{ alignItems: 'center', gap: size === 'xs' ? '$sm' : '$md' }}>
+    <Flex
+      css={{
+        alignItems: 'center',
+        columnGap: '$lg',
+        rowGap: '$sm',
+        flexWrap: 'wrap',
+        ...css,
+      }}
+    >
       <Text
         size={size}
         title={'Rep Score'}
@@ -41,18 +52,19 @@ export const CoLinksStats = ({
         onClick={e => {
           e.preventDefault();
           e.stopPropagation();
-          navigate(coLinksPaths.score(address ?? ''));
+          navigate(coLinksPaths.profileReputation(address ?? ''));
         }}
       >
+        <Text semibold size={size}>
+          {abbreviateNumber(score)}
+        </Text>
         <CertificateLight
           nostroke
           css={{
             path: { fill: '$secondaryText' },
           }}
         />
-        <Text semibold size={size}>
-          {abbreviateNumber(score)}
-        </Text>
+        {size !== ('xs' || 'small') && <Text>Rep</Text>}
       </Text>
       <Text
         size={size}
@@ -64,7 +76,7 @@ export const CoLinksStats = ({
           navigate(coLinksPaths.holders(address ?? ''));
         }}
         css={{
-          gap: size === 'xs' ? '$xs' : '$sm',
+          gap: '$xs',
           cursor: 'pointer',
           whiteSpace: 'nowrap',
           '&:hover': {
@@ -75,10 +87,11 @@ export const CoLinksStats = ({
           },
         }}
       >
-        <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
         <Text semibold size={size}>
           {abbreviateNumber(links ?? 0)}
         </Text>
+        <Links nostroke css={{ path: { fill: '$secondaryText' } }} />
+        {size !== ('xs' || 'small') && <Text>CoLinks</Text>}
       </Text>
       {address && <GiveReceived size={size} address={address} />}
       {holdingCount > 0 && (

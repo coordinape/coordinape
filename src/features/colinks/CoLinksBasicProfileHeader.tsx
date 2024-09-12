@@ -23,7 +23,7 @@ export const CoLinksBasicProfileHeader = ({
   }
   return (
     <ContentHeader>
-      <Flex as={AppLink} to={coLinksPaths.profile(address)}>
+      <Flex as={AppLink} to={coLinksPaths.profileNetwork(address)}>
         <Flex alignItems="center" css={{ gap: '$sm' }}>
           <Avatar
             size="large"

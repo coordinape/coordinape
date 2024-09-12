@@ -1,12 +1,12 @@
+import { bullseyeMobileWidth, bullseyeWidth } from 'features/cosoul/constants';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
+import { QUERY_KEY_NETWORK } from 'pages/colinks/CoLinksProfilePage/ProfileCards';
 import { coLinksPaths } from 'routes/paths';
 import { Avatar, Box, Flex, Link, Text } from 'ui';
 
 import { Bullseye } from './Bullseye';
-
-const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileNetwork = ({
   targetAddress,
@@ -45,13 +45,12 @@ export const ProfileNetwork = ({
       <Box
         css={{
           position: 'relative',
-          width: '100%',
+          width: bullseyeWidth,
           aspectRatio: '1 / 1',
           my: 100,
           ...(fullscreen
             ? {
                 fontSize: 17,
-                // marginTop: 150,
                 '@media (orientation: landscape)': {
                   height: 'calc(100vh - 220px)',
                   minHeight: 600,
@@ -62,11 +61,12 @@ export const ProfileNetwork = ({
               }),
           '@xs': {
             fontSize: '12px',
+            width: bullseyeMobileWidth,
           },
         }}
       >
         {profile && (
-          <Link as={NavLink} to={coLinksPaths.partyProfile(`${address}`)}>
+          <Link as={NavLink} to={coLinksPaths.profileGive(`${address}`)}>
             <Avatar
               name={profile.name}
               path={profile.avatar}

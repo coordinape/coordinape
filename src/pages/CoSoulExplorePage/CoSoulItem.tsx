@@ -33,9 +33,7 @@ export const CoSoulItem = ({
       to={
         !coLinksSite
           ? coSoulPaths.cosoulView(cosoul.address)
-          : exploreView
-            ? coLinksPaths.profile(cosoul.address)
-            : coLinksPaths.score(cosoul.address)
+          : coLinksPaths.profileReputation(cosoul.address)
       }
     >
       <Box
