@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "My React Chrome Extension",
+  "version": "1.0.0",
+  "description": "A Chrome extension built with React and TypeScript.",
+  "permissions": ["storage", "tabs"],
+  "action": {
+    "default_popup": "Popup.html"
+  }
+}
