@@ -24,7 +24,7 @@ type sortBy =
   | 'name';
 
 export const GiveSkillLeaderboard = ({
-  profileFunc = coLinksPaths.partyProfile,
+  profileFunc = coLinksPaths.profileGive,
   mapFunc = coLinksPaths.givePartySkillMap,
 }: {
   profileFunc?(address: string): string;

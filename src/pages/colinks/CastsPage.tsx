@@ -117,7 +117,7 @@ const Cast = ({ cast }: { cast: Cast }) => {
                       }
                       return (
                         <NavLink
-                          to={coLinksPaths.partyProfile(mentionedAddress)}
+                          to={coLinksPaths.profileGive(mentionedAddress)}
                         >
                           {content}
                         </NavLink>
