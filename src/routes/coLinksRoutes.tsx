@@ -113,13 +113,6 @@ export const coLinksRoutes = [
       />
     </Route>
     ,
-    <Route key={'givemap'}>
-      <Route
-        path={coLinksPaths.givePartySkillMap(':skill')}
-        element={<GiveSkillMap />}
-      />
-    </Route>
-    ,
   </Route>,
 
   <Route

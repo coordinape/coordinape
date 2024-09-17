@@ -79,7 +79,6 @@ export const coLinksPaths = {
   giveParty: `/giveparty`,
   givePartyBoard: `/giveboard`,
   giveBoardSkill: (skill: string) => `/giveboard/${skill}`,
-  givePartySkillMap: (skill: string) => `/givemap/${skill}`,
   highlights: '/highlights',
   history: (address: string) => `/${address}/history`,
   holders: (address: string) => `/${address}/holders`,
