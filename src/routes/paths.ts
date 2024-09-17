@@ -98,6 +98,7 @@ export const coLinksPaths = {
   profilePosts: (address: string) => `/${address}/posts`,
   profileGive: (address: string) => `/${address}`,
   profileGiveMap: (address: string) => `/${address}/givemap`,
+  skillGiveMap: (skill: string) => `/givemap/${skill}`,
   profileNetwork: (address: string) => `/${address}/network`,
   profileReputation: (address: string) => `/${address}/reputation`,
   root: '/',

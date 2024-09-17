@@ -25,7 +25,6 @@ type sortBy =
 
 export const GiveSkillLeaderboard = ({
   profileFunc = coLinksPaths.profileGive,
-  mapFunc = coLinksPaths.givePartySkillMap,
 }: {
   profileFunc?(address: string): string;
   mapFunc?(skill: string): string;
@@ -175,12 +174,12 @@ export const GiveSkillLeaderboard = ({
             >
               <Button
                 as={NavLink}
-                to={mapFunc(`${skill}`)}
+                to={coLinksPaths.skillGiveMap(`${skill}`)}
                 color={'cta'}
                 size="xs"
               >
                 <Maximize />
-                Expand View
+                Expand GIVE Map
               </Button>
             </Flex>
           </Flex>
