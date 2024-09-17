@@ -2,15 +2,13 @@ import { useWindowSize } from '@react-hook/window-size';
 import { mapMobileWidthInt } from 'features/cosoul/constants';
 import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { GiveReceived } from 'features/points/GiveReceived';
-import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink } from 'react-router-dom';
-import { useDebounce, useElementSize } from 'usehooks-ts';
 
-import { GiveGraph } from '../../NetworkViz/GiveGraph';
+import { AutosizedGiveGraph } from '../../NetworkViz/AutosizedGiveGraph';
 import { Maximize } from 'icons/__generated';
 import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
 import { coLinksPaths } from 'routes/paths';
-import { Box, Button, Flex, Panel, Text } from 'ui';
+import { Button, Flex, Panel, Text } from 'ui';
 
 import { cardMaxWidth } from './ProfileCards';
 
@@ -25,10 +23,6 @@ export const ProfilePageGiveContents = ({
   const desktop = width > 1140;
   const mapHeight = desktop ? 450 : 180;
 
-  const [setRef, size] = useElementSize();
-
-  const debouncedSize = useDebounce(size);
-
   const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
     <>
@@ -36,7 +30,7 @@ export const ProfilePageGiveContents = ({
         {receivedNumber =>
           receivedNumber > 0 ? (
             <Flex column css={{ gap: '$sm', width: '100%' }}>
-              <Flex css={{ gap: '$md' }} ref={setRef}>
+              <Flex css={{ gap: '$md' }}>
                 <GiveReceived address={targetAddress} size="medium" />
               </Flex>
               <Flex
@@ -86,39 +80,11 @@ export const ProfilePageGiveContents = ({
                 <GiveReceived address={targetAddress} size="large" />
               </Flex>
               <Panel noBorder css={{ p: 0, position: 'relative' }}>
-                <ThemeContext.Consumer>
-                  {({ stitchesTheme }) => (
-                    <Box
-                      css={{
-                        width: '100%',
-                        position: 'relative',
-                        overflow: 'hidden',
-                        height: mapHeight,
-                      }}
-                    >
-                      <Box
-                        css={{
-                          position: 'absolute',
-                          top: 0,
-                          left: 0,
-                          width: debouncedSize.width,
-                          height: mapHeight,
-                        }}
-                      >
-                        <GiveGraph
-                          address={targetAddress}
-                          height={mapHeight}
-                          width={debouncedSize.width}
-                          minZoom={2}
-                          expand={desktop}
-                          stitchesTheme={stitchesTheme}
-                          zoom={false}
-                          compact={true}
-                        />
-                      </Box>
-                    </Box>
-                  )}
-                </ThemeContext.Consumer>
+                <AutosizedGiveGraph
+                  mapHeight={mapHeight}
+                  expand={desktop}
+                  targetAddress={targetAddress}
+                />
                 <Flex
                   css={{
                     position: 'absolute',

@@ -13,7 +13,7 @@ import { Avatar, Button, Flex, Panel, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
-import { GiveGraph } from './NetworkViz/GiveGraph';
+import { AutosizedGiveGraph } from './NetworkViz/AutosizedGiveGraph';
 
 type sortBy =
   | 'gives'
@@ -164,13 +164,7 @@ export const GiveSkillLeaderboard = ({
             }}
           >
             {/*FIXME: this width is a hack to get the thing to fit on the page, we need pct fit or something else*/}
-            <GiveGraph
-              width={300}
-              skill={skill}
-              height={200}
-              zoom={false}
-              compact={true}
-            />
+            <AutosizedGiveGraph mapHeight={200} expand={false} skill={skill} />
             <Flex
               css={{
                 position: 'absolute',
