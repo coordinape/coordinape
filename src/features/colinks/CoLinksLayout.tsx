@@ -61,10 +61,12 @@ export const CoLinksLayout = ({
               overflowY: 'auto',
               '@sm': {
                 zIndex: 1,
-                // for hamburger menu
-                pt: '$3xl',
-                // for mobile browser bottom clipping
-                pb: '$4xl',
+                ...(!suppressNav && {
+                  // for hamburger menu
+                  pt: '$3xl',
+                  // for mobile browser bottom clipping
+                  pb: '$4xl',
+                }),
               },
             }}
           >
