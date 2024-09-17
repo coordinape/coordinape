@@ -42,7 +42,6 @@ export function GiveGraph({
   height,
   width,
   zoom = true,
-  compact = false,
   expand = false,
   stitchesTheme,
 }: {
@@ -206,10 +205,6 @@ export function GiveGraph({
         {...(showExtras ? { nodeCanvasObject } : {})}
         //@ts-ignore TODO: fix types
         ref={graph => {
-          if (graph && compact) {
-            graph.d3Force('charge').strength(-5); // Adjust this value to reduce repulsion
-            graph.d3Force('link').distance(30); // Adjust link distance if needed
-          }
           if (graph && expand) {
             graph.d3Force('charge').strength(-140); // Adjust this value to reduce repulsion
             graph.d3Force('link').distance(30); // Adjust link distance if needed

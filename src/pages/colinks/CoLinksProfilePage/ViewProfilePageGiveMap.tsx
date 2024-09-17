@@ -80,7 +80,6 @@ export const ViewProfilePageGiveMap = () => {
               height={height}
               stitchesTheme={stitchesTheme}
               zoom={true}
-              compact={false}
             />
           )}
         </ThemeContext.Consumer>
