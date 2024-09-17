@@ -3,15 +3,13 @@ import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
 
-import { webAppURL } from '../config/webAppURL';
-import { Maximize, Wand } from '../icons/__generated';
+import { Maximize } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
-import { disabledStyle } from '../stitches.config';
 import { shortenAddressWithFrontLength } from '../utils';
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { Avatar, Button, Flex, Link, Text } from 'ui';
+import { Avatar, Button, Flex, Panel, Text } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
@@ -27,8 +25,10 @@ type sortBy =
 
 export const GiveSkillLeaderboard = ({
   profileFunc = coLinksPaths.partyProfile,
+  mapFunc = coLinksPaths.givePartySkillMap,
 }: {
   profileFunc?(address: string): string;
+  mapFunc?(skill: string): string;
 }) => {
   const { skill } = useParams();
   const [sort, setSortRaw] = useState<sortBy>('gives');
@@ -118,51 +118,17 @@ export const GiveSkillLeaderboard = ({
     }
   }, [data, sort, desc]);
 
-  const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
-
   if (!data || isLoading)
     return (
-      <>
-        <Flex column css={{ width: '100%', mb: '$1xl' }}>
-          <LoadingIndicator />
-        </Flex>
-      </>
+      <Flex column css={{ width: '100%', mb: '$1xl' }}>
+        <LoadingIndicator />
+      </Flex>
     );
 
   return (
     <>
-      <Flex
-        css={{
-          justifyContent: 'center',
-        }}
-      >
-        <Button
-          as={Link}
-          href={castLeaderboardUrl}
-          target="_blank"
-          rel="noreferrer"
-          css={{
-            ...(!skill && {
-              ...disabledStyle,
-            }),
-          }}
-        >
-          <Wand fa size={'md'} /> Cast in Farcaster
-        </Button>
-      </Flex>
-
       {/*Content*/}
-      <Flex
-        css={{
-          padding: '16px',
-          backgroundColor: 'rgb(8 18 29 / 25%)',
-          borderRadius: '$2',
-          // border: 'solid 1px #424a51',
-          '@tablet': {
-            p: '12px 8px',
-          },
-        }}
-      >
+      <Panel noBorder>
         {/*Table*/}
         <Flex
           css={{
@@ -216,7 +182,7 @@ export const GiveSkillLeaderboard = ({
             >
               <Button
                 as={NavLink}
-                to={coLinksPaths.giveSkillMap(`${skill}`)}
+                to={mapFunc(`${skill}`)}
                 color={'cta'}
                 size="xs"
               >
@@ -228,12 +194,14 @@ export const GiveSkillLeaderboard = ({
 
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('rank')}
               css={{ maxWidth: '4rem' }}
             >
               Rank
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('name')}
               css={{
                 minWidth: '15rem',
@@ -244,18 +212,26 @@ export const GiveSkillLeaderboard = ({
             >
               Member
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
+            <GiveLeaderboardColumn
+              header={true}
+              onClick={() => setSort('gives')}
+            >
               Total GIVEs
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('gives_last_24_hours')}
             >
               Last 24 Hrs
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
+            <GiveLeaderboardColumn
+              header={true}
+              onClick={() => setSort('gives_last_7_days')}
+            >
               Last 7 Days
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('gives_last_30_days')}
             >
               Last 30 Days
@@ -314,7 +290,7 @@ export const GiveSkillLeaderboard = ({
               </GiveLeaderboardRow>
             ))}
         </Flex>
-      </Flex>
+      </Panel>
     </>
   );
 };

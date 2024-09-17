@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, lazy } from 'react';
+import { lazy, useCallback, useEffect, useRef, useState } from 'react';
 
 import { StitchesTheme } from 'features/theming/ThemeProvider';
 import { NodeObject } from 'react-force-graph-2d';

@@ -9,7 +9,7 @@ import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
 import { skillTextStyle } from '../stitches.config';
 import { GemCoOutline } from 'icons/__generated';
-import { Flex, Text } from 'ui';
+import { Flex, Panel, Text } from 'ui';
 
 type sortBy =
   | 'gives'
@@ -102,14 +102,7 @@ export const GiveLeaderboard = ({
   return (
     <>
       {/*Content*/}
-      <Flex
-        css={{
-          padding: '10px',
-          backgroundColor: 'rgb(8 18 29 / 25%)',
-          borderRadius: '$2',
-          // border: 'solid 1px #424a51',
-        }}
-      >
+      <Panel noBorder>
         {/*Table*/}
         <Flex
           css={{
@@ -121,12 +114,14 @@ export const GiveLeaderboard = ({
         >
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('rank')}
               css={{ maxWidth: '4rem' }}
             >
               Rank
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('skill')}
               css={{
                 minWidth: '15rem',
@@ -138,18 +133,26 @@ export const GiveLeaderboard = ({
             >
               Skill
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
+            <GiveLeaderboardColumn
+              header={true}
+              onClick={() => setSort('gives')}
+            >
               Total GIVEs
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('gives_last_24_hours')}
             >
               Last 24 Hrs
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
+            <GiveLeaderboardColumn
+              header={true}
+              onClick={() => setSort('gives_last_7_days')}
+            >
               Last 7 Days
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
+              header={true}
               onClick={() => setSort('gives_last_30_days')}
             >
               Last 30 Days
@@ -187,7 +190,7 @@ export const GiveLeaderboard = ({
                       },
                     }}
                   >
-                    <GemCoOutline fa size={'md'} css={{ color: '$text' }} />
+                    <GemCoOutline fa size={'md'} css={{ color: '$white' }} />
                     <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
                   </Text>
                 </GiveLeaderboardColumn>
@@ -204,7 +207,7 @@ export const GiveLeaderboard = ({
               </GiveLeaderboardRow>
             ))}
         </Flex>
-      </Flex>
+      </Panel>
     </>
   );
 };
@@ -265,10 +268,12 @@ export const GiveLeaderboardColumn = ({
   children,
   onClick,
   css,
+  header = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   css?: CSS;
+  header?: boolean;
 }) => {
   return (
     <Flex
@@ -277,7 +282,7 @@ export const GiveLeaderboardColumn = ({
         flex: 2,
         padding: '8px',
         display: 'flex',
-        color: 'white',
+        color: header ? 'white' : '$text',
         alignItems: 'center',
         overflow: 'hidden',
         '@lg': {

@@ -186,6 +186,7 @@
     "db-disable-cron": "./scripts/env.sh scripts/disable_cron.sh",
     "db:local:import": "./scripts/env.sh scripts/db-local-import.sh",
     "db:prod:export": "./scripts/env.sh scripts/db-prod-export.sh",
+    "db:prod:rep:export": "./scripts/env.sh scripts/db-prod-rep-export.sh",
     "farcaster-compress": "cd seed/farcaster && tar -cvf - *.csv | bzip2 --best > farcaster.tar.bz2",
     "farcaster-uncompress": "cd seed/farcaster && bzip2 -dc farcaster.tar.bz2 | tar xvf -",
     "generate": "./scripts/env.sh scripts/generate_zeus.sh",

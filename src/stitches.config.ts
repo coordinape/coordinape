@@ -324,6 +324,7 @@ export const {
       full: '100%',
       smallScreen: '900px',
       mediumScreen: '1392px',
+      rightColumn: '320px',
       headerHeight: '91px',
       readable: '50em',
       ...spaces,

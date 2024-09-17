@@ -22,8 +22,8 @@ import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksP
 import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
 import { NewestMemberPage } from '../pages/colinks/explore/NewestMembersPage';
 import { ExplorePage } from '../pages/colinks/ExplorePage';
-import { GivePage } from '../pages/colinks/GivePage';
-import { GivePagesLayout } from '../pages/colinks/GivePagesLayout';
+import { GivePage } from '../pages/colinks/give/GivePage';
+import { GivePagesLayout } from '../pages/colinks/give/GivePagesLayout';
 import { HighlightsPage } from '../pages/colinks/HighlightsPage';
 import { InvitesPage } from '../pages/colinks/InvitesPage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
@@ -127,7 +127,7 @@ export const coLinksRoutes = [
     ,
     <Route key={'givemap'}>
       <Route
-        path={coLinksPaths.giveSkillMap(':skill')}
+        path={coLinksPaths.givePartySkillMap(':skill')}
         element={<GiveSkillMap />}
       />
     </Route>
@@ -189,6 +189,12 @@ export const coLinksRoutes = [
           path={coLinksPaths.giveSkill(':skill')}
           element={<GiveSkillPage />}
         />
+        <Route key={'skillmap'}>
+          <Route
+            path={coLinksPaths.giveSkillMap(':skill')}
+            element={<GiveSkillMap />}
+          />
+        </Route>
       </Route>
       <Route
         path={coLinksPaths.exploreSkill(':skill')}

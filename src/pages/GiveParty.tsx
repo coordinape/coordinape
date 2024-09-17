@@ -6,15 +6,9 @@ import { z } from 'zod';
 
 import { useToast } from 'hooks';
 import { Copy, GemCoOutline, Wand } from 'icons/__generated';
-import {
-  coLinksPaths,
-  EXTERNAL_URL_BLOG,
-  EXTERNAL_URL_DOCS_GIVE,
-} from 'routes/paths';
-import { AppLink, Button, Flex, Link, Text, TextField } from 'ui';
+import { EXTERNAL_URL_BLOG, EXTERNAL_URL_DOCS_GIVE } from 'routes/paths';
+import { Button, Flex, Link, Text, TextField } from 'ui';
 import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
-
-import { partyNavButtonStyle } from './GiveParty/PartyNav';
 
 const skillSchema = z
   .string()
@@ -36,39 +30,33 @@ const usernameSchema = z
 
 export const GiveParty = () => {
   const [activeTab, setActiveTab] = useState<'giveParty' | 'surpriseParty'>(
-    'surpriseParty'
+    'giveParty'
   );
 
   return (
     <Flex
       column
       css={{
-        width: '90%',
-        margin: 'auto',
-        maxWidth: 800,
-        marginTop: 50,
-        alignItems: 'flex-start',
-        gap: 30,
+        p: '$lg',
+        gap: '$xl',
       }}
     >
-      <Text h1 display css={{ fontSize: '46px' }}>
-        {`There are Two Ways to Party!`}
-      </Text>
+      <Text h1>{`There are Two Ways to Party!`}</Text>
 
       <Flex css={{ flexDirection: 'row', gap: '$md' }}>
-        <Button
-          onClick={() => setActiveTab('surpriseParty')}
-          // outlined={true}
-          css={{ opacity: activeTab === 'surpriseParty' ? 1.0 : 0.5 }}
-        >
-          Individual Party
-        </Button>
         <Button
           onClick={() => setActiveTab('giveParty')}
           // outlined={true}
           css={{ opacity: activeTab === 'giveParty' ? 1.0 : 0.5 }}
         >
           Skill Party
+        </Button>
+        <Button
+          onClick={() => setActiveTab('surpriseParty')}
+          // outlined={true}
+          css={{ opacity: activeTab === 'surpriseParty' ? 1.0 : 0.5 }}
+        >
+          Individual Party
         </Button>
       </Flex>
       {activeTab === 'surpriseParty' && <StartSurpriseParty />}
@@ -109,26 +97,12 @@ export const GiveParty = () => {
           <br />
           we mean party!
         </Text>
-        <Button
-          as={AppLink}
-          to={coLinksPaths.givePartyBoard}
-          color="transparent"
-          css={{
-            ...partyNavButtonStyle,
-            mt: '$sm',
-          }}
-        >
-          leaderboard
-        </Button>
       </Flex>
       <Flex
         column
         css={{ borderTop: '1px solid #00000033', pt: '$xl', mt: '$md' }}
       >
-        <Text h2 display>
-          {' '}
-          How does this work?
-        </Text>
+        <Text h1> How does this work?</Text>
         <ul
           style={{
             padding: '0 1em',
@@ -157,9 +131,6 @@ export const GiveParty = () => {
           <li>
             GIVE will be sent by Coordinape to create a map of this skill party.
           </li>
-          <li>
-            <PartyDisplayText text="Party" />
-          </li>
         </ul>
       </Flex>
       <Flex
@@ -171,16 +142,6 @@ export const GiveParty = () => {
           width: '100%',
         }}
       >
-        <Flex
-          css={{
-            alignItems: 'center',
-            mb: '$xl',
-            gap: 10,
-          }}
-        >
-          <GemCoOutline size="2xl" fa />
-          <Text css={{ fontSize: 26 }}>give.party</Text>
-        </Flex>
         <Text h2>Wanna know more?</Text>
         <Flex
           column
@@ -261,11 +222,12 @@ const StartGiveParty = () => {
           width: '100%',
           aspectRatio: '2 / .7',
           borderRadius: 10,
+          color: 'white',
           p: '$md',
           background:
             'radial-gradient(circle at 25% 0%, #7516BF 30%, #00AEF9 100%)',
           justifyContent: 'space-between',
-          outline: '8px solid rgba(0,0,0,0.4)',
+          // outline: '8px solid rgba(0,0,0,0.4)',
           '@sm': {
             minHeight: '240px',
           },
@@ -335,7 +297,7 @@ const StartGiveParty = () => {
         </Flex>
       </Flex>
       <Flex column css={{ mt: '$lg', gap: '$md', width: '100%' }}>
-        <Text display as="label" variant="label" css={{ fontSize: 38 }}>
+        <Text h1 as="label">
           Start Your Own GIVE Party!
         </Text>
         <TextField
@@ -502,10 +464,11 @@ const StartSurpriseParty = () => {
           aspectRatio: '2 / .7',
           borderRadius: 10,
           p: '$md',
+          color: 'white',
           background:
             'radial-gradient(circle at 25% 0%,        #00AEF9 20%, #7516BF 60%)',
           justifyContent: 'space-between',
-          outline: '8px solid rgba(0,0,0,0.4)',
+          // outline: '8px solid rgba(0,0,0,1.0)',
           '@sm': {
             minHeight: '240px',
           },
@@ -575,7 +538,7 @@ const StartSurpriseParty = () => {
         </Flex>
       </Flex>
       <Flex column css={{ mt: '$lg', gap: '$md', width: '100%' }}>
-        <Text display as="label" variant="label" css={{ fontSize: 38 }}>
+        <Text h1 as="label">
           Start your own GIVE party for a Friend!
         </Text>
         <TextField
