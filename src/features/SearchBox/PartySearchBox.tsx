@@ -8,7 +8,7 @@ import { SearchBox } from './SearchBox';
 export const PartySearchBox = ({
   size = 'medium',
   registerKeyDown = true,
-  profileFunc = coLinksPaths.partyProfile,
+  profileFunc = coLinksPaths.profileGive,
   skillFunc = coLinksPaths.giveBoardSkill,
 }: {
   size?: 'medium' | 'large';

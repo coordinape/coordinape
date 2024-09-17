@@ -1,7 +1,6 @@
 import { CSS } from '@stitches/react';
 
 import { GemCoOutline } from 'icons/__generated';
-import { PartyWalletMenu } from 'pages/PartyWalletMenu';
 import { coLinksPaths } from 'routes/paths';
 import { AppLink, Flex } from 'ui';
 
@@ -25,15 +24,6 @@ export const PartyHeader = ({ css }: { css?: CSS }) => {
           <GemCoOutline size="2xl" fa />
         </AppLink>
         <PartyNav />
-      </Flex>
-      <Flex
-        css={{
-          position: 'relative',
-          height: '$xl',
-          width: 280,
-        }}
-      >
-        <PartyWalletMenu />
       </Flex>
     </Flex>
   );

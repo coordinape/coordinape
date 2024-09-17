@@ -21,7 +21,7 @@ const QUERY_KEY_SEARCH = 'partySearchBoxQuery';
 export const PartySearchResults = ({
   setPopoverOpen,
   inputRef,
-  profileFunc = coLinksPaths.partyProfile,
+  profileFunc = coLinksPaths.profileGive,
   skillFunc = coLinksPaths.giveBoardSkill,
 }: {
   inputRef: React.RefObject<HTMLInputElement>;

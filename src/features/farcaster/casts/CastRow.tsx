@@ -52,7 +52,7 @@ export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
                       return <span {...props}>{content}</span>;
                     }
                     return (
-                      <NavLink to={coLinksPaths.partyProfile(mentionedAddress)}>
+                      <NavLink to={coLinksPaths.profileGive(mentionedAddress)}>
                         {content}
                       </NavLink>
                     );

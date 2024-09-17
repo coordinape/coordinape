@@ -52,9 +52,7 @@ import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/Prof
 import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
-import { GiveMap } from 'pages/GiveMap';
 import { GiveParty } from 'pages/GiveParty';
-import { PartyProfile } from 'pages/GiveParty/PartyProfile';
 import { LinksMap } from 'pages/LinksMap';
 import { ProfileNetworkPage } from 'pages/ProfileNetworkPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
@@ -92,19 +90,8 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
     </Route>
     ,
-    <Route key={'givemap'}>
-      <Route path={coLinksPaths.givemap} element={<GiveMap />} />
-    </Route>
-    ,
     <Route key={'linksmap'}>
       <Route path={coLinksPaths.linksmap} element={<LinksMap />} />
-    </Route>
-    ,
-    <Route key={'giveparty'}>
-      <Route
-        path={coLinksPaths.partyProfile(':address')}
-        element={<PartyProfile />}
-      />
     </Route>
     ,
     <Route key={'network'}>

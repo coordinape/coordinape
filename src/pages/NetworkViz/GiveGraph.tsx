@@ -200,7 +200,7 @@ export function GiveGraph({
             setSelectedNodeId(node.id as string);
             setVisible(true);
           } else {
-            window.open(`${coLinksPaths.partyProfile(node.id as string)}`);
+            window.open(`${coLinksPaths.profileGive(node.id as string)}`);
           }
         }}
         {...(showExtras ? { nodeCanvasObject } : {})}
