@@ -163,7 +163,6 @@ export const GiveSkillLeaderboard = ({
               mb: '$sm',
             }}
           >
-            {/*FIXME: this width is a hack to get the thing to fit on the page, we need pct fit or something else*/}
             <AutosizedGiveGraph mapHeight={200} expand={false} skill={skill} />
             <Flex
               css={{
