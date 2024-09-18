@@ -354,12 +354,11 @@ export const ProfileCardsWithProfile = ({
                 </Text>
                 CoLinks Held
               </Text>
-              {totalActivitiesCount && (
-                <Text css={{ gap: '$xs' }}>
-                  <Text semibold>{totalActivitiesCount}</Text>
-                  Posts
-                </Text>
-              )}
+
+              <Text css={{ gap: '$xs' }}>
+                <Text semibold>{totalActivitiesCount ?? 0}</Text>
+                Posts
+              </Text>
             </Flex>
             <Flex
               column

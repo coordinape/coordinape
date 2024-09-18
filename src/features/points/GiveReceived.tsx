@@ -41,7 +41,7 @@ export const GiveReceived = ({
             {
               where: {
                 address: {
-                  _eq: address,
+                  _ilike: address,
                 },
               },
               limit: 1,
