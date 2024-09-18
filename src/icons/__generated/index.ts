@@ -92,6 +92,7 @@ export { default as Filter } from './Filter';
 export { default as Flame } from './Flame';
 export { default as GanacheLogo } from './GanacheLogo';
 export { default as Gear } from './Gear';
+export { default as GemCoFillAlt } from './GemCoFillAlt';
 export { default as GemCoFillSm } from './GemCoFillSm';
 export { default as GemCoFill } from './GemCoFill';
 export { default as GemCoOutline } from './GemCoOutline';
