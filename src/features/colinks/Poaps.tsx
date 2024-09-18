@@ -51,7 +51,7 @@ const fetchPoaps = async (address: string) => {
         {
           where: {
             address: {
-              _eq: address,
+              _ilike: address,
             },
           },
         },
@@ -65,7 +65,7 @@ const fetchPoaps = async (address: string) => {
         {
           where: {
             address: {
-              _eq: address,
+              _ilike: address,
             },
           },
           order_by: [{ event_id: order_by.desc }],
