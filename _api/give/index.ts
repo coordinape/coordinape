@@ -93,14 +93,14 @@ export async function fetchCoLinksGives(
                         {
                           target_profile_public: {
                             address: {
-                              _eq: address,
+                              _ilike: address,
                             },
                           },
                         },
                         {
                           giver_profile_public: {
                             address: {
-                              _eq: address,
+                              _ilike: address,
                             },
                           },
                         },
