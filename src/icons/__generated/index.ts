@@ -120,6 +120,8 @@ export { default as Maximize } from './Maximize';
 export { default as Medium } from './Medium';
 export { default as Member } from './Member';
 export { default as Menu } from './Menu';
+export { default as MessageHeartOutline } from './MessageHeartOutline';
+export { default as MessageHeart } from './MessageHeart';
 export { default as MessageSolid } from './MessageSolid';
 export { default as MessageSquare } from './MessageSquare';
 export { default as Message } from './Message';

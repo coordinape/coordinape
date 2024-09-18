@@ -19,10 +19,25 @@ export const LearnAboutGiveCard = () => {
           column
           css={{
             ...contentStyles,
+            justifyContent: 'space-between',
+            background:
+              'radial-gradient(circle at 25% 0%, rgb(21 196 107 / 53%) 20%, rgb(90 5 192 / 53%) 100%)',
           }}
         >
-          <GemCoOutline size="2xl" fa />
-          <Text>What is GIVE?</Text>
+          <Flex
+            column
+            css={{
+              alignItems: 'center',
+              gap: '$sm',
+              justifyContent: 'center',
+              flexGrow: 1,
+            }}
+          >
+            <GemCoOutline size="2xl" fa />
+            <Text size="large" semibold css={{ textAlign: 'center' }}>
+              What is GIVE?
+            </Text>
+          </Flex>
         </Flex>
       </LearnCard>
       {modalVisible && (

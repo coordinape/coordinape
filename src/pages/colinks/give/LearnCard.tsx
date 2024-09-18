@@ -26,6 +26,7 @@ export const LearnCard = ({
     cursor: 'pointer',
     width: '100%',
     minHeight: '180px',
+    minWidth: '300px',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
     backgroundSize: 'cover',
