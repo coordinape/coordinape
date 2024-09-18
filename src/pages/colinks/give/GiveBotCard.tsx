@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 
 import { Flex, Text } from '../../../ui';
 import { DrawerModal } from '../../../ui/DrawerModal';
+import { GemCoOutline } from 'icons/__generated';
 
-import { LearnCard } from './LearnCard';
+import { LearnCard, contentStyles } from './LearnCard';
 
 export const GiveBotCard = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,10 +12,19 @@ export const GiveBotCard = () => {
   return (
     <>
       <LearnCard
-        backgroundImage="imgs/frames/help.jpg"
-        css={{ height: '140px' }}
+        image="/imgs/background/login-forest.jpg"
         onClick={() => setModalVisible(true)}
-      />
+      >
+        <Flex
+          column
+          css={{
+            ...contentStyles,
+          }}
+        >
+          <GemCoOutline size="2xl" fa />
+          <Text>GIVEbot stuff</Text>
+        </Flex>
+      </LearnCard>
       {modalVisible && (
         <DrawerModal
           visible={modalVisible}

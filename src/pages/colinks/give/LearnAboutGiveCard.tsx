@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 
-import { Text } from '../../../ui';
+import { Flex, Text } from '../../../ui';
 import { DrawerModal } from '../../../ui/DrawerModal';
+import { GemCoOutline } from 'icons/__generated';
 
-import { LearnCard } from './LearnCard';
+import { LearnCard, contentStyles } from './LearnCard';
 
 export const LearnAboutGiveCard = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -11,12 +12,19 @@ export const LearnAboutGiveCard = () => {
   return (
     <>
       <LearnCard
-        title="How Else Can you GIVE?"
-        message="you can do stuff"
-        buttonTitle={'Learm More'}
-        image="/imgs/background/colink-sniped.jpg"
+        image="/imgs/background/login-snow.jpg"
         onClick={() => setModalVisible(true)}
-      />
+      >
+        <Flex
+          column
+          css={{
+            ...contentStyles,
+          }}
+        >
+          <GemCoOutline size="2xl" fa />
+          <Text>What is GIVE?</Text>
+        </Flex>
+      </LearnCard>
       {modalVisible && (
         <DrawerModal
           visible={modalVisible}
