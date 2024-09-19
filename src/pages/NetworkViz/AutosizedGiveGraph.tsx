@@ -46,7 +46,6 @@ export const AutosizedGiveGraph = ({
               skill={skill}
               height={mapHeight}
               width={debouncedSize.width}
-              minZoom={2}
               expand={expand}
               stitchesTheme={stitchesTheme}
               zoom={false}

@@ -38,7 +38,6 @@ type link = {
 export function GiveGraph({
   address,
   skill,
-  minZoom,
   height,
   width,
   zoom = true,
@@ -47,7 +46,6 @@ export function GiveGraph({
 }: {
   address?: string;
   skill?: string;
-  minZoom?: number;
   height?: number;
   width?: number;
   zoom?: boolean;
@@ -179,7 +177,7 @@ export function GiveGraph({
       <ForceGraph2D
         height={height}
         width={width}
-        minZoom={minZoom}
+        minZoom={0.1}
         linkCurvature={0.3}
         linkDirectionalParticles={showExtras ? 1 : 0}
         enableZoomInteraction={zoom}
@@ -206,7 +204,7 @@ export function GiveGraph({
         //@ts-ignore TODO: fix types
         ref={graph => {
           if (graph && expand) {
-            graph.d3Force('charge').strength(-140); // Adjust this value to reduce repulsion
+            graph.d3Force('charge').strength(-40); // Adjust this value to reduce repulsion
             graph.d3Force('link').distance(30); // Adjust link distance if needed
           }
         }}
