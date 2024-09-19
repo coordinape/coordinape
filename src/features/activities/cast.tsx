@@ -1,11 +1,13 @@
-import { client } from '../../lib/gql/client';
+import { anonClient } from 'lib/anongql/anonClient';
+
 import { Awaited } from '../../types/shim';
 
 export type Cast = Awaited<ReturnType<typeof fetchCasts>>[number];
 export const fetchCasts = async (cast_ids: number[]) => {
   if (cast_ids.length === 0) return [];
   // get the cast info
-  const { getCasts } = await client.query(
+
+  const { getCasts } = await anonClient.query(
     {
       getCasts: [
         {

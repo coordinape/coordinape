@@ -1,7 +1,7 @@
 import { Dispatch } from 'react';
 
 import { useAuthStore } from 'features/auth';
-import { order_by } from 'lib/gql/__generated__/zeus';
+import { order_by } from 'lib/anongql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -9,6 +9,7 @@ import { NavLink } from 'react-router-dom';
 
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { Trash2 } from '../../../icons/__generated';
+import { anonClient } from '../../../lib/anongql/anonClient';
 import { coLinksPaths } from '../../../routes/paths';
 import { Flex, HR, IconButton, MarkdownPreview } from '../../../ui';
 import { ActivityAvatar } from '../ActivityAvatar';
@@ -21,7 +22,7 @@ import { ReplyReactionBar } from './ReplyReactionBar';
 export const QUERY_KEY_REPLIES = 'query-key-replies';
 
 const fetchReplies = async (activityId: number) => {
-  const { replies } = await client.query(
+  const { replies } = await anonClient.query(
     {
       replies: [
         {
@@ -37,7 +38,7 @@ const fetchReplies = async (activityId: number) => {
             {
               id: true,
               reaction: true,
-              profile: {
+              profile_public: {
                 name: true,
                 id: true,
               },

@@ -58,7 +58,7 @@ export const ReplyReactionBar = ({
       };
       rg.count++;
 
-      if (reaction.profile?.id === myProfileId) {
+      if (reaction.profile_public?.id === myProfileId) {
         rg.myReaction = reaction.id;
       }
       rgm[reaction.reaction] = rg;

@@ -9,7 +9,6 @@ import { useQuery } from 'react-query';
 import { LoadingIndicator } from '../../../components/LoadingIndicator';
 import { ActivityList } from '../../../features/activities/ActivityList';
 import { CoLinksContext } from '../../../features/colinks/CoLinksContext';
-import { fetchCoSoul } from '../../../features/colinks/fetchCoSouls';
 import { useLinkingStatus } from '../../../features/colinks/useLinkingStatus';
 import { QUERY_KEY_COLINKS } from '../../../features/colinks/wizard/CoLinksWizard';
 import { client } from '../../../lib/gql/client';
@@ -176,22 +175,13 @@ const PageContents = ({
     useQuery([QUERY_KEY_COLINKS, targetAddress, 'profile'], () =>
       fetchCoLinksProfile(targetAddress, currentUserProfileId)
     );
-  const { data: cosoul, isLoading: fetchCoSoulIsLoading } = useQuery(
-    [QUERY_KEY_COLINKS, targetAddress, 'cosoul'],
-    async () => {
-      return fetchCoSoul(targetAddress);
-    }
-  );
 
   const balanceNumber = Number(balance);
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
 
-  if (
-    (!targetProfile?.profile && !fetchCoLinksProfileIsLoading) ||
-    (!fetchCoSoulIsLoading && !cosoul)
-  ) {
+  if (!targetProfile?.profile && !fetchCoLinksProfileIsLoading) {
     return (
       <NotFound
         header={'No Profile Found'}
@@ -219,7 +209,7 @@ const PageContents = ({
     );
   }
 
-  if (!targetProfile?.profile || !cosoul) {
+  if (!targetProfile?.profile) {
     return <LoadingIndicator />;
   }
 
@@ -236,75 +226,73 @@ const PageContents = ({
           flexGrow: 1,
         }}
       >
-        {currentUserAddress && (
-          <Flex column css={{ gap: '$md' }}>
-            <AddPost targetAddress={targetAddress} />
-            {(targetIsCurrentUser ||
-              (targetBalance == undefined && balanceNumber > 0)) && (
-              <Flex css={{ justifyContent: 'space-between' }}>
-                <Flex css={{ gap: '$sm' }}>
-                  <Text semibold size="small">
-                    View
-                  </Text>
-                  <Button
-                    size="xs"
-                    color={!showCasts ? 'secondary' : 'selectedSecondary'}
-                    onClick={() => setShowCasts(true)}
-                  >
-                    All
-                  </Button>
-                  <Button
-                    size="xs"
-                    color={showCasts ? 'secondary' : 'selectedSecondary'}
-                    onClick={() => setShowCasts(false)}
-                  >
-                    CoLinks Only
-                  </Button>
-                </Flex>
-                {!targetIsCurrentUser && (
-                  <Mutes
-                    targetProfileId={targetProfile?.profile.id}
-                    targetProfileAddress={targetAddress}
-                  />
-                )}
+        <Flex column css={{ gap: '$md' }}>
+          <AddPost targetAddress={targetAddress} />
+          {(targetIsCurrentUser ||
+            (targetBalance == undefined && balanceNumber > 0)) && (
+            <Flex css={{ justifyContent: 'space-between' }}>
+              <Flex css={{ gap: '$sm' }}>
+                <Text semibold size="small">
+                  View
+                </Text>
+                <Button
+                  size="xs"
+                  color={!showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(true)}
+                >
+                  All
+                </Button>
+                <Button
+                  size="xs"
+                  color={showCasts ? 'secondary' : 'selectedSecondary'}
+                  onClick={() => setShowCasts(false)}
+                >
+                  CoLinks Only
+                </Button>
               </Flex>
-            )}
-            <ActivityList
-              queryKey={[
-                QUERY_KEY_COLINKS,
-                'activity',
-                targetProfile.profile.id,
-                showCasts,
-              ]}
-              pollForNewActivity={showLoading}
-              onSettled={() => setShowLoading(false)}
-              where={{
-                _or: [
-                  {
-                    big_question_id: { _is_null: false },
-                  },
-                  { private_stream: { _eq: true } },
-                  ...(showCasts ? [{ cast_id: { _is_null: false } }] : []),
-                ],
-                actor_profile_id: { _eq: targetProfile.profile.id },
-              }}
-              noPosts={
-                (targetProfile.mutedThem ||
-                  targetIsCurrentUser ||
-                  weAreLinked) && (
-                  <Panel noBorder>
-                    {targetProfile.mutedThem
-                      ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                      : (targetIsCurrentUser
-                          ? "You haven't"
-                          : `${targetProfile.profile.name} hasn't`) +
-                        ' posted yet.'}
-                  </Panel>
-                )
-              }
-            />
-          </Flex>
-        )}
+              {!targetIsCurrentUser && (
+                <Mutes
+                  targetProfileId={targetProfile?.profile.id}
+                  targetProfileAddress={targetAddress}
+                />
+              )}
+            </Flex>
+          )}
+          <ActivityList
+            queryKey={[
+              QUERY_KEY_COLINKS,
+              'activity',
+              targetProfile.profile.id,
+              showCasts,
+            ]}
+            pollForNewActivity={showLoading}
+            onSettled={() => setShowLoading(false)}
+            where={{
+              _or: [
+                {
+                  big_question_id: { _is_null: false },
+                },
+                { private_stream: { _eq: true } },
+                ...(showCasts ? [{ cast_id: { _is_null: false } }] : []),
+              ],
+              actor_profile_id: { _eq: targetProfile.profile.id },
+            }}
+            noPosts={
+              (targetProfile.mutedThem ||
+                targetIsCurrentUser ||
+                weAreLinked) && (
+                <Panel noBorder>
+                  {targetProfile.mutedThem
+                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
+                    : (targetIsCurrentUser
+                        ? "You haven't"
+                        : `${targetProfile.profile.name} hasn't`) +
+                      ' posted yet.'}
+                </Panel>
+              )
+            }
+          />
+        </Flex>
       </Flex>
     </Flex>
   );

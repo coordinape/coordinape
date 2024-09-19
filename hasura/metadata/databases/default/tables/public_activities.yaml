@@ -87,6 +87,31 @@ array_relationships:
           name: replies
           schema: public
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - actor_profile_id
+        - big_question_id
+        - cast_id
+        - circle_id
+        - contribution_id
+        - epoch_id
+        - id
+        - organization_id
+        - target_profile_id
+        - user_id
+        - private_stream
+        - action
+        - reaction_count
+        - reply_count
+        - created_at
+        - updated_at
+      filter:
+        cast_id:
+          _is_null: false
+      limit: 100
+      allow_aggregations: true
+    comment: ""
   - role: user
     permission:
       columns:

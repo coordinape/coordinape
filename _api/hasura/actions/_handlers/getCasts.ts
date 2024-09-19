@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import { order_by } from '../../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../../api-lib/gql/adminClient.ts';
-import { getInput } from '../../../../api-lib/handlerHelpers';
+import { getAnonInput } from '../../../../api-lib/handlerHelpers.ts';
 import { InternalServerError } from '../../../../api-lib/HttpError';
 import {
   checkURLType,
@@ -20,7 +20,7 @@ const getCastsSchema = z.object({
 });
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  const { payload } = await getInput(req, getCastsSchema);
+  const { payload } = await getAnonInput(req, getCastsSchema);
 
   try {
     const casts = await fetchCasts(payload);

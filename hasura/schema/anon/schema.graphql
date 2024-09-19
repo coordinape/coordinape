@@ -33,6 +33,42 @@ input Boolean_comparison_exp {
   _nin: [Boolean!]
 }
 
+type Cast {
+  address: String!
+  avatar_url: String!
+  created_at: String!
+  embeds: [CastEmbed!]!
+  fid: bigint!
+  fname: String!
+  hash: String!
+  id: bigint!
+  like_count: Int!
+  mentioned_addresses: [CastMention!]!
+  recast_count: Int!
+  replies_count: Int!
+  text: String!
+  text_with_mentions: String!
+}
+
+type CastEmbed {
+  type: String!
+  url: String!
+}
+
+type CastMention {
+  address: String!
+  fname: String!
+}
+
+input GetCastsInput {
+  cast_ids: [bigint!]
+  fid: bigint
+}
+
+type GetCastsOutput {
+  casts: [Cast!]!
+}
+
 """
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
@@ -113,7 +149,1028 @@ input String_comparison_exp {
   _similar: String
 }
 
+"""
+Table containing activity on our platform
+"""
+type activities {
+  action: String!
+  actor_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  actor_profile_public: profiles_public
+
+  """
+  An object relationship
+  """
+  big_question: big_questions
+  big_question_id: bigint
+  cast_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz!
+
+  """
+  An object relationship
+  """
+  enriched_cast: enriched_casts
+  epoch_id: bigint
+
+  """
+  An array relationship
+  """
+  gives(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): [colinks_gives!]!
+
+  """
+  An aggregate relationship
+  """
+  gives_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [colinks_gives_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [colinks_gives_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: colinks_gives_bool_exp
+  ): colinks_gives_aggregate!
+  id: bigint!
+  organization_id: bigint
+  private_stream: Boolean!
+  reaction_count: Int!
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+  reply_count: Int!
+  target_profile_id: bigint
+
+  """
+  An object relationship
+  """
+  target_profile_public: profiles_public
+  updated_at: timestamptz!
+  user_id: bigint
+}
+
+"""
+aggregated selection of "activities"
+"""
+type activities_aggregate {
+  aggregate: activities_aggregate_fields
+  nodes: [activities!]!
+}
+
+input activities_aggregate_bool_exp {
+  bool_and: activities_aggregate_bool_exp_bool_and
+  bool_or: activities_aggregate_bool_exp_bool_or
+  count: activities_aggregate_bool_exp_count
+}
+
+input activities_aggregate_bool_exp_bool_and {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input activities_aggregate_bool_exp_bool_or {
+  arguments: activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input activities_aggregate_bool_exp_count {
+  arguments: [activities_select_column!]
+  distinct: Boolean
+  filter: activities_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "activities"
+"""
+type activities_aggregate_fields {
+  avg: activities_avg_fields
+  count(columns: [activities_select_column!], distinct: Boolean): Int!
+  max: activities_max_fields
+  min: activities_min_fields
+  stddev: activities_stddev_fields
+  stddev_pop: activities_stddev_pop_fields
+  stddev_samp: activities_stddev_samp_fields
+  sum: activities_sum_fields
+  var_pop: activities_var_pop_fields
+  var_samp: activities_var_samp_fields
+  variance: activities_variance_fields
+}
+
+"""
+order by aggregate values of table "activities"
+"""
+input activities_aggregate_order_by {
+  avg: activities_avg_order_by
+  count: order_by
+  max: activities_max_order_by
+  min: activities_min_order_by
+  stddev: activities_stddev_order_by
+  stddev_pop: activities_stddev_pop_order_by
+  stddev_samp: activities_stddev_samp_order_by
+  sum: activities_sum_order_by
+  var_pop: activities_var_pop_order_by
+  var_samp: activities_var_samp_order_by
+  variance: activities_variance_order_by
+}
+
+"""
+aggregate avg on columns
+"""
+type activities_avg_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by avg() on columns of table "activities"
+"""
+input activities_avg_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "activities". All fields are combined with a logical 'AND'.
+"""
+input activities_bool_exp {
+  _and: [activities_bool_exp!]
+  _not: activities_bool_exp
+  _or: [activities_bool_exp!]
+  action: String_comparison_exp
+  actor_profile_id: bigint_comparison_exp
+  actor_profile_public: profiles_public_bool_exp
+  big_question: big_questions_bool_exp
+  big_question_id: bigint_comparison_exp
+  cast_id: bigint_comparison_exp
+  circle_id: bigint_comparison_exp
+  contribution_id: bigint_comparison_exp
+  created_at: timestamptz_comparison_exp
+  enriched_cast: enriched_casts_bool_exp
+  epoch_id: bigint_comparison_exp
+  gives: colinks_gives_bool_exp
+  gives_aggregate: colinks_gives_aggregate_bool_exp
+  id: bigint_comparison_exp
+  organization_id: bigint_comparison_exp
+  private_stream: Boolean_comparison_exp
+  reaction_count: Int_comparison_exp
+  reactions: reactions_bool_exp
+  replies: replies_bool_exp
+  reply_count: Int_comparison_exp
+  target_profile_id: bigint_comparison_exp
+  target_profile_public: profiles_public_bool_exp
+  updated_at: timestamptz_comparison_exp
+  user_id: bigint_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type activities_max_fields {
+  action: String
+  actor_profile_id: bigint
+  big_question_id: bigint
+  cast_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
+  target_profile_id: bigint
+  updated_at: timestamptz
+  user_id: bigint
+}
+
+"""
+order by max() on columns of table "activities"
+"""
+input activities_max_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+  user_id: order_by
+}
+
+"""
+aggregate min on columns
+"""
+type activities_min_fields {
+  action: String
+  actor_profile_id: bigint
+  big_question_id: bigint
+  cast_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
+  target_profile_id: bigint
+  updated_at: timestamptz
+  user_id: bigint
+}
+
+"""
+order by min() on columns of table "activities"
+"""
+input activities_min_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  updated_at: order_by
+  user_id: order_by
+}
+
+"""
+Ordering options when selecting data from "activities".
+"""
+input activities_order_by {
+  action: order_by
+  actor_profile_id: order_by
+  actor_profile_public: profiles_public_order_by
+  big_question: big_questions_order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  created_at: order_by
+  enriched_cast: enriched_casts_order_by
+  epoch_id: order_by
+  gives_aggregate: colinks_gives_aggregate_order_by
+  id: order_by
+  organization_id: order_by
+  private_stream: order_by
+  reaction_count: order_by
+  reactions_aggregate: reactions_aggregate_order_by
+  replies_aggregate: replies_aggregate_order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  target_profile_public: profiles_public_order_by
+  updated_at: order_by
+  user_id: order_by
+}
+
+"""
+select columns of table "activities"
+"""
+enum activities_select_column {
+  """
+  column name
+  """
+  action
+
+  """
+  column name
+  """
+  actor_profile_id
+
+  """
+  column name
+  """
+  big_question_id
+
+  """
+  column name
+  """
+  cast_id
+
+  """
+  column name
+  """
+  circle_id
+
+  """
+  column name
+  """
+  contribution_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  epoch_id
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  organization_id
+
+  """
+  column name
+  """
+  private_stream
+
+  """
+  column name
+  """
+  reaction_count
+
+  """
+  column name
+  """
+  reply_count
+
+  """
+  column name
+  """
+  target_profile_id
+
+  """
+  column name
+  """
+  updated_at
+
+  """
+  column name
+  """
+  user_id
+}
+
+"""
+select "activities_aggregate_bool_exp_bool_and_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_and_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+select "activities_aggregate_bool_exp_bool_or_arguments_columns" columns of table "activities"
+"""
+enum activities_select_column_activities_aggregate_bool_exp_bool_or_arguments_columns {
+  """
+  column name
+  """
+  private_stream
+}
+
+"""
+aggregate stddev on columns
+"""
+type activities_stddev_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by stddev() on columns of table "activities"
+"""
+input activities_stddev_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type activities_stddev_pop_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by stddev_pop() on columns of table "activities"
+"""
+input activities_stddev_pop_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type activities_stddev_samp_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "activities"
+"""
+input activities_stddev_samp_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+Streaming cursor of the table "activities"
+"""
+input activities_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: activities_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input activities_stream_cursor_value_input {
+  action: String
+  actor_profile_id: bigint
+  big_question_id: bigint
+  cast_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  created_at: timestamptz
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  private_stream: Boolean
+  reaction_count: Int
+  reply_count: Int
+  target_profile_id: bigint
+  updated_at: timestamptz
+  user_id: bigint
+}
+
+"""
+aggregate sum on columns
+"""
+type activities_sum_fields {
+  actor_profile_id: bigint
+  big_question_id: bigint
+  cast_id: bigint
+  circle_id: bigint
+  contribution_id: bigint
+  epoch_id: bigint
+  id: bigint
+  organization_id: bigint
+  reaction_count: Int
+  reply_count: Int
+  target_profile_id: bigint
+  user_id: bigint
+}
+
+"""
+order by sum() on columns of table "activities"
+"""
+input activities_sum_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+aggregate var_pop on columns
+"""
+type activities_var_pop_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by var_pop() on columns of table "activities"
+"""
+input activities_var_pop_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+aggregate var_samp on columns
+"""
+type activities_var_samp_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by var_samp() on columns of table "activities"
+"""
+input activities_var_samp_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+aggregate variance on columns
+"""
+type activities_variance_fields {
+  actor_profile_id: Float
+  big_question_id: Float
+  cast_id: Float
+  circle_id: Float
+  contribution_id: Float
+  epoch_id: Float
+  id: Float
+  organization_id: Float
+  reaction_count: Float
+  reply_count: Float
+  target_profile_id: Float
+  user_id: Float
+}
+
+"""
+order by variance() on columns of table "activities"
+"""
+input activities_variance_order_by {
+  actor_profile_id: order_by
+  big_question_id: order_by
+  cast_id: order_by
+  circle_id: order_by
+  contribution_id: order_by
+  epoch_id: order_by
+  id: order_by
+  organization_id: order_by
+  reaction_count: order_by
+  reply_count: order_by
+  target_profile_id: order_by
+  user_id: order_by
+}
+
+"""
+columns and relationships of "big_questions"
+"""
+type big_questions {
+  """
+  An array relationship
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  An aggregate relationship
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+  cover_image_url: String!
+  created_at: timestamp!
+  css_background_position: String
+  description: String
+  expire_at: timestamp
+  id: bigint!
+  prompt: String!
+  publish_at: timestamp
+  updated_at: timestamp!
+}
+
+"""
+Boolean expression to filter rows from the table "big_questions". All fields are combined with a logical 'AND'.
+"""
+input big_questions_bool_exp {
+  _and: [big_questions_bool_exp!]
+  _not: big_questions_bool_exp
+  _or: [big_questions_bool_exp!]
+  activities: activities_bool_exp
+  activities_aggregate: activities_aggregate_bool_exp
+  cover_image_url: String_comparison_exp
+  created_at: timestamp_comparison_exp
+  css_background_position: String_comparison_exp
+  description: String_comparison_exp
+  expire_at: timestamp_comparison_exp
+  id: bigint_comparison_exp
+  prompt: String_comparison_exp
+  publish_at: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "big_questions".
+"""
+input big_questions_order_by {
+  activities_aggregate: activities_aggregate_order_by
+  cover_image_url: order_by
+  created_at: order_by
+  css_background_position: order_by
+  description: order_by
+  expire_at: order_by
+  id: order_by
+  prompt: order_by
+  publish_at: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "big_questions"
+"""
+enum big_questions_select_column {
+  """
+  column name
+  """
+  cover_image_url
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  css_background_position
+
+  """
+  column name
+  """
+  description
+
+  """
+  column name
+  """
+  expire_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  prompt
+
+  """
+  column name
+  """
+  publish_at
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+Streaming cursor of the table "big_questions"
+"""
+input big_questions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: big_questions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input big_questions_stream_cursor_value_input {
+  cover_image_url: String
+  created_at: timestamp
+  css_background_position: String
+  description: String
+  expire_at: timestamp
+  id: bigint
+  prompt: String
+  publish_at: timestamp
+  updated_at: timestamp
+}
+
 scalar bigint
+
+"""
+Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
+"""
+input bigint_array_comparison_exp {
+  """
+  is the array contained in the given array value
+  """
+  _contained_in: [bigint!]
+
+  """
+  does the array contain the given value
+  """
+  _contains: [bigint!]
+  _eq: [bigint!]
+  _gt: [bigint!]
+  _gte: [bigint!]
+  _in: [[bigint!]!]
+  _is_null: Boolean
+  _lt: [bigint!]
+  _lte: [bigint!]
+  _neq: [bigint!]
+  _nin: [[bigint!]!]
+}
 
 """
 Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
@@ -128,6 +1185,23 @@ input bigint_comparison_exp {
   _lte: bigint
   _neq: bigint
   _nin: [bigint!]
+}
+
+scalar bytea
+
+"""
+Boolean expression to compare columns of type "bytea". All fields are combined with logical 'AND'.
+"""
+input bytea_comparison_exp {
+  _eq: bytea
+  _gt: bytea
+  _gte: bytea
+  _in: [bytea!]
+  _is_null: Boolean
+  _lt: bytea
+  _lte: bytea
+  _neq: bytea
+  _nin: [bytea!]
 }
 
 scalar citext
@@ -1183,6 +2257,218 @@ input date_comparison_exp {
 }
 
 """
+farcaster casts that we actually care about, with some materialized fields
+"""
+type enriched_casts {
+  created_at: timestamp!
+  deleted_at: timestamp
+  embeds(
+    """
+    JSON select path
+    """
+    path: String
+  ): jsonb!
+  fid: bigint!
+  hash: bytea!
+  id: bigint!
+  mentions: [bigint!]!
+  mentions_positions: [smallint!]!
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String!
+  timestamp: timestamp!
+  updated_at: timestamp!
+}
+
+"""
+Boolean expression to filter rows from the table "enriched_casts". All fields are combined with a logical 'AND'.
+"""
+input enriched_casts_bool_exp {
+  _and: [enriched_casts_bool_exp!]
+  _not: enriched_casts_bool_exp
+  _or: [enriched_casts_bool_exp!]
+  created_at: timestamp_comparison_exp
+  deleted_at: timestamp_comparison_exp
+  embeds: jsonb_comparison_exp
+  fid: bigint_comparison_exp
+  hash: bytea_comparison_exp
+  id: bigint_comparison_exp
+  mentions: bigint_array_comparison_exp
+  mentions_positions: smallint_array_comparison_exp
+  parent_fid: bigint_comparison_exp
+  parent_hash: bytea_comparison_exp
+  parent_url: String_comparison_exp
+  profile_id: bigint_comparison_exp
+  profile_public: profiles_public_bool_exp
+  root_parent_hash: bytea_comparison_exp
+  root_parent_url: String_comparison_exp
+  text: String_comparison_exp
+  timestamp: timestamp_comparison_exp
+  updated_at: timestamp_comparison_exp
+}
+
+"""
+Ordering options when selecting data from "enriched_casts".
+"""
+input enriched_casts_order_by {
+  created_at: order_by
+  deleted_at: order_by
+  embeds: order_by
+  fid: order_by
+  hash: order_by
+  id: order_by
+  mentions: order_by
+  mentions_positions: order_by
+  parent_fid: order_by
+  parent_hash: order_by
+  parent_url: order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  root_parent_hash: order_by
+  root_parent_url: order_by
+  text: order_by
+  timestamp: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "enriched_casts"
+"""
+enum enriched_casts_select_column {
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  embeds
+
+  """
+  column name
+  """
+  fid
+
+  """
+  column name
+  """
+  hash
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  mentions
+
+  """
+  column name
+  """
+  mentions_positions
+
+  """
+  column name
+  """
+  parent_fid
+
+  """
+  column name
+  """
+  parent_hash
+
+  """
+  column name
+  """
+  parent_url
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  root_parent_hash
+
+  """
+  column name
+  """
+  root_parent_url
+
+  """
+  column name
+  """
+  text
+
+  """
+  column name
+  """
+  timestamp
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+Streaming cursor of the table "enriched_casts"
+"""
+input enriched_casts_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: enriched_casts_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input enriched_casts_stream_cursor_value_input {
+  created_at: timestamp
+  deleted_at: timestamp
+  embeds: jsonb
+  fid: bigint
+  hash: bytea
+  id: bigint
+  mentions: [bigint!]
+  mentions_positions: [smallint!]
+  parent_fid: bigint
+  parent_hash: bytea
+  parent_url: String
+  profile_id: bigint
+  root_parent_hash: bytea
+  root_parent_url: String
+  text: String
+  timestamp: timestamp
+  updated_at: timestamp
+}
+
+"""
 columns and relationships of "farcaster_accounts"
 """
 type farcaster_accounts {
@@ -1408,6 +2694,53 @@ Initial value of the column from where the streaming should start
 input github_accounts_stream_cursor_value_input {
   profile_id: bigint
   username: String
+}
+
+scalar jsonb
+
+input jsonb_cast_exp {
+  String: String_comparison_exp
+}
+
+"""
+Boolean expression to compare columns of type "jsonb". All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  _cast: jsonb_cast_exp
+
+  """
+  is the column contained in the given json value
+  """
+  _contained_in: jsonb
+
+  """
+  does the column contain the given json value at the top level
+  """
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """
+  does the string exist as a top-level key in the column
+  """
+  _has_key: String
+
+  """
+  do all of these strings exist as top-level keys in the column
+  """
+  _has_keys_all: [String!]
+
+  """
+  do any of these strings exist as top-level keys in the column
+  """
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
 }
 
 """
@@ -3145,6 +4478,106 @@ input profiles_public_stream_cursor_value_input {
 
 type query_root {
   """
+  An array relationship
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  An aggregate relationship
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
+  fetch data from the table: "big_questions"
+  """
+  big_questions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
+
+  """
+  fetch data from the table: "big_questions" using primary key columns
+  """
+  big_questions_by_pk(id: bigint!): big_questions
+
+  """
   fetch data from the table: "colinks_give_count"
   """
   colinks_give_count(
@@ -3305,6 +4738,41 @@ type query_root {
   cosouls_by_pk(id: Int!): cosouls
 
   """
+  fetch data from the table: "enriched_casts"
+  """
+  enriched_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
+
+  """
+  fetch data from the table: "enriched_casts" using primary key columns
+  """
+  enriched_casts_by_pk(id: bigint!): enriched_casts
+
+  """
   fetch data from the table: "farcaster_accounts"
   """
   farcaster_accounts(
@@ -3338,6 +4806,11 @@ type query_root {
   fetch data from the table: "farcaster_accounts" using primary key columns
   """
   farcaster_accounts_by_pk(profile_id: bigint!): farcaster_accounts
+
+  """
+  getCasts
+  """
+  getCasts(payload: GetCastsInput!): GetCastsOutput!
 
   """
   fetch data from the table: "github_accounts"
@@ -3573,7 +5046,6 @@ type query_root {
   fetch data from the table: "poap_holders" using primary key columns
   """
   poap_holders_by_pk(id: bigint!): poap_holders
-  price_per_share(chain_id: Int!, token_address: String): Float!
 
   """
   An array relationship
@@ -3641,6 +5113,111 @@ type query_root {
   ): [profiles_public!]!
 
   """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  fetch data from the table: "replies" using primary key columns
+  """
+  replies_by_pk(id: bigint!): replies
+
+  """
+  fetch data from the table: "replies_reactions"
+  """
+  replies_reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): [replies_reactions!]!
+
+  """
+  fetch data from the table: "replies_reactions" using primary key columns
+  """
+  replies_reactions_by_pk(id: bigint!): replies_reactions
+
+  """
   fetch data from the table: "reputation_scores"
   """
   reputation_scores(
@@ -3674,6 +5251,41 @@ type query_root {
   fetch data from the table: "reputation_scores" using primary key columns
   """
   reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+
+  """
+  execute function "search_replies" which returns "replies"
+  """
+  search_replies(
+    """
+    input parameters for function "search_replies"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
 
   """
   fetch data from the table: "skills"
@@ -3852,6 +5464,775 @@ type query_root {
 }
 
 """
+columns and relationships of "reactions"
+"""
+type reactions {
+  """
+  An object relationship
+  """
+  activity: activities
+  activity_id: Int!
+  created_at: timestamptz!
+  id: bigint!
+  profile_id: Int!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+  reaction: String!
+  updated_at: timestamptz!
+}
+
+"""
+order by aggregate values of table "reactions"
+"""
+input reactions_aggregate_order_by {
+  avg: reactions_avg_order_by
+  count: order_by
+  max: reactions_max_order_by
+  min: reactions_min_order_by
+  stddev: reactions_stddev_order_by
+  stddev_pop: reactions_stddev_pop_order_by
+  stddev_samp: reactions_stddev_samp_order_by
+  sum: reactions_sum_order_by
+  var_pop: reactions_var_pop_order_by
+  var_samp: reactions_var_samp_order_by
+  variance: reactions_variance_order_by
+}
+
+"""
+order by avg() on columns of table "reactions"
+"""
+input reactions_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "reactions". All fields are combined with a logical 'AND'.
+"""
+input reactions_bool_exp {
+  _and: [reactions_bool_exp!]
+  _not: reactions_bool_exp
+  _or: [reactions_bool_exp!]
+  activity: activities_bool_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
+  reaction: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+order by max() on columns of table "reactions"
+"""
+input reactions_max_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+order by min() on columns of table "reactions"
+"""
+input reactions_min_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "reactions".
+"""
+input reactions_order_by {
+  activity: activities_order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  reaction: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "reactions"
+"""
+enum reactions_select_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+order by stddev() on columns of table "reactions"
+"""
+input reactions_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "reactions"
+"""
+input reactions_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "reactions"
+"""
+input reactions_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "reactions"
+"""
+input reactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: reactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input reactions_stream_cursor_value_input {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  updated_at: timestamptz
+}
+
+"""
+order by sum() on columns of table "reactions"
+"""
+input reactions_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by var_pop() on columns of table "reactions"
+"""
+input reactions_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by var_samp() on columns of table "reactions"
+"""
+input reactions_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by variance() on columns of table "reactions"
+"""
+input reactions_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Replies to activity items
+"""
+type replies {
+  """
+  An object relationship
+  """
+  activity: activities!
+  activity_actor_id: Int!
+  activity_id: Int!
+  created_at: timestamptz!
+  deleted_at: timestamptz
+  id: bigint!
+  profile_id: Int!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+
+  """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): [replies_reactions!]!
+  reply: String!
+  updated_at: timestamptz!
+}
+
+"""
+order by aggregate values of table "replies"
+"""
+input replies_aggregate_order_by {
+  avg: replies_avg_order_by
+  count: order_by
+  max: replies_max_order_by
+  min: replies_min_order_by
+  stddev: replies_stddev_order_by
+  stddev_pop: replies_stddev_pop_order_by
+  stddev_samp: replies_stddev_samp_order_by
+  sum: replies_sum_order_by
+  var_pop: replies_var_pop_order_by
+  var_samp: replies_var_samp_order_by
+  variance: replies_variance_order_by
+}
+
+"""
+order by avg() on columns of table "replies"
+"""
+input replies_avg_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "replies". All fields are combined with a logical 'AND'.
+"""
+input replies_bool_exp {
+  _and: [replies_bool_exp!]
+  _not: replies_bool_exp
+  _or: [replies_bool_exp!]
+  activity: activities_bool_exp
+  activity_actor_id: Int_comparison_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  deleted_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
+  reactions: replies_reactions_bool_exp
+  reply: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+order by max() on columns of table "replies"
+"""
+input replies_max_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  deleted_at: order_by
+  id: order_by
+  profile_id: order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+order by min() on columns of table "replies"
+"""
+input replies_min_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  deleted_at: order_by
+  id: order_by
+  profile_id: order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "replies".
+"""
+input replies_order_by {
+  activity: activities_order_by
+  activity_actor_id: order_by
+  activity_id: order_by
+  created_at: order_by
+  deleted_at: order_by
+  id: order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  reactions_aggregate: replies_reactions_aggregate_order_by
+  reply: order_by
+  updated_at: order_by
+}
+
+"""
+columns and relationships of "replies_reactions"
+"""
+type replies_reactions {
+  """
+  An object relationship
+  """
+  activity: activities
+  activity_id: Int!
+  created_at: timestamptz!
+  id: bigint!
+  profile_id: Int!
+
+  """
+  An object relationship
+  """
+  profile_public: profiles_public
+  reaction: String!
+
+  """
+  An object relationship
+  """
+  reply: replies
+  reply_id: Int!
+  updated_at: timestamptz!
+}
+
+"""
+order by aggregate values of table "replies_reactions"
+"""
+input replies_reactions_aggregate_order_by {
+  avg: replies_reactions_avg_order_by
+  count: order_by
+  max: replies_reactions_max_order_by
+  min: replies_reactions_min_order_by
+  stddev: replies_reactions_stddev_order_by
+  stddev_pop: replies_reactions_stddev_pop_order_by
+  stddev_samp: replies_reactions_stddev_samp_order_by
+  sum: replies_reactions_sum_order_by
+  var_pop: replies_reactions_var_pop_order_by
+  var_samp: replies_reactions_var_samp_order_by
+  variance: replies_reactions_variance_order_by
+}
+
+"""
+order by avg() on columns of table "replies_reactions"
+"""
+input replies_reactions_avg_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "replies_reactions". All fields are combined with a logical 'AND'.
+"""
+input replies_reactions_bool_exp {
+  _and: [replies_reactions_bool_exp!]
+  _not: replies_reactions_bool_exp
+  _or: [replies_reactions_bool_exp!]
+  activity: activities_bool_exp
+  activity_id: Int_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  profile_id: Int_comparison_exp
+  profile_public: profiles_public_bool_exp
+  reaction: String_comparison_exp
+  reply: replies_bool_exp
+  reply_id: Int_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+order by max() on columns of table "replies_reactions"
+"""
+input replies_reactions_max_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  reply_id: order_by
+  updated_at: order_by
+}
+
+"""
+order by min() on columns of table "replies_reactions"
+"""
+input replies_reactions_min_order_by {
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  reaction: order_by
+  reply_id: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "replies_reactions".
+"""
+input replies_reactions_order_by {
+  activity: activities_order_by
+  activity_id: order_by
+  created_at: order_by
+  id: order_by
+  profile_id: order_by
+  profile_public: profiles_public_order_by
+  reaction: order_by
+  reply: replies_order_by
+  reply_id: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "replies_reactions"
+"""
+enum replies_reactions_select_column {
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reaction
+
+  """
+  column name
+  """
+  reply_id
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+order by stddev() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "replies_reactions"
+"""
+input replies_reactions_stddev_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+Streaming cursor of the table "replies_reactions"
+"""
+input replies_reactions_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: replies_reactions_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input replies_reactions_stream_cursor_value_input {
+  activity_id: Int
+  created_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reaction: String
+  reply_id: Int
+  updated_at: timestamptz
+}
+
+"""
+order by sum() on columns of table "replies_reactions"
+"""
+input replies_reactions_sum_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+order by var_pop() on columns of table "replies_reactions"
+"""
+input replies_reactions_var_pop_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+order by var_samp() on columns of table "replies_reactions"
+"""
+input replies_reactions_var_samp_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+order by variance() on columns of table "replies_reactions"
+"""
+input replies_reactions_variance_order_by {
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+  reply_id: order_by
+}
+
+"""
+select columns of table "replies"
+"""
+enum replies_select_column {
+  """
+  column name
+  """
+  activity_actor_id
+
+  """
+  column name
+  """
+  activity_id
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  deleted_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  profile_id
+
+  """
+  column name
+  """
+  reply
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+order by stddev() on columns of table "replies"
+"""
+input replies_stddev_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "replies"
+"""
+input replies_stddev_pop_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "replies"
+"""
+input replies_stddev_samp_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+Streaming cursor of the table "replies"
+"""
+input replies_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: replies_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input replies_stream_cursor_value_input {
+  activity_actor_id: Int
+  activity_id: Int
+  created_at: timestamptz
+  deleted_at: timestamptz
+  id: bigint
+  profile_id: Int
+  reply: String
+  updated_at: timestamptz
+}
+
+"""
+order by sum() on columns of table "replies"
+"""
+input replies_sum_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by var_pop() on columns of table "replies"
+"""
+input replies_var_pop_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by var_samp() on columns of table "replies"
+"""
+input replies_var_samp_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
+order by variance() on columns of table "replies"
+"""
+input replies_variance_order_by {
+  activity_actor_id: order_by
+  activity_id: order_by
+  id: order_by
+  profile_id: order_by
+}
+
+"""
 columns and relationships of "reputation_scores"
 """
 type reputation_scores {
@@ -4015,6 +6396,10 @@ input reputation_scores_stream_cursor_value_input {
   updated_at: timestamptz
 }
 
+input search_replies_args {
+  search: String
+}
+
 """
 columns and relationships of "skills"
 """
@@ -4114,7 +6499,173 @@ input skills_stream_cursor_value_input {
   updated_at: timestamptz
 }
 
+scalar smallint
+
+"""
+Boolean expression to compare columns of type "smallint". All fields are combined with logical 'AND'.
+"""
+input smallint_array_comparison_exp {
+  """
+  is the array contained in the given array value
+  """
+  _contained_in: [smallint!]
+
+  """
+  does the array contain the given value
+  """
+  _contains: [smallint!]
+  _eq: [smallint!]
+  _gt: [smallint!]
+  _gte: [smallint!]
+  _in: [[smallint!]!]
+  _is_null: Boolean
+  _lt: [smallint!]
+  _lte: [smallint!]
+  _neq: [smallint!]
+  _nin: [[smallint!]!]
+}
+
 type subscription_root {
+  """
+  An array relationship
+  """
+  activities(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  An aggregate relationship
+  """
+  activities_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [activities_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [activities_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): activities_aggregate!
+
+  """
+  fetch data from the table: "activities" using primary key columns
+  """
+  activities_by_pk(id: bigint!): activities
+
+  """
+  fetch data from the table in a streaming manner: "activities"
+  """
+  activities_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [activities_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: activities_bool_exp
+  ): [activities!]!
+
+  """
+  fetch data from the table: "big_questions"
+  """
+  big_questions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [big_questions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [big_questions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
+
+  """
+  fetch data from the table: "big_questions" using primary key columns
+  """
+  big_questions_by_pk(id: bigint!): big_questions
+
+  """
+  fetch data from the table in a streaming manner: "big_questions"
+  """
+  big_questions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [big_questions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: big_questions_bool_exp
+  ): [big_questions!]!
+
   """
   fetch data from the table: "colinks_give_count"
   """
@@ -4354,6 +6905,61 @@ type subscription_root {
     """
     where: cosouls_bool_exp
   ): [cosouls!]!
+
+  """
+  fetch data from the table: "enriched_casts"
+  """
+  enriched_casts(
+    """
+    distinct select on columns
+    """
+    distinct_on: [enriched_casts_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [enriched_casts_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
+
+  """
+  fetch data from the table: "enriched_casts" using primary key columns
+  """
+  enriched_casts_by_pk(id: bigint!): enriched_casts
+
+  """
+  fetch data from the table in a streaming manner: "enriched_casts"
+  """
+  enriched_casts_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [enriched_casts_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: enriched_casts_bool_exp
+  ): [enriched_casts!]!
 
   """
   fetch data from the table: "farcaster_accounts"
@@ -4851,6 +7457,171 @@ type subscription_root {
   ): [profiles_public!]!
 
   """
+  An array relationship
+  """
+  reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  fetch data from the table: "reactions" using primary key columns
+  """
+  reactions_by_pk(id: bigint!): reactions
+
+  """
+  fetch data from the table in a streaming manner: "reactions"
+  """
+  reactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [reactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: reactions_bool_exp
+  ): [reactions!]!
+
+  """
+  An array relationship
+  """
+  replies(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
+  fetch data from the table: "replies" using primary key columns
+  """
+  replies_by_pk(id: bigint!): replies
+
+  """
+  fetch data from the table: "replies_reactions"
+  """
+  replies_reactions(
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_reactions_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_reactions_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): [replies_reactions!]!
+
+  """
+  fetch data from the table: "replies_reactions" using primary key columns
+  """
+  replies_reactions_by_pk(id: bigint!): replies_reactions
+
+  """
+  fetch data from the table in a streaming manner: "replies_reactions"
+  """
+  replies_reactions_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [replies_reactions_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: replies_reactions_bool_exp
+  ): [replies_reactions!]!
+
+  """
+  fetch data from the table in a streaming manner: "replies"
+  """
+  replies_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [replies_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
+
+  """
   fetch data from the table: "reputation_scores"
   """
   reputation_scores(
@@ -4904,6 +7675,41 @@ type subscription_root {
     """
     where: reputation_scores_bool_exp
   ): [reputation_scores!]!
+
+  """
+  execute function "search_replies" which returns "replies"
+  """
+  search_replies(
+    """
+    input parameters for function "search_replies"
+    """
+    args: search_replies_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [replies_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [replies_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: replies_bool_exp
+  ): [replies!]!
 
   """
   fetch data from the table: "skills"
