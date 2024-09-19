@@ -180,6 +180,11 @@ export function GiveGraph({
         width={width}
         minZoom={0}
         linkCurvature={0.3}
+        // let the nodes stay where they were dragged to
+        onNodeDragEnd={(node: NodeObject) => {
+          node.fx = node.x;
+          node.fy = node.y;
+        }}
         linkDirectionalParticles={showExtras ? 1 : 0}
         enableZoomInteraction={zoom}
         linkDirectionalArrowLength={5}
