@@ -212,7 +212,7 @@ describe('reactions', () => {
       {
         id: 132,
         reaction: '👀',
-        profile: {
+        profile_public: {
           name: 'Whoo',
           id: 5283,
         },
@@ -220,7 +220,7 @@ describe('reactions', () => {
       {
         id: 134,
         reaction: '👀',
-        profile: {
+        profile_public: {
           name: 'Meee',
           id: 5282,
         },
@@ -228,7 +228,7 @@ describe('reactions', () => {
       {
         id: 136,
         reaction: '💀',
-        profile: {
+        profile_public: {
           name: 'Meee',
           id: 5282,
         },

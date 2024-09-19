@@ -99,7 +99,7 @@ export const activitySelector = Selector('activities')({
     {
       id: true,
       reaction: true,
-      profile: {
+      profile_public: {
         name: true,
         id: true,
       },
@@ -189,7 +189,7 @@ const getActivities = async (
     : await getAuthedActivities(where as Where, page);
   // enrich these activities if they have casts
   const cast_ids = activities.filter(a => a.cast_id).map(a => a.cast_id);
-  const casts = await fetchCasts(anon, cast_ids);
+  const casts = await fetchCasts(cast_ids);
   type enrichedActivity = (typeof activities)[number] & {
     cast?: (typeof casts)[number];
   };
@@ -279,6 +279,9 @@ export const useInfiniteActivities = (
 };
 
 export type Activity = Awaited<ReturnType<typeof getActivities>>[number];
+export type AuthedActivity = Awaited<
+  ReturnType<typeof getAuthedActivities>
+>[number];
 
 type RequireFields<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
 
@@ -289,9 +292,9 @@ export type ActivityWithValidProfile = Activity & {
   >;
 };
 
-export type Contribution = Activity &
-  Required<Pick<Activity, 'contribution' | 'actor_profile_public'>> &
-  Pick<Activity, 'circle'> & {
+export type Contribution = AuthedActivity &
+  Required<Pick<AuthedActivity, 'contribution' | 'actor_profile_public'>> &
+  Pick<AuthedActivity, 'circle'> & {
     actor_profile_public: Required<
       NonNullable<Activity['actor_profile_public']>
     >;
@@ -304,7 +307,7 @@ export type CastActivity = Activity &
     >;
   };
 
-export function IsContribution(a: Activity): a is Contribution {
+export function IsContribution(a: AuthedActivity): a is Contribution {
   return (
     a.action == 'contributions_insert' &&
     !!a.contribution &&
@@ -318,34 +321,34 @@ export function IsCast(a: Activity): a is CastActivity {
   );
 }
 
-export type NewUser = Activity &
-  Required<Pick<Activity, 'target_profile' | 'circle'>>;
+export type NewUser = AuthedActivity &
+  Required<Pick<AuthedActivity, 'target_profile' | 'circle'>>;
 
-export function IsNewUser(a: Activity): a is NewUser {
+export function IsNewUser(a: AuthedActivity): a is NewUser {
   return a.action == 'users_insert' && !!a.target_profile && !!a.circle;
 }
 
-export type EpochCreated = Activity &
-  Required<Pick<Activity, 'epoch' | 'circle'>>;
-export function IsEpochCreated(a: Activity): a is EpochCreated {
+export type EpochCreated = AuthedActivity &
+  Required<Pick<AuthedActivity, 'epoch' | 'circle'>>;
+export function IsEpochCreated(a: AuthedActivity): a is EpochCreated {
   return a.action == 'epochs_insert' && !!a.epoch && !!a.circle;
 }
 
-export type EpochEnded = Activity &
-  Required<Pick<Activity, 'epoch' | 'circle'>>;
-export function IsEpochEnded(a: Activity): a is EpochEnded {
+export type EpochEnded = AuthedActivity &
+  Required<Pick<AuthedActivity, 'epoch' | 'circle'>>;
+export function IsEpochEnded(a: AuthedActivity): a is EpochEnded {
   return a.action == 'epochs_ended' && !!a.epoch && !!a.circle;
 }
 
-export type EpochStarted = Activity &
-  Required<Pick<Activity, 'epoch' | 'circle'>>;
-export function IsEpochStarted(a: Activity): a is EpochStarted {
+export type EpochStarted = AuthedActivity &
+  Required<Pick<AuthedActivity, 'epoch' | 'circle'>>;
+export function IsEpochStarted(a: AuthedActivity): a is EpochStarted {
   return a.action == 'epochs_started' && !!a.epoch && !!a.circle;
 }
 
 export type Reaction = Activity['reactions'][number];
 
-export function IsDeleted(a: Activity) {
+export function IsDeleted(a: AuthedActivity) {
   // epoch are hard deleted, so we never see them here.
   // user's removed from circle is not supported by this right now.
   switch (a.action) {
