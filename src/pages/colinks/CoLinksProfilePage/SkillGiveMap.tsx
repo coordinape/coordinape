@@ -72,7 +72,6 @@ export const SkillGiveMap = () => {
           {({ stitchesTheme }) => (
             <GiveGraph
               skill={skill}
-              minZoom={2}
               expand={true}
               width={width}
               height={height}

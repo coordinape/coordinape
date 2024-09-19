@@ -74,7 +74,6 @@ export const ViewProfilePageGiveMap = () => {
           {({ stitchesTheme }) => (
             <GiveGraph
               address={address}
-              minZoom={2}
               expand={true}
               width={width}
               height={height}
