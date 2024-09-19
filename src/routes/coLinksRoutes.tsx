@@ -49,6 +49,7 @@ import { ViewProfilePageGive } from 'pages/colinks/CoLinksProfilePage/ProfilePag
 import { ViewProfilePageNetwork } from 'pages/colinks/CoLinksProfilePage/ProfilePageNetwork';
 import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePagePosts';
 import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
+import { SkillGiveMap } from 'pages/colinks/CoLinksProfilePage/SkillGiveMap';
 import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
@@ -112,13 +113,6 @@ export const coLinksRoutes = [
       />
     </Route>
     ,
-    <Route key={'givemap'}>
-      <Route
-        path={coLinksPaths.givePartySkillMap(':skill')}
-        element={<GiveSkillMap />}
-      />
-    </Route>
-    ,
   </Route>,
 
   <Route
@@ -145,6 +139,10 @@ export const coLinksRoutes = [
       <Route
         path={coLinksPaths.profileGiveMap(':address')}
         element={<ViewProfilePageGiveMap />}
+      />
+      <Route
+        path={coLinksPaths.skillGiveMap(':skill')}
+        element={<SkillGiveMap />}
       />
     </Route>
     ,

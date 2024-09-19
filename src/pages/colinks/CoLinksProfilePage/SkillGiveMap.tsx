@@ -4,7 +4,7 @@ import { PointsBarInfo } from 'features/points/PointsBarInfo';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink, useParams } from 'react-router-dom';
 
-import { X } from 'icons/__generated';
+import { Eye, X } from 'icons/__generated';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
 import { coLinksPaths } from 'routes/paths';
 import {
@@ -17,14 +17,12 @@ import {
   Text,
 } from 'ui';
 
-import { ProfileAvatarAndName } from './ProfileAvatarAndName';
-
-export const ViewProfilePageGiveMap = () => {
-  const { address } = useParams();
+export const SkillGiveMap = () => {
+  const { skill } = useParams();
   const [width, height] = useWindowSize();
 
-  if (!address) {
-    return <Flex>address query param required</Flex>;
+  if (!skill) {
+    return <Flex>Skill query param required</Flex>;
   }
   return (
     <>
@@ -62,7 +60,7 @@ export const ViewProfilePageGiveMap = () => {
           >
             <Button
               as={NavLink}
-              to={coLinksPaths.profileGive(address)}
+              to={coLinksPaths.giveSkill(skill)}
               color={'textOnly'}
               css={{ p: 0, svg: { mr: 0 } }}
             >
@@ -73,7 +71,7 @@ export const ViewProfilePageGiveMap = () => {
         <ThemeContext.Consumer>
           {({ stitchesTheme }) => (
             <GiveGraph
-              address={address}
+              skill={skill}
               minZoom={2}
               expand={true}
               width={width}
@@ -112,12 +110,16 @@ export const ViewProfilePageGiveMap = () => {
           </Flex>
           <Button
             as={NavLink}
-            to={coLinksPaths.profileGive(address)}
+            to={coLinksPaths.giveSkill(skill)}
             color={'cta'}
             size={'small'}
-            css={{ p: '$sm $md', backdropFilter: 'blur(15px)' }}
+            css={{
+              p: '$sm $md',
+              backdropFilter: 'blur(15px)',
+              textTransform: 'capitalize',
+            }}
           >
-            <ProfileAvatarAndName targetAddress={address} />
+            <Eye /> View {skill} Data
           </Button>
         </Flex>
       </Flex>
