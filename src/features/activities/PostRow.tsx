@@ -66,7 +66,7 @@ export const PostRow = ({
     ? undefined
     : activity.big_question;
 
-  const profileId = useProfileId(true);
+  const profileId = useProfileId(false);
 
   const myGive = activity.gives.find(
     give => give.giver_profile_public?.id === profileId

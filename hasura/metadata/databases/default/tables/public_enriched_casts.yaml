@@ -49,6 +49,29 @@ array_relationships:
           name: casts
           schema: farcaster
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - mentions
+        - mentions_positions
+        - fid
+        - id
+        - parent_fid
+        - profile_id
+        - hash
+        - parent_hash
+        - root_parent_hash
+        - embeds
+        - parent_url
+        - root_parent_url
+        - text
+        - created_at
+        - deleted_at
+        - timestamp
+        - updated_at
+      filter: {}
+      limit: 100
+    comment: ""
   - role: user
     permission:
       columns:

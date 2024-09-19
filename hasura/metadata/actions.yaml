@@ -277,6 +277,7 @@ actions:
         - name: verification_key
           value_from_env: HASURA_EVENT_SECRET
     permissions:
+      - role: anon
       - role: user
     comment: getCasts
   - name: getGuildInfo

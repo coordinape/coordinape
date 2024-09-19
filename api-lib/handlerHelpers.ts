@@ -33,6 +33,23 @@ async function getUserSessionInput<T extends z.ZodRawShape>(
   return { action, session: session_variables, payload: input.payload };
 }
 
+export async function getAnonInput<T extends z.ZodRawShape>(
+  req: VercelRequest,
+  schema: InputSchema<T>
+) {
+  const fullSchema = z.object({
+    action: z.object({ name: z.string() }),
+    input: z.object({ payload: schema }),
+    request_query: z.string().optional(),
+  });
+
+  // this will throw if the input isn't valid
+  const { action, input } = await fullSchema.parseAsync(req.body);
+  assert(input?.payload, 'input.payload is missing after parsing');
+
+  return { action, payload: input.payload };
+}
+
 // FIXME there's probably a better way to get typing to work than
 // almost-duplicating the method above
 async function getUserOrAdminSessionInput<T extends z.ZodRawShape>(

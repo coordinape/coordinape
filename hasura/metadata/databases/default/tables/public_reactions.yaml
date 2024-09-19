@@ -58,6 +58,20 @@ insert_permissions:
         - activity_id
         - reaction
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - id
+        - activity_id
+        - profile_id
+        - reaction
+        - created_at
+        - updated_at
+      filter:
+        activity:
+          cast_id:
+            _is_null: false
+    comment: ""
   - role: user
     permission:
       columns:

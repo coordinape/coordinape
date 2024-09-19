@@ -54,6 +54,25 @@ insert_permissions:
         - activity_id
         - reply
 select_permissions:
+  - role: anon
+    permission:
+      columns:
+        - id
+        - reply
+        - activity_actor_id
+        - activity_id
+        - profile_id
+        - created_at
+        - deleted_at
+        - updated_at
+      filter:
+        _and:
+          - deleted_at:
+              _is_null: true
+          - activity:
+              cast_id:
+                _is_null: false
+    comment: ""
   - role: user
     permission:
       columns:
