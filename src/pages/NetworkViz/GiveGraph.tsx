@@ -177,7 +177,7 @@ export function GiveGraph({
       <ForceGraph2D
         height={height}
         width={width}
-        minZoom={0.1}
+        minZoom={0}
         linkCurvature={0.3}
         linkDirectionalParticles={showExtras ? 1 : 0}
         enableZoomInteraction={zoom}
