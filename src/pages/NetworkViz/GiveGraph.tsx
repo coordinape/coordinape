@@ -4,6 +4,7 @@ import { StitchesTheme } from 'features/theming/ThemeProvider';
 import { NodeObject } from 'react-force-graph-2d';
 import { useQuery } from 'react-query';
 
+import { getAvatarPath } from '../../utils/domain';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { ProfileDrawerContent } from 'pages/colinks/CoLinksProfilePage/ProfileDrawerContent';
 import { coLinksPaths } from 'routes/paths';
@@ -126,10 +127,7 @@ export function GiveGraph({
         data.nodes.forEach((node: node) => {
           if (node.avatar && !imgCache.current[node.id]) {
             const img = new Image();
-            img.src =
-              (node.avatar.startsWith('http')
-                ? ''
-                : process.env.VITE_S3_BASE_URL) + node.avatar;
+            img.src = getAvatarPath(node.avatar) ?? node.avatar;
             img.onload = () => {
               imgCache.current[node.id] = img;
             };

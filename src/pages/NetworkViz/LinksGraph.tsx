@@ -2,6 +2,7 @@ import { lazy, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useQuery } from 'react-query';
 
+import { getAvatarPath } from '../../utils/domain';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { coLinksPaths } from 'routes/paths';
 import { Flex } from 'ui';
@@ -97,10 +98,7 @@ export function LinksGraph({
         data.nodes.forEach((node: node) => {
           if (node.avatar && !imgCache.current[node.id]) {
             const img = new Image();
-            img.src =
-              (node.avatar.startsWith('http')
-                ? ''
-                : process.env.VITE_S3_BASE_URL) + node.avatar;
+            img.src = getAvatarPath(node.avatar) ?? node.avatar;
             img.onload = () => {
               imgCache.current[node.id] = img;
             };
