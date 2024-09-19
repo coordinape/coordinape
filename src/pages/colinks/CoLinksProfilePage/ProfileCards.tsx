@@ -23,7 +23,7 @@ import { CoLinksProfile, fetchCoLinksProfile } from './ProfileHeader';
 
 export const cardColumnMinWidth = 1280;
 export const cardMaxWidth = 343;
-export const cardMinHeight = 90;
+export const cardMinHeight = 80;
 export const QUERY_KEY_NETWORK = 'network';
 
 export const ProfileCards = ({
@@ -95,6 +95,7 @@ export const ProfileCardsWithProfile = ({
     width: '100%',
     maxWidth: cardMaxWidth,
     color: '$text',
+    justifyContent: 'center',
     '@sm': {
       flexGrow: 1,
     },
@@ -236,10 +237,6 @@ export const ProfileCardsWithProfile = ({
               </Text>
               GIVE Sent
             </Text>
-            <Text css={{ gap: '$xs' }}>
-              <Text semibold>{network?.tier_counts[1]}</Text>
-              GIVE Connections
-            </Text>
           </Flex>
         </Flex>
       </Panel>
@@ -249,7 +246,7 @@ export const ProfileCardsWithProfile = ({
         to={coLinksPaths.profileReputation(targetAddress)}
         css={{
           width: cardMaxWidth,
-          height: 90,
+          height: cardMinHeight,
           borderRadius: '$3',
           overflow: 'hidden',
           alignItems: 'center',
