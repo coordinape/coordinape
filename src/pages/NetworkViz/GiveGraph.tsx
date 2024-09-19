@@ -129,7 +129,10 @@ export function GiveGraph({
         data.nodes.forEach((node: node) => {
           if (node.avatar && !imgCache.current[node.id]) {
             const img = new Image();
-            img.src = node.avatar;
+            img.src =
+              (node.avatar.startsWith('http')
+                ? ''
+                : process.env.VITE_S3_BASE_URL) + node.avatar;
             img.onload = () => {
               imgCache.current[node.id] = img;
             };
