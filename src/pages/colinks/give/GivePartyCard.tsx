@@ -13,7 +13,7 @@ export const GivePartyCard = () => {
   return (
     <>
       <LearnCard
-        image="/imgs/background/login-lake.jpg"
+        image="/imgs/background/giveparty-dance.jpg"
         onClick={() => setModalVisible(true)}
       >
         <Flex
@@ -60,8 +60,23 @@ export const GivePartyCard = () => {
       {modalVisible && (
         <DrawerModal
           visible={modalVisible}
+          closeButtonStyles={{ color: '$white80' }}
           onClose={() => setModalVisible(false)}
         >
+          <Flex
+            css={{
+              flexGrow: 1,
+              width: '100%',
+              minHeight: '280px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '50% 35%',
+              backgroundSize: 'cover',
+              backgroundImage: "url('/imgs/background/giveparty-dance.jpg')",
+              '@sm': {
+                minHeight: '200px',
+              },
+            }}
+          />
           <GiveParty />
         </DrawerModal>
       )}

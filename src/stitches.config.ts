@@ -75,6 +75,8 @@ export const colors = {
   coLinksTextOnCta: figmaColors.secondary1,
 
   white: figmaColors.grey1,
+  white70: 'rgba(255,255,255,0.7)',
+  white80: 'rgba(255,255,255,0.8)',
   black: figmaColors.grey10,
   link: figmaColors.secondary4,
   linkHover: figmaColors.secondary5,

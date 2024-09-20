@@ -27,7 +27,7 @@ export const GivePagesLayout = ({
         <Helmet>
           <title>GIVE / CoLinks</title>
         </Helmet>
-        <ContentHeader>
+        <ContentHeader css={{ mb: 0 }}>
           <Flex
             column
             css={{

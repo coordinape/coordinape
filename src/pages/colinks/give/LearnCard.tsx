@@ -31,6 +31,10 @@ export const LearnCard = ({
     backgroundPosition: 'center',
     backgroundSize: 'cover',
     color: 'white',
+    '@sm': {
+      minHeight: '150px',
+      minWidth: '250px',
+    },
   };
 
   return (
