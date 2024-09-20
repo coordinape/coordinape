@@ -1,7 +1,8 @@
 import { Dispatch } from 'react';
 
 import { useAuthStore } from 'features/auth';
-import { order_by } from 'lib/anongql/__generated__/zeus';
+import { order_by as anon_order_by } from 'lib/anongql/__generated__/zeus';
+import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { DateTime } from 'luxon';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -21,8 +22,58 @@ import { ReplyReactionBar } from './ReplyReactionBar';
 
 export const QUERY_KEY_REPLIES = 'query-key-replies';
 
-const fetchReplies = async (activityId: number) => {
+const fetchReplies = async (anon: boolean, activityId: number) => {
+  if (anon) {
+    return await fetchAnonReplies(activityId);
+  } else {
+    return await fetchAuthedReplies(activityId);
+  }
+};
+
+const fetchAnonReplies = async (activityId: number) => {
   const { replies } = await anonClient.query(
+    {
+      replies: [
+        {
+          where: { activity_id: { _eq: activityId } },
+          order_by: [{ created_at: anon_order_by.asc }],
+        },
+        {
+          id: true,
+          reply: true,
+          updated_at: true,
+          reactions: [
+            {},
+            {
+              id: true,
+              reaction: true,
+              profile_public: {
+                name: true,
+                id: true,
+              },
+            },
+          ],
+          profile_public: {
+            id: true,
+            name: true,
+            address: true,
+            avatar: true,
+            cosoul: {
+              id: true,
+            },
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'fetchReplies',
+    }
+  );
+  return replies;
+};
+
+const fetchAuthedReplies = async (activityId: number) => {
+  const { replies } = await client.query(
     {
       replies: [
         {
@@ -90,7 +141,7 @@ export const RepliesBox = ({
   const { data: replies } = useQuery(
     [QUERY_KEY_REPLIES, activityId],
     async () => {
-      const resp = await fetchReplies(activityId);
+      const resp = await fetchReplies(!profileId, activityId);
       return resp.filter(IsValidReply);
     }
   );
