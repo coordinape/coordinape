@@ -45,7 +45,26 @@ export const LearnAboutGiveCard = () => {
           visible={modalVisible}
           onClose={() => setModalVisible(false)}
         >
-          <Text h1>Learn about GIVE!!</Text>
+          <Flex
+            css={{
+              flexGrow: 1,
+              width: '100%',
+              minHeight: '250px',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: '50% 30%',
+              backgroundSize: 'cover',
+              backgroundImage: "url('/imgs/background/colink-give.jpg')",
+              '@sm': {
+                display: 'none',
+              },
+            }}
+          />
+          <Flex column css={{ p: '$md' }}>
+            <Text h1>
+              GIVE is a simple and powerful onchain way to recognize people and
+              their impact, inside and outside of the Coordinape platform.
+            </Text>
+          </Flex>
         </DrawerModal>
       )}
     </>

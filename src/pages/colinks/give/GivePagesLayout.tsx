@@ -29,13 +29,14 @@ export const GivePagesLayout = ({
         </Helmet>
         <ContentHeader>
           <Flex
+            column
             css={{
               width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              gap: '$sm',
+              alignItems: 'flex-start',
             }}
           >
-            <Flex column css={{ gap: '$md' }}>
+            <Flex column css={{ gap: '$sm' }}>
               {/*<Text h2 display>*/}
               {/*  GIVE*/}
               {/*</Text>*/}
@@ -52,9 +53,12 @@ export const GivePagesLayout = ({
                 </Text>
               ) : (
                 <Text>
-                  Give is a bla bla thing and its really great you should do it
+                  GIVE is the onchain Social Oracle that empowers recognition
+                  and connections in web3.
                 </Text>
               )}
+            </Flex>
+            <Flex>
               <PartySearchBox
                 size={'large'}
                 registerKeyDown={false}

@@ -21,7 +21,7 @@ export const GiveBotCard = () => {
             ...contentStyles,
             justifyContent: 'space-between',
             background:
-              'radial-gradient(circle at 25% 0%, rgb(20 154 204 / 53%) 20%, rgb(231 7 132 / 53%) 100%)',
+              'radial-gradient(circle at 25% 0%, rgb(143 134 0 / 53%) 10%, rgb(15 92 190 / 53%) 100%)',
           }}
         >
           <Flex
@@ -44,7 +44,7 @@ export const GiveBotCard = () => {
               alignItems: 'center',
               gap: '$sm',
               background:
-                'radial-gradient(circle at 25% 0%, rgb(0 110 196) 20%, rgb(180, 22, 110) 100%)',
+                'radial-gradient(circle at 5% 0%, rgb(182 171 0) 10%, rgb(15 92 190) 100%)',
               p: '$sm',
               width: '100%',
             }}
