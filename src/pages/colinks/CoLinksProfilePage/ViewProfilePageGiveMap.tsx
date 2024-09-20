@@ -34,6 +34,7 @@ export const ViewProfilePageGiveMap = () => {
           justifyContent: 'space-between',
           background: '$background',
           height: '100vh',
+          overflow: 'hidden',
         }}
       >
         <Flex

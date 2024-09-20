@@ -82,7 +82,7 @@ export const ProfilePageGiveContents = ({
               <Panel noBorder css={{ p: 0, position: 'relative' }}>
                 <AutosizedGiveGraph
                   mapHeight={mapHeight}
-                  expand={desktop}
+                  expand={false}
                   targetAddress={targetAddress}
                 />
                 <Flex
