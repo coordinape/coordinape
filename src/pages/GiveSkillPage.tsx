@@ -6,8 +6,8 @@ import { Wand } from '../icons/__generated';
 import { coLinksPaths } from '../routes/paths';
 import { disabledStyle } from '../stitches.config';
 import { Button, Flex, Link } from '../ui';
-import { TwoColumnSmallRightLayout } from '../ui/layouts';
 
+import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { GiveSkillLeaderboard } from './GiveSkillLeaderboard';
 
 export const GiveSkillPage = () => {
@@ -20,13 +20,7 @@ export const GiveSkillPage = () => {
       <Helmet>
         <title>{skill} / GIVE / CoLinks</title>
       </Helmet>
-      <TwoColumnSmallRightLayout
-        css={{
-          '@xs': {
-            gap: '0',
-          },
-        }}
-      >
+      <ResponsiveColumnLayout>
         <Flex column>
           <GiveSkillLeaderboard
             mapFunc={coLinksPaths.giveSkillMap}
@@ -48,7 +42,7 @@ export const GiveSkillPage = () => {
             <Wand fa size={'md'} /> Cast in Farcaster
           </Button>
         </Flex>
-      </TwoColumnSmallRightLayout>
+      </ResponsiveColumnLayout>
     </Flex>
   );
 };

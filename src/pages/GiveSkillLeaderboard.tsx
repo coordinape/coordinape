@@ -10,7 +10,6 @@ import { coLinksPaths } from '../routes/paths';
 import { shortenAddressWithFrontLength } from '../utils';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { Avatar, Button, Flex, Panel, Text } from 'ui';
-import { PartyDisplayText } from 'ui/Tooltip/PartyDisplayText';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 import { AutosizedGiveGraph } from './NetworkViz/AutosizedGiveGraph';
@@ -134,7 +133,6 @@ export const GiveSkillLeaderboard = ({
             width: '100%',
             flexFlow: 'column',
             alignItems: 'flex-start',
-            color: 'white',
           }}
         >
           <Text
@@ -147,8 +145,7 @@ export const GiveSkillLeaderboard = ({
               gap: '$xs',
             }}
           >
-            <PartyDisplayText text={`#${skill}`} />
-            <Text semibold>GIVEs</Text>
+            <Text tag size="large" color="complete">{`#${skill}`}</Text>
           </Text>
 
           <Flex
@@ -157,7 +154,7 @@ export const GiveSkillLeaderboard = ({
               height: 200,
               width: '100%',
               overflow: 'hidden',
-              background: 'rgba(0,0,0,0.3)',
+              background: 'rgba(0,0,0,0.1)',
               borderRadius: '$2',
               mb: '$sm',
             }}
@@ -251,6 +248,7 @@ export const GiveSkillLeaderboard = ({
                       alignItems: 'center',
                       gap: '$sm',
                       textDecoration: 'none',
+                      color: '$link',
                     }}
                   >
                     <Avatar

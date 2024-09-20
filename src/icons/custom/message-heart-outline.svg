@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-111.372,-111.131)">
+        <g id="message-heart" serif:id="message heart" transform="matrix(0.13395,0,0,0.149263,85.9075,86.1294)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="190.107" y="167.501" width="179.172" height="160.79"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g id="message-heart-light.svg" transform="matrix(0.349945,0,0,0.314042,279.693,247.896)">
+                    <g transform="matrix(1,0,0,1,-256,-256)">
+                        <path d="M192,416C192,398.3 177.7,384 160,384L64,384C46.3,384 32,369.7 32,352L32,64C32,46.3 46.3,32 64,32L448,32C465.7,32 480,46.3 480,64L480,352C480,369.7 465.7,384 448,384L309.3,384C302.4,384 295.6,386.2 290.1,390.4L192,464L192,416ZM64,0C28.7,0 0,28.7 0,64L0,352C0,387.3 28.7,416 64,416L160,416L160,496C160,502.1 163.4,507.6 168.8,510.3C174.2,513 180.7,512.4 185.6,508.8L309.3,416L448,416C483.3,416 512,387.3 512,352L512,64C512,28.7 483.3,0 448,0L64,0ZM248.6,130C237.1,118.5 221.5,112.1 205.3,112.1C171.5,112.1 144,139.5 144,173.4C144,189.6 150.5,205.2 161.9,216.7L244.6,299.4C250.8,305.6 261,305.6 267.2,299.4L349.9,216.7C361.4,205.2 367.8,189.6 367.8,173.4C367.8,139.6 340.4,112.1 306.5,112.1C290.3,112.1 274.7,118.6 263.2,130L255.8,137.4L248.4,130L248.6,130Z" style="fill-rule:nonzero;"/>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

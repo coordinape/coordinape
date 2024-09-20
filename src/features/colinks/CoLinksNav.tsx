@@ -33,6 +33,7 @@ import {
   BoltFill,
   CertificateFill,
   Gear,
+  GemCoFillSm,
   GemCoOutline,
   HouseFill,
   Menu,
@@ -353,7 +354,7 @@ const LoggedInItems = ({
       </NavItem>
       {isFeatureEnabled('give_zone') && (
         <NavItem path={coLinksPaths.give}>
-          <GemCoOutline size="lg" nostroke />
+          <GemCoFillSm size="lg" nostroke />
           GIVE
         </NavItem>
       )}

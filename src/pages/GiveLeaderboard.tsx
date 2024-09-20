@@ -241,7 +241,7 @@ export const GiveLeaderboardRow = ({
               borderRadius: '$2',
               zIndex: 2,
               background:
-                'radial-gradient(circle at 25% 0%, rgb(48 21 128) 20%, rgb(79 5 65) 100%)',
+                'radial-gradient(circle at 20% 0%, $complete 10%, $coLinksCta 100%)',
               minHeight: '50px',
               '@xs': {
                 fontSize: '$xs',

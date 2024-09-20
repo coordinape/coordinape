@@ -26,10 +26,25 @@ export const GivePage = () => {
         }}
       >
         <GiveLeaderboard linkFunc={coLinksPaths.giveSkill} />
-        <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
+        <Flex
+          column
+          css={{
+            gap: '$xl',
+            flexGrow: 1,
+            '@sm': {
+              flexDirection: 'row',
+              gap: '$sm',
+              pb: '$sm',
+              mb: '$sm',
+              overflow: 'scroll',
+              mx: '-$md',
+              px: '$md',
+            },
+          }}
+        >
+          <LearnAboutGiveCard />
           <GivePartyCard />
           <GiveBotCard />
-          <LearnAboutGiveCard />
         </Flex>
       </ResponsiveColumnLayout>
     </Flex>

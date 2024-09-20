@@ -61,13 +61,20 @@ const progressStyles = {
 export const PointsBar = ({
   open = false,
   barOnly = false,
+  demo = false,
   forceTheme,
 }: {
   open?: boolean;
   barOnly?: boolean;
+  demo?: boolean;
   forceTheme?: 'dark' | 'light';
 }) => {
-  const { give, points } = usePoints();
+  let { give, points } = usePoints();
+
+  if (demo) {
+    give = 25;
+    points = MAX_POINTS_CAP;
+  }
 
   // Dynamically generate tickMark styles
   for (let i = 1; i <= MAX_GIVE; i++) {

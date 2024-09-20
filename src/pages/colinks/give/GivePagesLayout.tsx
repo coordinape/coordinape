@@ -27,15 +27,16 @@ export const GivePagesLayout = ({
         <Helmet>
           <title>GIVE / CoLinks</title>
         </Helmet>
-        <ContentHeader>
+        <ContentHeader css={{ mb: 0 }}>
           <Flex
+            column
             css={{
               width: '100%',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              gap: '$md',
+              alignItems: 'flex-start',
             }}
           >
-            <Flex column css={{ gap: '$md' }}>
+            <Flex column css={{ gap: '$sm' }}>
               {/*<Text h2 display>*/}
               {/*  GIVE*/}
               {/*</Text>*/}
@@ -52,11 +53,14 @@ export const GivePagesLayout = ({
                 </Text>
               ) : (
                 <Text>
-                  Give is a bla bla thing and its really great you should do it
+                  GIVE is the onchain Social Oracle that empowers recognition
+                  and connections in web3.
                 </Text>
               )}
+            </Flex>
+            <Flex css={{ width: '100%', maxWidth: 300 }}>
               <PartySearchBox
-                size={'large'}
+                size={'medium'}
                 registerKeyDown={false}
                 skillFunc={coLinksPaths.giveSkill}
                 profileFunc={coLinksPaths.profileGive}
