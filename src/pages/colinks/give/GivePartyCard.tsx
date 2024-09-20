@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 import { DrawerModal } from '../../../ui/DrawerModal';
-import { GiveParty } from '../../GiveParty';
 import { Party } from 'icons/__generated';
+import { HowToParty } from 'pages/HowToParty';
 import { Flex, Text } from 'ui';
 
 import { LearnCard, contentStyles } from './LearnCard';
@@ -77,7 +77,7 @@ export const GivePartyCard = () => {
               },
             }}
           />
-          <GiveParty />
+          <HowToParty />
         </DrawerModal>
       )}
     </>

@@ -32,7 +32,7 @@ export const GivePagesLayout = ({
             column
             css={{
               width: '100%',
-              gap: '$sm',
+              gap: '$md',
               alignItems: 'flex-start',
             }}
           >
@@ -58,9 +58,9 @@ export const GivePagesLayout = ({
                 </Text>
               )}
             </Flex>
-            <Flex>
+            <Flex css={{ width: '100%', maxWidth: 300 }}>
               <PartySearchBox
-                size={'large'}
+                size={'medium'}
                 registerKeyDown={false}
                 skillFunc={coLinksPaths.giveSkill}
                 profileFunc={coLinksPaths.profileGive}
