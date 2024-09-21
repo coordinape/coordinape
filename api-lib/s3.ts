@@ -1,6 +1,6 @@
-import aws from 'aws-sdk';
+import { S3 } from 'aws-sdk';
 
-const s3 = new aws.S3({
+const s3 = new S3({
   accessKeyId: process.env.IMAGES_AWS_ACCESS_KEY_ID || 'missing_env_var',
   secretAccessKey:
     process.env.IMAGES_AWS_SECRET_ACCESS_KEY || 'missing_env_var',
