@@ -1,5 +1,3 @@
-// FIXME: reeanble DecentSwap
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ChainId } from '@decent.xyz/box-common';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
@@ -80,7 +78,8 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
             another L2 (eg. Base, Arbitrum).
           </Text>
           <Flex column css={{ mt: '$sm' }}>
-            {/* {defaultAvailableChains.includes(chainId as ChainId) &&             (!IN_PREVIEW || (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
+            {defaultAvailableChains.includes(chainId as ChainId) &&
+            (!IN_PREVIEW || (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
               <BridgeButton>
                 <>
                   <DecentSwap></DecentSwap>
@@ -88,9 +87,9 @@ export const CoSoulButton = ({ onReveal }: { onReveal(): void }) => {
                   <OptimismBridgeButton />
                 </>
               </BridgeButton>
-            ) : (*/}
-
-            <OptimismBridgeButton />
+            ) : (
+              <OptimismBridgeButton />
+            )}
           </Flex>
         </Panel>
       </Flex>

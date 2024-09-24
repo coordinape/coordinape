@@ -1,12 +1,10 @@
-// FIXME: reeanble DecentSwap
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext, useEffect, useState } from 'react';
 
 import { ChainId } from '@decent.xyz/box-common';
 import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { defaultAvailableChains } from 'features/DecentSwap/config';
-// import { DecentSwap } from 'features/DecentSwap/DecentSwap';
+import { DecentSwap } from 'features/DecentSwap/DecentSwap';
 import { wagmiChain, wagmiConfig } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
@@ -377,8 +375,7 @@ export const BuyOrSellCoLinks = ({
                   to your Optimism wallet
                 </Text>
                 <Flex column css={{ mt: '$sm' }}>
-                  {/* {
-                  defaultAvailableChains.includes(chainId as ChainId) &&
+                  {defaultAvailableChains.includes(chainId as ChainId) &&
                   (!IN_PREVIEW ||
                     (IN_PREVIEW && isFeatureEnabled('test_decent'))) ? (
                     <BridgeButton>
@@ -388,10 +385,9 @@ export const BuyOrSellCoLinks = ({
                         <OptimismBridgeButton />
                       </>
                     </BridgeButton>
-                  ) : ( 
-                  <OptimismBridgeButton />
-                   )} */}
-                  <OptimismBridgeButton />
+                  ) : (
+                    <OptimismBridgeButton />
+                  )}
                 </Flex>
               </Panel>
             </Flex>

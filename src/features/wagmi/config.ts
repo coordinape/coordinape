@@ -33,6 +33,9 @@ export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_FE_
 export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
 export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
 export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const POLYGON_RPC_URL = `https://polygon-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const ARBITRUM_RPC_URL = `https://arb-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+export const BASE_RPC_URL = `https://base-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
 
 type Chains = Parameters<typeof createConfig>[0]['chains'];
 const wagmiChains: Chains = IN_PRODUCTION
@@ -82,12 +85,12 @@ export const wagmiConfig = IN_PRODUCTION
       transports: {
         [mainnet.id]: http(ETHEREUM_RPC_URL),
         [optimism.id]: http(OPTIMISM_RPC_URL),
-        [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
+        [polygon.id]: http(POLYGON_RPC_URL),
         [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
         [localhost.id]: http(`http://localhost:${HARDHAT_GANACHE_PORT}`),
         [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
-        [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
-        [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
+        [base.id]: http(BASE_RPC_URL),
+        [arbitrum.id]: http(ARBITRUM_RPC_URL),
       },
     })
   : IN_PREVIEW
@@ -97,11 +100,11 @@ export const wagmiConfig = IN_PRODUCTION
         transports: {
           [mainnet.id]: http(ETHEREUM_RPC_URL),
           [optimism.id]: http(OPTIMISM_RPC_URL),
-          [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
+          [polygon.id]: http(POLYGON_RPC_URL),
           [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
           [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
-          [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
-          [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
+          [base.id]: http(BASE_RPC_URL),
+          [arbitrum.id]: http(ARBITRUM_RPC_URL),
         },
       })
     : createConfig({
@@ -110,12 +113,12 @@ export const wagmiConfig = IN_PRODUCTION
         transports: {
           [mainnet.id]: http(ETHEREUM_RPC_URL),
           [optimism.id]: http(OPTIMISM_RPC_URL),
-          [polygon.id]: http('https://polygon-rpc.com/'), //TODO: replace with alchemy rpc if available
+          [polygon.id]: http(POLYGON_RPC_URL),
           [optimismSepolia.id]: http(OPTIMISM_SEPOLIA_RPC_URL),
           [localhost.id]: http(`http://localhost:${HARDHAT_GANACHE_PORT}`),
           [sepolia.id]: http(ETHEREUM_SEPOLIA_RPC_URL),
-          [base.id]: http('https://mainnet.base.org'), //TODO: replace with alchemy rpc if available
-          [arbitrum.id]: http('https://arbitrum-mainnet.infura.io'), //TODO: replace with alchemy rpc if available
+          [base.id]: http(BASE_RPC_URL),
+          [arbitrum.id]: http(ARBITRUM_RPC_URL),
         },
       });
 
