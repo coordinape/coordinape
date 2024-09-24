@@ -228,8 +228,7 @@ const PageContents = ({
       >
         <Flex column css={{ gap: '$md' }}>
           <AddPost targetAddress={targetAddress} />
-          {(targetIsCurrentUser ||
-            (targetBalance == undefined && balanceNumber > 0)) && (
+          {(targetIsCurrentUser || balanceNumber > 0) && (
             <Flex css={{ justifyContent: 'space-between' }}>
               <Flex css={{ gap: '$sm' }}>
                 <Text semibold size="small">
