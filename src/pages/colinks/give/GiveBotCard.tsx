@@ -119,8 +119,8 @@ const GiveBotModalContents = () => {
         </Flex>
         <Text inline>
           Simply reply cast{' '}
-          <Text inline css={{ ...codeStyle }}>{`@givebot {skill}`}</Text>{' '}
-          replacing <Text inline css={{ ...codeStyle }}>{`"{skill}"`}</Text>{' '}
+          <Text inline css={{ ...codeStyle }}>{`@givebot {#skill}`}</Text>{' '}
+          replacing <Text inline css={{ ...codeStyle }}>{`"{#skill}"`}</Text>{' '}
           with the skill you want to attest to.
         </Text>
         <img
@@ -149,6 +149,28 @@ const GiveBotModalContents = () => {
         <img
           src={'/imgs/background/givebot-learn-4.png'}
           alt="learn about givebot 4"
+        />
+        <HR />
+        <Flex column css={{ gap: '$xs' }}>
+          <Text variant={'label'}>OPTION 3</Text>
+          <Text h2>GIVE with a new cast</Text>
+        </Flex>
+        <Text inline>
+          Simply invoke @givebot with this format:{' '}
+          <Text
+            inline
+            css={{ ...codeStyle }}
+          >{`@givebot @username #skilltag`}</Text>{' '}
+          (#skilltag is optional).
+        </Text>
+        <img
+          src={'/imgs/background/givebot-learn-5.png'}
+          alt="learn about givebot 5"
+        />
+        <Text>The @givebot will deliver</Text>
+        <img
+          src={'/imgs/background/givebot-learn-6.png'}
+          alt="learn about givebot 6"
         />
         <HR />
         <Text semibold>
