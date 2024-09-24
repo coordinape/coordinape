@@ -180,6 +180,8 @@ const PageContents = ({
   const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
   const ownedByMe = balance !== undefined && balance > 0;
   const weAreLinked = ownedByTarget || ownedByMe;
+  const currentUserHasTargetCoLink =
+    targetBalance !== undefined && balanceNumber > 0;
 
   if (!targetProfile?.profile && !fetchCoLinksProfileIsLoading) {
     return (
@@ -228,7 +230,7 @@ const PageContents = ({
       >
         <Flex column css={{ gap: '$md' }}>
           <AddPost targetAddress={targetAddress} />
-          {(targetIsCurrentUser || balanceNumber > 0) && (
+          {(targetIsCurrentUser || currentUserHasTargetCoLink) && (
             <Flex css={{ justifyContent: 'space-between' }}>
               <Flex css={{ gap: '$sm' }}>
                 <Text semibold size="small">
