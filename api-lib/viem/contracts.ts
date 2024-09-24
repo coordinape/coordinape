@@ -38,7 +38,7 @@ export const getCoLinksContractWithWallet = (walletClient: WalletClient) => {
   });
 };
 
-const backendReadOnlyClient = () =>
+export const backendReadOnlyClient = () =>
   getReadOnlyClient(undefined, BE_ALCHEMY_API_KEY);
 
 function walletClient() {

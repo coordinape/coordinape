@@ -2,13 +2,19 @@ import { Address, decodeEventLog, keccak256, Log, toBytes } from 'viem';
 
 import { CoSoulABI } from '../../../contracts/abis';
 import { getCoSoulContract } from '../../../utils/viem/contracts';
-import { getReadOnlyClient } from '../../../utils/viem/publicClient';
+import {
+  getReadOnlyClient,
+  ReadOnlyClient,
+} from '../../../utils/viem/publicClient';
 
 export const PGIVE_SYNC_DURATION_DAYS = 30;
 
 // get the cosoul token id for a given address
-export const getTokenId = async (address: string) => {
-  const contract = getCoSoulContract();
+export const getTokenId = async (
+  address: string,
+  publicClient?: ReadOnlyClient
+) => {
+  const contract = getCoSoulContract(publicClient);
 
   const balanceOf = await contract.read.balanceOf([
     // see if they have any CoSoul tokens

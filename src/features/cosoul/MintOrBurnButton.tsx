@@ -211,11 +211,12 @@ const BurnButton = ({
   const burn = async () => {
     try {
       const { receipt, error /*, tx*/ } = await sendAndTrackTx(
-        () =>
-          contract.write.burn([BigInt(tokenId)] as const, {
+        () => {
+          return contract.write.burn([BigInt(tokenId)] as const, {
             account: address,
             chain: wagmiChain,
-          }),
+          });
+        },
         {
           showDefault,
           description: `Burn CoSoul`,
