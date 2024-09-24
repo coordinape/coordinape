@@ -119,8 +119,8 @@ const GiveBotModalContents = () => {
         </Flex>
         <Text inline>
           Simply reply cast{' '}
-          <Text inline css={{ ...codeStyle }}>{`@givebot {skill}`}</Text>{' '}
-          replacing <Text inline css={{ ...codeStyle }}>{`"{skill}"`}</Text>{' '}
+          <Text inline css={{ ...codeStyle }}>{`@givebot {#skill}`}</Text>{' '}
+          replacing <Text inline css={{ ...codeStyle }}>{`"{#skill}"`}</Text>{' '}
           with the skill you want to attest to.
         </Text>
         <img
