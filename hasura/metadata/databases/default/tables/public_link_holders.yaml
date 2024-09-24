@@ -47,7 +47,7 @@ select_permissions:
         - holder
         - target
       filter: {}
-      limit: 1
+      limit: 100
       allow_aggregations: true
     comment: ""
   - role: user
