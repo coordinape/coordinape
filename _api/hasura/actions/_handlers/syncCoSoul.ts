@@ -158,13 +158,19 @@ export const burned = async (address: string, profileId?: number) => {
   );
 
   const burnedCosoul = delete_cosouls?.returning.pop();
-  assert(burnedCosoul);
+  if (burnedCosoul) {
+    // eslint-disable-next-line no-console
+    console.log('burned cosoul token_id:', burnedCosoul.token_id);
 
-  await insertInteractionEvents({
-    event_type: 'cosoul_burned',
-    profile_id: profileId,
-    data: { token_id: burnedCosoul.token_id },
-  });
+    await insertInteractionEvents({
+      event_type: 'cosoul_burned',
+      profile_id: profileId,
+      data: { token_id: burnedCosoul.token_id },
+    });
+  } else {
+    // eslint-disable-next-line no-console
+    console.log('no cosoul to burn, no-op');
+  }
 };
 
 async function syncPGive(address: string, tokenId: number) {
