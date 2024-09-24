@@ -81,7 +81,6 @@
     "@wagmi/core": "2.13.4",
     "@walletconnect/ethereum-provider": "^2.9.2",
     "@walletconnect/modal": "^2.6.1",
-    "airtable": "^0.11.4",
     "alchemy-sdk": "^3.0.0",
     "apollo-server-core": "^3.13.0",
     "apollo-server-express": "3.10.3",

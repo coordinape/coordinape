@@ -5,7 +5,6 @@ import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDis
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import connectFarcaster from '../../../api-lib/event_triggers/connectFarcaster.ts';
-import createCircleCRM from '../../../api-lib/event_triggers/createCircleCRM';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
@@ -56,7 +55,6 @@ const HANDLERS: HandlerDict = {
   checkNomineeDiscord,
   checkNomineeDiscordBot,
   checkNomineeTelegram,
-  createCircleCRM,
   createContributionInteractionEvent,
   createReactionInteractionEvent,
   linkTxInteractionEvent,
