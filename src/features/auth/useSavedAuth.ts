@@ -45,6 +45,7 @@ export const saveAllData = (allData: IAuth) => {
   const cookieDomain = getCookieDomain();
   Cookies.set(AUTH_COOKIE, JSON.stringify(allData), {
     expires: 365,
+    sameSite: 'strict',
     domain: cookieDomain,
   });
 };
