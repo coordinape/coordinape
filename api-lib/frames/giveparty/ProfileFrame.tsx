@@ -173,7 +173,7 @@ const castButton = (address: string): Button => ({
     const msg = `Check out my @coordinape GIVE profile 👀
 It shows GIVE activity, top skills, and onchain Rep.
 Grab yours in this handy frame  👇🏼`;
-    return `https://warpcast.com/~/compose?text=${encodeURIComponent(msg)}&embeds[]=${webAppURL('colinks')}/giveparty/${encodeURIComponent(address)}`;
+    return `https://warpcast.com/~/compose?text=${encodeURIComponent(msg)}&embeds[]=${webAppURL('colinks')}/${encodeURIComponent(address)}`;
   },
 });
 
@@ -203,7 +203,7 @@ export const ProfileFrame = (address?: string, showMe?: boolean): Frame => {
         action: 'link',
         target: params =>
           webAppURL('colinks') +
-          '/giveparty/' +
+          '/' +
           encodeURIComponent(address ?? params.address),
       },
     ],

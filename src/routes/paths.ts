@@ -81,6 +81,7 @@ export const coLinksPaths = {
   giveSkill: (skill: string) => `/give/leaderboard/${skill}`,
   giveSkillMap: (skill: string) => `/give/map/${skill}`,
   deprecated_giveParty: `/giveparty`,
+  deprecated_givePartyAddress: (address: string) => `/giveparty/${address}`,
   deprecated_givePartyBoard: `/giveboard`,
   deprecated_giveBoardSkill: (skill: string) => `/giveboard/${skill}`,
   highlights: '/highlights',

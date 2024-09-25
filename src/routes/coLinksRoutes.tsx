@@ -42,7 +42,10 @@ import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage, GiveSkillRedirect } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
-import { ViewProfilePageGive } from 'pages/colinks/CoLinksProfilePage/ProfilePageGive';
+import {
+  GivePartyProfileRedirect,
+  ViewProfilePageGive,
+} from 'pages/colinks/CoLinksProfilePage/ProfilePageGive';
 import { ViewProfilePageNetwork } from 'pages/colinks/CoLinksProfilePage/ProfilePageNetwork';
 import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePagePosts';
 import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
@@ -80,6 +83,11 @@ export const coLinksRoutes = [
       element={<Navigate to={coLinksPaths.give} replace />}
     />
   </Route>,
+  <Route
+    key={'givepartyprofile'}
+    path={coLinksPaths.deprecated_givePartyAddress(':address')}
+    element={<GivePartyProfileRedirect />}
+  />,
   <Route
     key={'giveboard'}
     path={coLinksPaths.deprecated_givePartyBoard}
