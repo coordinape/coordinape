@@ -3,6 +3,7 @@ import { NavLogo } from 'features/nav/NavLogo';
 import { PointsBarInfo } from 'features/points/PointsBarInfo';
 import { ThemeContext } from 'features/theming/ThemeProvider';
 import { NavLink, useParams } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import { Eye, X } from 'icons/__generated';
 import { GiveGraph } from 'pages/NetworkViz/GiveGraph';
@@ -36,37 +37,76 @@ export const SkillGiveMap = () => {
         }}
       >
         <Flex
+          column
           css={{
             position: 'absolute',
             width: '100%',
             top: 0,
             left: 0,
-            borderBottom: '0.5px solid $border',
             zIndex: 2,
             backdropFilter: 'blur(15px)',
-            display: 'flex',
-            alignItems: 'center',
-            p: '$sm',
-            justifyContent: 'space-between',
           }}
         >
-          <Flex css={{ gap: '$md' }}>
-            <NavLogo />
-          </Flex>
           <Flex
             css={{
+              display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
+              p: '$sm',
+              justifyContent: 'space-between',
             }}
           >
-            <Button
-              as={NavLink}
-              to={coLinksPaths.giveSkill(skill)}
-              color={'textOnly'}
-              css={{ p: 0, svg: { mr: 0 } }}
+            <Flex css={{ gap: '$md' }}>
+              <NavLogo />
+            </Flex>
+            <Flex
+              css={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <X size={'lg'} />
-            </Button>
+              <Button
+                as={NavLink}
+                to={coLinksPaths.giveSkill(skill)}
+                color={'textOnly'}
+                css={{ p: 0, svg: { mr: 0 } }}
+              >
+                <X size={'lg'} />
+              </Button>
+            </Flex>
+          </Flex>
+          <Flex
+            column
+            css={{
+              width: `calc(100% - $md)`,
+              justifyContent: 'center',
+              alignItems: 'center',
+              m: ' $sm auto',
+              borderRadius: '$3',
+              background: 'linear-gradient(90deg, $complete 25%, $cta 80%)',
+              p: '$sm',
+              color: '$textOnCta',
+            }}
+          >
+            <Text
+              h2
+              display
+              css={{
+                ...skillTextStyle,
+                color: '$textOnCta',
+                pb: '$xs',
+                borderBottom: '1px solid $black20',
+              }}
+            >{`#${skill}`}</Text>
+            <Text
+              size="small"
+              css={{
+                m: '$sm 0 $xs',
+                height: 'auto',
+                color: '$textOnCta',
+              }}
+            >
+              GIVE Map
+            </Text>
           </Flex>
         </Flex>
         <ThemeContext.Consumer>
@@ -94,7 +134,6 @@ export const SkillGiveMap = () => {
         >
           <Flex css={{ gap: '$sm' }}>
             <Text tag color="cta">
-              GIVE Map
               <Popover>
                 <PopoverTrigger css={{ cursor: 'pointer' }}>
                   <Link css={{ fontSize: '$small' }}>What is GIVE?</Link>

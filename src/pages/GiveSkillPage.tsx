@@ -29,6 +29,7 @@ export const GiveSkillPage = () => {
               display: 'none',
               '@sm': {
                 display: 'block',
+                mb: '$md',
               },
             }}
           />

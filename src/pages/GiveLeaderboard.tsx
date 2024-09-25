@@ -105,19 +105,60 @@ export const GiveLeaderboard = () => {
             width: '100%',
             flexFlow: 'column',
             alignItems: 'flex-start',
-            color: 'white',
           }}
         >
+          <Flex
+            column
+            css={{
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mb: '$md',
+              borderRadius: '$3',
+              background: 'linear-gradient(90deg, $complete 25%, $cta 80%)',
+              p: '$md',
+              color: '$textOnCta',
+              gap: '$xs',
+            }}
+          >
+            <Flex
+              css={{
+                alignItems: 'center',
+                gap: '$xs',
+                pb: '$sm',
+                borderBottom: '1px solid $black20',
+              }}
+            >
+              <GemCoOutline fa size="xl" />
+              <Text
+                h2
+                display
+                css={{
+                  color: '$textOnCta',
+                }}
+              >
+                GIVE
+              </Text>
+            </Flex>
+            <Text
+              size="small"
+              css={{
+                mt: '$xs',
+                height: 'auto',
+                color: '$textOnCta',
+              }}
+            >
+              Leaderboard
+            </Text>
+          </Flex>
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('rank')}
               css={{ maxWidth: '4rem' }}
             >
               Rank
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('skill')}
               css={{
                 minWidth: '15rem',
@@ -129,26 +170,18 @@ export const GiveLeaderboard = () => {
             >
               Skill
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn
-              header={true}
-              onClick={() => setSort('gives')}
-            >
+            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
               Total GIVEs
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('gives_last_24_hours')}
             >
               Last 24 Hrs
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn
-              header={true}
-              onClick={() => setSort('gives_last_7_days')}
-            >
+            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
               Last 7 Days
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('gives_last_30_days')}
             >
               Last 30 Days
@@ -236,8 +269,7 @@ export const GiveLeaderboardRow = ({
               fontWeight: '700',
               borderRadius: '$2',
               zIndex: 2,
-              background:
-                'radial-gradient(circle at 20% 0%, $complete 10%, $coLinksCta 100%)',
+              background: '$surfaceNested',
               minHeight: '50px',
               '@xs': {
                 fontSize: '$xs',
@@ -264,12 +296,10 @@ export const GiveLeaderboardColumn = ({
   children,
   onClick,
   css,
-  header = false,
 }: {
   children: React.ReactNode;
   onClick?: () => void;
   css?: CSS;
-  header?: boolean;
 }) => {
   return (
     <Flex
@@ -278,7 +308,7 @@ export const GiveLeaderboardColumn = ({
         flex: 2,
         padding: '8px',
         display: 'flex',
-        color: header ? 'white' : '$text',
+        color: '$text',
         alignItems: 'center',
         overflow: 'hidden',
         '@lg': {
