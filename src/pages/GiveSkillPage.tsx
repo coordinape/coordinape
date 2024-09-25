@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { webAppURL } from '../config/webAppURL';
 import { Wand } from '../icons/__generated';
@@ -22,10 +22,7 @@ export const GiveSkillPage = () => {
       </Helmet>
       <ResponsiveColumnLayout>
         <Flex column>
-          <GiveSkillLeaderboard
-            mapFunc={coLinksPaths.giveSkillMap}
-            profileFunc={coLinksPaths.profileGive}
-          />
+          <GiveSkillLeaderboard />
         </Flex>
         <Flex column>
           <Button
@@ -45,4 +42,9 @@ export const GiveSkillPage = () => {
       </ResponsiveColumnLayout>
     </Flex>
   );
+};
+
+export const GiveSkillRedirect = () => {
+  const { skill } = useParams();
+  return <Navigate to={coLinksPaths.giveSkill(skill ?? '')} replace />;
 };

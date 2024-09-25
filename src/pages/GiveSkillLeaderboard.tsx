@@ -22,12 +22,7 @@ type sortBy =
   | 'gives_last_30_days'
   | 'name';
 
-export const GiveSkillLeaderboard = ({
-  profileFunc = coLinksPaths.profileGive,
-}: {
-  profileFunc?(address: string): string;
-  mapFunc?(skill: string): string;
-}) => {
+export const GiveSkillLeaderboard = () => {
   const { skill } = useParams();
   const [sort, setSortRaw] = useState<sortBy>('gives');
   const [desc, setDesc] = useState<boolean>(true);
@@ -242,7 +237,7 @@ export const GiveSkillLeaderboard = ({
                 >
                   <Flex
                     as={NavLink}
-                    to={profileFunc(member.profile?.address ?? '')}
+                    to={coLinksPaths.profileGive(member.profile?.address ?? '')}
                     row
                     css={{
                       alignItems: 'center',

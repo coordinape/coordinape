@@ -310,7 +310,7 @@ export const GiveReceived = ({
                           {g.skill}
                         </AppLink>
                         <AppLink
-                          to={coLinksPaths.giveBoardSkill(g.skill)}
+                          to={coLinksPaths.giveSkill(g.skill)}
                           css={{
                             fontSize: '$xs',
                             color: '$complete',

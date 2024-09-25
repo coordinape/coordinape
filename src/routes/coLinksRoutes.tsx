@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 
 import { RequireAuth } from 'features/rainbowkit/RequireAuth';
-import { Outlet, Route } from 'react-router-dom';
+import { Navigate, Outlet, Route } from 'react-router-dom';
 
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
@@ -9,7 +9,6 @@ import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayo
 import { CoLinksSplashPage } from '../features/colinks/CoLinksSplashPage';
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
-import GivePartyLayout from '../features/party/GivePartyLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
 import { ActivityPage } from '../pages/colinks/ActivityPage';
 import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
@@ -39,10 +38,8 @@ import { VerifyWaitListEmailPage } from '../pages/colinks/VerifyWaitListEmailPag
 import { WizardPage } from '../pages/colinks/wizard/WizardPage';
 import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
-import { GiveLeaderboard } from '../pages/GiveLeaderboard';
-import { GiveSkillLeaderboard } from '../pages/GiveSkillLeaderboard';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
-import { GiveSkillPage } from '../pages/GiveSkillPage';
+import { GiveSkillPage, GiveSkillRedirect } from '../pages/GiveSkillPage';
 import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import { ViewProfilePageGive } from 'pages/colinks/CoLinksProfilePage/ProfilePageGive';
@@ -53,9 +50,6 @@ import { SkillGiveMap } from 'pages/colinks/CoLinksProfilePage/SkillGiveMap';
 import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
-import { GiveParty } from 'pages/GiveParty';
-import { LinksMap } from 'pages/LinksMap';
-import { ProfileNetworkPage } from 'pages/ProfileNetworkPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -79,42 +73,23 @@ export const coLinksRoutes = [
       element={<AuthenticatePage />}
     />
   </Route>,
-  <Route
-    key={'give_world_routes'}
-    element={
-      <GivePartyLayout>
-        <Outlet />
-      </GivePartyLayout>
-    }
-  >
-    <Route key={'giveparty'}>
-      <Route path={coLinksPaths.giveParty} element={<GiveParty />} />
-    </Route>
-    ,
-    <Route key={'linksmap'}>
-      <Route path={coLinksPaths.linksmap} element={<LinksMap />} />
-    </Route>
-    ,
-    <Route key={'network'}>
-      <Route
-        path={coLinksPaths.profilePartyNetwork(':address')}
-        element={<ProfileNetworkPage />}
-      />
-    </Route>
-    ,
-    <Route key={'giveboard'}>
-      <Route path={coLinksPaths.givePartyBoard} element={<GiveLeaderboard />} />
-    </Route>
-    ,
-    <Route key={'giveboard'}>
-      <Route
-        path={coLinksPaths.giveBoardSkill(':skill')}
-        element={<GiveSkillLeaderboard />}
-      />
-    </Route>
-    ,
+  // Redirects since we sunsetted giveParty
+  <Route key={'giveparty'}>
+    <Route
+      path={coLinksPaths.deprecated_giveParty}
+      element={<Navigate to={coLinksPaths.give} replace />}
+    />
   </Route>,
-
+  <Route
+    key={'giveboard'}
+    path={coLinksPaths.deprecated_givePartyBoard}
+    element={<Navigate to={coLinksPaths.give} replace />}
+  />,
+  <Route
+    key={'giveskillboard'}
+    path={coLinksPaths.deprecated_giveBoardSkill(':skill')}
+    element={<GiveSkillRedirect />}
+  />,
   <Route
     key="splashLayout"
     element={

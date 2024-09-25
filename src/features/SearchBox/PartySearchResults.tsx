@@ -22,7 +22,7 @@ export const PartySearchResults = ({
   setPopoverOpen,
   inputRef,
   profileFunc = coLinksPaths.profileGive,
-  skillFunc = coLinksPaths.giveBoardSkill,
+  skillFunc = coLinksPaths.giveSkill,
 }: {
   inputRef: React.RefObject<HTMLInputElement>;
   setPopoverOpen: React.Dispatch<SetStateAction<boolean>>;

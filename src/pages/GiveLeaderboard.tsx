@@ -19,11 +19,7 @@ type sortBy =
   | 'gives_last_30_days'
   | 'skill';
 
-export const GiveLeaderboard = ({
-  linkFunc = coLinksPaths.giveBoardSkill,
-}: {
-  linkFunc?(skill: string): string;
-}) => {
+export const GiveLeaderboard = () => {
   const [sort, setSortRaw] = useState<sortBy>('gives');
   const [desc, setDesc] = useState<boolean>(true);
 
@@ -175,7 +171,7 @@ export const GiveLeaderboard = ({
                 >
                   <Text
                     as={NavLink}
-                    to={linkFunc(skill.skill)}
+                    to={coLinksPaths.giveSkill(skill.skill)}
                     tag
                     size="small"
                     css={{
