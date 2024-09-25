@@ -462,10 +462,6 @@ type OrgMemberResponse {
   new: Boolean!
 }
 
-input RedeemInviteCodeInput {
-  code: String!
-}
-
 input ReplenishInviteCodesInput {
   count: Int!
   invited_by_address: String
@@ -31287,9 +31283,6 @@ type mutation_root {
   inviteWaitingList(payload: InviteWaitingListInput!): ConfirmationResponse!
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
-  redeemInviteCode(
-    payload: RedeemInviteCodeInput!
-  ): ConfirmationWithErrorResponse!
   replenishInviteCodes(
     payload: ReplenishInviteCodesInput!
   ): ConfirmationResponse!

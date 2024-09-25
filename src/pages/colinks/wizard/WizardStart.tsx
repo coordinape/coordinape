@@ -1,20 +1,15 @@
-import { useState } from 'react';
-
 import { WizardInstructions } from 'features/colinks/wizard/WizardInstructions';
 import { fullScreenStyles } from 'features/colinks/wizard/WizardSteps';
 import { zoomBackground } from 'keyframes';
 import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
-import { RedeemInviteCode } from '../../../features/invites/RedeemInviteCode';
 import useProfileId from '../../../hooks/useProfileId';
 import { coLinksPaths } from '../../../routes/paths';
 import { AppLink, Button, Flex, HR, Text } from '../../../ui';
 
 export const WizardStart = () => {
   const profileId = useProfileId();
-
-  const [redeemedInviteCode, setRedeemedInviteCode] = useState(false);
 
   const isLoggedIn = !!profileId;
 
@@ -50,10 +45,7 @@ export const WizardStart = () => {
             </Text>
             {isLoggedIn ? (
               <Flex column css={{ gap: '$md', width: '100%' }}>
-                <RedeemInviteCode
-                  setRedeemedInviteCode={setRedeemedInviteCode}
-                />
-                {redeemedInviteCode && (
+                {
                   <Button
                     as={NavLink}
                     to={coLinksPaths.wizard}
@@ -63,7 +55,7 @@ export const WizardStart = () => {
                   >
                     {`Let's Go`}
                   </Button>
-                )}
+                }
                 <Button
                   color="secondary"
                   as={AppLink}

@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 import assert from 'assert';
 
-import { MAX_POINTS_CAP } from '../../src/features/points/getAvailablePoints';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
 import {
@@ -10,7 +9,6 @@ import {
   fetchUserByUsername,
 } from '../neynar.ts';
 
-const INITIAL_POINTS = MAX_POINTS_CAP * 0.6; // start with 15 gives
 const findProfileByAddresses = async (addresses: string[]) => {
   const { profiles } = await adminClient.query(
     {
@@ -163,7 +161,7 @@ const createProfile = async (
           object: {
             address,
             connector: FC_BOT_CONNECTOR,
-            points_balance: INITIAL_POINTS,
+            //points_balance: INITIAL_POINTS, set by db default
             name: name,
             avatar: avatar_url,
             invited_by: await getGiveBotInviterProfileId(),

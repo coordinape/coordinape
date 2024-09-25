@@ -4,6 +4,7 @@ import { Dispatch, useEffect, useState } from 'react';
 import { useAuthStore } from 'features/auth';
 import { client } from 'lib/gql/client';
 import { useMutation, useQueryClient } from 'react-query';
+import { useAccount } from 'wagmi';
 
 import {
   QUERY_KEY_COLINKS_NAV,
@@ -13,6 +14,7 @@ import { useToast } from 'hooks';
 import { EXTERNAL_URL_TOS } from 'routes/paths';
 import { Button, CheckBox, Flex, Link, Text } from 'ui';
 
+import { QUERY_KEY_COLINKS } from './CoLinksWizard';
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
 
@@ -28,6 +30,7 @@ export const WizardTerms = ({
   const queryClient = useQueryClient();
   const profileId = useAuthStore(state => state.profileId);
 
+  const { address } = useAccount();
   const [termsAcceptChecked, setTermsAcceptChecked] = useState(false);
 
   useEffect(() => {
@@ -56,6 +59,8 @@ export const WizardTerms = ({
     onSuccess: res => {
       if (res) {
         setTermsAccepted(true);
+
+        queryClient.invalidateQueries([QUERY_KEY_COLINKS, address, 'wizard']);
 
         queryClient.setQueryData<typeof data>(
           [QUERY_KEY_COLINKS_NAV, profileId],

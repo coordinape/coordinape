@@ -13,8 +13,8 @@ const Step = ({ label, test }: { label: string; test?: boolean }) => {
 };
 
 export const WizardList = ({ progress }: { progress: WizardProgress }) => {
-  const { address, hasName, hasRep, hasCoSoul, hasOwnKey, hasOtherKey } =
-    progress;
+  // add accept terms to list
+  const { address, hasName, hasOwnKey, acceptedTOS } = progress;
   return (
     <Flex
       column
@@ -30,11 +30,9 @@ export const WizardList = ({ progress }: { progress: WizardProgress }) => {
       }}
     >
       <Step label="Connect Wallet" test={!!address} />
-      <Step label="Name" test={hasName} />
-      <Step label="CoSoul" test={hasCoSoul} />
+      <Step label="Choose Name" test={hasName} />
+      <Step label="Accept Terms" test={acceptedTOS} />
       <Step label="Buy Your Own Link" test={hasOwnKey} />
-      <Step label="Connect Rep" test={hasRep} />
-      <Step label="Buy Other Links" test={hasOtherKey} />
     </Flex>
   );
 };
