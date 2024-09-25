@@ -25,7 +25,6 @@ export default defineConfig({
   },
   plugins: [
     vercel(),
-    // EnvironmentPlugin('all'),
     nodePolyfills(),
     tsconfigPaths(),
     reactRefresh({
