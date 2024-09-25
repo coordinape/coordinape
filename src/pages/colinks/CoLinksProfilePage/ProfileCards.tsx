@@ -1,10 +1,14 @@
 import { useWindowSize } from '@react-hook/window-size';
 import { ActivityRow } from 'features/activities/ActivityRow';
-import { activitySelector } from 'features/activities/useInfiniteActivities';
+import {
+  activitySelector,
+  anon_activitySelector,
+} from 'features/activities/useInfiniteActivities';
 import { Poaps } from 'features/colinks/Poaps';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
 import { GiveReceived } from 'features/points/GiveReceived';
+import { order_by as anon_order_by } from 'lib/anongql/__generated__/zeus';
 import { anonClient } from 'lib/anongql/anonClient';
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
@@ -25,6 +29,7 @@ export const cardColumnMinWidth = 1280;
 export const cardMaxWidth = 343;
 export const cardMinHeight = 80;
 export const QUERY_KEY_NETWORK = 'network';
+export const POST_PAGE_LATEST_CAST_STATS = 'colinks_post_page_cast_stats';
 
 export const ProfileCards = ({
   targetAddress,
@@ -86,8 +91,14 @@ export const ProfileCardsWithProfile = ({
     fetchMostRecentPostByProfileId(Number(profileId))
   );
 
-  const { mostRecentActivity, totalActivitiesCount, mostRecentCast } =
-    data || {};
+  const { data: anon_data } = useQuery(
+    [POST_PAGE_LATEST_CAST_STATS, profileId],
+    () => fetchMostRecentCastAndActivitiesByProfileId(Number(profileId))
+  );
+
+  const { mostRecentActivity } = data || {};
+
+  const { totalActivitiesCount, mostRecentCast } = anon_data || {};
 
   const panelStyles = {
     height: 'fit-content',
@@ -384,97 +395,112 @@ export const ProfileCardsWithProfile = ({
 };
 
 const fetchMostRecentPostByProfileId = async (profileId: number) => {
+  const { coLinksPosts } = await client.query(
+    {
+      __alias: {
+        coLinksPosts: {
+          activities: [
+            {
+              where: {
+                actor_profile_id: {
+                  _eq: profileId,
+                },
+                _or: [
+                  {
+                    private_stream: {
+                      _eq: true,
+                    },
+                  },
+                  {
+                    big_question_id: {
+                      _is_null: false,
+                    },
+                  },
+                ],
+              },
+              order_by: [
+                {
+                  created_at: order_by.desc,
+                },
+              ],
+              limit: 1,
+            },
+            activitySelector,
+          ],
+        },
+      },
+    },
+    {
+      operationName: 'fetchMostRecentPostByProfileId',
+    }
+  );
+
+  const mostRecentActivity = coLinksPosts[0]; // Return the most recent post
+
+  return { mostRecentActivity };
+};
+
+const fetchMostRecentCastAndActivitiesByProfileId = async (
+  profileId: number
+) => {
   // TODO: switch this to anonClient, maybe other places too
-  const { coLinksPosts, farcasterCasts, activities_aggregate } =
-    await client.query(
-      {
-        __alias: {
-          coLinksPosts: {
-            activities: [
-              {
-                where: {
-                  actor_profile_id: {
-                    _eq: profileId,
-                  },
-                  _or: [
-                    {
-                      private_stream: {
-                        _eq: true,
-                      },
-                    },
-                    {
-                      big_question_id: {
-                        _is_null: false,
-                      },
-                    },
-                  ],
+  const { farcasterCasts, activities_aggregate } = await anonClient.query(
+    {
+      __alias: {
+        farcasterCasts: {
+          activities: [
+            {
+              where: {
+                actor_profile_id: {
+                  _eq: profileId,
                 },
-                order_by: [
-                  {
-                    created_at: order_by.desc,
-                  },
-                ],
-                limit: 1,
-              },
-              activitySelector,
-            ],
-          },
-          farcasterCasts: {
-            activities: [
-              {
-                where: {
-                  actor_profile_id: {
-                    _eq: profileId,
-                  },
-                  cast_id: {
-                    _is_null: false,
-                  },
-                  enriched_cast: {},
+                cast_id: {
+                  _is_null: false,
                 },
-                order_by: [
-                  {
-                    created_at: order_by.desc,
-                  },
-                ],
-                limit: 1,
+                enriched_cast: {},
               },
-              activitySelector,
+              order_by: [
+                {
+                  created_at: anon_order_by.desc,
+                },
+              ],
+              limit: 1,
+            },
+            anon_activitySelector,
+          ],
+        },
+      },
+      activities_aggregate: [
+        {
+          where: {
+            actor_profile_id: {
+              _eq: profileId,
+            },
+            _or: [
+              {
+                private_stream: {
+                  _eq: true,
+                },
+              },
+              {
+                big_question_id: {
+                  _is_null: false,
+                },
+              },
             ],
           },
         },
-        activities_aggregate: [
-          {
-            where: {
-              actor_profile_id: {
-                _eq: profileId,
-              },
-              _or: [
-                {
-                  private_stream: {
-                    _eq: true,
-                  },
-                },
-                {
-                  big_question_id: {
-                    _is_null: false,
-                  },
-                },
-              ],
-            },
+        {
+          aggregate: {
+            count: [{}, true],
           },
-          {
-            aggregate: {
-              count: [{}, true],
-            },
-          },
-        ],
-      },
-      {
-        operationName: 'fetchMostRecentPostByProfileId',
-      }
-    );
-
-  const mostRecentActivity = coLinksPosts[0]; // Return the most recent post
+        },
+      ],
+    },
+    {
+      operationName: 'fetchMostRecentPostByProfileId',
+    }
+  );
 
   const rawCast = farcasterCasts[0];
   let actualCast: Awaited<ReturnType<typeof fetchCasts>>[number] | undefined =
@@ -489,9 +515,8 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
     : undefined; // Return the most recent cast
   const totalActivitiesCount = activities_aggregate.aggregate?.count ?? 0;
 
-  return { mostRecentActivity, mostRecentCast, totalActivitiesCount };
+  return { mostRecentCast, totalActivitiesCount };
 };
-
 const LinkHoldings = ({ holder }: { holder: string }) => {
   const {
     data: heldCount,
