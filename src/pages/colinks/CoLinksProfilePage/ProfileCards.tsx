@@ -443,7 +443,6 @@ const fetchMostRecentPostByProfileId = async (profileId: number) => {
 const fetchMostRecentCastAndActivitiesByProfileId = async (
   profileId: number
 ) => {
-  // TODO: switch this to anonClient, maybe other places too
   const { farcasterCasts, activities_aggregate } = await anonClient.query(
     {
       __alias: {
@@ -498,7 +497,7 @@ const fetchMostRecentCastAndActivitiesByProfileId = async (
       ],
     },
     {
-      operationName: 'fetchMostRecentPostByProfileId',
+      operationName: 'fetchMostRecentCastAndActivityStatsByProfileId',
     }
   );
 
