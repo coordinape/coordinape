@@ -80,6 +80,7 @@ export const LinkUpCard = ({
               p: 0,
               border: 'none',
               borderRadius: 0,
+              width: '100%',
               ...(profileCardContext && {
                 background: 'transparent',
                 alignItems: 'flex-start',
