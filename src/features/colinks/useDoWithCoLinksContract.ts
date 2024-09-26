@@ -1,12 +1,15 @@
 import { useContext } from 'react';
 
+import { useNavigate } from 'react-router';
 import { useAccount, useWalletClient } from 'wagmi';
 
+import { coLinksPaths } from '../../routes/paths';
 import {
   CoLinksWithWallet,
   getCoLinksContractWithWallet,
 } from '../../utils/viem/contracts';
 import { chain } from '../cosoul/chains';
+import { useNavQuery } from '../nav/getNavData';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import { useToast } from 'hooks/useToast';
 import { switchNetwork } from 'utils/provider';
@@ -14,12 +17,15 @@ import { switchNetwork } from 'utils/provider';
 import { CoLinksContext } from './CoLinksContext';
 
 export const useDoWithCoLinksContract = () => {
+  const navigate = useNavigate();
   const authAddress = useConnectedAddress(false);
   const {
     address: walletAddress,
     chainId: walletChain,
     isConnected,
   } = useAccount();
+
+  const { data: profile } = useNavQuery();
 
   const { data: client, isFetched: walletClientFetched } = useWalletClient({});
 
@@ -37,8 +43,14 @@ export const useDoWithCoLinksContract = () => {
   return async (
     fn: (signedContract: CoLinksWithWallet, chainId: string) => Promise<void>
   ) => {
-    if (!signedContract) {
+    if (!signedContract || !authAddress) {
       setShowConnectWallet(true);
+      return;
+    }
+
+    // Check if the user needs to go to the wizard!!!
+    if (profile?.profiles[0].links_held === 0) {
+      navigate(coLinksPaths.wizard);
       return;
     }
 

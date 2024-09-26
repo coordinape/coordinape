@@ -65,6 +65,7 @@ export const getNavData = (profileId: number) =>
           avatar: true,
           address: true,
           description: true,
+          links_held: true,
           tos_agreed_at: true,
           cosoul: {
             id: true,

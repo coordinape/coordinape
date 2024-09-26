@@ -82,7 +82,7 @@ export const WizardStart = () => {
 
                 <Button
                   as={NavLink}
-                  to={coLinksPaths.home}
+                  to={coLinksPaths.wizard}
                   color="cta"
                   size="large"
                   css={{ mt: '$sm', width: '100%' }}
