@@ -119,7 +119,7 @@ export const GiveSkillMap = () => {
             >
               <Button
                 as={NavLink}
-                to={coLinksPaths.giveBoardSkill(`${skill}`)}
+                to={coLinksPaths.giveSkill(`${skill}`)}
                 color={'cta'}
                 size="xs"
               >

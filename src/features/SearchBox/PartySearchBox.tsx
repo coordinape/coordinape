@@ -9,7 +9,7 @@ export const PartySearchBox = ({
   size = 'medium',
   registerKeyDown = true,
   profileFunc = coLinksPaths.profileGive,
-  skillFunc = coLinksPaths.giveBoardSkill,
+  skillFunc = coLinksPaths.giveSkill,
 }: {
   size?: 'medium' | 'large';
   registerKeyDown?: boolean;

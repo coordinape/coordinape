@@ -1,5 +1,6 @@
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
+import { coLinksPaths } from '../../../routes/paths';
 import { Flex } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -30,4 +31,9 @@ export const ViewProfilePageGive = () => {
       </Flex>
     </SingleColumnLayout>
   );
+};
+
+export const GivePartyProfileRedirect = () => {
+  const { address } = useParams();
+  return <Navigate to={coLinksPaths.profileGive(address ?? '')} replace />;
 };

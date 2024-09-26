@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Helmet } from 'react-helmet';
 
-import { coLinksPaths } from '../../../routes/paths';
 import { CSS } from '../../../stitches.config';
 import { Flex } from '../../../ui';
 import { GiveLeaderboard } from '../../GiveLeaderboard';
@@ -25,7 +24,7 @@ export const GivePage = () => {
           },
         }}
       >
-        <GiveLeaderboard linkFunc={coLinksPaths.giveSkill} />
+        <GiveLeaderboard />
         <Flex
           column
           css={{

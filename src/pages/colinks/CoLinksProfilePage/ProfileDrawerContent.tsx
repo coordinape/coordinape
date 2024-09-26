@@ -41,7 +41,7 @@ export const ProfileDrawerContent = ({
   );
 
   const appURL = webAppURL('colinks');
-  const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/giveparty/${address}&embeds[]=${appURL}/giveparty/${address}`;
+  const castProfileUrl = `https://warpcast.com/~/compose?text=${appURL}/${address}&embeds[]=${appURL}/${address}`;
 
   const { data: details } = useQuery(
     ['fc_profile', targetProfile?.id],
