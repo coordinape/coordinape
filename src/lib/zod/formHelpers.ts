@@ -58,7 +58,10 @@ export const zUsername = z
   .transform(val => val.trim())
   .refine(val => val.length >= 3, 'Name must contain at least 3 characters');
 
-export const zDescription = z.string().min(3).max(160);
+export const zDescription = z.union([
+  z.literal(''),
+  z.string().min(3).max(160),
+]);
 
 const url = z
   .string()

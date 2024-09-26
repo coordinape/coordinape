@@ -17,10 +17,7 @@ export const CoLinksWizard = () => {
   const { data } = useCoLinksNavQuery();
   const { chainId, address } = useAccount();
 
-  const description = data?.profile?.description;
-
-  // TODO: rename step
-  const hasName = !!description;
+  const hasName = !!data?.profile?.name;
 
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, address, 'wizard'],
