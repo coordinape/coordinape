@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import { Maximize } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
@@ -130,18 +131,40 @@ export const GiveSkillLeaderboard = () => {
             alignItems: 'flex-start',
           }}
         >
-          <Text
-            h2
+          <Flex
+            column
             css={{
               width: '100%',
               justifyContent: 'center',
-              m: '$xs 0 $md',
-              alignItems: 'baseline',
-              gap: '$xs',
+              alignItems: 'center',
+              mb: '$md',
+              borderRadius: '$3',
+              background: 'linear-gradient(90deg, $complete 25%, $cta 80%)',
+              p: '$md',
+              color: '$textOnCta',
             }}
           >
-            <Text tag size="large" color="complete">{`#${skill}`}</Text>
-          </Text>
+            <Text
+              h2
+              display
+              css={{
+                ...skillTextStyle,
+                color: '$textOnCta',
+                pb: '$xs',
+                borderBottom: '1px solid $black20',
+              }}
+            >{`#${skill}`}</Text>
+            <Text
+              size="small"
+              css={{
+                mt: '$sm',
+                height: 'auto',
+                color: '$textOnCta',
+              }}
+            >
+              Top GIVE
+            </Text>
+          </Flex>
 
           <Flex
             css={{
@@ -178,14 +201,12 @@ export const GiveSkillLeaderboard = () => {
 
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('rank')}
               css={{ maxWidth: '4rem' }}
             >
               Rank
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('name')}
               css={{
                 minWidth: '15rem',
@@ -196,26 +217,18 @@ export const GiveSkillLeaderboard = () => {
             >
               Member
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn
-              header={true}
-              onClick={() => setSort('gives')}
-            >
+            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
               Total GIVEs
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('gives_last_24_hours')}
             >
               Last 24 Hrs
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn
-              header={true}
-              onClick={() => setSort('gives_last_7_days')}
-            >
+            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
               Last 7 Days
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
-              header={true}
               onClick={() => setSort('gives_last_30_days')}
             >
               Last 30 Days

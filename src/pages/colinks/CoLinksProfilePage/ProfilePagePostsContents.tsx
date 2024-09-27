@@ -177,9 +177,6 @@ const PageContents = ({
     );
 
   const balanceNumber = Number(balance);
-  const ownedByTarget = targetBalance !== undefined && targetBalance > 0;
-  const ownedByMe = balance !== undefined && balance > 0;
-  const weAreLinked = ownedByTarget || ownedByMe;
   const currentUserHasTargetCoLink =
     targetBalance !== undefined && balanceNumber > 0;
 
@@ -278,20 +275,23 @@ const PageContents = ({
               ],
               actor_profile_id: { _eq: targetProfile.profile.id },
             }}
-            noPosts={
-              (targetProfile.mutedThem ||
-                targetIsCurrentUser ||
-                weAreLinked) && (
-                <Panel noBorder>
-                  {targetProfile.mutedThem
-                    ? `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`
-                    : (targetIsCurrentUser
-                        ? "You haven't"
-                        : `${targetProfile.profile.name} hasn't`) +
-                      ' posted yet.'}
+            noPosts={(() => {
+              let noPostsMessage;
+
+              if (targetProfile.mutedThem) {
+                noPostsMessage = `You have muted ${targetProfile.profile.name}. Unmute to see their posts.`;
+              } else if (targetIsCurrentUser) {
+                noPostsMessage = "You haven't posted yet.";
+              } else {
+                noPostsMessage = `${targetProfile.profile.name} hasn't posted yet.`;
+              }
+
+              return (
+                <Panel noBorder css={{ alignItems: 'center' }}>
+                  <Text>{noPostsMessage}</Text>
                 </Panel>
-              )
-            }
+              );
+            })()}
           />
         </Flex>
       </Flex>
