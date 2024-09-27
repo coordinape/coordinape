@@ -74,9 +74,7 @@ export const WizardStart = () => {
                     Connect your wallet to get into CoLinks
                   </Text>
                   <Text>
-                    {
-                      'After connecting your wallet you can get on the waitlist or enter an invite code.'
-                    }
+                    {'After connecting your wallet you can buy and sell links.'}
                   </Text>
                 </Text>
 
