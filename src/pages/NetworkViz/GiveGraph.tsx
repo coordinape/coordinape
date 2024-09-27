@@ -77,6 +77,7 @@ export function GiveGraph({
   const imgCache = useRef<{ [key: string]: HTMLImageElement | null }>({});
 
   const showExtras = (data?.nodes?.length || 0) < 1000;
+  const haveAFewGive = (data?.nodes?.length || 0) > 5;
   const nodeCanvasObject = useCallback(
     (node: IMapNode, ctx: CanvasRenderingContext2D) => {
       const size = 14;
@@ -211,7 +212,9 @@ export function GiveGraph({
           if (graph && !expand) {
             graph.d3Force('charge').strength(-140);
             graph.d3Force('link').distance(30);
-            graph.zoomToFit(0, 20);
+            if (haveAFewGive) {
+              graph.zoomToFit(0, 20);
+            }
           }
         }}
         graphData={data}
