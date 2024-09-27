@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { useAccount, useWalletClient } from 'wagmi';
 
 import { coLinksPaths } from '../../routes/paths';
@@ -18,6 +18,7 @@ import { CoLinksContext } from './CoLinksContext';
 
 export const useDoWithCoLinksContract = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const authAddress = useConnectedAddress(false);
   const {
     address: walletAddress,
@@ -48,10 +49,12 @@ export const useDoWithCoLinksContract = () => {
       return;
     }
 
-    // Check if the user needs to go to the wizard!!!
+    // Check if the user needs to go to the wizard, if we aren't already there
     if (profile?.profiles[0].links_held === 0) {
-      navigate(coLinksPaths.wizard);
-      return;
+      if (location.pathname !== coLinksPaths.wizard) {
+        navigate(coLinksPaths.wizard);
+        return;
+      }
     }
 
     if (!isConnected) {

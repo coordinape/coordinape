@@ -14,6 +14,7 @@ import { useAccount } from 'wagmi';
 
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { useToast } from '../../hooks';
+import useProfileId from '../../hooks/useProfileId';
 import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
@@ -57,6 +58,8 @@ export const BuyOrSellCoLinks = ({
     target: subject,
   });
   const { showError } = useToast();
+
+  const profileId = useProfileId(false);
 
   const [buyPrice, setBuyPrice] = useState<string | null>(null);
   const [buyPriceBN, setBuyPriceBN] = useState<bigint | null>(null);
@@ -202,7 +205,7 @@ export const BuyOrSellCoLinks = ({
     }
   };
 
-  if (!address) {
+  if (!address || !profileId) {
     return (
       <Flex
         css={{
