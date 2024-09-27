@@ -181,10 +181,6 @@ const EditProfileInfoForm = ({
 
   const watchName = watch('name');
   const nameIsEmpty = watchName === '' || watchName === undefined;
-  const watchDescription = watch('description');
-  const descriptionIsEmpty =
-    watchDescription === '' || watchDescription === undefined;
-  const bothEmpty = nameIsEmpty && descriptionIsEmpty;
 
   return (
     <Form
@@ -267,11 +263,6 @@ const EditProfileInfoForm = ({
               }}
             >
               <Text variant="label">Description</Text>
-              {!description && (
-                <Text size="xs" color="warning">
-                  Required
-                </Text>
-              )}
             </Flex>
             <FormInputField
               id="description"
@@ -316,11 +307,9 @@ const EditProfileInfoForm = ({
           >
             Save
           </Button>
-          {(nameIsEmpty || descriptionIsEmpty) && (
+          {nameIsEmpty && (
             <Text size="xs" color="warning">
-              Please fill out {nameIsEmpty && 'name'} {bothEmpty && 'and'}{' '}
-              {descriptionIsEmpty && 'description'} field
-              {bothEmpty && 's'}.
+              Please fill out {nameIsEmpty && 'name'}
             </Text>
           )}
         </Flex>

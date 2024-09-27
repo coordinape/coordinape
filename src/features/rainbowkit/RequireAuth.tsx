@@ -85,9 +85,7 @@ export const RequireAuth = ({
           >
             <NavLogo forceTheme="dark" />
             <Text semibold css={{ textAlign: 'center', color: 'white' }}>
-              Connection required
-              <br />
-              Please connect to continue
+              This page requires you to login
             </Text>
             <Button
               color="coLinksCta"
@@ -95,7 +93,7 @@ export const RequireAuth = ({
               onClick={openConnectModal}
               css={{ mt: '$sm', width: '100%', fontWeight: '$semibold' }}
             >
-              Connect Wallet
+              Connect Wallet to Login
             </Button>
           </Panel>
           <Flex

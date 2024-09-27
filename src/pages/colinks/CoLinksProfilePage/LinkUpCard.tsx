@@ -5,7 +5,7 @@ import { CoLinksContext } from 'features/colinks/CoLinksContext';
 import { useLinkingStatus } from 'features/colinks/useLinkingStatus';
 
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { Flex, Text, Panel, Link } from 'ui';
+import { Flex, Link, Panel, Text } from 'ui';
 
 export const LinkUpCard = ({
   targetAddress,
@@ -137,11 +137,13 @@ export const LinkUpCard = ({
                       size={profileCardContext ? 'medium' : 'large'}
                       semibold
                     >
-                      Link Up
+                      {targetIsCurrentUser ? 'Unlock Your Links' : 'Link Up'}
                     </Text>
-                    <Text
-                      size={profileCardContext ? 'small' : undefined}
-                    >{`Connect to see each other's posts`}</Text>
+                    <Text size={profileCardContext ? 'small' : undefined}>
+                      {targetIsCurrentUser
+                        ? 'Buy your first Link so others can too'
+                        : `Connect to see each other's posts`}
+                    </Text>
                   </Flex>
                 )}
               </Text>

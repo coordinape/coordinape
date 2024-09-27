@@ -143,12 +143,6 @@ type Mutation {
 }
 
 type Mutation {
-  redeemInviteCode(
-    payload: RedeemInviteCodeInput!
-  ): ConfirmationWithErrorResponse!
-}
-
-type Mutation {
   replenishInviteCodes(
     payload: ReplenishInviteCodesInput!
   ): ConfirmationResponse!

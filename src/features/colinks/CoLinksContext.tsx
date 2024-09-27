@@ -1,9 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react';
 
 import { useNavigate } from 'react-router';
-import { useLocation } from 'react-router-dom';
 
-import { LoadingModal } from '../../components';
 import CopyCodeTextField from '../../components/CopyCodeTextField';
 import useConnectedAddress from '../../hooks/useConnectedAddress';
 import useProfileId from '../../hooks/useProfileId';
@@ -14,8 +12,6 @@ import { useAuthStore } from '../auth';
 import { useLogout } from '../auth/useLogout';
 
 import { FaviconNotificationBadge } from './FaviconNotificationBadge';
-import { useCoLinksNavQuery } from './useCoLinksNavQuery';
-import { TOS_UPDATED_AT } from './wizard/WizardTerms';
 
 // Define the context's type
 interface CoLinksContextType {
@@ -42,68 +38,9 @@ type CoLinksProviderProps = {
 // Define the provider component
 const CoLinksProvider: React.FC<CoLinksProviderProps> = ({ children }) => {
   const address = useAuthStore(state => state.address);
-  const navigate = useNavigate();
-  const location = useLocation();
   const [awaitingWallet, setAwaitingWallet] = useState(false);
-  const { data, isLoading } = useCoLinksNavQuery();
 
   const [showConnectWallet, setShowConnectWallet] = useState(false);
-
-  // TODO: on correct chain needs to be checked for the wizard
-  // useEffect(() => {
-  //   if (!onCorrectChain) {
-  //     navigate(
-  //       coLinksPaths.wizard +
-  //         '?redirect=' +
-  //         encodeURIComponent(location.pathname),
-  //       {
-  //         replace: true,
-  //       }
-  //     );
-  //   }
-  // }, [onCorrectChain]);
-
-  useEffect(() => {
-    if (address) {
-      if (data) {
-        if (data?.profile) {
-          if (!data.profile.invite_code_redeemed_at) {
-            navigate(coLinksPaths.wizard);
-          } else if (!data.profile.tos_agreed_at) {
-            navigate(coLinksPaths.wizard);
-          } else if (!data.profile.cosoul) {
-            // show the mint button
-            navigate(coLinksPaths.wizard);
-          } else if (!data.profile.links_held) {
-            // redirect to wizard so they can buy their own link
-            // we might already be on the wizard
-            if (location.pathname !== coLinksPaths.wizard) {
-              navigate(coLinksPaths.wizard);
-            }
-          } else {
-            const tosAgreedAt = new Date(data.profile.tos_agreed_at);
-            const tosUpdatedAt = new Date(TOS_UPDATED_AT);
-            if (tosAgreedAt < tosUpdatedAt) {
-              navigate(coLinksPaths.wizard);
-            }
-          }
-        }
-      }
-    }
-  }, [data]);
-
-  // TODO: handle these cases
-  // if (!chainId) {
-  //   return <Text>Not connected</Text>;
-  // }
-  //
-  // if (!onCorrectChain) {
-  //   return <LoadingIndicator />;
-  // }
-
-  if (isLoading) {
-    return <LoadingModal visible={true} />;
-  }
 
   const coLinksReadOnly = getCoLinksContract();
   if (!coLinksReadOnly) {

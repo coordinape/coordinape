@@ -6,10 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAuthStore } from '../../auth';
 import { useToast } from 'hooks';
 
-import { WizardBuyOtherLinks } from './WizardBuyOtherLinks';
-import { WizardCompetition } from './WizardCompetition';
 import { WizardComplete } from './WizardComplete';
-import { WizardCoSoul } from './WizardCoSoul';
 import { WizardName } from './WizardName';
 import { WizardOwnLink } from './WizardOwnLink';
 import { WizardProgress } from './WizardProgress';
@@ -44,18 +41,13 @@ export const WizardSteps = ({
     // address,
     hasName,
     // hasRep,
-    hasCoSoul,
     hasOwnKey,
     // hasOtherKey,
-    isEthDenverInvitee,
   } = progress;
 
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showStepRep, setShowStepRep] = useState(true);
-  const [showStepBuyOther, setShowStepBuyOther] = useState(true);
-  const [showStepCompetition, setShowStepCompetition] = useState(true);
 
-  const [showStepCoSoul, setShowStepCoSoul] = useState(true);
   const { showError } = useToast();
 
   const profileId = useAuthStore(state => state.profileId);
@@ -87,22 +79,11 @@ export const WizardSteps = ({
     return <WizardName />;
   } else if (profileId && !termsAccepted) {
     return <WizardTerms setTermsAccepted={setTermsAccepted} />;
-  } else if (!hasCoSoul && showStepCoSoul) {
-    return <WizardCoSoul setShowStepCoSoul={setShowStepCoSoul} />;
   } else if (!hasOwnKey) {
     return <WizardOwnLink address={progress.address} />;
-  } else if (isEthDenverInvitee && showStepCompetition) {
-    return <WizardCompetition skipStep={() => setShowStepCompetition(false)} />;
   } else if (showStepRep) {
     return (
       <WizardRep repScore={repScore} skipStep={() => setShowStepRep(false)} />
-    );
-  } else if (showStepBuyOther) {
-    return (
-      <WizardBuyOtherLinks
-        skipStep={() => setShowStepBuyOther(false)}
-        address={progress.address}
-      />
     );
   } else {
     return <WizardComplete />;
