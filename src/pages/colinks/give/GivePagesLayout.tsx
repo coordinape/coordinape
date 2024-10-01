@@ -1,8 +1,7 @@
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
-import { PartySearchBox } from '../../../features/SearchBox/PartySearchBox';
-import { coLinksPaths } from '../../../routes/paths';
+import { CoLinksSearchBox } from '../../../features/SearchBox/CoLinksSearchBox';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
 
@@ -59,12 +58,7 @@ export const GivePagesLayout = ({
               )}
             </Flex>
             <Flex css={{ width: '100%', maxWidth: 300 }}>
-              <PartySearchBox
-                size={'medium'}
-                registerKeyDown={false}
-                skillFunc={coLinksPaths.giveSkill}
-                profileFunc={coLinksPaths.profileGive}
-              />
+              <CoLinksSearchBox size={'large'} registerKeyDown={false} />
             </Flex>
           </Flex>
         </ContentHeader>

@@ -7,11 +7,11 @@ import {
   BarChart,
   BoltFill,
   CertificateFill,
+  GemCoOutline,
   HouseFill,
   PaperPlane,
   PlanetFill,
   Settings,
-  ToolsFill,
   UserFill,
 } from '../../icons/__generated';
 import { coLinksPaths } from '../../routes/paths';
@@ -25,8 +25,19 @@ const searchPages = (address?: string) => [
           path: coLinksPaths.home,
           icon: <HouseFill size="lg" nostroke />,
         },
+        {
+          name: 'GIVE',
+          path: coLinksPaths.give,
+          icon: <GemCoOutline fa size={'lg'} />,
+        },
       ]
-    : []),
+    : [
+        {
+          name: 'GIVE',
+          path: coLinksPaths.give,
+          icon: <GemCoOutline fa size={'lg'} />,
+        },
+      ]),
   {
     name: 'Explore',
     path: coLinksPaths.explore,
@@ -62,11 +73,6 @@ const searchPages = (address?: string) => [
         },
       ]
     : []),
-  {
-    name: 'Top Interests',
-    path: coLinksPaths.exploreSkills,
-    icon: <ToolsFill size="lg" />,
-  },
   {
     name: 'Most Links',
     path: coLinksPaths.exploreMostLinks,
