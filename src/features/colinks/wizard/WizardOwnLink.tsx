@@ -31,7 +31,7 @@ export const WizardOwnLink = ({ address }: { address: string }) => {
           <Text h2>Create your first link</Text>
           <Text>
             Your first Link adds you to the network and allows other Coordinape
-            members to buy it too.
+            members to buy your links too.
           </Text>
           <Text>
             Links are connections between people, they allow sharing of ideas
