@@ -68,7 +68,7 @@ const connectors = connectorsForWallets(
         coinbaseWallet,
         metaMaskWallet,
         walletConnectWallet,
-        // magicWallet,
+        magicWallet,
       ],
     },
   ],

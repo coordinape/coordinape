@@ -12,6 +12,7 @@ import { VITE_FE_ALCHEMY_API_KEY } from '../../config/env';
 export const getRainbowMagicWallet = (
   options: Parameters<typeof rainbowMagicWallet>[0]
 ): CreateWalletFn => {
+  //console.log({ magic: MAGIC_API_KEY, fe_alch: VITE_FE_ALCHEMY_API_KEY });
   return () => rainbowMagicWallet(options);
 };
 
