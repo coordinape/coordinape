@@ -14,7 +14,7 @@ export const NOTIFICATIONS_COUNT_QUERY_KEY = [NOTIFICATIONS_QUERY_KEY, 'count'];
 export const useNotificationCount = () => {
   const profileId = useAuthStore(state => state.profileId);
 
-  const logout = useLogout();
+  const logout = useLogout(false);
   const navigate = useNavigate();
 
   const { data } = useQuery(
