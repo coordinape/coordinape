@@ -2,14 +2,20 @@ import assert from 'assert';
 
 import { useAuthStore } from 'features/auth';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 
 import { client } from '../../lib/gql/client';
+import { coLinksPaths } from '../../routes/paths';
+import { isErrorWarrantingLogout, useLogout } from '../auth/useLogout';
 
 export const NOTIFICATIONS_QUERY_KEY = 'notifications';
 export const NOTIFICATIONS_COUNT_QUERY_KEY = [NOTIFICATIONS_QUERY_KEY, 'count'];
 
 export const useNotificationCount = () => {
   const profileId = useAuthStore(state => state.profileId);
+
+  const logout = useLogout();
+  const navigate = useNavigate();
 
   const { data } = useQuery(
     NOTIFICATIONS_COUNT_QUERY_KEY,
@@ -24,6 +30,14 @@ export const useNotificationCount = () => {
       return { last_read_notification_id, count };
     },
     {
+      onSettled: async (_, error: any) => {
+        if (isErrorWarrantingLogout(error)) {
+          // eslint-disable-next-line no-console
+          console.log('logging out due to auth error in useNotificationCount');
+          await logout();
+          navigate(coLinksPaths.explore);
+        }
+      },
       enabled: !!profileId,
       refetchInterval: data1 => {
         if (document.visibilityState === 'visible') {
