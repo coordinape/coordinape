@@ -32,3 +32,14 @@ export const useLogout = (remote = false) => {
     []
   );
 };
+
+export const isErrorWarrantingLogout = (error: any) => {
+  if (
+    error &&
+    error.message &&
+    error.message === 'Authentication hook unauthorized this request'
+  ) {
+    return true;
+  }
+  return false;
+};

@@ -1,7 +1,10 @@
 import { order_by } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
+import { useNavigate } from 'react-router';
 
+import { coLinksPaths } from '../../routes/paths';
+import { isErrorWarrantingLogout, useLogout } from '../auth/useLogout';
 import useProfileId from 'hooks/useProfileId';
 
 export const getNavData = (profileId: number) =>
@@ -82,6 +85,8 @@ export const QUERY_KEY_NAV = 'Nav';
 // FIXME this is redundant with fetchManifest
 export const useNavQuery = () => {
   const profileId = useProfileId();
+  const navigate = useNavigate();
+  const logout = useLogout(false);
 
   return useQuery(
     [QUERY_KEY_NAV, profileId],
@@ -94,6 +99,14 @@ export const useNavQuery = () => {
       return { ...data, profile };
     },
     {
+      onSettled: async (_, error: any) => {
+        if (isErrorWarrantingLogout(error)) {
+          // eslint-disable-next-line no-console
+          console.log('logging out due to auth error in useNavQuery');
+          await logout();
+          navigate(coLinksPaths.explore);
+        }
+      },
       enabled: !!profileId,
       staleTime: Infinity,
     }
