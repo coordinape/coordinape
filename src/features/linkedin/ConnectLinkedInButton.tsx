@@ -1,4 +1,5 @@
 import { LinkedInLogoIcon } from '@radix-ui/react-icons';
+import { connectButtonStyle } from 'features/github/ConnectGitHubButton';
 
 import { useToast } from '../../hooks';
 import { Button } from '../../ui';
@@ -29,7 +30,7 @@ export const ConnectLinkedInButton = ({
   };
 
   return (
-    <Button onClick={connect}>
+    <Button onClick={connect} css={{ ...connectButtonStyle }}>
       <LinkedInLogoIcon /> Connect LinkedIn
     </Button>
   );

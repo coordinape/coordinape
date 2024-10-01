@@ -1,5 +1,6 @@
 import { ComponentProps } from 'react';
 
+import { connectButtonStyle } from 'features/github/ConnectGitHubButton';
 import { useQuery } from 'react-query';
 
 import { Mail } from 'icons/__generated';
@@ -33,6 +34,7 @@ export const EmailCTA = ({
             color={color}
             size={size}
             css={{
+              ...connectButtonStyle,
               zIndex: 3,
               position: 'relative',
               width: '100%',
