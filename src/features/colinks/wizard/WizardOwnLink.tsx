@@ -30,7 +30,7 @@ export const WizardOwnLink = ({ address }: { address: string }) => {
         <Flex column css={{ gap: '$md', mb: '$md' }}>
           <Text h2>Create your first link</Text>
           <Text>
-            Your first Link adds you to the network and allows other CoLinks
+            Your first Link adds you to the network and allows other Coordinape
             members to buy it too.
           </Text>
           <Text>
