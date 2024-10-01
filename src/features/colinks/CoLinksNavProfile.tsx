@@ -4,8 +4,9 @@ import { NavItem } from 'features/nav/NavItem';
 import { useAccount } from 'wagmi';
 
 import { Network } from '../../components';
+import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, Button, Flex, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
@@ -25,6 +26,8 @@ export const CoLinksNavProfile = ({
   const { logout } = useWalletStatus();
 
   const { chainId, address, isConnected } = useAccount();
+
+  const showNameForm = (!name || name.startsWith('New User')) && !!address;
 
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
@@ -141,6 +144,12 @@ export const CoLinksNavProfile = ({
           <NavItem label="Log Out" onClick={logout} />
           <ThemeSwitcher />
         </Box>
+      )}
+
+      {showNameForm && (
+        <Modal open showClose={false} title="What's your name?">
+          <CreateUserNameForm address={address} />
+        </Modal>
       )}
     </Flex>
   );
