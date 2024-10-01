@@ -147,8 +147,40 @@ export const CoLinksNavProfile = ({
       )}
 
       {showNameForm && (
-        <Modal open showClose={false} title="What's your name?">
-          <CreateUserNameForm address={address} />
+        <Modal
+          open
+          showClose={false}
+          css={{ p: 0, maxWidth: 400, border: 'none' }}
+        >
+          <Flex column>
+            <Flex
+              css={{
+                backgroundImage: "url('/imgs/background/colink-name.jpg')",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                minHeight: 300,
+                justifyContent: 'center',
+              }}
+            >
+              <Text
+                h1
+                css={{
+                  color: 'white',
+                  textShadow: 'rgb(0 0 0 / 44%) 1px 1px 8px',
+                }}
+              >
+                What shall we call you?
+              </Text>
+            </Flex>
+            <Flex column css={{ gap: '$md', p: '$lg $md' }}>
+              <Text color="neutral">Choose a name in order to GIVE</Text>
+              <CreateUserNameForm address={address} />
+              <Text color="neutral" size="small">
+                You can change your name and fill out your profile later.
+              </Text>
+            </Flex>
+          </Flex>
         </Modal>
       )}
     </Flex>
