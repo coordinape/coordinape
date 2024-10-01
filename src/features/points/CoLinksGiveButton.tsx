@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { Command } from 'cmdk';
 import { ACTIVITIES_QUERY_KEY } from 'features/activities/ActivityList';
 import { QUERY_KEY_COLINKS } from 'features/colinks/wizard/CoLinksWizard';
@@ -119,8 +120,52 @@ export const CoLinksGiveButton = ({
     },
   });
 
+  const { openConnectModal, connectModalOpen } = useConnectModal();
+
   if (!profileId) {
-    return null;
+    return (
+      <>
+        <Button
+          className="giveButton "
+          as="span"
+          color="dim"
+          onClick={() => {
+            if (openConnectModal && !connectModalOpen) openConnectModal();
+          }}
+          size={cta ? 'large' : 'small'}
+          css={{
+            ...(cta
+              ? {
+                  minHeight: '$xl',
+                  padding: '$sm calc($sm + $xs)',
+                  fontSize: '$medium',
+                  fontWeight: '$medium',
+                  lineHeight: '$none',
+                  borderRadius: '$4',
+                  backgroundColor: '$cta',
+                  color: '$textOnCta',
+                  '&:hover': {
+                    backgroundColor: '$ctaHover',
+                  },
+                }
+              : {
+                  p: '3px 7px',
+                  height: 'auto',
+                  minHeight: 0,
+                  fontSize: '$small',
+                  borderRadius: '4px',
+                  '&:hover': {
+                    background: '$tagLinkBackground',
+                    color: '$tagLinkText',
+                  },
+                }),
+          }}
+        >
+          <GemCoOutline fa size="md" css={{ mr: '$xs' }} />
+          +GIVE
+        </Button>
+      </>
+    );
   }
   return (
     <>
