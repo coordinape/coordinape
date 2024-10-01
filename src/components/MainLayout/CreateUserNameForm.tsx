@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { QUERY_KEY_COLINKS_NAV } from 'features/colinks/useCoLinksNavQuery';
 import { isValidENS, zUsername } from 'lib/zod/formHelpers';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation, useQueryClient } from 'react-query';
@@ -66,6 +67,7 @@ export const CreateUserNameForm = ({
       queryClient.invalidateQueries(QUERY_KEY_MAIN_HEADER);
       queryClient.invalidateQueries(QUERY_KEY_PROFILE_BY_ADDRESS);
       queryClient.invalidateQueries(QUERY_KEY_NAV);
+      queryClient.invalidateQueries(QUERY_KEY_COLINKS_NAV);
       queryClient.invalidateQueries(QUERY_KEY_CREATE_CIRCLE);
     },
     onError: err => {
