@@ -1,3 +1,5 @@
+import { connectButtonStyle } from 'features/github/ConnectGitHubButton';
+
 import { useToast } from '../../hooks';
 import { Twitter } from '../../icons/__generated';
 import { Button } from '../../ui';
@@ -29,7 +31,7 @@ export const ConnectTwitterButton = ({
   };
 
   return (
-    <Button onClick={connect}>
+    <Button onClick={connect} css={{ ...connectButtonStyle }}>
       <Twitter nostroke /> Connect Twitter
     </Button>
   );

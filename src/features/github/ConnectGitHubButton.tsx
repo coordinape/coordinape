@@ -3,6 +3,10 @@ import { Github } from '../../icons/__generated';
 import { Button } from '../../ui';
 import { setOAuthCookie, setOAuthRedirectCookie } from '../auth/oauth';
 
+export const connectButtonStyle = {
+  minWidth: '13rem',
+};
+
 export const ConnectGitHubButton = ({
   callbackPage,
 }: {
@@ -28,7 +32,7 @@ export const ConnectGitHubButton = ({
   };
 
   return (
-    <Button onClick={connect}>
+    <Button onClick={connect} css={{ ...connectButtonStyle }}>
       <Github nostroke /> Connect GitHub
     </Button>
   );

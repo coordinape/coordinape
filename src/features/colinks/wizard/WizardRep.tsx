@@ -46,9 +46,6 @@ export const WizardRep = ({
             gap: '$md',
             my: '$md',
             alignItems: 'flex-start',
-            button: {
-              minWidth: '13em',
-            },
           }}
         >
           <ShowOrConnectTwitter
