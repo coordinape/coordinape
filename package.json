@@ -47,7 +47,7 @@
     "@radix-ui/react-select": "^1.1.2",
     "@rainbow-me/rainbowkit": "^2.1.5",
     "@react-hook/window-size": "^3.1.1",
-    "@sentry/browser": "^7.93.0",
+    "@sentry/browser": "^8.33.0",
     "@sentry/integrations": "^7.93.0",
     "@sentry/node": "^7.93.0",
     "@sentry/react": "^7.93.0",

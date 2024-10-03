@@ -133,8 +133,8 @@ dependencies:
     specifier: ^3.1.1
     version: 3.1.1(react@18.2.0)
   '@sentry/browser':
-    specifier: ^7.93.0
-    version: 7.93.0
+    specifier: ^8.33.0
+    version: 8.33.0
   '@sentry/integrations':
     specifier: ^7.93.0
     version: 7.93.0
@@ -8413,6 +8413,15 @@ packages:
       '@scure/base': 1.1.7
     dev: false
 
+  /@sentry-internal/browser-utils@8.33.0:
+    resolution: {integrity: sha512-zwjmD+XI3pgxxiqKGLXYDGSd+zfO7az9zzbLn1le8Vv9cRL2lZyMLcwiwEaTpwz3B0pPONeDZMT8+bzMGRs8zw==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry/core': 8.33.0
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
+    dev: false
+
   /@sentry-internal/feedback@7.93.0:
     resolution: {integrity: sha512-4G7rMeQbYGfCHxEoFroABX+UREYc2BSbFqjLmLbIcWowSpgzcwweLLphWHKOciqK6f7DnNDK0jZzx3u7NrkWHw==}
     engines: {node: '>=12'}
@@ -8420,6 +8429,35 @@ packages:
       '@sentry/core': 7.93.0
       '@sentry/types': 7.93.0
       '@sentry/utils': 7.93.0
+    dev: false
+
+  /@sentry-internal/feedback@8.33.0:
+    resolution: {integrity: sha512-KSW/aiNgmJc8PDl2NsM+ONvGure4tPaluj7O1Nw+947Dh8W6CJnQ9srB7xPyoYYWyQW8Hyl1vzxY9W0J+fjlhA==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry/core': 8.33.0
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
+    dev: false
+
+  /@sentry-internal/replay-canvas@8.33.0:
+    resolution: {integrity: sha512-9fEhMP+gQYQrtn/SQd1Vd7U7emTSGBpLKc5h5f0iV0yDmjYAhNVbq4RgPTYAgnBEcdVo3qgboL6UIz9Dv+dYRQ==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry-internal/replay': 8.33.0
+      '@sentry/core': 8.33.0
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
+    dev: false
+
+  /@sentry-internal/replay@8.33.0:
+    resolution: {integrity: sha512-GFBaDA4yhlEf3wTXOVXnJVG/diuKxeqZuXcuhsAwJb+YcFR0NhgsRn3wIGuYOZZF8GBXzx9PFnb9yIuFgx5Nbw==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry-internal/browser-utils': 8.33.0
+      '@sentry/core': 8.33.0
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
     dev: false
 
   /@sentry-internal/tracing@7.93.0:
@@ -8443,6 +8481,19 @@ packages:
       '@sentry/utils': 7.93.0
     dev: false
 
+  /@sentry/browser@8.33.0:
+    resolution: {integrity: sha512-qu/g20ZskywEU8BWc4Fts1kXFFBtw1vS+XvPq7Ta9zCeRG5dlXhhYDVQ4/v4nAL/cs0o6aLCq73m109CFF0Kig==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry-internal/browser-utils': 8.33.0
+      '@sentry-internal/feedback': 8.33.0
+      '@sentry-internal/replay': 8.33.0
+      '@sentry-internal/replay-canvas': 8.33.0
+      '@sentry/core': 8.33.0
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
+    dev: false
+
   /@sentry/core@5.30.0:
     resolution: {integrity: sha512-TmfrII8w1PQZSZgPpUESqjB+jC6MvZJZdLtE/0hZ+SrnKhW3x5WlYLvTXZpcWePYBku7rl2wn1RZu6uT0qCTeg==}
     engines: {node: '>=6'}
@@ -8460,6 +8511,14 @@ packages:
     dependencies:
       '@sentry/types': 7.93.0
       '@sentry/utils': 7.93.0
+    dev: false
+
+  /@sentry/core@8.33.0:
+    resolution: {integrity: sha512-618PQGHQLBVCpAq1s+e/rpIUaLUnj19IPUgn97rUGXLLna8ETIAoyQoG70wz4q9niw4Z4GlS5kZNrael2O3+2w==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry/types': 8.33.0
+      '@sentry/utils': 8.33.0
     dev: false
 
   /@sentry/hub@5.30.0:
@@ -8572,6 +8631,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /@sentry/types@8.33.0:
+    resolution: {integrity: sha512-V/A+72ZdnfGtXeXIpz1kUo3LRdq3WKEYYFUR2RKpCdPh9yeOrHq6u/rmzTWx49+om0yhZN+JhVoxDzt75UoFRg==}
+    engines: {node: '>=14.18'}
+    dev: false
+
   /@sentry/utils@5.30.0:
     resolution: {integrity: sha512-zaYmoH0NWWtvnJjC9/CBseXMtKHm/tm40sz3YfJRxeQjyzRqNQPgivpd9R/oDJCYj999mzdW382p/qi2ypjLww==}
     engines: {node: '>=6'}
@@ -8585,6 +8649,13 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       '@sentry/types': 7.93.0
+    dev: false
+
+  /@sentry/utils@8.33.0:
+    resolution: {integrity: sha512-TdwtGdevJij2wq2x/hDUr+x5TXt47ZhWxZ8zluai/lnIDTUB3Xs/L9yHtj1J+H9hr8obkMASE9IanUrWXzrP6Q==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      '@sentry/types': 8.33.0
     dev: false
 
   /@shuding/opentype.js@1.4.0-beta.0:
@@ -16802,7 +16873,7 @@ packages:
     resolution: {integrity: sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==}
     deprecated: Deprecated in favor of '@metamask/eth-sig-util'
     dependencies:
-      ethereumjs-abi: github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0
+      ethereumjs-abi: git@github.com+ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0
       ethereumjs-util: 5.2.1
     dev: true
 
@@ -29930,8 +30001,8 @@ packages:
     name: canvas-color-tracker
     dev: false
 
-  github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
-    resolution: {tarball: https://codeload.github.com/ethereumjs/ethereumjs-abi/tar.gz/ee3994657fa7a427238e6ba92a84d0b529bbcde0}
+  git@github.com+ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
+    resolution: {commit: ee3994657fa7a427238e6ba92a84d0b529bbcde0, repo: git@github.com:ethereumjs/ethereumjs-abi.git, type: git}
     name: ethereumjs-abi
     version: 0.6.8
     dependencies:
