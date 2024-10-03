@@ -221,7 +221,7 @@ export const BuyOrSellCoLinks = ({
           as={NavLink}
           to={coLinksPaths.wizardStart}
         >
-          Connect Wallet
+          Buy Link
         </Button>
       </Flex>
     );
