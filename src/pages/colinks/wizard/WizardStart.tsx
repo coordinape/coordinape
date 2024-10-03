@@ -27,22 +27,28 @@ export const WizardStart = () => {
               },
             }}
           >
-            <Text p as="p">
-              <Text h2 css={{ mb: '$sm' }}>
-                Let&apos;s adventure to get connected
+            <Flex column css={{ gap: '$sm' }}>
+              <Text h2>Get Linked!</Text>
+              <Text
+                css={{
+                  '@sm': {
+                    fontSize: '$small',
+                  },
+                }}
+              >
+                Buying or creating a Link means you can connect more deeply!
               </Text>
               <Text
                 css={{
                   '@sm': {
                     fontSize: '$small',
-                    mb: '$sm',
                   },
                 }}
               >
-                CoLinks is a network of professionals and friends in the web3
-                ecosystem.
+                Curate your Coordinape & Farcaster feed, bookmark your posse,
+                and let people Link to you.
               </Text>
-            </Text>
+            </Flex>
             {isLoggedIn ? (
               <Flex column css={{ gap: '$md', width: '100%' }}>
                 {
