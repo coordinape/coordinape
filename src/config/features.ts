@@ -7,7 +7,6 @@ export const FeatureNames = [
   'share_post',
   'ignore_dnt',
   'test_decent',
-  'give_zone',
 ] as const;
 
 export type FeatureName = (typeof FeatureNames)[number];
