@@ -4,7 +4,7 @@ import { sendDailySpacecar } from '../../../api-lib/email/postmark';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../api-lib/HttpError';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
-import { IN_PRODUCTION } from '../../../src/config/env';
+import { IN_PRODUCTION } from '../../../src/config/env.ts';
 
 export const EMAIL_FOR_REPORTS = 'core@coordinape.com';
 
@@ -19,11 +19,15 @@ async function handler(_: VercelRequest, res: VercelResponse) {
   try {
     const {
       // @ts-ignore
+      today_give_count,
+      // @ts-ignore
       today_buys,
       // @ts-ignore
       today_sells,
       // @ts-ignore
       today_new_users,
+      // @ts-ignore
+      today_new_colinks_users,
       // @ts-ignore
       today_replies,
       // @ts-ignore
@@ -33,11 +37,15 @@ async function handler(_: VercelRequest, res: VercelResponse) {
       // @ts-ignore
       today_cosouls,
       // @ts-ignore
+      total_give_count,
+      // @ts-ignore
       total_links,
       // @ts-ignore
       total_buys,
       // @ts-ignore
       total_sells,
+      // @ts-ignore
+      total_colinks_users,
       // @ts-ignore
       total_users,
       // @ts-ignore
@@ -51,6 +59,18 @@ async function handler(_: VercelRequest, res: VercelResponse) {
     } = await adminClient.query(
       {
         __alias: {
+          today_give_count: {
+            colinks_gives_aggregate: [
+              {
+                where: {
+                  created_at: {
+                    _gte: dayAgo,
+                  },
+                },
+              },
+              { aggregate: { count: [{}, true] } },
+            ],
+          },
           today_buys: {
             link_tx_aggregate: [
               {
@@ -78,6 +98,18 @@ async function handler(_: VercelRequest, res: VercelResponse) {
             ],
           },
           today_new_users: {
+            profiles_aggregate: [
+              {
+                where: {
+                  created_at: {
+                    _gte: dayAgo,
+                  },
+                },
+              },
+              { aggregate: { count: [{}, true] } },
+            ],
+          },
+          today_new_colinks_users: {
             link_tx_aggregate: [
               {
                 where: {
@@ -146,6 +178,9 @@ async function handler(_: VercelRequest, res: VercelResponse) {
               { aggregate: { count: [{}, true] } },
             ],
           },
+          total_give_count: {
+            colinks_gives_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          },
           total_buys: {
             link_tx_aggregate: [
               {
@@ -167,6 +202,9 @@ async function handler(_: VercelRequest, res: VercelResponse) {
             ],
           },
           total_users: {
+            profiles_aggregate: [{}, { aggregate: { count: [{}, true] } }],
+          },
+          total_colinks_users: {
             link_tx_aggregate: [
               {
                 where: {
@@ -235,10 +273,12 @@ async function handler(_: VercelRequest, res: VercelResponse) {
 
     await sendDailySpacecar({
       email: EMAIL_FOR_REPORTS,
+      today_give_count: today_give_count.aggregate?.count ?? 0,
       today_buy_tx_count: today_buys.aggregate?.count ?? 0,
       today_sell_tx_count: today_sells.aggregate?.count ?? 0,
       total_links: total_links.aggregate?.sum ?? 0,
       today_new_users: today_new_users.aggregate?.count ?? 0,
+      today_new_colinks_users: today_new_colinks_users.aggregate?.count ?? 0,
       today_tx_count:
         (today_buys.aggregate?.count ?? 0) +
         (today_sells.aggregate?.count ?? 0),
@@ -246,9 +286,11 @@ async function handler(_: VercelRequest, res: VercelResponse) {
       today_posts: today_posts.aggregate?.count ?? 0,
       today_reactions: today_reactions.aggregate?.count ?? 0,
       today_replies: today_replies.aggregate?.count ?? 0,
+      total_give_count: total_give_count.aggregate?.count ?? 0,
       total_buy_tx_count: total_buys.aggregate?.count ?? 0,
       total_sell_tx_count: total_sells.aggregate?.count ?? 0,
       total_users: total_users.aggregate?.count ?? 0,
+      total_colinks_users: total_colinks_users.aggregate?.count ?? 0,
       total_tx_count:
         (total_buys.aggregate?.count ?? 0) +
         (total_sells.aggregate?.count ?? 0),
