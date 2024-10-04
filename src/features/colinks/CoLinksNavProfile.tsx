@@ -4,8 +4,9 @@ import { NavItem } from 'features/nav/NavItem';
 import { useAccount } from 'wagmi';
 
 import { Network } from '../../components';
+import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
 import { coLinksPaths } from '../../routes/paths';
-import { Avatar, Box, Button, Flex, Text } from '../../ui';
+import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
@@ -25,6 +26,8 @@ export const CoLinksNavProfile = ({
   const { logout } = useWalletStatus();
 
   const { chainId, address, isConnected } = useAccount();
+
+  const showNameForm = (!name || name.startsWith('New User')) && !!address;
 
   const ref = useRef<HTMLDivElement>(null);
   const [showTxModal, setShowTxModal] = useState(false);
@@ -141,6 +144,44 @@ export const CoLinksNavProfile = ({
           <NavItem label="Log Out" onClick={logout} />
           <ThemeSwitcher />
         </Box>
+      )}
+
+      {showNameForm && (
+        <Modal
+          open
+          showClose={false}
+          css={{ p: 0, maxWidth: 400, border: 'none' }}
+        >
+          <Flex column>
+            <Flex
+              css={{
+                backgroundImage: "url('/imgs/background/colink-name.jpg')",
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center',
+                backgroundSize: 'cover',
+                minHeight: 300,
+                justifyContent: 'center',
+              }}
+            >
+              <Text
+                h1
+                css={{
+                  color: 'white',
+                  textShadow: 'rgb(0 0 0 / 44%) 1px 1px 8px',
+                }}
+              >
+                What shall we call you?
+              </Text>
+            </Flex>
+            <Flex column css={{ gap: '$md', p: '$lg $md' }}>
+              <Text color="neutral">Choose a name in order to GIVE</Text>
+              <CreateUserNameForm address={address} />
+              <Text color="neutral" size="small">
+                You can change your name and fill out your profile later.
+              </Text>
+            </Flex>
+          </Flex>
+        </Modal>
       )}
     </Flex>
   );
