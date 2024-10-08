@@ -17,7 +17,6 @@ export const GivePage = () => {
         <title>GIVE / CoLinks</title>
       </Helmet>
       <ResponsiveColumnLayout
-        smallColumnReverse
         css={{
           '@xs': {
             gap: '0',
@@ -34,7 +33,7 @@ export const GivePage = () => {
               flexDirection: 'row',
               gap: '$sm',
               pb: '$sm',
-              mb: '$sm',
+              mt: '$lg',
               overflow: 'scroll',
               mx: '-$md',
               px: '$md',

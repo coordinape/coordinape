@@ -11,6 +11,8 @@ import { skillTextStyle } from '../stitches.config';
 import { GemCoOutline } from 'icons/__generated';
 import { Flex, Panel, Text } from 'ui';
 
+import { rankColumnStyle } from './GiveSkillLeaderboard';
+
 type sortBy =
   | 'gives'
   | 'rank'
@@ -154,7 +156,7 @@ export const GiveLeaderboard = () => {
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
               onClick={() => setSort('rank')}
-              css={{ maxWidth: '4rem' }}
+              css={rankColumnStyle}
             >
               Rank
             </GiveLeaderboardColumn>
@@ -190,7 +192,7 @@ export const GiveLeaderboard = () => {
           {sortedData &&
             sortedData.map(skill => (
               <GiveLeaderboardRow key={skill.rank}>
-                <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
+                <GiveLeaderboardColumn css={rankColumnStyle}>
                   #{skill.rank}
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn

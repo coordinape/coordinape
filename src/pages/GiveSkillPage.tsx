@@ -21,7 +21,7 @@ export const GiveSkillPage = () => {
       <Helmet>
         <title>{skill} / GIVE / CoLinks</title>
       </Helmet>
-      <ResponsiveColumnLayout smallColumnReverse>
+      <ResponsiveColumnLayout>
         <Flex column>
           <CastButton
             skill={skill}
