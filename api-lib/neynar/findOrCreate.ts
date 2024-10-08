@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import assert from 'assert';
 
+import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare.ts';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
 import { adminClient } from '../gql/adminClient.ts';
 import {
@@ -154,6 +155,11 @@ const createProfile = async (
     console.log('Creating new profile with name', name);
   }
 
+  // if we have an avatar_url, upload it to cloudflare for our use
+  const avatar = avatar_url
+    ? await uploadURLToCloudflare(avatar_url)
+    : avatar_url;
+
   const { insert_profiles_one } = await adminClient.mutate(
     {
       insert_profiles_one: [
@@ -163,7 +169,7 @@ const createProfile = async (
             connector: FC_BOT_CONNECTOR,
             //points_balance: INITIAL_POINTS, set by db default
             name: name,
-            avatar: avatar_url,
+            avatar,
             invited_by: await getGiveBotInviterProfileId(),
           },
         },
