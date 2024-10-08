@@ -1,7 +1,8 @@
+import { useIsCoLinksSite } from 'features/colinks/useIsCoLinksSite';
 import { NavLink } from 'react-router-dom';
 import type { CSS } from 'stitches.config';
 
-import { coSoulPaths } from '../../routes/paths';
+import { coLinksPaths, coSoulPaths } from '../../routes/paths';
 import { Button, Panel, Text } from 'ui';
 
 import { artWidth, artWidthMobile } from './constants';
@@ -17,6 +18,7 @@ export const CoSoulPromo = ({
   address?: string;
   css?: CSS;
 }) => {
+  const isCoLinks = useIsCoLinksSite();
   return (
     <>
       {(!address || (address && !cosoul_data.mintInfo)) && (
@@ -37,7 +39,11 @@ export const CoSoulPromo = ({
             SoulBound NFT that grants you access and reputation into untold web3
             worlds!
           </Text>
-          <Button color="cta" as={NavLink} to={coSoulPaths.cosoul}>
+          <Button
+            color="cta"
+            as={NavLink}
+            to={isCoLinks ? coLinksPaths.cosoul : coSoulPaths.cosoul}
+          >
             Mint Your Own CoSoul
           </Button>
         </Panel>
