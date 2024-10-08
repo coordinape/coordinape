@@ -37,51 +37,54 @@ export const GiveSkillLeaderboard = () => {
     }
   };
 
-  const { data, isLoading } = useQuery(['give_leaderboard'], async () => {
-    const { colinks_gives_skill_count } = await anonClient.query(
-      {
-        colinks_gives_skill_count: [
-          {
-            where: {
-              skill: {
-                _ilike: skill,
-              },
-            },
-            order_by: [
-              {
-                gives: order_by.desc_nulls_last,
-              },
-              {
-                target_profile_public: {
-                  name: order_by.asc_nulls_last,
+  const { data, isLoading } = useQuery(
+    ['give_leaderboard', skill],
+    async () => {
+      const { colinks_gives_skill_count } = await anonClient.query(
+        {
+          colinks_gives_skill_count: [
+            {
+              where: {
+                skill: {
+                  _ilike: skill,
                 },
               },
-            ],
-            limit: 100,
-          },
-          {
-            target_profile_public: {
-              name: true,
-              avatar: true,
-              address: true,
+              order_by: [
+                {
+                  gives: order_by.desc_nulls_last,
+                },
+                {
+                  target_profile_public: {
+                    name: order_by.asc_nulls_last,
+                  },
+                },
+              ],
+              limit: 100,
             },
-            gives: true,
-            gives_last_24_hours: true,
-            gives_last_7_days: true,
-            gives_last_30_days: true,
-          },
-        ],
-      },
-      {
-        operationName: 'getGiveLeaderboard',
-      }
-    );
-    return colinks_gives_skill_count.map((user, rank) => ({
-      profile: user.target_profile_public,
-      ...user,
-      rank: rank + 1,
-    }));
-  });
+            {
+              target_profile_public: {
+                name: true,
+                avatar: true,
+                address: true,
+              },
+              gives: true,
+              gives_last_24_hours: true,
+              gives_last_7_days: true,
+              gives_last_30_days: true,
+            },
+          ],
+        },
+        {
+          operationName: 'getGiveLeaderboard',
+        }
+      );
+      return colinks_gives_skill_count.map((user, rank) => ({
+        profile: user.target_profile_public,
+        ...user,
+        rank: rank + 1,
+      }));
+    }
+  );
 
   const [sortedData, setSortedData] = useState<typeof data>(undefined);
 
