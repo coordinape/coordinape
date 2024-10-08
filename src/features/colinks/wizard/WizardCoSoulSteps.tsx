@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
-import { useAuthStore } from '../../auth';
 import { useToast } from 'hooks';
 
 import { WizardComplete } from './WizardComplete';
 import { WizardCoSoul } from './WizardCoSoul';
 import { WizardName } from './WizardName';
 import { WizardProgress } from './WizardProgress';
-import { WizardTerms } from './WizardTerms';
 
 export const fullScreenStyles = {
   position: 'fixed',
@@ -37,11 +35,7 @@ export const WizardCoSoulSteps = ({
 }) => {
   const { hasName, hasCoSoul } = progress;
 
-  const [termsAccepted, setTermsAccepted] = useState(false);
-
   const { showError } = useToast();
-
-  const profileId = useAuthStore(state => state.profileId);
 
   const navigate = useNavigate();
   const [showStepCoSoul, setShowStepCoSoul] = useState(true);
@@ -69,8 +63,6 @@ export const WizardCoSoulSteps = ({
 
   if (!hasName) {
     return <WizardName />;
-  } else if (profileId && !termsAccepted) {
-    return <WizardTerms setTermsAccepted={setTermsAccepted} />;
   } else if (!hasCoSoul && showStepCoSoul) {
     return <WizardCoSoul setShowStepCoSoul={setShowStepCoSoul} />;
   } else {
