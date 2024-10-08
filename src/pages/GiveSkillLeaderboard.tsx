@@ -23,6 +23,11 @@ type sortBy =
   | 'gives_last_30_days'
   | 'name';
 
+export const rankColumnStyle = {
+  minWidth: '2.7rem',
+  maxWidth: '4rem',
+};
+
 export const GiveSkillLeaderboard = () => {
   const { skill } = useParams();
   const [sort, setSortRaw] = useState<sortBy>('gives');
@@ -202,7 +207,7 @@ export const GiveSkillLeaderboard = () => {
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
               onClick={() => setSort('rank')}
-              css={{ maxWidth: '4rem' }}
+              css={rankColumnStyle}
             >
               Rank
             </GiveLeaderboardColumn>
@@ -237,7 +242,7 @@ export const GiveSkillLeaderboard = () => {
           {sortedData &&
             sortedData.map(member => (
               <GiveLeaderboardRow key={member.profile?.address}>
-                <GiveLeaderboardColumn css={{ maxWidth: '4rem' }}>
+                <GiveLeaderboardColumn css={rankColumnStyle}>
                   #{member.rank}
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn
