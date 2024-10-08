@@ -15,6 +15,7 @@ import { isCoLinksRequest } from '../api-lib/colinks/hostname';
 import { adminClient } from '../api-lib/gql/adminClient';
 import { insertInteractionEvents } from '../api-lib/gql/mutations';
 import { errorResponse } from '../api-lib/HttpError';
+import { fetchUserByAddress } from '../api-lib/neynar';
 import { getProvider } from '../api-lib/provider';
 import { parseInput } from '../api-lib/signature';
 import { loginSupportedChainIds } from '../src/common-lib/constants';
@@ -168,6 +169,21 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
 
+      // look up the address in farcaster and use FC data for default name and avatar
+      let name = `New User ${address.substring(0, 8)}`;
+      let pfp_url = null;
+
+      try {
+        const fcUser = await fetchUserByAddress(address);
+
+        if (fcUser && fcUser.pfp_url && fcUser.display_name) {
+          name = fcUser.display_name;
+          pfp_url = fcUser.pfp_url;
+        }
+      } catch (error: any) {
+        console.error('error fetching user data from neynar', error);
+      }
+
       // make the new user
       const { insert_profiles_one } = await adminClient.mutate(
         {
@@ -176,7 +192,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               object: {
                 address,
                 connector: connectorName,
-                name: `New User ${address.substring(0, 8)}`,
+                name: name,
+                avatar: pfp_url,
                 invited_by: invitedBy,
               },
             },
