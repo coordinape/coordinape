@@ -156,9 +156,14 @@ const createProfile = async (
   }
 
   // if we have an avatar_url, upload it to cloudflare for our use
-  const avatar = avatar_url
-    ? await uploadURLToCloudflare(avatar_url)
-    : avatar_url;
+  let avatar = avatar_url;
+  if (avatar_url) {
+    try {
+      avatar = await uploadURLToCloudflare(avatar_url);
+    } catch (e) {
+      console.error('Error uploading avatar to cloudflare', e);
+    }
+  }
 
   const { insert_profiles_one } = await adminClient.mutate(
     {
