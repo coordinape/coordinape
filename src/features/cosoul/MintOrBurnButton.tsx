@@ -7,7 +7,7 @@ import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, HR, Text } from '../../ui';
-import { wagmiChain } from '../wagmi/chains';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { sendAndTrackTx } from 'utils/viem/contractHelpers';
 import { CoSoulWithWallet } from 'utils/viem/contracts';
 

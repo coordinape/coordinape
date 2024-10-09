@@ -10,7 +10,7 @@ import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
-import { wagmiChain } from '../wagmi/chains';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { CoLinksWithWallet } from 'utils/viem/contracts';
 
 import { CoLinksContext } from './CoLinksContext';

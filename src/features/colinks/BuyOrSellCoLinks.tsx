@@ -19,7 +19,7 @@ import { Check, Link2 } from '../../icons/__generated';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, Panel, Text } from '../../ui';
 import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
-import { wagmiChain } from '../wagmi/chains';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';

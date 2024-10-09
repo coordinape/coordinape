@@ -10,7 +10,7 @@ import { useAccount, useSwitchChain } from 'wagmi';
 
 import { useToast } from '../../hooks';
 import { Button, Flex, Panel, Text } from '../../ui';
-import { wagmiChain } from '../wagmi/chains';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
