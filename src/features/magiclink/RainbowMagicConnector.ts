@@ -27,7 +27,7 @@ export const rainbowMagicWallet = ({
   name: 'Magic',
   rdns: 'Magic',
   iconUrl:
-    'https://media.licdn.com/dms/image/v2/D4E0BAQGorzUgKSt_lw/company-logo_200_200/company-logo_200_200/0/1719257630816/magiclabs_inc_logo?e=1733961600&v=beta&t=f_KnNL86G_YM89WCulQzQ2KsqpLoy6SLa6U_SaCHCFo',
+    'https://imagedelivery.net/rCPTJ2UGW1g_eRRwGVwKZw/5cffb206-1c03-40b6-ff05-c406e5a98900/avatar',
   iconBackground: '#6851FF',
   installed: true,
   downloadUrls: {},

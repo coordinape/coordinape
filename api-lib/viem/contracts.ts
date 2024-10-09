@@ -11,7 +11,7 @@ import {
 
 import { CoLinksABI, CoSoulABI } from '../../src/contracts/abis';
 import { chain } from '../../src/features/cosoul/chains';
-import { wagmiChain } from '../../src/features/wagmi/chains.ts';
+import { wagmiChain } from '../../src/features/wagmi/chains';
 import {
   getContractAddress,
   getCoSoulContract,
