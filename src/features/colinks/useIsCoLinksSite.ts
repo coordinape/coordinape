@@ -1,3 +1,3 @@
 export const useIsCoLinksSite = () => {
-  return window.location.origin.includes('colink');
+  return !window.location.origin.includes('app');
 };

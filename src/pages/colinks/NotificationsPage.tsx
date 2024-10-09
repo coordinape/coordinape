@@ -271,10 +271,10 @@ export const NotificationsPage = () => {
               );
             } else if (n.link_tx) {
               content = <LinkTxNotification tx={n.link_tx} />;
-            } else if (n.give && n.give.activity_id) {
-              content = <ColinksGiveNotification give={n.give} n={n} />;
             } else if (n.give && n.give.cast_hash) {
               content = <ColinksGiveFCNotification give={n.give} n={n} />;
+            } else if (n.give) {
+              content = <ColinksGiveNotification give={n.give} n={n} />;
             } else if (n.invited_profile_public) {
               content =
                 n.invited_profile_public.id === profileId ? (
@@ -915,14 +915,19 @@ const ColinksGiveNotification = ({
                   {n.actor_profile_public?.name}
                 </Link>
               </Text>
-              <Text size="small" color={'default'}>
-                on
-              </Text>
-              <Text size="small">
-                <Link as={NavLink} to={coLinksPaths.post(give.activity_id)}>
-                  a post
-                </Link>
-              </Text>
+              {give.activity_id && (
+                <Flex>
+                  <Text size="small" color={'default'}>
+                    on
+                  </Text>
+                  <Link as={NavLink} to={coLinksPaths.post(give.activity_id)}>
+                    <Text size="small" css={{ fontWeight: 'normal' }}>
+                      a post
+                    </Text>
+                  </Link>
+                </Flex>
+              )}
+
               <EasLink attestation_uid={give.attestation_uid as string} />
               <Text size="xs" color="neutral" css={{ pl: '$sm' }}>
                 {DateTime.fromISO(n.created_at).toLocal().toRelative()}
