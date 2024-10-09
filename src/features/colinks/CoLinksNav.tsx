@@ -10,6 +10,7 @@ import { usePoints } from 'features/points/usePoints';
 import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { webAppURL } from '../../config/webAppURL';
 import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
 import {
@@ -34,10 +35,10 @@ import {
   Gear,
   GemCoFillSm,
   GemCoOutline,
+  Give,
   HouseFill,
   Menu,
   MessagesQuestion,
-  PaperPlane,
   PlanetFill,
   UserFill,
   X,
@@ -278,18 +279,23 @@ const NavItem = ({
   path,
   children,
   className,
+  external = false,
 }: {
   path: string;
   children: React.ReactNode;
   className?: string;
+  external?: boolean;
 }) => {
   const isCurrentPage = location.pathname === path;
 
   return (
     <Link
       className={className}
-      as={NavLink}
-      to={path}
+      as={external ? Link : NavLink}
+      to={external ? undefined : path}
+      href={external ? path : undefined}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noreferrer' : undefined}
       css={{
         fontSize: '$h2',
         '&:hover': {
@@ -431,9 +437,10 @@ const LoggedInItems = ({
         <CertificateFill size="lg" nostroke />
         Rep Score
       </NavItem>
-      <NavItem path={coLinksPaths.invites}>
-        <PaperPlane size="lg" nostroke />
-        Invites
+      <HR />
+      <NavItem path={webAppURL('give')} external={true}>
+        <Give size="lg" nostroke />
+        Gift Circle
       </NavItem>
     </>
   );
@@ -447,10 +454,20 @@ const LoggedOutItems = () => {
       {/*   <HouseFill size="lg" nostroke /> */}
       {/*   Home */}
       {/* </NavItem> */}
+      <NavItem path={coLinksPaths.give}>
+        <GemCoFillSm size="lg" nostroke />
+        GIVE
+      </NavItem>
       <NavItem path={coLinksPaths.explore}>
         <PlanetFill size="lg" nostroke />
         Explore
       </NavItem>
+      <HR />
+      <NavItem path={webAppURL('give')} external={true}>
+        <Give size="lg" nostroke />
+        Gift Circle
+      </NavItem>
+
       {/* <NavItem path={coLinksPaths.highlights}> */}
       {/*   <Ai size="lg" nostroke /> */}
       {/*   Highlights */}
@@ -483,8 +500,8 @@ const LoggedOutItems = () => {
       {/*     The Big Question */}
       {/*   </Flex> */}
       {/* </NavItem> */}
-      <HR />
       <Button
+        css={{ marginTop: '$lg' }}
         onClick={() => {
           if (openConnectModal && !connectModalOpen) openConnectModal();
         }}
