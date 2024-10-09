@@ -1,6 +1,6 @@
 // RainbowMagicConnector.ts
 
-import { dedicatedWalletConnector } from '@magiclabs/wagmi-connector';
+import { universalWalletConnector } from '@magiclabs/wagmi-connector';
 import { Wallet, WalletDetailsParams } from '@rainbow-me/rainbowkit';
 import { CreateWalletFn } from '@rainbow-me/rainbowkit/dist/wallets/Wallet';
 import { optimism } from '@wagmi/core/chains';
@@ -12,6 +12,7 @@ import { VITE_FE_ALCHEMY_API_KEY } from '../../config/env';
 export const getRainbowMagicWallet = (
   options: Parameters<typeof rainbowMagicWallet>[0]
 ): CreateWalletFn => {
+  //console.log({ magic: MAGIC_API_KEY, fe_alch: VITE_FE_ALCHEMY_API_KEY });
   return () => rainbowMagicWallet(options);
 };
 
@@ -25,13 +26,14 @@ export const rainbowMagicWallet = ({
   id: 'magic',
   name: 'Magic',
   rdns: 'Magic',
-  iconUrl: 'https://dashboard.magic.link/images/logo.svg',
-  iconBackground: '#fff',
+  iconUrl:
+    'https://imagedelivery.net/rCPTJ2UGW1g_eRRwGVwKZw/5cffb206-1c03-40b6-ff05-c406e5a98900/avatar',
+  iconBackground: '#6851FF',
   installed: true,
   downloadUrls: {},
   createConnector: (walletDetails: WalletDetailsParams) =>
     createWagmiConnector(config => ({
-      ...dedicatedWalletConnector({
+      ...universalWalletConnector({
         chains: chains,
         options: {
           apiKey: apiKey,

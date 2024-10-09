@@ -21,21 +21,19 @@ import {
   IN_PREVIEW,
   IN_PRODUCTION,
   MAGIC_API_KEY,
-  VITE_FE_ALCHEMY_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
 } from '../../config/env';
-import { isFeatureEnabled } from '../../config/features';
 import { localhost } from '../../utils/viem/chains';
 import { getRainbowMagicWallet } from '../magiclink/RainbowMagicConnector';
-
-// TODO: Refactor these to be defined in one place across entire app
-export const OPTIMISM_RPC_URL = `https://opt-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const ETHEREUM_RPC_URL = `https://eth-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const OPTIMISM_SEPOLIA_RPC_URL = `https://opt-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const ETHEREUM_SEPOLIA_RPC_URL = `https://eth-sepolia.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const POLYGON_RPC_URL = `https://polygon-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const ARBITRUM_RPC_URL = `https://arb-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
-export const BASE_RPC_URL = `https://base-mainnet.g.alchemy.com/v2/${VITE_FE_ALCHEMY_API_KEY}`;
+import {
+  ARBITRUM_RPC_URL,
+  BASE_RPC_URL,
+  ETHEREUM_RPC_URL,
+  ETHEREUM_SEPOLIA_RPC_URL,
+  OPTIMISM_RPC_URL,
+  OPTIMISM_SEPOLIA_RPC_URL,
+  POLYGON_RPC_URL,
+} from '../web3/rpcs';
 
 type Chains = Parameters<typeof createConfig>[0]['chains'];
 const wagmiChains: Chains = IN_PRODUCTION
@@ -68,7 +66,7 @@ const connectors = connectorsForWallets(
         coinbaseWallet,
         metaMaskWallet,
         walletConnectWallet,
-        // magicWallet,
+        magicWallet,
       ],
     },
   ],
@@ -121,15 +119,3 @@ export const wagmiConfig = IN_PRODUCTION
           [arbitrum.id]: http(ARBITRUM_RPC_URL),
         },
       });
-
-const getChain = () => {
-  if (isFeatureEnabled('test_decent') || IN_PRODUCTION) {
-    return optimism;
-  } else if (IN_PREVIEW) {
-    return optimismSepolia;
-  } else {
-    return localhost;
-  }
-};
-
-export const wagmiChain = getChain();

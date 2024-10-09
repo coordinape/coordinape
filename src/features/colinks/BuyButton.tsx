@@ -2,7 +2,6 @@
 import assert from 'assert';
 import { ComponentProps, useContext } from 'react';
 
-import { wagmiChain } from 'features/wagmi/config';
 import { useQueryClient } from 'react-query';
 import { Address } from 'viem';
 import { useAccount } from 'wagmi';
@@ -11,6 +10,7 @@ import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button } from '../../ui';
 import { sendAndTrackTx } from '../../utils/viem/contractHelpers';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { CoLinksWithWallet } from 'utils/viem/contracts';
 
 import { CoLinksContext } from './CoLinksContext';

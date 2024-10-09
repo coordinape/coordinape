@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import { MagicModalFixer } from 'features/auth/magic';
-import { wagmiChain } from 'features/wagmi/config';
 import { Address } from 'viem';
 
 import { LoadingModal } from '../../components';
 import { useToast } from '../../hooks';
 import { client } from '../../lib/gql/client';
 import { Button, Flex, HR, Text } from '../../ui';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { sendAndTrackTx } from 'utils/viem/contractHelpers';
 import { CoSoulWithWallet } from 'utils/viem/contracts';
 

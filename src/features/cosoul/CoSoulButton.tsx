@@ -3,13 +3,14 @@ import { getBalance } from '@wagmi/core';
 import { ethers } from 'ethers';
 import { defaultAvailableChains } from 'features/DecentSwap/config';
 import { DecentSwap } from 'features/DecentSwap/DecentSwap';
-import { wagmiConfig, wagmiChain } from 'features/wagmi/config';
+import { wagmiConfig } from 'features/wagmi/config';
 import { useQuery } from 'react-query';
 import { Address } from 'viem';
 import { useAccount, useSwitchChain } from 'wagmi';
 
 import { useToast } from '../../hooks';
 import { Button, Flex, Panel, Text } from '../../ui';
+import { wagmiChain } from '../wagmi/wagmiChain';
 import { BridgeButton } from 'components/BridgeButton';
 import { OptimismBridgeButton } from 'components/OptimismBridgeButton';
 import { OrBar } from 'components/OrBar';
