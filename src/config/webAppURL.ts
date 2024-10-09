@@ -1,14 +1,14 @@
 import { BRANCH_URL, IN_PRODUCTION } from './env';
 
-export const COLINKS_PRODUCTION_URL = 'https://colinks.coordinape.com';
+export const COLINKS_PRODUCTION_URL = 'https://coordinape.com';
 export const COORDINAPE_MARKETING_URL = 'https://about.coordinape.com';
 const GIVE_PRODUCTION_URL = 'https://app.coordinape.com';
 
-export const COLINKS_STAGING_URL = 'https://colinks.costaging.co';
+export const COLINKS_STAGING_URL = 'https://costaging.co';
 const GIVE_STAGING_URL = 'https://app.costaging.co';
 
 export const GIVE_LOCAL_URL = 'http://app.co.local:3000';
-export const COLINKS_LOCAL_URL = 'http://colinks.co.local:3000';
+export const COLINKS_LOCAL_URL = 'http://co.local:3000';
 
 // set this to force webAppURL to return a specific URL, like when you are using ngrok to do testing
 const FORCE_WEB_URL = process.env.FORCE_WEB_URL;
