@@ -1,6 +1,6 @@
 // RainbowMagicConnector.ts
 
-import { dedicatedWalletConnector } from '@magiclabs/wagmi-connector';
+import { universalWalletConnector } from '@magiclabs/wagmi-connector';
 import { Wallet, WalletDetailsParams } from '@rainbow-me/rainbowkit';
 import { CreateWalletFn } from '@rainbow-me/rainbowkit/dist/wallets/Wallet';
 import { optimism } from '@wagmi/core/chains';
@@ -26,13 +26,14 @@ export const rainbowMagicWallet = ({
   id: 'magic',
   name: 'Magic',
   rdns: 'Magic',
-  iconUrl: 'https://dashboard.magic.link/images/logo.svg',
-  iconBackground: '#fff',
+  iconUrl:
+    'https://media.licdn.com/dms/image/v2/D4E0BAQGorzUgKSt_lw/company-logo_200_200/company-logo_200_200/0/1719257630816/magiclabs_inc_logo?e=1733961600&v=beta&t=f_KnNL86G_YM89WCulQzQ2KsqpLoy6SLa6U_SaCHCFo',
+  iconBackground: '#6851FF',
   installed: true,
   downloadUrls: {},
   createConnector: (walletDetails: WalletDetailsParams) =>
     createWagmiConnector(config => ({
-      ...dedicatedWalletConnector({
+      ...universalWalletConnector({
         chains: chains,
         options: {
           apiKey: apiKey,

@@ -1,20 +1,20 @@
 import {
   Address,
-  Hex,
-  TransactionReceipt,
-  WalletClient,
   decodeEventLog,
   getContract,
+  Hex,
   keccak256,
   toBytes,
+  TransactionReceipt,
+  WalletClient,
 } from 'viem';
 
 import { CoLinksABI, CoSoulABI } from '../../src/contracts/abis';
 import { chain } from '../../src/features/cosoul/chains';
-import { wagmiChain } from '../../src/features/wagmi/config';
+import { wagmiChain } from '../../src/features/wagmi/chains.ts';
 import {
-  getCoSoulContract,
   getContractAddress,
+  getCoSoulContract,
 } from '../../src/utils/viem/contracts';
 import { getReadOnlyClient } from '../../src/utils/viem/publicClient';
 import { BE_ALCHEMY_API_KEY, COSOUL_SIGNER_ADDR_PK } from '../config';
