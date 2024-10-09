@@ -1,7 +1,7 @@
 import type { Location } from 'react-router-dom';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
-export const EXTERNAL_URL_BLOG = 'https://coordinape.com/blog';
+export const EXTERNAL_URL_BLOG = 'https://about.coordinape.com/blog';
 export const START_A_PARTY_INTENT =
   'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 export const EXTERNAL_URL_DOCS_GIVE =
@@ -16,7 +16,7 @@ export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
   'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/record-contributions#contributions';
 export const EXTERNAL_URL_DOCS_INTEGRATIONS =
   'https://docs.coordinape.com/info/integrations';
-export const EXTERNAL_URL_TOS = 'https://coordinape.com/terms';
+export const EXTERNAL_URL_TOS = 'https://about.coordinape.com/terms';
 export const EXTERNAL_URL_DOCS_ORG_MEMBERSHIP =
   'https://docs.coordinape.com/get-started/get-started/new-coordinape-admins/managing-organization-membership';
 export const EXTERNAL_URL_SCHEDULE_WALKTHROUGH =
