@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 import { useNavigate } from 'react-router';
 import { useSearchParams } from 'react-router-dom';
 
 import { useToast } from 'hooks';
 
-import { WizardComplete } from './WizardComplete';
 import { WizardCoSoul } from './WizardCoSoul';
 import { WizardName } from './WizardName';
 import { WizardProgress } from './WizardProgress';
@@ -33,12 +32,11 @@ export const WizardCoSoulSteps = ({
   progress: WizardProgress;
   repScore: number | undefined;
 }) => {
-  const { hasName, hasCoSoul } = progress;
+  const { hasName } = progress;
 
   const { showError } = useToast();
 
   const navigate = useNavigate();
-  const [showStepCoSoul, setShowStepCoSoul] = useState(true);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const error = searchParams.get('error');
@@ -63,9 +61,7 @@ export const WizardCoSoulSteps = ({
 
   if (!hasName) {
     return <WizardName />;
-  } else if (!hasCoSoul && showStepCoSoul) {
-    return <WizardCoSoul setShowStepCoSoul={setShowStepCoSoul} />;
   } else {
-    return <WizardComplete />;
+    return <WizardCoSoul />;
   }
 };

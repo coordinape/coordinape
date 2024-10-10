@@ -35,7 +35,7 @@ export const WizardName = () => {
         }}
       />
       <WizardInstructions>
-        <Flex column css={{ gap: '$md' }}>
+        <Flex column css={{ gap: '$md', alignItems: 'center' }}>
           <ShowOrConnectTwitter
             callbackPage={coLinksPaths.wizard}
             minimal={true}

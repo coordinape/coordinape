@@ -157,6 +157,7 @@ export const GiveSkillLeaderboard = () => {
               display
               css={{
                 ...skillTextStyle,
+                maxWidth: '300px',
                 color: '$textOnCta',
                 pb: '$xs',
                 borderBottom: '1px solid $black20',

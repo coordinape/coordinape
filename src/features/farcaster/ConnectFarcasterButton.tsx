@@ -1,5 +1,6 @@
 import assert from 'assert';
 
+import { connectButtonStyle } from 'features/github/ConnectGitHubButton';
 import { useQueryClient } from 'react-query';
 
 import { useToast } from '../../hooks';
@@ -38,7 +39,7 @@ export const ConnectFarcasterButton = () => {
   };
 
   return (
-    <Button onClick={onAdd}>
+    <Button onClick={onAdd} css={{ ...connectButtonStyle }}>
       <Farcaster fa /> Connect Farcaster
     </Button>
   );

@@ -122,7 +122,7 @@ export const CoSoulArtContainer = ({
                 width: '12rem',
                 left: 'calc(50% - 6rem)',
                 textAlign: 'center',
-                color: '$headingText',
+                color: '$textOnCta',
                 opacity: 0.7,
                 display: 'flex',
                 justifyContent: 'center',
