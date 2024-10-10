@@ -10,7 +10,7 @@ import { useQueryClient } from 'react-query';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { z } from 'zod';
 
-import { FormAutocomplete, FormInputField } from 'components';
+import { FormInputField } from 'components';
 import { QUERY_KEY_MAIN_HEADER } from 'components/MainLayout/getMainHeaderData';
 import { useToast } from 'hooks';
 import { useFetchManifest } from 'hooks/legacyApi';
@@ -129,7 +129,6 @@ export const CreateCircleForm = ({
     control,
     reset,
     handleSubmit,
-    setValue,
     formState: { isValid },
   } = useForm<CreateCircleFormSchema>({
     resolver: zodResolver(schema),
@@ -243,55 +242,25 @@ export const CreateCircleForm = ({
                     type="file"
                   />
                 </Flex>
-                {organizations.length ? (
-                  <FormAutocomplete
-                    value={org?.name}
-                    onChange={(v: string) => {
-                      const id = organizations.find(p => p.name === v)?.id;
-                      setValue('organization_id', id);
-                      setValue('organization_name', v);
-                    }}
-                    options={organizations.map(p => p.name)}
-                    label="Organization"
-                    fullWidth
-                    TextFieldProps={{
-                      infoTooltip: (
-                        <>
-                          <p>Circles nest within Organizations.</p>
-                          <p>
-                            Example:
-                            <br />
-                            Org Name - Coordinape
-                            <br />
-                            Circle Name - Design Team
-                          </p>
-                        </>
-                      ),
-                    }}
-                  />
-                ) : (
-                  <div>
-                    <FormInputField
-                      id="organization_name"
-                      name="organization_name"
-                      control={control}
-                      label="Organization"
-                      infoTooltip={
-                        <>
-                          <p>Circles nest within Organizations.</p>
-                          <p>
-                            Example:
-                            <br />
-                            Org Name - Coordinape
-                            <br />
-                            Circle Name - Design Team
-                          </p>
-                        </>
-                      }
-                      showFieldErrors
-                    />
-                  </div>
-                )}
+                <FormInputField
+                  id="organization_name"
+                  name="organization_name"
+                  control={control}
+                  label="Organization"
+                  infoTooltip={
+                    <>
+                      <p>Circles nest within Organizations.</p>
+                      <p>
+                        Example:
+                        <br />
+                        Org Name - Coordinape
+                        <br />
+                        Circle Name - Design Team
+                      </p>
+                    </>
+                  }
+                  showFieldErrors
+                />
                 <div>
                   <FormInputField
                     id="circle_name"

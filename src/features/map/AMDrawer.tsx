@@ -3,9 +3,8 @@ import { useState, useMemo, useEffect } from 'react';
 import { Role } from 'lib/users';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 
-import { Drawer, ApeAutocomplete } from 'components';
-import { SKILLS } from 'config/constants';
-import { Filter, Search, Collapse } from 'icons/__generated';
+import { Drawer } from 'components';
+import { Filter, Collapse } from 'icons/__generated';
 import { useDevMode } from 'recoilState';
 import { useRoleInCircle } from 'routes/hooks';
 import { IconButton, Text, Panel, Select, Flex } from 'ui';
@@ -156,15 +155,6 @@ export const AMDrawer = ({
               />
             )}
           </Panel>
-          <ApeAutocomplete
-            onChange={setSearch}
-            freeSolo
-            options={SKILLS}
-            color="secondary"
-            placeholder="Search"
-            isSelect
-            InputProps={{ endAdornment: <Search color="neutral" /> }}
-          />
         </Panel>
         <Flex
           column

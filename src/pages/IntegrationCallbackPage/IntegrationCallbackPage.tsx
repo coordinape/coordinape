@@ -4,13 +4,11 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { Typography } from '@material-ui/core';
-
 import { LoadingModal } from 'components';
 import { createCircleIntegration } from 'pages/CircleAdminPage/mutations';
 import { useCircleIdParam } from 'routes/hooks';
 import { givePaths } from 'routes/paths';
-import { Button } from 'ui';
+import { Button, Text } from 'ui';
 
 interface ConnectIntegrationConfig {
   name: string;
@@ -107,11 +105,11 @@ export const IntegrationCallbackPage: FC = () => {
       return (
         <div style={{ height: '100%', display: 'grid', placeItems: 'center' }}>
           <div>
-            <Typography variant="h4" align="center">
+            <Text h2>
               {status === 'created'
                 ? 'Integration Connected!'
                 : 'Failed to connect integration!'}
-            </Typography>
+            </Text>
             <Button
               css={{ width: '100%', marginTop: '$lg' }}
               color="secondary"
