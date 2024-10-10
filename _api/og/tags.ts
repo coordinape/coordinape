@@ -12,8 +12,8 @@ import { getPostInfo } from './getPostInfo';
 import { getProfileInfo } from './getProfileInfo';
 
 const appURL = webAppURL('colinks');
-const appImg = 'https://colinks.coordinape.com/imgs/logo/colinks-favicon.png';
-const appDescription = `CoLinks is a network of professionals and friends in the web3 ecosystem`;
+const appImg = 'https://coordinape.com/imgs/logo/colinks-favicon.png';
+const appDescription = `Coordinape provides tools to discover, recognize and collaborate in onchain networks of trust.`;
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   const path = req.headers['x-original-path'] as string;
@@ -60,8 +60,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // it's a user!
     return res.send(
       buildTags({
-        title: `${profile.name} on CoLinks`,
-        description: profile.description ?? 'Member of CoLinks',
+        title: `${profile.name} on Coordinape`,
+        description: profile.description ?? 'Member of Coordinape',
         image: `${webAppURL(
           'colinks'
         )}/api/og/profileimage/${encodeURIComponent(address)}`,
@@ -90,8 +90,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       return res.send(
         buildTags({
-          title: `Post by ${post?.profile?.name} - CoLinks`,
-          description: 'Join the conversation on CoLinks',
+          title: `Post by ${post?.profile?.name} - Coordinape`,
+          description: 'Join the conversation on Coordinape',
           image: `${webAppURL('colinks')}/api/og/postimage/${encodeURIComponent(id)}`,
           path,
           twitter_card: 'summary_large_image',
@@ -116,7 +116,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // it's a big q!
     return res.send(
       buildTags({
-        title: `The Big Question: ${bq.prompt} - CoLinks`,
+        title: `The Big Question: ${bq.prompt} - Coordinape`,
         description: bq.prompt,
         image: `${webAppURL('colinks')}/api/og/bqimage/${encodeURIComponent(
           id
@@ -132,7 +132,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
 const defaultCoLinksTags = (path: string) => {
   return buildTags({
-    title: 'CoLinks',
+    title: 'Coordinape | The Home of GIVE',
     description: appDescription,
     image: appImg,
     path,
@@ -157,15 +157,15 @@ const buildTags = ({
 <meta name="description" content="${escape(description)}"/>
 <meta property="og:title" content="${escape(title)}" />
 <meta property="og:description" content="${escape(
-    description ?? 'Member of CoLinks'
+    description ?? 'Member of Coordinape'
   )}" />
 <meta property="og:image" content="${image}" />
 <meta property="og:url" content="${appURL + path}" />
 <meta property="og:type" content="website" />
-<meta property="og:site_name" content="CoLinks" />
+<meta property="og:site_name" content="Coordinape" />
 <meta name="twitter:title" content="${escape(title)}" />
 <meta name="twitter:description" content="${escape(
-    description ?? 'Member of CoLinks'
+    description ?? 'Member of Coordinape'
   )}" />
 <meta name="twitter:image" content="${escape(image)}" />
 <meta name="twitter:url" content="${escape(appURL + path)}" />
