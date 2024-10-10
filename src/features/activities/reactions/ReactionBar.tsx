@@ -99,7 +99,9 @@ export const ReactionBar = ({
     if (myProfileId) {
       setShowAddReaction(prev => !prev);
     } else {
-      openConnectModal();
+      if (openConnectModal) {
+        openConnectModal();
+      }
     }
   };
 
