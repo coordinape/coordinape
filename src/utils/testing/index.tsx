@@ -11,15 +11,9 @@ import { MemoryRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { WagmiProvider } from 'wagmi';
 
-import { ThemeProvider as DeprecatedMaterialUIThemeProvider } from '@material-ui/styles';
-
-import ThemeProvider from '../../features/theming/ThemeProvider';
 import { wagmiConfig } from '../../features/wagmi/config';
 import { AppRoutes } from '../../routes/routes';
 import { ToastContainer } from 'components/ToastContainer';
-import { createTheme } from 'theme';
-
-const theme = createTheme();
 
 type TestWrapperProps = {
   children?: ReactNode;
@@ -68,13 +62,9 @@ export const TestWrapper = ({
           <QueryClientProvider client={queryClient}>
             <QCP client={qc}>
               <MemoryRouter initialEntries={routeHistory}>
-                <ThemeProvider>
-                  <DeprecatedMaterialUIThemeProvider theme={theme}>
-                    <Suspense fallback="Suspended...">
-                      {withRoutes ? <AppRoutes /> : children}
-                    </Suspense>
-                  </DeprecatedMaterialUIThemeProvider>
-                </ThemeProvider>
+                <Suspense fallback="Suspended...">
+                  {withRoutes ? <AppRoutes /> : children}
+                </Suspense>
               </MemoryRouter>
             </QCP>
           </QueryClientProvider>

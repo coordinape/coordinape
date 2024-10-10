@@ -5,11 +5,8 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-import { ThemeProvider as DeprecatedMuiThemeProvider } from '@material-ui/styles';
-
 import { ErrorBoundary } from 'components';
 import { ToastContainer } from 'components/ToastContainer';
-import { createTheme } from 'theme';
 
 import { useIsCoLinksSite } from './features/colinks/useIsCoLinksSite';
 import { DebugOverlay } from './features/debug/DebugOverlay';
@@ -20,7 +17,6 @@ import { globalStyles } from './stitches.config';
 
 import './App.css';
 
-const theme = createTheme();
 const queryClient = new QueryClient();
 initAnalytics();
 
@@ -68,14 +64,12 @@ function App() {
           <ToastContainer />
           <QueryClientProvider client={queryClient}>
             <Rainbowify>
-              <DeprecatedMuiThemeProvider theme={theme}>
-                <ThemeProvider>
-                  <BrowserRouter>
-                    <AppRoutes />
-                  </BrowserRouter>
-                  <DebugOverlay />
-                </ThemeProvider>
-              </DeprecatedMuiThemeProvider>
+              <ThemeProvider>
+                <BrowserRouter>
+                  <AppRoutes />
+                </BrowserRouter>
+                <DebugOverlay />
+              </ThemeProvider>
             </Rainbowify>
           </QueryClientProvider>
         </ErrorBoundary>
