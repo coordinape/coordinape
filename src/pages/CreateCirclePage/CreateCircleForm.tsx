@@ -246,6 +246,7 @@ export const CreateCircleForm = ({
                   id="organization_name"
                   name="organization_name"
                   control={control}
+                  disabled={!!org}
                   label="Organization"
                   infoTooltip={
                     <>
