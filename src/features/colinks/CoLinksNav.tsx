@@ -440,7 +440,7 @@ const LoggedInItems = ({
       <HR />
       <NavItem path={webAppURL('give')} external={true}>
         <Give size="lg" nostroke />
-        Gift Circle
+        Circles App
       </NavItem>
     </>
   );
@@ -465,7 +465,7 @@ const LoggedOutItems = () => {
       <HR />
       <NavItem path={webAppURL('give')} external={true}>
         <Give size="lg" nostroke />
-        Gift Circle
+        Circles App
       </NavItem>
 
       {/* <NavItem path={coLinksPaths.highlights}> */}
