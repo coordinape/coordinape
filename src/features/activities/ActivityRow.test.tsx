@@ -8,6 +8,7 @@ import {
 import { client } from 'lib/gql/client';
 import { Mock, vi } from 'vitest';
 
+import { useAuthStore } from '../auth';
 import { TestWrapper } from 'utils/testing';
 
 import { ActivityRow } from './ActivityRow';
@@ -277,6 +278,7 @@ describe('reactions', () => {
       return <ActivityRow activity={activity} />;
     };
 
+    useAuthStore.setState({ profileId: 123 });
     await act(async () => {
       await render(
         <TestWrapper withWeb3>
