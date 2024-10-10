@@ -1,6 +1,7 @@
 import assert from 'assert';
 import { Dispatch, useEffect, useState } from 'react';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { MentionsTextArea } from 'features/colinks/MentionsTextArea';
 import { ValueTypes } from 'lib/gql/__generated__/zeus';
 import { client } from 'lib/gql/client';
@@ -36,6 +37,7 @@ export const ReplyForm = ({
   const profileId = useAuthStore(state => state.profileId);
 
   const [showMarkdown, setShowMarkDown] = useState<boolean>(false);
+  const { openConnectModal } = useConnectModal();
 
   const { showError } = useToast();
 
@@ -141,6 +143,19 @@ export const ReplyForm = ({
       <Text tag color="warning">
         {`You are muted - you can't post replies.`}
       </Text>
+    );
+  }
+
+  if (!profileId) {
+    return (
+      <Button
+        color="coLinksCta"
+        size="large"
+        onClick={openConnectModal}
+        css={{ mt: '$sm', width: '100%', fontWeight: '$semibold' }}
+      >
+        Connect Wallet to Reply
+      </Button>
     );
   }
   return (

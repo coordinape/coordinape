@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { useAuthStore } from 'features/auth';
 import { useMutation } from 'react-query';
 
@@ -37,6 +38,7 @@ export const ReactionBar = ({
   }>({});
   const [myReactions, setMyReactions] = useState<{ [key: string]: number }>({});
   const [showAddReaction, setShowAddReaction] = useState(false);
+  const { openConnectModal } = useConnectModal();
 
   useEffect(() => {
     // reduce the reactions to counts
@@ -93,6 +95,16 @@ export const ReactionBar = ({
     }, 500);
   };
 
+  const showReactionsClicked = () => {
+    if (myProfileId) {
+      setShowAddReaction(prev => !prev);
+    } else {
+      if (openConnectModal) {
+        openConnectModal();
+      }
+    }
+  };
+
   return (
     <Flex css={{ position: 'relative', overflowY: 'visible', minHeight: 24 }}>
       {showAddReaction && (
@@ -110,7 +122,7 @@ export const ReactionBar = ({
         <ReactionButton
           className="iconReaction"
           color="transparent"
-          onClick={() => setShowAddReaction(prev => !prev)}
+          onClick={showReactionsClicked}
           css={{
             border: 'none',
             borderRadius: 9999,
