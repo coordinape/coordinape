@@ -42,6 +42,7 @@ export const WizardCoSoulSteps = ({
   const error = searchParams.get('error');
   const redirect = searchParams.get('redirect');
 
+  //
   // Show the error and remove it from the URL
   // this error comes from the twitter/github/linkedin callbacks
   useEffect(() => {
