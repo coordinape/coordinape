@@ -34,6 +34,16 @@ export const Button = styled('button', {
           outlineColor: '$cta',
         },
       },
+      ctaInverted: {
+        backgroundColor: '$tagCtaBackground',
+        color: '$tagCtaText',
+        '&:hover': {
+          backgroundColor: '$tagCtaBackground',
+        },
+        '&:focus-visible': {
+          outlineColor: '$cta',
+        },
+      },
       coLinksCta: {
         backgroundColor: '$coLinksCta',
         color: '$coLinksTextOnCta',
