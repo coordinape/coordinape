@@ -18,7 +18,6 @@ export const CoSoulWizard = () => {
   const hasName =
     !!data?.profile?.name && !data.profile.name.startsWith('New User');
 
-  const hasCoSoul = !!data?.profile.cosoul;
   const { data: myProfile } = useQuery(
     [QUERY_KEY_COLINKS, address, 'wizard'],
     async () => {
@@ -133,7 +132,6 @@ export const CoSoulWizard = () => {
                 address,
                 hasName,
                 hasRep,
-                hasCoSoul,
                 hasOwnKey: keyData.hasOwnKey,
                 acceptedTOS,
               }}
