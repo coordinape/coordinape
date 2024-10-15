@@ -445,7 +445,7 @@ const LoggedInItems = ({
         target="_blank"
       >
         <Circle2 size="lg" nostroke />
-        Circles App
+        Gift Circle App
       </Button>
     </>
   );
@@ -475,7 +475,7 @@ const LoggedOutItems = () => {
         target="_blank"
       >
         <Circle2 size="lg" nostroke />
-        Circles App
+        Gift Circle App
       </Button>
 
       {/* <NavItem path={coLinksPaths.highlights}> */}
