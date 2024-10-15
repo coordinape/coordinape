@@ -112,7 +112,7 @@ const validActivity = (
           castByline={<CastByline cast={activity.cast} />}
           timestampVerb={timestampVerb ? 'cast' : undefined}
         >
-          {() => <CastRow cast={activity.cast} activity={activity} />}
+          {() => <CastRow cast={activity.cast} />}
         </PostRow>
       </>
     );

@@ -2184,6 +2184,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'enriched_casts_bool_exp',
     _not: 'enriched_casts_bool_exp',
     _or: 'enriched_casts_bool_exp',
+    activity: 'activities_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     embeds: 'jsonb_comparison_exp',
@@ -2208,6 +2209,7 @@ export const AllTypesProps: Record<string, any> = {
     updated_at: 'timestamp_comparison_exp',
   },
   enriched_casts_order_by: {
+    activity: 'activities_order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
     embeds: 'order_by',
@@ -10047,6 +10049,7 @@ export const ReturnTypes: Record<string, any> = {
     verified_at: 'timestamp',
   },
   enriched_casts: {
+    activity: 'activities',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     embeds: 'jsonb',

@@ -1570,6 +1570,7 @@ export type ValueTypes = {
     /** An object relationship */
     giver_profile_public?: ValueTypes['profiles_public'];
     id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1673,6 +1674,7 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['Int_comparison_exp'] | undefined | null;
+    image_url?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
     skill?: ValueTypes['citext_comparison_exp'] | undefined | null;
     target_profile_id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
@@ -1689,6 +1691,7 @@ export type ValueTypes = {
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1702,6 +1705,7 @@ export type ValueTypes = {
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -1714,6 +1718,7 @@ export type ValueTypes = {
     cast_hash?: boolean | `@${string}`;
     created_at?: boolean | `@${string}`;
     id?: boolean | `@${string}`;
+    image_url?: boolean | `@${string}`;
     profile_id?: boolean | `@${string}`;
     skill?: boolean | `@${string}`;
     target_profile_id?: boolean | `@${string}`;
@@ -1727,6 +1732,7 @@ export type ValueTypes = {
     cast_hash?: ValueTypes['order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -1744,6 +1750,7 @@ export type ValueTypes = {
       | undefined
       | null;
     id?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
     profile_id?: ValueTypes['order_by'] | undefined | null;
     skill?: ValueTypes['order_by'] | undefined | null;
     target_profile_id?: ValueTypes['order_by'] | undefined | null;
@@ -1886,6 +1893,7 @@ export type ValueTypes = {
     cast_hash?: string | undefined | null;
     created_at?: ValueTypes['timestamptz'] | undefined | null;
     id?: number | undefined | null;
+    image_url?: string | undefined | null;
     profile_id?: ValueTypes['bigint'] | undefined | null;
     skill?: ValueTypes['citext'] | undefined | null;
     target_profile_id?: ValueTypes['bigint'] | undefined | null;
@@ -2198,6 +2206,8 @@ export type ValueTypes = {
   };
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: AliasType<{
+    /** An object relationship */
+    activity?: ValueTypes['activities'];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     embeds?: [
@@ -2229,6 +2239,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
     _not?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
+    activity?: ValueTypes['activities_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     embeds?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
@@ -2253,6 +2264,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "enriched_casts". */
   ['enriched_casts_order_by']: {
+    activity?: ValueTypes['activities_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     embeds?: ValueTypes['order_by'] | undefined | null;
@@ -6374,6 +6386,7 @@ export type ModelTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    image_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
@@ -6422,6 +6435,7 @@ export type ModelTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    image_url?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -6436,6 +6450,7 @@ export type ModelTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    image_url?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -6580,6 +6595,8 @@ export type ModelTypes = {
   ['date_comparison_exp']: GraphQLTypes['date_comparison_exp'];
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: {
+    /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     embeds: GraphQLTypes['jsonb'];
@@ -8329,6 +8346,7 @@ export type GraphQLTypes = {
     /** An object relationship */
     giver_profile_public?: GraphQLTypes['profiles_public'] | undefined;
     id: number;
+    image_url?: string | undefined;
     profile_id: GraphQLTypes['bigint'];
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id: GraphQLTypes['bigint'];
@@ -8409,6 +8427,7 @@ export type GraphQLTypes = {
     give_skill?: GraphQLTypes['skills_bool_exp'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     id?: GraphQLTypes['Int_comparison_exp'] | undefined;
+    image_url?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     skill?: GraphQLTypes['citext_comparison_exp'] | undefined;
     target_profile_id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
@@ -8425,6 +8444,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    image_url?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -8437,6 +8457,7 @@ export type GraphQLTypes = {
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -8450,6 +8471,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    image_url?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -8462,6 +8484,7 @@ export type GraphQLTypes = {
     cast_hash?: GraphQLTypes['order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -8476,6 +8499,7 @@ export type GraphQLTypes = {
     give_skill?: GraphQLTypes['skills_order_by'] | undefined;
     giver_profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
     id?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
     profile_id?: GraphQLTypes['order_by'] | undefined;
     skill?: GraphQLTypes['order_by'] | undefined;
     target_profile_id?: GraphQLTypes['order_by'] | undefined;
@@ -8608,6 +8632,7 @@ export type GraphQLTypes = {
     cast_hash?: string | undefined;
     created_at?: GraphQLTypes['timestamptz'] | undefined;
     id?: number | undefined;
+    image_url?: string | undefined;
     profile_id?: GraphQLTypes['bigint'] | undefined;
     skill?: GraphQLTypes['citext'] | undefined;
     target_profile_id?: GraphQLTypes['bigint'] | undefined;
@@ -8789,6 +8814,8 @@ export type GraphQLTypes = {
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: {
     __typename: 'enriched_casts';
+    /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     embeds: GraphQLTypes['jsonb'];
@@ -8814,6 +8841,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
     _not?: GraphQLTypes['enriched_casts_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
+    activity?: GraphQLTypes['activities_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     embeds?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
@@ -8837,6 +8865,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "enriched_casts". */
   ['enriched_casts_order_by']: {
+    activity?: GraphQLTypes['activities_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     embeds?: GraphQLTypes['order_by'] | undefined;
@@ -10886,6 +10915,7 @@ export const enum colinks_gives_select_column {
   cast_hash = 'cast_hash',
   created_at = 'created_at',
   id = 'id',
+  image_url = 'image_url',
   profile_id = 'profile_id',
   skill = 'skill',
   target_profile_id = 'target_profile_id',

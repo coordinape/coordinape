@@ -10,6 +10,7 @@ import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
 import givebones from '../_api/farcaster/actions/give/[skill].ts';
+import farcaster_recentlikes from '../_api/farcaster/casts/recentlikes';
 import farcaster_user from '../_api/farcaster/user/[address]';
 import farcaster_search from '../_api/farcaster/users/[search]';
 import frames_router from '../_api/frames/router';
@@ -221,6 +222,8 @@ app.get('/api/farcaster/user/:address', (req, res) => {
 app.get('/api/farcaster/users/:search', (req, res) => {
   return tf(farcaster_search)({ ...req, query: req.params }, res);
 });
+
+app.get('/api/farcaster/casts/recentlikes', tf(farcaster_recentlikes));
 
 app.all('/api/frames/router/:path*', (req, res) => {
   let path = req.url as string;

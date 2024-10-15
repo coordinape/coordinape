@@ -1382,6 +1382,7 @@ type colinks_gives {
   """
   giver_profile_public: profiles_public
   id: Int!
+  image_url: String
   profile_id: bigint!
   skill: citext
   target_profile_id: bigint!
@@ -1480,6 +1481,7 @@ input colinks_gives_bool_exp {
   give_skill: skills_bool_exp
   giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
+  image_url: String_comparison_exp
   profile_id: bigint_comparison_exp
   skill: citext_comparison_exp
   target_profile_id: bigint_comparison_exp
@@ -1496,6 +1498,7 @@ type colinks_gives_max_fields {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -1511,6 +1514,7 @@ input colinks_gives_max_order_by {
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  image_url: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -1526,6 +1530,7 @@ type colinks_gives_min_fields {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -1541,6 +1546,7 @@ input colinks_gives_min_order_by {
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  image_url: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -1558,6 +1564,7 @@ input colinks_gives_order_by {
   give_skill: skills_order_by
   giver_profile_public: profiles_public_order_by
   id: order_by
+  image_url: order_by
   profile_id: order_by
   skill: order_by
   target_profile_id: order_by
@@ -1593,6 +1600,11 @@ enum colinks_gives_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  image_url
 
   """
   column name
@@ -1814,6 +1826,7 @@ input colinks_gives_stream_cursor_value_input {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   profile_id: bigint
   skill: citext
   target_profile_id: bigint
@@ -2260,6 +2273,10 @@ input date_comparison_exp {
 farcaster casts that we actually care about, with some materialized fields
 """
 type enriched_casts {
+  """
+  An object relationship
+  """
+  activity: activities
   created_at: timestamp!
   deleted_at: timestamp
   embeds(
@@ -2296,6 +2313,7 @@ input enriched_casts_bool_exp {
   _and: [enriched_casts_bool_exp!]
   _not: enriched_casts_bool_exp
   _or: [enriched_casts_bool_exp!]
+  activity: activities_bool_exp
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
@@ -2320,6 +2338,7 @@ input enriched_casts_bool_exp {
 Ordering options when selecting data from "enriched_casts".
 """
 input enriched_casts_order_by {
+  activity: activities_order_by
   created_at: order_by
   deleted_at: order_by
   embeds: order_by

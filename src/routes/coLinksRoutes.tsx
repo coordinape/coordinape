@@ -38,6 +38,7 @@ import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage, GiveSkillRedirect } from '../pages/GiveSkillPage';
+import { Home2Page } from '../pages/Home2';
 import { PostPage } from '../pages/PostPage';
 import {
   GivePartyProfileRedirect,
@@ -137,6 +138,7 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
+      <Route path={coLinksPaths.home2} element={<Home2Page />} />
       <Route
         key="givePagesLayout"
         element={

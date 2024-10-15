@@ -14240,6 +14240,10 @@ input emails_variance_order_by {
 farcaster casts that we actually care about, with some materialized fields
 """
 type enriched_casts {
+  """
+  An object relationship
+  """
+  activity: activities
   created_at: timestamp!
   deleted_at: timestamp
   embeds(
@@ -14448,6 +14452,7 @@ input enriched_casts_bool_exp {
   _and: [enriched_casts_bool_exp!]
   _not: enriched_casts_bool_exp
   _or: [enriched_casts_bool_exp!]
+  activity: activities_bool_exp
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
@@ -14524,6 +14529,7 @@ input enriched_casts_inc_input {
 input type for inserting data into table "enriched_casts"
 """
 input enriched_casts_insert_input {
+  activity: activities_obj_rel_insert_input
   created_at: timestamp
   deleted_at: timestamp
   embeds: jsonb
@@ -14626,6 +14632,7 @@ input enriched_casts_on_conflict {
 Ordering options when selecting data from "enriched_casts".
 """
 input enriched_casts_order_by {
+  activity: activities_order_by
   created_at: order_by
   deleted_at: order_by
   embeds: order_by
@@ -24319,6 +24326,8 @@ type interaction_events_variance_fields {
   profile_id: Float
 }
 
+scalar interval
+
 """
 Invite codes table for restricting access to app
 """
@@ -28153,6 +28162,12 @@ input member_epoch_pgives_variance_order_by {
   user_id: order_by
 }
 
+input most_reacted_casts_args {
+  reaction_type: smallint
+  result_limit: Int
+  time_period: interval
+}
+
 """
 mutation root
 """
@@ -29371,6 +29386,23 @@ type mutation_root {
   delete_virtual_profiles_similarity_by_pk(
     id: bigint!
   ): virtual_profiles_similarity
+
+  """
+  delete data from the table: "virtual_reactions_count"
+  """
+  delete_virtual_reactions_count(
+    """
+    filter the rows which have to be deleted
+    """
+    where: virtual_reactions_count_bool_exp!
+  ): virtual_reactions_count_mutation_response
+
+  """
+  delete single row from the table: "virtual_reactions_count"
+  """
+  delete_virtual_reactions_count_by_pk(
+    target_hash: bytea!
+  ): virtual_reactions_count
 
   """
   delete data from the table: "vouches"
@@ -31678,6 +31710,36 @@ type mutation_root {
     """
     on_conflict: virtual_profiles_similarity_on_conflict
   ): virtual_profiles_similarity
+
+  """
+  insert data into the table: "virtual_reactions_count"
+  """
+  insert_virtual_reactions_count(
+    """
+    the rows to be inserted
+    """
+    objects: [virtual_reactions_count_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_reactions_count_on_conflict
+  ): virtual_reactions_count_mutation_response
+
+  """
+  insert a single row into the table: "virtual_reactions_count"
+  """
+  insert_virtual_reactions_count_one(
+    """
+    the row to be inserted
+    """
+    object: virtual_reactions_count_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_reactions_count_on_conflict
+  ): virtual_reactions_count
 
   """
   insert data into the table: "vouches"
@@ -35585,6 +35647,52 @@ type mutation_root {
     """
     updates: [virtual_profiles_similarity_updates!]!
   ): [virtual_profiles_similarity_mutation_response]
+
+  """
+  update data of the table: "virtual_reactions_count"
+  """
+  update_virtual_reactions_count(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_reactions_count_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_reactions_count_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: virtual_reactions_count_bool_exp!
+  ): virtual_reactions_count_mutation_response
+
+  """
+  update single row of the table: "virtual_reactions_count"
+  """
+  update_virtual_reactions_count_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_reactions_count_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_reactions_count_set_input
+    pk_columns: virtual_reactions_count_pk_columns_input!
+  ): virtual_reactions_count
+
+  """
+  update multiples rows of table: "virtual_reactions_count"
+  """
+  update_virtual_reactions_count_many(
+    """
+    updates to execute, in order
+    """
+    updates: [virtual_reactions_count_updates!]!
+  ): [virtual_reactions_count_mutation_response]
 
   """
   update data of the table: "vouches"
@@ -50697,6 +50805,76 @@ type query_root {
   member_epoch_pgives_by_pk(id: Int!): member_epoch_pgives
 
   """
+  execute function "most_reacted_casts" which returns "virtual_reactions_count"
+  """
+  most_reacted_casts(
+    """
+    input parameters for function "most_reacted_casts"
+    """
+    args: most_reacted_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): [virtual_reactions_count!]!
+
+  """
+  execute function "most_reacted_casts" and query aggregates on result of table type "virtual_reactions_count"
+  """
+  most_reacted_casts_aggregate(
+    """
+    input parameters for function "most_reacted_casts_aggregate"
+    """
+    args: most_reacted_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): virtual_reactions_count_aggregate!
+
+  """
   An array relationship
   """
   mutes(
@@ -53503,6 +53681,71 @@ type query_root {
   fetch data from the table: "virtual_profiles_similarity" using primary key columns
   """
   virtual_profiles_similarity_by_pk(id: bigint!): virtual_profiles_similarity
+
+  """
+  fetch data from the table: "virtual_reactions_count"
+  """
+  virtual_reactions_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): [virtual_reactions_count!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_reactions_count"
+  """
+  virtual_reactions_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): virtual_reactions_count_aggregate!
+
+  """
+  fetch data from the table: "virtual_reactions_count" using primary key columns
+  """
+  virtual_reactions_count_by_pk(target_hash: bytea!): virtual_reactions_count
 
   """
   An array relationship
@@ -60778,6 +61021,76 @@ type subscription_root {
   ): [member_epoch_pgives!]!
 
   """
+  execute function "most_reacted_casts" which returns "virtual_reactions_count"
+  """
+  most_reacted_casts(
+    """
+    input parameters for function "most_reacted_casts"
+    """
+    args: most_reacted_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): [virtual_reactions_count!]!
+
+  """
+  execute function "most_reacted_casts" and query aggregates on result of table type "virtual_reactions_count"
+  """
+  most_reacted_casts_aggregate(
+    """
+    input parameters for function "most_reacted_casts_aggregate"
+    """
+    args: most_reacted_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): virtual_reactions_count_aggregate!
+
+  """
   An array relationship
   """
   mutes(
@@ -64314,6 +64627,91 @@ type subscription_root {
     """
     where: virtual_profiles_similarity_bool_exp
   ): [virtual_profiles_similarity!]!
+
+  """
+  fetch data from the table: "virtual_reactions_count"
+  """
+  virtual_reactions_count(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): [virtual_reactions_count!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_reactions_count"
+  """
+  virtual_reactions_count_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_reactions_count_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_reactions_count_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): virtual_reactions_count_aggregate!
+
+  """
+  fetch data from the table: "virtual_reactions_count" using primary key columns
+  """
+  virtual_reactions_count_by_pk(target_hash: bytea!): virtual_reactions_count
+
+  """
+  fetch data from the table in a streaming manner: "virtual_reactions_count"
+  """
+  virtual_reactions_count_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [virtual_reactions_count_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: virtual_reactions_count_bool_exp
+  ): [virtual_reactions_count!]!
 
   """
   An array relationship
@@ -69965,6 +70363,270 @@ aggregate variance on columns
 type virtual_profiles_similarity_variance_fields {
   id: Float
   similarity: Float
+}
+
+"""
+virtual table for view of grouped_by farcaster.reactions
+"""
+type virtual_reactions_count {
+  count: bigint!
+
+  """
+  An object relationship
+  """
+  enriched_cast: enriched_casts
+  target_hash: bytea!
+}
+
+type virtual_reactions_count_aggregate {
+  aggregate: virtual_reactions_count_aggregate_fields
+  nodes: [virtual_reactions_count!]!
+}
+
+"""
+aggregate fields of "virtual_reactions_count"
+"""
+type virtual_reactions_count_aggregate_fields {
+  avg: virtual_reactions_count_avg_fields
+  count(
+    columns: [virtual_reactions_count_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: virtual_reactions_count_max_fields
+  min: virtual_reactions_count_min_fields
+  stddev: virtual_reactions_count_stddev_fields
+  stddev_pop: virtual_reactions_count_stddev_pop_fields
+  stddev_samp: virtual_reactions_count_stddev_samp_fields
+  sum: virtual_reactions_count_sum_fields
+  var_pop: virtual_reactions_count_var_pop_fields
+  var_samp: virtual_reactions_count_var_samp_fields
+  variance: virtual_reactions_count_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type virtual_reactions_count_avg_fields {
+  count: Float
+}
+
+"""
+Boolean expression to filter rows from the table "virtual_reactions_count". All fields are combined with a logical 'AND'.
+"""
+input virtual_reactions_count_bool_exp {
+  _and: [virtual_reactions_count_bool_exp!]
+  _not: virtual_reactions_count_bool_exp
+  _or: [virtual_reactions_count_bool_exp!]
+  count: bigint_comparison_exp
+  enriched_cast: enriched_casts_bool_exp
+  target_hash: bytea_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "virtual_reactions_count"
+"""
+enum virtual_reactions_count_constraint {
+  """
+  unique or primary key constraint on columns "target_hash"
+  """
+  virtual_reactions_count_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "virtual_reactions_count"
+"""
+input virtual_reactions_count_inc_input {
+  count: bigint
+}
+
+"""
+input type for inserting data into table "virtual_reactions_count"
+"""
+input virtual_reactions_count_insert_input {
+  count: bigint
+  enriched_cast: enriched_casts_obj_rel_insert_input
+  target_hash: bytea
+}
+
+"""
+aggregate max on columns
+"""
+type virtual_reactions_count_max_fields {
+  count: bigint
+}
+
+"""
+aggregate min on columns
+"""
+type virtual_reactions_count_min_fields {
+  count: bigint
+}
+
+"""
+response of any mutation on the table "virtual_reactions_count"
+"""
+type virtual_reactions_count_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [virtual_reactions_count!]!
+}
+
+"""
+on_conflict condition type for table "virtual_reactions_count"
+"""
+input virtual_reactions_count_on_conflict {
+  constraint: virtual_reactions_count_constraint!
+  update_columns: [virtual_reactions_count_update_column!]! = []
+  where: virtual_reactions_count_bool_exp
+}
+
+"""
+Ordering options when selecting data from "virtual_reactions_count".
+"""
+input virtual_reactions_count_order_by {
+  count: order_by
+  enriched_cast: enriched_casts_order_by
+  target_hash: order_by
+}
+
+"""
+primary key columns input for table: virtual_reactions_count
+"""
+input virtual_reactions_count_pk_columns_input {
+  target_hash: bytea!
+}
+
+"""
+select columns of table "virtual_reactions_count"
+"""
+enum virtual_reactions_count_select_column {
+  """
+  column name
+  """
+  count
+
+  """
+  column name
+  """
+  target_hash
+}
+
+"""
+input type for updating data in table "virtual_reactions_count"
+"""
+input virtual_reactions_count_set_input {
+  count: bigint
+  target_hash: bytea
+}
+
+"""
+aggregate stddev on columns
+"""
+type virtual_reactions_count_stddev_fields {
+  count: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type virtual_reactions_count_stddev_pop_fields {
+  count: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type virtual_reactions_count_stddev_samp_fields {
+  count: Float
+}
+
+"""
+Streaming cursor of the table "virtual_reactions_count"
+"""
+input virtual_reactions_count_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: virtual_reactions_count_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input virtual_reactions_count_stream_cursor_value_input {
+  count: bigint
+  target_hash: bytea
+}
+
+"""
+aggregate sum on columns
+"""
+type virtual_reactions_count_sum_fields {
+  count: bigint
+}
+
+"""
+update columns of table "virtual_reactions_count"
+"""
+enum virtual_reactions_count_update_column {
+  """
+  column name
+  """
+  count
+
+  """
+  column name
+  """
+  target_hash
+}
+
+input virtual_reactions_count_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: virtual_reactions_count_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: virtual_reactions_count_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: virtual_reactions_count_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type virtual_reactions_count_var_pop_fields {
+  count: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type virtual_reactions_count_var_samp_fields {
+  count: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type virtual_reactions_count_variance_fields {
+  count: Float
 }
 
 """
