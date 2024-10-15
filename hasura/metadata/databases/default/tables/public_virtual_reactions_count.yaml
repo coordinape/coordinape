@@ -1,0 +1,3 @@
+table:
+  name: virtual_reactions_count
+  schema: public

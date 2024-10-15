@@ -1,3 +1,4 @@
+- "!include public_most_reacted_casts.yaml"
 - "!include public_search_contributions.yaml"
 - "!include public_search_replies.yaml"
 - "!include public_similar_profiles.yaml"
