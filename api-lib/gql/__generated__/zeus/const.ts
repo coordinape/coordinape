@@ -5976,6 +5976,7 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'interaction_events_set_input',
     where: 'interaction_events_bool_exp',
   },
+  interval: 'String',
   invite_codes_aggregate_bool_exp: {
     count: 'invite_codes_aggregate_bool_exp_count',
   },
@@ -6962,6 +6963,10 @@ export const AllTypesProps: Record<string, any> = {
     pgive: 'order_by',
     user_id: 'order_by',
   },
+  most_reacted_casts_args: {
+    reaction_type: 'smallint',
+    time_period: 'interval',
+  },
   mutation_root: {
     addEmail: {
       payload: 'AddEmailInput',
@@ -7457,6 +7462,12 @@ export const AllTypesProps: Record<string, any> = {
     },
     delete_virtual_profiles_similarity_by_pk: {
       id: 'bigint',
+    },
+    delete_virtual_reactions_count: {
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    delete_virtual_reactions_count_by_pk: {
+      target_hash: 'bytea',
     },
     delete_vouches: {
       where: 'vouches_bool_exp',
@@ -8084,6 +8095,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_virtual_profiles_similarity_one: {
       object: 'virtual_profiles_similarity_insert_input',
       on_conflict: 'virtual_profiles_similarity_on_conflict',
+    },
+    insert_virtual_reactions_count: {
+      objects: 'virtual_reactions_count_insert_input',
+      on_conflict: 'virtual_reactions_count_on_conflict',
+    },
+    insert_virtual_reactions_count_one: {
+      object: 'virtual_reactions_count_insert_input',
+      on_conflict: 'virtual_reactions_count_on_conflict',
     },
     insert_vouches: {
       objects: 'vouches_insert_input',
@@ -9189,6 +9208,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_virtual_profiles_similarity_many: {
       updates: 'virtual_profiles_similarity_updates',
+    },
+    update_virtual_reactions_count: {
+      _inc: 'virtual_reactions_count_inc_input',
+      _set: 'virtual_reactions_count_set_input',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    update_virtual_reactions_count_by_pk: {
+      _inc: 'virtual_reactions_count_inc_input',
+      _set: 'virtual_reactions_count_set_input',
+      pk_columns: 'virtual_reactions_count_pk_columns_input',
+    },
+    update_virtual_reactions_count_many: {
+      updates: 'virtual_reactions_count_updates',
     },
     update_vouches: {
       _inc: 'vouches_inc_input',
@@ -12567,6 +12599,18 @@ export const AllTypesProps: Record<string, any> = {
       where: 'member_epoch_pgives_bool_exp',
     },
     member_epoch_pgives_by_pk: {},
+    most_reacted_casts: {
+      args: 'most_reacted_casts_args',
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    most_reacted_casts_aggregate: {
+      args: 'most_reacted_casts_args',
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
     mutes: {
       distinct_on: 'mutes_select_column',
       order_by: 'mutes_order_by',
@@ -13099,6 +13143,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     virtual_profiles_similarity_by_pk: {
       id: 'bigint',
+    },
+    virtual_reactions_count: {
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    virtual_reactions_count_aggregate: {
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    virtual_reactions_count_by_pk: {
+      target_hash: 'bytea',
     },
     vouches: {
       distinct_on: 'vouches_select_column',
@@ -14654,6 +14711,18 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'member_epoch_pgives_stream_cursor_input',
       where: 'member_epoch_pgives_bool_exp',
     },
+    most_reacted_casts: {
+      args: 'most_reacted_casts_args',
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    most_reacted_casts_aggregate: {
+      args: 'most_reacted_casts_args',
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
     mutes: {
       distinct_on: 'mutes_select_column',
       order_by: 'mutes_order_by',
@@ -15328,6 +15397,23 @@ export const AllTypesProps: Record<string, any> = {
     virtual_profiles_similarity_stream: {
       cursor: 'virtual_profiles_similarity_stream_cursor_input',
       where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_reactions_count: {
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    virtual_reactions_count_aggregate: {
+      distinct_on: 'virtual_reactions_count_select_column',
+      order_by: 'virtual_reactions_count_order_by',
+      where: 'virtual_reactions_count_bool_exp',
+    },
+    virtual_reactions_count_by_pk: {
+      target_hash: 'bytea',
+    },
+    virtual_reactions_count_stream: {
+      cursor: 'virtual_reactions_count_stream_cursor_input',
+      where: 'virtual_reactions_count_bool_exp',
     },
     vouches: {
       distinct_on: 'vouches_select_column',
@@ -16867,6 +16953,57 @@ export const AllTypesProps: Record<string, any> = {
     _inc: 'virtual_profiles_similarity_inc_input',
     _set: 'virtual_profiles_similarity_set_input',
     where: 'virtual_profiles_similarity_bool_exp',
+  },
+  virtual_reactions_count_aggregate_fields: {
+    count: {
+      columns: 'virtual_reactions_count_select_column',
+    },
+  },
+  virtual_reactions_count_bool_exp: {
+    _and: 'virtual_reactions_count_bool_exp',
+    _not: 'virtual_reactions_count_bool_exp',
+    _or: 'virtual_reactions_count_bool_exp',
+    count: 'bigint_comparison_exp',
+    target_hash: 'bytea_comparison_exp',
+  },
+  virtual_reactions_count_constraint: true,
+  virtual_reactions_count_inc_input: {
+    count: 'bigint',
+  },
+  virtual_reactions_count_insert_input: {
+    count: 'bigint',
+    target_hash: 'bytea',
+  },
+  virtual_reactions_count_on_conflict: {
+    constraint: 'virtual_reactions_count_constraint',
+    update_columns: 'virtual_reactions_count_update_column',
+    where: 'virtual_reactions_count_bool_exp',
+  },
+  virtual_reactions_count_order_by: {
+    count: 'order_by',
+    target_hash: 'order_by',
+  },
+  virtual_reactions_count_pk_columns_input: {
+    target_hash: 'bytea',
+  },
+  virtual_reactions_count_select_column: true,
+  virtual_reactions_count_set_input: {
+    count: 'bigint',
+    target_hash: 'bytea',
+  },
+  virtual_reactions_count_stream_cursor_input: {
+    initial_value: 'virtual_reactions_count_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  virtual_reactions_count_stream_cursor_value_input: {
+    count: 'bigint',
+    target_hash: 'bytea',
+  },
+  virtual_reactions_count_update_column: true,
+  virtual_reactions_count_updates: {
+    _inc: 'virtual_reactions_count_inc_input',
+    _set: 'virtual_reactions_count_set_input',
+    where: 'virtual_reactions_count_bool_exp',
   },
   vouches_aggregate_bool_exp: {
     count: 'vouches_aggregate_bool_exp_count',
@@ -22335,6 +22472,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_virtual_profiles_similarity:
       'virtual_profiles_similarity_mutation_response',
     delete_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
+    delete_virtual_reactions_count: 'virtual_reactions_count_mutation_response',
+    delete_virtual_reactions_count_by_pk: 'virtual_reactions_count',
     delete_vouches: 'vouches_mutation_response',
     delete_vouches_by_pk: 'vouches',
     endEpoch: 'EpochResponse',
@@ -22506,6 +22645,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_virtual_profiles_similarity:
       'virtual_profiles_similarity_mutation_response',
     insert_virtual_profiles_similarity_one: 'virtual_profiles_similarity',
+    insert_virtual_reactions_count: 'virtual_reactions_count_mutation_response',
+    insert_virtual_reactions_count_one: 'virtual_reactions_count',
     insert_vouches: 'vouches_mutation_response',
     insert_vouches_one: 'vouches',
     inviteWaitingList: 'ConfirmationResponse',
@@ -22776,6 +22917,10 @@ export const ReturnTypes: Record<string, any> = {
     update_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
     update_virtual_profiles_similarity_many:
       'virtual_profiles_similarity_mutation_response',
+    update_virtual_reactions_count: 'virtual_reactions_count_mutation_response',
+    update_virtual_reactions_count_by_pk: 'virtual_reactions_count',
+    update_virtual_reactions_count_many:
+      'virtual_reactions_count_mutation_response',
     update_vouches: 'vouches_mutation_response',
     update_vouches_by_pk: 'vouches',
     update_vouches_many: 'vouches_mutation_response',
@@ -25089,6 +25234,8 @@ export const ReturnTypes: Record<string, any> = {
     member_epoch_pgives: 'member_epoch_pgives',
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
     member_epoch_pgives_by_pk: 'member_epoch_pgives',
+    most_reacted_casts: 'virtual_reactions_count',
+    most_reacted_casts_aggregate: 'virtual_reactions_count_aggregate',
     mutes: 'mutes',
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
@@ -25211,6 +25358,9 @@ export const ReturnTypes: Record<string, any> = {
     virtual_profiles_similarity_aggregate:
       'virtual_profiles_similarity_aggregate',
     virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
+    virtual_reactions_count: 'virtual_reactions_count',
+    virtual_reactions_count_aggregate: 'virtual_reactions_count_aggregate',
+    virtual_reactions_count_by_pk: 'virtual_reactions_count',
     vouches: 'vouches',
     vouches_aggregate: 'vouches_aggregate',
     vouches_by_pk: 'vouches',
@@ -26018,6 +26168,8 @@ export const ReturnTypes: Record<string, any> = {
     member_epoch_pgives_aggregate: 'member_epoch_pgives_aggregate',
     member_epoch_pgives_by_pk: 'member_epoch_pgives',
     member_epoch_pgives_stream: 'member_epoch_pgives',
+    most_reacted_casts: 'virtual_reactions_count',
+    most_reacted_casts_aggregate: 'virtual_reactions_count_aggregate',
     mutes: 'mutes',
     mutes_aggregate: 'mutes_aggregate',
     mutes_by_pk: 'mutes',
@@ -26175,6 +26327,10 @@ export const ReturnTypes: Record<string, any> = {
       'virtual_profiles_similarity_aggregate',
     virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
     virtual_profiles_similarity_stream: 'virtual_profiles_similarity',
+    virtual_reactions_count: 'virtual_reactions_count',
+    virtual_reactions_count_aggregate: 'virtual_reactions_count_aggregate',
+    virtual_reactions_count_by_pk: 'virtual_reactions_count',
+    virtual_reactions_count_stream: 'virtual_reactions_count',
     vouches: 'vouches',
     vouches_aggregate: 'vouches_aggregate',
     vouches_by_pk: 'vouches',
@@ -27108,6 +27264,61 @@ export const ReturnTypes: Record<string, any> = {
   virtual_profiles_similarity_variance_fields: {
     id: 'Float',
     similarity: 'Float',
+  },
+  virtual_reactions_count: {
+    count: 'bigint',
+    target_hash: 'bytea',
+  },
+  virtual_reactions_count_aggregate: {
+    aggregate: 'virtual_reactions_count_aggregate_fields',
+    nodes: 'virtual_reactions_count',
+  },
+  virtual_reactions_count_aggregate_fields: {
+    avg: 'virtual_reactions_count_avg_fields',
+    count: 'Int',
+    max: 'virtual_reactions_count_max_fields',
+    min: 'virtual_reactions_count_min_fields',
+    stddev: 'virtual_reactions_count_stddev_fields',
+    stddev_pop: 'virtual_reactions_count_stddev_pop_fields',
+    stddev_samp: 'virtual_reactions_count_stddev_samp_fields',
+    sum: 'virtual_reactions_count_sum_fields',
+    var_pop: 'virtual_reactions_count_var_pop_fields',
+    var_samp: 'virtual_reactions_count_var_samp_fields',
+    variance: 'virtual_reactions_count_variance_fields',
+  },
+  virtual_reactions_count_avg_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_max_fields: {
+    count: 'bigint',
+  },
+  virtual_reactions_count_min_fields: {
+    count: 'bigint',
+  },
+  virtual_reactions_count_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'virtual_reactions_count',
+  },
+  virtual_reactions_count_stddev_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_stddev_pop_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_stddev_samp_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_sum_fields: {
+    count: 'bigint',
+  },
+  virtual_reactions_count_var_pop_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_var_samp_fields: {
+    count: 'Float',
+  },
+  virtual_reactions_count_variance_fields: {
+    count: 'Float',
   },
   vouches: {
     created_at: 'timestamp',

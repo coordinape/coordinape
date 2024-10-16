@@ -54,7 +54,6 @@ export const AllTypesProps: Record<string, any> = {
   Int_comparison_exp: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
-  RedeemInviteCodeInput: {},
   RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
@@ -4022,9 +4021,6 @@ export const AllTypesProps: Record<string, any> = {
     },
     markClaimed: {
       payload: 'MarkClaimedInput',
-    },
-    redeemInviteCode: {
-      payload: 'RedeemInviteCodeInput',
     },
     requestInviteCode: {
       payload: 'RequestInviteCodeInput',
@@ -10772,7 +10768,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_skills_one: 'skills',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
-    redeemInviteCode: 'ConfirmationWithErrorResponse',
     requestInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',

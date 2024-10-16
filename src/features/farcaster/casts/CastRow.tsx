@@ -4,10 +4,9 @@ import { NavLink } from 'react-router-dom';
 import { coLinksPaths } from '../../../routes/paths';
 import { Flex, Text } from '../../../ui';
 import { Cast } from '../../activities/cast';
-import { Activity } from '../../activities/useInfiniteActivities';
 import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
-export const CastRow = ({ cast }: { cast: Cast; activity: Activity }) => {
+export const CastRow = ({ cast }: { cast: Cast }) => {
   return (
     <Flex
       column

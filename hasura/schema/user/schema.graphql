@@ -421,10 +421,6 @@ type OrgMemberResponse {
   new: Boolean!
 }
 
-input RedeemInviteCodeInput {
-  code: String!
-}
-
 input RequestInviteCodeInput {
   email: String!
 }
@@ -12516,9 +12512,6 @@ type mutation_root {
   ): skills
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
-  redeemInviteCode(
-    payload: RedeemInviteCodeInput!
-  ): ConfirmationWithErrorResponse!
   requestInviteCode(
     payload: RequestInviteCodeInput!
   ): ConfirmationWithErrorResponse!

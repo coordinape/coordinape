@@ -946,9 +946,6 @@ export type ValueTypes = {
     new?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['RedeemInviteCodeInput']: {
-    code: string;
-  };
   ['RequestInviteCodeInput']: {
     email: string;
   };
@@ -9497,10 +9494,6 @@ export type ValueTypes = {
     markClaimed?: [
       { payload: ValueTypes['MarkClaimedInput'] },
       ValueTypes['MarkClaimedOutput'],
-    ];
-    redeemInviteCode?: [
-      { payload: ValueTypes['RedeemInviteCodeInput'] },
-      ValueTypes['ConfirmationWithErrorResponse'],
     ];
     requestInviteCode?: [
       { payload: ValueTypes['RequestInviteCodeInput'] },
@@ -22422,7 +22415,6 @@ export type ModelTypes = {
     id: string;
     new: boolean;
   };
-  ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
   ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
@@ -25423,7 +25415,6 @@ export type ModelTypes = {
     insert_skills_one?: GraphQLTypes['skills'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
-    redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
@@ -29138,9 +29129,6 @@ export type GraphQLTypes = {
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
     new: boolean;
-  };
-  ['RedeemInviteCodeInput']: {
-    code: string;
   };
   ['RequestInviteCodeInput']: {
     email: string;
@@ -35830,7 +35818,6 @@ export type GraphQLTypes = {
     insert_skills_one?: GraphQLTypes['skills'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
-    redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
