@@ -4,7 +4,7 @@ import { Button } from '../../ui';
 import { setOAuthCookie, setOAuthRedirectCookie } from '../auth/oauth';
 
 export const connectButtonStyle = {
-  minWidth: '13rem',
+  minWidth: '12.5rem',
 };
 
 export const ConnectGitHubButton = ({

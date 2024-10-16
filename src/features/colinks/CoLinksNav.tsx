@@ -32,10 +32,10 @@ import {
   Ai,
   BoltFill,
   CertificateFill,
+  Circle2,
   Gear,
   GemCoFillSm,
   GemCoOutline,
-  Give,
   HouseFill,
   Menu,
   MessagesQuestion,
@@ -438,10 +438,15 @@ const LoggedInItems = ({
         Rep Score
       </NavItem>
       <HR />
-      <NavItem path={webAppURL('give')} external={true}>
-        <Give size="lg" nostroke />
-        Circles App
-      </NavItem>
+      <Button
+        color="ctaInverted"
+        as={Link}
+        href={webAppURL('give')}
+        target="_blank"
+      >
+        <Circle2 size="lg" nostroke />
+        Gift Circle App
+      </Button>
     </>
   );
 };
@@ -463,10 +468,15 @@ const LoggedOutItems = () => {
         Explore
       </NavItem>
       <HR />
-      <NavItem path={webAppURL('give')} external={true}>
-        <Give size="lg" nostroke />
-        Circles App
-      </NavItem>
+      <Button
+        color="ctaInverted"
+        as={Link}
+        href={webAppURL('give')}
+        target="_blank"
+      >
+        <Circle2 size="lg" nostroke />
+        Gift Circle App
+      </Button>
 
       {/* <NavItem path={coLinksPaths.highlights}> */}
       {/*   <Ai size="lg" nostroke /> */}
