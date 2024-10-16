@@ -5,15 +5,17 @@ CREATE OR REPLACE FUNCTION public.most_reacted_casts(time_period interval, react
 AS $function$
     SELECT
         reactions.target_hash,
-        COUNT(*) OVER (PARTITION BY reactions.target_hash) AS likes_count
+        COUNT(*) AS likes_count
     FROM
         farcaster.reactions
     WHERE
         reactions.created_at >= NOW() - time_period
         AND reactions.reaction_type = reaction_type
         AND reactions.deleted_at IS NULL
+    GROUP BY
+        reactions.target_hash
     ORDER BY
-        likes_count DESC, reactions.created_at DESC
+        likes_count DESC, MAX(reactions.created_at) DESC
     LIMIT
         result_limit;
 $function$;
