@@ -13812,6 +13812,10 @@ input emails_variance_order_by {
 farcaster casts that we actually care about, with some materialized fields
 """
 type enriched_casts {
+  """
+  An object relationship
+  """
+  activity: activities
   created_at: timestamp!
   deleted_at: timestamp
   embeds(
@@ -14020,6 +14024,7 @@ input enriched_casts_bool_exp {
   _and: [enriched_casts_bool_exp!]
   _not: enriched_casts_bool_exp
   _or: [enriched_casts_bool_exp!]
+  activity: activities_bool_exp
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
@@ -14096,6 +14101,7 @@ input enriched_casts_inc_input {
 input type for inserting data into table "enriched_casts"
 """
 input enriched_casts_insert_input {
+  activity: activities_obj_rel_insert_input
   created_at: timestamp
   deleted_at: timestamp
   embeds: jsonb
@@ -14198,6 +14204,7 @@ input enriched_casts_on_conflict {
 Ordering options when selecting data from "enriched_casts".
 """
 input enriched_casts_order_by {
+  activity: activities_order_by
   created_at: order_by
   deleted_at: order_by
   embeds: order_by
@@ -69542,6 +69549,11 @@ virtual table for view of grouped_by farcaster.reactions
 """
 type virtual_reactions_count {
   count: bigint!
+
+  """
+  An object relationship
+  """
+  enriched_cast: enriched_casts
   target_hash: bytea!
 }
 
@@ -69585,6 +69597,7 @@ input virtual_reactions_count_bool_exp {
   _not: virtual_reactions_count_bool_exp
   _or: [virtual_reactions_count_bool_exp!]
   count: bigint_comparison_exp
+  enriched_cast: enriched_casts_bool_exp
   target_hash: bytea_comparison_exp
 }
 
@@ -69610,6 +69623,7 @@ input type for inserting data into table "virtual_reactions_count"
 """
 input virtual_reactions_count_insert_input {
   count: bigint
+  enriched_cast: enriched_casts_obj_rel_insert_input
   target_hash: bytea
 }
 
@@ -69656,6 +69670,7 @@ Ordering options when selecting data from "virtual_reactions_count".
 """
 input virtual_reactions_count_order_by {
   count: order_by
+  enriched_cast: enriched_casts_order_by
   target_hash: order_by
 }
 

@@ -3646,6 +3646,7 @@ export const AllTypesProps: Record<string, any> = {
     _and: 'enriched_casts_bool_exp',
     _not: 'enriched_casts_bool_exp',
     _or: 'enriched_casts_bool_exp',
+    activity: 'activities_bool_exp',
     created_at: 'timestamp_comparison_exp',
     deleted_at: 'timestamp_comparison_exp',
     embeds: 'jsonb_comparison_exp',
@@ -3682,6 +3683,7 @@ export const AllTypesProps: Record<string, any> = {
     profile_id: 'bigint',
   },
   enriched_casts_insert_input: {
+    activity: 'activities_obj_rel_insert_input',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     embeds: 'jsonb',
@@ -3712,6 +3714,7 @@ export const AllTypesProps: Record<string, any> = {
     where: 'enriched_casts_bool_exp',
   },
   enriched_casts_order_by: {
+    activity: 'activities_order_by',
     created_at: 'order_by',
     deleted_at: 'order_by',
     embeds: 'order_by',
@@ -16964,6 +16967,7 @@ export const AllTypesProps: Record<string, any> = {
     _not: 'virtual_reactions_count_bool_exp',
     _or: 'virtual_reactions_count_bool_exp',
     count: 'bigint_comparison_exp',
+    enriched_cast: 'enriched_casts_bool_exp',
     target_hash: 'bytea_comparison_exp',
   },
   virtual_reactions_count_constraint: true,
@@ -16972,6 +16976,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   virtual_reactions_count_insert_input: {
     count: 'bigint',
+    enriched_cast: 'enriched_casts_obj_rel_insert_input',
     target_hash: 'bytea',
   },
   virtual_reactions_count_on_conflict: {
@@ -16981,6 +16986,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   virtual_reactions_count_order_by: {
     count: 'order_by',
+    enriched_cast: 'enriched_casts_order_by',
     target_hash: 'order_by',
   },
   virtual_reactions_count_pk_columns_input: {
@@ -19547,6 +19553,7 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Float',
   },
   enriched_casts: {
+    activity: 'activities',
     created_at: 'timestamp',
     deleted_at: 'timestamp',
     embeds: 'jsonb',
@@ -27267,6 +27274,7 @@ export const ReturnTypes: Record<string, any> = {
   },
   virtual_reactions_count: {
     count: 'bigint',
+    enriched_cast: 'enriched_casts',
     target_hash: 'bytea',
   },
   virtual_reactions_count_aggregate: {

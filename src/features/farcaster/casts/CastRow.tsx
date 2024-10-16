@@ -66,7 +66,7 @@ export const CastRow = ({ cast }: { cast: Cast }) => {
         <Flex column>
           {/*images*/}
           {cast.embeds
-            .filter(emb => emb.type === 'image')
+            ?.filter(emb => emb.type === 'image')
             .map(embed => (
               <LightboxImage
                 key={embed.url}

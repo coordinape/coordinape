@@ -1,14 +1,14 @@
 import { LoadingIndicator } from '../../components/LoadingIndicator';
 import { Flex, Panel, Text } from '../../ui';
-import { Cast } from '../activities/cast';
-import { CastRow } from '../farcaster/casts/CastRow';
+import { ActivityRow } from '../activities/ActivityRow';
+import { Activity } from '../activities/useInfiniteActivities';
 
 export const FeaturedCasts = ({
   title,
-  casts,
+  activities,
 }: {
   title: string;
-  casts: Cast[] | undefined;
+  activities: Activity[] | undefined;
 }) => {
   return (
     <Panel neutral>
@@ -16,10 +16,10 @@ export const FeaturedCasts = ({
         <Text tag size="large" css={{ fontWeight: '$bold' }}>
           {title}
         </Text>
-        {casts === undefined ? (
+        {!activities ? (
           <LoadingIndicator />
         ) : (
-          casts.map(c => <CastRow key={c.id} cast={c} />)
+          activities.map(a => <ActivityRow key={a.id} activity={a} />)
         )}
       </Flex>
     </Panel>
