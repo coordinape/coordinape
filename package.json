@@ -310,7 +310,7 @@
     "eslint-plugin-unicorn": "41.0.0",
     "ethereumjs-wallet": "1.0.2",
     "execa": "6.0.0",
-    "express": "4.18.1",
+    "express": "4.20.0",
     "figma-api": "1.9.2",
     "hasura-cli": "2.17.1",
     "http-browserify": "1.7.0",
