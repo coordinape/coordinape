@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
-import { insertInteractionEvents } from '../../gql/mutations.ts';
-import { NotFoundError } from '../../HttpError.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
-import { Frame } from '../frames.ts';
+import { Frame, isFrame, ResourceIdentifierWithParams } from '../frames.ts';
+import { checkAndInsertGive } from '../giveparty/checkAndInsertGive.ts';
+import { GivePartyHomeFrame } from '../giveparty/GivePartyHomeFrame.tsx';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,
@@ -14,11 +14,6 @@ import { FrameBodyGradient } from '../layoutFragments/FrameBodyGradient.tsx';
 import { FrameFooter } from '../layoutFragments/FrameFooter.tsx';
 import { FrameHeadline } from '../layoutFragments/FrameHeadline.tsx';
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
-import { PersonaFourFrame } from '../personas/PersonaFourFrame.tsx';
-import { PersonaOneFrame } from '../personas/PersonaOneFrame.tsx';
-import { PersonaThreeFrame } from '../personas/PersonaThreeFrame.tsx';
-import { PersonaTwoFrame } from '../personas/PersonaTwoFrame.tsx';
-import { PersonaZeroFrame } from '../personas/PersonaZeroFrame.tsx';
 
 import { fetchProfileInfo } from './fetchProfileInfo.tsx';
 import { getContextFromParams } from './getContextFromParams.ts';
@@ -36,14 +31,19 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
   const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
   const randomArtNumber = (give.id % 5) + 1;
 
+  const bgImage =
+    give.skill === 'bones'
+      ? `bones.jpg`
+      : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
+
   return (
     <FrameWrapper>
-      <FrameBgImage src={`frontdoor-${giverLevel}-${randomArtNumber}.jpg`} />
+      <FrameBgImage src={bgImage} />
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
             background:
-              giverLevel == 4
+              giverLevel == 4 || give.skill === 'bones'
                 ? 'radial-gradient(circle at 25% 0%, #E31A1A 0%, #790066 80%)'
                 : giverLevel == 3
                   ? 'radial-gradient(circle at 25% 0%, #3300FF 0%, #EF7200 80%)'
@@ -129,64 +129,113 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
   );
 };
 
-const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
-  // who are you? which frame to return
+// const _onPost = async (info: FramePostInfo, params: Record<string, string>) => {
+//   // who are you? which frame to return
+//   const { give } = await getContextFromParams(params);
+//   if (!give || !give.target_profile_public || !give.giver_profile_public) {
+//     throw new NotFoundError('give not found');
+//   }
+//
+//   // Enter the Levels persona app
+//   const level = await getLevelForViewer(info.profile.id);
+//
+//   const relation =
+//     info.profile.id === give.giver_profile_public.id
+//       ? 'giver'
+//       : info.profile.id === give.target_profile_public.id
+//         ? 'receiver'
+//         : 'other';
+//
+//   await insertInteractionEvents({
+//     event_type: 'home_frame_click',
+//     profile_id: info.profile.id,
+//     data: {
+//       give_bot: true,
+//       frame: 'give',
+//       profile_level: level,
+//       give_id: give.id,
+//       clicker_relation: relation,
+//       clicker_name: info.profile.name,
+//       giver_id: give.giver_profile_public.id,
+//       receiver_id: give.target_profile_public.id,
+//       giver_name: give.giver_profile_public.name,
+//       receiver_name: give.target_profile_public.name,
+//     },
+//   });
+//
+//   // route each level to its respective Persona
+//   if (level === 1) {
+//     return PersonaOneFrame;
+//   } else if (level === 2) {
+//     return PersonaTwoFrame;
+//   } else if (level === 3) {
+//     return PersonaThreeFrame;
+//   } else if (level === 4) {
+//     return PersonaFourFrame;
+//   } else {
+//     return PersonaZeroFrame;
+//   }
+// };
+
+export const onSendGIVEPost = async (
+  info: FramePostInfo,
+  params: Record<string, string>
+) => {
   const { give } = await getContextFromParams(params);
-  if (!give || !give.target_profile_public || !give.giver_profile_public) {
-    throw new NotFoundError('give not found');
+
+  const {
+    inputText: target_username,
+    castId: { hash: cast_hash },
+  } = info.message;
+
+  let giveId: number | undefined;
+  try {
+    giveId = await checkAndInsertGive(
+      info,
+      cast_hash,
+      GivePartyHomeFrame().id,
+      target_username,
+      give.skill
+    );
+  } catch (e: any) {
+    if (isFrame(e)) {
+      return e;
+    }
+    return GivePartyHomeFrame(e.message);
   }
 
-  // Enter the Levels persona app
-  const level = await getLevelForViewer(info.profile.id);
-
-  const relation =
-    info.profile.id === give.giver_profile_public.id
-      ? 'giver'
-      : info.profile.id === give.target_profile_public.id
-        ? 'receiver'
-        : 'other';
-
-  await insertInteractionEvents({
-    event_type: 'home_frame_click',
-    profile_id: info.profile.id,
-    data: {
-      give_bot: true,
-      frame: 'give',
-      profile_level: level,
-      give_id: give.id,
-      clicker_relation: relation,
-      clicker_name: info.profile.name,
-      giver_id: give.giver_profile_public.id,
-      receiver_id: give.target_profile_public.id,
-      giver_name: give.giver_profile_public.name,
-      receiver_name: give.target_profile_public.name,
-    },
-  });
-
-  // route each level to its respective Persona
-  if (level === 1) {
-    return PersonaOneFrame;
-  } else if (level === 2) {
-    return PersonaTwoFrame;
-  } else if (level === 3) {
-    return PersonaThreeFrame;
-  } else if (level === 4) {
-    return PersonaFourFrame;
-  } else {
-    return PersonaZeroFrame;
-  }
+  return GiveHomeFrame(giveId.toString());
 };
 
-export const GiveHomeFrame: Frame = {
+export const GiveHomeFrame = (giveId?: string): Frame => ({
   id: 'give',
   homeFrame: true,
-  resourceIdentifier: giveResourceIdentifier,
+  resourceIdentifier: ResourceIdentifierWithParams(
+    giveResourceIdentifier,
+    giveId
+      ? {
+          giveId,
+        }
+      : {}
+  ),
   imageNode: homeFrameImageNode,
+  inputText: async params => {
+    const { give } = await getContextFromParams(params);
+    return `@username to GIVE #${give.skill}`;
+  },
   buttons: [
     {
-      title: 'Get GIVE • Load my Profile',
+      title: 'View Leaderboard',
+      action: 'link',
+      target: async params => {
+        const { give } = await getContextFromParams(params);
+        return `https://colinks.coordinape.com/give/leaderboard/${encodeURIComponent(give.skill)}`;
+      },
+    },
+    {
+      title: 'Send GIVE 🎁',
       action: 'post',
-      onPost: onPost,
+      onPost: onSendGIVEPost,
     },
   ],
-};
+});

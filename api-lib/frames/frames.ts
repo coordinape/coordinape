@@ -28,7 +28,7 @@ export type Frame = {
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
   errorMessage?: string;
-  inputText?: (params: Record<string, string>) => string;
+  inputText?: (params: Record<string, string>) => Promise<string>;
   aspectRatio?: '1:1' | '1.91:1' | undefined;
   clickURL?: string;
   noCache?: boolean;
@@ -42,7 +42,10 @@ export type Button = {
   title: string;
   action: 'post' | 'link';
   // only use target for external links
-  target?: string | ((params: Record<string, string>) => string);
+  target?:
+    | string
+    | ((params: Record<string, string>) => string)
+    | ((params: Record<string, string>) => Promise<string>);
   // only use onPost for post
   onPost?: (
     info: FramePostInfo,

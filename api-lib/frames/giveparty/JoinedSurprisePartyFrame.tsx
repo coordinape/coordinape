@@ -83,7 +83,7 @@ export const JoinedSurprisePartyFrame: Frame = {
   noCache: true,
   resourceIdentifier: usernameResourceIdentifier,
   clickURL: 'https://give.party',
-  inputText: () => {
+  inputText: async () => {
     return `Enter another skill`;
   },
   buttons: [
