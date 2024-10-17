@@ -25,8 +25,7 @@ import {
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
-
-const GHOUL_CONTRACT_ADDR = '0xef1a89cbfabe59397ffda11fc5df293e9bc5db90';
+import { GHOUL_CONTRACT } from '../../cron/fetchNFTOwners';
 
 const createCoLinksGiveInput = z
   .object({
@@ -170,7 +169,7 @@ const hasGhoulNft = async (profileId: number) => {
           nft_holdings: [
             {
               where: {
-                collection: { address: { _eq: GHOUL_CONTRACT_ADDR } },
+                collection: { address: { _eq: GHOUL_CONTRACT.address } },
               },
             },
             {

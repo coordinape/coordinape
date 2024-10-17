@@ -93,7 +93,7 @@
   comment: manage time-based epoch business logic
 - name: fetchNFTOwners
   webhook: '{{HASURA_API_BASE_URL}}/cron/fetchNFTOwners'
-  schedule: 1 1 * * *
+  schedule: 1 22 * * *
   include_in_metadata: true
   payload: {}
   headers:

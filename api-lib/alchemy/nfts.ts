@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import assert from 'assert';
 
 import { Alchemy, Network } from 'alchemy-sdk';
@@ -18,13 +17,6 @@ const nftChains = [
       network: Network.ETH_MAINNET,
     }),
   },
-  // {
-  //   chainId: 10,
-  //   alchemy: new Alchemy({
-  //     apiKey: process.env.ALCHEMY_NFT_API_KEY_OPT ?? '',
-  //     network: Network.OPT_MAINNET,
-  //   }),
-  // },
 ];
 
 /*
@@ -62,7 +54,7 @@ export const updateNFTOwners = async (
       name: nftContractName,
     };
 
-    const { insert_nft_collections } = await adminClient.mutate(
+    await adminClient.mutate(
       {
         insert_nft_collections: [
           {
@@ -82,10 +74,8 @@ export const updateNFTOwners = async (
       }
     );
 
-    console.log({ insert_nft_collections });
-
     // insert the owners
-    const { insert_nft_holdings } = await adminClient.mutate(
+    await adminClient.mutate(
       {
         insert_nft_holdings: [
           {
@@ -109,7 +99,5 @@ export const updateNFTOwners = async (
         operationName: 'insertNfts',
       }
     );
-
-    console.log({ insert_nft_holdings });
   }
 };
