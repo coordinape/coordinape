@@ -28,7 +28,7 @@ export type Frame = {
   homeFrame: boolean;
   resourceIdentifier: ResourceIdentifier;
   errorMessage?: string;
-  inputText?: (params: Record<string, string>) => string;
+  inputText?: (params: Record<string, string>) => Promise<string>;
   aspectRatio?: '1:1' | '1.91:1' | undefined;
   clickURL?: string;
   noCache?: boolean;

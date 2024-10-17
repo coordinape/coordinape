@@ -318,7 +318,7 @@ const handleButton = async (
   }
 };
 
-addFrame(GiveHomeFrame);
+addFrame(GiveHomeFrame());
 addFrame(PersonaZeroFrame);
 addFrame(PersonaOneFrame);
 addFrame(PersonaTwoFrame);

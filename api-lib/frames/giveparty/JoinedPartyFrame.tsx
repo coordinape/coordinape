@@ -90,7 +90,7 @@ export const JoinedPartyFrame: Frame = {
   noCache: true,
   resourceIdentifier: skillResourceIdentifier,
   clickURL: 'https://give.party',
-  inputText: () => {
+  inputText: async () => {
     return `Enter a Farcaster @username`;
   },
   buttons: [

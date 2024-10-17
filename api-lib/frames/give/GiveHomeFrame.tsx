@@ -4,7 +4,9 @@ import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { insertInteractionEvents } from '../../gql/mutations.ts';
 import { NotFoundError } from '../../HttpError.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
-import { Frame } from '../frames.ts';
+import { Frame, isFrame, ResourceIdentifierWithParams } from '../frames.ts';
+import { checkAndInsertGive } from '../giveparty/checkAndInsertGive.ts';
+import { GivePartyHomeFrame } from '../giveparty/GivePartyHomeFrame.tsx';
 import {
   FrameBgImage,
   IMAGE_URL_BASE,
@@ -177,16 +179,62 @@ const onPost = async (info: FramePostInfo, params: Record<string, string>) => {
   }
 };
 
-export const GiveHomeFrame: Frame = {
+export const onSendGIVEPost = async (
+  info: FramePostInfo,
+  params: Record<string, string>
+) => {
+  const { give } = await getContextFromParams(params);
+
+  const {
+    inputText: target_username,
+    castId: { hash: cast_hash },
+  } = info.message;
+
+  let giveId: number | undefined;
+  try {
+    giveId = await checkAndInsertGive(
+      info,
+      cast_hash,
+      GivePartyHomeFrame().id,
+      target_username,
+      give.skill
+    );
+  } catch (e: any) {
+    if (isFrame(e)) {
+      return e;
+    }
+    return GivePartyHomeFrame(e.message);
+  }
+
+  return GiveHomeFrame(giveId.toString());
+};
+
+export const GiveHomeFrame = (giveId?: string): Frame => ({
   id: 'give',
   homeFrame: true,
-  resourceIdentifier: giveResourceIdentifier,
+  resourceIdentifier: ResourceIdentifierWithParams(
+    giveResourceIdentifier,
+    giveId
+      ? {
+          giveId,
+        }
+      : {}
+  ),
   imageNode: homeFrameImageNode,
+  inputText: async params => {
+    const { give } = await getContextFromParams(params);
+    return `Enter @username to GIVE #${give.skill}`;
+  },
   buttons: [
     {
-      title: 'Get GIVE • Load my Profile',
+      title: 'View Leaderboard',
       action: 'post',
       onPost: onPost,
     },
+    {
+      title: 'GIVE',
+      action: 'post',
+      onPost: onSendGIVEPost,
+    },
   ],
-};
+});
