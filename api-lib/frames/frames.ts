@@ -42,7 +42,10 @@ export type Button = {
   title: string;
   action: 'post' | 'link';
   // only use target for external links
-  target?: string | ((params: Record<string, string>) => string);
+  target?:
+    | string
+    | ((params: Record<string, string>) => string)
+    | ((params: Record<string, string>) => Promise<string>);
   // only use onPost for post
   onPost?: (
     info: FramePostInfo,

@@ -23,7 +23,6 @@ export const RenderFrameMeta = async ({
 }) => {
   const imgSrc = getImgSrc(frame, params, info);
   const postURL = getPostUrl(frame, params);
-  const buttons = frame.buttons;
 
   const scriptContent = `
     <script type="text/javascript">
@@ -45,21 +44,30 @@ export const RenderFrameMeta = async ({
   );
 
   const metaTags = async () => {
+    const buttons: React.ReactNode[] = [];
+    for (let i = 0; i < frame.buttons.length; i++) {
+      const button = frame.buttons[i];
+      buttons.push(
+        <FrameButton
+          key={i}
+          idx={i + 1}
+          title={button.title}
+          action={button.action}
+          target={
+            button.target &&
+            (typeof button.target === 'string'
+              ? button.target
+              : await button.target(params))
+          }
+        />
+      );
+    }
     return (
       <>
         <meta property="fc:frame" content="vNext" />
         <meta property="fc:frame:post_url" content={postURL} />
         {/*{state && <meta property="fc:frame:state" content={state} />}*/}
-        {buttons.map((button, idx) => (
-          <FrameButton
-            key={idx}
-            idx={idx + 1}
-            title={button.title}
-            action={button.action}
-            target={button.target}
-            params={params}
-          />
-        ))}
+        {buttons}
         {frame.inputText && (
           <meta
             name="fc:frame:input:text"
