@@ -21,9 +21,11 @@ import {
 import { fetchCast } from '../../../../api-lib/neynar.ts';
 import {
   getAvailablePoints,
+  MAX_GIVE,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
+import { GHOUL_CONTRACT } from '../../cron/fetchNFTOwners';
 
 const createCoLinksGiveInput = z
   .object({
@@ -145,5 +147,41 @@ export const fetchPoints = async (profileId: number) => {
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : 0;
 
-  return { points, give, canGive: points >= POINTS_PER_GIVE };
+  const canGive = points >= POINTS_PER_GIVE;
+
+  // Ghouls get unlimited gives
+  if (!canGive) {
+    if (await hasGhoulNft(profileId)) {
+      return { points, give: MAX_GIVE, canGive: true };
+    }
+  }
+
+  return { points, give, canGive };
+};
+
+const hasGhoulNft = async (profileId: number) => {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        {
+          id: true,
+          nft_holdings: [
+            {
+              where: {
+                collection: { address: { _eq: GHOUL_CONTRACT.address } },
+              },
+            },
+            {
+              token_id: true,
+            },
+          ],
+        },
+      ],
+    },
+    { operationName: 'hasGhoulNFT' }
+  );
+
+  // check if has any nft holdings
+  return !!profiles_by_pk?.nft_holdings[0]?.token_id;
 };

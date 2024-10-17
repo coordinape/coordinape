@@ -103,6 +103,15 @@ array_relationships:
         remote_table:
           name: invite_codes
           schema: public
+  - name: nft_holdings
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: nft_holdings
+          schema: public
   - name: nominees
     using:
       manual_configuration:

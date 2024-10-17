@@ -9451,10 +9451,38 @@ export const AllTypesProps: Record<string, any> = {
     _set: 'nft_collections_set_input',
     where: 'nft_collections_bool_exp',
   },
+  nft_holdings_aggregate_bool_exp: {
+    count: 'nft_holdings_aggregate_bool_exp_count',
+  },
+  nft_holdings_aggregate_bool_exp_count: {
+    arguments: 'nft_holdings_select_column',
+    filter: 'nft_holdings_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   nft_holdings_aggregate_fields: {
     count: {
       columns: 'nft_holdings_select_column',
     },
+  },
+  nft_holdings_aggregate_order_by: {
+    avg: 'nft_holdings_avg_order_by',
+    count: 'order_by',
+    max: 'nft_holdings_max_order_by',
+    min: 'nft_holdings_min_order_by',
+    stddev: 'nft_holdings_stddev_order_by',
+    stddev_pop: 'nft_holdings_stddev_pop_order_by',
+    stddev_samp: 'nft_holdings_stddev_samp_order_by',
+    sum: 'nft_holdings_sum_order_by',
+    var_pop: 'nft_holdings_var_pop_order_by',
+    var_samp: 'nft_holdings_var_samp_order_by',
+    variance: 'nft_holdings_variance_order_by',
+  },
+  nft_holdings_arr_rel_insert_input: {
+    data: 'nft_holdings_insert_input',
+    on_conflict: 'nft_holdings_on_conflict',
+  },
+  nft_holdings_avg_order_by: {
+    chain_id: 'order_by',
   },
   nft_holdings_bool_exp: {
     _and: 'nft_holdings_bool_exp',
@@ -9476,6 +9504,22 @@ export const AllTypesProps: Record<string, any> = {
     collection: 'nft_collections_obj_rel_insert_input',
     contract: 'citext',
     profile: 'profiles_public_obj_rel_insert_input',
+  },
+  nft_holdings_max_order_by: {
+    address: 'order_by',
+    chain_id: 'order_by',
+    contract: 'order_by',
+    image_url: 'order_by',
+    name: 'order_by',
+    token_id: 'order_by',
+  },
+  nft_holdings_min_order_by: {
+    address: 'order_by',
+    chain_id: 'order_by',
+    contract: 'order_by',
+    image_url: 'order_by',
+    name: 'order_by',
+    token_id: 'order_by',
   },
   nft_holdings_on_conflict: {
     constraint: 'nft_holdings_constraint',
@@ -9501,6 +9545,15 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext',
     contract: 'citext',
   },
+  nft_holdings_stddev_order_by: {
+    chain_id: 'order_by',
+  },
+  nft_holdings_stddev_pop_order_by: {
+    chain_id: 'order_by',
+  },
+  nft_holdings_stddev_samp_order_by: {
+    chain_id: 'order_by',
+  },
   nft_holdings_stream_cursor_input: {
     initial_value: 'nft_holdings_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -9509,11 +9562,23 @@ export const AllTypesProps: Record<string, any> = {
     address: 'citext',
     contract: 'citext',
   },
+  nft_holdings_sum_order_by: {
+    chain_id: 'order_by',
+  },
   nft_holdings_update_column: true,
   nft_holdings_updates: {
     _inc: 'nft_holdings_inc_input',
     _set: 'nft_holdings_set_input',
     where: 'nft_holdings_bool_exp',
+  },
+  nft_holdings_var_pop_order_by: {
+    chain_id: 'order_by',
+  },
+  nft_holdings_var_samp_order_by: {
+    chain_id: 'order_by',
+  },
+  nft_holdings_variance_order_by: {
+    chain_id: 'order_by',
   },
   nominees: {
     nominations: {
@@ -11443,6 +11508,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'invite_codes_order_by',
       where: 'invite_codes_bool_exp',
     },
+    nft_holdings: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
+    nft_holdings_aggregate: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -11557,6 +11632,8 @@ export const AllTypesProps: Record<string, any> = {
     links_held: 'Int_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
+    nft_holdings: 'nft_holdings_bool_exp',
+    nft_holdings_aggregate: 'nft_holdings_aggregate_bool_exp',
     nominees: 'nominees_bool_exp',
     nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
@@ -11608,6 +11685,7 @@ export const AllTypesProps: Record<string, any> = {
     invite_codes: 'invite_codes_arr_rel_insert_input',
     invited_by: 'bigint',
     name: 'citext',
+    nft_holdings: 'nft_holdings_arr_rel_insert_input',
     nominees: 'nominees_arr_rel_insert_input',
     org_members: 'org_members_arr_rel_insert_input',
     points_balance: 'float8',
@@ -11670,6 +11748,7 @@ export const AllTypesProps: Record<string, any> = {
     links_held: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
+    nft_holdings_aggregate: 'nft_holdings_aggregate_order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
     org_members_aggregate: 'org_members_aggregate_order_by',
     points_balance: 'order_by',
@@ -24537,6 +24616,8 @@ export const ReturnTypes: Record<string, any> = {
     links_held: 'Int',
     medium_username: 'String',
     name: 'citext',
+    nft_holdings: 'nft_holdings',
+    nft_holdings_aggregate: 'nft_holdings_aggregate',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     org_members: 'org_members',

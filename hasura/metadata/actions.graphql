@@ -567,10 +567,6 @@ input SimilarProfileInput {
   address: String!
 }
 
-input RedeemInviteCodeInput {
-  code: String!
-}
-
 input AddInviteCodesInput {
   address: String!
   count: Int!

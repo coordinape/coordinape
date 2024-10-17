@@ -621,7 +621,6 @@ custom_types:
     - name: SetPrimaryEmailInput
     - name: SearchCosoulsInput
     - name: SimilarProfileInput
-    - name: RedeemInviteCodeInput
     - name: AddInviteCodesInput
     - name: RequestInviteCodeInput
     - name: ReplenishInviteCodesInput

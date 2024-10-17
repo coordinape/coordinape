@@ -26,6 +26,7 @@ import dailyReportEmail from '../_api/hasura/cron/dailyReportEmail';
 import dailyUpdate from '../_api/hasura/cron/dailyUpdate';
 import ensNames from '../_api/hasura/cron/ensNames';
 import epochs from '../_api/hasura/cron/epochs';
+import fetchNFTOwners from '../_api/hasura/cron/fetchNFTOwners';
 import fetchPoapData from '../_api/hasura/cron/fetchPoapData';
 import generatePoapEmbeddings from '../_api/hasura/cron/generatePoapEmbeddings';
 import giveOnchainSyncer from '../_api/hasura/cron/giveOnchainSyncer';
@@ -104,6 +105,7 @@ app.post('/api/hasura/cron/cosoulMinter', tf(cosoulMinter));
 app.post('/api/hasura/cron/giveOnchainSyncer', tf(giveOnchainSyncer));
 app.post('/api/hasura/cron/epochs', tf(epochs));
 app.post('/api/hasura/cron/fetchPoapData', tf(fetchPoapData));
+app.post('/api/hasura/cron/fetchNFTOwners', tf(fetchNFTOwners));
 app.post('/api/hasura/cron/updateMagicEmails', tf(updateMagicEmails));
 app.post(
   '/api/hasura/cron/backfillFarcasterConnect',

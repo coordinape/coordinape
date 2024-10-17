@@ -421,10 +421,6 @@ type OrgMemberResponse {
   new: Boolean!
 }
 
-input RedeemInviteCodeInput {
-  code: String!
-}
-
 input RequestInviteCodeInput {
   email: String!
 }
@@ -12516,9 +12512,6 @@ type mutation_root {
   ): skills
   logoutUser: LogoutResponse
   markClaimed(payload: MarkClaimedInput!): MarkClaimedOutput
-  redeemInviteCode(
-    payload: RedeemInviteCodeInput!
-  ): ConfirmationWithErrorResponse!
   requestInviteCode(
     payload: RequestInviteCodeInput!
   ): ConfirmationWithErrorResponse!
@@ -13343,6 +13336,15 @@ type nft_holdings {
 }
 
 """
+order by aggregate values of table "nft_holdings"
+"""
+input nft_holdings_aggregate_order_by {
+  count: order_by
+  max: nft_holdings_max_order_by
+  min: nft_holdings_min_order_by
+}
+
+"""
 Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'.
 """
 input nft_holdings_bool_exp {
@@ -13356,6 +13358,28 @@ input nft_holdings_bool_exp {
   name: String_comparison_exp
   profile: profiles_public_bool_exp
   token_id: String_comparison_exp
+}
+
+"""
+order by max() on columns of table "nft_holdings"
+"""
+input nft_holdings_max_order_by {
+  address: order_by
+  contract: order_by
+  image_url: order_by
+  name: order_by
+  token_id: order_by
+}
+
+"""
+order by min() on columns of table "nft_holdings"
+"""
+input nft_holdings_min_order_by {
+  address: order_by
+  contract: order_by
+  image_url: order_by
+  name: order_by
+  token_id: order_by
 }
 
 """
@@ -17391,6 +17415,36 @@ type profiles {
   """
   An array relationship
   """
+  nft_holdings(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_holdings_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_holdings_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): [nft_holdings!]!
+
+  """
+  An array relationship
+  """
   nominees(
     """
     distinct select on columns
@@ -17628,6 +17682,7 @@ input profiles_bool_exp {
   links_held: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
+  nft_holdings: nft_holdings_bool_exp
   nominees: nominees_bool_exp
   nominees_aggregate: nominees_aggregate_bool_exp
   org_members: org_members_bool_exp
@@ -17701,6 +17756,7 @@ input profiles_order_by {
   links_held: order_by
   medium_username: order_by
   name: order_by
+  nft_holdings_aggregate: nft_holdings_aggregate_order_by
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
   product_emails: order_by
@@ -20059,7 +20115,7 @@ type query_root {
   ): [nft_collections!]!
 
   """
-  fetch data from the table: "nft_holdings"
+  An array relationship
   """
   nft_holdings(
     """
@@ -25682,7 +25738,7 @@ type subscription_root {
   ): [nft_collections!]!
 
   """
-  fetch data from the table: "nft_holdings"
+  An array relationship
   """
   nft_holdings(
     """

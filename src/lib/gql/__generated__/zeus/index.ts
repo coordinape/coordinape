@@ -946,9 +946,6 @@ export type ValueTypes = {
     new?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
-  ['RedeemInviteCodeInput']: {
-    code: string;
-  };
   ['RequestInviteCodeInput']: {
     email: string;
   };
@@ -9498,10 +9495,6 @@ export type ValueTypes = {
       { payload: ValueTypes['MarkClaimedInput'] },
       ValueTypes['MarkClaimedOutput'],
     ];
-    redeemInviteCode?: [
-      { payload: ValueTypes['RedeemInviteCodeInput'] },
-      ValueTypes['ConfirmationWithErrorResponse'],
-    ];
     requestInviteCode?: [
       { payload: ValueTypes['RequestInviteCodeInput'] },
       ValueTypes['ConfirmationWithErrorResponse'],
@@ -10071,6 +10064,12 @@ export type ValueTypes = {
     token_id?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** order by aggregate values of table "nft_holdings" */
+  ['nft_holdings_aggregate_order_by']: {
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['nft_holdings_max_order_by'] | undefined | null;
+    min?: ValueTypes['nft_holdings_min_order_by'] | undefined | null;
+  };
   /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
   ['nft_holdings_bool_exp']: {
     _and?: Array<ValueTypes['nft_holdings_bool_exp']> | undefined | null;
@@ -10083,6 +10082,22 @@ export type ValueTypes = {
     name?: ValueTypes['String_comparison_exp'] | undefined | null;
     profile?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
     token_id?: ValueTypes['String_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "nft_holdings" */
+  ['nft_holdings_max_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "nft_holdings" */
+  ['nft_holdings_min_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    image_url?: ValueTypes['order_by'] | undefined | null;
+    name?: ValueTypes['order_by'] | undefined | null;
+    token_id?: ValueTypes['order_by'] | undefined | null;
   };
   /** Ordering options when selecting data from "nft_holdings". */
   ['nft_holdings_order_by']: {
@@ -12752,6 +12767,29 @@ export type ValueTypes = {
     links_held?: boolean | `@${string}`;
     medium_username?: boolean | `@${string}`;
     name?: boolean | `@${string}`;
+    nft_holdings?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['nft_holdings_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['nft_holdings_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
+      },
+      ValueTypes['nft_holdings'],
+    ];
     nominees?: [
       {
         /** distinct select on columns */
@@ -12985,6 +13023,7 @@ export type ValueTypes = {
     links_held?: ValueTypes['Int_comparison_exp'] | undefined | null;
     medium_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     name?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    nft_holdings?: ValueTypes['nft_holdings_bool_exp'] | undefined | null;
     nominees?: ValueTypes['nominees_bool_exp'] | undefined | null;
     nominees_aggregate?:
       | ValueTypes['nominees_aggregate_bool_exp']
@@ -13075,6 +13114,10 @@ export type ValueTypes = {
     links_held?: ValueTypes['order_by'] | undefined | null;
     medium_username?: ValueTypes['order_by'] | undefined | null;
     name?: ValueTypes['order_by'] | undefined | null;
+    nft_holdings_aggregate?:
+      | ValueTypes['nft_holdings_aggregate_order_by']
+      | undefined
+      | null;
     nominees_aggregate?:
       | ValueTypes['nominees_aggregate_order_by']
       | undefined
@@ -22422,7 +22465,6 @@ export type ModelTypes = {
     id: string;
     new: boolean;
   };
-  ['RedeemInviteCodeInput']: GraphQLTypes['RedeemInviteCodeInput'];
   ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
@@ -25423,7 +25465,6 @@ export type ModelTypes = {
     insert_skills_one?: GraphQLTypes['skills'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
-    redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
@@ -25646,8 +25687,14 @@ export type ModelTypes = {
     profile?: GraphQLTypes['profiles_public'] | undefined;
     token_id: string;
   };
+  /** order by aggregate values of table "nft_holdings" */
+  ['nft_holdings_aggregate_order_by']: GraphQLTypes['nft_holdings_aggregate_order_by'];
   /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
   ['nft_holdings_bool_exp']: GraphQLTypes['nft_holdings_bool_exp'];
+  /** order by max() on columns of table "nft_holdings" */
+  ['nft_holdings_max_order_by']: GraphQLTypes['nft_holdings_max_order_by'];
+  /** order by min() on columns of table "nft_holdings" */
+  ['nft_holdings_min_order_by']: GraphQLTypes['nft_holdings_min_order_by'];
   /** Ordering options when selecting data from "nft_holdings". */
   ['nft_holdings_order_by']: GraphQLTypes['nft_holdings_order_by'];
   /** select columns of table "nft_holdings" */
@@ -26730,6 +26777,8 @@ export type ModelTypes = {
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
+    /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
@@ -27018,7 +27067,7 @@ export type ModelTypes = {
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** fetch data from the table: "nft_collections" */
     nft_collections: Array<GraphQLTypes['nft_collections']>;
-    /** fetch data from the table: "nft_holdings" */
+    /** An array relationship */
     nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
@@ -27967,7 +28016,7 @@ export type ModelTypes = {
     nft_collections: Array<GraphQLTypes['nft_collections']>;
     /** fetch data from the table in a streaming manner: "nft_collections" */
     nft_collections_stream: Array<GraphQLTypes['nft_collections']>;
-    /** fetch data from the table: "nft_holdings" */
+    /** An array relationship */
     nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** fetch data from the table in a streaming manner: "nft_holdings" */
     nft_holdings_stream: Array<GraphQLTypes['nft_holdings']>;
@@ -29138,9 +29187,6 @@ export type GraphQLTypes = {
     OrgMemberResponse?: GraphQLTypes['org_members'] | undefined;
     id: string;
     new: boolean;
-  };
-  ['RedeemInviteCodeInput']: {
-    code: string;
   };
   ['RequestInviteCodeInput']: {
     email: string;
@@ -35830,7 +35876,6 @@ export type GraphQLTypes = {
     insert_skills_one?: GraphQLTypes['skills'] | undefined;
     logoutUser?: GraphQLTypes['LogoutResponse'] | undefined;
     markClaimed?: GraphQLTypes['MarkClaimedOutput'] | undefined;
-    redeemInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     requestInviteCode: GraphQLTypes['ConfirmationWithErrorResponse'];
     restoreCoordinape?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** sets a given email as the primary email for user */
@@ -36158,6 +36203,12 @@ export type GraphQLTypes = {
     profile?: GraphQLTypes['profiles_public'] | undefined;
     token_id: string;
   };
+  /** order by aggregate values of table "nft_holdings" */
+  ['nft_holdings_aggregate_order_by']: {
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['nft_holdings_max_order_by'] | undefined;
+    min?: GraphQLTypes['nft_holdings_min_order_by'] | undefined;
+  };
   /** Boolean expression to filter rows from the table "nft_holdings". All fields are combined with a logical 'AND'. */
   ['nft_holdings_bool_exp']: {
     _and?: Array<GraphQLTypes['nft_holdings_bool_exp']> | undefined;
@@ -36170,6 +36221,22 @@ export type GraphQLTypes = {
     name?: GraphQLTypes['String_comparison_exp'] | undefined;
     profile?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
     token_id?: GraphQLTypes['String_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "nft_holdings" */
+  ['nft_holdings_max_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "nft_holdings" */
+  ['nft_holdings_min_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    image_url?: GraphQLTypes['order_by'] | undefined;
+    name?: GraphQLTypes['order_by'] | undefined;
+    token_id?: GraphQLTypes['order_by'] | undefined;
   };
   /** Ordering options when selecting data from "nft_holdings". */
   ['nft_holdings_order_by']: {
@@ -38381,6 +38448,8 @@ export type GraphQLTypes = {
     medium_username?: string | undefined;
     name: GraphQLTypes['citext'];
     /** An array relationship */
+    nft_holdings: Array<GraphQLTypes['nft_holdings']>;
+    /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
     /** An aggregate relationship */
     nominees_aggregate: GraphQLTypes['nominees_aggregate'];
@@ -38460,6 +38529,7 @@ export type GraphQLTypes = {
     links_held?: GraphQLTypes['Int_comparison_exp'] | undefined;
     medium_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     name?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    nft_holdings?: GraphQLTypes['nft_holdings_bool_exp'] | undefined;
     nominees?: GraphQLTypes['nominees_bool_exp'] | undefined;
     nominees_aggregate?:
       | GraphQLTypes['nominees_aggregate_bool_exp']
@@ -38532,6 +38602,9 @@ export type GraphQLTypes = {
     links_held?: GraphQLTypes['order_by'] | undefined;
     medium_username?: GraphQLTypes['order_by'] | undefined;
     name?: GraphQLTypes['order_by'] | undefined;
+    nft_holdings_aggregate?:
+      | GraphQLTypes['nft_holdings_aggregate_order_by']
+      | undefined;
     nominees_aggregate?:
       | GraphQLTypes['nominees_aggregate_order_by']
       | undefined;
@@ -38993,7 +39066,7 @@ export type GraphQLTypes = {
     mutes_by_pk?: GraphQLTypes['mutes'] | undefined;
     /** fetch data from the table: "nft_collections" */
     nft_collections: Array<GraphQLTypes['nft_collections']>;
-    /** fetch data from the table: "nft_holdings" */
+    /** An array relationship */
     nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** An array relationship */
     nominees: Array<GraphQLTypes['nominees']>;
@@ -40512,7 +40585,7 @@ export type GraphQLTypes = {
     nft_collections: Array<GraphQLTypes['nft_collections']>;
     /** fetch data from the table in a streaming manner: "nft_collections" */
     nft_collections_stream: Array<GraphQLTypes['nft_collections']>;
-    /** fetch data from the table: "nft_holdings" */
+    /** An array relationship */
     nft_holdings: Array<GraphQLTypes['nft_holdings']>;
     /** fetch data from the table in a streaming manner: "nft_holdings" */
     nft_holdings_stream: Array<GraphQLTypes['nft_holdings']>;
