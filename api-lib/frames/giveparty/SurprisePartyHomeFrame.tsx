@@ -118,7 +118,7 @@ export const SurprisePartyHomeFrame = (
   errorMessage: errorMessage,
   clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
-  inputText: () => {
+  inputText: async () => {
     return `Enter skill (based, design, etc)`;
   },
   buttons: [

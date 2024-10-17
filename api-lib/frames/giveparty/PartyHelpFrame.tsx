@@ -114,7 +114,7 @@ export const PartyHelpFrame = (error_message?: string): Frame => {
     resourceIdentifier: staticResourceIdentifier,
     errorMessage: error_message,
     clickURL: 'https://give.party',
-    inputText: () => {
+    inputText: async () => {
       return `Enter a skill to celebrate`;
     },
     buttons: [
