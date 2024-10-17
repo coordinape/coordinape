@@ -221,7 +221,7 @@ export const GiveHomeFrame = (giveId?: string): Frame => ({
   imageNode: homeFrameImageNode,
   inputText: async params => {
     const { give } = await getContextFromParams(params);
-    return `Enter @username to GIVE #${give.skill}`;
+    return `@username to GIVE #${give.skill}`;
   },
   buttons: [
     {
