@@ -1,0 +1,13 @@
+table:
+  name: virtual_reactions_count
+  schema: public
+object_relationships:
+  - name: enriched_cast
+    using:
+      manual_configuration:
+        column_mapping:
+          target_hash: hash
+        insertion_order: null
+        remote_table:
+          name: enriched_casts
+          schema: public

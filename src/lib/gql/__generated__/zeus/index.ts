@@ -5497,6 +5497,8 @@ export type ValueTypes = {
   };
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: AliasType<{
+    /** An object relationship */
+    activity?: ValueTypes['activities'];
     created_at?: boolean | `@${string}`;
     deleted_at?: boolean | `@${string}`;
     embeds?: [
@@ -5620,6 +5622,7 @@ export type ValueTypes = {
     _and?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
     _not?: ValueTypes['enriched_casts_bool_exp'] | undefined | null;
     _or?: Array<ValueTypes['enriched_casts_bool_exp']> | undefined | null;
+    activity?: ValueTypes['activities_bool_exp'] | undefined | null;
     created_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     deleted_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     embeds?: ValueTypes['jsonb_comparison_exp'] | undefined | null;
@@ -5654,6 +5657,7 @@ export type ValueTypes = {
   };
   /** Ordering options when selecting data from "enriched_casts". */
   ['enriched_casts_order_by']: {
+    activity?: ValueTypes['activities_order_by'] | undefined | null;
     created_at?: ValueTypes['order_by'] | undefined | null;
     deleted_at?: ValueTypes['order_by'] | undefined | null;
     embeds?: ValueTypes['order_by'] | undefined | null;
@@ -24023,6 +24027,8 @@ export type ModelTypes = {
   ['emails_stream_cursor_value_input']: GraphQLTypes['emails_stream_cursor_value_input'];
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: {
+    /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     embeds: GraphQLTypes['jsonb'];
@@ -32847,6 +32853,8 @@ export type GraphQLTypes = {
   /** farcaster casts that we actually care about, with some materialized fields */
   ['enriched_casts']: {
     __typename: 'enriched_casts';
+    /** An object relationship */
+    activity?: GraphQLTypes['activities'] | undefined;
     created_at: GraphQLTypes['timestamp'];
     deleted_at?: GraphQLTypes['timestamp'] | undefined;
     embeds: GraphQLTypes['jsonb'];
@@ -32880,6 +32888,7 @@ export type GraphQLTypes = {
     _and?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
     _not?: GraphQLTypes['enriched_casts_bool_exp'] | undefined;
     _or?: Array<GraphQLTypes['enriched_casts_bool_exp']> | undefined;
+    activity?: GraphQLTypes['activities_bool_exp'] | undefined;
     created_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     deleted_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     embeds?: GraphQLTypes['jsonb_comparison_exp'] | undefined;
@@ -32911,6 +32920,7 @@ export type GraphQLTypes = {
   };
   /** Ordering options when selecting data from "enriched_casts". */
   ['enriched_casts_order_by']: {
+    activity?: GraphQLTypes['activities_order_by'] | undefined;
     created_at?: GraphQLTypes['order_by'] | undefined;
     deleted_at?: GraphQLTypes['order_by'] | undefined;
     embeds?: GraphQLTypes['order_by'] | undefined;

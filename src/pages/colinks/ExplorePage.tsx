@@ -11,6 +11,7 @@ import { LeaderboardMostLinks } from '../../features/colinks/LeaderboardMostLink
 import { LeaderboardNewest } from '../../features/colinks/LeaderboardNewest';
 import { LeaderboardRepScore } from '../../features/colinks/LeaderboardRepScore';
 import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTransactions';
+import { MostLikedCasts } from '../../features/HomeCards/MostLikedCasts';
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
@@ -55,6 +56,7 @@ export const ExplorePage = () => {
         </Flex>
       </ContentHeader>
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
+        <MostLikedCasts />
         <Flex
           css={{
             gap: '$xl',
