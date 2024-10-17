@@ -1,13 +1,18 @@
-import { QUERY_KEY_COSOUL_VIEW, artWidth } from 'features/cosoul';
+import { useEffect } from 'react';
+
+import { QUERY_KEY_COSOUL_VIEW } from 'features/cosoul';
 import { CoSoulArt } from 'features/cosoul/art/CoSoulArt';
+import { artWidthMobile } from 'features/cosoul/constants';
 import { CoSoulArtContainer } from 'features/cosoul/CoSoulArtContainer';
 import { CoSoulCompositionRep } from 'features/cosoul/CoSoulCompositionRep';
-import { CoSoulPromo } from 'features/cosoul/CoSoulPromo';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { CosoulData } from '../../../../_api/cosoul/[address]';
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { Flex, Panel, Text } from 'ui';
+import useConnectedAddress from 'hooks/useConnectedAddress';
+import { coLinksPaths } from 'routes/paths';
+import { Button, Panel, Text } from 'ui';
 
 export const ProfilePageReputationContents = ({
   targetAddress,
@@ -20,6 +25,7 @@ export const ProfilePageReputationContents = ({
     isLoading: coSoulLoading,
     isError,
     error,
+    refetch,
   } = useQuery(
     [QUERY_KEY_COSOUL_VIEW, targetAddress],
     async (): Promise<CosoulData> => {
@@ -39,7 +45,18 @@ export const ProfilePageReputationContents = ({
       staleTime: Infinity,
     }
   );
+
+  // Trigger a refetch when the component mounts
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
   coSoulMinted = !!cosoul_data?.mintInfo;
+
+  const currentUserAddress = useConnectedAddress(false);
+  const isCurrentUser =
+    currentUserAddress &&
+    targetAddress.toLowerCase() == currentUserAddress.toLowerCase();
 
   // Error
   if (isError) {
@@ -57,7 +74,27 @@ export const ProfilePageReputationContents = ({
   }
   return (
     <>
-      {cosoul_data && coSoulMinted ? (
+      {!coSoulMinted && isCurrentUser && (
+        <Panel
+          noBorder
+          css={{
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '$sm',
+            width: artWidthMobile,
+            margin: '0 auto -20px',
+            background: '$tagSecondaryBackground',
+          }}
+        >
+          <Text semibold css={{ color: '$tagSecondaryText' }}>
+            Bring your Reputation onchain!
+          </Text>
+          <Button as={NavLink} to={coLinksPaths.cosoul} color="coLinksCta">
+            Mint your CoSoul
+          </Button>
+        </Panel>
+      )}
+      {cosoul_data && (
         <>
           <CoSoulCompositionRep cosoul_data={cosoul_data}>
             <CoSoulArtContainer cosoul_data={cosoul_data}>
@@ -69,28 +106,6 @@ export const ProfilePageReputationContents = ({
             </CoSoulArtContainer>
           </CoSoulCompositionRep>
         </>
-      ) : (
-        <Flex
-          column
-          css={{
-            justifyContent: 'center',
-            height: `${artWidth}`,
-            alignItems: 'center',
-            position: 'relative',
-            gap: '$sm',
-          }}
-        >
-          <Text tag color="secondary">
-            No CoSoul minted for this address
-          </Text>
-          {cosoul_data && (
-            <CoSoulPromo
-              css={{ mt: 0 }}
-              cosoul_data={cosoul_data}
-              address={targetAddress}
-            />
-          )}
-        </Flex>
       )}
     </>
   );

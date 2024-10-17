@@ -1,12 +1,14 @@
-import { Dispatch, useRef } from 'react';
+import { useRef } from 'react';
 
 import { coSoulNodesCycle, fadeIn } from 'keyframes';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { dark } from 'stitches.config';
 
 import useConnectedAddress from 'hooks/useConnectedAddress';
 import useProfileId from 'hooks/useProfileId';
+import { coLinksPaths } from 'routes/paths';
 import { Box, Button, Flex, Text } from 'ui';
 import { SingleColumnLayout } from 'ui/layouts';
 
@@ -19,13 +21,7 @@ import { InitialRepDetail } from './InitialRepDetail';
 export const artWidthMobile = '320px';
 export const artWidth = '500px';
 
-export const CoLinksMintPage = ({
-  minted,
-  setShowStepCoSoul,
-}: {
-  minted: boolean;
-  setShowStepCoSoul: Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const CoLinksMintPage = ({ minted }: { minted: boolean }) => {
   const address = useConnectedAddress(true);
   const profileId = useProfileId(true);
   const nodeRef = useRef(null);
@@ -179,11 +175,12 @@ export const CoLinksMintPage = ({
                   Evolve your CoSoul
                 </Text>
                 <Button
+                  as={NavLink}
                   color="cta"
                   size="large"
-                  onClick={() => setShowStepCoSoul(false)}
+                  to={coLinksPaths.home}
                 >
-                  Continue to Next Step
+                  Start Giving
                 </Button>
               </Flex>
             </CSSTransition>

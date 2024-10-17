@@ -39,7 +39,7 @@ export const useCoSoulToken = ({
     if (contract && address) {
       refresh();
     }
-  }, [contract, address]);
+  }, [address]);
 
   return { tokenId, refresh };
 };

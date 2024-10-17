@@ -77,7 +77,6 @@ export const MintingModal = ({
             }
           />
         ))}
-
         <Flex
           css={{
             mt: '$2xl',

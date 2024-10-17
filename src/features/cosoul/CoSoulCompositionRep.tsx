@@ -24,9 +24,9 @@ const nodeDetails = {
 };
 const nodeTextStyle = {
   '.nodeHeader': {
-    fontSize: '45px',
+    fontSize: '40px',
     '@md': {
-      fontSize: '35px',
+      fontSize: '32px',
     },
     fontWeight: '$semibold',
     color: '$secondaryButtonText',
@@ -34,6 +34,12 @@ const nodeTextStyle = {
   '.nodeSubHeader': {
     fontSize: '$small',
     color: '$link',
+  },
+  '.glitchBackground': {
+    background: '$background',
+    '&:before, &:after': {
+      background: '$background',
+    },
   },
 };
 const nodePanelStyle = {
@@ -195,7 +201,7 @@ export const CoSoulCompositionRep = ({
                 width: '100%',
                 height: 'auto',
                 maxWidth: `${artWidth}`,
-                background: coSoulMinted ? '$surface' : 'black',
+                background: '$surface',
                 mt: 0,
                 mb: '$1xl',
                 p: '0 $sm $sm',
@@ -223,7 +229,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble1}
-                  className="nodeHeader glitch"
+                  className="nodeHeader glitch glitchBackground"
                   data-digits="3"
                   data-text={generateRandomNumber(3)}
                 >
@@ -258,7 +264,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble2}
-                  className="nodeHeader glitch glitch2"
+                  className="nodeHeader glitch glitchBackground glitch2"
                   data-digits="1"
                   data-text={generateRandomNumber(1)}
                 >
@@ -289,7 +295,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble3}
-                  className="nodeHeader glitch glitch3"
+                  className="nodeHeader glitch glitchBackground glitch3"
                   data-digits="1"
                   data-text={generateRandomNumber(1)}
                 >
@@ -320,7 +326,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble3}
-                  className="nodeHeader glitch glitch3"
+                  className="nodeHeader glitch glitchBackground glitch3"
                   data-digits="1"
                   data-text={generateRandomNumber(1)}
                 >
@@ -351,7 +357,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble4}
-                  className="nodeHeader glitch glitch4"
+                  className="nodeHeader glitch glitchBackground glitch4"
                   data-digits="3"
                   data-text={generateRandomNumber(3)}
                 >
@@ -382,7 +388,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble5}
-                  className="nodeHeader glitch glitch5"
+                  className="nodeHeader glitch glitchBackground glitch5"
                   data-digits="3"
                   data-text={generateRandomNumber(3)}
                 >
@@ -413,7 +419,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble6}
-                  className="nodeHeader glitch glitch6"
+                  className="nodeHeader glitch glitchBackground glitch6"
                   data-digits="2"
                   data-text={generateRandomNumber(2)}
                 >
@@ -443,7 +449,7 @@ export const CoSoulCompositionRep = ({
               {!coSoulMinted && (
                 <Text
                   ref={nodeScramble6}
-                  className="nodeHeader glitch glitch6"
+                  className="nodeHeader glitch glitchBackground glitch6"
                   data-digits="2"
                   data-text={generateRandomNumber(2)}
                 >

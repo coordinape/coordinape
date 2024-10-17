@@ -51,6 +51,7 @@ import { ViewProfilePagePosts } from 'pages/colinks/CoLinksProfilePage/ProfilePa
 import { ViewProfilePageReputation } from 'pages/colinks/CoLinksProfilePage/ProfilePageReputation';
 import { SkillGiveMap } from 'pages/colinks/CoLinksProfilePage/SkillGiveMap';
 import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewProfilePageGiveMap';
+import { CoSoulPage } from 'pages/colinks/cosoul/CoSoulPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
@@ -284,6 +285,17 @@ export const coLinksRoutes = [
       }
     >
       <Route path={coLinksPaths.wizard} element={<WizardPage />} />
+    </Route>
+    <Route
+      element={
+        <RequireAuth walletRequired={true}>
+          <CoLinksWizardLayout>
+            <Outlet />
+          </CoLinksWizardLayout>
+        </RequireAuth>
+      }
+    >
+      <Route path={coLinksPaths.cosoul} element={<CoSoulPage />} />
     </Route>
   </Fragment>,
 ];

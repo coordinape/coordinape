@@ -1,4 +1,4 @@
-import { Dispatch, useState } from 'react';
+import { useState } from 'react';
 
 import { CoLinksMintPage } from 'features/cosoul/CoLinksMintPage';
 import { CoSoulButton } from 'features/cosoul/CoSoulButton';
@@ -8,11 +8,7 @@ import { Flex, Text } from 'ui';
 import { WizardInstructions } from './WizardInstructions';
 import { fullScreenStyles } from './WizardSteps';
 
-export const WizardCoSoul = ({
-  setShowStepCoSoul,
-}: {
-  setShowStepCoSoul: Dispatch<React.SetStateAction<boolean>>;
-}) => {
+export const WizardCoSoul = () => {
   const [minted, setMinted] = useState(false);
   return (
     <>
@@ -40,7 +36,11 @@ export const WizardCoSoul = ({
           <Text>CoSoul: YOUR key to the network.</Text>
           {!minted && (
             <Flex column css={{ mt: '$md', gap: '$md' }}>
-              <CoSoulButton onReveal={() => setMinted(true)} />
+              <CoSoulButton
+                onReveal={() => {
+                  setMinted(true);
+                }}
+              />
               <Text size="small" color="neutral">
                 CoSouls are free to mint, and gas costs are minimal.
               </Text>
@@ -57,10 +57,7 @@ export const WizardCoSoul = ({
             height: '100vh',
           }}
         >
-          <CoLinksMintPage
-            minted={minted}
-            setShowStepCoSoul={setShowStepCoSoul}
-          />
+          <CoLinksMintPage minted={minted} />
         </Flex>
       )}
     </>
