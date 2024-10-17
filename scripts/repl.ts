@@ -12,6 +12,11 @@ import repl from 'repl';
 
 import fp from 'lodash/fp';
 
+import { fetchBasedGhouls } from '../_api/hasura/cron/fetchNFTOwners';
+import {
+  sendCoLinksNotificationsEmail,
+} from '../api-lib/email/postmark';
+import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 // uncomment and change this to import your own repl code
@@ -30,6 +35,9 @@ const init = async () => {
   return {
     // add your init code here
     syncPoapDataForCoLinksUsers,
+    sendCoLinksNotificationsEmail,
+    backfillCastActivity,
+    ghouls: fetchBasedGhouls,
     ...(await initOrgMembership()),
   };
 };

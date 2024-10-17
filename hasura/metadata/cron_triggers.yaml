@@ -177,3 +177,12 @@
     - name: verification_key
       value_from_env: HASURA_EVENT_SECRET
   comment: syncs cosouls in db and sets pgive on chain
+- name: fetchNFTOwners
+  webhook: '{{HASURA_API_BASE_URL}}/cron/fetchNFTOwners'
+  schedule: '1 1 * * *'
+  include_in_metadata: true
+  payload: {}
+  headers:
+    - name: verification_key
+      value_from_env: HASURA_EVENT_SECRET
+  comment: fetch NFT Owners 

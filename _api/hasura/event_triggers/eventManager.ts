@@ -42,6 +42,7 @@ import vouchTelegram from '../../../api-lib/event_triggers/vouchTelegram';
 import { GraphQLTypes } from '../../../api-lib/gql/__generated__/zeus';
 import { EventTriggerPayload } from '../../../api-lib/types';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
+import fetchNFTOwners from '../cron/fetchNFTOwners';
 
 type HandlerDict = { [handlerName: string]: VercelApiHandler };
 
@@ -54,6 +55,7 @@ const HANDLERS: HandlerDict = {
   createReplyInteractionEvent,
   checkNomineeDiscord,
   checkNomineeDiscordBot,
+  fetchNFTOwners,
   checkNomineeTelegram,
   createContributionInteractionEvent,
   createReactionInteractionEvent,
