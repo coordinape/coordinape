@@ -54,7 +54,6 @@ export const AllTypesProps: Record<string, any> = {
   Int_comparison_exp: {},
   LogVaultTxInput: {},
   MarkClaimedInput: {},
-  RedeemInviteCodeInput: {},
   RequestInviteCodeInput: {},
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
@@ -4023,9 +4022,6 @@ export const AllTypesProps: Record<string, any> = {
     markClaimed: {
       payload: 'MarkClaimedInput',
     },
-    redeemInviteCode: {
-      payload: 'RedeemInviteCodeInput',
-    },
     requestInviteCode: {
       payload: 'RequestInviteCodeInput',
     },
@@ -4322,6 +4318,11 @@ export const AllTypesProps: Record<string, any> = {
   nft_collections_stream_cursor_value_input: {
     address: 'citext',
   },
+  nft_holdings_aggregate_order_by: {
+    count: 'order_by',
+    max: 'nft_holdings_max_order_by',
+    min: 'nft_holdings_min_order_by',
+  },
   nft_holdings_bool_exp: {
     _and: 'nft_holdings_bool_exp',
     _not: 'nft_holdings_bool_exp',
@@ -4333,6 +4334,20 @@ export const AllTypesProps: Record<string, any> = {
     name: 'String_comparison_exp',
     profile: 'profiles_public_bool_exp',
     token_id: 'String_comparison_exp',
+  },
+  nft_holdings_max_order_by: {
+    address: 'order_by',
+    contract: 'order_by',
+    image_url: 'order_by',
+    name: 'order_by',
+    token_id: 'order_by',
+  },
+  nft_holdings_min_order_by: {
+    address: 'order_by',
+    contract: 'order_by',
+    image_url: 'order_by',
+    name: 'order_by',
+    token_id: 'order_by',
   },
   nft_holdings_order_by: {
     address: 'order_by',
@@ -5528,6 +5543,11 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'invite_codes_order_by',
       where: 'invite_codes_bool_exp',
     },
+    nft_holdings: {
+      distinct_on: 'nft_holdings_select_column',
+      order_by: 'nft_holdings_order_by',
+      where: 'nft_holdings_bool_exp',
+    },
     nominees: {
       distinct_on: 'nominees_select_column',
       order_by: 'nominees_order_by',
@@ -5598,6 +5618,7 @@ export const AllTypesProps: Record<string, any> = {
     links_held: 'Int_comparison_exp',
     medium_username: 'String_comparison_exp',
     name: 'citext_comparison_exp',
+    nft_holdings: 'nft_holdings_bool_exp',
     nominees: 'nominees_bool_exp',
     nominees_aggregate: 'nominees_aggregate_bool_exp',
     org_members: 'org_members_bool_exp',
@@ -5646,6 +5667,7 @@ export const AllTypesProps: Record<string, any> = {
     links_held: 'order_by',
     medium_username: 'order_by',
     name: 'order_by',
+    nft_holdings_aggregate: 'nft_holdings_aggregate_order_by',
     nominees_aggregate: 'nominees_aggregate_order_by',
     org_members_aggregate: 'org_members_aggregate_order_by',
     product_emails: 'order_by',
@@ -10772,7 +10794,6 @@ export const ReturnTypes: Record<string, any> = {
     insert_skills_one: 'skills',
     logoutUser: 'LogoutResponse',
     markClaimed: 'MarkClaimedOutput',
-    redeemInviteCode: 'ConfirmationWithErrorResponse',
     requestInviteCode: 'ConfirmationWithErrorResponse',
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
@@ -11484,6 +11505,7 @@ export const ReturnTypes: Record<string, any> = {
     links_held: 'Int',
     medium_username: 'String',
     name: 'citext',
+    nft_holdings: 'nft_holdings',
     nominees: 'nominees',
     nominees_aggregate: 'nominees_aggregate',
     org_members: 'org_members',

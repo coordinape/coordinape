@@ -36159,6 +36159,17 @@ type nft_holdings_aggregate {
   nodes: [nft_holdings!]!
 }
 
+input nft_holdings_aggregate_bool_exp {
+  count: nft_holdings_aggregate_bool_exp_count
+}
+
+input nft_holdings_aggregate_bool_exp_count {
+  arguments: [nft_holdings_select_column!]
+  distinct: Boolean
+  filter: nft_holdings_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "nft_holdings"
 """
@@ -36177,10 +36188,46 @@ type nft_holdings_aggregate_fields {
 }
 
 """
+order by aggregate values of table "nft_holdings"
+"""
+input nft_holdings_aggregate_order_by {
+  avg: nft_holdings_avg_order_by
+  count: order_by
+  max: nft_holdings_max_order_by
+  min: nft_holdings_min_order_by
+  stddev: nft_holdings_stddev_order_by
+  stddev_pop: nft_holdings_stddev_pop_order_by
+  stddev_samp: nft_holdings_stddev_samp_order_by
+  sum: nft_holdings_sum_order_by
+  var_pop: nft_holdings_var_pop_order_by
+  var_samp: nft_holdings_var_samp_order_by
+  variance: nft_holdings_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "nft_holdings"
+"""
+input nft_holdings_arr_rel_insert_input {
+  data: [nft_holdings_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: nft_holdings_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type nft_holdings_avg_fields {
   chain_id: Float
+}
+
+"""
+order by avg() on columns of table "nft_holdings"
+"""
+input nft_holdings_avg_order_by {
+  chain_id: order_by
 }
 
 """
@@ -36249,6 +36296,18 @@ type nft_holdings_max_fields {
 }
 
 """
+order by max() on columns of table "nft_holdings"
+"""
+input nft_holdings_max_order_by {
+  address: order_by
+  chain_id: order_by
+  contract: order_by
+  image_url: order_by
+  name: order_by
+  token_id: order_by
+}
+
+"""
 aggregate min on columns
 """
 type nft_holdings_min_fields {
@@ -36258,6 +36317,18 @@ type nft_holdings_min_fields {
   image_url: String
   name: String
   token_id: String
+}
+
+"""
+order by min() on columns of table "nft_holdings"
+"""
+input nft_holdings_min_order_by {
+  address: order_by
+  chain_id: order_by
+  contract: order_by
+  image_url: order_by
+  name: order_by
+  token_id: order_by
 }
 
 """
@@ -36363,6 +36434,13 @@ type nft_holdings_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "nft_holdings"
+"""
+input nft_holdings_stddev_order_by {
+  chain_id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type nft_holdings_stddev_pop_fields {
@@ -36370,10 +36448,24 @@ type nft_holdings_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "nft_holdings"
+"""
+input nft_holdings_stddev_pop_order_by {
+  chain_id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type nft_holdings_stddev_samp_fields {
   chain_id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "nft_holdings"
+"""
+input nft_holdings_stddev_samp_order_by {
+  chain_id: order_by
 }
 
 """
@@ -36408,6 +36500,13 @@ aggregate sum on columns
 """
 type nft_holdings_sum_fields {
   chain_id: Int
+}
+
+"""
+order by sum() on columns of table "nft_holdings"
+"""
+input nft_holdings_sum_order_by {
+  chain_id: order_by
 }
 
 """
@@ -36470,6 +36569,13 @@ type nft_holdings_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "nft_holdings"
+"""
+input nft_holdings_var_pop_order_by {
+  chain_id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type nft_holdings_var_samp_fields {
@@ -36477,10 +36583,24 @@ type nft_holdings_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "nft_holdings"
+"""
+input nft_holdings_var_samp_order_by {
+  chain_id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type nft_holdings_variance_fields {
   chain_id: Float
+}
+
+"""
+order by variance() on columns of table "nft_holdings"
+"""
+input nft_holdings_variance_order_by {
+  chain_id: order_by
 }
 
 """
@@ -44330,6 +44450,66 @@ type profiles {
   """
   An array relationship
   """
+  nft_holdings(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_holdings_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_holdings_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): [nft_holdings!]!
+
+  """
+  An aggregate relationship
+  """
+  nft_holdings_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [nft_holdings_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [nft_holdings_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: nft_holdings_bool_exp
+  ): nft_holdings_aggregate!
+
+  """
+  An array relationship
+  """
   nominees(
     """
     distinct select on columns
@@ -44802,6 +44982,8 @@ input profiles_bool_exp {
   links_held: Int_comparison_exp
   medium_username: String_comparison_exp
   name: citext_comparison_exp
+  nft_holdings: nft_holdings_bool_exp
+  nft_holdings_aggregate: nft_holdings_aggregate_bool_exp
   nominees: nominees_bool_exp
   nominees_aggregate: nominees_aggregate_bool_exp
   org_members: org_members_bool_exp
@@ -44914,6 +45096,7 @@ input profiles_insert_input {
   links_held: Int
   medium_username: String
   name: citext
+  nft_holdings: nft_holdings_arr_rel_insert_input
   nominees: nominees_arr_rel_insert_input
   org_members: org_members_arr_rel_insert_input
   points_balance: float8
@@ -45090,6 +45273,7 @@ input profiles_order_by {
   links_held: order_by
   medium_username: order_by
   name: order_by
+  nft_holdings_aggregate: nft_holdings_aggregate_order_by
   nominees_aggregate: nominees_aggregate_order_by
   org_members_aggregate: org_members_aggregate_order_by
   points_balance: order_by
@@ -50146,7 +50330,7 @@ type query_root {
   nft_collections_by_pk(address: citext!, chain_id: Int!): nft_collections
 
   """
-  fetch data from the table: "nft_holdings"
+  An array relationship
   """
   nft_holdings(
     """
@@ -50176,7 +50360,7 @@ type query_root {
   ): [nft_holdings!]!
 
   """
-  fetch aggregated fields from the table: "nft_holdings"
+  An aggregate relationship
   """
   nft_holdings_aggregate(
     """
@@ -60207,7 +60391,7 @@ type subscription_root {
   ): [nft_collections!]!
 
   """
-  fetch data from the table: "nft_holdings"
+  An array relationship
   """
   nft_holdings(
     """
@@ -60237,7 +60421,7 @@ type subscription_root {
   ): [nft_holdings!]!
 
   """
-  fetch aggregated fields from the table: "nft_holdings"
+  An aggregate relationship
   """
   nft_holdings_aggregate(
     """
