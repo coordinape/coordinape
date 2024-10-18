@@ -201,7 +201,7 @@ export const onSendGIVEPost = async (
     if (isFrame(e)) {
       return e;
     }
-    return GivePartyHomeFrame(e.message);
+    return GivePartyHomeFrame(e.message, give.skill);
   }
 
   return GiveHomeFrame(giveId.toString());
