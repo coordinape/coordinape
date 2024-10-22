@@ -44,7 +44,7 @@ const onGiveSkill = async (
       skill
     );
 
-    let message = `Sent +GIVE #${skill} to @${frameInfo.profile.fc_username}!`;
+    let message = `Sent +GIVE #${skill} to @${targetProfile.fc_username}!`;
     if (message.length > 80) {
       message = message.slice(0, 80);
     }
