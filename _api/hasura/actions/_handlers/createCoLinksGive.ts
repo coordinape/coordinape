@@ -10,10 +10,7 @@ import {
   errorResponse,
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
-import {
-  checkPointsAndCreateGive,
-  publishCastGiveDelivered,
-} from '../../../../api-lib/insertCoLinksGive.ts';
+import { checkPointsAndCreateGive } from '../../../../api-lib/insertCoLinksGive.ts';
 import {
   findOrCreateProfileByAddress,
   findOrCreateProfileByFid,
@@ -112,10 +109,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         new_points_balance: newPoints,
       },
     });
-
-    if (payload.cast_hash) {
-      await publishCastGiveDelivered(payload.cast_hash, giveId);
-    }
 
     return res.status(200).json({ id: giveId });
   } catch (e: any) {

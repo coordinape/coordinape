@@ -6,10 +6,7 @@ import { fetchProfileInfo } from '../../api-lib/frames/give/fetchProfileInfo.tsx
 import { FRAME_ROUTER_URL_BASE } from '../../api-lib/frames/routingUrls.ts';
 import { insertInteractionEvents } from '../../api-lib/gql/mutations.ts';
 import { errorResponse } from '../../api-lib/HttpError';
-import {
-  insertCoLinksGive,
-  publishCastGiveDelivered,
-} from '../../api-lib/insertCoLinksGive.ts';
+import { insertCoLinksGive } from '../../api-lib/insertCoLinksGive.ts';
 import { publishCast } from '../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../api-lib/neynar/findOrCreate.ts';
 import { isValidSignature } from '../../api-lib/neynarSignature';
@@ -149,7 +146,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const skill = parseSkill(text);
 
-    const { newPoints, giveId } = await insertCoLinksGive(
+    const { newPoints } = await insertCoLinksGive(
       giver_profile,
       receiver_profile,
       hash,
@@ -167,8 +164,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         target_profile_name: receiver_profile.name,
       },
     });
-
-    await publishCastGiveDelivered(hash, giveId);
 
     return res.status(200).send({ success: true });
   } catch (error: any) {
