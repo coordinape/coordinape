@@ -3,6 +3,8 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { getFramePostInfo } from '../../../../api-lib/frames/_getFramePostInfo.tsx';
 import { checkAndInsertGive } from '../../../../api-lib/frames/giveparty/checkAndInsertGive.ts';
 import { findOrCreateProfileByFid } from '../../../../api-lib/neynar/findOrCreate.ts';
+import { webAppURL } from '../../../../src/config/webAppURL.ts';
+import { coLinksPaths } from '../../../../src/routes/paths.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   let skill: string | undefined;
@@ -73,10 +75,10 @@ const getSkillAction = async (
     name: `${getEmoji(skill)} GIVE #${skill}`,
     icon: 'ruby',
     description: desc,
-    aboutUrl: `https://coordinape.com/give/leaderboard/${skill}`,
+    aboutUrl: `${webAppURL('colinks')}${coLinksPaths.giveSkill(skill)}`,
     action: {
       type: 'post',
-      postUrl: `https://coordinape.com/api/farcaster/actions/give/${skill}`,
+      postUrl: `${webAppURL('colinks')}/api/farcaster/actions/give/${skill}`,
     },
   });
 };
