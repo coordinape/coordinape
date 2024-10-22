@@ -44,9 +44,13 @@ const onGiveSkill = async (
       skill
     );
 
+    let message = `Sent +GIVE #${skill} to @${frameInfo.profile.fc_username}!`;
+    if (message.length > 80) {
+      message = message.slice(0, 80);
+    }
     return res.status(200).json({
       type: 'message',
-      message: `+GIVE #${skill} to cast! from profileID ${frameInfo.profile.id}`,
+      message,
       link: `https://coordinape.com/give/leaderboard/${skill}`,
     });
   } catch (e: any) {
