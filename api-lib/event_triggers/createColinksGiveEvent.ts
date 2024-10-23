@@ -33,41 +33,11 @@ const handleInsert = async (
   >['event']['data']['new'],
   res: VercelResponse
 ) => {
-  const { cast_hash, id } = newRow;
+  const { cast_hash, id, skill } = newRow;
 
-  // const { giver_name, receiver_name } = newRow;
-  // fetch profiles names from give
-  const { colinks_gives_by_pk } = await adminClient.query(
-    {
-      colinks_gives_by_pk: [
-        { id: id },
-        {
-          giver_profile_public: {
-            name: true,
-          },
-          target_profile_public: {
-            name: true,
-          },
-        },
-      ],
-    },
-    { operationName: 'colinksGiveEvent__getProfileNames' }
-  );
-
-  const giverName = colinks_gives_by_pk?.giver_profile_public?.name;
-  const receiverName = colinks_gives_by_pk?.target_profile_public?.name;
-
-  const replicateImageUrl = await generateBonesGiveImg({
-    giverName,
-    receiverName,
-  });
-
-  assert(replicateImageUrl, 'No image URL returned from AI');
-  const url = await uploadURLToCloudflare(replicateImageUrl);
-
-  // eslint-disable-next-line no-console
-  console.log({ url });
-  // create a frame with this image
+  if (skill.toLowerCase() == 'bones') {
+    await handleBonesGive(id);
+  }
 
   let msg;
   if (cast_hash) {
@@ -102,4 +72,50 @@ export const publishCastGiveDelivered = async (
     replyTo: hash,
     embeds: [{ url: getFrameUrl('give', giveId) }],
   });
+};
+
+const handleBonesGive = async (id: number) => {
+  const { colinks_gives_by_pk } = await adminClient.query(
+    {
+      colinks_gives_by_pk: [
+        { id: id },
+        {
+          giver_profile_public: {
+            name: true,
+          },
+          target_profile_public: {
+            name: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'colinksGiveEvent__getProfileNames' }
+  );
+
+  const giverName = colinks_gives_by_pk?.giver_profile_public?.name;
+  const receiverName = colinks_gives_by_pk?.target_profile_public?.name;
+
+  const replicateImageUrl = await generateBonesGiveImg({
+    giverName,
+    receiverName,
+  });
+
+  assert(replicateImageUrl, 'No image URL returned from AI');
+  const url = await uploadURLToCloudflare(replicateImageUrl);
+
+  const { update_colinks_gives_by_pk } = await adminClient.mutate(
+    {
+      update_colinks_gives_by_pk: [
+        {
+          pk_columns: { id: id },
+          _set: { image_url: url },
+        },
+        { __typename: true },
+      ],
+    },
+    { operationName: 'updateGiveImageUrl' }
+  );
+
+  assert(update_colinks_gives_by_pk, 'No update_colinks_gives_by_pk returned');
+  return { url, update_colinks_gives_by_pk };
 };

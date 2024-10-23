@@ -27,6 +27,7 @@ const fetchGive = async (id: number) => {
           profile_id: true,
           target_profile_id: true,
           skill: true,
+          image_url: true,
           giver_profile_public: {
             name: true,
             avatar: true,

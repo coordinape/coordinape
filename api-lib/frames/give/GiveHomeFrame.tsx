@@ -33,7 +33,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
 
   const bgImage =
     give.skill === 'bones'
-      ? `bones.jpg`
+      ? `{give.image_url}`
       : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
   return (
