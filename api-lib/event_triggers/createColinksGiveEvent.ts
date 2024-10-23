@@ -10,7 +10,7 @@ import { generateBonesGiveImg } from '../../src/features/ai/replicate';
 import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
-import { publishCast } from '../neynar';
+import { generateWarpCastUrl, publishCast } from '../neynar';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -67,11 +67,38 @@ export const publishCastGiveDelivered = async (
     });
   }
 
-  // TODO: change this to no message
-  await publishCast(`GIVE Delivered`, {
+  const resp = await publishCast(`GIVE Delivered`, {
     replyTo: hash,
     embeds: [{ url: getFrameUrl('give', giveId) }],
   });
+
+  // update warpcast_url on give with bot response hash
+  try {
+    if (resp) {
+      const warpcastUrl = await generateWarpCastUrl(resp.hash);
+
+      await adminClient.mutate(
+        {
+          update_colinks_gives_by_pk: [
+            {
+              pk_columns: { id: giveId },
+              _set: {
+                warpcast_url: warpcastUrl,
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'updateGives_with_warpcast_url',
+        }
+      );
+    }
+  } catch (e: any) {
+    console.error('Failed to generate and set warpcast_url:', e);
+  }
 };
 
 const handleBonesGive = async (id: number) => {
