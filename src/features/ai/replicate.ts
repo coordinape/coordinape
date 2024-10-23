@@ -22,7 +22,7 @@ export const generateBonesGiveImg = async ({
     wait: WAIT_TIMEOUT,
     input: {
       prompt: prompt,
-      resolution: 'None',
+      resolution: '1088x768',
       style_type: 'None',
       aspect_ratio: '1:1',
       magic_prompt_option: 'On',

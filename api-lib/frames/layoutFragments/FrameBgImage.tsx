@@ -15,17 +15,18 @@ function arrayBufferToBase64Sync(arrayBuffer: ArrayBuffer): string {
 }
 
 export const FrameBgImage = ({ src }: { src: string }) => {
-  const imageData = createImage(src);
-  const base64Image = arrayBufferToBase64Sync(imageData);
+  // if src begins with `http` then assume its a remote url
+  let source;
+  if (src.startsWith('http')) {
+    source = src;
+  } else {
+    const imageData = createImage(src);
+    const base64Image = arrayBufferToBase64Sync(imageData);
+    source = `data:image/jpeg;base64,${base64Image}`;
+  }
 
   // @ts-ignore
-  return (
-    <img
-      tw="w-full"
-      alt="avatar"
-      src={`data:image/jpeg;base64,${base64Image}`}
-    />
-  );
+  return <img tw="w-full" alt="avatar" src={source} />;
 };
 
 export const createImage = (fileNameWithExt: string) => {

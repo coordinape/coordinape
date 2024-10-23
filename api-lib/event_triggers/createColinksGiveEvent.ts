@@ -35,7 +35,7 @@ const handleInsert = async (
 ) => {
   const { cast_hash, id, skill } = newRow;
 
-  if (skill.toLowerCase() == 'bones') {
+  if (skill.toLowerCase() == 'bones' && !!cast_hash) {
     await handleBonesGive(id);
   }
 
