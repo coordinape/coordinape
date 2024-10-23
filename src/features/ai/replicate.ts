@@ -24,14 +24,11 @@ export const generateBonesGiveImg = async ({
       prompt: prompt,
       resolution: '1088x768',
       style_type: 'None',
-      aspect_ratio: '1:1',
       magic_prompt_option: 'On',
     },
   };
 
   try {
-    // eslint-disable-next-line no-console
-    console.log('Generating Bones Give image...', { options });
     const output = await replicate.predictions.create(options);
     return output.urls.stream;
   } catch (error) {
