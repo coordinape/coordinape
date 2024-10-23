@@ -41,7 +41,7 @@ const handleInsert = async (
 
   let msg;
   if (cast_hash) {
-    await publishCastGiveDelivered(cast_hash, id, true);
+    await publishCastGiveDelivered(cast_hash, id, skill, true);
     msg = `published GIVE Delivered for cast ${cast_hash} and give ${id}`;
   } else {
     msg = `no cast_hash for give ${id}`;
@@ -55,6 +55,7 @@ const handleInsert = async (
 export const publishCastGiveDelivered = async (
   hash: string,
   giveId: number,
+  skill: string,
   precache = true
 ) => {
   if (precache) {
@@ -67,7 +68,32 @@ export const publishCastGiveDelivered = async (
     });
   }
 
-  const resp = await publishCast(`GIVE Delivered`, {
+  const { colinks_gives_by_pk } = await adminClient.query(
+    {
+      colinks_gives_by_pk: [
+        { id: giveId },
+        {
+          target_profile_public: {
+            farcaster_account: {
+              username: true,
+            },
+          },
+        },
+      ],
+    },
+    { operationName: 'colinksGiveEvent__getProfileNames' }
+  );
+
+  const fcUserName =
+    colinks_gives_by_pk?.target_profile_public?.farcaster_account?.username;
+
+  const baseMessage = fcUserName
+    ? `GIVE Delivered to @${fcUserName}`
+    : `GIVE Delivered`;
+
+  const giveMessage = skill ? `${baseMessage} for #${skill}` : baseMessage;
+
+  const resp = await publishCast(giveMessage, {
     replyTo: hash,
     embeds: [{ url: getFrameUrl('give', giveId) }],
   });
