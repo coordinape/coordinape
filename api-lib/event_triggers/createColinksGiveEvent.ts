@@ -10,7 +10,7 @@ import { generateBonesGiveImg } from '../../src/features/ai/replicate';
 import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
-import { publishCast } from '../neynar';
+import { generateWarpCastUrl, publishCast } from '../neynar';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -41,7 +41,7 @@ const handleInsert = async (
 
   let msg;
   if (cast_hash) {
-    await publishCastGiveDelivered(cast_hash, id, true);
+    await publishCastGiveDelivered(cast_hash, id, skill, true);
     msg = `published GIVE Delivered for cast ${cast_hash} and give ${id}`;
   } else {
     msg = `no cast_hash for give ${id}`;
@@ -55,6 +55,7 @@ const handleInsert = async (
 export const publishCastGiveDelivered = async (
   hash: string,
   giveId: number,
+  skill: string,
   precache = true
 ) => {
   if (precache) {
@@ -67,11 +68,63 @@ export const publishCastGiveDelivered = async (
     });
   }
 
-  // TODO: change this to no message
-  await publishCast(`GIVE Delivered`, {
+  const { colinks_gives_by_pk } = await adminClient.query(
+    {
+      colinks_gives_by_pk: [
+        { id: giveId },
+        {
+          target_profile_public: {
+            farcaster_account: {
+              username: true,
+            },
+          },
+        },
+      ],
+    },
+    { operationName: 'colinksGiveEvent__getProfileNames' }
+  );
+
+  const fcUserName =
+    colinks_gives_by_pk?.target_profile_public?.farcaster_account?.username;
+
+  const baseMessage = fcUserName
+    ? `GIVE Delivered to @${fcUserName}`
+    : `GIVE Delivered`;
+
+  const giveMessage = skill ? `${baseMessage} for #${skill}` : baseMessage;
+
+  const resp = await publishCast(giveMessage, {
     replyTo: hash,
     embeds: [{ url: getFrameUrl('give', giveId) }],
   });
+
+  // update warpcast_url on give with bot response hash
+  try {
+    if (resp) {
+      const warpcastUrl = await generateWarpCastUrl(resp.hash);
+
+      await adminClient.mutate(
+        {
+          update_colinks_gives_by_pk: [
+            {
+              pk_columns: { id: giveId },
+              _set: {
+                warpcast_url: warpcastUrl,
+              },
+            },
+            {
+              __typename: true,
+            },
+          ],
+        },
+        {
+          operationName: 'updateGives_with_warpcast_url',
+        }
+      );
+    }
+  } catch (e: any) {
+    console.error('Failed to generate and set warpcast_url:', e);
+  }
 };
 
 const handleBonesGive = async (id: number) => {
