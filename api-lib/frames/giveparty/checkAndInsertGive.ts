@@ -79,13 +79,10 @@ export const checkAndInsertGive = async (
     throw new Error('Invalid skill: ' + e.message);
   }
 
-  // let fcUserName = target_username;
-
   // lookup/create the target user
   let target_profile: Awaited<ReturnType<typeof findOrCreateProfileByUsername>>;
   try {
     target_profile = await findOrCreateProfileByUsername(target_username);
-    // fcUserName = target_profile.fc_username;
   } catch (e: any) {
     throw new Error(`Can't find user: ${target_username}`);
   }
