@@ -1,9 +1,14 @@
+import assert from 'assert';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import {
   getFrameImgUrl,
   getFrameUrl,
 } from '../../_api/webhooks/neynar_mention';
+import { generateBonesGiveImg } from '../../src/features/ai/replicate';
+import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare';
+import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { publishCast } from '../neynar';
 import { EventTriggerPayload } from '../types';
@@ -29,6 +34,40 @@ const handleInsert = async (
   res: VercelResponse
 ) => {
   const { cast_hash, id } = newRow;
+
+  // const { giver_name, receiver_name } = newRow;
+  // fetch profiles names from give
+  const { colinks_gives_by_pk } = await adminClient.query(
+    {
+      colinks_gives_by_pk: [
+        { id: id },
+        {
+          giver_profile_public: {
+            name: true,
+          },
+          target_profile_public: {
+            name: true,
+          },
+        },
+      ],
+    },
+    { operationName: 'colinksGiveEvent__getProfileNames' }
+  );
+
+  const giverName = colinks_gives_by_pk?.giver_profile_public?.name;
+  const receiverName = colinks_gives_by_pk?.target_profile_public?.name;
+
+  const replicateImageUrl = await generateBonesGiveImg({
+    giverName,
+    receiverName,
+  });
+
+  assert(replicateImageUrl, 'No image URL returned from AI');
+  const url = await uploadURLToCloudflare(replicateImageUrl);
+
+  // eslint-disable-next-line no-console
+  console.log({ url });
+  // create a frame with this image
 
   let msg;
   if (cast_hash) {

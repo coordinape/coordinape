@@ -161,3 +161,7 @@ export const WARPCAST_GIVEBOT_AUTH: string = getEnvValue(
   'WARPCAST_GIVEBOT_AUTH',
   'warpcast_givebot_auth_default'
 );
+export const REPLICATE_API_TOKEN: string = getEnvValue(
+  'REPLICATE_API_TOKEN',
+  'replicate_api_token_default'
+);
