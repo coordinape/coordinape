@@ -5,8 +5,8 @@ import checkNomineeDiscord from '../../../api-lib/event_triggers/checkNomineeDis
 import checkNomineeDiscordBot from '../../../api-lib/event_triggers/checkNomineeDiscordBot';
 import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTelegram';
 import connectFarcaster from '../../../api-lib/event_triggers/connectFarcaster.ts';
+import createColinksGiveEvent from '../../../api-lib/event_triggers/createColinksGiveEvent.ts';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
-import createGiveEvent from '../../../api-lib/event_triggers/createGiveEvent';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
@@ -68,7 +68,7 @@ const HANDLERS: HandlerDict = {
   createNotificationReplyReactions,
   createNotificationPosts,
   createNomineeDiscord,
-  createGiveEvent,
+  createColinksGiveEvent,
   userAddedDiscordBot,
   userRemovedDiscordBot,
   createNomineeDiscordBot,

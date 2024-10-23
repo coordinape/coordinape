@@ -2,7 +2,7 @@ import { NeynarAPIClient } from '@neynar/nodejs-sdk';
 import { NextCursor } from '@neynar/nodejs-sdk/build/neynar-api/v1';
 import { EmbedUrl } from '@neynar/nodejs-sdk/build/neynar-api/v2';
 
-import { NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
+import { IS_LOCAL_ENV, NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
 
 const client = new NeynarAPIClient(NEYNAR_API_KEY);
 
@@ -63,6 +63,12 @@ export const publishCast = async (
   text: string,
   options: PublishCastOptions
 ) => {
+  if (IS_LOCAL_ENV) {
+    // eslint-disable-next-line no-console
+    console.log('Ignoring farcast publish because localhost. Cast:', text);
+    return;
+  }
+
   try {
     const response = await client.publishCast(
       NEYNAR_BOT_SIGNER_UUID,

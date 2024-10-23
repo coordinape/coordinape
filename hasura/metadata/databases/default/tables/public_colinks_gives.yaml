@@ -67,7 +67,7 @@ update_permissions:
       check: null
     comment: ""
 event_triggers:
-  - name: createGiveEvent
+  - name: createColinksGiveEvent
     definition:
       enable_manual: false
       insert:
@@ -76,7 +76,7 @@ event_triggers:
       interval_sec: 10
       num_retries: 0
       timeout_sec: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=createGiveEvent'
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=createColinksGiveEvent'
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET

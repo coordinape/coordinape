@@ -8552,6 +8552,7 @@ type colinks_gives {
   """
   giver_profile_public: profiles_public
   id: Int!
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint!
@@ -8666,6 +8667,7 @@ input colinks_gives_bool_exp {
   give_skill: skills_bool_exp
   giver_profile_public: profiles_public_bool_exp
   id: Int_comparison_exp
+  image_url: String_comparison_exp
   onchain_sync_error: String_comparison_exp
   onchain_synced_at: timestamptz_comparison_exp
   profile_id: bigint_comparison_exp
@@ -8708,6 +8710,7 @@ input colinks_gives_insert_input {
   give_skill: skills_obj_rel_insert_input
   giver_profile_public: profiles_public_obj_rel_insert_input
   id: Int
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint
@@ -8728,6 +8731,7 @@ type colinks_gives_max_fields {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint
@@ -8747,6 +8751,7 @@ input colinks_gives_max_order_by {
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  image_url: order_by
   onchain_sync_error: order_by
   onchain_synced_at: order_by
   profile_id: order_by
@@ -8766,6 +8771,7 @@ type colinks_gives_min_fields {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint
@@ -8785,6 +8791,7 @@ input colinks_gives_min_order_by {
   cast_hash: order_by
   created_at: order_by
   id: order_by
+  image_url: order_by
   onchain_sync_error: order_by
   onchain_synced_at: order_by
   profile_id: order_by
@@ -8842,6 +8849,7 @@ input colinks_gives_order_by {
   give_skill: skills_order_by
   giver_profile_public: profiles_public_order_by
   id: order_by
+  image_url: order_by
   onchain_sync_error: order_by
   onchain_synced_at: order_by
   profile_id: order_by
@@ -8888,6 +8896,11 @@ enum colinks_gives_select_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  image_url
 
   """
   column name
@@ -8939,6 +8952,7 @@ input colinks_gives_set_input {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint
@@ -9288,6 +9302,7 @@ input colinks_gives_stream_cursor_value_input {
   cast_hash: String
   created_at: timestamptz
   id: Int
+  image_url: String
   onchain_sync_error: String
   onchain_synced_at: timestamptz
   profile_id: bigint
@@ -9346,6 +9361,11 @@ enum colinks_gives_update_column {
   column name
   """
   id
+
+  """
+  column name
+  """
+  image_url
 
   """
   column name

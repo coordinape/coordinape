@@ -128,6 +128,7 @@
     "react-transition-group": "^4.4.5",
     "react-virtualized-auto-sizer": "1.0.5",
     "recoil": "^0.7.7",
+    "replicate": "^1.0.1",
     "sha.js": "^2.4.11",
     "siwe": "2.0.3",
     "stream": "^0.0.2",
