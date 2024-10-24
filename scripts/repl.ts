@@ -16,6 +16,7 @@ import { fetchBasedGhouls } from '../_api/hasura/cron/fetchNFTOwners';
 import {
   sendCoLinksNotificationsEmail,
 } from '../api-lib/email/postmark';
+// import { handleBonesGive } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
@@ -40,6 +41,7 @@ const init = async () => {
     sendCoLinksNotificationsEmail,
     backfillCastActivity,
     generateBonesGiveImg,
+    // handleBonesGive,
     uploadURLToCloudflare,
     ghouls: fetchBasedGhouls,
     ...(await initOrgMembership()),

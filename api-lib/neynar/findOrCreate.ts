@@ -159,7 +159,7 @@ const createProfile = async (
   let avatar = avatar_url;
   if (avatar_url) {
     try {
-      avatar = await uploadURLToCloudflare(avatar_url);
+      avatar = await uploadURLToCloudflare(avatar_url, '/avatar');
     } catch (e) {
       console.error('Error uploading avatar to cloudflare', e);
     }
