@@ -68,6 +68,7 @@ export const AllTypesProps: Record<string, any> = {
   SetPrimaryEmailInput: {},
   ShareInput: {},
   SimilarProfileInput: {},
+  SkillCsvInput: {},
   String_comparison_exp: {},
   SyncCoSoulInput: {},
   UpdateCircleInput: {},
@@ -8117,6 +8118,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     share: {
       payload: 'ShareInput',
+    },
+    skillCsv: {
+      payload: 'SkillCsvInput',
     },
     syncCoSoul: {
       payload: 'SyncCoSoulInput',
@@ -17241,6 +17245,9 @@ export const ReturnTypes: Record<string, any> = {
     profile_id: 'Int',
     profile_public: 'profiles_public',
   },
+  SkillCsvResponse: {
+    file: 'String',
+  },
   SuccessResponse: {
     success: 'Boolean',
   },
@@ -22602,6 +22609,7 @@ export const ReturnTypes: Record<string, any> = {
     restoreCoordinape: 'ConfirmationResponse',
     setPrimaryEmail: 'ConfirmationResponse',
     share: 'ShareOutput',
+    skillCsv: 'SkillCsvResponse',
     syncCoSoul: 'SyncCoSoulOutput',
     syncLinks: 'ConfirmationResponse',
     updateAllocations: 'AllocationsResponse',

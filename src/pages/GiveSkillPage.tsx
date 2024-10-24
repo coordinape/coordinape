@@ -1,11 +1,17 @@
+import { DownloadIcon } from '@radix-ui/react-icons';
+import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { Helmet } from 'react-helmet';
 import { Navigate, useParams } from 'react-router-dom';
 import { CSS } from 'stitches.config';
 
 import { webAppURL } from '../config/webAppURL';
+import { useToast } from '../hooks';
+import useProfileId from '../hooks/useProfileId';
 import { Wand } from '../icons/__generated';
+import { client } from '../lib/gql/client';
 import { coLinksPaths } from '../routes/paths';
 import { Button, Flex, Link } from '../ui';
+import { normalizeError } from '../utils/reporting';
 
 import { GiveBotCard } from './colinks/give/GiveBotCard';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
@@ -58,6 +64,7 @@ export const GiveSkillPage = () => {
               },
             }}
           />
+          {skill && <ExportCSVButton skill={skill} />}
           <LearnAboutGiveCard />
           <GivePartyCard />
           <GiveBotCard />
@@ -86,6 +93,59 @@ const CastButton = ({ css, skill }: { css?: CSS; skill?: string }) => {
       }}
     >
       <Wand fa size={'md'} /> Cast in Farcaster
+    </Button>
+  );
+};
+
+const ExportCSVButton = ({ css, skill }: { css?: CSS; skill: string }) => {
+  const { openConnectModal } = useConnectModal();
+
+  const profileId = useProfileId(false);
+  const { showError } = useToast();
+
+  const exportCSV = async () => {
+    if (!profileId) {
+      if (openConnectModal) {
+        openConnectModal();
+      }
+    } else {
+      try {
+        const { skillCsv } = await client.mutate(
+          {
+            skillCsv: [
+              {
+                payload: { skill },
+              },
+              {
+                file: true,
+              },
+            ],
+          },
+          { operationName: 'generateSkill_' + skill }
+        );
+        if (skillCsv?.file) {
+          const a = document.createElement('a');
+          a.href = skillCsv.file;
+          a.click();
+          a.href = '';
+        }
+      } catch (e: any) {
+        showError('unable to generate csv: ' + normalizeError(e));
+      }
+    }
+  };
+
+  return (
+    <Button
+      as={Link}
+      onClick={exportCSV}
+      target="_blank"
+      rel="noreferrer"
+      css={{
+        ...css,
+      }}
+    >
+      <DownloadIcon /> Export CSV
     </Button>
   );
 };

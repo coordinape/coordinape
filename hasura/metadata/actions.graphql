@@ -22,6 +22,10 @@ type Mutation {
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
+type Mutation {
+  skillCsv(payload: SkillCsvInput!): SkillCsvResponse
+}
+
 type Query {
   checkEthDenverInvitee: CheckEthDenverInviteeOutput
 }
@@ -402,6 +406,10 @@ input AllocationCsvInput {
   gift_token_symbol: String
 }
 
+input SkillCsvInput {
+  skill: String!
+}
+
 input CreateVaultInput {
   org_id: Int!
   vault_address: String!
@@ -669,6 +677,10 @@ type AllocationsResponse {
 }
 
 type AllocationCsvResponse {
+  file: String!
+}
+
+type SkillCsvResponse {
   file: String!
 }
 

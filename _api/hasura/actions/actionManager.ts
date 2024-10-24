@@ -44,6 +44,7 @@ import searchCosouls from './_handlers/searchCosouls';
 import searchProfiles from './_handlers/searchProfiles';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
 import share from './_handlers/share';
+import skillCsv from './_handlers/skillCsv.ts';
 import syncCoSoul from './_handlers/syncCoSoul';
 import syncLinks from './_handlers/syncLinks';
 import updateAllocations from './_handlers/updateAllocations';
@@ -102,6 +103,7 @@ const HANDLERS: HandlerDict = {
   searchProfiles,
   setPrimaryEmail,
   share,
+  skillCsv,
   syncCoSoul,
   syncLinks,
   updateAllocations,
