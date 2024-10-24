@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
@@ -30,7 +30,7 @@ export const rankColumnStyle = {
 
 export const GiveSkillLeaderboard = () => {
   const { skill } = useParams();
-  const [sort, setSortRaw] = useState<sortBy>('gives');
+  const [sort, setSortRaw] = useState<sortBy>('gives_last_7_days');
   const [desc, setDesc] = useState<boolean>(true);
 
   const setSort = (newSort: sortBy) => {
@@ -43,8 +43,9 @@ export const GiveSkillLeaderboard = () => {
   };
 
   const { data, isLoading } = useQuery(
-    ['give_leaderboard', skill],
+    ['give_leaderboard', skill, sort, desc],
     async () => {
+      const ascDesc = desc ? order_by.desc_nulls_last : order_by.asc_nulls_last;
       const { colinks_gives_skill_count } = await anonClient.query(
         {
           colinks_gives_skill_count: [
@@ -56,7 +57,19 @@ export const GiveSkillLeaderboard = () => {
               },
               order_by: [
                 {
-                  gives: order_by.desc_nulls_last,
+                  ...(sort === 'gives_last_24_hours'
+                    ? { gives_last_24_hours: ascDesc }
+                    : sort === 'gives_last_7_days'
+                      ? { gives_last_7_days: ascDesc }
+                      : sort === 'gives_last_30_days'
+                        ? { gives_last_30_days: ascDesc }
+                        : sort === 'name'
+                          ? {
+                              target_profile_public: {
+                                name: ascDesc,
+                              },
+                            }
+                          : { gives: ascDesc }),
                 },
                 {
                   target_profile_public: {
@@ -90,35 +103,6 @@ export const GiveSkillLeaderboard = () => {
       }));
     }
   );
-
-  const [sortedData, setSortedData] = useState<typeof data>(undefined);
-
-  const nameCompare = (a: string, b: string) => {
-    if (!a && !b) {
-      return 0;
-    } else if (!a && b) {
-      return -1;
-    } else if (a && !b) {
-      return 1;
-    }
-    return a.localeCompare(b);
-  };
-
-  useEffect(() => {
-    if (data) {
-      data.sort((a, b) => {
-        if (sort === 'name') {
-          return nameCompare(a.profile?.name ?? '', b.profile?.name ?? '');
-        }
-        const diff = b[sort] - a[sort];
-        if (diff !== 0) {
-          return diff;
-        }
-        return nameCompare(a.profile?.name ?? '', b.profile?.name ?? '');
-      });
-      setSortedData(desc ? [...data] : [...data].reverse());
-    }
-  }, [data, sort, desc]);
 
   if (!data || isLoading)
     return (
@@ -243,8 +227,8 @@ export const GiveSkillLeaderboard = () => {
               Last 30 Days
             </GiveLeaderboardColumn>
           </GiveLeaderboardRow>
-          {sortedData &&
-            sortedData.map(member => (
+          {data &&
+            data.map(member => (
               <GiveLeaderboardRow key={member.profile?.address}>
                 <GiveLeaderboardColumn css={rankColumnStyle}>
                   #{member.rank}
