@@ -154,7 +154,7 @@ export const handleBonesGive = async (id: number) => {
   });
 
   assert(replicateImageUrl, 'No image URL returned from AI');
-  const url = await uploadURLToCloudflare(replicateImageUrl);
+  const url = await uploadURLToCloudflare(replicateImageUrl, '/frame');
 
   const { update_colinks_gives_by_pk } = await adminClient.mutate(
     {

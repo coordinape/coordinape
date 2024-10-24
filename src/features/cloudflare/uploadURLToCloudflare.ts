@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+type variant = '/feed' | '/avatar' | '/original' | '/frame';
+
 import {
   CLOUDFLARE_ACCOUNT_ID,
   CLOUDFLARE_IMAGES_API_TOKEN,
@@ -7,7 +9,7 @@ import {
 
 export async function uploadURLToCloudflare(
   imageUrl: string,
-  variant = '/feed'
+  variant: variant = '/feed'
 ): Promise<string> {
   const formData = new FormData();
   formData.append('url', imageUrl);
