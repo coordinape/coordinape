@@ -127,7 +127,7 @@ export const publishCastGiveDelivered = async (
   }
 };
 
-export const handleBonesGive = async (id: number) => {
+const handleBonesGive = async (id: number) => {
   const { colinks_gives_by_pk } = await adminClient.query(
     {
       colinks_gives_by_pk: [
