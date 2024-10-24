@@ -22,7 +22,7 @@ type sortBy =
   | 'skill';
 
 export const GiveLeaderboard = () => {
-  const [sort, setSortRaw] = useState<sortBy>('gives');
+  const [sort, setSortRaw] = useState<sortBy>('gives_last_7_days');
   const [desc, setDesc] = useState<boolean>(true);
 
   const setSort = (newSort: sortBy) => {
@@ -34,14 +34,23 @@ export const GiveLeaderboard = () => {
     }
   };
 
-  const { data } = useQuery(['give_leaderboard'], async () => {
+  const { data } = useQuery(['give_leaderboard', sort, desc], async () => {
+    const ascDesc = desc ? order_by.desc_nulls_last : order_by.asc_nulls_last;
     const { colinks_give_count } = await anonClient.query(
       {
         colinks_give_count: [
           {
             order_by: [
               {
-                gives: order_by.desc_nulls_last,
+                ...(sort === 'gives_last_24_hours'
+                  ? { gives_last_24_hours: ascDesc }
+                  : sort === 'gives_last_7_days'
+                    ? { gives_last_7_days: ascDesc }
+                    : sort === 'gives_last_30_days'
+                      ? { gives_last_30_days: ascDesc }
+                      : sort === 'skill'
+                        ? { skill: ascDesc }
+                        : { gives: ascDesc }),
               },
               {
                 skill: order_by.asc_nulls_last,
