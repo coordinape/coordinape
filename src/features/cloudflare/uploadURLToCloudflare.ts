@@ -3,7 +3,10 @@ import {
   CLOUDFLARE_IMAGES_API_TOKEN,
 } from '../../../api-lib/config';
 
-export async function uploadURLToCloudflare(imageUrl: string): Promise<string> {
+export async function uploadURLToCloudflare(
+  imageUrl: string,
+  variant = '/original'
+): Promise<string> {
   const formData = new FormData();
   formData.append('url', imageUrl);
   const response = await fetch(
@@ -18,6 +21,7 @@ export async function uploadURLToCloudflare(imageUrl: string): Promise<string> {
   );
 
   const data = await response.json();
-  // console.log({ statusCode: response.status, data, errors: data?.errors });
-  return data.result.variants[0];
+  // console.log({ statusCode: response.status, data: JSON.stringify(data), errors: data?.errors });
+  const variants = data.result.variants;
+  return variants.find((v: string) => v.endsWith(variant));
 }
