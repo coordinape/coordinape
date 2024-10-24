@@ -1,0 +1,1 @@
+DROP VIEW "public"."colinks_gives_sent_skill_count";

@@ -22,10 +22,6 @@ type Mutation {
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
-type Mutation {
-  skillCsv(payload: SkillCsvInput!): SkillCsvResponse
-}
-
 type Query {
   checkEthDenverInvitee: CheckEthDenverInviteeOutput
 }
@@ -176,6 +172,10 @@ type Mutation {
 
 type Mutation {
   share(payload: ShareInput!): ShareOutput
+}
+
+type Mutation {
+  skillCsv(payload: SkillCsvInput!): SkillCsvResponse
 }
 
 type Mutation {
