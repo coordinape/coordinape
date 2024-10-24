@@ -172,21 +172,21 @@ export const GiveLeaderboard = () => {
             >
               Skill
             </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
-              Total GIVEs
+            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
+              Last 7d
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
               onClick={() => setSort('gives_last_24_hours')}
             >
-              Last 24 Hrs
-            </GiveLeaderboardColumn>
-            <GiveLeaderboardColumn onClick={() => setSort('gives_last_7_days')}>
-              Last 7 Days
+              Last 24h
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn
               onClick={() => setSort('gives_last_30_days')}
             >
-              Last 30 Days
+              Last 30d
+            </GiveLeaderboardColumn>
+            <GiveLeaderboardColumn onClick={() => setSort('gives')}>
+              Total GIVEs
             </GiveLeaderboardColumn>
           </GiveLeaderboardRow>
           {sortedData &&
@@ -225,16 +225,16 @@ export const GiveLeaderboard = () => {
                     <Text css={{ ...skillTextStyle }}>{skill.skill}</Text>
                   </Text>
                 </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn>{skill.gives}</GiveLeaderboardColumn>
-                <GiveLeaderboardColumn>
-                  {skill.gives_last_24_hours}
-                </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn>
                   {skill.gives_last_7_days}
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn>
+                  {skill.gives_last_24_hours}
+                </GiveLeaderboardColumn>
+                <GiveLeaderboardColumn>
                   {skill.gives_last_30_days}
                 </GiveLeaderboardColumn>
+                <GiveLeaderboardColumn>{skill.gives}</GiveLeaderboardColumn>
               </GiveLeaderboardRow>
             ))}
         </Flex>

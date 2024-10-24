@@ -984,6 +984,13 @@ export type ValueTypes = {
     profile_public?: ValueTypes['profiles_public'];
     __typename?: boolean | `@${string}`;
   }>;
+  ['SkillCsvInput']: {
+    skill: string;
+  };
+  ['SkillCsvResponse']: AliasType<{
+    file?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -9508,6 +9515,10 @@ export type ValueTypes = {
       ValueTypes['ConfirmationResponse'],
     ];
     share?: [{ payload: ValueTypes['ShareInput'] }, ValueTypes['ShareOutput']];
+    skillCsv?: [
+      { payload: ValueTypes['SkillCsvInput'] },
+      ValueTypes['SkillCsvResponse'],
+    ];
     syncCoSoul?: [
       { payload: ValueTypes['SyncCoSoulInput'] },
       ValueTypes['SyncCoSoulOutput'],
@@ -22486,6 +22497,10 @@ export type ModelTypes = {
     profile_id: number;
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
   };
+  ['SkillCsvInput']: GraphQLTypes['SkillCsvInput'];
+  ['SkillCsvResponse']: {
+    file: string;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   ['SuccessResponse']: {
@@ -25471,6 +25486,8 @@ export type ModelTypes = {
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** Generate share link for Colinks activity/post */
     share?: GraphQLTypes['ShareOutput'] | undefined;
+    /** exports a GIVE csv for a skill */
+    skillCsv?: GraphQLTypes['SkillCsvResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;
@@ -29225,6 +29242,13 @@ export type GraphQLTypes = {
     __typename: 'SimilarProfileOutput';
     profile_id: number;
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+  };
+  ['SkillCsvInput']: {
+    skill: string;
+  };
+  ['SkillCsvResponse']: {
+    __typename: 'SkillCsvResponse';
+    file: string;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -35882,6 +35906,8 @@ export type GraphQLTypes = {
     setPrimaryEmail?: GraphQLTypes['ConfirmationResponse'] | undefined;
     /** Generate share link for Colinks activity/post */
     share?: GraphQLTypes['ShareOutput'] | undefined;
+    /** exports a GIVE csv for a skill */
+    skillCsv?: GraphQLTypes['SkillCsvResponse'] | undefined;
     syncCoSoul?: GraphQLTypes['SyncCoSoulOutput'] | undefined;
     /** syncLinks */
     syncLinks?: GraphQLTypes['ConfirmationResponse'] | undefined;

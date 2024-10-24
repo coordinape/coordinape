@@ -152,7 +152,7 @@ export const fetchPoints = async (profileId: number) => {
   return { points, give, canGive };
 };
 
-const hasGhoulNft = async (profileId: number) => {
+export const hasGhoulNft = async (profileId: number) => {
   const { profiles_by_pk } = await adminClient.query(
     {
       profiles_by_pk: [

@@ -465,6 +465,14 @@ type SimilarProfileOutput {
   profile_public: profiles_public
 }
 
+input SkillCsvInput {
+  skill: String!
+}
+
+type SkillCsvResponse {
+  file: String!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -12526,6 +12534,11 @@ type mutation_root {
   Generate share link for Colinks activity/post
   """
   share(payload: ShareInput!): ShareOutput
+
+  """
+  exports a GIVE csv for a skill
+  """
+  skillCsv(payload: SkillCsvInput!): SkillCsvResponse
   syncCoSoul(payload: SyncCoSoulInput!): SyncCoSoulOutput
 
   """
