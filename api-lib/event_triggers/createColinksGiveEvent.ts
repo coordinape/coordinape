@@ -127,7 +127,7 @@ export const publishCastGiveDelivered = async (
   }
 };
 
-const handleBonesGive = async (id: number) => {
+export const handleBonesGive = async (id: number) => {
   const { colinks_gives_by_pk } = await adminClient.query(
     {
       colinks_gives_by_pk: [
@@ -154,7 +154,7 @@ const handleBonesGive = async (id: number) => {
   });
 
   assert(replicateImageUrl, 'No image URL returned from AI');
-  const url = await uploadURLToCloudflare(replicateImageUrl, '/original');
+  const url = await uploadURLToCloudflare(replicateImageUrl);
 
   const { update_colinks_gives_by_pk } = await adminClient.mutate(
     {

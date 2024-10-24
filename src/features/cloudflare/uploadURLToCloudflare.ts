@@ -5,7 +5,7 @@ import {
 
 export async function uploadURLToCloudflare(
   imageUrl: string,
-  variant = '/original'
+  variant?: string
 ): Promise<string> {
   const formData = new FormData();
   formData.append('url', imageUrl);
@@ -22,6 +22,11 @@ export async function uploadURLToCloudflare(
 
   const data = await response.json();
   // console.log({ statusCode: response.status, data: JSON.stringify(data), errors: data?.errors });
-  const variants = data.result.variants;
-  return variants.find((v: string) => v.endsWith(variant));
+
+  if (variant) {
+    const variants = data.result.variants;
+    return variants.find((v: string) => v.endsWith(variant));
+  } else {
+    return data.result.variants[0].replace(/\/\w+$/, '');
+  }
 }
