@@ -39,7 +39,6 @@ async function handler(req: VercelRequest, res: VercelResponse) {
     'received_last_7_days',
     'received_last_30_days',
     'sent',
-    ...(nftAddress ? ['nft_address', 'has_nft'] : []),
   ];
   if (nftAddress) {
     headers.push('nft_address');
@@ -96,6 +95,16 @@ export async function generateCsvValues(
             name: true,
             address: true,
             id: true,
+            colinks_give_sent_skill_count: [
+              {
+                where: {
+                  skill: { _eq: skill },
+                },
+              },
+              {
+                gives_sent: true,
+              },
+            ],
           },
           gives: true,
           gives_last_24_hours: true,
@@ -115,6 +124,7 @@ export async function generateCsvValues(
       ?.filter(u => !!u.target_profile_public)
       .map(async u => {
         assert(u.target_profile_public);
+
         const nft = ghoulCheck
           ? [
               GHOUL_CONTRACT.address,
@@ -128,7 +138,8 @@ export async function generateCsvValues(
           u.gives_last_24_hours,
           u.gives_last_7_days,
           u.gives_last_30_days,
-          0,
+          u.target_profile_public.colinks_give_sent_skill_count?.[0]
+            ?.gives_sent ?? 0,
           ...nft,
         ];
         return rowValues;

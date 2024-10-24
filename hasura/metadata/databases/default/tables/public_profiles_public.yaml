@@ -30,6 +30,15 @@ object_relationships:
           name: reputation_scores
           schema: public
 array_relationships:
+  - name: colinks_give_sent_skill_count
+    using:
+      manual_configuration:
+        column_mapping:
+          id: profile_id
+        insertion_order: null
+        remote_table:
+          name: colinks_gives_sent_skill_count
+          schema: public
   - name: colinks_given
     using:
       manual_configuration:
