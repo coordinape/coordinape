@@ -145,7 +145,7 @@ const ExportCSVButton = ({ css, skill }: { css?: CSS; skill: string }) => {
         ...css,
       }}
     >
-      <DownloadIcon size={'md'} /> Export CSV
+      <DownloadIcon /> Export CSV
     </Button>
   );
 };
