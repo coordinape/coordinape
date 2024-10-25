@@ -645,8 +645,8 @@ devDependencies:
     specifier: 1.7.0
     version: 1.7.0
   http-proxy-middleware:
-    specifier: 2.0.6
-    version: 2.0.6(@types/express@4.17.21)(debug@4.3.4)
+    specifier: 2.0.7
+    version: 2.0.7(@types/express@4.17.21)(debug@4.3.4)
   https-browserify:
     specifier: 1.0.0
     version: 1.0.0
@@ -16687,7 +16687,7 @@ packages:
     resolution: {integrity: sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==}
     deprecated: Deprecated in favor of '@metamask/eth-sig-util'
     dependencies:
-      ethereumjs-abi: github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0
+      ethereumjs-abi: git@github.com+ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0
       ethereumjs-util: 5.2.1
     dev: true
 
@@ -18846,8 +18846,8 @@ packages:
     transitivePeerDependencies:
       - supports-color
 
-  /http-proxy-middleware@2.0.6(@types/express@4.17.21)(debug@4.3.4):
-    resolution: {integrity: sha512-ya/UeJ6HVBYxrgYotAZo1KvPWlgB48kUJLDePFeneHsVujFaW5WNj2NgWCAE//B1Dl02BIfYlpNgBy8Kf8Rjmw==}
+  /http-proxy-middleware@2.0.7(@types/express@4.17.21)(debug@4.3.4):
+    resolution: {integrity: sha512-fgVY8AV7qU7z/MmXJ/rxwbrtQH4jBQ9m7kp3llF0liB7glmFeVZFBepQb32T3y8n8k2+AEYuMPCpinYW+/CuRA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       '@types/express': ^4.17.13
@@ -29773,8 +29773,8 @@ packages:
     name: canvas-color-tracker
     dev: false
 
-  github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
-    resolution: {tarball: https://codeload.github.com/ethereumjs/ethereumjs-abi/tar.gz/ee3994657fa7a427238e6ba92a84d0b529bbcde0}
+  git@github.com+ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
+    resolution: {commit: ee3994657fa7a427238e6ba92a84d0b529bbcde0, repo: git@github.com:ethereumjs/ethereumjs-abi.git, type: git}
     name: ethereumjs-abi
     version: 0.6.8
     dependencies:

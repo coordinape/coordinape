@@ -315,7 +315,7 @@
     "figma-api": "1.9.2",
     "hasura-cli": "2.17.1",
     "http-browserify": "1.7.0",
-    "http-proxy-middleware": "2.0.6",
+    "http-proxy-middleware": "2.0.7",
     "https-browserify": "1.0.0",
     "husky": "^8.0.0",
     "jest-junit": "^16.0.0",
