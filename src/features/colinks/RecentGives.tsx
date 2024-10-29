@@ -20,8 +20,8 @@ export const RecentGives = ({ skill }: { skill: string }) => {
             created_at: true,
             id: true,
             skill: true,
-            skill_name: true,
             giver_profile_public: { name: true },
+            target_profile_public: { name: true },
           },
         ],
       },
@@ -36,7 +36,9 @@ export const RecentGives = ({ skill }: { skill: string }) => {
       Recent Gives
       {data?.map(give => (
         <Text key={give.id}>
-          {skill} given at {give.created_at}
+          {skill} given at {give.created_at} from{' '}
+          {give.giver_profile_public?.name} to{' '}
+          {give.target_profile_public?.name}
         </Text>
       ))}
     </Flex>
