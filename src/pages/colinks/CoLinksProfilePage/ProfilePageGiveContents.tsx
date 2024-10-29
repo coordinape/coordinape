@@ -55,6 +55,9 @@ export const ProfilePageGiveContents = ({
                     div: {
                       py: '$xs',
                       flex: '0 1',
+                      '.skillOverflow': {
+                        maxWidth: '6rem',
+                      },
                     },
                     '@sm': {
                       background: 'transparent',

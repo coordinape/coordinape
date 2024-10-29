@@ -269,7 +269,12 @@ export const GiveReceived = ({
                               css={{ fontWeight: 'normal' }}
                             >{`+${g.count}`}</Text>
                             <GemCoOutline fa size={'md'} />
-                            <Text css={skillTextStyle}>{g.skill}</Text>
+                            <Text
+                              className="skillOverflow"
+                              css={skillTextStyle}
+                            >
+                              {g.skill}
+                            </Text>
                           </>
                         ) : (
                           <>
