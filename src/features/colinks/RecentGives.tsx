@@ -1,8 +1,14 @@
+import { easAttestUrl } from 'features/eas/eas';
 import { anonClient } from 'lib/anongql/anonClient';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
+import { NavLink } from 'react-router-dom';
 
 import { order_by } from '../../lib/anongql/__generated__/zeus';
-import { Flex, Text } from 'ui';
+import { webAppURL } from 'config/webAppURL';
+import { ExternalLink } from 'icons/__generated';
+import { coLinksPaths } from 'routes/paths';
+import { Flex, Link, Text } from 'ui';
 
 const QUERY_KEY_RECENT_GIVES = 'recentGives';
 
@@ -17,11 +23,11 @@ export const RecentGives = ({ skill }: { skill: string }) => {
             limit: 10,
           },
           {
+            attestation_uid: true,
             created_at: true,
             id: true,
-            skill: true,
-            giver_profile_public: { name: true },
-            target_profile_public: { name: true },
+            giver_profile_public: { address: true },
+            target_profile_public: { address: true },
           },
         ],
       },
@@ -31,16 +37,94 @@ export const RecentGives = ({ skill }: { skill: string }) => {
     );
     return colinks_gives;
   });
+
   return (
-    <Flex column css={{ gap: '$md' }}>
-      Recent Gives
-      {data?.map(give => (
-        <Text key={give.id}>
-          {skill} given at {give.created_at} from{' '}
-          {give.giver_profile_public?.name} to{' '}
-          {give.target_profile_public?.name}
-        </Text>
-      ))}
+    <Flex column css={{ gap: '$md', my: '$lg' }}>
+      <Text h2>Recent Gives</Text>
+      <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
+        {data?.map(give => (
+          <Flex
+            key={give.id}
+            css={{
+              position: 'relative',
+              width: '48.75%',
+            }}
+          >
+            <Flex
+              css={{
+                width: '100%',
+                height: '100%',
+                position: 'absolute',
+              }}
+            >
+              <Link
+                as={NavLink}
+                to={coLinksPaths.profileGive(
+                  give.giver_profile_public?.address ?? ''
+                )}
+                css={{ width: '50%' }}
+              >
+                &nbsp;
+              </Link>
+              <Link
+                as={NavLink}
+                to={coLinksPaths.profileGive(
+                  give.target_profile_public?.address ?? ''
+                )}
+                css={{ width: '50%' }}
+              >
+                &nbsp;
+              </Link>
+            </Flex>
+            <Flex
+              column
+              css={{
+                img: {
+                  width: '100%',
+                  height: '100%',
+                },
+              }}
+            >
+              <img
+                src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
+                alt="test"
+              />
+              <Flex
+                css={{
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  p: '$xs 0',
+                  zIndex: 2,
+                }}
+              >
+                <Text size="xs" color="neutral">
+                  {DateTime.fromISO(give.created_at).toLocal().toRelative()}
+                </Text>
+                {give.attestation_uid && (
+                  <>
+                    <Text size="xs">
+                      <Link
+                        inlineLink
+                        href={easAttestUrl(give.attestation_uid as string)}
+                        css={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          color: '$neutral',
+                        }}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        onchain
+                        <ExternalLink size="sm" css={{ ml: '$xs' }} />
+                      </Link>
+                    </Text>
+                  </>
+                )}
+              </Flex>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
     </Flex>
   );
 };
