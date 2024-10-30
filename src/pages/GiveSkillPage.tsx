@@ -1,5 +1,6 @@
 import { DownloadIcon } from '@radix-ui/react-icons';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { RecentGives } from 'features/colinks/RecentGives';
 import { Helmet } from 'react-helmet';
 import { Navigate, useParams } from 'react-router-dom';
 import { CSS } from 'stitches.config';
@@ -40,6 +41,7 @@ export const GiveSkillPage = () => {
             }}
           />
           <GiveSkillLeaderboard />
+          {skill && <RecentGives skill={skill} />}
         </Flex>
         <Flex
           column

@@ -32,6 +32,7 @@ select_permissions:
         - cast_hash
         - created_at
         - id
+        - image_url
         - profile_id
         - skill
         - target_profile_id
