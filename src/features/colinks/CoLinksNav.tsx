@@ -2,7 +2,6 @@ import { memo, useContext, useEffect, useState } from 'react';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
-import { CoLogoMark } from 'features/nav/CoLogoMark';
 import { GiveAvailablePopover } from 'features/points/GiveAvailablePopover';
 import { PointsBar } from 'features/points/PointsBar';
 import { PointsBarInfo } from 'features/points/PointsBarInfo';
@@ -123,7 +122,7 @@ export const CoLinksNav = () => {
           css={{
             gap: '$md',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'center',
             width: '100%',
             '@sm': {
               justifyContent: 'flex-start',
@@ -131,20 +130,6 @@ export const CoLinksNav = () => {
           }}
         >
           <NavLogo loggedIn={!!address} />
-          <Flex css={{ gap: '$sm' }}>
-            <Text
-              size="small"
-              color="secondary"
-              css={{
-                fontStyle: 'italic',
-                letterSpacing: '-0.2px',
-                mr: '-2px',
-              }}
-            >
-              by
-            </Text>
-            <CoLogoMark muted small mark />
-          </Flex>
         </Flex>
         <GiveAvailablePopover />
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
