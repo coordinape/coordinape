@@ -23,7 +23,6 @@ import { ExplorePage } from '../pages/colinks/ExplorePage';
 import { GivePage } from '../pages/colinks/give/GivePage';
 import { GivePagesLayout } from '../pages/colinks/give/GivePagesLayout';
 import { HighlightsPage } from '../pages/colinks/HighlightsPage';
-import { InvitesPage } from '../pages/colinks/InvitesPage';
 import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
@@ -39,7 +38,6 @@ import { WizardStart } from '../pages/colinks/wizard/WizardStart';
 import CoSoulExplorePage from '../pages/CoSoulExplorePage/CoSoulExplorePage';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage, GiveSkillRedirect } from '../pages/GiveSkillPage';
-import { InviteCodePage } from '../pages/InviteCodePage';
 import { PostPage } from '../pages/PostPage';
 import {
   GivePartyProfileRedirect,
@@ -67,10 +65,6 @@ export const coLinksRoutes = [
       </CoLinksLoggedOutLayout>
     }
   >
-    <Route
-      path={coLinksPaths.inviteCode(':code')}
-      element={<InviteCodePage />}
-    />
     <Route
       path={coLinksPaths.authenticate(':token')}
       element={<AuthenticatePage />}
@@ -232,7 +226,6 @@ export const coLinksRoutes = [
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}
       />
-      <Route path={coLinksPaths.invites} element={<InvitesPage />} />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />
       <Route
