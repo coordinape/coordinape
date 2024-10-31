@@ -122,7 +122,7 @@ export const CoLinksNav = () => {
           css={{
             gap: '$md',
             alignItems: 'center',
-            justifyContent: 'center',
+            justifyContent: 'space-between',
             width: '100%',
             '@sm': {
               justifyContent: 'flex-start',
