@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 
 import { GlobalUi } from '../../../components/GlobalUi';
 import useProfileId from '../../../hooks/useProfileId';
-import { coLinksPaths } from '../../../routes/paths';
-import { AppLink, Button, Flex, HR, Text } from '../../../ui';
+import { EXTERNAL_URL_ABOUT, coLinksPaths } from '../../../routes/paths';
+import { Button, Flex, HR, Link, Text } from '../../../ui';
 
 export const WizardStart = () => {
   const profileId = useProfileId();
@@ -64,8 +64,8 @@ export const WizardStart = () => {
                 }
                 <Button
                   color="secondary"
-                  as={AppLink}
-                  to={coLinksPaths.info}
+                  as={Link}
+                  href={EXTERNAL_URL_ABOUT}
                   size="small"
                   css={{ mt: '$sm' }}
                 >
@@ -93,7 +93,7 @@ export const WizardStart = () => {
                 >
                   Connect to Join CoLinks
                 </Button>
-                <Button color="secondary" as={AppLink} to={coLinksPaths.info}>
+                <Button color="secondary" as={Link} href={EXTERNAL_URL_ABOUT}>
                   Learn More About CoLinks
                 </Button>
               </>

@@ -6,7 +6,6 @@ import { Navigate, Outlet, Route } from 'react-router-dom';
 import { CoLinksProvider } from '../features/colinks/CoLinksContext';
 import { CoLinksLayout } from '../features/colinks/CoLinksLayout';
 import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayout';
-import { CoLinksSplashPage } from '../features/colinks/CoLinksSplashPage';
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
@@ -108,7 +107,6 @@ export const coLinksRoutes = [
     }
   >
     <Route path="login" element={<RedirectAfterLogin />} />
-    <Route path={coLinksPaths.info} element={<CoLinksSplashPage />} />
   </Route>,
   <Route key={'fullscreenCoLinks'}>
     <Route

@@ -2,6 +2,7 @@ import type { Location } from 'react-router-dom';
 
 export const EXTERNAL_URL_DOCS = 'https://docs.coordinape.com';
 export const EXTERNAL_URL_BLOG = 'https://about.coordinape.com/blog';
+export const EXTERNAL_URL_ABOUT = 'https://about.coordinape.com';
 export const START_A_PARTY_INTENT =
   'https://warpcast.com/~/compose?text=https://give.party/type-a-skill-here';
 export const EXTERNAL_URL_DOCS_GIVE =
@@ -90,7 +91,6 @@ export const coLinksPaths = {
   holdings: (address: string) => `/${address}/holdings`,
   home: '/home',
   linksmap: '/linksmap',
-  info: '/info',
   inviteCode: (code: string) => `/invite/${code}`,
   invites: '/invites',
   launch: '/launch',
