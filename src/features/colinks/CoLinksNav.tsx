@@ -11,7 +11,6 @@ import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { webAppURL } from '../../config/webAppURL';
-import { moveBg } from '../../keyframes';
 import { coLinksPaths } from '../../routes/paths';
 import {
   Button,
@@ -29,7 +28,6 @@ import { useNotificationCount } from '../notifications/useNotificationCount';
 import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
 import {
-  Ai,
   BoltFill,
   CertificateFill,
   Circle2,
@@ -38,7 +36,6 @@ import {
   GemCoOutline,
   HouseFill,
   Menu,
-  MessagesQuestion,
   PlanetFill,
   UserFill,
   X,
@@ -47,8 +44,6 @@ import {
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
-
-type NavData = ReturnType<typeof useCoLinksNavQuery>['data'];
 
 export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -189,11 +184,7 @@ export const CoLinksNav = () => {
           <Flex css={{ mb: '$lg' }}>
             <CoLinksSearchBox />
           </Flex>
-          {address ? (
-            <LoggedInItems data={data} address={address} />
-          ) : (
-            <LoggedOutItems />
-          )}
+          {address ? <LoggedInItems address={address} /> : <LoggedOutItems />}
         </Flex>
       </Flex>
       <Flex column>
@@ -342,13 +333,7 @@ const Count = memo(function Count() {
   ) : null;
 });
 
-const LoggedInItems = ({
-  data,
-  address,
-}: {
-  data: NavData;
-  address: string | undefined;
-}) => {
+const LoggedInItems = ({ address }: { address: string | undefined }) => {
   const navigate = useNavigate();
 
   return (
@@ -369,38 +354,6 @@ const LoggedInItems = ({
         <BoltFill size="lg" nostroke />
         <Flex css={{ gap: '$md' }}>
           Notifications <Count />
-        </Flex>
-      </NavItem>
-      <NavItem path={coLinksPaths.highlights}>
-        <Ai size="lg" nostroke />
-        Highlights
-      </NavItem>
-      <NavItem
-        className="spicy"
-        path={
-          data?.big_question
-            ? coLinksPaths.bigQuestion(data.big_question.id)
-            : coLinksPaths.bigQuestions
-        }
-      >
-        <MessagesQuestion size="lg" nostroke />
-        <Flex
-          css={{
-            '--bg-size': '400%',
-            '--color-one': '$colors$bigQuestion1',
-            '--color-two': '$colors$bigQuestion2',
-            background:
-              'linear-gradient(90deg,var(--color-one),var(--color-two),var(--color-one)) 0 0 / var(--bg-size) 100%',
-            color: 'transparent',
-            backgroundClip: 'text',
-            '-webkit-background-clip': 'text',
-            animation: `${moveBg} 32s infinite linear`,
-            '&:hover': {
-              outline: '$surfaceNested',
-            },
-          }}
-        >
-          The Big Question
         </Flex>
       </NavItem>
       <HR />
