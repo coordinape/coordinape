@@ -90,7 +90,6 @@ export const coLinksPaths = {
   holdings: (address: string) => `/${address}/holdings`,
   home: '/home',
   linksmap: '/linksmap',
-  info: '/info',
   inviteCode: (code: string) => `/invite/${code}`,
   invites: '/invites',
   launch: '/launch',
