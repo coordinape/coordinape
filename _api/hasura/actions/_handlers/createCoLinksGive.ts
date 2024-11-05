@@ -4,7 +4,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
-import { insertInteractionEvents } from '../../../../api-lib/gql/mutations';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
   errorResponse,
@@ -91,24 +90,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       throw new UnprocessableError('cannot give to self');
     }
 
-    const { newPoints, giveId } = await checkPointsAndCreateGive(
+    const { giveId } = await checkPointsAndCreateGive(
       profileId,
       targetProfileId,
       payload
     );
-
-    const hostname = req.headers.host;
-    await insertInteractionEvents({
-      event_type: 'colinks_give_create',
-      profile_id: profileId,
-      data: {
-        hostname,
-        activity_id: payload.activity_id,
-        skill: payload.skill,
-        cast_hash: payload.cast_hash,
-        new_points_balance: newPoints,
-      },
-    });
 
     return res.status(200).json({ id: giveId });
   } catch (e: any) {

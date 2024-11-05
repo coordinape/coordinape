@@ -8,6 +8,7 @@ import {
   skills_update_column,
 } from './gql/__generated__/zeus';
 import { adminClient } from './gql/adminClient.ts';
+import { insertInteractionEvents } from './gql/mutations.ts';
 import { UnprocessableError } from './HttpError.ts';
 
 export const checkPointsAndCreateGive = async (
@@ -70,6 +71,18 @@ export const checkPointsAndCreateGive = async (
     }
   );
   assert(insert_colinks_gives_one);
+
+  await insertInteractionEvents({
+    event_type: 'colinks_give_create',
+    profile_id: profileId,
+    data: {
+      activity_id: payload.activity_id,
+      skill: payload.skill,
+      cast_hash: payload.cast_hash,
+      new_points_balance: newPoints,
+    },
+  });
+
   return { newPoints, giveId: insert_colinks_gives_one.id };
 };
 export const insertCoLinksGive = async (
