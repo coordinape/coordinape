@@ -46,3 +46,4 @@ yalc.lock
 
 /storybook-static
 .nyc_output/
+/notes/
