@@ -124,7 +124,7 @@ export default async function handler(
       ],
     },
     {
-      operationName: 'recentLikes',
+      operationName: 'recentLikes @cached(ttl: 300)',
     }
   );
 
