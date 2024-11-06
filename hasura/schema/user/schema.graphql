@@ -6876,6 +6876,10 @@ input emails_stream_cursor_value_input {
 farcaster casts that we actually care about, with some materialized fields
 """
 type enriched_casts {
+  """
+  An object relationship
+  """
+  activity: activities
   created_at: timestamp!
   deleted_at: timestamp
   embeds(
@@ -7032,6 +7036,7 @@ input enriched_casts_bool_exp {
   _and: [enriched_casts_bool_exp!]
   _not: enriched_casts_bool_exp
   _or: [enriched_casts_bool_exp!]
+  activity: activities_bool_exp
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
   embeds: jsonb_comparison_exp
@@ -7060,6 +7065,7 @@ input enriched_casts_bool_exp {
 Ordering options when selecting data from "enriched_casts".
 """
 input enriched_casts_order_by {
+  activity: activities_order_by
   created_at: order_by
   deleted_at: order_by
   embeds: order_by

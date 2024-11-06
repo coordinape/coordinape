@@ -1,0 +1,1 @@
+CREATE TABLE "public"."virtual_reactions_count" ("target_hash" bytea NOT NULL, "count" integer NOT NULL, PRIMARY KEY ("target_hash") );COMMENT ON TABLE "public"."virtual_reactions_count" IS E'virtual table for view of grouped_by farcaster.reactions';
