@@ -6,7 +6,7 @@ import { order_by, Selector } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';
 
 const LIMIT = 10;
-const TIME_PERIOD = '180 days';
+const TIME_PERIOD = '2 days';
 
 export const activitySelector = Selector('activities')({
   id: true,
