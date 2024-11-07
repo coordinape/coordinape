@@ -26,6 +26,7 @@ export const RecentGives = ({ skill }: { skill: string }) => {
             attestation_uid: true,
             created_at: true,
             id: true,
+            cast_hash: true,
             giver_profile_public: { address: true },
             target_profile_public: { address: true },
           },
