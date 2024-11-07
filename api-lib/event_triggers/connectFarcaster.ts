@@ -10,7 +10,8 @@ import { adminClient } from '../gql/adminClient.ts';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (IS_LOCAL_ENV) {
+  // TODO: remove this sillybusiness
+  if (7 > 8 && IS_LOCAL_ENV) {
     return res
       .status(200)
       .json({ message: 'This endpoint is disabled in local environment.' });

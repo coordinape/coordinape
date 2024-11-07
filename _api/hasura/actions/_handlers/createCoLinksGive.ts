@@ -47,6 +47,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       try {
         const { cast } = await fetchCast(payload.cast_hash);
         const fid = cast.author.fid;
+
+        // TODO: findOrCreateProfileByFid should also autoConnectFarcaster
+        // to avoid race conditions
         const profile = await findOrCreateProfileByFid(fid);
         targetProfileId = profile?.id;
       } catch (e: any) {
