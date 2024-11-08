@@ -10,7 +10,7 @@ import { useLocation } from 'react-router';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { webAppURL } from '../../config/webAppURL';
-import { coLinksPaths } from '../../routes/paths';
+import { coLinksPaths, EXTERNAL_URL_ABOUT } from '../../routes/paths';
 import {
   Button,
   Flex,
@@ -456,7 +456,15 @@ const LoggedOutItems = () => {
         disabled={connectModalOpen}
         color="cta"
       >
-        Login or Join CoLinks
+        Login or Join Coordinape
+      </Button>
+      <Button
+        as={Link}
+        href={EXTERNAL_URL_ABOUT}
+        color="link"
+        css={{ fontWeight: '$normal' }}
+      >
+        About Coordinape
       </Button>
     </>
   );

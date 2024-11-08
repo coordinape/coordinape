@@ -5,7 +5,7 @@ import { useAccount } from 'wagmi';
 
 import { Network } from '../../components';
 import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameForm';
-import { coLinksPaths } from '../../routes/paths';
+import { EXTERNAL_URL_ABOUT, coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
 import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
@@ -120,6 +120,7 @@ export const CoLinksNavProfile = ({
       </Flex>
       {open && (
         <Box css={{ mt: '$sm', pr: '$xs' }}>
+          <NavItem external label="About Coordinape" to={EXTERNAL_URL_ABOUT} />
           <NavItem
             label="Recent Transactions"
             onClick={() => setShowTxModal(true)}

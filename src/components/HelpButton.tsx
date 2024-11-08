@@ -8,10 +8,12 @@ import {
   Clock,
   Discord,
   FileText,
+  GemCoFillSm,
   Mail,
   X,
 } from '../icons/__generated';
 import {
+  EXTERNAL_URL_ABOUT,
   EXTERNAL_URL_DISCORD,
   EXTERNAL_URL_DOCS,
   EXTERNAL_URL_DOCS_COLINKS,
@@ -174,6 +176,14 @@ const HelpButton = ({ css }: { css?: CSS }) => {
               Ask us anything
             </Text>
           </Box>
+          <HelpOption
+            href={EXTERNAL_URL_ABOUT}
+            icon={
+              <GemCoFillSm fa size={'md'} css={{ '*': { fill: '$text' } }} />
+            }
+          >
+            About Coordinape
+          </HelpOption>
           <HelpOption
             href={EXTERNAL_URL_DISCORD}
             icon={
