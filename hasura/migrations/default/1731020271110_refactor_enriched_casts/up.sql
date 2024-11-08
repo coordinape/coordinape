@@ -69,14 +69,16 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION colinks_give_to_enriched_cast()
 RETURNS TRIGGER AS $$
 BEGIN
+    RAISE NOTICE 'Starting colinks_give_to_enriched_cast for ID: %', NEW.id;
+
     -- Only proceed if there's a cast_hash
     IF NEW.cast_hash IS NOT NULL THEN
         BEGIN
             -- Get the cast and call the enriched cast function
             PERFORM insert_into_enriched_casts(c.*)
             FROM farcaster.casts c
---             THIS JOIN WONT WORK BECAUSE OF TEXT!=ByteA
-            WHERE c.hash = NEW.cast_hash;
+            -- Use encode to convert c.hash (bytea) to hex string to compare with NEW.cast_hash (text)
+            WHERE '0x' || encode(c.hash, 'hex') = NEW.cast_hash;
         EXCEPTION WHEN OTHERS THEN
             -- Log error but don't fail the transaction
             RAISE NOTICE 'Failed to process enriched cast for colinks_gives ID: %, cast_hash: %. Error: %',

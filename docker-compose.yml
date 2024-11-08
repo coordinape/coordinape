@@ -10,6 +10,8 @@ services:
       - ${LOCAL_POSTGRES_PORT}:5432
     environment:
       POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD}
+    command: ["postgres", "-c", "log_statement=all", "-c", "log_min_messages=debug1"]
+
 
   # Hasura
   graphql-engine:
