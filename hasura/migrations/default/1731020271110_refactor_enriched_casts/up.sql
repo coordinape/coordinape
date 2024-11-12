@@ -69,8 +69,6 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION colinks_give_to_enriched_cast()
 RETURNS TRIGGER AS $$
 BEGIN
-    RAISE NOTICE 'Starting colinks_give_to_enriched_cast for ID: %', NEW.id;
-
     -- Only proceed if there's a cast_hash
     IF NEW.cast_hash IS NOT NULL THEN
         BEGIN
