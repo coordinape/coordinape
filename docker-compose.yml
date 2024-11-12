@@ -1,9 +1,12 @@
-version: '3.6'
-
 services:
   postgres:
     image: ankane/pgvector:latest
     restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
