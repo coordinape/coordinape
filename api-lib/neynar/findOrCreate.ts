@@ -46,7 +46,9 @@ export const findOrCreateProfileByUsername = async (username: string) => {
 
 export const findOrCreateProfileByFid = async (fid: number) => {
   const fc_profile = await fetchUserByFid(fid);
-  return findOrCreateUser(fc_profile);
+  const prof = findOrCreateUser(fc_profile);
+
+  return prof;
 };
 
 export async function findOrCreateProfileByAddress(address: string) {
