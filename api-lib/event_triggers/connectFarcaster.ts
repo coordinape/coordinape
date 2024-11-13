@@ -2,11 +2,6 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { IS_LOCAL_ENV } from '../config.ts';
 import { autoConnectFarcasterAccount } from '../farcaster/autoConnectFarcasterAccount.ts';
-import {
-  profile_flags_constraint,
-  profile_flags_update_column,
-} from '../gql/__generated__/zeus';
-import { adminClient } from '../gql/adminClient.ts';
 import { EventTriggerPayload } from '../types';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -24,30 +19,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       insertedProfile.id
     );
 
-    await adminClient.mutate(
-      {
-        insert_profile_flags_one: [
-          {
-            object: {
-              profile_id: insertedProfile.id,
-              farcaster_connect_checked_at: 'now()',
-            },
-            on_conflict: {
-              constraint: profile_flags_constraint.profile_flags_pkey,
-              update_columns: [
-                profile_flags_update_column.farcaster_connect_checked_at,
-              ],
-            },
-          },
-          {
-            __typename: true,
-          },
-        ],
-      },
-      {
-        operationName: 'connectFarcaster__insertProfileFlags',
-      }
-    );
     if (!fcProfile) {
       return res.status(200).json({
         message: `farcaster account not found for ${insertedProfile.address}`,

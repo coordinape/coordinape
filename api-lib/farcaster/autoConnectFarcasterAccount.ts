@@ -1,3 +1,7 @@
+import {
+  profile_flags_constraint,
+  profile_flags_update_column,
+} from '../gql/__generated__/zeus';
 import { adminClient } from '../gql/adminClient.ts';
 import { fetchUserByAddress } from '../neynar.ts';
 
@@ -5,6 +9,31 @@ export const autoConnectFarcasterAccount = async (
   address: string,
   profileId: number
 ) => {
+  await adminClient.mutate(
+    {
+      insert_profile_flags_one: [
+        {
+          object: {
+            profile_id: profileId,
+            farcaster_connect_checked_at: 'now()',
+          },
+          on_conflict: {
+            constraint: profile_flags_constraint.profile_flags_pkey,
+            update_columns: [
+              profile_flags_update_column.farcaster_connect_checked_at,
+            ],
+          },
+        },
+        {
+          __typename: true,
+        },
+      ],
+    },
+    {
+      operationName: 'connectFarcaster__insertProfileFlags',
+    }
+  );
+
   const fcProfile = await fetchUserByAddress(address);
   if (!fcProfile) {
     return undefined;
