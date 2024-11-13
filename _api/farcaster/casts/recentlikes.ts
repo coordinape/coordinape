@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { EnrichedCastSelector } from '../../../api-lib/farcaster/fetchCastsById.ts';
+import { EnrichedCastSelector } from '../../../api-lib/farcaster/fetchCastsByIdOrHash.ts';
 import { hydrateCasts } from '../../../api-lib/farcaster/hydration.ts';
 import { order_by, Selector } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient.ts';

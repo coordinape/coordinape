@@ -3,7 +3,7 @@ import {
   URLType,
 } from '../../src/features/farcaster/checkURLType.ts';
 
-import { Cast } from './fetchCastsById.ts';
+import { Cast } from './fetchCastsByIdOrHash.ts';
 
 export type CastEmbed = {
   type: URLType;

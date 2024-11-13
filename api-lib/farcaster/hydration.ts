@@ -1,5 +1,5 @@
 import { getEmbeds } from './embeds.ts';
-import { Cast } from './fetchCastsById.ts';
+import { Cast } from './fetchCastsByIdOrHash.ts';
 import { getMentionsMap, getTextWithMentions } from './mentions.ts';
 
 export type HydratedCast = Awaited<ReturnType<typeof hydrateCasts>>[number];

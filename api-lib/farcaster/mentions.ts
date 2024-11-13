@@ -2,7 +2,7 @@ import { uniq } from 'lodash-es';
 
 import { adminClient } from '../gql/adminClient.ts';
 
-import { Cast } from './fetchCastsById.ts';
+import { Cast } from './fetchCastsByIdOrHash.ts';
 
 export const getTextWithMentions = (
   cast: Cast,

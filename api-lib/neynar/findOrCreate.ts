@@ -3,6 +3,7 @@ import assert from 'assert';
 
 import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare.ts';
 import { getGiveBotInviterProfileId } from '../colinks/helperAccounts.ts';
+import { autoConnectFarcasterAccount } from '../farcaster/autoConnectFarcasterAccount.ts';
 import { adminClient } from '../gql/adminClient.ts';
 import {
   fetchUserByAddress,
@@ -28,6 +29,9 @@ const findProfileByAddresses = async (addresses: string[]) => {
           },
           links: true,
           links_held: true,
+          farcaster_account: {
+            fid: true,
+          },
         },
       ],
     },
@@ -109,6 +113,9 @@ const findOrCreateUser = async (fc_profile: {
   const profile = await findProfileByAddresses(potential_addresses);
 
   if (profile) {
+    if (!profile.farcaster_account) {
+      await autoConnectFarcasterAccount(profile.address, profile.id);
+    }
     return { ...profile, fc_username: fc_profile.username };
   } else {
     console.log('No profile found for addresses', potential_addresses);
@@ -142,6 +149,10 @@ const createProfile = async (
         },
         {
           __typename: true,
+          id: true,
+          farcaster_account: {
+            fid: true,
+          },
         },
       ],
     },
@@ -152,7 +163,6 @@ const createProfile = async (
 
   if (profiles.length > 0) {
     console.log('Preferred name already in use', preferred_name);
-
     name = `${preferred_name} ${address.substring(0, 8)}`;
     console.log('Creating new profile with name', name);
   }
@@ -191,7 +201,9 @@ const createProfile = async (
       operationName: 'neynar_mention__createProfile',
     }
   );
+
   assert(insert_profiles_one, "panic: adding profile didn't succeed");
+  await autoConnectFarcasterAccount(address, insert_profiles_one.id);
   return { ...insert_profiles_one, fc_username: preferred_name };
 };
 const FC_BOT_CONNECTOR = 'farcaster-bot-created';
