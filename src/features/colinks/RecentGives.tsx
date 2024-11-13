@@ -16,13 +16,9 @@ const QUERY_KEY_RECENT_GIVES = 'recentGives';
 
 export const RecentGives = ({ skill }: { skill: string }) => {
   const fetchCastActivities = async (hashes: string[]) => {
-    const res = await fetch('/api/farcaster/casts/hashes', {
-      method: 'POST',
-      body: JSON.stringify({ cast_hashes: hashes }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    const res = await fetch(
+      `/api/farcaster/casts/hashes?hashes=${encodeURIComponent(JSON.stringify(hashes))}`
+    );
     const data: { activities: Activity[] } = await res.json();
     return data.activities;
   };
@@ -80,12 +76,7 @@ export const RecentGives = ({ skill }: { skill: string }) => {
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
         {data?.map(give => (
           <Flex column key={give.id}>
-            {give.activity?.cast && (
-              <Flex column>
-                <h1>HELLOOOOOO</h1>
-                <ActivityRow activity={give.activity} />
-              </Flex>
-            )}
+            {give.activity?.cast && <ActivityRow activity={give.activity} />}
             <Flex
               css={{
                 position: 'relative',

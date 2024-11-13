@@ -7,15 +7,19 @@ import { InternalServerError } from '../../../api-lib/HttpError.ts';
 
 import { activitySelector } from './recentlikes.ts';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+const CACHE_SECONDS = 60 * 5;
+const CAST_CACHE_CONTROL = `public, s-maxage=${CACHE_SECONDS}, max-age=${CACHE_SECONDS}`;
 
-  const { cast_hashes } = req.body;
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  let cast_hashes: string[] = [];
+  const { hashes: raw_hashes } = req.query;
+  if (typeof raw_hashes == 'string') {
+    cast_hashes = JSON.parse(raw_hashes);
+  }
 
   try {
     const activities = await fetchCastsByHashes(cast_hashes);
+    res.setHeader('Cache-Control', CAST_CACHE_CONTROL);
     return res.status(200).json({ activities });
   } catch (e) {
     console.error(e);

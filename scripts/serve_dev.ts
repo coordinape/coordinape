@@ -225,7 +225,7 @@ app.get('/api/farcaster/users/:search', (req, res) => {
 });
 
 app.get('/api/farcaster/casts/recentlikes', tf(farcaster_recentlikes));
-app.post('/api/farcaster/casts/hashes', tf(farcaster_hashes));
+app.get('/api/farcaster/casts/hashes', tf(farcaster_hashes));
 
 app.all('/api/frames/router/:path*', (req, res) => {
   let path = req.url as string;
