@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-194.688,-136.781)">
+        <g id="write" transform="matrix(0.13395,0,0,0.149263,169.223,111.78)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <g id="timer-regular.svg" transform="matrix(0.334933,0,0,0.300627,279.693,247.896)">
+                <g transform="matrix(1,0,0,1,-256,-256)">
+                    <path d="M232,24C232,10.7 242.7,0 256,0C397.4,0 512,114.6 512,256C512,397.4 397.4,512 256,512C114.6,512 0,397.4 0,256C0,218.1 8.2,182.2 23,149.9C29,136.7 36.1,124.1 44.2,112.3L44.3,112.1C53.4,98.7 63.6,86.3 75,75C84.4,65.6 99.6,65.6 108.9,75C118.2,84.4 118.3,99.6 108.9,108.9C99.7,118.1 91.3,128.2 83.9,139L83.8,139.2C62.6,170.4 49.6,207.7 48.1,247.9C48,250.6 47.9,253.3 47.9,256C47.9,370.9 141,464 255.9,464C370.8,464 463.9,370.9 463.9,256C463.9,149.2 383.5,61.3 279.9,49.4L279.9,104C279.9,117.3 269.2,128 255.9,128C242.6,128 231.9,117.3 231.9,104L231.9,24L232,24ZM159,159C168.4,149.6 183.6,149.6 192.9,159L272.9,239C282.3,248.4 282.3,263.6 272.9,272.9C263.5,282.2 248.3,282.3 239,272.9L159,192.9C149.6,183.5 149.6,168.3 159,159Z" style="fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

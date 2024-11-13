@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { DownloadIcon } from '@radix-ui/react-icons';
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { RecentGives } from 'features/colinks/RecentGives';
@@ -8,12 +10,16 @@ import { CSS } from 'stitches.config';
 import { webAppURL } from '../config/webAppURL';
 import { useToast } from '../hooks';
 import useProfileId from '../hooks/useProfileId';
-import { Wand } from '../icons/__generated';
+import { TimelineList, Timer, Wand } from '../icons/__generated';
 import { client } from '../lib/gql/client';
 import { coLinksPaths } from '../routes/paths';
 import { Button, Flex, Link } from '../ui';
 import { normalizeError } from '../utils/reporting';
 
+import {
+  activeTabStyles,
+  tabStyles,
+} from './colinks/CoLinksProfilePage/ProfileNav';
 import { GiveBotCard } from './colinks/give/GiveBotCard';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { GivePartyCard } from './colinks/give/GivePartyCard';
@@ -22,6 +28,7 @@ import { GiveSkillLeaderboard } from './GiveSkillLeaderboard';
 
 export const GiveSkillPage = () => {
   const { skill } = useParams();
+  const [showRecentGive, setShowRecentGive] = useState(false);
 
   return (
     <Flex column>
@@ -30,6 +37,38 @@ export const GiveSkillPage = () => {
       </Helmet>
       <ResponsiveColumnLayout>
         <Flex column>
+          <Flex
+            css={{
+              gap: '$sm',
+              mt: `calc(-$lg - 3px)`,
+              mb: '$lg',
+            }}
+          >
+            <Button
+              color="textOnly"
+              onClick={() => setShowRecentGive(false)}
+              css={{
+                ...tabStyles,
+                ...(!showRecentGive && {
+                  ...activeTabStyles,
+                }),
+              }}
+            >
+              <TimelineList fa size="lg" /> Leaderboard
+            </Button>
+            <Button
+              color="textOnly"
+              onClick={() => setShowRecentGive(true)}
+              css={{
+                ...tabStyles,
+                ...(showRecentGive && {
+                  ...activeTabStyles,
+                }),
+              }}
+            >
+              <Timer fa size="lg" /> Recent GIVE
+            </Button>
+          </Flex>
           <CastButton
             skill={skill}
             css={{
@@ -40,13 +79,16 @@ export const GiveSkillPage = () => {
               },
             }}
           />
-          <GiveSkillLeaderboard />
-          {skill && <RecentGives skill={skill} />}
+          {showRecentGive ? (
+            <>{skill && <RecentGives skill={skill} />}</>
+          ) : (
+            <GiveSkillLeaderboard />
+          )}
         </Flex>
         <Flex
           column
           css={{
-            gap: '$xl',
+            gap: '$md',
             flexGrow: 1,
             '@sm': {
               flexDirection: 'row',

@@ -71,8 +71,7 @@ export const RecentGives = ({ skill }: { skill: string }) => {
   });
 
   return (
-    <Flex column css={{ gap: '$md', my: '$lg' }}>
-      <Text h2>Recent Gives</Text>
+    <Flex column css={{ gap: '$md', mb: '$lg' }}>
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
         {data?.map(give => (
           <Flex column key={give.id}>
