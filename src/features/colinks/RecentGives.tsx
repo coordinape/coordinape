@@ -3,14 +3,16 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { ActivityRow } from '../activities/ActivityRow';
 import { Activity } from '../activities/useInfiniteActivities';
 import { webAppURL } from 'config/webAppURL';
-import { ExternalLink } from 'icons/__generated';
+import { ArrowRight, ExternalLink, GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Link, Text } from 'ui';
+import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 const QUERY_KEY_RECENT_GIVES = 'recentGives';
 
@@ -37,8 +39,9 @@ export const RecentGives = ({ skill }: { skill: string }) => {
             created_at: true,
             id: true,
             cast_hash: true,
-            giver_profile_public: { address: true },
-            target_profile_public: { address: true },
+            skill: true,
+            giver_profile_public: { address: true, name: true },
+            target_profile_public: { address: true, name: true },
           },
         ],
       },
@@ -74,61 +77,94 @@ export const RecentGives = ({ skill }: { skill: string }) => {
     <Flex column css={{ gap: '$md', mb: '$lg' }}>
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
         {data?.map(give => (
-          <Flex column key={give.id}>
-            {give.activity?.cast && <ActivityRow activity={give.activity} />}
+          <Flex column key={give.id} css={{ width: '100%', mb: '$md' }}>
             <Flex
               css={{
-                position: 'relative',
-                width: '48.75%',
+                background: '$surface',
+                width: '100%',
+                borderRadius: '$3',
+                p: '$sm',
+                ...(give.activity?.cast && {
+                  background: '$surfaceNestedFarcaster',
+                  mb: -3,
+                  borderBottomLeftRadius: 0,
+                  borderBottomRightRadius: 0,
+                  zIndex: 2,
+                }),
               }}
             >
               <Flex
                 css={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
+                  gap: '$md',
                 }}
               >
-                <Link
-                  as={NavLink}
-                  to={coLinksPaths.profileGive(
-                    give.giver_profile_public?.address ?? ''
-                  )}
-                  css={{ width: '50%' }}
-                >
-                  &nbsp;
-                </Link>
-                <Link
-                  as={NavLink}
-                  to={coLinksPaths.profileGive(
-                    give.target_profile_public?.address ?? ''
-                  )}
-                  css={{ width: '50%' }}
-                >
-                  &nbsp;
-                </Link>
-              </Flex>
-              <Flex
-                column
-                css={{
-                  img: {
-                    width: '100%',
-                    height: '100%',
-                  },
-                }}
-              >
-                <img
-                  src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
-                  alt="test"
-                />
+                <Flex>
+                  <LightboxImage
+                    key={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
+                    alt={
+                      `${webAppURL('colinks')}/api/frames/router/img/give/${give.id}` ||
+                      ''
+                    }
+                    src={
+                      `${webAppURL('colinks')}/api/frames/router/img/give/${give.id}` ||
+                      ''
+                    }
+                    css={{
+                      width: 64,
+                      height: 64,
+                      borderRadius: '$1',
+                    }}
+                  />
+                </Flex>
                 <Flex
+                  column
                   css={{
-                    justifyContent: 'space-between',
+                    justifyContent: 'center',
                     width: '100%',
-                    p: '$xs 0',
+                    gap: '$xs',
                     zIndex: 2,
                   }}
                 >
+                  <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                    <Link
+                      inlineLink
+                      as={NavLink}
+                      css={{ fontWeight: '$semibold', color: '$text' }}
+                      to={coLinksPaths.profileGive(
+                        give.giver_profile_public?.address ?? ''
+                      )}
+                    >
+                      {give.giver_profile_public?.name ?? ''}
+                    </Link>
+                    <Link
+                      as={NavLink}
+                      to={coLinksPaths.exploreSkill(give.skill)}
+                    >
+                      <Text
+                        tag
+                        color="complete"
+                        size="small"
+                        css={{ gap: '$xs', ml: '$xs' }}
+                      >
+                        <Text size="small" css={{ fontWeight: 'normal' }}>
+                          +1
+                        </Text>
+                        <GemCoOutline fa size={'md'} />
+                        <Text css={skillTextStyle}>{give.skill}</Text>
+                      </Text>
+                    </Link>
+                    <ArrowRight color="neutral" />
+                    <Link
+                      inlineLink
+                      as={NavLink}
+                      css={{ fontWeight: '$semibold', color: '$text' }}
+                      to={coLinksPaths.profileGive(
+                        give.target_profile_public?.address ?? ''
+                      )}
+                    >
+                      {give.target_profile_public?.name ?? ''}
+                    </Link>
+                  </Flex>
                   <Text size="xs" color="neutral">
                     {DateTime.fromISO(give.created_at).toLocal().toRelative()}
                   </Text>
@@ -155,6 +191,7 @@ export const RecentGives = ({ skill }: { skill: string }) => {
                 </Flex>
               </Flex>
             </Flex>
+            {give.activity?.cast && <ActivityRow activity={give.activity} />}
           </Flex>
         ))}
       </Flex>

@@ -79,6 +79,18 @@ export const GiveSkillPage = () => {
               },
             }}
           />
+          {skill && (
+            <ExportCSVButton
+              skill={skill}
+              css={{
+                display: 'none',
+                '@sm': {
+                  display: 'block',
+                  mb: '$md',
+                },
+              }}
+            />
+          )}
           {showRecentGive ? (
             <>{skill && <RecentGives skill={skill} />}</>
           ) : (
@@ -108,7 +120,16 @@ export const GiveSkillPage = () => {
               },
             }}
           />
-          {skill && <ExportCSVButton skill={skill} />}
+          {skill && (
+            <ExportCSVButton
+              skill={skill}
+              css={{
+                '@sm': {
+                  display: 'none',
+                },
+              }}
+            />
+          )}
           <LearnAboutGiveCard />
           <GivePartyCard />
           <GiveBotCard />

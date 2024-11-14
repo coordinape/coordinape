@@ -204,6 +204,7 @@ export const colors = {
   blurple: '#5865f2',
   farcaster: '#472991',
   surfaceFarcaster: '#f0edf7',
+  surfaceNestedFarcaster: '#eae6ef',
   tagFarcasterText: '#472991',
   tagFarcasterBackground: '#f7f4fd',
   tagFarcasterBackgroundHover: '#FDFCFE',
@@ -633,6 +634,7 @@ export const dark = createTheme({
 
     tagFarcasterText: '#dcceff',
     surfaceFarcaster: '#281c44',
+    surfaceNestedFarcaster: '#20133b',
     tagFarcasterBackground: '#472991',
     tagFarcasterBackgroundHover: '#5732B2',
 
@@ -868,6 +870,7 @@ export const party = createTheme({
 
     tagFarcasterText: '#dcceff',
     surfaceFarcaster: '#281c44',
+    surfaceNestedFarcaster: '#20133b',
     tagFarcasterBackground: '#472991',
     tagFarcasterBackgroundHover: '#5732B2',
 
