@@ -5,10 +5,10 @@ import { CSS, styled } from '@stitches/react';
 import { useIsCoLinksSite } from '../features/colinks/useIsCoLinksSite';
 import {
   AlertTriangle,
+  BookSparkles,
   Clock,
   Discord,
   FileText,
-  GemCoFillSm,
   Mail,
   X,
 } from '../icons/__generated';
@@ -122,7 +122,7 @@ const HelpButton = ({ css }: { css?: CSS }) => {
         onClick={() => setOpen(true)}
         css={{
           '&[data-open="true"]': {
-            height: isCoLinksPage ? '260px' : '300px', // magic number, yep. If i do auto the animations are terrible -g
+            height: '300px',
           },
         }}
       >
@@ -179,7 +179,7 @@ const HelpButton = ({ css }: { css?: CSS }) => {
           <HelpOption
             href={EXTERNAL_URL_ABOUT}
             icon={
-              <GemCoFillSm fa size={'md'} css={{ '*': { fill: '$text' } }} />
+              <BookSparkles fa size={'md'} css={{ '*': { fill: '$text' } }} />
             }
           >
             About Coordinape
