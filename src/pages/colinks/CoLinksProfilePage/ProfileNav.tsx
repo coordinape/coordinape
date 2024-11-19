@@ -23,6 +23,7 @@ export const tabStyles = {
   position: 'relative',
   zIndex: 2,
   cursor: 'pointer',
+  flex: 1,
   '@md': {
     minWidth: 120,
     p: '$sm',
@@ -57,25 +58,29 @@ export const activeTabStyles = {
   cursor: 'default',
   color: '$link',
 };
+
+export const navContainerStyles = {
+  gap: '$sm',
+  mt: -3,
+  mb: '$sm',
+  '@sm': {
+    mb: 0,
+    pb: 3,
+    justifyContent: 'space-around',
+    position: 'fixed',
+    bottom: -3,
+    left: 0,
+    background: '$background',
+    width: '100%',
+    borderTop: '1px solid $borderDim',
+    zIndex: 10,
+  },
+};
 export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
   return (
     <Flex
       css={{
-        gap: '$sm',
-        mt: -3,
-        mb: '$sm',
-        '@sm': {
-          mb: 0,
-          pb: 3,
-          justifyContent: 'space-between',
-          position: 'fixed',
-          bottom: -3,
-          left: 0,
-          background: '$background',
-          width: '100%',
-          borderTop: '1px solid $borderDim',
-          zIndex: 10,
-        },
+        ...navContainerStyles,
       }}
     >
       <Button

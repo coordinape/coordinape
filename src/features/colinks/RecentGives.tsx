@@ -125,7 +125,9 @@ export const RecentGives = ({ skill }: { skill: string }) => {
                     zIndex: 2,
                   }}
                 >
-                  <Flex css={{ gap: '$xs', alignItems: 'center' }}>
+                  <Flex
+                    css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}
+                  >
                     <Link
                       inlineLink
                       as={NavLink}

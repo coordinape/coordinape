@@ -52,6 +52,7 @@ import { ViewProfilePageGiveMap } from 'pages/colinks/CoLinksProfilePage/ViewPro
 import { CoSoulPage } from 'pages/colinks/cosoul/CoSoulPage';
 import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
+import { GiveSkillLeaderboardPage } from 'pages/giveSkillLeaderboardPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
 import { coLinksPaths } from './paths';
@@ -151,6 +152,10 @@ export const coLinksRoutes = [
         <Route
           path={coLinksPaths.giveSkill(':skill')}
           element={<GiveSkillPage />}
+        />
+        <Route
+          path={coLinksPaths.giveSkillLeaderboard(':skill')}
+          element={<GiveSkillLeaderboardPage />}
         />
         <Route key={'skillmap'}>
           <Route
