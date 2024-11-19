@@ -2,9 +2,9 @@ import assert from 'assert';
 
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { order_by } from '../../api-lib/gql/__generated__/zeus/index.ts';
-import { adminClient } from '../../api-lib/gql/adminClient.ts';
-import { errorResponse } from '../../api-lib/HttpError.ts';
+import { order_by } from '../../api-lib/gql/__generated__/zeus/index';
+import { adminClient } from '../../api-lib/gql/adminClient';
+import { errorResponse } from '../../api-lib/HttpError';
 
 const LIMIT = 10;
 
