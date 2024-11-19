@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-222.48,-136.781)">
+        <g id="write" transform="matrix(0.13395,0,0,0.149263,197.015,111.78)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <g id="book-sparkles-solid.svg" transform="matrix(0.310681,0,0,0.278806,279.693,247.896)">
+                <g transform="matrix(1,0,0,1,-224,-256)">
+                    <path d="M96,0C43,0 0,43 0,96L0,416C0,469 43,512 96,512L416,512C433.7,512 448,497.7 448,480C448,462.3 433.7,448 416,448L416,384C433.7,384 448,369.7 448,352L448,32C448,14.3 433.7,0 416,0L96,0ZM96,384L352,384L352,448L96,448C78.3,448 64,433.7 64,416C64,398.3 78.3,384 96,384ZM264,200L280.6,161.2C283.4,154.7 292.5,154.7 295.3,161.2L312,200L350.8,216.6C357.3,219.4 357.3,228.5 350.8,231.3L312,248L295.4,286.8C292.6,293.3 283.5,293.3 280.7,286.8L264,248L225.2,231.4C218.7,228.6 218.7,219.5 225.2,216.7L264,200ZM168.8,78.3C171.7,72.4 180.2,72.4 183.1,78.3L192,96L209.7,104.8C215.6,107.7 215.6,116.2 209.7,119.1L192,128L183.2,145.7C180.3,151.6 171.8,151.6 168.9,145.7L160,128L142.3,119.2C136.4,116.3 136.4,107.8 142.3,104.9L160,96L168.8,78.3Z" style="fill-rule:nonzero;"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

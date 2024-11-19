@@ -43,6 +43,7 @@ export { default as BellOff } from './BellOff';
 export { default as Bell } from './Bell';
 export { default as BoltFill } from './BoltFill';
 export { default as BoltLight } from './BoltLight';
+export { default as BookSparkles } from './BookSparkles';
 export { default as Briefcase } from './Briefcase';
 export { default as BullseyeThin } from './BullseyeThin';
 export { default as Bullseye } from './Bullseye';

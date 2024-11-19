@@ -28,6 +28,7 @@ import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
 import {
   BoltFill,
+  BookSparkles,
   CertificateFill,
   Circle2,
   Gear,
@@ -341,6 +342,10 @@ const LoggedInItems = ({ address }: { address: string | undefined }) => {
           Notifications <Count />
         </Flex>
       </NavItem>
+      <NavItem external path={EXTERNAL_URL_ABOUT}>
+        <BookSparkles size="lg" nostroke />
+        <Flex css={{ gap: '$md' }}>About Coordinape</Flex>
+      </NavItem>
       <HR />
       <NavItem path={address ? coLinksPaths.profileGive(address) : ''}>
         <Flex
@@ -405,6 +410,10 @@ const LoggedOutItems = () => {
         <PlanetFill size="lg" nostroke />
         Explore
       </NavItem>
+      <NavItem external path={EXTERNAL_URL_ABOUT}>
+        <BookSparkles size="lg" nostroke />
+        <Flex css={{ gap: '$md' }}>About Coordinape</Flex>
+      </NavItem>
       <HR />
       <Button
         color="ctaInverted"
@@ -457,14 +466,6 @@ const LoggedOutItems = () => {
         color="cta"
       >
         Login or Join Coordinape
-      </Button>
-      <Button
-        as={Link}
-        href={EXTERNAL_URL_ABOUT}
-        color="link"
-        css={{ fontWeight: '$normal' }}
-      >
-        About Coordinape
       </Button>
     </>
   );
