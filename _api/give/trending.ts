@@ -34,6 +34,9 @@ export async function fetchTopGiveSkills() {
       colinks_gives_skill_count: [
         {
           limit: LIMIT,
+          where: {
+            skill: { _is_null: false },
+          },
           order_by: [{ gives_last_7_days: order_by.desc }],
         },
         {
@@ -51,3 +54,4 @@ export async function fetchTopGiveSkills() {
 
   return colinks_gives_skill_count;
 }
+export type giveTrendingData = Awaited<ReturnType<typeof fetchTopGiveSkills>>;
