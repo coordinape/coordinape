@@ -9,73 +9,78 @@ import {
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
-export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
-  const tabStyles = {
-    color: '$text',
-    minWidth: 150,
-    pt: `calc($sm + $xs)`,
-    pr: '$lg',
-    fontSize: '$h3',
-    gap: '$sm',
-    borderRadius: 0,
-    fontWeight: '$medium',
-    alignItems: 'center',
-    borderTop: '5px solid transparent',
-    position: 'relative',
-    zIndex: 2,
-    cursor: 'pointer',
-    '@md': {
-      minWidth: 120,
-      p: '$sm',
-      gap: '$xs',
-      fontSize: '$md',
+export const tabStyles = {
+  color: '$text',
+  minWidth: 150,
+  pt: `calc($sm + $xs)`,
+  pr: '$lg',
+  fontSize: '$h3',
+  gap: '$sm',
+  borderRadius: 0,
+  fontWeight: '$medium',
+  alignItems: 'center',
+  borderTop: '5px solid transparent',
+  position: 'relative',
+  zIndex: 2,
+  cursor: 'pointer',
+  flex: 1,
+  '@md': {
+    minWidth: 120,
+    p: '$sm',
+    gap: '$xs',
+    fontSize: '$md',
+  },
+  '@sm': {
+    minWidth: 60,
+    p: '$sm',
+    gap: '$xs',
+    fontSize: '$small',
+    borderWidth: '4px',
+    flexDirection: 'column',
+    mt: -1,
+    svg: {
+      margin: 0,
+      width: '$md',
+      height: '$md',
     },
-    '@sm': {
-      minWidth: 60,
-      p: '$sm',
-      gap: '$xs',
-      fontSize: '$small',
-      borderWidth: '4px',
-      flexDirection: 'column',
-      mt: -1,
-      svg: {
-        margin: 0,
-        width: '$md',
-        height: '$md',
-      },
-    },
-    '&:hover': {
-      borderColor: '$link',
-      filter: 'brightness(1)',
-      color: '$linkHover',
-      outlineColor: 'transparent',
-      textDecoration: 'none',
-    },
-  };
-  const activeTabStyles = {
+  },
+  '&:hover': {
     borderColor: '$link',
+    filter: 'brightness(1)',
+    color: '$linkHover',
     outlineColor: 'transparent',
-    cursor: 'default',
-    color: '$link',
-  };
+    textDecoration: 'none',
+  },
+};
+export const activeTabStyles = {
+  borderColor: '$link',
+  outlineColor: 'transparent',
+  cursor: 'default',
+  color: '$link',
+};
+
+export const navContainerStyles = {
+  gap: '$sm',
+  mt: -3,
+  mb: '$sm',
+  '@sm': {
+    mb: 0,
+    pb: 3,
+    justifyContent: 'space-around',
+    position: 'fixed',
+    bottom: -3,
+    left: 0,
+    background: '$background',
+    width: '100%',
+    borderTop: '1px solid $borderDim',
+    zIndex: 10,
+  },
+};
+export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
   return (
     <Flex
       css={{
-        gap: '$sm',
-        mt: -3,
-        mb: '$sm',
-        '@sm': {
-          mb: 0,
-          pb: 3,
-          justifyContent: 'space-between',
-          position: 'fixed',
-          bottom: -3,
-          left: 0,
-          background: '$background',
-          width: '100%',
-          borderTop: '1px solid $borderDim',
-          zIndex: 10,
-        },
+        ...navContainerStyles,
       }}
     >
       <Button

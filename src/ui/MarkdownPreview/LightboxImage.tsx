@@ -1,8 +1,18 @@
 import { useState } from 'react';
 
+import { CSS } from '@stitches/react';
+
 import { Text, Modal, Image } from 'ui';
 
-export const LightboxImage = ({ src, alt }: { src: string; alt: string }) => {
+export const LightboxImage = ({
+  src,
+  alt,
+  css,
+}: {
+  src: string;
+  alt: string;
+  css?: CSS;
+}) => {
   const [modal, setModal] = useState(false);
 
   return (
@@ -16,6 +26,7 @@ export const LightboxImage = ({ src, alt }: { src: string; alt: string }) => {
           overflow: 'hidden',
           backgroundImage: `url('${src}')`,
           cursor: 'pointer',
+          ...css,
         }}
       >
         <Image src={src} alt={alt} />

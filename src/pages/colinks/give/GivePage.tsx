@@ -76,6 +76,7 @@ export const ResponsiveColumnLayout = ({
 
         '& > div:nth-child(2)': {
           maxWidth: '$rightColumn',
+          flexGrow: 0,
           '@sm': {
             maxWidth: 'none',
           },

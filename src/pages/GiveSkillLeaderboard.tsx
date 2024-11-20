@@ -1,16 +1,22 @@
 import { useState } from 'react';
 
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { client } from 'lib/gql/client';
 import { useQuery } from 'react-query';
 import { NavLink, useParams } from 'react-router-dom';
-import { skillTextStyle } from 'stitches.config';
+import { CSS, skillTextStyle } from 'stitches.config';
 
-import { Maximize } from '../icons/__generated';
+import { useToast } from '../hooks';
+import { Download, Maximize, Wand } from '../icons/__generated';
 import { order_by } from '../lib/anongql/__generated__/zeus';
 import { anonClient } from '../lib/anongql/anonClient';
 import { coLinksPaths } from '../routes/paths';
 import { shortenAddressWithFrontLength } from '../utils';
+import { normalizeError } from '../utils/reporting';
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import { Avatar, Button, Flex, Panel, Text } from 'ui';
+import { webAppURL } from 'config/webAppURL';
+import useProfileId from 'hooks/useProfileId';
+import { Avatar, Button, Flex, Panel, Text, Link } from 'ui';
 
 import { GiveLeaderboardColumn, GiveLeaderboardRow } from './GiveLeaderboard';
 import { AutosizedGiveGraph } from './NetworkViz/AutosizedGiveGraph';
@@ -191,7 +197,18 @@ export const GiveSkillLeaderboard = () => {
               </Button>
             </Flex>
           </Flex>
-
+          {skill && (
+            <Flex
+              css={{
+                justifyContent: 'space-between',
+                width: '100%',
+                mb: '$sm',
+              }}
+            >
+              <CastButton skill={skill} css={{}} />
+              <ExportCSVButton skill={skill} css={{}} />
+            </Flex>
+          )}
           <GiveLeaderboardRow rotateHeader header={true}>
             <GiveLeaderboardColumn
               onClick={() => setSort('rank')}
@@ -283,5 +300,80 @@ export const GiveSkillLeaderboard = () => {
         </Flex>
       </Panel>
     </>
+  );
+};
+
+const ExportCSVButton = ({ css, skill }: { css?: CSS; skill: string }) => {
+  const { openConnectModal } = useConnectModal();
+
+  const profileId = useProfileId(false);
+  const { showError } = useToast();
+
+  const exportCSV = async () => {
+    if (!profileId) {
+      if (openConnectModal) {
+        openConnectModal();
+      }
+    } else {
+      try {
+        const { skillCsv } = await client.mutate(
+          {
+            skillCsv: [
+              {
+                payload: { skill },
+              },
+              {
+                file: true,
+              },
+            ],
+          },
+          { operationName: 'generateSkill_' + skill }
+        );
+        if (skillCsv?.file) {
+          const a = document.createElement('a');
+          a.href = skillCsv.file;
+          a.click();
+          a.href = '';
+        }
+      } catch (e: any) {
+        showError('unable to generate csv: ' + normalizeError(e));
+      }
+    }
+  };
+
+  return (
+    <Button
+      as={Link}
+      onClick={exportCSV}
+      target="_blank"
+      rel="noreferrer"
+      color="link"
+      css={{
+        fontSize: '$small',
+        ...css,
+      }}
+    >
+      <Download fa /> Export CSV
+    </Button>
+  );
+};
+
+const CastButton = ({ css, skill }: { css?: CSS; skill?: string }) => {
+  const castLeaderboardUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(skill ? '#' + skill + ' GIVE Leaders' : '')}&embeds[]=${webAppURL('colinks')}/api/frames/router/meta/skill.leaderboard/${encodeURIComponent(skill ?? '')}`;
+
+  return (
+    <Button
+      as={Link}
+      href={castLeaderboardUrl}
+      target="_blank"
+      rel="noreferrer"
+      color="link"
+      css={{
+        fontSize: '$small',
+        ...css,
+      }}
+    >
+      <Wand fa size={'md'} /> Cast in Farcaster
+    </Button>
   );
 };

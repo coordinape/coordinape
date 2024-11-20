@@ -618,6 +618,7 @@ input NetworkInput {
 input GetCastsInput {
   fid: bigint
   cast_ids: [bigint!]
+  cast_hashes: [String!]
 }
 
 type CreateCircleResponse {

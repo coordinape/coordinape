@@ -149,10 +149,10 @@ export const Button = styled('button', {
         padding: '0',
         backgroundColor: 'transparent',
         color: '$link',
-        textDecoration: 'underline',
+        textDecoration: 'none',
         '&:hover, &:focus': {
           color: '$linkHover',
-          textDecoration: 'none',
+          textDecoration: 'underline',
         },
       },
       textOnly: {

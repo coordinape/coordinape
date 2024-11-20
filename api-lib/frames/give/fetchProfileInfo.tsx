@@ -108,13 +108,13 @@ export const fetchProfileInfo = async (profileId: number) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log({
-    hasSentGive,
-    hasReceivedGive,
-    viewerProfile,
-    numGiveSent,
-    numGiveReceived,
-  });
+  // console.log({
+  //   hasSentGive,
+  //   hasReceivedGive,
+  //   viewerProfile,
+  //   numGiveSent,
+  //   numGiveReceived,
+  // });
 
   return {
     hasSentGive: !!hasSentGive[0]?.id,

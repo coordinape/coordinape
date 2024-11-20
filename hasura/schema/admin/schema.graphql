@@ -351,6 +351,7 @@ type GenerateApiKeyResponse {
 }
 
 input GetCastsInput {
+  cast_hashes: [String!]
   cast_ids: [bigint!]
   fid: bigint
 }

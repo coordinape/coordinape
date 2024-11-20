@@ -849,6 +849,7 @@ export type ValueTypes = {
     __typename?: boolean | `@${string}`;
   }>;
   ['GetCastsInput']: {
+    cast_hashes?: Array<string> | undefined | null;
     cast_ids?: Array<ValueTypes['bigint']> | undefined | null;
     fid?: ValueTypes['bigint'] | undefined | null;
   };
@@ -29114,6 +29115,7 @@ export type GraphQLTypes = {
     hash: string;
   };
   ['GetCastsInput']: {
+    cast_hashes?: Array<string> | undefined;
     cast_ids?: Array<GraphQLTypes['bigint']> | undefined;
     fid?: GraphQLTypes['bigint'] | undefined;
   };
