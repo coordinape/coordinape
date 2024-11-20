@@ -29,8 +29,8 @@ export const TopGiveSkills = () => {
         Trending Give Skills
       </Text>
       {data?.map(g => (
-        <Flex key={g.skill}>
-          <Flex>
+        <Flex column key={g.skill}>
+          <Flex css={{}}>
             <Text
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
@@ -52,6 +52,8 @@ export const TopGiveSkills = () => {
               <Text css={{ ...skillTextStyle }}>{g.skill}</Text>
             </Text>
             <Text
+              inline
+              h1
               css={{
                 pl: '$md',
               }}
@@ -59,7 +61,7 @@ export const TopGiveSkills = () => {
               {g.gives_last_7_days}
             </Text>
           </Flex>
-          <RecentGives skill={g.skill} />
+          <RecentGives skill={g.skill} limit={5} />
         </Flex>
       ))}
     </Flex>
