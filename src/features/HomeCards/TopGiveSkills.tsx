@@ -1,3 +1,4 @@
+import { RecentGives } from 'features/colinks/RecentGives';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
@@ -29,33 +30,36 @@ export const TopGiveSkills = () => {
       </Text>
       {data?.map(g => (
         <Flex key={g.skill}>
-          <Text
-            as={NavLink}
-            to={coLinksPaths.giveSkill(g.skill)}
-            tag
-            size="small"
-            css={{
-              gap: '$xs',
-              background: 'rgb(0 143 94 / 83%)',
-              textDecoration: 'none',
-              span: {
-                color: 'white',
-                '@sm': {
-                  fontSize: '$xs',
+          <Flex>
+            <Text
+              as={NavLink}
+              to={coLinksPaths.giveSkill(g.skill)}
+              tag
+              size="small"
+              css={{
+                gap: '$xs',
+                background: 'rgb(0 143 94 / 83%)',
+                textDecoration: 'none',
+                span: {
+                  color: 'white',
+                  '@sm': {
+                    fontSize: '$xs',
+                  },
                 },
-              },
-            }}
-          >
-            <GemCoOutline fa size={'md'} css={{ color: '$white' }} />
-            <Text css={{ ...skillTextStyle }}>{g.skill}</Text>
-          </Text>
-          <Text
-            css={{
-              pl: '$md',
-            }}
-          >
-            {g.gives_last_7_days}
-          </Text>
+              }}
+            >
+              <GemCoOutline fa size={'md'} css={{ color: '$white' }} />
+              <Text css={{ ...skillTextStyle }}>{g.skill}</Text>
+            </Text>
+            <Text
+              css={{
+                pl: '$md',
+              }}
+            >
+              {g.gives_last_7_days}
+            </Text>
+          </Flex>
+          <RecentGives skill={g.skill} />
         </Flex>
       ))}
     </Flex>

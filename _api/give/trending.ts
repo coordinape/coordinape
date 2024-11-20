@@ -6,7 +6,7 @@ import { order_by } from '../../api-lib/gql/__generated__/zeus/index';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { errorResponse } from '../../api-lib/HttpError';
 
-const LIMIT = 10;
+const LIMIT = 5;
 
 // TODO: refactor to one global cache config?
 // 1 hour
