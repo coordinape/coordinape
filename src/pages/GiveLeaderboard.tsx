@@ -269,7 +269,7 @@ export const GiveLeaderboardRow = ({
         width: '100%',
         flexFlow: 'row nowrap',
         alignItems: 'stretch',
-        borderBottom: 'solid 1px rgba(0,0,0,0.2)',
+        borderBottom: 'solid 0.5px $border',
         fontWeight: '300',
         ...(header
           ? {
