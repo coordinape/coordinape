@@ -16,7 +16,13 @@ import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 const QUERY_KEY_RECENT_GIVES = 'recentGives';
 
-export const RecentGives = ({ skill }: { skill: string }) => {
+export const RecentGives = ({
+  skill,
+  limit = 10,
+}: {
+  skill: string;
+  limit?: number;
+}) => {
   const fetchCastActivities = async (hashes: string[]) => {
     const res = await fetch(
       `/api/farcaster/casts/hashes?hashes=${encodeURIComponent(JSON.stringify(hashes))}`
@@ -32,7 +38,7 @@ export const RecentGives = ({ skill }: { skill: string }) => {
           {
             where: { skill: { _eq: skill } },
             order_by: [{ created_at: order_by.desc_nulls_last }],
-            limit: 10,
+            limit: limit,
           },
           {
             attestation_uid: true,
@@ -50,9 +56,6 @@ export const RecentGives = ({ skill }: { skill: string }) => {
       }
     );
 
-    // await fetchCasts(
-    //   colinks_gives.map((give): string | undefined => give.cast_hash)
-    // );
     const hashes: string[] = colinks_gives
       .filter(give => give.cast_hash)
       .map((give): string => give.cast_hash ?? '');

@@ -18,6 +18,7 @@ import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import give from '../_api/give/index';
+import giveTrending from '../_api/give/trending';
 import actionManager from '../_api/hasura/actions/actionManager';
 import auth from '../_api/hasura/auth';
 import backfillFarcasterConnect from '../_api/hasura/cron/backfillFarcasterConnect.ts';
@@ -158,6 +159,7 @@ app.get('/api/network/:address', (req, res) => {
 
 app.get('/api/links', tf(links));
 app.get('/api/give', tf(give));
+app.get('/api/give/trending', tf(giveTrending));
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
   return tf(unsubscribeToken)({ ...req, query: req.params }, res);
@@ -253,4 +255,4 @@ app.listen(port, () => {
   /* eslint-enable */
 });
 
-export {};
+export { };

@@ -1,3 +1,4 @@
+import { TopGiveSkills } from 'features/HomeCards/TopGiveSkills';
 import { Helmet } from 'react-helmet';
 
 import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
@@ -22,6 +23,9 @@ export const Home2Page = () => {
       </ContentHeader>
       <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
         <MostLikedCasts />
+      </Flex>
+      <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
+        <TopGiveSkills />
       </Flex>
     </SingleColumnLayout>
   );
