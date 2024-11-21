@@ -6,13 +6,12 @@ import { order_by } from '../../api-lib/gql/__generated__/zeus/index';
 import { adminClient } from '../../api-lib/gql/adminClient';
 import { errorResponse } from '../../api-lib/HttpError';
 
+import { CACHE_CONTENT } from '.';
+
 const LIMIT = 5;
 
 // TODO: refactor to one global cache config?
 // 1 hour
-const maxAge = 60 * 60;
-export const CACHE_CONTENT = `public, s-maxage=${maxAge}, max-age=${maxAge}, stale-while-revalidate=${maxAge * 2}`;
-
 export default async function handler(
   _req: VercelRequest,
   res: VercelResponse
