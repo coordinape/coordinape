@@ -97,7 +97,7 @@ export const PostGives = ({
                 }}
               >
                 <AppLink
-                  to={coLinksPaths.exploreSkill(g.skill)}
+                  to={coLinksPaths.giveSkill(g.skill)}
                   css={{
                     ...skillTextStyle,
                     color: '$complete',

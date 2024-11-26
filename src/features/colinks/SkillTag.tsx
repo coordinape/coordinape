@@ -26,7 +26,7 @@ export const SkillTag = ({
     e: React.MouseEvent<HTMLSpanElement, MouseEvent>
   ) => {
     e.preventDefault();
-    navigate(coLinksPaths.exploreSkill(skill));
+    navigate(coLinksPaths.giveSkill(skill));
   };
   return (
     <Text
