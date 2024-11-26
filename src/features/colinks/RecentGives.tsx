@@ -141,10 +141,7 @@ export const RecentGives = ({
                     >
                       {give.giver_profile_public?.name ?? ''}
                     </Link>
-                    <Link
-                      as={NavLink}
-                      to={coLinksPaths.exploreSkill(give.skill)}
-                    >
+                    <Link as={NavLink} to={coLinksPaths.giveSkill(give.skill)}>
                       <Text
                         tag
                         color="complete"

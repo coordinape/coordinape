@@ -14,7 +14,6 @@ import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
 import { CastsPage } from '../pages/colinks/CastsPage';
 import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
 import { BigQuestionsPage } from '../pages/colinks/explore/BigQuestionsPage';
-import { ExploreSkills } from '../pages/colinks/explore/ExploreSkills';
 import { HighestRepScorePage } from '../pages/colinks/explore/HighestRepScorePage';
 import { HoldingMostLinksPage } from '../pages/colinks/explore/HoldingMostLinksPage';
 import { MostLinksPage } from '../pages/colinks/explore/MostLinksPage';
@@ -137,7 +136,6 @@ export const coLinksRoutes = [
       }
     >
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
-      <Route path={coLinksPaths.exploreSkills} element={<ExploreSkills />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
       <Route path={coLinksPaths.home2} element={<Home2Page />} />
       <Route
@@ -164,10 +162,6 @@ export const coLinksRoutes = [
           />
         </Route>
       </Route>
-      <Route
-        path={coLinksPaths.exploreSkill(':skill')}
-        element={<ExploreSkills />}
-      />
       <Route path={coLinksPaths.leaderboard} element={<ExplorePage />} />
       <Route path={coLinksPaths.exploreMostLinks} element={<MostLinksPage />} />
       <Route path={coLinksPaths.exploreMostGive} element={<MostGivePage />} />

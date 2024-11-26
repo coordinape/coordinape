@@ -14,9 +14,8 @@ import { RecentCoLinkTransactions } from '../../features/colinks/RecentCoLinkTra
 import { coLinksPaths } from '../../routes/paths';
 import { AppLink, ContentHeader, Flex, Text } from '../../ui';
 import { SingleColumnLayout } from '../../ui/layouts';
-import { BarChart, ToolsFill } from 'icons/__generated';
+import { BarChart } from 'icons/__generated';
 
-import { Skills } from './explore/Skills';
 import TabButton, { Tab } from './explore/TabButton';
 
 export const ExplorePage = () => {
@@ -160,30 +159,6 @@ export const ExplorePage = () => {
 
             <RecentCoLinkTransactions limit={14} />
           </Flex>
-        </Flex>
-        <Flex column css={{ gap: '$xl', flexGrow: 1 }}>
-          <Text
-            as={NavLink}
-            to={coLinksPaths.exploreSkills}
-            h2
-            semibold
-            css={{ textDecoration: 'none', color: '$text' }}
-          >
-            <Flex
-              css={{
-                // justifyContent: 'space-between',
-                alignItems: 'center',
-                gap: '$sm',
-                width: '100%',
-              }}
-            >
-              <ToolsFill size="md" /> Top Interests
-              <Text size="xs" color={'cta'}>
-                View More
-              </Text>
-            </Flex>
-          </Text>
-          <Skills />
         </Flex>
       </Flex>
     </SingleColumnLayout>

@@ -305,7 +305,7 @@ export const GiveReceived = ({
                         }}
                       >
                         <AppLink
-                          to={coLinksPaths.exploreSkill(g.skill)}
+                          to={coLinksPaths.giveSkill(g.skill)}
                           css={{
                             fontSize: '$small',
                             color: '$complete',
