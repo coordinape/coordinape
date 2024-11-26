@@ -4,6 +4,7 @@ import { Wallet } from 'ethers';
 import { getAddress } from 'ethers/lib/utils';
 
 import { Give } from '../_api/hasura/cron/giveOnchainSyncer';
+import { ICEBREAKER_BEARER_TOKEN, IN_PRODUCTION } from '../src/config/env';
 import { webAppURL } from '../src/config/webAppURL';
 import { baseChain } from '../src/features/cosoul/chains';
 import { coLinksPaths } from '../src/routes/paths';
@@ -17,6 +18,8 @@ const SCHEMA_UID =
   '0x82c2ec8ec89cf1d13022ff0867744f1cecf932faa4fe334aa1bb443edbfee3fa';
 const SCHEMA =
   'address from,uint16 amount,string platform,string url,string context,string skill,string tag,string note,uint16 weight';
+
+const ICEBREAKER_WORKED_WITH = 'worked-with';
 
 export function easWithNonceManager() {
   const chainId = Number(baseChain.chainId);
@@ -123,6 +126,51 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
         operationName: 'cron_giveOnchainSyncer__attestGive',
       }
     );
+
+    if (IN_PRODUCTION && give.skill && give.skill == ICEBREAKER_WORKED_WITH) {
+      const json = {
+        attesterAddress: giverAddr,
+        attesteeAddress: receiverAddr,
+        isPublic: true,
+        name: 'Worked directly with',
+        schemaID: 'colinks:endorsement:workedDirectlyWith',
+        source: 'EAS',
+        chain: 'base',
+        reference: attestUid,
+        timestamp: give.created_at,
+        uid: attestUid,
+      };
+
+      try {
+        // don't do this in local/stg
+
+        // eslint-disable-next-line no-console
+        console.log('Posting to icebreaker', { json });
+
+        const response = await fetch(
+          `https://app.icebreaker.xyz/api/v1/credentials`,
+          {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${ICEBREAKER_BEARER_TOKEN}`,
+            },
+            body: JSON.stringify(json),
+          }
+        );
+
+        if (response.status !== 200) {
+          console.error(
+            'Request failed to post to icebreaker',
+            response.status,
+            response.statusText
+          );
+        }
+      } catch (err) {
+        console.error('Error in posting to Icebreaker', err);
+      }
+    }
+
     return attestUid;
   } catch (e: any) {
     await adminClient.mutate(

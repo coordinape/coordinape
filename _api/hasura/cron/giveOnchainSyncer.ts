@@ -82,6 +82,8 @@ async function giveToSync() {
           warpcast_url: true,
           cast_hash: true,
           activity_id: true,
+          created_at: true,
+          updated_at: true,
         },
       ],
     },

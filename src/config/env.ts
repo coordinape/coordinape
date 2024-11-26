@@ -96,3 +96,8 @@ export const WALLET_CONNECT_V2_PROJECT_ID = getEnvValue(
   'VITE_WALLET_CONNECT_V2_PROJECT_ID',
   'missing-wallet-connect-v2-project-id'
 );
+
+export const ICEBREAKER_BEARER_TOKEN = getEnvValue(
+  'ICEBREAKER_BEARER_TOKEN',
+  'icebreaker-default-token'
+);
