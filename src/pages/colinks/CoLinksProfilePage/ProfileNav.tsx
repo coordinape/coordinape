@@ -21,7 +21,7 @@ export const tabStyles = {
   alignItems: 'center',
   borderTop: '5px solid transparent',
   position: 'relative',
-  zIndex: 2,
+  zIndex: 1,
   cursor: 'pointer',
   flex: 1,
   '@md': {
