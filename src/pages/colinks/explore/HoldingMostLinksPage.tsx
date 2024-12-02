@@ -11,7 +11,7 @@ export const HoldingMostLinksPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Holding Most Links / Explore / CoLinks</title>
+        <title>Holding Most Links / Explore / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

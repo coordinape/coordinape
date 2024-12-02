@@ -9,7 +9,7 @@ export const Home2Page = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Home / CoLinks</title>
+        <title>Home / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

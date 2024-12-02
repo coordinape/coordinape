@@ -11,14 +11,14 @@ export const NewestMemberPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Newest Members / Explore / CoLinks</title>
+        <title>Newest Members / Explore / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>
             Explore
           </Text>
-          <Text>Newest CoLinks Members</Text>
+          <Text>Newest Members</Text>
           <ExploreBreadCrumbs subsection={'Newest Members'} />
         </Flex>
       </ContentHeader>

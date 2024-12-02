@@ -18,7 +18,7 @@ export const GiveSkillPage = () => {
   return (
     <Flex column>
       <Helmet>
-        <title>{skill} / GIVE / CoLinks</title>
+        <title>{skill} / GIVE / Coordinape</title>
       </Helmet>
       <ResponsiveColumnLayout>
         <Flex column>

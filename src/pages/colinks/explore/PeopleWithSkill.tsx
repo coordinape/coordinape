@@ -18,7 +18,7 @@ export const PeopleWithSkill = ({ skill }: { skill: string }) => {
   return (
     <Flex column css={{ gap: '$lg', maxWidth: '$readable' }}>
       <Helmet>
-        <title>{skill} / Interests / CoLinks</title>
+        <title>{skill} / Interests / Coordinape</title>
       </Helmet>
       {profiles === undefined ? (
         <LoadingIndicator />

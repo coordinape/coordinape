@@ -11,7 +11,7 @@ export const MostGivePage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Most Give / Explore / CoLinks</title>
+        <title>Most Give / Explore / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

@@ -42,7 +42,7 @@ export const HighlightsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Highlights / CoLinks</title>
+        <title>Highlights / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column css={{ gap: '$md' }}>

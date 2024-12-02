@@ -95,7 +95,7 @@ export const BigQuestionPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>{question.prompt} / CoLinks</title>
+        <title>{question.prompt} / Coordinape</title>
       </Helmet>
       <Flex css={{ gap: '$xl' }}>
         <Flex

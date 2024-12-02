@@ -24,7 +24,7 @@ export const GivePagesLayout = ({
         }}
       >
         <Helmet>
-          <title>GIVE / CoLinks</title>
+          <title>GIVE / Coordinape</title>
         </Helmet>
         <ContentHeader css={{ mb: 0 }}>
           <Flex
