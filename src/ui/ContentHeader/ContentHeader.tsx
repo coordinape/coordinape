@@ -21,7 +21,7 @@ const ContentHeader = ({
         gap: '$sm',
         position: sticky ? 'sticky' : undefined,
         top: sticky ? '0' : undefined,
-        zIndex: 2,
+        zIndex: sticky ? 2 : undefined,
         background: transparent ? 'transparent' : '$background',
         borderBottom: '1px solid $contentHeaderBorder',
         // compensate for default page top and left padding:
