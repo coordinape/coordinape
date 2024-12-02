@@ -2,12 +2,12 @@ import { useRef, useState } from 'react';
 
 import * as Popover from '@radix-ui/react-popover';
 import { Command, useCommandState } from 'cmdk';
+import { order_by } from 'lib/anongql/__generated__/zeus';
+import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { CSS, skillTextStyle } from 'stitches.config';
 
 import { User } from '../../icons/__generated';
-import { order_by } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
 import { Flex, PopoverContent, Text, TextField } from '../../ui';
 import { ComboBox } from '../ComboBox';
 import { LoadingIndicator } from '../LoadingIndicator';
@@ -18,16 +18,20 @@ const MAX_POTENTIAL_SKILLS = 1000;
 // TODO: maybe this should do server-side filtering but prob not needed for awhile
 // that's why there is the commented out where clause.
 const fetchSkills = async () => {
-  const { skills } = await client.query(
+  const { colinks_give_count } = await anonClient.query(
     {
-      skills: [
+      colinks_give_count: [
         {
-          order_by: [{ count: order_by.desc }, { name: order_by.asc }],
+          where: { skill: { _is_null: false } },
+          order_by: [
+            { gives_last_30_days: order_by.desc },
+            { skill: order_by.asc },
+          ],
           limit: MAX_POTENTIAL_SKILLS,
         },
         {
-          name: true,
-          count: true,
+          skill: true,
+          gives_last_30_days: true,
         },
       ],
     },
@@ -35,7 +39,7 @@ const fetchSkills = async () => {
       operationName: 'fetchPotentialSkills',
     }
   );
-  return skills;
+  return colinks_give_count;
 };
 
 type SkillComboBoxProps = {
@@ -187,23 +191,23 @@ export const SkillComboBox = ({
                     .filter(
                       sk =>
                         !excludeSkills.some(
-                          ps => ps.toLowerCase() === sk.name.toLowerCase()
+                          ps => ps.toLowerCase() === sk.skill.toLowerCase()
                         )
                     )
                     .map(skill => (
                       <Command.Item
-                        key={skill.name}
-                        value={skill.name}
+                        key={skill.skill}
+                        value={skill.skill}
                         onSelect={skill =>
                           addSkill(skill).then(() => setPopoverOpen(false))
                         }
                         defaultChecked={false}
                         disabled={excludeSkills.some(
-                          ps => ps.toLowerCase() === skill.name.toLowerCase()
+                          ps => ps.toLowerCase() === skill.skill.toLowerCase()
                         )}
                       >
                         {customRender ? (
-                          customRender(skill.name, skill.count)
+                          customRender(skill.skill, skill.gives_last_30_days)
                         ) : (
                           <Flex
                             css={{
@@ -211,9 +215,9 @@ export const SkillComboBox = ({
                               width: '100%',
                             }}
                           >
-                            <Text css={skillTextStyle}>{skill.name}</Text>
+                            <Text css={skillTextStyle}>{skill.skill}</Text>
                             <Text tag color={'secondary'} size={'xs'}>
-                              <User /> {skill.count}
+                              <User /> {skill.gives_last_30_days}
                             </Text>
                           </Flex>
                         )}
@@ -243,7 +247,7 @@ const AddItem = ({
   const search = useCommandState(state => state.search);
   if (
     search.trim() === '' ||
-    allSkills.some(s => s.name.toLowerCase() === search.toLowerCase())
+    allSkills.some(s => s.skill.toLowerCase() === search.toLowerCase())
   ) {
     return null;
   }
