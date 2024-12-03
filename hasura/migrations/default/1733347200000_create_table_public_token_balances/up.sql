@@ -15,3 +15,6 @@ FOR EACH ROW
 EXECUTE PROCEDURE "public"."set_current_timestamp_updated_at"();
 COMMENT ON TRIGGER "set_public_token_balances_updated_at" ON "public"."token_balances"
 IS 'trigger to set value of column "updated_at" to current timestamp on row update';
+
+
+alter table "public"."token_balances" add constraint "token_balances_address_chain_contract_key" unique ("address", "chain", "contract");
