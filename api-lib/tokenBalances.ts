@@ -8,7 +8,7 @@ import {
 } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
 
-import { ALCHEMY_ETH_MAINNET_API_KEY } from './config';
+import { BE_ALCHEMY_API_KEY } from './config';
 
 export type TokenContract = {
   symbol: string;
@@ -45,7 +45,7 @@ export const getTokenBalance = async (
   address: string
 ) => {
   const config = {
-    apiKey: ALCHEMY_ETH_MAINNET_API_KEY,
+    apiKey: BE_ALCHEMY_API_KEY,
     network: ALCHEMY_NETWORK[token.chain],
   };
   const alchemy = new Alchemy(config);
