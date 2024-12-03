@@ -25,7 +25,7 @@ export const ShareGiveCard = ({ skill }: { skill?: string }) => {
     <>
       <LearnCard
         image="/imgs/background/give-share.jpg"
-        onClick={() => setModalVisible(true)}
+        onClick={() => setModalVisible(prev => !prev)}
       >
         <Flex
           column
@@ -83,7 +83,7 @@ export const ShareGiveCard = ({ skill }: { skill?: string }) => {
         <DrawerModal
           visible={modalVisible}
           closeButtonStyles={{ color: '$white80' }}
-          onClose={() => setModalVisible(false)}
+          onClose={() => setModalVisible(prev => !prev)}
         >
           <ShareGiveContent skill={skill} />
         </DrawerModal>

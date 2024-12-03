@@ -51,7 +51,7 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
       </Button>
       <Button
         color="textOnly"
-        onClick={() => setModalVisible(true)}
+        onClick={() => setModalVisible(prev => !prev)}
         css={{
           ...tabStyles,
         }}
@@ -62,7 +62,7 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
         <DrawerModal
           visible={modalVisible}
           closeButtonStyles={{ color: '$white80' }}
-          onClose={() => setModalVisible(false)}
+          onClose={() => setModalVisible(prev => !prev)}
         >
           <ShareGiveContent skill={skill} />
         </DrawerModal>

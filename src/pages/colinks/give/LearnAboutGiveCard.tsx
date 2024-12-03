@@ -25,11 +25,11 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
   return (
     <>
       {linkText ? (
-        <Link onClick={() => setModalVisible(true)}>{linkText}</Link>
+        <Link onClick={() => setModalVisible(prev => !prev)}>{linkText}</Link>
       ) : (
         <LearnCard
           image="/imgs/background/colink-give.jpg"
-          onClick={() => setModalVisible(true)}
+          onClick={() => setModalVisible(prev => !prev)}
         >
           <Flex
             column
@@ -62,7 +62,7 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
         <DrawerModal
           visible={modalVisible}
           closeButtonStyles={{ color: '$white80' }}
-          onClose={() => setModalVisible(false)}
+          onClose={() => setModalVisible(prev => !prev)}
         >
           <Flex
             css={{
@@ -123,7 +123,7 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
               {!address && (
                 <Button
                   onClick={() => {
-                    setModalVisible(false);
+                    setModalVisible(prev => !prev);
                     if (openConnectModal && !connectModalOpen)
                       openConnectModal();
                   }}
