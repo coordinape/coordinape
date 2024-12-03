@@ -28,9 +28,9 @@ export default async function handler(
 
 export async function fetchTopGiveSkills() {
   // fetch all give and cache response
-  const { colinks_gives_skill_count } = await adminClient.query(
+  const { colinks_give_count } = await adminClient.query(
     {
-      colinks_gives_skill_count: [
+      colinks_give_count: [
         {
           limit: LIMIT,
           where: {
@@ -49,8 +49,8 @@ export async function fetchTopGiveSkills() {
     }
   );
 
-  assert(colinks_gives_skill_count, 'colinks_gives_skill_count not found');
+  assert(colinks_give_count, 'colinks_give_count not found');
 
-  return colinks_gives_skill_count;
+  return colinks_give_count;
 }
 export type giveTrendingData = Awaited<ReturnType<typeof fetchTopGiveSkills>>;
