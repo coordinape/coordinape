@@ -68,7 +68,7 @@ export const GiveBotCard = () => {
   );
 };
 
-const codeStyle = {
+export const codeStyle = {
   color: '$link',
   background: '$surface',
   fontFamily: 'monospace',

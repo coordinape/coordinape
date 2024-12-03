@@ -16,7 +16,7 @@ import {
 
 import { LearnCard, contentStyles } from './LearnCard';
 
-export const LearnAboutGiveCard = () => {
+export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { address } = useContext(CoLinksContext);
   const { give } = usePoints();
@@ -24,35 +24,40 @@ export const LearnAboutGiveCard = () => {
 
   return (
     <>
-      <LearnCard
-        image="/imgs/background/colink-give.jpg"
-        onClick={() => setModalVisible(true)}
-      >
-        <Flex
-          column
-          css={{
-            ...contentStyles,
-            justifyContent: 'space-between',
-            background:
-              'radial-gradient(circle at 25% 0%, rgb(7 202 103 / 66%) 20%, rgb(90 5 192 / 66%) 100%)',
-          }}
+      {linkText ? (
+        <Link onClick={() => setModalVisible(true)}>{linkText}</Link>
+      ) : (
+        <LearnCard
+          image="/imgs/background/colink-give.jpg"
+          onClick={() => setModalVisible(true)}
         >
           <Flex
             column
             css={{
-              alignItems: 'center',
-              gap: '$sm',
-              justifyContent: 'center',
-              flexGrow: 1,
+              ...contentStyles,
+              justifyContent: 'space-between',
+              background:
+                'radial-gradient(circle at 25% 0%, rgb(7 202 103 / 66%) 20%, rgb(90 5 192 / 66%) 100%)',
             }}
           >
-            <GemCoOutline size="2xl" fa />
-            <Text size="large" semibold css={{ textAlign: 'center' }}>
-              What is GIVE?
-            </Text>
+            <Flex
+              column
+              css={{
+                alignItems: 'center',
+                gap: '$sm',
+                justifyContent: 'center',
+                flexGrow: 1,
+              }}
+            >
+              <GemCoOutline size="2xl" fa />
+              <Text size="large" semibold css={{ textAlign: 'center' }}>
+                What is GIVE?
+              </Text>
+            </Flex>
           </Flex>
-        </Flex>
-      </LearnCard>
+        </LearnCard>
+      )}
+
       {modalVisible && (
         <DrawerModal
           visible={modalVisible}
