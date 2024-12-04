@@ -8,6 +8,7 @@ import useMobileDetect from 'hooks/useMobileDetect';
 
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
+import { ShareGiveCard } from './colinks/give/ShareGiveCard';
 import { GiveSkillLeaderboardMini } from './GiveSkillLeaderboardMini';
 import { GiveSkillNav } from './GiveSkillNav';
 
@@ -51,6 +52,7 @@ export const GiveSkillPage = () => {
             }}
           >
             <GiveSkillLeaderboardMini />
+            <ShareGiveCard skill={skill} />
             <LearnAboutGiveCard />
           </Flex>
         )}

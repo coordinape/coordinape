@@ -13,7 +13,7 @@ export const GiveBotCard = () => {
     <>
       <LearnCard
         image="/imgs/background/givebot.jpg"
-        onClick={() => setModalVisible(true)}
+        onClick={() => setModalVisible(prev => !prev)}
       >
         <Flex
           column
@@ -59,7 +59,7 @@ export const GiveBotCard = () => {
         <DrawerModal
           closeButtonStyles={{ color: '$white80' }}
           visible={modalVisible}
-          onClose={() => setModalVisible(false)}
+          onClose={() => setModalVisible(prev => !prev)}
         >
           <GiveBotModalContents />
         </DrawerModal>
@@ -68,7 +68,7 @@ export const GiveBotCard = () => {
   );
 };
 
-const codeStyle = {
+export const codeStyle = {
   color: '$link',
   background: '$surface',
   fontFamily: 'monospace',

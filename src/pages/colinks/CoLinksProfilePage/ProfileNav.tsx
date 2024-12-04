@@ -23,7 +23,6 @@ export const tabStyles = {
   position: 'relative',
   zIndex: 1,
   cursor: 'pointer',
-  flex: 1,
   '@md': {
     minWidth: 120,
     p: '$sm',
@@ -31,6 +30,7 @@ export const tabStyles = {
     fontSize: '$md',
   },
   '@sm': {
+    flex: 1,
     minWidth: 60,
     p: '$sm',
     gap: '$xs',

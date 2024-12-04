@@ -1,16 +1,21 @@
+import { useState } from 'react';
+
 import { NavLink } from 'react-router-dom';
 
-import { TimelineList, Timer } from 'icons/__generated';
+import { ShareGiveThick, TimelineList, Timer } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
+import { DrawerModal } from 'ui/DrawerModal';
 
 import {
   activeTabStyles,
   navContainerStyles,
   tabStyles,
 } from './colinks/CoLinksProfilePage/ProfileNav';
+import { ShareGiveContent } from './colinks/give/ShareGiveCard';
 
 export const GiveSkillNav = ({ skill }: { skill: string }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   return (
     <Flex
       css={{
@@ -44,6 +49,24 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
       >
         <TimelineList fa size="lg" /> Leaderboard
       </Button>
+      <Button
+        color="textOnly"
+        onClick={() => setModalVisible(prev => !prev)}
+        css={{
+          ...tabStyles,
+        }}
+      >
+        <ShareGiveThick fa size="lg" /> Share
+      </Button>
+      {modalVisible && (
+        <DrawerModal
+          visible={modalVisible}
+          closeButtonStyles={{ color: '$white80' }}
+          onClose={() => setModalVisible(prev => !prev)}
+        >
+          <ShareGiveContent skill={skill} />
+        </DrawerModal>
+      )}
     </Flex>
   );
 };

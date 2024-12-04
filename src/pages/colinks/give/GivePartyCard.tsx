@@ -14,7 +14,7 @@ export const GivePartyCard = () => {
     <>
       <LearnCard
         image="/imgs/background/giveparty-dance.jpg"
-        onClick={() => setModalVisible(true)}
+        onClick={() => setModalVisible(prev => !prev)}
       >
         <Flex
           column
@@ -61,7 +61,7 @@ export const GivePartyCard = () => {
         <DrawerModal
           visible={modalVisible}
           closeButtonStyles={{ color: '$white80' }}
-          onClose={() => setModalVisible(false)}
+          onClose={() => setModalVisible(prev => !prev)}
         >
           <Flex
             css={{
