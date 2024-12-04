@@ -3,9 +3,11 @@ import React from 'react';
 export const PartyText = ({
   text,
   fontSize = 90,
+  icebreaker,
 }: {
   text: string;
   fontSize?: number;
+  icebreaker?: boolean;
 }) => {
   return (
     <span
@@ -15,7 +17,7 @@ export const PartyText = ({
       <span
         tw="absolute"
         style={{
-          color: '#7647FF',
+          color: icebreaker ? 'transparent' : '#7647FF',
           opacity: 0.75,
           left: -14,
           top: 0,

@@ -24,12 +24,15 @@ const givePartyImageNode = async (params: Record<string, string>) => {
   } catch (e: any) {
     return ErrorFrameImage({ error_message: 'Invalid Skill: ' + e.message });
   }
+  const workedWith = skill === 'worked-with';
 
   return (
     <FrameWrapper>
       <FrameBodyGradient
         gradientStyles={{
-          background: randomGradient,
+          background: workedWith
+            ? 'radial-gradient(circle at 25% 0%, #0F2A37 20%, #101010 100%)'
+            : randomGradient,
         }}
       />
       <div
@@ -40,11 +43,26 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           tw="flex flex-col overflow-x-auto"
           style={{ gap: 20, lineHeight: 1 }}
         >
-          <div tw="flex">Who is{skill === 'based' ? '' : ' great at'}</div>
-          <PartyText text={`#${skill}`} />
-          <div tw="flex" style={{ marginTop: 10 }}>
-            on Farcaster?
+          <div tw="flex">
+            {skill === 'based'
+              ? 'Who is'
+              : workedWith
+                ? 'Who have you'
+                : 'Who is great at'}
           </div>
+          <div tw="flex">
+            <PartyText text={`#${skill}`} icebreaker />
+            {workedWith && (
+              <div tw="flex" style={{ marginTop: 9 }}>
+                ?
+              </div>
+            )}
+          </div>
+          {!workedWith && (
+            <div tw="flex" style={{ marginTop: 10 }}>
+              on Farcaster?
+            </div>
+          )}
         </div>
 
         {error_message && (
@@ -53,19 +71,25 @@ const givePartyImageNode = async (params: Record<string, string>) => {
             style={{
               background: '#FF5FFF',
               color: 'black',
-              padding: 10,
+              padding: 5,
               fontSize: 40,
             }}
           >
             {error_message}
           </div>
         )}
-        <div tw="flex justify-between">
+        <div tw="flex justify-between items-end">
           <div
-            tw="flex"
-            style={{ fontWeight: 400, fontSize: 40, maxWidth: '50%' }}
+            tw="flex flex-col"
+            style={{ fontWeight: 400, fontSize: 40, maxWidth: '55%', gap: 20 }}
           >
             Enter a name below, we&apos;ll send them a GIVE on your behalf
+            {workedWith && ', creating an onchain attestation'}
+            <img
+              alt="gem"
+              src={IMAGE_URL_BASE + 'coordinape-x-icebreaker.png'}
+              style={{ width: 549, height: 50 }}
+            />
           </div>
           <div
             tw="flex items-center"
