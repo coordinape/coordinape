@@ -16,7 +16,7 @@ export const LinkHistoryPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Link History / CoLinks</title>
+        <title>Link History / Coordinape</title>
       </Helmet>
       <CoLinksBasicProfileHeader address={address} title={'Links History'} />
       <RecentCoLinkTransactions target={address} />

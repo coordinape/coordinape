@@ -94,7 +94,7 @@ const ProfileHeaderWithProfile = ({
     <Flex column>
       {!drawer && (
         <Helmet>
-          <title>{targetProfile.profile.name} / CoLinks</title>
+          <title>{targetProfile.profile.name} / Coordinape</title>
         </Helmet>
       )}
       <ContentHeader

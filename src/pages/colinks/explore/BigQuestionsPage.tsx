@@ -11,7 +11,7 @@ export const BigQuestionsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>The Big Question / CoLinks</title>
+        <title>The Big Question / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

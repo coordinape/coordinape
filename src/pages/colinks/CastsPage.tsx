@@ -15,12 +15,12 @@ export const CastsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Casts / CoLinks</title>
+        <title>Casts / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>
           <Text h2 display>
-            Casts from CoLinks Community
+            Casts from Coordinape Community
           </Text>
           <Text inline>
             What <i>are</i> people saying?

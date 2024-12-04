@@ -41,7 +41,7 @@ export const ExplorePage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Explore / CoLinks</title>
+        <title>Explore / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

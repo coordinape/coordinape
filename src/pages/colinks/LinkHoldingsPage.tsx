@@ -19,7 +19,7 @@ export const LinkHoldingsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Holdings / CoLinks</title>
+        <title>Holdings / Coordinape</title>
       </Helmet>
       <CoLinksBasicProfileHeader address={address} title={'Link Holdings'} />
       <LinkHoldings holder={address} limit={500}>

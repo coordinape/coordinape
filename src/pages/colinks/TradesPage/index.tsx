@@ -9,7 +9,7 @@ export const TradesPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Linking Activity / CoLinks</title>
+        <title>Linking Activity / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

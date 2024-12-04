@@ -11,7 +11,7 @@ export const HighestRepScorePage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Highest Rep Score / Explore / CoLinks</title>
+        <title>Highest Rep Score / Explore / Coordinape</title>
       </Helmet>
       <ContentHeader>
         <Flex column>

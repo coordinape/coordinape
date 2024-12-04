@@ -228,7 +228,7 @@ export const NotificationsPage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
-        <title>Notifications / CoLinks</title>
+        <title>Notifications / Coordinape</title>
       </Helmet>
 
       <ContentHeader>

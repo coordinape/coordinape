@@ -75,7 +75,7 @@ const CoLinksActivityPageContents = ({
       }}
     >
       <Helmet>
-        <title>Home / CoLinks</title>
+        <title>Home / Coordinape</title>
       </Helmet>
       <Flex
         css={{

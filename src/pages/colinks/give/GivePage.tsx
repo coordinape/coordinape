@@ -14,7 +14,7 @@ export const GivePage = () => {
   return (
     <Flex column>
       <Helmet>
-        <title>GIVE / CoLinks</title>
+        <title>GIVE / Coordinape</title>
       </Helmet>
       <ResponsiveColumnLayout
         css={{
