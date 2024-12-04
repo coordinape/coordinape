@@ -44,7 +44,7 @@ createWebhook('OPT_MAINNET - STAGING | TOKENS (Aave & CO) ERC20 Transfer events'
 {
   block {
     hash
-    logs(filter: {addresses: [${TOKENS.map(t => "{t.contract}").join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: [${TOKENS.map(t => `"${t.contract}"`).join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
       account {
