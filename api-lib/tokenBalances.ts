@@ -24,20 +24,15 @@ export const TOKENS: TokenContract[] = [
   },
   {
     symbol: 'AAVE',
-    chain: 10,
-    contract: '0x76FB31fb4af56892A25e32cFC43De717950c9278',
-  },
-  {
-    symbol: 'CRASH',
-    chain: 8453,
-    contract: '0x621e87af48115122cd96209f820fe0445c2ea90e',
+    chain: 1,
+    contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
   },
 ];
 
 const ALCHEMY_NETWORK: Record<number, Network> = {
   1: Network.ETH_MAINNET,
-  10: Network.OPT_MAINNET,
-  8453: Network.BASE_MAINNET,
+  // 10: Network.OPT_MAINNET,
+  // 8453: Network.BASE_MAINNET,
 };
 
 export const getTokenBalance = async (

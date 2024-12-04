@@ -32,7 +32,7 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('OPT_MAINNET - STAGING | Aave ERC20 Transfer events', options, {
+createWebhook('OPT_MAINNET - STAGING | TOKENS (Aave & CO) ERC20 Transfer events', options, {
   network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
   webhook_url:
@@ -40,31 +40,31 @@ createWebhook('OPT_MAINNET - STAGING | Aave ERC20 Transfer events', options, {
   graphql_query: {
     skip_empty_messages: true,
     query: `
-# Get all Transfer event logs for the Aave ERC20 contract
+# Get all Transfer event logs for the ERC20 contracts in TOKENS
 {
   block {
     hash
-    logs(filter: {addresses: ["${TOKENS.find(t => t.symbol == 'AAVE')?.contract}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: [${TOKENS.map(t => "{t.contract}").join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
       account {
-        address
-      }
+  address
+}
       transaction{
-        hash
+  hash
         index
         to{
-          address
-        }
+  address
+}
         from {
-          address
-        }
+  address
+}
         status
       }
     }
   }
 }
-`.trim(),
+  `.trim(),
   },
 });
 
