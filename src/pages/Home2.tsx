@@ -1,9 +1,14 @@
 import { TopGiveSkills } from 'features/HomeCards/TopGiveSkills';
+import { TopReceivers } from 'features/HomeCards/TopReceivers';
+import { TopSenders } from 'features/HomeCards/TopSenders';
 import { Helmet } from 'react-helmet';
 
 import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
 import { ContentHeader, Flex, Text } from '../ui';
 import { SingleColumnLayout } from '../ui/layouts';
+
+import { ResponsiveColumnLayout } from './colinks/give/GivePage';
+import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
 
 export const Home2Page = () => {
   return (
@@ -21,12 +26,19 @@ export const Home2Page = () => {
           </Text>
         </Flex>
       </ContentHeader>
-      <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
-        <MostLikedCasts />
-      </Flex>
-      <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
-        <TopGiveSkills />
-      </Flex>
+      <ResponsiveColumnLayout css={{ px: 0 }}>
+        <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
+          <MostLikedCasts />
+          <TopGiveSkills tier="first" />
+          <TopSenders />
+          <TopGiveSkills tier="second" />
+          <TopReceivers />
+          <TopGiveSkills tier="third" />
+        </Flex>
+        <Flex column>
+          <LearnAboutGiveCard />
+        </Flex>
+      </ResponsiveColumnLayout>
     </SingleColumnLayout>
   );
 };

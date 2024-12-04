@@ -8,9 +8,13 @@ import { Flex, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
-export const TopGiveSkills = () => {
+export const TopGiveSkills = ({
+  tier,
+}: {
+  tier: 'first' | 'second' | 'third';
+}) => {
   const { data, isFetched } = useQuery(
-    ['TopGiveSkills'],
+    ['TierGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();
@@ -23,14 +27,26 @@ export const TopGiveSkills = () => {
 
   if (!isFetched) return null;
 
+  // Define the tier ranges
+  const tierRanges = {
+    first: [0, 1],
+    second: [1, 2],
+    third: [2, 3],
+  };
+
+  const [startIndex, endIndex] = tierRanges[tier];
+
+  // Get skills in the specified tier
+  const tierSkills = data?.slice(startIndex, endIndex);
+
   return (
     <Flex column>
       <Text h2 display>
-        Trending Give Skills
+        {tier.charAt(0).toUpperCase() + tier.slice(1)} Tier Give Skills
       </Text>
-      {data?.map(g => (
-        <Flex column key={g.skill}>
-          <Flex css={{}}>
+      {tierSkills?.map(g => (
+        <Flex column key={g.skill} gap="md">
+          <Flex>
             <Text
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
