@@ -347,18 +347,18 @@ export const PickOneSkill = ({
   if (!profile_skills) return null;
 
   const sortSkills = (
-    a: { name: string; count: number },
-    b: { name: string; count: number }
+    a: { skill: string; gives_last_30_days: number },
+    b: { skill: string; gives_last_30_days: number }
   ) => {
     // if the skill is in the profile_skills, then it should be at the top
-    const a_name = a.name.toLowerCase();
-    const b_name = b.name.toLowerCase();
+    const a_name = a.skill.toLowerCase();
+    const b_name = b.skill.toLowerCase();
 
     if (
       profile_skills.some(skill => skill.skill_name.toLowerCase() === a_name) &&
       profile_skills.some(skill => skill.skill_name.toLowerCase() === b_name)
     ) {
-      return a.count > b.count ? -1 : 1;
+      return a.gives_last_30_days > b.gives_last_30_days ? -1 : 1;
     }
     if (
       profile_skills.some(skill => skill.skill_name.toLowerCase() === a_name)
@@ -370,7 +370,7 @@ export const PickOneSkill = ({
     ) {
       return 1;
     }
-    return a.count > b.count ? -1 : 1;
+    return a.gives_last_30_days > b.gives_last_30_days ? -1 : 1;
   };
 
   return (
