@@ -10,6 +10,7 @@ import { FramePersonaHeadline } from '../layoutFragments/FramePersonaHeadline.ts
 import { FrameWrapper } from '../layoutFragments/FrameWrapper.tsx';
 import { PartyText } from '../layoutFragments/PartyText.tsx';
 
+import { getContextFromParams } from './getContextFromParams.ts';
 import { onSendGIVEPost } from './onSendGIVEPost.tsx';
 import { PartyHelpFrame } from './PartyHelpFrame.tsx';
 import { SkillLeaderboardFrame } from './SkillLeaderboardFrame.tsx';
@@ -37,6 +38,7 @@ export const gradientArray = [
 const randomGradient = getRandomColor(gradientArray);
 
 const imageNode = async (params: Record<string, string>) => {
+  const { skill } = await getContextFromParams(params);
   const { viewerProfile } = await getViewerFromParams(params);
   const {
     numGiveSent: giverTotalGiven,
@@ -44,12 +46,15 @@ const imageNode = async (params: Record<string, string>) => {
   } = await fetchProfileInfo(viewerProfile?.id);
   const { give } = await fetchPoints(viewerProfile?.id);
   const level = await getLevelForViewer(viewerProfile?.id);
+  const workedWith = skill === 'worked-with';
 
   return (
     <FrameWrapper>
       <FrameBodyGradient
         gradientStyles={{
-          background: randomGradient,
+          background: workedWith
+            ? 'radial-gradient(circle at 25% 0%, #0F2A37 20%, #101010 100%)'
+            : randomGradient,
         }}
       />
       <div
@@ -67,9 +72,11 @@ const imageNode = async (params: Record<string, string>) => {
           }}
         >
           <div tw="flex">Now it&apos;s a party!</div>
-          <PartyText text="GIVE Delivered" />
+          <PartyText text="GIVE Delivered" icebreaker />
         </div>
-        <div style={{ fontSize: 60, opacity: 0.9 }}>Want to give more?</div>
+        <div style={{ fontSize: 60, opacity: 0.9 }}>
+          {workedWith ? 'Who else have you worked with?' : 'Want to give more?'}
+        </div>
         <FramePersonaHeadline
           avatar={viewerProfile?.avatar}
           giverTotalGiven={giverTotalGiven}
