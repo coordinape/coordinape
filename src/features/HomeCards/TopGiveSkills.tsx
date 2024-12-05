@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
 import { giveTrendingData } from '../../../_api/give/trending';
-import { AppLink, Flex, Text } from '../../ui';
+import { Button, Flex, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
@@ -91,48 +91,19 @@ export const TopGiveSkills = ({
               Top GIVE
             </Text>
           </Flex>
-          {/* <Flex css={{ gap: '$sm' }}>
-            <Text
+          <RecentGives skill={g.skill} limit={5} />
+          <Flex css={{ justifyContent: 'center', width: '100%' }}>
+            <Button
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
-              tag
-              size="large"
-              color="complete"
+              color="secondary"
               css={{
-                gap: '$sm',
-                fontSize: '$h2',
-                p: '$sm $md',
-                height: 'auto',
-                textDecoration: 'none',
-                span: {
-                  '@sm': {
-                    fontSize: '$xs',
-                  },
-                },
+                textTransform: 'capitalize',
               }}
             >
-              <GemCoOutline fa size={'xl'} />
-              <Text css={{ ...skillTextStyle }}>{g.skill}</Text>
-            </Text>
-            <Text variant="label" css={{ textTransform: 'uppercase' }}>
-              Top Skill
-            </Text>
-          </Flex> */}
-          <RecentGives skill={g.skill} limit={5} />
-          <AppLink
-            inlineLink
-            to={coLinksPaths.giveSkill(g.skill)}
-            css={{
-              gap: '$sm',
-              height: 'auto',
-              textDecoration: 'none',
-              textTransform: 'capitalize',
-              width: '100%',
-              textAlign: 'center',
-            }}
-          >
-            View More {g.skill}
-          </AppLink>
+              View More {g.skill}
+            </Button>
+          </Flex>
         </Flex>
       ))}
     </Flex>
