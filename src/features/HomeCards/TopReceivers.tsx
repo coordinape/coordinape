@@ -56,7 +56,7 @@ export const TopReceivers = () => {
 
   if (!data || isLoading)
     return (
-      <Flex column css={{ width: '100%', mb: '$1xl' }}>
+      <Flex column css={{ width: '100%' }}>
         <LoadingIndicator />
       </Flex>
     );

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
 import { giveTrendingData } from '../../../_api/give/trending';
-import { Flex, Text } from '../../ui';
+import { AppLink, Flex, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 
@@ -40,44 +40,99 @@ export const TopGiveSkills = ({
   const tierSkills = data?.slice(startIndex, endIndex);
 
   return (
-    <Flex column>
-      <Text h2 display>
-        {tier.charAt(0).toUpperCase() + tier.slice(1)} Tier Give Skills
-      </Text>
+    <Flex column css={{}}>
       {tierSkills?.map(g => (
         <Flex column key={g.skill} gap="md">
-          <Flex>
+          <Flex
+            column
+            as={NavLink}
+            to={coLinksPaths.giveSkill(g.skill)}
+            css={{
+              width: '100%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mb: '$md',
+              borderRadius: '$3',
+              background: '$tagSuccessBackground',
+              p: '$md',
+              color: '$tagSuccessText',
+              textDecoration: 'none',
+            }}
+          >
+            <Flex
+              css={{
+                alignItems: 'center',
+                gap: '$sm',
+                pb: '$xs',
+                borderBottom: '1px solid $tagSuccessText',
+              }}
+            >
+              <GemCoOutline fa size={'xl'} />
+              <Text
+                h2
+                display
+                css={{
+                  ...skillTextStyle,
+                  maxWidth: '300px',
+                  color: '$tagSuccessText',
+                }}
+              >
+                {g.skill}
+              </Text>
+            </Flex>
+            <Text
+              size="small"
+              css={{
+                mt: '$sm',
+                height: 'auto',
+                color: '$tagSuccessText',
+              }}
+            >
+              Top GIVE
+            </Text>
+          </Flex>
+          {/* <Flex css={{ gap: '$sm' }}>
             <Text
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
               tag
-              size="small"
+              size="large"
+              color="complete"
               css={{
-                gap: '$xs',
-                background: 'rgb(0 143 94 / 83%)',
+                gap: '$sm',
+                fontSize: '$h2',
+                p: '$sm $md',
+                height: 'auto',
                 textDecoration: 'none',
                 span: {
-                  color: 'white',
                   '@sm': {
                     fontSize: '$xs',
                   },
                 },
               }}
             >
-              <GemCoOutline fa size={'md'} css={{ color: '$white' }} />
+              <GemCoOutline fa size={'xl'} />
               <Text css={{ ...skillTextStyle }}>{g.skill}</Text>
             </Text>
-            <Text
-              inline
-              h1
-              css={{
-                pl: '$md',
-              }}
-            >
-              {g.gives_last_7_days}
+            <Text variant="label" css={{ textTransform: 'uppercase' }}>
+              Top Skill
             </Text>
-          </Flex>
+          </Flex> */}
           <RecentGives skill={g.skill} limit={5} />
+          <AppLink
+            inlineLink
+            to={coLinksPaths.giveSkill(g.skill)}
+            css={{
+              gap: '$sm',
+              height: 'auto',
+              textDecoration: 'none',
+              textTransform: 'capitalize',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            View More {g.skill}
+          </AppLink>
         </Flex>
       ))}
     </Flex>
