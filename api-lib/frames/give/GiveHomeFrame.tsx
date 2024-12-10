@@ -31,12 +31,9 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
   const giverLevel = await getLevelForViewer(give.giver_profile_public.id);
   const randomArtNumber = (give.id % 5) + 1;
 
-  const bgImage =
-    give.skill === 'bones'
-      ? give.image_url
-        ? `${give.image_url}?format=jpeg`
-        : `bones.jpg`
-      : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
+  const bgImage = give.image_url
+    ? `${give.image_url}?format=jpeg`
+    : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
   return (
     <FrameWrapper>
