@@ -29282,6 +29282,21 @@ type mutation_root {
   delete_teammates_by_pk(id: bigint!): teammates
 
   """
+  delete data from the table: "token_balances"
+  """
+  delete_token_balances(
+    """
+    filter the rows which have to be deleted
+    """
+    where: token_balances_bool_exp!
+  ): token_balances_mutation_response
+
+  """
+  delete single row from the table: "token_balances"
+  """
+  delete_token_balances_by_pk(id: bigint!): token_balances
+
+  """
   delete data from the table: "token_gifts"
   """
   delete_token_gifts(
@@ -31501,6 +31516,36 @@ type mutation_root {
     """
     on_conflict: teammates_on_conflict
   ): teammates
+
+  """
+  insert data into the table: "token_balances"
+  """
+  insert_token_balances(
+    """
+    the rows to be inserted
+    """
+    objects: [token_balances_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: token_balances_on_conflict
+  ): token_balances_mutation_response
+
+  """
+  insert a single row into the table: "token_balances"
+  """
+  insert_token_balances_one(
+    """
+    the row to be inserted
+    """
+    object: token_balances_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: token_balances_on_conflict
+  ): token_balances
 
   """
   insert data into the table: "token_gifts"
@@ -35336,6 +35381,52 @@ type mutation_root {
     """
     updates: [teammates_updates!]!
   ): [teammates_mutation_response]
+
+  """
+  update data of the table: "token_balances"
+  """
+  update_token_balances(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: token_balances_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: token_balances_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: token_balances_bool_exp!
+  ): token_balances_mutation_response
+
+  """
+  update single row of the table: "token_balances"
+  """
+  update_token_balances_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: token_balances_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: token_balances_set_input
+    pk_columns: token_balances_pk_columns_input!
+  ): token_balances
+
+  """
+  update multiples rows of table: "token_balances"
+  """
+  update_token_balances_many(
+    """
+    updates to execute, in order
+    """
+    updates: [token_balances_updates!]!
+  ): [token_balances_mutation_response]
 
   """
   update data of the table: "token_gifts"
@@ -52959,6 +53050,71 @@ type query_root {
   teammates_by_pk(id: bigint!): teammates
 
   """
+  fetch data from the table: "token_balances"
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  fetch aggregated fields from the table: "token_balances"
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
+
+  """
+  fetch data from the table: "token_balances" using primary key columns
+  """
+  token_balances_by_pk(id: bigint!): token_balances
+
+  """
   An array relationship
   """
   token_gifts(
@@ -63745,6 +63901,91 @@ type subscription_root {
   ): [teammates!]!
 
   """
+  fetch data from the table: "token_balances"
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  fetch aggregated fields from the table: "token_balances"
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
+
+  """
+  fetch data from the table: "token_balances" using primary key columns
+  """
+  token_balances_by_pk(id: bigint!): token_balances
+
+  """
+  fetch data from the table in a streaming manner: "token_balances"
+  """
+  token_balances_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [token_balances_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
   An array relationship
   """
   token_gifts(
@@ -65317,6 +65558,404 @@ input timestamptz_comparison_exp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+"""
+Balances of tokens for given address, chain, contract
+"""
+type token_balances {
+  address: citext!
+  balance: numeric!
+  chain: String!
+  contract: String!
+  created_at: timestamptz!
+  id: bigint!
+  last_checked_at: timestamptz
+  symbol: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "token_balances"
+"""
+type token_balances_aggregate {
+  aggregate: token_balances_aggregate_fields
+  nodes: [token_balances!]!
+}
+
+"""
+aggregate fields of "token_balances"
+"""
+type token_balances_aggregate_fields {
+  avg: token_balances_avg_fields
+  count(columns: [token_balances_select_column!], distinct: Boolean): Int!
+  max: token_balances_max_fields
+  min: token_balances_min_fields
+  stddev: token_balances_stddev_fields
+  stddev_pop: token_balances_stddev_pop_fields
+  stddev_samp: token_balances_stddev_samp_fields
+  sum: token_balances_sum_fields
+  var_pop: token_balances_var_pop_fields
+  var_samp: token_balances_var_samp_fields
+  variance: token_balances_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type token_balances_avg_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'.
+"""
+input token_balances_bool_exp {
+  _and: [token_balances_bool_exp!]
+  _not: token_balances_bool_exp
+  _or: [token_balances_bool_exp!]
+  address: citext_comparison_exp
+  balance: numeric_comparison_exp
+  chain: String_comparison_exp
+  contract: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  last_checked_at: timestamptz_comparison_exp
+  symbol: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "token_balances"
+"""
+enum token_balances_constraint {
+  """
+  unique or primary key constraint on columns "contract", "address", "chain"
+  """
+  token_balances_address_chain_contract_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  token_balances_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "token_balances"
+"""
+input token_balances_inc_input {
+  balance: numeric
+  id: bigint
+}
+
+"""
+input type for inserting data into table "token_balances"
+"""
+input token_balances_insert_input {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate max on columns
+"""
+type token_balances_max_fields {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate min on columns
+"""
+type token_balances_min_fields {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "token_balances"
+"""
+type token_balances_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [token_balances!]!
+}
+
+"""
+on_conflict condition type for table "token_balances"
+"""
+input token_balances_on_conflict {
+  constraint: token_balances_constraint!
+  update_columns: [token_balances_update_column!]! = []
+  where: token_balances_bool_exp
+}
+
+"""
+Ordering options when selecting data from "token_balances".
+"""
+input token_balances_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  symbol: order_by
+  updated_at: order_by
+}
+
+"""
+primary key columns input for table: token_balances
+"""
+input token_balances_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "token_balances"
+"""
+enum token_balances_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  balance
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  contract
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  last_checked_at
+
+  """
+  column name
+  """
+  symbol
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+input type for updating data in table "token_balances"
+"""
+input token_balances_set_input {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate stddev on columns
+"""
+type token_balances_stddev_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type token_balances_stddev_pop_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type token_balances_stddev_samp_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+Streaming cursor of the table "token_balances"
+"""
+input token_balances_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: token_balances_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input token_balances_stream_cursor_value_input {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+aggregate sum on columns
+"""
+type token_balances_sum_fields {
+  balance: numeric
+  id: bigint
+}
+
+"""
+update columns of table "token_balances"
+"""
+enum token_balances_update_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  balance
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  contract
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  last_checked_at
+
+  """
+  column name
+  """
+  symbol
+
+  """
+  column name
+  """
+  updated_at
+}
+
+input token_balances_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: token_balances_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: token_balances_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: token_balances_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type token_balances_var_pop_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type token_balances_var_samp_fields {
+  balance: Float
+  id: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type token_balances_variance_fields {
+  balance: Float
+  id: Float
 }
 
 """

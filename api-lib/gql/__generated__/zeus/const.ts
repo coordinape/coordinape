@@ -7574,6 +7574,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_teammates_by_pk: {
       id: 'bigint',
     },
+    delete_token_balances: {
+      where: 'token_balances_bool_exp',
+    },
+    delete_token_balances_by_pk: {
+      id: 'bigint',
+    },
     delete_token_gifts: {
       where: 'token_gifts_bool_exp',
     },
@@ -8188,6 +8194,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_teammates_one: {
       object: 'teammates_insert_input',
       on_conflict: 'teammates_on_conflict',
+    },
+    insert_token_balances: {
+      objects: 'token_balances_insert_input',
+      on_conflict: 'token_balances_on_conflict',
+    },
+    insert_token_balances_one: {
+      object: 'token_balances_insert_input',
+      on_conflict: 'token_balances_on_conflict',
     },
     insert_token_gifts: {
       objects: 'token_gifts_insert_input',
@@ -9271,6 +9285,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_teammates_many: {
       updates: 'teammates_updates',
+    },
+    update_token_balances: {
+      _inc: 'token_balances_inc_input',
+      _set: 'token_balances_set_input',
+      where: 'token_balances_bool_exp',
+    },
+    update_token_balances_by_pk: {
+      _inc: 'token_balances_inc_input',
+      _set: 'token_balances_set_input',
+      pk_columns: 'token_balances_pk_columns_input',
+    },
+    update_token_balances_many: {
+      updates: 'token_balances_updates',
     },
     update_token_gifts: {
       _inc: 'token_gifts_inc_input',
@@ -13269,6 +13296,19 @@ export const AllTypesProps: Record<string, any> = {
     teammates_by_pk: {
       id: 'bigint',
     },
+    token_balances: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_aggregate: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_by_pk: {
+      id: 'bigint',
+    },
     token_gifts: {
       distinct_on: 'token_gifts_select_column',
       order_by: 'token_gifts_order_by',
@@ -15505,6 +15545,23 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'teammates_stream_cursor_input',
       where: 'teammates_bool_exp',
     },
+    token_balances: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_aggregate: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_by_pk: {
+      id: 'bigint',
+    },
+    token_balances_stream: {
+      cursor: 'token_balances_stream_cursor_input',
+      where: 'token_balances_bool_exp',
+    },
     token_gifts: {
       distinct_on: 'token_gifts_select_column',
       order_by: 'token_gifts_order_by',
@@ -15871,6 +15928,84 @@ export const AllTypesProps: Record<string, any> = {
     _lte: 'timestamptz',
     _neq: 'timestamptz',
     _nin: 'timestamptz',
+  },
+  token_balances_aggregate_fields: {
+    count: {
+      columns: 'token_balances_select_column',
+    },
+  },
+  token_balances_bool_exp: {
+    _and: 'token_balances_bool_exp',
+    _not: 'token_balances_bool_exp',
+    _or: 'token_balances_bool_exp',
+    address: 'citext_comparison_exp',
+    balance: 'numeric_comparison_exp',
+    chain: 'String_comparison_exp',
+    contract: 'String_comparison_exp',
+    created_at: 'timestamptz_comparison_exp',
+    id: 'bigint_comparison_exp',
+    last_checked_at: 'timestamptz_comparison_exp',
+    symbol: 'String_comparison_exp',
+    updated_at: 'timestamptz_comparison_exp',
+  },
+  token_balances_constraint: true,
+  token_balances_inc_input: {
+    balance: 'numeric',
+    id: 'bigint',
+  },
+  token_balances_insert_input: {
+    address: 'citext',
+    balance: 'numeric',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  token_balances_on_conflict: {
+    constraint: 'token_balances_constraint',
+    update_columns: 'token_balances_update_column',
+    where: 'token_balances_bool_exp',
+  },
+  token_balances_order_by: {
+    address: 'order_by',
+    balance: 'order_by',
+    chain: 'order_by',
+    contract: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    last_checked_at: 'order_by',
+    symbol: 'order_by',
+    updated_at: 'order_by',
+  },
+  token_balances_pk_columns_input: {
+    id: 'bigint',
+  },
+  token_balances_select_column: true,
+  token_balances_set_input: {
+    address: 'citext',
+    balance: 'numeric',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  token_balances_stream_cursor_input: {
+    initial_value: 'token_balances_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  token_balances_stream_cursor_value_input: {
+    address: 'citext',
+    balance: 'numeric',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    updated_at: 'timestamptz',
+  },
+  token_balances_update_column: true,
+  token_balances_updates: {
+    _inc: 'token_balances_inc_input',
+    _set: 'token_balances_set_input',
+    where: 'token_balances_bool_exp',
   },
   token_gifts_aggregate_bool_exp: {
     count: 'token_gifts_aggregate_bool_exp_count',
@@ -22836,6 +22971,8 @@ export const ReturnTypes: Record<string, any> = {
     delete_skills_by_pk: 'skills',
     delete_teammates: 'teammates_mutation_response',
     delete_teammates_by_pk: 'teammates',
+    delete_token_balances: 'token_balances_mutation_response',
+    delete_token_balances_by_pk: 'token_balances',
     delete_token_gifts: 'token_gifts_mutation_response',
     delete_token_gifts_by_pk: 'token_gifts',
     delete_twitter_accounts: 'twitter_accounts_mutation_response',
@@ -23009,6 +23146,8 @@ export const ReturnTypes: Record<string, any> = {
     insert_skills_one: 'skills',
     insert_teammates: 'teammates_mutation_response',
     insert_teammates_one: 'teammates',
+    insert_token_balances: 'token_balances_mutation_response',
+    insert_token_balances_one: 'token_balances',
     insert_token_gifts: 'token_gifts_mutation_response',
     insert_token_gifts_one: 'token_gifts',
     insert_twitter_accounts: 'twitter_accounts_mutation_response',
@@ -23274,6 +23413,9 @@ export const ReturnTypes: Record<string, any> = {
     update_teammates: 'teammates_mutation_response',
     update_teammates_by_pk: 'teammates',
     update_teammates_many: 'teammates_mutation_response',
+    update_token_balances: 'token_balances_mutation_response',
+    update_token_balances_by_pk: 'token_balances',
+    update_token_balances_many: 'token_balances_mutation_response',
     update_token_gifts: 'token_gifts_mutation_response',
     update_token_gifts_by_pk: 'token_gifts',
     update_token_gifts_many: 'token_gifts_mutation_response',
@@ -25714,6 +25856,9 @@ export const ReturnTypes: Record<string, any> = {
     teammates: 'teammates',
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',
+    token_balances: 'token_balances',
+    token_balances_aggregate: 'token_balances_aggregate',
+    token_balances_by_pk: 'token_balances',
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
@@ -26679,6 +26824,10 @@ export const ReturnTypes: Record<string, any> = {
     teammates_aggregate: 'teammates_aggregate',
     teammates_by_pk: 'teammates',
     teammates_stream: 'teammates',
+    token_balances: 'token_balances',
+    token_balances_aggregate: 'token_balances_aggregate',
+    token_balances_by_pk: 'token_balances',
+    token_balances_stream: 'token_balances',
     token_gifts: 'token_gifts',
     token_gifts_aggregate: 'token_gifts_aggregate',
     token_gifts_by_pk: 'token_gifts',
@@ -26811,6 +26960,92 @@ export const ReturnTypes: Record<string, any> = {
     id: 'Float',
     team_mate_id: 'Float',
     user_id: 'Float',
+  },
+  token_balances: {
+    address: 'citext',
+    balance: 'numeric',
+    chain: 'String',
+    contract: 'String',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    symbol: 'String',
+    updated_at: 'timestamptz',
+  },
+  token_balances_aggregate: {
+    aggregate: 'token_balances_aggregate_fields',
+    nodes: 'token_balances',
+  },
+  token_balances_aggregate_fields: {
+    avg: 'token_balances_avg_fields',
+    count: 'Int',
+    max: 'token_balances_max_fields',
+    min: 'token_balances_min_fields',
+    stddev: 'token_balances_stddev_fields',
+    stddev_pop: 'token_balances_stddev_pop_fields',
+    stddev_samp: 'token_balances_stddev_samp_fields',
+    sum: 'token_balances_sum_fields',
+    var_pop: 'token_balances_var_pop_fields',
+    var_samp: 'token_balances_var_samp_fields',
+    variance: 'token_balances_variance_fields',
+  },
+  token_balances_avg_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_max_fields: {
+    address: 'citext',
+    balance: 'numeric',
+    chain: 'String',
+    contract: 'String',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    symbol: 'String',
+    updated_at: 'timestamptz',
+  },
+  token_balances_min_fields: {
+    address: 'citext',
+    balance: 'numeric',
+    chain: 'String',
+    contract: 'String',
+    created_at: 'timestamptz',
+    id: 'bigint',
+    last_checked_at: 'timestamptz',
+    symbol: 'String',
+    updated_at: 'timestamptz',
+  },
+  token_balances_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'token_balances',
+  },
+  token_balances_stddev_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_stddev_pop_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_stddev_samp_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_sum_fields: {
+    balance: 'numeric',
+    id: 'bigint',
+  },
+  token_balances_var_pop_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_var_samp_fields: {
+    balance: 'Float',
+    id: 'Float',
+  },
+  token_balances_variance_fields: {
+    balance: 'Float',
+    id: 'Float',
   },
   token_gifts: {
     circle: 'circles',

@@ -20,6 +20,7 @@ import {
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
+import { TOKENS } from '../api-lib/tokenBalances.ts';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
 // uncomment and change this to import your own repl code
 
@@ -36,6 +37,7 @@ import { init as initOrgMembership } from './repl/org_membership';
 const init = async () => {
   return {
     // add your init code here
+    TOKENS,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
     backfillCastActivity,

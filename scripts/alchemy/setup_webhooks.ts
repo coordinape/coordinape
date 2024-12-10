@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-console */
 // TODO: Make script idempotent (delete then create) webhooks with Alchemy
 
 import assert from 'assert';
 
 import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
+
+import { TOKENS } from '../../api-lib/tokenBalances';
 
 const api_token = process.env.ALCHEMY_API_TOKEN;
 assert(api_token, 'Missing ALCHEMY_API_TOKEN');
@@ -29,37 +32,108 @@ const createWebhook = (name: string, options: any, body: any) => {
     .catch(err => console.error(err));
 };
 
-createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
-  network: 'OPT_SEPOLIA',
+createWebhook('OPT_MAINNET - PROD | TOKENS (Aave & CO) ERC20 Transfer events', options, {
+  network: 'OPT_MAINNET',
   webhook_type: 'GRAPHQL',
-  webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
+  webhook_url: 'https://app.coordinape.com/api/webhooks/alchemy_token_transfers',
   graphql_query: {
     skip_empty_messages: true,
     query: `
-# Get all Transfer event logs for the CoSoul contract
+# Get all Transfer event logs for the ERC20 contracts in TOKENS
 {
   block {
     hash
-    logs(filter: {addresses: ["${deploymentInfo['11155420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+    logs(filter: {addresses: [${TOKENS.map(t => `"${t.contract}"`).join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
       topics
       data
+      account {
+  address
+}
       transaction{
-        hash
+  hash
         index
         to{
-          address
-        }
+  address
+}
         from {
-          address
-        }
+  address
+}
         status
       }
     }
   }
 }
-`.trim(),
+  `.trim(),
   },
 });
+
+// createWebhook('OPT_MAINNET - STAGING | TOKENS (Aave & CO) ERC20 Transfer events', options, {
+//   network: 'OPT_MAINNET',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url:
+//     'https://colinks.costaging.co/api/webhooks/alchemy_token_transfers',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the ERC20 contracts in TOKENS
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: [${TOKENS.map(t => `"${t.contract}"`).join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       account {
+//   address
+// }
+//       transaction{
+//   hash
+//         index
+//         to{
+//   address
+// }
+//         from {
+//   address
+// }
+//         status
+//       }
+//     }
+//   }
+// }
+//   `.trim(),
+//   },
+// });
+
+// createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
+//   network: 'OPT_SEPOLIA',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url: 'https://colinks.costaging.co/api/webhooks/alchemy_cosoul',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the CoSoul contract
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: ["${deploymentInfo['11155420'].CoSoul.address}"], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       transaction{
+//         hash
+//         index
+//         to{
+//           address
+//         }
+//         from {
+//           address
+//         }
+//         status
+//       }
+//     }
+//   }
+// }
+// `.trim(),
+//   },
+// });
 
 // createWebhook('OPT_MAINNET - CoSoul Transfer events', options, {
 //   network: 'OPT_MAINNET',
