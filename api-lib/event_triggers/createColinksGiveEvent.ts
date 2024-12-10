@@ -6,7 +6,7 @@ import {
   getFrameImgUrl,
   getFrameUrl,
 } from '../../_api/webhooks/neynar_mention';
-import { generateBonesGiveImg } from '../../src/features/ai/replicate';
+import { generateGiveImg } from '../../src/features/ai/replicate';
 import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -35,9 +35,7 @@ const handleInsert = async (
 ) => {
   const { cast_hash, id, skill } = newRow;
 
-  if (skill?.toLowerCase() == 'bones' && !!cast_hash) {
-    await handleBonesGive(id);
-  }
+  await genGiveImage(id);
 
   let msg;
   if (cast_hash) {
@@ -127,30 +125,21 @@ export const publishCastGiveDelivered = async (
   }
 };
 
-const handleBonesGive = async (id: number) => {
+const genGiveImage = async (id: number) => {
   const { colinks_gives_by_pk } = await adminClient.query(
     {
       colinks_gives_by_pk: [
         { id: id },
         {
-          giver_profile_public: {
-            name: true,
-          },
-          target_profile_public: {
-            name: true,
-          },
+          skill: true,
         },
       ],
     },
     { operationName: 'colinksGiveEvent__getProfileNames' }
   );
 
-  const giverName = colinks_gives_by_pk?.giver_profile_public?.name;
-  const receiverName = colinks_gives_by_pk?.target_profile_public?.name;
-
-  const replicateImageUrl = await generateBonesGiveImg({
-    giverName,
-    receiverName,
+  const replicateImageUrl = await generateGiveImg({
+    skill: colinks_gives_by_pk?.skill,
   });
 
   assert(replicateImageUrl, 'No image URL returned from AI');

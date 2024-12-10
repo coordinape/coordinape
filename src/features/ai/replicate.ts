@@ -8,14 +8,13 @@ const replicate = new Replicate({
   auth: REPLICATE_API_TOKEN,
 });
 
-export const generateBonesGiveImg = async ({
-  giverName,
-  receiverName,
-}: {
-  giverName: string;
-  receiverName: string;
-}) => {
-  const prompt = `Top left corner has the title "${giverName}". Top right corner has the title: "${receiverName}". The scene is a dark fantasy, 8bit, pixel art.  The two skeletal spirits are interacting and exchanging a magical, glowing undead object. Graveyard scene with sharp spires and broken windows. The background features retro-style lightning strikes that illuminate the scene in stark flashes. Include video-glitch elements.`;
+export const generateGiveImg = async ({ skill }: { skill: string }) => {
+  const prompt = `Two people, entities, animals, characters, ideas are exchanging thanks, gratitude and respect for embodying the skill of "${skill}"
+ILLUSTRATION STYLE
+sometimes street photography style,
+sometimes illuminated manuscript style, 
+sometimes combine cartoon elements with photography
+always using green, blue, purple, black`;
 
   const options = {
     model: 'ideogram-ai/ideogram-v2-turbo',
@@ -23,8 +22,7 @@ export const generateBonesGiveImg = async ({
     input: {
       prompt: prompt,
       resolution: '1088x768',
-      negative_prompt:
-        'cute, happy, videogame, game, bricks, hats, symmetrical',
+      negative_prompt: 'sexual, erotic, violent, cute, contemporary, etc.',
       style_type: 'None',
       magic_prompt_option: 'On',
     },
@@ -34,7 +32,7 @@ export const generateBonesGiveImg = async ({
     const output = await replicate.predictions.create(options);
     return output.urls.stream;
   } catch (error) {
-    console.error(`Error generating Bones Give image: ${error}`);
+    console.error(`Error generating Give image: ${error}`);
     throw error;
   }
 };
