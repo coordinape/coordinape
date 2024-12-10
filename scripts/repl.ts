@@ -20,7 +20,6 @@ import {
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
-import { generateBonesGiveImg } from '../src/features/ai/replicate';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
 // uncomment and change this to import your own repl code
 
@@ -40,7 +39,6 @@ const init = async () => {
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
     backfillCastActivity,
-    generateBonesGiveImg,
     // handleBonesGive,
     uploadURLToCloudflare,
     ghouls: fetchBasedGhouls,
