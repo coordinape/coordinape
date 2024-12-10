@@ -20,7 +20,7 @@ export const RecentGives = ({
   skill,
   limit = 10,
 }: {
-  skill: string;
+  skill?: string;
   limit?: number;
 }) => {
   const fetchCastActivities = async (hashes: string[]) => {
@@ -36,7 +36,7 @@ export const RecentGives = ({
       {
         colinks_gives: [
           {
-            where: { skill: { _eq: skill } },
+            where: { ...(skill ? { skill: { _eq: skill } } : {}) },
             order_by: [{ created_at: order_by.desc_nulls_last }],
             limit: limit,
           },
