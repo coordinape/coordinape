@@ -66,7 +66,7 @@ export const TopSenders = () => {
         }}
       >
         <Text h2 css={{ justifyContent: 'center' }}>
-          Top GIVE Receivers
+          Top GIVE Senders
         </Text>
         <Flex
           row
