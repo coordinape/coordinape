@@ -29,7 +29,14 @@ export const Home2Page = () => {
           px: '0 !important',
         }}
       >
-        <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
+        <Flex
+          column
+          css={{
+            mb: '$4xl',
+            gap: '$2xl',
+            maxWidth: '$maxMobile !important',
+          }}
+        >
           <MostLikedCasts />
           <TopGiveSkills tier="first" />
           <TopSenders />

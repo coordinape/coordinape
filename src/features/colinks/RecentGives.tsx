@@ -147,9 +147,10 @@ export const RecentGives = ({
                   flex: 1,
                   flexDirection: 'row',
                   alignItems: 'center',
+                  justifyContent: 'center',
                 }}
               >
-                <ArrowRight color="text" css={{ opacity: 0.2 }} />
+                <ArrowRight color="text" css={{ opacity: 0.6 }} />
                 <Text
                   tag
                   size="small"
@@ -164,7 +165,7 @@ export const RecentGives = ({
                   <GemCoOutline fa size={'md'} />
                   <Text>GIVE</Text>
                 </Text>
-                <ArrowRight color="text" css={{ opacity: 0.2 }} />
+                <ArrowRight color="text" css={{ opacity: 0.6 }} />
               </Link>
               <Link
                 as={NavLink}
@@ -223,7 +224,11 @@ export const RecentGives = ({
               />
             </Flex>
 
-            <Flex css={{ '.lightboxImageWrapper': { maxWidth: 100 } }}>
+            <Flex
+              css={{
+                '.lightboxImageWrapper': { maxWidth: 100 },
+              }}
+            >
               {give.activity?.cast && <ActivityRow activity={give.activity} />}
             </Flex>
           </Flex>

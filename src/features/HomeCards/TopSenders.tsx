@@ -5,10 +5,6 @@ import { NavLink } from 'react-router-dom';
 
 import { Avatar, Flex, Panel, Text } from '../../ui';
 import { LoadingIndicator } from 'components/LoadingIndicator';
-import {
-  GiveLeaderboardColumn,
-  GiveLeaderboardRow,
-} from 'pages/GiveLeaderboard';
 import { coLinksPaths } from 'routes/paths';
 
 export const TopSenders = () => {
@@ -29,7 +25,7 @@ export const TopSenders = () => {
                       name: order_by.desc,
                     },
                   ],
-                  limit: 5,
+                  limit: 3,
                 },
                 {
                   id: true,
@@ -62,44 +58,63 @@ export const TopSenders = () => {
 
   return (
     <>
-      <Panel noBorder>
-        <Text h2 display>
-          Top GIVE Senders
+      <Panel
+        noBorder
+        css={{
+          background:
+            'radial-gradient(circle at 8% 0%, $tagSuccessBackground 20%, $tagCtaBackground 100%)',
+        }}
+      >
+        <Text h2 css={{ justifyContent: 'center' }}>
+          Top GIVE Receivers
         </Text>
-        {/*Table*/}
         <Flex
+          row
           css={{
             width: '100%',
-            flexFlow: 'column',
             alignItems: 'flex-start',
+            flex: 1,
+            mt: '$md',
+            gap: '$md',
+            flexWrap: 'wrap',
           }}
         >
           {data &&
-            data.map(member => (
-              <GiveLeaderboardRow key={member?.address}>
-                <GiveLeaderboardColumn
+            data
+              .filter(
+                member =>
+                  member.colinks_given_aggregate?.aggregate?.count ?? 0 > 0
+              )
+              .map(member => (
+                <Flex
+                  row
+                  key={member?.address}
                   css={{
-                    minWidth: '12rem',
+                    flex: 1,
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
                   <Flex
                     as={NavLink}
                     to={coLinksPaths.profileGive(member.address ?? '')}
-                    row
+                    column
                     css={{
                       alignItems: 'center',
+                      justifyContent: 'center',
                       gap: '$sm',
                       textDecoration: 'none',
-                      color: '$link',
+                      color: '$text',
                     }}
                   >
                     <Avatar
-                      size={'xs'}
+                      size={'xl'}
                       name={member.name}
                       path={member.avatar}
                     />
                     <Flex column>
                       <Text
+                        semibold
                         size="medium"
                         css={{
                           maxWidth: '10rem',
@@ -113,12 +128,8 @@ export const TopSenders = () => {
                       </Text>
                     </Flex>
                   </Flex>
-                </GiveLeaderboardColumn>
-                <GiveLeaderboardColumn css={{ justifyContent: 'flex-end' }}>
-                  {member.colinks_given_aggregate?.aggregate?.count}
-                </GiveLeaderboardColumn>
-              </GiveLeaderboardRow>
-            ))}
+                </Flex>
+              ))}
         </Flex>
       </Panel>
     </>

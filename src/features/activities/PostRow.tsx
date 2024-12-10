@@ -98,7 +98,13 @@ export const PostRow = ({
   return (
     <>
       {bigQuestion && <BigQuestionCard question={bigQuestion} size="post" />}
-      <Flex column css={{ overflowX: 'clip', position: 'relative' }}>
+      <Flex
+        column
+        css={{
+          overflowX: 'clip',
+          position: 'relative',
+        }}
+      >
         <Flex
           className="contributionRow clickThrough"
           alignItems="start"
