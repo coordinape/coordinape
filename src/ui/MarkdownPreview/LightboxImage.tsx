@@ -19,6 +19,7 @@ export const LightboxImage = ({
     <>
       <Text
         onClick={() => setModal(true)}
+        className="lightboxImageWrapper"
         css={{
           display: 'block',
           width: 'fit-content',

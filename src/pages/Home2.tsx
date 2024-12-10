@@ -17,16 +17,18 @@ export const Home2Page = () => {
         <title>Home / Coordinape</title>
       </Helmet>
       <ContentHeader>
-        <Flex column>
+        <Flex column css={{ gap: '$sm' }}>
           <Text h2 display>
-            Explore
+            Explore the world of GIVE
           </Text>
-          <Text inline>
-            Who <i>are</i> these people?
-          </Text>
+          <LearnAboutGiveCard linkText="What is GIVE?" />
         </Flex>
       </ContentHeader>
-      <ResponsiveColumnLayout css={{ px: 0 }}>
+      <ResponsiveColumnLayout
+        css={{
+          px: '0 !important',
+        }}
+      >
         <Flex column css={{ mb: '$4xl', gap: '$2xl' }}>
           <MostLikedCasts />
           <TopGiveSkills tier="first" />

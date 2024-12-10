@@ -111,6 +111,7 @@ select_permissions:
         - name
       filter: {}
       limit: 10
+      allow_aggregations: true
     comment: ""
   - role: user
     permission:

@@ -1,17 +1,14 @@
-import { easAttestUrl } from 'features/eas/eas';
 import { anonClient } from 'lib/anongql/anonClient';
-import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
-import { skillTextStyle } from 'stitches.config';
 
 import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { ActivityRow } from '../activities/ActivityRow';
 import { Activity } from '../activities/useInfiniteActivities';
 import { webAppURL } from 'config/webAppURL';
-import { ArrowRight, ExternalLink, GemCoOutline } from 'icons/__generated';
+import { ArrowRight, GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Flex, Link, Text } from 'ui';
+import { Avatar, Flex, Link, Text } from 'ui';
 import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 const QUERY_KEY_RECENT_GIVES = 'recentGives';
@@ -46,8 +43,8 @@ export const RecentGives = ({
             id: true,
             cast_hash: true,
             skill: true,
-            giver_profile_public: { address: true, name: true },
-            target_profile_public: { address: true, name: true },
+            giver_profile_public: { address: true, name: true, avatar: true },
+            target_profile_public: { address: true, name: true, avatar: true },
           },
         ],
       },
@@ -85,115 +82,150 @@ export const RecentGives = ({
               css={{
                 background: '$surface',
                 width: '100%',
-                borderRadius: '$3',
+                alignItems: 'center',
                 p: '$sm',
+                flex: 1,
+                borderRadius: '$2',
+                borderBottomLeftRadius: 0,
+                borderBottomRightRadius: 0,
                 ...(give.activity?.cast && {
                   background: '$surfaceNestedFarcaster',
-                  mb: -3,
-                  borderBottomLeftRadius: 0,
-                  borderBottomRightRadius: 0,
                   zIndex: 2,
                 }),
               }}
             >
-              <Flex
+              <Link
+                as={NavLink}
                 css={{
-                  gap: '$md',
+                  fontWeight: '$semibold',
+                  color: '$text',
+                  display: 'flex',
+                  flexGrow: 1,
+                  flex: 1,
+                  justifyContent: 'flex-start',
+                  overflow: 'hidden',
                 }}
+                to={coLinksPaths.profileGive(
+                  give.giver_profile_public?.address ?? ''
+                )}
               >
-                <Flex>
-                  <LightboxImage
-                    key={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
-                    alt={
-                      `${webAppURL('colinks')}/api/frames/router/img/give/${give.id}` ||
-                      ''
-                    }
-                    src={
-                      `${webAppURL('colinks')}/api/frames/router/img/give/${give.id}` ||
-                      ''
-                    }
-                    css={{
-                      width: 64,
-                      height: 64,
-                      borderRadius: '$1',
-                    }}
-                  />
-                </Flex>
+                <Avatar
+                  path={give.giver_profile_public?.avatar}
+                  name={give.giver_profile_public?.name}
+                  size="xxs"
+                  css={{ mr: '$xs' }}
+                />
                 <Flex
-                  column
                   css={{
-                    justifyContent: 'center',
-                    width: '100%',
-                    gap: '$xs',
-                    zIndex: 2,
+                    flexGrow: 1,
+                    flex: 1,
+                    justifyContent: 'flex-start',
+                    overflow: 'hidden',
                   }}
                 >
-                  <Flex
-                    css={{ gap: '$xs', alignItems: 'center', flexWrap: 'wrap' }}
+                  <Text
+                    semibold
+                    size="small"
+                    css={{
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '5rem',
+                      overflow: 'hidden',
+                      display: 'inline',
+                    }}
                   >
-                    <Link
-                      inlineLink
-                      as={NavLink}
-                      css={{ fontWeight: '$semibold', color: '$text' }}
-                      to={coLinksPaths.profileGive(
-                        give.giver_profile_public?.address ?? ''
-                      )}
-                    >
-                      {give.giver_profile_public?.name ?? ''}
-                    </Link>
-                    <Link as={NavLink} to={coLinksPaths.giveSkill(give.skill)}>
-                      <Text
-                        tag
-                        color="complete"
-                        size="small"
-                        css={{ gap: '$xs', ml: '$xs' }}
-                      >
-                        <Text size="small" css={{ fontWeight: 'normal' }}>
-                          +1
-                        </Text>
-                        <GemCoOutline fa size={'md'} />
-                        <Text css={skillTextStyle}>{give.skill}</Text>
-                      </Text>
-                    </Link>
-                    <ArrowRight color="neutral" />
-                    <Link
-                      inlineLink
-                      as={NavLink}
-                      css={{ fontWeight: '$semibold', color: '$text' }}
-                      to={coLinksPaths.profileGive(
-                        give.target_profile_public?.address ?? ''
-                      )}
-                    >
-                      {give.target_profile_public?.name ?? ''}
-                    </Link>
-                  </Flex>
-                  <Text size="xs" color="neutral">
-                    {DateTime.fromISO(give.created_at).toLocal().toRelative()}
+                    {give.giver_profile_public?.name ?? ''}
                   </Text>
-                  {give.attestation_uid && (
-                    <>
-                      <Text size="xs">
-                        <Link
-                          inlineLink
-                          href={easAttestUrl(give.attestation_uid as string)}
-                          css={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            color: '$neutral',
-                          }}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          onchain
-                          <ExternalLink size="sm" css={{ ml: '$xs' }} />
-                        </Link>
-                      </Text>
-                    </>
-                  )}
                 </Flex>
-              </Flex>
+              </Link>
+              <Link
+                as={NavLink}
+                to={coLinksPaths.giveSkill(give.skill)}
+                css={{
+                  display: 'flex',
+                  flexGrow: 1,
+                  flex: 1,
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}
+              >
+                <ArrowRight color="text" css={{ opacity: 0.2 }} />
+                <Text
+                  tag
+                  size="small"
+                  css={{
+                    gap: '$xs',
+                    color: '$text',
+                  }}
+                >
+                  <Text size="small" css={{ fontWeight: 'normal' }}>
+                    +1
+                  </Text>
+                  <GemCoOutline fa size={'md'} />
+                  <Text>GIVE</Text>
+                </Text>
+                <ArrowRight color="text" css={{ opacity: 0.2 }} />
+              </Link>
+              <Link
+                as={NavLink}
+                css={{
+                  fontWeight: '$semibold',
+                  color: '$text',
+                  display: 'flex',
+                  flexGrow: 1,
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  overflow: 'hidden',
+                }}
+                to={coLinksPaths.profileGive(
+                  give.target_profile_public?.address ?? ''
+                )}
+              >
+                <Flex
+                  css={{
+                    flexGrow: 1,
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <Text
+                    semibold
+                    size="small"
+                    css={{
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '5rem',
+                      overflow: 'hidden',
+                      display: 'inline',
+                    }}
+                  >
+                    {give.target_profile_public?.name ?? ''}
+                  </Text>
+                </Flex>
+                <Avatar
+                  path={give.target_profile_public?.avatar}
+                  name={give.target_profile_public?.name}
+                  size="xxs"
+                  css={{ ml: '$xs' }}
+                />
+              </Link>
             </Flex>
-            {give.activity?.cast && <ActivityRow activity={give.activity} />}
+            <Flex>
+              <LightboxImage
+                key={give.id}
+                alt={`Image for give ID: ${give.id}`}
+                src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
+                css={{
+                  width: '100%',
+                  height: '180px',
+                }}
+              />
+            </Flex>
+
+            <Flex css={{ '.lightboxImageWrapper': { maxWidth: 100 } }}>
+              {give.activity?.cast && <ActivityRow activity={give.activity} />}
+            </Flex>
           </Flex>
         ))}
       </Flex>

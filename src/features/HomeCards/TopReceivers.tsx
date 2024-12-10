@@ -12,47 +12,46 @@ import {
 import { coLinksPaths } from 'routes/paths';
 
 export const TopReceivers = () => {
-  const { data, isLoading } = useQuery(['give_leaderboard'], async () => {
-    const ascDesc = order_by.desc_nulls_last;
-    const { colinks_gives_skill_count } = await anonClient.query(
-      {
-        colinks_gives_skill_count: [
-          {
-            order_by: [
-              {
-                ...{ gives: ascDesc },
-              },
-              {
-                target_profile_public: {
-                  name: order_by.asc_nulls_last,
+  const { data, isLoading } = useQuery(
+    ['home2', 'profiles', 'top_receivers'],
+    async () => {
+      const { most_give } = await anonClient.query(
+        {
+          __alias: {
+            most_give: {
+              profiles_public: [
+                {
+                  order_by: [
+                    {
+                      colinks_gives_aggregate: {
+                        count: order_by.desc_nulls_last,
+                      },
+                      name: order_by.desc,
+                    },
+                  ],
+                  limit: 5,
                 },
-              },
-            ],
-            limit: 5,
-          },
-          {
-            target_profile_public: {
-              name: true,
-              avatar: true,
-              address: true,
+                {
+                  id: true,
+                  name: true,
+                  address: true,
+                  avatar: true,
+                  colinks_gives_aggregate: [
+                    {},
+                    { aggregate: { count: [{}, true] } },
+                  ],
+                },
+              ],
             },
-            gives: true,
-            gives_last_24_hours: true,
-            gives_last_7_days: true,
-            gives_last_30_days: true,
           },
-        ],
-      },
-      {
-        operationName: 'getGiveLeaderboard',
-      }
-    );
-    return colinks_gives_skill_count.map((user, rank) => ({
-      profile: user.target_profile_public,
-      ...user,
-      rank: rank + 1,
-    }));
-  });
+        },
+        {
+          operationName: 'coLinks_giveHome_topReceivers @cached(ttl: 60)',
+        }
+      );
+      return most_give;
+    }
+  );
 
   if (!data || isLoading)
     return (
@@ -65,7 +64,7 @@ export const TopReceivers = () => {
     <>
       <Panel noBorder>
         <Text h2 display>
-          Top GIVE Receivers (needs uniq)
+          Top GIVE Receivers
         </Text>
         {/*Table*/}
         <Flex
@@ -77,7 +76,7 @@ export const TopReceivers = () => {
         >
           {data &&
             data.map(member => (
-              <GiveLeaderboardRow key={member.profile?.address}>
+              <GiveLeaderboardRow key={member?.address}>
                 <GiveLeaderboardColumn
                   css={{
                     minWidth: '12rem',
@@ -85,7 +84,7 @@ export const TopReceivers = () => {
                 >
                   <Flex
                     as={NavLink}
-                    to={coLinksPaths.profileGive(member.profile?.address ?? '')}
+                    to={coLinksPaths.profileGive(member.address ?? '')}
                     row
                     css={{
                       alignItems: 'center',
@@ -96,8 +95,8 @@ export const TopReceivers = () => {
                   >
                     <Avatar
                       size={'xs'}
-                      name={member.profile?.name}
-                      path={member.profile?.avatar}
+                      name={member.name}
+                      path={member.avatar}
                     />
                     <Flex column>
                       <Text
@@ -110,13 +109,13 @@ export const TopReceivers = () => {
                           display: 'inline',
                         }}
                       >
-                        {member.profile?.name}
+                        {member.name}
                       </Text>
                     </Flex>
                   </Flex>
                 </GiveLeaderboardColumn>
                 <GiveLeaderboardColumn css={{ justifyContent: 'flex-end' }}>
-                  {member.gives}
+                  {member.colinks_gives_aggregate?.aggregate?.count}
                 </GiveLeaderboardColumn>
               </GiveLeaderboardRow>
             ))}

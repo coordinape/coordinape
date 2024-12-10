@@ -41,7 +41,7 @@ export const LeaderboardMostGive = ({ limit = 100 }: { limit?: number }) => {
           },
         },
         {
-          operationName: 'coLinks_leaderboard_mostGive @cached(ttl: 30)',
+          operationName: 'coLinks_giveHome_topReceivers @cached(ttl: 60)',
         }
       );
       return most_give;

@@ -1,7 +1,4 @@
-import { NavLink } from 'react-router-dom';
-
-import { coLinksPaths } from '../../../routes/paths';
-import { Avatar, Flex, Link, Text } from '../../../ui';
+import { Flex, Link, Text } from '../../../ui';
 import { Cast } from '../../activities/cast';
 import { ChartSimple, Farcaster } from 'icons/__generated';
 
@@ -21,7 +18,6 @@ export const CastByline = ({ cast }: { cast: Cast }) => {
         gap: '$sm',
       }}
     >
-      <AvatarAndName cast={cast} />
       <Link
         color="neutral"
         target="_blank"
@@ -38,43 +34,5 @@ export const CastByline = ({ cast }: { cast: Cast }) => {
         </Text>
       </Link>
     </Flex>
-  );
-};
-
-const AvatarAndName = ({
-  cast,
-}: {
-  cast: {
-    address: string;
-    fname: string;
-    avatar_url: string;
-    created_at: string;
-  };
-}) => {
-  return (
-    <Link as={NavLink} to={coLinksPaths.profilePosts(cast.address || '')}>
-      <Flex
-        alignItems="center"
-        css={{
-          flexGrow: 0,
-          minWidth: 0,
-        }}
-      >
-        <Avatar
-          size="xxs"
-          name={cast.fname}
-          path={cast.avatar_url}
-          css={{ mr: '$sm' }}
-        />
-        <Text
-          color="heading"
-          size="xs"
-          semibold
-          css={{ textDecoration: 'none', whiteSpace: 'nowrap' }}
-        >
-          {cast.fname}
-        </Text>
-      </Flex>
-    </Link>
   );
 };
