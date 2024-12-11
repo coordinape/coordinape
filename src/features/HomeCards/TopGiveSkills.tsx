@@ -14,7 +14,7 @@ export const TopGiveSkills = ({
   tier: 'first' | 'second' | 'third';
 }) => {
   const { data, isFetched } = useQuery(
-    ['GiveHome', 'TierGiveSkills'],
+    ['GiveHome', 'TopGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();
