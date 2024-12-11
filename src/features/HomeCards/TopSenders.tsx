@@ -25,7 +25,7 @@ export const TopSenders = () => {
                       name: order_by.desc,
                     },
                   ],
-                  limit: 3,
+                  limit: 6,
                 },
                 {
                   id: true,
