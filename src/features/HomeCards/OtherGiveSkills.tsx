@@ -10,7 +10,7 @@ import { coLinksPaths } from 'routes/paths';
 
 export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
   const { data, isFetched } = useQuery(
-    [QUERY_KEY_GIVE_HOME, 'OtherGiveSkills'],
+    [QUERY_KEY_GIVE_HOME, 'otherGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();
