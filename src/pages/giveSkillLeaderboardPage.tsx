@@ -30,7 +30,6 @@ export const GiveSkillLeaderboardPage = () => {
           >
             {skill && <GiveSkillNav skill={skill} />}
           </Flex>
-
           <GiveSkillLeaderboard />
         </Flex>
         <Flex

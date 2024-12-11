@@ -74,7 +74,7 @@ export const RecentGives = ({
   });
 
   return (
-    <Flex column css={{ gap: '$md' }}>
+    <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
         {data?.map(give => (
           <Flex column key={give.id} css={{ width: '100%', mb: '$md' }}>
