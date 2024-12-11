@@ -5,11 +5,12 @@ import { NavLink } from 'react-router-dom';
 
 import { Avatar, Flex, Panel, Text } from '../../ui';
 import { LoadingIndicator } from 'components/LoadingIndicator';
+import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
 
 export const TopSenders = () => {
   const { data, isLoading } = useQuery(
-    ['GiveHome', 'profiles', 'top_senders'],
+    [QUERY_KEY_GIVE_HOME, 'profiles', 'top_senders'],
     async () => {
       const { most_give } = await anonClient.query(
         {

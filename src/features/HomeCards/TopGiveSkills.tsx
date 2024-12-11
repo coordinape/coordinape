@@ -6,6 +6,7 @@ import { skillTextStyle } from 'stitches.config';
 import { giveTrendingData } from '../../../_api/give/trending';
 import { Button, Flex, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
+import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
 
 export const TopGiveSkills = ({
@@ -14,7 +15,7 @@ export const TopGiveSkills = ({
   tier: 'first' | 'second' | 'third';
 }) => {
   const { data, isFetched } = useQuery(
-    ['GiveHome', 'TopGiveSkills'],
+    [QUERY_KEY_GIVE_HOME, 'TopGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();

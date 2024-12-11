@@ -11,6 +11,8 @@ import { SingleColumnLayout } from '../ui/layouts';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
 
+export const QUERY_KEY_GIVE_HOME = 'giveHome';
+
 export const GiveHomePage = () => {
   return (
     <SingleColumnLayout>

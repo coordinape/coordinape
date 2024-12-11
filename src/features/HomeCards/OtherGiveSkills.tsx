@@ -5,11 +5,12 @@ import { skillTextStyle } from 'stitches.config';
 import { giveTrendingData } from '../../../_api/give/trending';
 import { Flex, Link, Panel, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
+import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
 
 export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
   const { data, isFetched } = useQuery(
-    ['GiveHome', 'OtherGiveSkills'],
+    [QUERY_KEY_GIVE_HOME, 'OtherGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();
