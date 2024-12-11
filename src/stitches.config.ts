@@ -329,6 +329,7 @@ export const {
       max: 'max-content',
       min: 'min-content',
       full: '100%',
+      maxMobile: '450px',
       smallScreen: '900px',
       mediumScreen: '1392px',
       rightColumn: '320px',

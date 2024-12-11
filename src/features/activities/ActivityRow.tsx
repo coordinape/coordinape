@@ -64,7 +64,7 @@ export const ActivityRow = ({
   }
 
   return (
-    <Flex column css={{ transition: '1.0s all ease-out' }}>
+    <Flex column css={{ transition: '1.0s all ease-out', width: '100%' }}>
       {valid}
     </Flex>
   );
