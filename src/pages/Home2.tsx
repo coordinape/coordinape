@@ -1,3 +1,4 @@
+import { OtherGiveSkills } from 'features/HomeCards/OtherGiveSkills';
 import { TopGiveSkills } from 'features/HomeCards/TopGiveSkills';
 import { TopReceivers } from 'features/HomeCards/TopReceivers';
 import { TopSenders } from 'features/HomeCards/TopSenders';
@@ -43,6 +44,7 @@ export const Home2Page = () => {
           <TopGiveSkills tier="second" />
           <TopReceivers />
           <TopGiveSkills tier="third" />
+          <OtherGiveSkills skipFirst={3} />
         </Flex>
         <Flex column>
           <LearnAboutGiveCard />
