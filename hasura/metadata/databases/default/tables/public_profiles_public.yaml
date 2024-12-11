@@ -93,6 +93,15 @@ array_relationships:
         remote_table:
           name: profile_skills
           schema: public
+  - name: token_balances
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: token_balances
+          schema: public
 select_permissions:
   - role: anon
     permission:

@@ -13175,6 +13175,29 @@ export type ValueTypes = {
     id?: boolean | `@${string}`;
     points_balance?: boolean | `@${string}`;
     points_checkpointed_at?: boolean | `@${string}`;
+    token_balances?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['token_balances_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['token_balances_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
     __typename?: boolean | `@${string}`;
   }>;
   /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
@@ -13190,6 +13213,7 @@ export type ValueTypes = {
       | ValueTypes['timestamptz_comparison_exp']
       | undefined
       | null;
+    token_balances?: ValueTypes['token_balances_bool_exp'] | undefined | null;
   };
   /** response of any mutation on the table "profiles_private" */
   ['profiles_private_mutation_response']: AliasType<{
@@ -13206,6 +13230,10 @@ export type ValueTypes = {
     id?: ValueTypes['order_by'] | undefined | null;
     points_balance?: ValueTypes['order_by'] | undefined | null;
     points_checkpointed_at?: ValueTypes['order_by'] | undefined | null;
+    token_balances_aggregate?:
+      | ValueTypes['token_balances_aggregate_order_by']
+      | undefined
+      | null;
   };
   /** select columns of table "profiles_private" */
   ['profiles_private_select_column']: profiles_private_select_column;
@@ -13483,6 +13511,29 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     reputation_score?: ValueTypes['reputation_scores'];
+    token_balances?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['token_balances_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['token_balances_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
@@ -13539,6 +13590,7 @@ export type ValueTypes = {
       | ValueTypes['reputation_scores_bool_exp']
       | undefined
       | null;
+    token_balances?: ValueTypes['token_balances_bool_exp'] | undefined | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -13582,6 +13634,10 @@ export type ValueTypes = {
       | null;
     reputation_score?:
       | ValueTypes['reputation_scores_order_by']
+      | undefined
+      | null;
+    token_balances_aggregate?:
+      | ValueTypes['token_balances_aggregate_order_by']
       | undefined
       | null;
     website?: ValueTypes['order_by'] | undefined | null;
@@ -15649,6 +15705,33 @@ export type ValueTypes = {
       ValueTypes['teammates'],
     ];
     teammates_by_pk?: [{ id: ValueTypes['bigint'] }, ValueTypes['teammates']];
+    token_balances?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['token_balances_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['token_balances_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
+    token_balances_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['token_balances'],
+    ];
     token_gifts?: [
       {
         /** distinct select on columns */
@@ -19829,6 +19912,44 @@ export type ValueTypes = {
       },
       ValueTypes['teammates'],
     ];
+    token_balances?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['token_balances_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['token_balances_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
+    token_balances_by_pk?: [
+      { id: ValueTypes['bigint'] },
+      ValueTypes['token_balances'],
+    ];
+    token_balances_stream?: [
+      {
+        /** maximum number of rows returned in a single batch */
+        batch_size: number /** cursor to stream the results returned by the query */;
+        cursor: Array<
+          ValueTypes['token_balances_stream_cursor_input'] | undefined | null
+        > /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
     token_gifts?: [
       {
         /** distinct select on columns */
@@ -20422,6 +20543,164 @@ export type ValueTypes = {
     _lte?: ValueTypes['timestamptz'] | undefined | null;
     _neq?: ValueTypes['timestamptz'] | undefined | null;
     _nin?: Array<ValueTypes['timestamptz']> | undefined | null;
+  };
+  /** Balances of tokens for given address, chain, contract */
+  ['token_balances']: AliasType<{
+    address?: boolean | `@${string}`;
+    balance?: boolean | `@${string}`;
+    chain?: boolean | `@${string}`;
+    contract?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    last_checked_at?: boolean | `@${string}`;
+    /** An object relationship */
+    profiles_public?: ValueTypes['profiles_public'];
+    symbol?: boolean | `@${string}`;
+    updated_at?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** order by aggregate values of table "token_balances" */
+  ['token_balances_aggregate_order_by']: {
+    avg?: ValueTypes['token_balances_avg_order_by'] | undefined | null;
+    count?: ValueTypes['order_by'] | undefined | null;
+    max?: ValueTypes['token_balances_max_order_by'] | undefined | null;
+    min?: ValueTypes['token_balances_min_order_by'] | undefined | null;
+    stddev?: ValueTypes['token_balances_stddev_order_by'] | undefined | null;
+    stddev_pop?:
+      | ValueTypes['token_balances_stddev_pop_order_by']
+      | undefined
+      | null;
+    stddev_samp?:
+      | ValueTypes['token_balances_stddev_samp_order_by']
+      | undefined
+      | null;
+    sum?: ValueTypes['token_balances_sum_order_by'] | undefined | null;
+    var_pop?: ValueTypes['token_balances_var_pop_order_by'] | undefined | null;
+    var_samp?:
+      | ValueTypes['token_balances_var_samp_order_by']
+      | undefined
+      | null;
+    variance?:
+      | ValueTypes['token_balances_variance_order_by']
+      | undefined
+      | null;
+  };
+  /** order by avg() on columns of table "token_balances" */
+  ['token_balances_avg_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'. */
+  ['token_balances_bool_exp']: {
+    _and?: Array<ValueTypes['token_balances_bool_exp']> | undefined | null;
+    _not?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+    _or?: Array<ValueTypes['token_balances_bool_exp']> | undefined | null;
+    address?: ValueTypes['citext_comparison_exp'] | undefined | null;
+    balance?: ValueTypes['numeric_comparison_exp'] | undefined | null;
+    chain?: ValueTypes['String_comparison_exp'] | undefined | null;
+    contract?: ValueTypes['String_comparison_exp'] | undefined | null;
+    created_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+    id?: ValueTypes['bigint_comparison_exp'] | undefined | null;
+    last_checked_at?:
+      | ValueTypes['timestamptz_comparison_exp']
+      | undefined
+      | null;
+    profiles_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    symbol?: ValueTypes['String_comparison_exp'] | undefined | null;
+    updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
+  };
+  /** order by max() on columns of table "token_balances" */
+  ['token_balances_max_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    balance?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    last_checked_at?: ValueTypes['order_by'] | undefined | null;
+    symbol?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by min() on columns of table "token_balances" */
+  ['token_balances_min_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    balance?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    last_checked_at?: ValueTypes['order_by'] | undefined | null;
+    symbol?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Ordering options when selecting data from "token_balances". */
+  ['token_balances_order_by']: {
+    address?: ValueTypes['order_by'] | undefined | null;
+    balance?: ValueTypes['order_by'] | undefined | null;
+    chain?: ValueTypes['order_by'] | undefined | null;
+    contract?: ValueTypes['order_by'] | undefined | null;
+    created_at?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+    last_checked_at?: ValueTypes['order_by'] | undefined | null;
+    profiles_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    symbol?: ValueTypes['order_by'] | undefined | null;
+    updated_at?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** select columns of table "token_balances" */
+  ['token_balances_select_column']: token_balances_select_column;
+  /** order by stddev() on columns of table "token_balances" */
+  ['token_balances_stddev_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_pop() on columns of table "token_balances" */
+  ['token_balances_stddev_pop_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by stddev_samp() on columns of table "token_balances" */
+  ['token_balances_stddev_samp_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** Streaming cursor of the table "token_balances" */
+  ['token_balances_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: ValueTypes['token_balances_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: ValueTypes['cursor_ordering'] | undefined | null;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['token_balances_stream_cursor_value_input']: {
+    address?: ValueTypes['citext'] | undefined | null;
+    balance?: ValueTypes['numeric'] | undefined | null;
+    chain?: string | undefined | null;
+    contract?: string | undefined | null;
+    created_at?: ValueTypes['timestamptz'] | undefined | null;
+    id?: ValueTypes['bigint'] | undefined | null;
+    last_checked_at?: ValueTypes['timestamptz'] | undefined | null;
+    symbol?: string | undefined | null;
+    updated_at?: ValueTypes['timestamptz'] | undefined | null;
+  };
+  /** order by sum() on columns of table "token_balances" */
+  ['token_balances_sum_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_pop() on columns of table "token_balances" */
+  ['token_balances_var_pop_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by var_samp() on columns of table "token_balances" */
+  ['token_balances_var_samp_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
+  };
+  /** order by variance() on columns of table "token_balances" */
+  ['token_balances_variance_order_by']: {
+    balance?: ValueTypes['order_by'] | undefined | null;
+    id?: ValueTypes['order_by'] | undefined | null;
   };
   /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: AliasType<{
@@ -26848,6 +27127,8 @@ export type ModelTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
   };
   /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
   ['profiles_private_bool_exp']: GraphQLTypes['profiles_private_bool_exp'];
@@ -26908,6 +27189,8 @@ export type ModelTypes = {
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -27205,6 +27488,10 @@ export type ModelTypes = {
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
+    /** fetch data from the table: "token_balances" using primary key columns */
+    token_balances_by_pk?: GraphQLTypes['token_balances'] | undefined;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -28201,6 +28488,12 @@ export type ModelTypes = {
     /** fetch data from the table in a streaming manner: "teammates" */
     teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
+    /** fetch data from the table: "token_balances" using primary key columns */
+    token_balances_by_pk?: GraphQLTypes['token_balances'] | undefined;
+    /** fetch data from the table in a streaming manner: "token_balances" */
+    token_balances_stream: Array<GraphQLTypes['token_balances']>;
+    /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
@@ -28309,6 +28602,52 @@ export type ModelTypes = {
   ['timestamptz']: any;
   /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
   ['timestamptz_comparison_exp']: GraphQLTypes['timestamptz_comparison_exp'];
+  /** Balances of tokens for given address, chain, contract */
+  ['token_balances']: {
+    address: GraphQLTypes['citext'];
+    balance: GraphQLTypes['numeric'];
+    chain: string;
+    contract: string;
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    last_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An object relationship */
+    profiles_public?: GraphQLTypes['profiles_public'] | undefined;
+    symbol: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** order by aggregate values of table "token_balances" */
+  ['token_balances_aggregate_order_by']: GraphQLTypes['token_balances_aggregate_order_by'];
+  /** order by avg() on columns of table "token_balances" */
+  ['token_balances_avg_order_by']: GraphQLTypes['token_balances_avg_order_by'];
+  /** Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'. */
+  ['token_balances_bool_exp']: GraphQLTypes['token_balances_bool_exp'];
+  /** order by max() on columns of table "token_balances" */
+  ['token_balances_max_order_by']: GraphQLTypes['token_balances_max_order_by'];
+  /** order by min() on columns of table "token_balances" */
+  ['token_balances_min_order_by']: GraphQLTypes['token_balances_min_order_by'];
+  /** Ordering options when selecting data from "token_balances". */
+  ['token_balances_order_by']: GraphQLTypes['token_balances_order_by'];
+  /** select columns of table "token_balances" */
+  ['token_balances_select_column']: GraphQLTypes['token_balances_select_column'];
+  /** order by stddev() on columns of table "token_balances" */
+  ['token_balances_stddev_order_by']: GraphQLTypes['token_balances_stddev_order_by'];
+  /** order by stddev_pop() on columns of table "token_balances" */
+  ['token_balances_stddev_pop_order_by']: GraphQLTypes['token_balances_stddev_pop_order_by'];
+  /** order by stddev_samp() on columns of table "token_balances" */
+  ['token_balances_stddev_samp_order_by']: GraphQLTypes['token_balances_stddev_samp_order_by'];
+  /** Streaming cursor of the table "token_balances" */
+  ['token_balances_stream_cursor_input']: GraphQLTypes['token_balances_stream_cursor_input'];
+  /** Initial value of the column from where the streaming should start */
+  ['token_balances_stream_cursor_value_input']: GraphQLTypes['token_balances_stream_cursor_value_input'];
+  /** order by sum() on columns of table "token_balances" */
+  ['token_balances_sum_order_by']: GraphQLTypes['token_balances_sum_order_by'];
+  /** order by var_pop() on columns of table "token_balances" */
+  ['token_balances_var_pop_order_by']: GraphQLTypes['token_balances_var_pop_order_by'];
+  /** order by var_samp() on columns of table "token_balances" */
+  ['token_balances_var_samp_order_by']: GraphQLTypes['token_balances_var_samp_order_by'];
+  /** order by variance() on columns of table "token_balances" */
+  ['token_balances_variance_order_by']: GraphQLTypes['token_balances_variance_order_by'];
   /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
     /** An object relationship */
@@ -38676,6 +39015,8 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['bigint'] | undefined;
     points_balance?: GraphQLTypes['float8'] | undefined;
     points_checkpointed_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
   };
   /** Boolean expression to filter rows from the table "profiles_private". All fields are combined with a logical 'AND'. */
   ['profiles_private_bool_exp']: {
@@ -38689,6 +39030,7 @@ export type GraphQLTypes = {
     points_checkpointed_at?:
       | GraphQLTypes['timestamptz_comparison_exp']
       | undefined;
+    token_balances?: GraphQLTypes['token_balances_bool_exp'] | undefined;
   };
   /** response of any mutation on the table "profiles_private" */
   ['profiles_private_mutation_response']: {
@@ -38705,6 +39047,9 @@ export type GraphQLTypes = {
     id?: GraphQLTypes['order_by'] | undefined;
     points_balance?: GraphQLTypes['order_by'] | undefined;
     points_checkpointed_at?: GraphQLTypes['order_by'] | undefined;
+    token_balances_aggregate?:
+      | GraphQLTypes['token_balances_aggregate_order_by']
+      | undefined;
   };
   /** select columns of table "profiles_private" */
   ['profiles_private_select_column']: profiles_private_select_column;
@@ -38773,6 +39118,8 @@ export type GraphQLTypes = {
     profile_skills: Array<GraphQLTypes['profile_skills']>;
     /** An object relationship */
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
     website?: string | undefined;
   };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
@@ -38812,6 +39159,7 @@ export type GraphQLTypes = {
     post_count_last_30_days?: GraphQLTypes['bigint_comparison_exp'] | undefined;
     profile_skills?: GraphQLTypes['profile_skills_bool_exp'] | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
+    token_balances?: GraphQLTypes['token_balances_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
   /** Ordering options when selecting data from "profiles_public". */
@@ -38846,6 +39194,9 @@ export type GraphQLTypes = {
       | GraphQLTypes['profile_skills_aggregate_order_by']
       | undefined;
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
+    token_balances_aggregate?:
+      | GraphQLTypes['token_balances_aggregate_order_by']
+      | undefined;
     website?: GraphQLTypes['order_by'] | undefined;
   };
   /** select columns of table "profiles_public" */
@@ -39218,6 +39569,10 @@ export type GraphQLTypes = {
     teammates: Array<GraphQLTypes['teammates']>;
     /** fetch data from the table: "teammates" using primary key columns */
     teammates_by_pk?: GraphQLTypes['teammates'] | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
+    /** fetch data from the table: "token_balances" using primary key columns */
+    token_balances_by_pk?: GraphQLTypes['token_balances'] | undefined;
     /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
@@ -40784,6 +41139,12 @@ export type GraphQLTypes = {
     /** fetch data from the table in a streaming manner: "teammates" */
     teammates_stream: Array<GraphQLTypes['teammates']>;
     /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
+    /** fetch data from the table: "token_balances" using primary key columns */
+    token_balances_by_pk?: GraphQLTypes['token_balances'] | undefined;
+    /** fetch data from the table in a streaming manner: "token_balances" */
+    token_balances_stream: Array<GraphQLTypes['token_balances']>;
+    /** An array relationship */
     token_gifts: Array<GraphQLTypes['token_gifts']>;
     /** An aggregate relationship */
     token_gifts_aggregate: GraphQLTypes['token_gifts_aggregate'];
@@ -40998,6 +41359,151 @@ export type GraphQLTypes = {
     _lte?: GraphQLTypes['timestamptz'] | undefined;
     _neq?: GraphQLTypes['timestamptz'] | undefined;
     _nin?: Array<GraphQLTypes['timestamptz']> | undefined;
+  };
+  /** Balances of tokens for given address, chain, contract */
+  ['token_balances']: {
+    __typename: 'token_balances';
+    address: GraphQLTypes['citext'];
+    balance: GraphQLTypes['numeric'];
+    chain: string;
+    contract: string;
+    created_at: GraphQLTypes['timestamptz'];
+    id: GraphQLTypes['bigint'];
+    last_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    /** An object relationship */
+    profiles_public?: GraphQLTypes['profiles_public'] | undefined;
+    symbol: string;
+    updated_at: GraphQLTypes['timestamptz'];
+  };
+  /** order by aggregate values of table "token_balances" */
+  ['token_balances_aggregate_order_by']: {
+    avg?: GraphQLTypes['token_balances_avg_order_by'] | undefined;
+    count?: GraphQLTypes['order_by'] | undefined;
+    max?: GraphQLTypes['token_balances_max_order_by'] | undefined;
+    min?: GraphQLTypes['token_balances_min_order_by'] | undefined;
+    stddev?: GraphQLTypes['token_balances_stddev_order_by'] | undefined;
+    stddev_pop?: GraphQLTypes['token_balances_stddev_pop_order_by'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['token_balances_stddev_samp_order_by']
+      | undefined;
+    sum?: GraphQLTypes['token_balances_sum_order_by'] | undefined;
+    var_pop?: GraphQLTypes['token_balances_var_pop_order_by'] | undefined;
+    var_samp?: GraphQLTypes['token_balances_var_samp_order_by'] | undefined;
+    variance?: GraphQLTypes['token_balances_variance_order_by'] | undefined;
+  };
+  /** order by avg() on columns of table "token_balances" */
+  ['token_balances_avg_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'. */
+  ['token_balances_bool_exp']: {
+    _and?: Array<GraphQLTypes['token_balances_bool_exp']> | undefined;
+    _not?: GraphQLTypes['token_balances_bool_exp'] | undefined;
+    _or?: Array<GraphQLTypes['token_balances_bool_exp']> | undefined;
+    address?: GraphQLTypes['citext_comparison_exp'] | undefined;
+    balance?: GraphQLTypes['numeric_comparison_exp'] | undefined;
+    chain?: GraphQLTypes['String_comparison_exp'] | undefined;
+    contract?: GraphQLTypes['String_comparison_exp'] | undefined;
+    created_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    id?: GraphQLTypes['bigint_comparison_exp'] | undefined;
+    last_checked_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+    profiles_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    symbol?: GraphQLTypes['String_comparison_exp'] | undefined;
+    updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
+  };
+  /** order by max() on columns of table "token_balances" */
+  ['token_balances_max_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    balance?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    last_checked_at?: GraphQLTypes['order_by'] | undefined;
+    symbol?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by min() on columns of table "token_balances" */
+  ['token_balances_min_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    balance?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    last_checked_at?: GraphQLTypes['order_by'] | undefined;
+    symbol?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Ordering options when selecting data from "token_balances". */
+  ['token_balances_order_by']: {
+    address?: GraphQLTypes['order_by'] | undefined;
+    balance?: GraphQLTypes['order_by'] | undefined;
+    chain?: GraphQLTypes['order_by'] | undefined;
+    contract?: GraphQLTypes['order_by'] | undefined;
+    created_at?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+    last_checked_at?: GraphQLTypes['order_by'] | undefined;
+    profiles_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    symbol?: GraphQLTypes['order_by'] | undefined;
+    updated_at?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** select columns of table "token_balances" */
+  ['token_balances_select_column']: token_balances_select_column;
+  /** order by stddev() on columns of table "token_balances" */
+  ['token_balances_stddev_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_pop() on columns of table "token_balances" */
+  ['token_balances_stddev_pop_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by stddev_samp() on columns of table "token_balances" */
+  ['token_balances_stddev_samp_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** Streaming cursor of the table "token_balances" */
+  ['token_balances_stream_cursor_input']: {
+    /** Stream column input with initial value */
+    initial_value: GraphQLTypes['token_balances_stream_cursor_value_input'];
+    /** cursor ordering */
+    ordering?: GraphQLTypes['cursor_ordering'] | undefined;
+  };
+  /** Initial value of the column from where the streaming should start */
+  ['token_balances_stream_cursor_value_input']: {
+    address?: GraphQLTypes['citext'] | undefined;
+    balance?: GraphQLTypes['numeric'] | undefined;
+    chain?: string | undefined;
+    contract?: string | undefined;
+    created_at?: GraphQLTypes['timestamptz'] | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    last_checked_at?: GraphQLTypes['timestamptz'] | undefined;
+    symbol?: string | undefined;
+    updated_at?: GraphQLTypes['timestamptz'] | undefined;
+  };
+  /** order by sum() on columns of table "token_balances" */
+  ['token_balances_sum_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_pop() on columns of table "token_balances" */
+  ['token_balances_var_pop_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by var_samp() on columns of table "token_balances" */
+  ['token_balances_var_samp_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
+  };
+  /** order by variance() on columns of table "token_balances" */
+  ['token_balances_variance_order_by']: {
+    balance?: GraphQLTypes['order_by'] | undefined;
+    id?: GraphQLTypes['order_by'] | undefined;
   };
   /** GIVE allocations made by circle members for completed epochs */
   ['token_gifts']: {
@@ -43261,6 +43767,18 @@ export const enum teammates_select_column {
   team_mate_id = 'team_mate_id',
   updated_at = 'updated_at',
   user_id = 'user_id',
+}
+/** select columns of table "token_balances" */
+export const enum token_balances_select_column {
+  address = 'address',
+  balance = 'balance',
+  chain = 'chain',
+  contract = 'contract',
+  created_at = 'created_at',
+  id = 'id',
+  last_checked_at = 'last_checked_at',
+  symbol = 'symbol',
+  updated_at = 'updated_at',
 }
 /** select columns of table "token_gifts" */
 export const enum token_gifts_select_column {

@@ -11982,6 +11982,18 @@ export const AllTypesProps: Record<string, any> = {
   profiles_pk_columns_input: {
     id: 'bigint',
   },
+  profiles_private: {
+    token_balances: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_aggregate: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+  },
   profiles_private_aggregate_fields: {
     count: {
       columns: 'profiles_private_select_column',
@@ -11996,6 +12008,8 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint_comparison_exp',
     points_balance: 'float8_comparison_exp',
     points_checkpointed_at: 'timestamptz_comparison_exp',
+    token_balances: 'token_balances_bool_exp',
+    token_balances_aggregate: 'token_balances_aggregate_bool_exp',
   },
   profiles_private_inc_input: {
     id: 'bigint',
@@ -12006,6 +12020,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'bigint',
     points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
+    token_balances: 'token_balances_arr_rel_insert_input',
   },
   profiles_private_order_by: {
     address: 'order_by',
@@ -12013,6 +12028,7 @@ export const AllTypesProps: Record<string, any> = {
     id: 'order_by',
     points_balance: 'order_by',
     points_checkpointed_at: 'order_by',
+    token_balances_aggregate: 'token_balances_aggregate_order_by',
   },
   profiles_private_select_column: true,
   profiles_private_set_input: {
@@ -12107,6 +12123,16 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'profile_skills_order_by',
       where: 'profile_skills_bool_exp',
     },
+    token_balances: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
+    token_balances_aggregate: {
+      distinct_on: 'token_balances_select_column',
+      order_by: 'token_balances_order_by',
+      where: 'token_balances_bool_exp',
+    },
   },
   profiles_public_aggregate_fields: {
     count: {
@@ -12146,6 +12172,8 @@ export const AllTypesProps: Record<string, any> = {
     profile_skills: 'profile_skills_bool_exp',
     profile_skills_aggregate: 'profile_skills_aggregate_bool_exp',
     reputation_score: 'reputation_scores_bool_exp',
+    token_balances: 'token_balances_bool_exp',
+    token_balances_aggregate: 'token_balances_aggregate_bool_exp',
     website: 'String_comparison_exp',
   },
   profiles_public_insert_input: {
@@ -12166,6 +12194,7 @@ export const AllTypesProps: Record<string, any> = {
     post_count_last_30_days: 'bigint',
     profile_skills: 'profile_skills_arr_rel_insert_input',
     reputation_score: 'reputation_scores_obj_rel_insert_input',
+    token_balances: 'token_balances_arr_rel_insert_input',
   },
   profiles_public_obj_rel_insert_input: {
     data: 'profiles_public_insert_input',
@@ -12193,6 +12222,7 @@ export const AllTypesProps: Record<string, any> = {
     post_count_last_30_days: 'order_by',
     profile_skills_aggregate: 'profile_skills_aggregate_order_by',
     reputation_score: 'reputation_scores_order_by',
+    token_balances_aggregate: 'token_balances_aggregate_order_by',
     website: 'order_by',
   },
   profiles_public_select_column: true,
@@ -15929,10 +15959,39 @@ export const AllTypesProps: Record<string, any> = {
     _neq: 'timestamptz',
     _nin: 'timestamptz',
   },
+  token_balances_aggregate_bool_exp: {
+    count: 'token_balances_aggregate_bool_exp_count',
+  },
+  token_balances_aggregate_bool_exp_count: {
+    arguments: 'token_balances_select_column',
+    filter: 'token_balances_bool_exp',
+    predicate: 'Int_comparison_exp',
+  },
   token_balances_aggregate_fields: {
     count: {
       columns: 'token_balances_select_column',
     },
+  },
+  token_balances_aggregate_order_by: {
+    avg: 'token_balances_avg_order_by',
+    count: 'order_by',
+    max: 'token_balances_max_order_by',
+    min: 'token_balances_min_order_by',
+    stddev: 'token_balances_stddev_order_by',
+    stddev_pop: 'token_balances_stddev_pop_order_by',
+    stddev_samp: 'token_balances_stddev_samp_order_by',
+    sum: 'token_balances_sum_order_by',
+    var_pop: 'token_balances_var_pop_order_by',
+    var_samp: 'token_balances_var_samp_order_by',
+    variance: 'token_balances_variance_order_by',
+  },
+  token_balances_arr_rel_insert_input: {
+    data: 'token_balances_insert_input',
+    on_conflict: 'token_balances_on_conflict',
+  },
+  token_balances_avg_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
   },
   token_balances_bool_exp: {
     _and: 'token_balances_bool_exp',
@@ -15945,6 +16004,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz_comparison_exp',
     id: 'bigint_comparison_exp',
     last_checked_at: 'timestamptz_comparison_exp',
+    profiles_public: 'profiles_public_bool_exp',
     symbol: 'String_comparison_exp',
     updated_at: 'timestamptz_comparison_exp',
   },
@@ -15959,7 +16019,30 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'timestamptz',
     id: 'bigint',
     last_checked_at: 'timestamptz',
+    profiles_public: 'profiles_public_obj_rel_insert_input',
     updated_at: 'timestamptz',
+  },
+  token_balances_max_order_by: {
+    address: 'order_by',
+    balance: 'order_by',
+    chain: 'order_by',
+    contract: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    last_checked_at: 'order_by',
+    symbol: 'order_by',
+    updated_at: 'order_by',
+  },
+  token_balances_min_order_by: {
+    address: 'order_by',
+    balance: 'order_by',
+    chain: 'order_by',
+    contract: 'order_by',
+    created_at: 'order_by',
+    id: 'order_by',
+    last_checked_at: 'order_by',
+    symbol: 'order_by',
+    updated_at: 'order_by',
   },
   token_balances_on_conflict: {
     constraint: 'token_balances_constraint',
@@ -15974,6 +16057,7 @@ export const AllTypesProps: Record<string, any> = {
     created_at: 'order_by',
     id: 'order_by',
     last_checked_at: 'order_by',
+    profiles_public: 'profiles_public_order_by',
     symbol: 'order_by',
     updated_at: 'order_by',
   },
@@ -15989,6 +16073,18 @@ export const AllTypesProps: Record<string, any> = {
     last_checked_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
+  token_balances_stddev_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
+  token_balances_stddev_pop_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
+  token_balances_stddev_samp_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
   token_balances_stream_cursor_input: {
     initial_value: 'token_balances_stream_cursor_value_input',
     ordering: 'cursor_ordering',
@@ -16001,11 +16097,27 @@ export const AllTypesProps: Record<string, any> = {
     last_checked_at: 'timestamptz',
     updated_at: 'timestamptz',
   },
+  token_balances_sum_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
   token_balances_update_column: true,
   token_balances_updates: {
     _inc: 'token_balances_inc_input',
     _set: 'token_balances_set_input',
     where: 'token_balances_bool_exp',
+  },
+  token_balances_var_pop_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
+  token_balances_var_samp_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
+  },
+  token_balances_variance_order_by: {
+    balance: 'order_by',
+    id: 'order_by',
   },
   token_gifts_aggregate_bool_exp: {
     count: 'token_gifts_aggregate_bool_exp_count',
@@ -25338,6 +25450,8 @@ export const ReturnTypes: Record<string, any> = {
     id: 'bigint',
     points_balance: 'float8',
     points_checkpointed_at: 'timestamptz',
+    token_balances: 'token_balances',
+    token_balances_aggregate: 'token_balances_aggregate',
   },
   profiles_private_aggregate: {
     aggregate: 'profiles_private_aggregate_fields',
@@ -25436,6 +25550,8 @@ export const ReturnTypes: Record<string, any> = {
     profile_skills: 'profile_skills',
     profile_skills_aggregate: 'profile_skills_aggregate',
     reputation_score: 'reputation_scores',
+    token_balances: 'token_balances',
+    token_balances_aggregate: 'token_balances_aggregate',
     website: 'String',
   },
   profiles_public_aggregate: {
@@ -26969,6 +27085,7 @@ export const ReturnTypes: Record<string, any> = {
     created_at: 'timestamptz',
     id: 'bigint',
     last_checked_at: 'timestamptz',
+    profiles_public: 'profiles_public',
     symbol: 'String',
     updated_at: 'timestamptz',
   },
