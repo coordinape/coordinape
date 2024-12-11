@@ -49,15 +49,17 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
       >
         <TimelineList fa size="lg" /> Leaderboard
       </Button>
-      <Button
-        color="textOnly"
-        onClick={() => setModalVisible(prev => !prev)}
-        css={{
-          ...tabStyles,
-        }}
-      >
-        <ShareGiveThick fa size="lg" /> Share
-      </Button>
+      {skill !== 'null' && (
+        <Button
+          color="textOnly"
+          onClick={() => setModalVisible(prev => !prev)}
+          css={{
+            ...tabStyles,
+          }}
+        >
+          <ShareGiveThick fa size="lg" /> Share
+        </Button>
+      )}
       {modalVisible && (
         <DrawerModal
           visible={modalVisible}

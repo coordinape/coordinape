@@ -32,7 +32,6 @@ export const GiveSkillPage = () => {
           >
             {skill && <GiveSkillNav skill={skill} />}
           </Flex>
-
           {skill && <RecentGives skill={skill} />}
         </Flex>
         {!isMobile && (
@@ -52,7 +51,7 @@ export const GiveSkillPage = () => {
             }}
           >
             <GiveSkillLeaderboardMini />
-            <ShareGiveCard skill={skill} />
+            {skill !== 'null' && <ShareGiveCard skill={skill} />}
             <LearnAboutGiveCard />
           </Flex>
         )}
