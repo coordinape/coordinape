@@ -9,7 +9,7 @@ import { coLinksPaths } from 'routes/paths';
 
 export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
   const { data, isFetched } = useQuery(
-    ['AllGiveSkills'],
+    ['GiveHome', 'OtherGiveSkills'],
     async (): Promise<giveTrendingData> => {
       const res = await fetch('/api/give/trending');
       return res.json();
@@ -22,7 +22,7 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
 
   if (!isFetched) return null;
 
-  // Exclude the top 3 skills
+  // Exclude the top n skills
   const otherSkills = data?.slice(skipFirst);
 
   return (

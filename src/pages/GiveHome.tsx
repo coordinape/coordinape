@@ -11,7 +11,7 @@ import { SingleColumnLayout } from '../ui/layouts';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
 
-export const Home2Page = () => {
+export const GiveHomePage = () => {
   return (
     <SingleColumnLayout>
       <Helmet>
