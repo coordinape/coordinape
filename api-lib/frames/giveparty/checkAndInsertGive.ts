@@ -84,6 +84,10 @@ export const checkAndInsertGive = async (
   try {
     target_profile = await findOrCreateProfileByUsername(target_username);
   } catch (e: any) {
+    console.error(
+      `error in checkAndInsertGive.findOrCreateProfileByUsername for ${target_username}`,
+      e
+    );
     throw new Error(`Can't find user: ${target_username}`);
   }
 
