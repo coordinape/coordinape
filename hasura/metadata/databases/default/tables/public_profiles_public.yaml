@@ -110,7 +110,7 @@ select_permissions:
         - joined_colinks_at
         - name
       filter: {}
-      limit: 10
+      limit: 100
       allow_aggregations: true
     comment: ""
   - role: user
