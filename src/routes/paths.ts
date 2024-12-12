@@ -102,6 +102,7 @@ export const coLinksPaths = {
   linking: '/linking',
   notifications: '/notifications',
   post: (id: string) => `/post/${id}`,
+  giveShow: (id: string) => `/gives/${id}`,
   profilePosts: (address: string) => `/${address}/posts`,
   profileGive: (address: string) => `/${address}`,
   profileGiveMap: (address: string) => `/${address}/givemap`,

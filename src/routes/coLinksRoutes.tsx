@@ -54,6 +54,7 @@ import { MostGivenPage } from 'pages/colinks/explore/MostGivenPage';
 import { MostGivePage } from 'pages/colinks/explore/MostGivePage';
 import { GiveReceiversPage } from 'pages/colinks/give/GiveReceiversPage';
 import { GiveSendersPage } from 'pages/colinks/give/GiveSendersPage';
+import { GiveShowPage } from 'pages/GiveShowPage';
 import { GiveSkillLeaderboardPage } from 'pages/giveSkillLeaderboardPage';
 import UnsubscribeEmailPage from 'pages/UnsubscribeEmailPage/UnsubscribeEmailPage';
 
@@ -244,6 +245,7 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.search} element={<SearchPage />} />
       <Route path={coLinksPaths.post(':id')} element={<PostPage />} />
+      <Route path={coLinksPaths.giveShow(':id')} element={<GiveShowPage />} />
       <Route path={coLinksPaths.bigQuestions} element={<BigQuestionsPage />} />
       <Route
         path={coLinksPaths.bigQuestion(':id')}
