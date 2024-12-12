@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { skillTextStyle } from 'stitches.config';
 
 import { giveTrendingData } from '../../../_api/give/trending';
-import { Flex, Link, Panel, Text } from '../../ui';
+import { Button, Flex, Link, Panel, Text } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
 import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
@@ -38,9 +38,9 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
           alignItems: 'center',
           mb: '$md',
           borderRadius: '$3',
-          background: '$tagSuccessBackground',
+          background: '$background',
           p: '$md',
-          color: '$tagSuccessText',
+          color: '$text',
           textDecoration: 'none',
         }}
       >
@@ -49,14 +49,14 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
             alignItems: 'center',
             gap: '$sm',
             pb: '$xs',
-            borderBottom: '1px solid $tagSuccessText',
+            borderBottom: '1px solid $borderDim',
           }}
         >
           <Text
             h2
             display
             css={{
-              color: '$tagSuccessText',
+              color: '$text',
             }}
           >
             Hot GIVE
@@ -67,7 +67,7 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
           css={{
             mt: '$sm',
             height: 'auto',
-            color: '$tagSuccessText',
+            color: '$text',
           }}
         >
           More GIVE to explore
@@ -90,6 +90,11 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
             </Link>
           </>
         ))}
+        <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
+          <Button as={NavLink} to={coLinksPaths.give} color="primary">
+            View Leaderboard
+          </Button>
+        </Flex>
       </Panel>
     </Flex>
   );
