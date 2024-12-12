@@ -105,11 +105,43 @@ const findOrCreateUser = async (fc_profile: {
   pfp_url: string;
   custody_address: string;
   verified_addresses: { eth_addresses: string[] };
+  fid: number;
 }) => {
+  const { profiles } = await adminClient.query(
+    {
+      profiles: [
+        {
+          where: {
+            farcaster_account: { fid: { _eq: fc_profile.fid } },
+          },
+        },
+        {
+          id: true,
+          name: true,
+          address: true,
+          farcaster_account: {
+            fid: true,
+          },
+        },
+      ],
+    },
+    {
+      operationName: 'neynar_mention__findOrCreateUser',
+    }
+  );
+
+  if (profiles.length > 0) {
+    const p = profiles.pop();
+    if (p && p.farcaster_account) {
+      return { ...p, fc_username: fc_profile.username };
+    }
+  }
+
   const potential_addresses = [
     fc_profile.custody_address,
     ...fc_profile.verified_addresses.eth_addresses,
   ];
+
   const profile = await findProfileByAddresses(potential_addresses);
 
   if (profile) {
