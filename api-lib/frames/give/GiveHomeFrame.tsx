@@ -192,7 +192,7 @@ export const onSendGIVEPost = async (
     giveId = await checkAndInsertGive(
       info,
       cast_hash,
-      GivePartyHomeFrame().id,
+      GiveHomeFrame().id,
       target_username,
       give.skill
     );
