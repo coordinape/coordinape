@@ -63,7 +63,6 @@ export const GivePartyMintWaitingFrame: Frame = {
   id: 'party.mint.cosoul.waiting',
   homeFrame: false,
   imageNode: imageNode,
-  clickURL: 'https://give.party',
   resourceIdentifier: skillResourceIdentifier,
   buttons: [
     {

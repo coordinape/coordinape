@@ -60,7 +60,6 @@ export const SurprisePartyStartFrame = (username: string): Frame => {
     homeFrame: true,
     imageNode: imageNode,
     resourceIdentifier: usernameResourceIdentifier,
-    clickURL: 'https://give.party',
     buttons: [
       {
         title: '🔊 Cast your Party',

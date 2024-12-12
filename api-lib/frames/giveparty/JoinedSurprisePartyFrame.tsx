@@ -82,7 +82,6 @@ export const JoinedSurprisePartyFrame: Frame = {
   imageNode: imageNode,
   noCache: true,
   resourceIdentifier: usernameResourceIdentifier,
-  clickURL: 'https://give.party',
   inputText: async () => {
     return `Enter another skill`;
   },

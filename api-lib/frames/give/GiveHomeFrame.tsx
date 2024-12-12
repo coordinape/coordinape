@@ -228,7 +228,7 @@ export const GiveHomeFrame = (giveId?: string): Frame => ({
       action: 'link',
       target: async params => {
         const { give } = await getContextFromParams(params);
-        return `https://colinks.coordinape.com/give/leaderboard/${encodeURIComponent(give.skill)}`;
+        return `https://coordinape.com/give/leaderboard/${encodeURIComponent(give.skill)}`;
       },
     },
     {

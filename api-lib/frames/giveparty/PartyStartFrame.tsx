@@ -53,7 +53,6 @@ export const PartyStartFrame = (skill: string): Frame => {
     homeFrame: true,
     imageNode: imageNode,
     resourceIdentifier: skillResourceIdentifier,
-    clickURL: 'https://give.party',
     buttons: [
       {
         title: 'Cast your Party',

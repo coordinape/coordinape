@@ -126,7 +126,6 @@ export const GivePartyHomeFrame = (
       : {}
   ),
   errorMessage: errorMessage,
-  clickURL: 'https://give.party',
   imageNode: givePartyImageNode,
   inputText: async () => {
     return `Enter a Farcaster @username`;
