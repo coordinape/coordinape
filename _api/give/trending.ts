@@ -8,7 +8,7 @@ import { errorResponse } from '../../api-lib/HttpError';
 
 import { CACHE_CONTENT } from '.';
 
-const LIMIT = 5;
+const LIMIT = 15;
 
 // TODO: refactor to one global cache config?
 // 1 hour

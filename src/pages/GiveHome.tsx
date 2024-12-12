@@ -38,6 +38,9 @@ export const GiveHomePage = () => {
             mb: '$4xl',
             gap: '$2xl',
             maxWidth: '$maxMobile !important',
+            '@sm': {
+              margin: 'auto',
+            },
           }}
         >
           <Panel
@@ -46,6 +49,7 @@ export const GiveHomePage = () => {
               backgroundSize: '10px 10px',
               backgroundImage:
                 'repeating-linear-gradient(135deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
+              border: '0.5px dotted $borderDimmer',
             }}
           >
             <MostLikedCasts />
@@ -56,6 +60,7 @@ export const GiveHomePage = () => {
               backgroundSize: '10px 10px',
               backgroundImage:
                 'repeating-linear-gradient(45deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
+              border: '0.5px dotted $borderDimmer',
             }}
           >
             <TopGiveSkills tier="first" />
@@ -64,10 +69,10 @@ export const GiveHomePage = () => {
           <Panel
             noBorder
             css={{
-              background:
-                'radial-gradient(circle, transparent 20%, $background 20%, $background 80%, transparent 80%, transparent), radial-gradient(circle, transparent 20%, $background 20%, $background 80%, transparent 80%, transparent) 17.5px 17.5px, linear-gradient($borderDimmer 1.4000000000000001px, transparent 1.4000000000000001px) 0 -0.7000000000000001px, linear-gradient(90deg, $borderDimmer 1.4000000000000001px, $background 1.4000000000000001px) -0.7000000000000001px 0',
-              backgroundSize:
-                '35px 35px, 35px 35px, 17.5px 17.5px, 17.5px 17.5px',
+              backgroundSize: '10px 10px',
+              backgroundImage:
+                'repeating-linear-gradient(45deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
+              border: '0.5px dotted $borderDimmer',
             }}
           >
             <TopGiveSkills tier="second" />
@@ -79,6 +84,7 @@ export const GiveHomePage = () => {
               backgroundSize: '10px 10px',
               backgroundImage:
                 'repeating-linear-gradient(135deg, $borderDimmer 0, $borderDimmer 2px, $background 0, $background 50%)',
+              border: '0.5px dotted $borderDimmer',
             }}
           >
             <TopGiveSkills tier="third" />
@@ -89,6 +95,7 @@ export const GiveHomePage = () => {
               background:
                 'radial-gradient(circle at 25% 25%, $borderDimmer 20%, transparent 21%, transparent 100%), radial-gradient(circle at 75% 75%, $borderDimmer 15%, transparent 16%)',
               backgroundSize: '1em 1em',
+              border: '0.5px dotted transparent',
             }}
           >
             <OtherGiveSkills skipFirst={3} />
