@@ -85,11 +85,13 @@ const givePartyImageNode = async (params: Record<string, string>) => {
           >
             Enter a name below, we&apos;ll send them a GIVE on your behalf
             {workedWith && ', creating an onchain attestation'}
-            <img
-              alt="gem"
-              src={IMAGE_URL_BASE + 'coordinape-x-icebreaker.png'}
-              style={{ width: 549, height: 50 }}
-            />
+            {workedWith && (
+              <img
+                alt="gem"
+                src={IMAGE_URL_BASE + 'coordinape-x-icebreaker.png'}
+                style={{ width: 549, height: 50 }}
+              />
+            )}
           </div>
           <div
             tw="flex items-center"
