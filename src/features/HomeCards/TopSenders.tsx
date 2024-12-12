@@ -10,7 +10,7 @@ import { coLinksPaths } from 'routes/paths';
 
 export const TopSenders = () => {
   const { data, isLoading } = useQuery(
-    [QUERY_KEY_GIVE_HOME, 'profiles', 'topSenders'],
+    [QUERY_KEY_GIVE_HOME, 'profiles', 'top_senders'],
     async () => {
       const { most_give } = await anonClient.query(
         {

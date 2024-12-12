@@ -19,7 +19,7 @@ export const GiveSendersLeaderboard = () => {
   };
 
   const { data } = useQuery(
-    ['give_leaderboard', 'top_receivers', desc],
+    ['give_leaderboard', 'top_senders', desc],
     async () => {
       const ascDesc = desc ? order_by.desc_nulls_last : order_by.asc_nulls_last;
 

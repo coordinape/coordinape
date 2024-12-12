@@ -10,7 +10,7 @@ import { coLinksPaths } from 'routes/paths';
 
 export const TopReceivers = () => {
   const { data, isLoading } = useQuery(
-    [QUERY_KEY_GIVE_HOME, 'profiles', 'topReceivers'],
+    [QUERY_KEY_GIVE_HOME, 'profiles', 'top_receivers'],
     async () => {
       const { most_give } = await anonClient.query(
         {
@@ -81,56 +81,47 @@ export const TopReceivers = () => {
           }}
         >
           {data &&
-            data
-              .filter(
-                member =>
-                  member.colinks_gives_aggregate?.aggregate?.count ?? 0 > 0
-              )
-              .map(member => (
+            data.map(member => (
+              <Flex
+                row
+                key={member?.address}
+                css={{
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
                 <Flex
-                  row
-                  key={member?.address}
+                  as={NavLink}
+                  to={coLinksPaths.profileGive(member.address ?? '')}
+                  column
                   css={{
-                    flex: 1,
                     alignItems: 'center',
                     justifyContent: 'center',
+                    gap: '$sm',
+                    textDecoration: 'none',
+                    color: '$text',
                   }}
                 >
-                  <Flex
-                    as={NavLink}
-                    to={coLinksPaths.profileGive(member.address ?? '')}
-                    column
-                    css={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: '$sm',
-                      textDecoration: 'none',
-                      color: '$text',
-                    }}
-                  >
-                    <Avatar
-                      size={'xl'}
-                      name={member.name}
-                      path={member.avatar}
-                    />
-                    <Flex column>
-                      <Text
-                        semibold
-                        size="medium"
-                        css={{
-                          maxWidth: '10rem',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          display: 'inline',
-                        }}
-                      >
-                        {member.name}
-                      </Text>
-                    </Flex>
+                  <Avatar size={'xl'} name={member.name} path={member.avatar} />
+                  <Flex column>
+                    <Text
+                      semibold
+                      size="medium"
+                      css={{
+                        maxWidth: '10rem',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        display: 'inline',
+                      }}
+                    >
+                      {member.name}
+                    </Text>
                   </Flex>
                 </Flex>
-              ))}
+              </Flex>
+            ))}
         </Flex>
         <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
           <Button as={NavLink} to={coLinksPaths.giveReceivers} color="primary">
