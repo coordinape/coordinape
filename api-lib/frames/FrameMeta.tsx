@@ -26,7 +26,7 @@ export const RenderFrameMeta = async ({
 
   const scriptContent = `
     <script type="text/javascript">
-      window.location.href = "${frame.clickURL ? frame.clickURL : 'https://docs.coordinape.com/colinks/give'}";
+      window.location.href = "${frame.clickURL ? frame.clickURL : 'https://coordinape.com/give'}";
     </script>
  `;
 

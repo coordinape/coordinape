@@ -122,7 +122,6 @@ export const SurprisePartyHelpFrame = (error_message?: string): Frame => {
     imageNode: imageNode,
     resourceIdentifier: staticResourceIdentifier,
     errorMessage: error_message,
-    clickURL: 'https://give.party',
     inputText: async () => {
       return `Enter a username to celebrate`;
     },
