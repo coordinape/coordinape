@@ -23,7 +23,9 @@ export const TopSenders = () => {
                       colinks_given_aggregate: {
                         count: order_by.desc_nulls_last,
                       },
-                      name: order_by.desc,
+                    },
+                    {
+                      name: order_by.asc,
                     },
                   ],
                   limit: 6,
