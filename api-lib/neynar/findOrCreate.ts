@@ -118,6 +118,7 @@ const findOrCreateUser = async (fc_profile: {
         {
           id: true,
           name: true,
+          address: true,
           farcaster_account: {
             fid: true,
           },
