@@ -128,10 +128,6 @@ export const PostRow = ({
             background: isCast ? '$surfaceFarcaster' : '$surface',
             p: '$md',
             borderRadius: '$2',
-            ...(isCast && {
-              borderTopLeftRadius: 0,
-              borderTopRightRadius: 0,
-            }),
             ...(bigQuestion && {
               borderTopLeftRadius: 0,
               borderTopRightRadius: 0,

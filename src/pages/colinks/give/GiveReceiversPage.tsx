@@ -4,14 +4,14 @@ import { Helmet } from 'react-helmet';
 
 import { CSS } from '../../../stitches.config';
 import { Flex } from '../../../ui';
-import { GiveLeaderboard } from '../../GiveLeaderboard';
 import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
+import { GiveReceiversLeaderboard } from 'pages/GiveReceiversLeaderboard';
 
 import { GiveBotCard } from './GiveBotCard';
 import { GivePartyCard } from './GivePartyCard';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
-export const GivePage = () => {
+export const GiveReceiversPage = () => {
   return (
     <Flex column>
       <Helmet>
@@ -34,7 +34,7 @@ export const GivePage = () => {
           >
             <GiveLeaderboardNav />
           </Flex>
-          <GiveLeaderboard />
+          <GiveReceiversLeaderboard />
         </Flex>
         <Flex
           column
