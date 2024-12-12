@@ -65,7 +65,7 @@ export const autoConnectFarcasterAccount = async (
 
   if (existingFids.length > 0) {
     throw new Error(
-      `farcaster account is connected to a different user, input address: ${address} profileId: ${profileId} fid: ${fcProfile.fid} : existingProfiles: ${existingFids}`
+      `farcaster account is connected to a different user, input address: ${address} profileId: ${profileId} fid: ${fcProfile.fid} : existingProfiles: ${JSON.stringify(existingFids)}`
     );
   }
 
