@@ -58,7 +58,7 @@ type PathWithHandler = {
     res: VercelResponse,
     params: Record<string, any>
   ) => void;
-  method: 'GET' | 'POST';
+  method: 'GET' | 'POST' | 'HEAD';
 };
 
 declare type Weight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
@@ -162,9 +162,10 @@ export default async function (req: VercelRequest, res: VercelResponse) {
   if (!path) {
     return res.status(404).send(`no path provided`);
   }
-  if (req.method !== 'POST' && req.method !== 'GET') {
+  if (req.method !== 'POST' && req.method !== 'GET' && req.method !== 'HEAD') {
     return res.status(405).send(`method not supported ${req.method}`);
   }
+
   const handler = getHandler(
     '/' + ((path as string) ?? ''),
     req.method,
@@ -178,7 +179,7 @@ export default async function (req: VercelRequest, res: VercelResponse) {
 
 const getHandler = (
   path: string,
-  m: 'GET' | 'POST',
+  m: 'GET' | 'POST' | 'HEAD',
   queryParams: Record<string, string>
 ) => {
   for (const { path: p, handler, method } of router.paths) {
@@ -210,12 +211,12 @@ const getHandler = (
 
 const addPath = (
   path: string,
-  method: 'GET' | 'POST',
+  method: 'GET' | 'POST' | 'HEAD',
   handler: (
     req: VercelRequest,
     res: VercelResponse,
     params: Record<string, string>
-  ) => void
+  ) => Promise<void> | void | Promise<VercelResponse | undefined>
 ) => {
   const p = new Path(path);
   router.paths.push({
@@ -234,20 +235,27 @@ const addPath = (
 
 const addFrame = (frame: Frame) => {
   if (frame.homeFrame) {
-    addPath(
-      `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`,
-      'GET',
-      (_req, res, params) => {
-        if (IS_LOCAL_ENV) {
-          res.setHeader('Pragma', 'no-cache');
-          res.setHeader('Expires', '0');
-        } else {
-          res.setHeader('Cache-Control', CACHE_CONTENT);
-        }
-        res.setHeader('Content-Type', 'text/html');
-        RenderFrameMeta({ frame, res, params });
+    const p = `/meta/${frame.id}${frame.resourceIdentifier.resourcePathExpression}`;
+    addPath(p, 'GET', async (_req, res, params) => {
+      if (IS_LOCAL_ENV) {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else {
+        res.setHeader('Cache-Control', CACHE_CONTENT);
       }
-    );
+      res.setHeader('Content-Type', 'text/html');
+      await RenderFrameMeta({ frame, res, params });
+    });
+    addPath(p, 'HEAD', (_req, res) => {
+      if (IS_LOCAL_ENV) {
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      } else {
+        res.setHeader('Cache-Control', CACHE_CONTENT);
+      }
+      res.setHeader('Content-Type', 'text/html');
+      res.status(200).end();
+    });
   }
 
   // always add a post route
