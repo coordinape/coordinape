@@ -54,9 +54,9 @@ export const TopGiveSkills = ({
               alignItems: 'center',
               mb: '$md',
               borderRadius: '$3',
-              background: '$tagSuccessBackground',
+              background: '$background',
               p: '$md',
-              color: '$tagSuccessText',
+              color: '$text',
               textDecoration: 'none',
             }}
           >
@@ -65,7 +65,7 @@ export const TopGiveSkills = ({
                 alignItems: 'center',
                 gap: '$sm',
                 pb: '$xs',
-                borderBottom: '1px solid $tagSuccessText',
+                borderBottom: '1px solid $borderDim',
               }}
             >
               <GemCoOutline fa size={'xl'} />
@@ -75,7 +75,7 @@ export const TopGiveSkills = ({
                 css={{
                   ...skillTextStyle,
                   maxWidth: '300px',
-                  color: '$tagSuccessText',
+                  color: '$text',
                 }}
               >
                 {g.skill}
@@ -86,7 +86,7 @@ export const TopGiveSkills = ({
               css={{
                 mt: '$sm',
                 height: 'auto',
-                color: '$tagSuccessText',
+                color: '$text',
               }}
             >
               Top GIVE
@@ -97,7 +97,7 @@ export const TopGiveSkills = ({
             <Button
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
-              color="secondary"
+              color="primary"
               css={{
                 textTransform: 'capitalize',
               }}

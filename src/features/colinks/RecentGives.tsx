@@ -220,6 +220,10 @@ export const RecentGives = ({
                 css={{
                   width: '100%',
                   height: '180px',
+                  ...(!give.activity?.cast && {
+                    borderBottomLeftRadius: '$2',
+                    borderBottomRightRadius: '$2',
+                  }),
                 }}
               />
             </Flex>
@@ -227,6 +231,10 @@ export const RecentGives = ({
             <Flex
               css={{
                 '.lightboxImageWrapper': { maxWidth: 100 },
+                '.contributionRow': {
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                },
               }}
             >
               {give.activity?.cast && <ActivityRow activity={give.activity} />}

@@ -28,9 +28,9 @@ export const FeaturedCasts = ({
             justifyContent: 'center',
             alignItems: 'center',
             borderRadius: '$3',
-            background: '$tagSuccessBackground',
+            background: '$background',
             p: '$md',
-            color: '$tagSuccessText',
+            color: '$text',
             textDecoration: 'none',
           }}
         >
@@ -43,7 +43,7 @@ export const FeaturedCasts = ({
             <Text
               h2
               css={{
-                color: '$tagSuccessText',
+                color: '$text',
               }}
             >
               {title}

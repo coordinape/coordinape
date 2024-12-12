@@ -104,6 +104,7 @@ export const colors = {
   hr: figmaColors.grey5,
   contentHeaderBorder: figmaColors.grey3,
   borderDim: figmaColors.grey4,
+  borderDimmer: figmaColors.grey3,
   border: figmaColors.grey5,
   borderContrast: figmaColors.grey6,
   borderFocus: figmaColors.secondary4,
@@ -589,6 +590,7 @@ export const dark = createTheme({
     avatarFallbackText: figmaColors.grey2,
 
     borderDim: figmaColors.grey8,
+    borderDimmer: figmaColors.grey9,
     border: figmaColors.grey7,
     borderContrast: figmaColors.grey6,
     contentHeaderBorder: figmaColors.grey7,
@@ -825,6 +827,7 @@ export const party = createTheme({
     avatarFallbackText: figmaColors.grey2,
 
     borderDim: 'rgba(0,0,0,0.15)',
+    borderDimmer: 'rgba(0,0,0,0.1)',
     border: 'rgba(0,0,0,0.25)',
     borderContrast: figmaColors.grey6,
     contentHeaderBorder: figmaColors.grey7,

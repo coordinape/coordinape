@@ -3,7 +3,7 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
-import { Avatar, Flex, Panel, Text } from '../../ui';
+import { Avatar, Button, Flex, Panel, Text } from '../../ui';
 import { LoadingIndicator } from 'components/LoadingIndicator';
 import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
@@ -131,6 +131,11 @@ export const TopReceivers = () => {
                   </Flex>
                 </Flex>
               ))}
+        </Flex>
+        <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
+          <Button as={NavLink} to={coLinksPaths.giveReceivers} color="primary">
+            View Leaderboard
+          </Button>
         </Flex>
       </Panel>
     </>
