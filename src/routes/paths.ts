@@ -78,6 +78,8 @@ export const coLinksPaths = {
   exploreRepScore: `/explore/repscore`,
   exploreSkills: `/explore/interests`,
   give: '/give',
+  giveSenders: '/senders',
+  giveReceivers: '/receivers',
   giveSkill: (skill: string) => `/give/skill/${skill}`,
   giveSkillLeaderboard: (skill: string) => `/give/leaderboard/${skill}`,
   giveSkillMap: (skill: string) => `/give/map/${skill}`,
