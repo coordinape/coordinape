@@ -133,7 +133,7 @@ export const TopSenders = () => {
               ))}
         </Flex>
         <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
-          <Button as={NavLink} to={coLinksPaths.giveSenders} color="secondary">
+          <Button as={NavLink} to={coLinksPaths.giveSenders} color="primary">
             View Leaderboard
           </Button>
         </Flex>
