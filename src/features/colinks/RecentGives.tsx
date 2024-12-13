@@ -73,6 +73,9 @@ export const RecentGives = ({
     return givesWithCastActivities;
   });
 
+  const giveArtHeight = '180px';
+  const pillHeight = '16px';
+
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
@@ -88,6 +91,7 @@ export const RecentGives = ({
                 borderRadius: '$2',
                 borderBottomLeftRadius: 0,
                 borderBottomRightRadius: 0,
+                position: 'relative',
                 ...(give.activity?.cast && {
                   background: '$surfaceNestedFarcaster',
                   zIndex: 2,
@@ -166,6 +170,24 @@ export const RecentGives = ({
                   <Text>GIVE</Text>
                 </Text>
                 <ArrowRight color="text" css={{ opacity: 0.6 }} />
+                <Text
+                  tag
+                  css={{
+                    background: '#070707',
+                    color: '#e5e5e5',
+                    position: 'absolute',
+                    height: pillHeight,
+                    bottom: `calc(0px - ${pillHeight})`,
+                    borderRadius: '$2',
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 0,
+                    fontSize: '$xs',
+                    px: '$md',
+                    zIndex: 1,
+                  }}
+                >
+                  #{give.skill}
+                </Text>
               </Link>
               <Link
                 as={NavLink}
@@ -219,7 +241,7 @@ export const RecentGives = ({
                 src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
                 css={{
                   width: '100%',
-                  height: '180px',
+                  height: giveArtHeight,
                   ...(!give.activity?.cast && {
                     borderBottomLeftRadius: '$2',
                     borderBottomRightRadius: '$2',
