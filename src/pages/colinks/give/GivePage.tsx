@@ -34,7 +34,7 @@ export const GivePage = () => {
           },
         }}
       >
-        <Flex column>
+        <Flex column css={{ '@sm': { margin: 'auto' } }}>
           <RecentGives limit={35} />
         </Flex>
         <Flex
