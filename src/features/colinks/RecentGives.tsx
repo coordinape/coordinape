@@ -234,7 +234,11 @@ export const RecentGives = ({
                 />
               </Link>
             </Flex>
-            <Flex>
+            <Flex
+              css={{
+                background: 'linear-gradient(90deg, $complete 25%, $cta 80%)',
+              }}
+            >
               <LightboxImage
                 key={give.id}
                 alt={`Image for give ID: ${give.id}`}
