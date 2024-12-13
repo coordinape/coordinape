@@ -1,17 +1,15 @@
-import React from 'react';
-
 import { Helmet } from 'react-helmet';
 
 import { Flex } from '../../../ui';
+import { GiveLeaderboard } from 'pages/GiveLeaderboard';
 import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
-import { GiveReceiversLeaderboard } from 'pages/GiveReceiversLeaderboard';
 
 import { GiveBotCard } from './GiveBotCard';
 import { ResponsiveColumnLayout } from './GivePage';
 import { GivePartyCard } from './GivePartyCard';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
-export const GiveReceiversPage = () => {
+export const GiveLeaderboardPage = () => {
   return (
     <Flex column>
       <Helmet>
@@ -35,7 +33,7 @@ export const GiveReceiversPage = () => {
         }}
       >
         <Flex column>
-          <GiveReceiversLeaderboard />
+          <GiveLeaderboard />
         </Flex>
         <Flex
           column

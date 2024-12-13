@@ -1,10 +1,10 @@
 import React from 'react';
 
+import { RecentGives } from 'features/colinks/RecentGives';
 import { Helmet } from 'react-helmet';
 
 import { CSS } from '../../../stitches.config';
 import { Flex } from '../../../ui';
-import { GiveLeaderboard } from '../../GiveLeaderboard';
 import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
 
 import { GiveBotCard } from './GiveBotCard';
@@ -17,6 +17,16 @@ export const GivePage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
+      <Flex
+        css={{
+          gap: '$sm',
+          mt: '-$lg',
+          mb: '$lg',
+          ml: '$xl',
+        }}
+      >
+        <GiveLeaderboardNav />
+      </Flex>
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -25,16 +35,7 @@ export const GivePage = () => {
         }}
       >
         <Flex column>
-          <Flex
-            css={{
-              gap: '$sm',
-              mt: '-$lg',
-              mb: '$sm',
-            }}
-          >
-            <GiveLeaderboardNav />
-          </Flex>
-          <GiveLeaderboard />
+          <RecentGives limit={35} />
         </Flex>
         <Flex
           column

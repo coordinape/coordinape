@@ -1,13 +1,11 @@
-import React from 'react';
-
 import { Helmet } from 'react-helmet';
 
-import { CSS } from '../../../stitches.config';
 import { Flex } from '../../../ui';
 import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
 import { GiveSendersLeaderboard } from 'pages/GiveSendersLeaderboard';
 
 import { GiveBotCard } from './GiveBotCard';
+import { ResponsiveColumnLayout } from './GivePage';
 import { GivePartyCard } from './GivePartyCard';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
@@ -17,6 +15,16 @@ export const GiveSendersPage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
+      <Flex
+        css={{
+          gap: '$sm',
+          mt: '-$lg',
+          mb: '$lg',
+          ml: '$xl',
+        }}
+      >
+        <GiveLeaderboardNav />
+      </Flex>
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -25,15 +33,6 @@ export const GiveSendersPage = () => {
         }}
       >
         <Flex column>
-          <Flex
-            css={{
-              gap: '$sm',
-              mt: '-$lg',
-              mb: '$sm',
-            }}
-          >
-            <GiveLeaderboardNav />
-          </Flex>
           <GiveSendersLeaderboard />
         </Flex>
         <Flex
@@ -57,47 +56,6 @@ export const GiveSendersPage = () => {
           <GiveBotCard />
         </Flex>
       </ResponsiveColumnLayout>
-    </Flex>
-  );
-};
-
-export const ResponsiveColumnLayout = ({
-  children,
-  css,
-  smallColumnReverse = false,
-}: {
-  children: React.ReactNode;
-  smallColumnReverse?: boolean;
-  css?: CSS;
-}) => {
-  return (
-    <Flex
-      css={{
-        px: '$xl',
-        flexDirection: 'row',
-        '@sm': {
-          flexDirection: smallColumnReverse ? 'column-reverse' : 'column',
-          px: '$md',
-        },
-        width: '100%',
-        maxWidth: '$mediumScreen',
-        '& > div:first-child': {
-          flexGrow: 1,
-          maxWidth: '$readable',
-        },
-
-        '& > div:nth-child(2)': {
-          maxWidth: '$rightColumn',
-          flexGrow: 0,
-          '@sm': {
-            maxWidth: 'none',
-          },
-        },
-        gap: '$md',
-        ...css,
-      }}
-    >
-      {children}
     </Flex>
   );
 };
