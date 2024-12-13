@@ -5,11 +5,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Panel, Text, Flex, IconButton } from '../../ui';
 import { GemCoOutline } from 'icons/__generated';
 
-import {
-  MAX_GIVE,
-  MAX_POINTS_CAP,
-  POINTS_PER_GIVE,
-} from './getAvailablePoints';
+import { POINTS_PER_GIVE } from './getAvailablePoints';
 import { PointsBarInfo } from './PointsBarInfo';
 import { usePoints } from './usePoints';
 
@@ -69,18 +65,20 @@ export const PointsBar = ({
   demo?: boolean;
   forceTheme?: 'dark' | 'light';
 }) => {
-  let { give, points } = usePoints();
+  const pointsInfo = usePoints();
+  let { give, points } = pointsInfo;
+  const { giveCap, pointsCap } = pointsInfo;
 
   if (demo) {
     give = 25;
-    points = MAX_POINTS_CAP;
+    points = pointsCap;
   }
 
   // Dynamically generate tickMark styles
-  for (let i = 1; i <= MAX_GIVE; i++) {
+  for (let i = 1; i <= giveCap; i++) {
     const key: string = `&.tickMark-${i}`;
     (progressStyles['.tickMark'] as any)[key] = {
-      left: `calc(100% / ${MAX_GIVE} * ${i} - 2px)`,
+      left: `calc(100% / ${giveCap} * ${i} - 2px)`,
       'svg path': {
         fill: points && points >= POINTS_PER_GIVE * i ? '$cta' : '$border',
       },
@@ -92,8 +90,8 @@ export const PointsBar = ({
   if (barOnly) {
     return (
       <Flex css={{ ...progressStyles }}>
-        <progress id="points" max={MAX_POINTS_CAP} value={points} />
-        {Array.from({ length: MAX_GIVE }, (_, index) => (
+        <progress id="points" max={pointsCap} value={points} />
+        {Array.from({ length: giveCap }, (_, index) => (
           <Text key={index + 1} className={`tickMark tickMark-${index + 1}`}>
             {/* <GemCoOutline fa /> */}
           </Text>
@@ -174,8 +172,8 @@ export const PointsBar = ({
               </Flex>
             </Flex>
             <Flex css={{ ...progressStyles }}>
-              <progress id="points" max={MAX_POINTS_CAP} value={points} />
-              {Array.from({ length: MAX_GIVE }, (_, index) => (
+              <progress id="points" max={pointsCap} value={points} />
+              {Array.from({ length: giveCap }, (_, index) => (
                 <Text
                   key={index + 1}
                   className={`tickMark tickMark-${index + 1}`}

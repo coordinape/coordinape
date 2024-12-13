@@ -1,17 +1,26 @@
 import { DateTime } from 'luxon';
 
-// EMISSION_PER_SECOND is the rate at which points are accrued
-export const EMISSION_PER_SECOND = 1;
-export const MAX_GIVE = 25;
-export const MAX_POINTS_CAP = MAX_GIVE * EMISSION_PER_SECOND * 60 * 60 * 24;
-export const POINTS_PER_GIVE = MAX_POINTS_CAP / MAX_GIVE;
+import { getEmissionTier, getGiveCap } from './emissionTiers';
 
-export const getAvailablePoints = (balance: number, checkpoint: string) => {
+// TODO change
+export const MAX_GIVE = 13;
+
+// Points per give calculated from pre-tier give rates, and now hard-coded.
+export const POINTS_PER_GIVE = 60 * 60 * 24;
+
+export const getAvailablePoints = (
+  balance: number,
+  checkpoint: string,
+  tokenBalance: number = 0
+) => {
   const checkpointTime = DateTime.fromISO(checkpoint);
   const secondsSinceLastCheckpoint = DateTime.now()
     .diff(checkpointTime)
     .as('seconds');
 
-  const accruedPoints = secondsSinceLastCheckpoint * EMISSION_PER_SECOND;
-  return Math.min(balance + accruedPoints, MAX_POINTS_CAP);
+  const emissionRate = getEmissionTier(tokenBalance).multiplier;
+  const giveCap = getGiveCap(tokenBalance);
+
+  const accruedPoints = secondsSinceLastCheckpoint * emissionRate;
+  return Math.min(balance + accruedPoints, giveCap * POINTS_PER_GIVE);
 };

@@ -55,6 +55,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             points_balance: true,
             points_checkpointed_at: true,
+            token_balances: [
+              {
+                where: {
+                  contract: {
+                    _eq: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+                  },
+                  chain: { _eq: '1' },
+                },
+                limit: 1,
+              },
+              {
+                balance: true,
+              },
+            ],
           },
         ],
       },
@@ -66,7 +80,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const points = getAvailablePoints(
       profiles_by_pk.points_balance,
-      profiles_by_pk.points_checkpointed_at
+      profiles_by_pk.points_checkpointed_at,
+      profiles_by_pk.token_balances[0].balance
     );
     // delete the thing
     // checkpoint balance

@@ -45334,6 +45334,66 @@ type profiles {
   reputation_score: reputation_scores
   skills: String
   telegram_username: String
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  An aggregate relationship
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp!
@@ -45630,6 +45690,8 @@ input profiles_bool_exp {
   reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
+  token_balances: token_balances_bool_exp
+  token_balances_aggregate: token_balances_aggregate_bool_exp
   tos_agreed_at: timestamp_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
@@ -45740,6 +45802,7 @@ input profiles_insert_input {
   reputation_score: reputation_scores_obj_rel_insert_input
   skills: String
   telegram_username: String
+  token_balances: token_balances_arr_rel_insert_input
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
@@ -45917,6 +45980,7 @@ input profiles_order_by {
   reputation_score: reputation_scores_order_by
   skills: order_by
   telegram_username: order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
   tos_agreed_at: order_by
   twitter_username: order_by
   updated_at: order_by

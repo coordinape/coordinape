@@ -12882,6 +12882,29 @@ export type ValueTypes = {
     reputation_score?: ValueTypes['reputation_scores'];
     skills?: boolean | `@${string}`;
     telegram_username?: boolean | `@${string}`;
+    token_balances?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['token_balances_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['token_balances_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['token_balances_bool_exp'] | undefined | null;
+      },
+      ValueTypes['token_balances'],
+    ];
     tos_agreed_at?: boolean | `@${string}`;
     twitter_username?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -13054,6 +13077,7 @@ export type ValueTypes = {
       | null;
     skills?: ValueTypes['String_comparison_exp'] | undefined | null;
     telegram_username?: ValueTypes['String_comparison_exp'] | undefined | null;
+    token_balances?: ValueTypes['token_balances_bool_exp'] | undefined | null;
     tos_agreed_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
     twitter_username?: ValueTypes['String_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamp_comparison_exp'] | undefined | null;
@@ -13150,6 +13174,10 @@ export type ValueTypes = {
       | null;
     skills?: ValueTypes['order_by'] | undefined | null;
     telegram_username?: ValueTypes['order_by'] | undefined | null;
+    token_balances_aggregate?:
+      | ValueTypes['token_balances_aggregate_order_by']
+      | undefined
+      | null;
     tos_agreed_at?: ValueTypes['order_by'] | undefined | null;
     twitter_username?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -27094,6 +27122,8 @@ export type ModelTypes = {
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
@@ -38839,6 +38869,8 @@ export type GraphQLTypes = {
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     skills?: string | undefined;
     telegram_username?: string | undefined;
+    /** An array relationship */
+    token_balances: Array<GraphQLTypes['token_balances']>;
     tos_agreed_at?: GraphQLTypes['timestamp'] | undefined;
     twitter_username?: string | undefined;
     updated_at: GraphQLTypes['timestamp'];
@@ -38917,6 +38949,7 @@ export type GraphQLTypes = {
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     skills?: GraphQLTypes['String_comparison_exp'] | undefined;
     telegram_username?: GraphQLTypes['String_comparison_exp'] | undefined;
+    token_balances?: GraphQLTypes['token_balances_bool_exp'] | undefined;
     tos_agreed_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
     twitter_username?: GraphQLTypes['String_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamp_comparison_exp'] | undefined;
@@ -38993,6 +39026,9 @@ export type GraphQLTypes = {
     reputation_score?: GraphQLTypes['reputation_scores_order_by'] | undefined;
     skills?: GraphQLTypes['order_by'] | undefined;
     telegram_username?: GraphQLTypes['order_by'] | undefined;
+    token_balances_aggregate?:
+      | GraphQLTypes['token_balances_aggregate_order_by']
+      | undefined;
     tos_agreed_at?: GraphQLTypes['order_by'] | undefined;
     twitter_username?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;

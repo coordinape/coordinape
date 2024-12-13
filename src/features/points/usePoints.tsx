@@ -6,18 +6,15 @@ import { useQuery } from 'react-query';
 import { client } from '../../lib/gql/client';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
-import {
-  EMISSION_PER_SECOND,
-  POINTS_PER_GIVE,
-  getAvailablePoints,
-} from './getAvailablePoints';
+import { getEmissionTier, getGiveCap } from './emissionTiers';
+import { POINTS_PER_GIVE, getAvailablePoints } from './getAvailablePoints';
 
 export const POINTS_QUERY_KEY = 'points_query_key';
 
 export const usePoints = () => {
   const address = useConnectedAddress();
 
-  const { data: points } = useQuery(
+  const { data } = useQuery(
     [POINTS_QUERY_KEY],
     async () => {
       return await getMyAvailablePoints();
@@ -30,14 +27,22 @@ export const usePoints = () => {
     }
   );
 
+  const points = data?.points;
+  const tokenBalance = data?.tokenBalance;
+
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : undefined;
   const canGive = give ? give >= 1 : false;
-  const nextGiveAt = points ? nextGiveAvailableAt(points) : undefined;
+  const nextGiveAt = points
+    ? nextGiveAvailableAt(points, tokenBalance)
+    : undefined;
+  const giveCap = getGiveCap(tokenBalance);
+  const pointsCap = giveCap * POINTS_PER_GIVE;
 
-  return { points, give, canGive, nextGiveAt };
+  return { points, give, canGive, nextGiveAt, giveCap, pointsCap };
 };
 
 const getMyAvailablePoints = async () => {
+  // TODO: move contract address to const
   const { profiles_private } = await client.query(
     {
       profiles_private: [
@@ -45,6 +50,20 @@ const getMyAvailablePoints = async () => {
         {
           points_balance: true,
           points_checkpointed_at: true,
+          token_balances: [
+            {
+              where: {
+                contract: {
+                  _eq: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+                },
+                chain: { _eq: '1' },
+              },
+              limit: 1,
+            },
+            {
+              balance: true,
+            },
+          ],
         },
       ],
     },
@@ -57,16 +76,22 @@ const getMyAvailablePoints = async () => {
   assert(profile.points_balance !== undefined);
   assert(profile.points_checkpointed_at !== undefined);
 
-  return getAvailablePoints(
-    profile.points_balance,
-    profile.points_checkpointed_at
-  );
+  return {
+    points: getAvailablePoints(
+      profile.points_balance,
+      profile.points_checkpointed_at,
+      profile.token_balances[0]?.balance ?? 0
+    ),
+    tokenBalance: profile.token_balances[0]?.balance ?? 0,
+  };
 };
 
-const nextGiveAvailableAt = (currPoints: number) => {
+const nextGiveAvailableAt = (currPoints: number, tokenBalance: number) => {
   const needed = POINTS_PER_GIVE - (currPoints % POINTS_PER_GIVE);
+  const emissionTier = getEmissionTier(tokenBalance);
+  const emissionsPerSecond = emissionTier.multiplier;
   const timeAt: DateTime = DateTime.now().plus({
-    seconds: needed / EMISSION_PER_SECOND,
+    seconds: needed / emissionsPerSecond,
   });
   return timeAt;
 };

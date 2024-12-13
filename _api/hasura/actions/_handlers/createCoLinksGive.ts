@@ -15,9 +15,9 @@ import {
   findOrCreateProfileByFid,
 } from '../../../../api-lib/neynar/findOrCreate.ts';
 import { fetchCast } from '../../../../api-lib/neynar.ts';
+import { getGiveCap } from '../../../../src/features/points/emissionTiers.ts';
 import {
   getAvailablePoints,
-  MAX_GIVE,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
@@ -110,6 +110,20 @@ export const fetchPoints = async (profileId: number) => {
         {
           points_balance: true,
           points_checkpointed_at: true,
+          token_balances: [
+            {
+              where: {
+                contract: {
+                  _eq: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+                },
+                chain: { _eq: '1' },
+              },
+              limit: 1,
+            },
+            {
+              balance: true,
+            },
+          ],
         },
       ],
     },
@@ -121,21 +135,24 @@ export const fetchPoints = async (profileId: number) => {
 
   const points = getAvailablePoints(
     profiles_by_pk.points_balance,
-    profiles_by_pk.points_checkpointed_at
+    profiles_by_pk.points_checkpointed_at,
+    profiles_by_pk.token_balances[0]?.balance
   );
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : 0;
 
   const canGive = points >= POINTS_PER_GIVE;
 
+  const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
+
   // Ghouls get unlimited gives
   if (!canGive) {
     if (await hasGhoulNft(profileId)) {
-      return { points, give: MAX_GIVE, canGive: true };
+      return { points, give: giveCap, canGive: true, giveCap };
     }
   }
 
-  return { points, give, canGive };
+  return { points, give, canGive, giveCap };
 };
 
 export const hasGhoulNft = async (profileId: number) => {

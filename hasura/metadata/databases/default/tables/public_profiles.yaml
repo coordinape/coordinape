@@ -135,6 +135,15 @@ array_relationships:
         table:
           name: profile_flags
           schema: public
+  - name: token_balances
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: token_balances
+          schema: public
   - name: users
     using:
       foreign_key_constraint_on:
