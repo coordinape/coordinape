@@ -48,17 +48,6 @@ export const GiveHomePage = () => {
             css={{
               backgroundSize: '10px 10px',
               backgroundImage:
-                'repeating-linear-gradient(135deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
-              border: '0.5px dotted $borderDimmer',
-            }}
-          >
-            <MostLikedCasts />
-          </Panel>
-          <Panel
-            noBorder
-            css={{
-              backgroundSize: '10px 10px',
-              backgroundImage:
                 'repeating-linear-gradient(45deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
               border: '0.5px dotted $borderDimmer',
             }}
@@ -99,6 +88,17 @@ export const GiveHomePage = () => {
             }}
           >
             <OtherGiveSkills skipFirst={3} />
+          </Panel>
+          <Panel
+            noBorder
+            css={{
+              backgroundSize: '10px 10px',
+              backgroundImage:
+                'repeating-linear-gradient(135deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
+              border: '0.5px dotted $borderDimmer',
+            }}
+          >
+            <MostLikedCasts />
           </Panel>
         </Flex>
         <Flex column>

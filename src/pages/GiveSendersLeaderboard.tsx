@@ -54,7 +54,7 @@ export const GiveSendersLeaderboard = () => {
           },
         },
         {
-          operationName: 'coLinks_giveLeaderboard_topReceivers',
+          operationName: 'coLinks_giveLeaderboard_topSenders',
         }
       );
 
