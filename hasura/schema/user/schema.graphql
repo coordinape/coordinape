@@ -17564,6 +17564,36 @@ type profiles {
   reputation_score: reputation_scores
   skills: String
   telegram_username: String
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp!
@@ -17711,6 +17741,7 @@ input profiles_bool_exp {
   reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
+  token_balances: token_balances_bool_exp
   tos_agreed_at: timestamp_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
@@ -17784,6 +17815,7 @@ input profiles_order_by {
   reputation_score: reputation_scores_order_by
   skills: order_by
   telegram_username: order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
   tos_agreed_at: order_by
   twitter_username: order_by
   updated_at: order_by
@@ -17809,6 +17841,36 @@ type profiles_private {
   id: bigint
   points_balance: float8
   points_checkpointed_at: timestamptz
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
 }
 
 """
@@ -17823,6 +17885,7 @@ input profiles_private_bool_exp {
   id: bigint_comparison_exp
   points_balance: float8_comparison_exp
   points_checkpointed_at: timestamptz_comparison_exp
+  token_balances: token_balances_bool_exp
 }
 
 """
@@ -17849,6 +17912,7 @@ input profiles_private_order_by {
   id: order_by
   points_balance: order_by
   points_checkpointed_at: order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
 }
 
 """
@@ -18256,6 +18320,36 @@ type profiles_public {
   An object relationship
   """
   reputation_score: reputation_scores
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
   website: String
 }
 
@@ -18290,6 +18384,7 @@ input profiles_public_bool_exp {
   post_count_last_30_days: bigint_comparison_exp
   profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
+  token_balances: token_balances_bool_exp
   website: String_comparison_exp
 }
 
@@ -18317,6 +18412,7 @@ input profiles_public_order_by {
   post_count_last_30_days: order_by
   profile_skills_aggregate: profile_skills_aggregate_order_by
   reputation_score: reputation_scores_order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
   website: order_by
 }
 
@@ -21276,6 +21372,41 @@ type query_root {
   fetch data from the table: "teammates" using primary key columns
   """
   teammates_by_pk(id: bigint!): teammates
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  fetch data from the table: "token_balances" using primary key columns
+  """
+  token_balances_by_pk(id: bigint!): token_balances
 
   """
   An array relationship
@@ -27353,6 +27484,61 @@ type subscription_root {
   """
   An array relationship
   """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  fetch data from the table: "token_balances" using primary key columns
+  """
+  token_balances_by_pk(id: bigint!): token_balances
+
+  """
+  fetch data from the table in a streaming manner: "token_balances"
+  """
+  token_balances_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [token_balances_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  An array relationship
+  """
   token_gifts(
     """
     distinct select on columns
@@ -28235,6 +28421,252 @@ input timestamptz_comparison_exp {
   _lte: timestamptz
   _neq: timestamptz
   _nin: [timestamptz!]
+}
+
+"""
+Balances of tokens for given address, chain, contract
+"""
+type token_balances {
+  address: citext!
+  balance: numeric!
+  chain: String!
+  contract: String!
+  created_at: timestamptz!
+  id: bigint!
+  last_checked_at: timestamptz
+
+  """
+  An object relationship
+  """
+  profiles_public: profiles_public
+  symbol: String!
+  updated_at: timestamptz!
+}
+
+"""
+order by aggregate values of table "token_balances"
+"""
+input token_balances_aggregate_order_by {
+  avg: token_balances_avg_order_by
+  count: order_by
+  max: token_balances_max_order_by
+  min: token_balances_min_order_by
+  stddev: token_balances_stddev_order_by
+  stddev_pop: token_balances_stddev_pop_order_by
+  stddev_samp: token_balances_stddev_samp_order_by
+  sum: token_balances_sum_order_by
+  var_pop: token_balances_var_pop_order_by
+  var_samp: token_balances_var_samp_order_by
+  variance: token_balances_variance_order_by
+}
+
+"""
+order by avg() on columns of table "token_balances"
+"""
+input token_balances_avg_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "token_balances". All fields are combined with a logical 'AND'.
+"""
+input token_balances_bool_exp {
+  _and: [token_balances_bool_exp!]
+  _not: token_balances_bool_exp
+  _or: [token_balances_bool_exp!]
+  address: citext_comparison_exp
+  balance: numeric_comparison_exp
+  chain: String_comparison_exp
+  contract: String_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: bigint_comparison_exp
+  last_checked_at: timestamptz_comparison_exp
+  profiles_public: profiles_public_bool_exp
+  symbol: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
+order by max() on columns of table "token_balances"
+"""
+input token_balances_max_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  symbol: order_by
+  updated_at: order_by
+}
+
+"""
+order by min() on columns of table "token_balances"
+"""
+input token_balances_min_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  symbol: order_by
+  updated_at: order_by
+}
+
+"""
+Ordering options when selecting data from "token_balances".
+"""
+input token_balances_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  profiles_public: profiles_public_order_by
+  symbol: order_by
+  updated_at: order_by
+}
+
+"""
+select columns of table "token_balances"
+"""
+enum token_balances_select_column {
+  """
+  column name
+  """
+  address
+
+  """
+  column name
+  """
+  balance
+
+  """
+  column name
+  """
+  chain
+
+  """
+  column name
+  """
+  contract
+
+  """
+  column name
+  """
+  created_at
+
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  last_checked_at
+
+  """
+  column name
+  """
+  symbol
+
+  """
+  column name
+  """
+  updated_at
+}
+
+"""
+order by stddev() on columns of table "token_balances"
+"""
+input token_balances_stddev_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+order by stddev_pop() on columns of table "token_balances"
+"""
+input token_balances_stddev_pop_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+order by stddev_samp() on columns of table "token_balances"
+"""
+input token_balances_stddev_samp_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+Streaming cursor of the table "token_balances"
+"""
+input token_balances_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: token_balances_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input token_balances_stream_cursor_value_input {
+  address: citext
+  balance: numeric
+  chain: String
+  contract: String
+  created_at: timestamptz
+  id: bigint
+  last_checked_at: timestamptz
+  symbol: String
+  updated_at: timestamptz
+}
+
+"""
+order by sum() on columns of table "token_balances"
+"""
+input token_balances_sum_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+order by var_pop() on columns of table "token_balances"
+"""
+input token_balances_var_pop_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+order by var_samp() on columns of table "token_balances"
+"""
+input token_balances_var_samp_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
+order by variance() on columns of table "token_balances"
+"""
+input token_balances_variance_order_by {
+  balance: order_by
+  id: order_by
 }
 
 """

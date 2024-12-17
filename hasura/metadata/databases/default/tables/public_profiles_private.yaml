@@ -1,6 +1,16 @@
 table:
   name: profiles_private
   schema: public
+array_relationships:
+  - name: token_balances
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: token_balances
+          schema: public
 select_permissions:
   - role: user
     permission:

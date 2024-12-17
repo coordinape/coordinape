@@ -1,8 +1,10 @@
 import { Flex, Text } from 'ui';
 
-import { MAX_GIVE } from './getAvailablePoints';
+import { usePoints } from './usePoints';
 
 export const PointsBarInfo = () => {
+  const { giveCap } = usePoints();
+
   return (
     <>
       <Flex
@@ -37,7 +39,7 @@ export const PointsBarInfo = () => {
           CoSoul.
         </Text>
         <Text inline size="small">
-          Your GIVE bar is always slowly recharging and maxes out at {MAX_GIVE}.
+          Your GIVE bar is always slowly recharging and maxes out at {giveCap}.
         </Text>
       </Flex>
     </>

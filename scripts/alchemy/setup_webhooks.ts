@@ -6,7 +6,8 @@ import assert from 'assert';
 
 import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
 
-import { TOKENS } from '../../api-lib/tokenBalances';
+import { TOKENS } from '../../src/features/points/getAvailablePoints';
+
 
 const api_token = process.env.ALCHEMY_API_TOKEN;
 assert(api_token, 'Missing ALCHEMY_API_TOKEN');

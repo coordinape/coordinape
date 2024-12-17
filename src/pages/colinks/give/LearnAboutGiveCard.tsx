@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 
 import { useConnectModal } from '@rainbow-me/rainbowkit';
 import { CoLinksContext } from 'features/colinks/CoLinksContext';
-import { MAX_GIVE } from 'features/points/getAvailablePoints';
 import { PointsBar } from 'features/points/PointsBar';
 import { usePoints } from 'features/points/usePoints';
 
+import { getGiveCap } from '../../../features/points/emissionTiers';
 import { Button, Flex, Link, Panel, Text } from '../../../ui';
 import { DrawerModal } from '../../../ui/DrawerModal';
 import { GemCoOutline } from 'icons/__generated';
@@ -19,7 +19,7 @@ import { LearnCard, contentStyles } from './LearnCard';
 export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { address } = useContext(CoLinksContext);
-  const { give } = usePoints();
+  const { give, giveCap } = usePoints();
   const { openConnectModal, connectModalOpen } = useConnectModal();
 
   return (
@@ -114,7 +114,7 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
                     </Text>
                   </Flex>
                   <Text size="small" semibold color="link">
-                    {address ? give : MAX_GIVE}
+                    {address ? give : giveCap}
                     <GemCoOutline fa css={{ ml: '$xs' }} />
                   </Text>
                 </Flex>
@@ -131,7 +131,7 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
                   color="cta"
                   css={{}}
                 >
-                  Login To Get {MAX_GIVE} GIVE
+                  Login To Get {getGiveCap()} GIVE
                 </Button>
               )}
             </Flex>

@@ -21,7 +21,7 @@ const imageNode = async (params: Record<string, string>) => {
     numGiveSent: giverTotalGiven,
     numGiveReceived: receiverTotalReceived,
   } = await fetchProfileInfo(viewerProfile?.id);
-  const { give } = await fetchPoints(viewerProfile?.id);
+  const { give, giveCap } = await fetchPoints(viewerProfile?.id);
 
   // TODO: Show how many GIVE left to level up
   return (
@@ -41,6 +41,7 @@ const imageNode = async (params: Record<string, string>) => {
             giverTotalGiven={giverTotalGiven}
             receiverTotalReceived={receiverTotalReceived}
             giveAvailable={give}
+            giveCap={giveCap}
             level="2"
           />
         </FrameHeadline>

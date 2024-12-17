@@ -11,6 +11,8 @@ import {
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import {
+  CO_CHAIN,
+  CO_CONTRACT,
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
@@ -55,6 +57,20 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
           {
             points_balance: true,
             points_checkpointed_at: true,
+            token_balances: [
+              {
+                where: {
+                  contract: {
+                    _eq: CO_CONTRACT,
+                  },
+                  chain: { _eq: CO_CHAIN.toString() },
+                },
+                limit: 1,
+              },
+              {
+                balance: true,
+              },
+            ],
           },
         ],
       },
@@ -66,7 +82,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const points = getAvailablePoints(
       profiles_by_pk.points_balance,
-      profiles_by_pk.points_checkpointed_at
+      profiles_by_pk.points_checkpointed_at,
+      profiles_by_pk.token_balances[0].balance
     );
     // delete the thing
     // checkpoint balance

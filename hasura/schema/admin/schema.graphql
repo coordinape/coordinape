@@ -45334,6 +45334,66 @@ type profiles {
   reputation_score: reputation_scores
   skills: String
   telegram_username: String
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  An aggregate relationship
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp!
@@ -45630,6 +45690,8 @@ input profiles_bool_exp {
   reputation_score: reputation_scores_bool_exp
   skills: String_comparison_exp
   telegram_username: String_comparison_exp
+  token_balances: token_balances_bool_exp
+  token_balances_aggregate: token_balances_aggregate_bool_exp
   tos_agreed_at: timestamp_comparison_exp
   twitter_username: String_comparison_exp
   updated_at: timestamp_comparison_exp
@@ -45740,6 +45802,7 @@ input profiles_insert_input {
   reputation_score: reputation_scores_obj_rel_insert_input
   skills: String
   telegram_username: String
+  token_balances: token_balances_arr_rel_insert_input
   tos_agreed_at: timestamp
   twitter_username: String
   updated_at: timestamp
@@ -45917,6 +45980,7 @@ input profiles_order_by {
   reputation_score: reputation_scores_order_by
   skills: order_by
   telegram_username: order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
   tos_agreed_at: order_by
   twitter_username: order_by
   updated_at: order_by
@@ -45943,6 +46007,66 @@ type profiles_private {
   id: bigint
   points_balance: float8
   points_checkpointed_at: timestamptz
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  An aggregate relationship
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
 }
 
 """
@@ -45990,6 +46114,8 @@ input profiles_private_bool_exp {
   id: bigint_comparison_exp
   points_balance: float8_comparison_exp
   points_checkpointed_at: timestamptz_comparison_exp
+  token_balances: token_balances_bool_exp
+  token_balances_aggregate: token_balances_aggregate_bool_exp
 }
 
 """
@@ -46009,6 +46135,7 @@ input profiles_private_insert_input {
   id: bigint
   points_balance: float8
   points_checkpointed_at: timestamptz
+  token_balances: token_balances_arr_rel_insert_input
 }
 
 """
@@ -46057,6 +46184,7 @@ input profiles_private_order_by {
   id: order_by
   points_balance: order_by
   points_checkpointed_at: order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
 }
 
 """
@@ -46649,6 +46777,66 @@ type profiles_public {
   An object relationship
   """
   reputation_score: reputation_scores
+
+  """
+  An array relationship
+  """
+  token_balances(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): [token_balances!]!
+
+  """
+  An aggregate relationship
+  """
+  token_balances_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [token_balances_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [token_balances_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: token_balances_bool_exp
+  ): token_balances_aggregate!
   website: String
 }
 
@@ -46723,6 +46911,8 @@ input profiles_public_bool_exp {
   profile_skills: profile_skills_bool_exp
   profile_skills_aggregate: profile_skills_aggregate_bool_exp
   reputation_score: reputation_scores_bool_exp
+  token_balances: token_balances_bool_exp
+  token_balances_aggregate: token_balances_aggregate_bool_exp
   website: String_comparison_exp
 }
 
@@ -46751,6 +46941,7 @@ input profiles_public_insert_input {
   post_count_last_30_days: bigint
   profile_skills: profile_skills_arr_rel_insert_input
   reputation_score: reputation_scores_obj_rel_insert_input
+  token_balances: token_balances_arr_rel_insert_input
   website: String
 }
 
@@ -46822,6 +47013,7 @@ input profiles_public_order_by {
   post_count_last_30_days: order_by
   profile_skills_aggregate: profile_skills_aggregate_order_by
   reputation_score: reputation_scores_order_by
+  token_balances_aggregate: token_balances_aggregate_order_by
   website: order_by
 }
 
@@ -53050,7 +53242,7 @@ type query_root {
   teammates_by_pk(id: bigint!): teammates
 
   """
-  fetch data from the table: "token_balances"
+  An array relationship
   """
   token_balances(
     """
@@ -53080,7 +53272,7 @@ type query_root {
   ): [token_balances!]!
 
   """
-  fetch aggregated fields from the table: "token_balances"
+  An aggregate relationship
   """
   token_balances_aggregate(
     """
@@ -63901,7 +64093,7 @@ type subscription_root {
   ): [teammates!]!
 
   """
-  fetch data from the table: "token_balances"
+  An array relationship
   """
   token_balances(
     """
@@ -63931,7 +64123,7 @@ type subscription_root {
   ): [token_balances!]!
 
   """
-  fetch aggregated fields from the table: "token_balances"
+  An aggregate relationship
   """
   token_balances_aggregate(
     """
@@ -65571,6 +65763,11 @@ type token_balances {
   created_at: timestamptz!
   id: bigint!
   last_checked_at: timestamptz
+
+  """
+  An object relationship
+  """
+  profiles_public: profiles_public
   symbol: String!
   updated_at: timestamptz!
 }
@@ -65581,6 +65778,17 @@ aggregated selection of "token_balances"
 type token_balances_aggregate {
   aggregate: token_balances_aggregate_fields
   nodes: [token_balances!]!
+}
+
+input token_balances_aggregate_bool_exp {
+  count: token_balances_aggregate_bool_exp_count
+}
+
+input token_balances_aggregate_bool_exp_count {
+  arguments: [token_balances_select_column!]
+  distinct: Boolean
+  filter: token_balances_bool_exp
+  predicate: Int_comparison_exp!
 }
 
 """
@@ -65601,11 +65809,48 @@ type token_balances_aggregate_fields {
 }
 
 """
+order by aggregate values of table "token_balances"
+"""
+input token_balances_aggregate_order_by {
+  avg: token_balances_avg_order_by
+  count: order_by
+  max: token_balances_max_order_by
+  min: token_balances_min_order_by
+  stddev: token_balances_stddev_order_by
+  stddev_pop: token_balances_stddev_pop_order_by
+  stddev_samp: token_balances_stddev_samp_order_by
+  sum: token_balances_sum_order_by
+  var_pop: token_balances_var_pop_order_by
+  var_samp: token_balances_var_samp_order_by
+  variance: token_balances_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "token_balances"
+"""
+input token_balances_arr_rel_insert_input {
+  data: [token_balances_insert_input!]!
+
+  """
+  upsert condition
+  """
+  on_conflict: token_balances_on_conflict
+}
+
+"""
 aggregate avg on columns
 """
 type token_balances_avg_fields {
   balance: Float
   id: Float
+}
+
+"""
+order by avg() on columns of table "token_balances"
+"""
+input token_balances_avg_order_by {
+  balance: order_by
+  id: order_by
 }
 
 """
@@ -65622,6 +65867,7 @@ input token_balances_bool_exp {
   created_at: timestamptz_comparison_exp
   id: bigint_comparison_exp
   last_checked_at: timestamptz_comparison_exp
+  profiles_public: profiles_public_bool_exp
   symbol: String_comparison_exp
   updated_at: timestamptz_comparison_exp
 }
@@ -65660,6 +65906,7 @@ input token_balances_insert_input {
   created_at: timestamptz
   id: bigint
   last_checked_at: timestamptz
+  profiles_public: profiles_public_obj_rel_insert_input
   symbol: String
   updated_at: timestamptz
 }
@@ -65680,6 +65927,21 @@ type token_balances_max_fields {
 }
 
 """
+order by max() on columns of table "token_balances"
+"""
+input token_balances_max_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  symbol: order_by
+  updated_at: order_by
+}
+
+"""
 aggregate min on columns
 """
 type token_balances_min_fields {
@@ -65692,6 +65954,21 @@ type token_balances_min_fields {
   last_checked_at: timestamptz
   symbol: String
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "token_balances"
+"""
+input token_balances_min_order_by {
+  address: order_by
+  balance: order_by
+  chain: order_by
+  contract: order_by
+  created_at: order_by
+  id: order_by
+  last_checked_at: order_by
+  symbol: order_by
+  updated_at: order_by
 }
 
 """
@@ -65729,6 +66006,7 @@ input token_balances_order_by {
   created_at: order_by
   id: order_by
   last_checked_at: order_by
+  profiles_public: profiles_public_order_by
   symbol: order_by
   updated_at: order_by
 }
@@ -65814,6 +66092,14 @@ type token_balances_stddev_fields {
 }
 
 """
+order by stddev() on columns of table "token_balances"
+"""
+input token_balances_stddev_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
 aggregate stddev_pop on columns
 """
 type token_balances_stddev_pop_fields {
@@ -65822,11 +66108,27 @@ type token_balances_stddev_pop_fields {
 }
 
 """
+order by stddev_pop() on columns of table "token_balances"
+"""
+input token_balances_stddev_pop_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
 aggregate stddev_samp on columns
 """
 type token_balances_stddev_samp_fields {
   balance: Float
   id: Float
+}
+
+"""
+order by stddev_samp() on columns of table "token_balances"
+"""
+input token_balances_stddev_samp_order_by {
+  balance: order_by
+  id: order_by
 }
 
 """
@@ -65865,6 +66167,14 @@ aggregate sum on columns
 type token_balances_sum_fields {
   balance: numeric
   id: bigint
+}
+
+"""
+order by sum() on columns of table "token_balances"
+"""
+input token_balances_sum_order_by {
+  balance: order_by
+  id: order_by
 }
 
 """
@@ -65943,6 +66253,14 @@ type token_balances_var_pop_fields {
 }
 
 """
+order by var_pop() on columns of table "token_balances"
+"""
+input token_balances_var_pop_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
 aggregate var_samp on columns
 """
 type token_balances_var_samp_fields {
@@ -65951,11 +66269,27 @@ type token_balances_var_samp_fields {
 }
 
 """
+order by var_samp() on columns of table "token_balances"
+"""
+input token_balances_var_samp_order_by {
+  balance: order_by
+  id: order_by
+}
+
+"""
 aggregate variance on columns
 """
 type token_balances_variance_fields {
   balance: Float
   id: Float
+}
+
+"""
+order by variance() on columns of table "token_balances"
+"""
+input token_balances_variance_order_by {
+  balance: order_by
+  id: order_by
 }
 
 """

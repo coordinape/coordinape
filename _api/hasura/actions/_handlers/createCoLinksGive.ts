@@ -15,13 +15,14 @@ import {
   findOrCreateProfileByFid,
 } from '../../../../api-lib/neynar/findOrCreate.ts';
 import { fetchCast } from '../../../../api-lib/neynar.ts';
+import { getGiveCap } from '../../../../src/features/points/emissionTiers.ts';
 import {
+  CO_CHAIN,
+  CO_CONTRACT,
   getAvailablePoints,
-  MAX_GIVE,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
-import { GHOUL_CONTRACT } from '../../cron/fetchNFTOwners';
 
 const createCoLinksGiveInput = z
   .object({
@@ -110,6 +111,20 @@ export const fetchPoints = async (profileId: number) => {
         {
           points_balance: true,
           points_checkpointed_at: true,
+          token_balances: [
+            {
+              where: {
+                contract: {
+                  _eq: CO_CONTRACT,
+                },
+                chain: { _eq: CO_CHAIN.toString() },
+              },
+              limit: 1,
+            },
+            {
+              balance: true,
+            },
+          ],
         },
       ],
     },
@@ -121,46 +136,15 @@ export const fetchPoints = async (profileId: number) => {
 
   const points = getAvailablePoints(
     profiles_by_pk.points_balance,
-    profiles_by_pk.points_checkpointed_at
+    profiles_by_pk.points_checkpointed_at,
+    profiles_by_pk.token_balances[0]?.balance
   );
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : 0;
 
   const canGive = points >= POINTS_PER_GIVE;
 
-  // Ghouls get unlimited gives
-  if (!canGive) {
-    if (await hasGhoulNft(profileId)) {
-      return { points, give: MAX_GIVE, canGive: true };
-    }
-  }
+  const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
 
-  return { points, give, canGive };
-};
-
-export const hasGhoulNft = async (profileId: number) => {
-  const { profiles_by_pk } = await adminClient.query(
-    {
-      profiles_by_pk: [
-        { id: profileId },
-        {
-          id: true,
-          nft_holdings: [
-            {
-              where: {
-                collection: { address: { _eq: GHOUL_CONTRACT.address } },
-              },
-            },
-            {
-              token_id: true,
-            },
-          ],
-        },
-      ],
-    },
-    { operationName: 'hasGhoulNFT' }
-  );
-
-  // check if has any nft holdings
-  return !!profiles_by_pk?.nft_holdings[0]?.token_id;
+  return { points, give, canGive, giveCap };
 };

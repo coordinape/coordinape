@@ -1,3 +1,31 @@
 table:
   name: token_balances
   schema: public
+object_relationships:
+  - name: profiles_public
+    using:
+      manual_configuration:
+        column_mapping:
+          address: address
+        insertion_order: null
+        remote_table:
+          name: profiles_public
+          schema: public
+select_permissions:
+  - role: user
+    permission:
+      columns:
+        - address
+        - balance
+        - chain
+        - contract
+        - created_at
+        - id
+        - last_checked_at
+        - symbol
+        - updated_at
+      filter:
+        profiles_public:
+          id:
+            _eq: X-Hasura-User-Id
+    comment: ""
