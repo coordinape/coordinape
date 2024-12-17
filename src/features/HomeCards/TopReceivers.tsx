@@ -23,8 +23,8 @@ export const TopReceivers = () => {
                       colinks_gives_aggregate: {
                         count: order_by.desc_nulls_last,
                       },
-                      name: order_by.desc,
                     },
+                    { name: order_by.asc },
                   ],
                   limit: 6,
                 },
