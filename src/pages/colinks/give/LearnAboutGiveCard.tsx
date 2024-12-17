@@ -5,6 +5,7 @@ import { CoLinksContext } from 'features/colinks/CoLinksContext';
 import { PointsBar } from 'features/points/PointsBar';
 import { usePoints } from 'features/points/usePoints';
 
+import { getGiveCap } from '../../../features/points/emissionTiers';
 import { Button, Flex, Link, Panel, Text } from '../../../ui';
 import { DrawerModal } from '../../../ui/DrawerModal';
 import { GemCoOutline } from 'icons/__generated';
@@ -130,7 +131,7 @@ export const LearnAboutGiveCard = ({ linkText }: { linkText?: string }) => {
                   color="cta"
                   css={{}}
                 >
-                  Login To Get 25 GIVE
+                  Login To Get {getGiveCap()} GIVE
                 </Button>
               )}
             </Flex>

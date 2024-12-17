@@ -6,11 +6,11 @@ import { BigNumber, Contract } from 'ethers';
 import { isValidSignature } from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getProvider } from '../../api-lib/provider';
+import { updateTokenBalanceForAddress } from '../../api-lib/tokenBalances';
 import {
   TokenContract,
   TOKENS,
-  updateTokenBalanceForAddress,
-} from '../../api-lib/tokenBalances';
+} from '../../src/features/points/getAvailablePoints';
 
 export type TokenTransferTx = {
   from: string;

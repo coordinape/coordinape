@@ -7,27 +7,9 @@ import {
   token_balances_update_column,
 } from '../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../api-lib/gql/adminClient';
+import { TokenContract } from '../src/features/points/getAvailablePoints';
 
 import { BE_ALCHEMY_API_KEY } from './config';
-
-export type TokenContract = {
-  symbol: string;
-  chain: number;
-  contract: string;
-};
-
-export const TOKENS: TokenContract[] = [
-  {
-    symbol: 'CO',
-    chain: 1,
-    contract: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
-  },
-  {
-    symbol: 'AAVE',
-    chain: 1,
-    contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
-  },
-];
 
 const ALCHEMY_NETWORK: Record<number, Network> = {
   1: Network.ETH_MAINNET,

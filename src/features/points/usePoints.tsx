@@ -7,7 +7,12 @@ import { client } from '../../lib/gql/client';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { getEmissionTier, getGiveCap } from './emissionTiers';
-import { POINTS_PER_GIVE, getAvailablePoints } from './getAvailablePoints';
+import {
+  CO_CHAIN,
+  CO_CONTRACT,
+  POINTS_PER_GIVE,
+  getAvailablePoints,
+} from './getAvailablePoints';
 
 export const POINTS_QUERY_KEY = 'points_query_key';
 
@@ -42,7 +47,6 @@ export const usePoints = () => {
 };
 
 const getMyAvailablePoints = async () => {
-  // TODO: move contract address to const
   const { profiles_private } = await client.query(
     {
       profiles_private: [
@@ -54,9 +58,9 @@ const getMyAvailablePoints = async () => {
             {
               where: {
                 contract: {
-                  _eq: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+                  _eq: CO_CONTRACT,
                 },
-                chain: { _eq: '1' },
+                chain: { _eq: CO_CHAIN.toString() },
               },
               limit: 1,
             },
@@ -80,13 +84,13 @@ const getMyAvailablePoints = async () => {
     points: getAvailablePoints(
       profile.points_balance,
       profile.points_checkpointed_at,
-      profile.token_balances[0]?.balance ?? 0
+      BigInt(profile.token_balances[0]?.balance ?? 0)
     ),
     tokenBalance: profile.token_balances[0]?.balance ?? 0,
   };
 };
 
-const nextGiveAvailableAt = (currPoints: number, tokenBalance: number) => {
+const nextGiveAvailableAt = (currPoints: number, tokenBalance: bigint) => {
   const needed = POINTS_PER_GIVE - (currPoints % POINTS_PER_GIVE);
   const emissionTier = getEmissionTier(tokenBalance);
   const emissionsPerSecond = emissionTier.multiplier;

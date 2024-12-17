@@ -11,6 +11,8 @@ import {
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import {
+  CO_CHAIN,
+  CO_CONTRACT,
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
@@ -59,9 +61,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
               {
                 where: {
                   contract: {
-                    _eq: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+                    _eq: CO_CONTRACT,
                   },
-                  chain: { _eq: '1' },
+                  chain: { _eq: CO_CHAIN.toString() },
                 },
                 limit: 1,
               },

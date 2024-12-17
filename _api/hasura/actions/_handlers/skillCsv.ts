@@ -12,8 +12,6 @@ import { getInput } from '../../../../api-lib/handlerHelpers';
 import { uploadCsv } from '../../../../api-lib/s3';
 import { GHOUL_CONTRACT } from '../../cron/fetchNFTOwners.ts';
 
-import { hasGhoulNft } from './createCoLinksGive.ts';
-
 const skillCsvInput = z
   .object({
     skill: z.string(),
@@ -21,6 +19,33 @@ const skillCsvInput = z
   .strict();
 
 const LIMIT = 10000;
+
+const hasGhoulNft = async (profileId: number) => {
+  const { profiles_by_pk } = await adminClient.query(
+    {
+      profiles_by_pk: [
+        { id: profileId },
+        {
+          id: true,
+          nft_holdings: [
+            {
+              where: {
+                collection: { address: { _eq: GHOUL_CONTRACT.address } },
+              },
+            },
+            {
+              token_id: true,
+            },
+          ],
+        },
+      ],
+    },
+    { operationName: 'hasGhoulNFT' }
+  );
+
+  // check if has any nft holdings
+  return !!profiles_by_pk?.nft_holdings[0]?.token_id;
+};
 
 async function handler(req: VercelRequest, res: VercelResponse) {
   const { payload } = await getInput(req, skillCsvInput);
@@ -146,5 +171,4 @@ export async function generateCsvValues(
       }) || []
   );
 }
-
 export default handler;
