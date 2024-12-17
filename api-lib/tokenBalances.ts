@@ -51,7 +51,7 @@ export const updateTokenBalanceForAddress = async (
         {
           object: {
             balance: balBN.toString(),
-            address,
+            address: address.toLowerCase(),
             chain: token.chain.toString(),
             contract: token.contract,
             symbol: token.symbol,
