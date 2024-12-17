@@ -82,7 +82,7 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
             <Link as={NavLink} to={coLinksPaths.giveSkill(g.skill)}>
               <Text tag color="complete" size="small" css={{ gap: '$xs' }}>
                 <Text size="small" css={{ fontWeight: 'normal' }}>
-                  +1
+                  +{g.gives_last_7_days < 1 ? 1 : g.gives_last_7_days}
                 </Text>
                 <GemCoOutline fa size={'md'} />
                 <Text css={skillTextStyle}>{g.skill}</Text>
