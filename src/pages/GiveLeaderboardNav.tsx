@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import { Meteor, StarShooting, Stars } from 'icons/__generated';
+import { StarShooting, Stars, TimelineList, Timer } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
@@ -23,12 +23,26 @@ export const GiveLeaderboardNav = () => {
         to={coLinksPaths.give}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('/give') && {
+          ...(location.pathname === coLinksPaths.give && {
             ...activeTabStyles,
           }),
         }}
       >
-        <Meteor fa size="lg" />
+        <Timer fa size="lg" />
+        Recent GIVE
+      </Button>
+      <Button
+        as={NavLink}
+        color="textOnly"
+        to={coLinksPaths.giveLeaderboard}
+        css={{
+          ...tabStyles,
+          ...(location.pathname.includes('/giveLeaderboard') && {
+            ...activeTabStyles,
+          }),
+        }}
+      >
+        <TimelineList fa size="lg" />
         Top GIVE
       </Button>
       <Button

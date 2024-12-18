@@ -1,17 +1,15 @@
-import React from 'react';
-
-import { RecentGives } from 'features/colinks/RecentGives';
 import { Helmet } from 'react-helmet';
 
-import { CSS } from '../../../stitches.config';
 import { Flex } from '../../../ui';
+import { GiveLeaderboard } from 'pages/GiveLeaderboard';
 import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
 
 import { GiveBotCard } from './GiveBotCard';
+import { ResponsiveColumnLayout } from './GivePage';
 import { GivePartyCard } from './GivePartyCard';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
-export const GivePage = () => {
+export const GiveLeaderboardPage = () => {
   return (
     <Flex column>
       <Helmet>
@@ -34,8 +32,8 @@ export const GivePage = () => {
           },
         }}
       >
-        <Flex column css={{ '@sm': { margin: 'auto' } }}>
-          <RecentGives limit={35} />
+        <Flex column>
+          <GiveLeaderboard />
         </Flex>
         <Flex
           column
@@ -58,47 +56,6 @@ export const GivePage = () => {
           <GiveBotCard />
         </Flex>
       </ResponsiveColumnLayout>
-    </Flex>
-  );
-};
-
-export const ResponsiveColumnLayout = ({
-  children,
-  css,
-  smallColumnReverse = false,
-}: {
-  children: React.ReactNode;
-  smallColumnReverse?: boolean;
-  css?: CSS;
-}) => {
-  return (
-    <Flex
-      css={{
-        px: '$xl',
-        flexDirection: 'row',
-        '@sm': {
-          flexDirection: smallColumnReverse ? 'column-reverse' : 'column',
-          px: '$md',
-        },
-        width: '100%',
-        maxWidth: '$mediumScreen',
-        '& > div:first-child': {
-          flexGrow: 1,
-          maxWidth: '$readable',
-        },
-
-        '& > div:nth-child(2)': {
-          maxWidth: '$rightColumn',
-          flexGrow: 0,
-          '@sm': {
-            maxWidth: 'none',
-          },
-        },
-        gap: '$md',
-        ...css,
-      }}
-    >
-      {children}
     </Flex>
   );
 };
