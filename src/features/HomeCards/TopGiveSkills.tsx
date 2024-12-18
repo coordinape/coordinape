@@ -41,7 +41,7 @@ export const TopGiveSkills = ({
   const tierSkills = data?.slice(startIndex, endIndex);
 
   return (
-    <Flex column css={{}}>
+    <Flex column css={{ position: 'relative' }}>
       {tierSkills?.map(g => (
         <Flex column key={g.skill} gap="md">
           <Flex
@@ -52,7 +52,6 @@ export const TopGiveSkills = ({
               width: '100%',
               justifyContent: 'center',
               alignItems: 'center',
-              mb: '$md',
               borderRadius: '$3',
               background: '$background',
               p: '$md',
@@ -64,8 +63,6 @@ export const TopGiveSkills = ({
               css={{
                 alignItems: 'center',
                 gap: '$sm',
-                pb: '$xs',
-                borderBottom: '1px solid $borderDim',
               }}
             >
               <GemCoOutline fa size={'xl'} />
@@ -76,25 +73,19 @@ export const TopGiveSkills = ({
                   ...skillTextStyle,
                   maxWidth: '300px',
                   color: '$text',
+                  textTransform: 'capitalize',
                 }}
               >
                 {g.skill}
+                <br />
+                <Text size="small">Trending Skill</Text>
               </Text>
             </Flex>
-            <Text
-              size="small"
-              css={{
-                mt: '$sm',
-                height: 'auto',
-                color: '$text',
-              }}
-            >
-              Top GIVE
-            </Text>
           </Flex>
           <RecentGives skill={g.skill} limit={5} />
           <Flex css={{ justifyContent: 'center', width: '100%' }}>
             <Button
+              size="xs"
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
               color="primary"

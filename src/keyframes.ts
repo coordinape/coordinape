@@ -137,3 +137,8 @@ export const moveBg = keyframes({
     backgroundPosition: 'var(--bg-size) 0',
   },
 });
+export const gradientFlow = keyframes({
+  '0%': { backgroundPosition: '0% 50%' },
+  '50%': { backgroundPosition: '100% 51%' },
+  '100%': { backgroundPosition: '0% 50%' },
+});

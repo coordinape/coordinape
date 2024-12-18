@@ -1,4 +1,5 @@
 import { anonClient } from 'lib/anongql/anonClient';
+import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
 
@@ -187,6 +188,25 @@ export const RecentGives = ({
                   }}
                 >
                   #{give.skill}
+                </Text>
+                <Text
+                  tag
+                  css={{
+                    background: '$surface',
+                    color: '$text',
+                    position: 'absolute',
+                    height: pillHeight,
+                    bottom: `calc(0px - ${giveArtHeight})`,
+                    right: 0,
+                    borderRadius: 0,
+                    borderTopLeftRadius: '$2',
+                    fontSize: '$xs',
+                    px: '$sm',
+                    zIndex: 1,
+                    fontWeight: '$normal',
+                  }}
+                >
+                  {DateTime.fromISO(give.created_at).toRelative()}
                 </Text>
               </Link>
               <Link
