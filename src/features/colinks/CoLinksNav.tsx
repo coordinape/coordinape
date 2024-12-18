@@ -132,6 +132,7 @@ export const CoLinksNav = () => {
         >
           <NavLogo loggedIn={!!address} />
         </Flex>
+        <CoLinksSearchBox size="smallIcon" />
         <GiveAvailablePopover />
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-140.559,-137.398)">
+        <g id="write" transform="matrix(0.13395,0,0,0.149263,115.094,112.396)">
+            <rect x="190.107" y="167.501" width="179.172" height="160.79" style="fill:none;"/>
+            <clipPath id="_clip1">
+                <rect x="190.107" y="167.501" width="179.172" height="160.79"/>
+            </clipPath>
+            <g clip-path="url(#_clip1)">
+                <g id="magnifying-glass-regular.svg" transform="matrix(0.349945,0,0,0.314042,279.693,247.896)">
+                    <g transform="matrix(1,0,0,1,-256,-256)">
+                        <clipPath id="_clip2">
+                            <rect x="0" y="0" width="512" height="512"/>
+                        </clipPath>
+                        <g clip-path="url(#_clip2)">
+                            <path d="M368,208C368,120.227 295.773,48 208,48C120.227,48 48,120.227 48,208C48,295.773 120.227,368 208,368C295.773,368 368,295.773 368,208ZM337.1,371.1C301.7,399.2 256.8,416 208,416C93.1,416 0,322.9 0,208C0,93.1 93.1,0 208,0C322.9,0 416,93.1 416,208C416,256.8 399.2,301.7 371.1,337.1L505,471C514.4,480.4 514.4,495.6 505,504.9C495.6,514.2 480.4,514.3 471.1,504.9L337.1,371.1Z" style="fill-rule:nonzero;"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
