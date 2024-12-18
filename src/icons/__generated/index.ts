@@ -152,6 +152,7 @@ export { default as PolygonMaticLogo } from './PolygonMaticLogo';
 export { default as RefreshCcw } from './RefreshCcw';
 export { default as Save } from './Save';
 export { default as Scale } from './Scale';
+export { default as SearchFa } from './SearchFa';
 export { default as Search } from './Search';
 export { default as Settings } from './Settings';
 export { default as Share2 } from './Share2';

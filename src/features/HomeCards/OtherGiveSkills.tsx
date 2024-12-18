@@ -91,7 +91,7 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
           </>
         ))}
         <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
-          <Button as={NavLink} to={coLinksPaths.give} color="primary">
+          <Button size="xs" as={NavLink} to={coLinksPaths.give} color="primary">
             View Leaderboard
           </Button>
         </Flex>

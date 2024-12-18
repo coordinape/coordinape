@@ -4,8 +4,8 @@ import { flushSync } from 'react-dom';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ComboBox } from '../../components/ComboBox';
-import { Search } from '../../icons/__generated';
 import { Button, Flex, Modal, Text } from '../../ui';
+import { SearchFa } from 'icons/__generated';
 
 export function isMacBrowser(): boolean {
   return navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -19,7 +19,7 @@ export const SearchBox = ({
   resultsFunc,
 }: {
   placeholder?: string;
-  size?: 'medium' | 'large';
+  size?: 'smallIcon' | 'medium' | 'large';
   registerKeyDown?: boolean;
   viewResultsPathFunc?: (currentInput?: string) => string;
   resultsFunc({
@@ -76,29 +76,40 @@ export const SearchBox = ({
 
   return (
     <>
-      <Button
-        color="cmdk"
-        size={size}
-        ref={previouslyFocusedRef}
-        onClick={() => openPopover()}
-        css={{ width: '100%' }}
-      >
-        <Flex
-          className="cmdkInner"
-          css={{ justifyContent: 'space-between', width: '100%', gap: '$sm' }}
+      {size == 'smallIcon' ? (
+        <Button
+          color="textOnly"
+          ref={previouslyFocusedRef}
+          onClick={() => openPopover()}
+          css={{ p: 0, color: '$secondaryText' }}
         >
-          <Text className="cmdkPlaceholder">
-            {placeholder ?? 'Search Anything'}
-          </Text>
-          {registerKeyDown ? (
-            <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
-          ) : (
-            <Text className="cmdkKey">
-              <Search />
+          <SearchFa fa />
+        </Button>
+      ) : (
+        <Button
+          color="cmdk"
+          size={size}
+          ref={previouslyFocusedRef}
+          onClick={() => openPopover()}
+          css={{ width: '100%' }}
+        >
+          <Flex
+            className="cmdkInner"
+            css={{ justifyContent: 'space-between', width: '100%', gap: '$sm' }}
+          >
+            <Text className="cmdkPlaceholder">
+              {placeholder ?? 'Search Anything'}
             </Text>
-          )}
-        </Flex>
-      </Button>
+            {registerKeyDown ? (
+              <Text className="cmdkKey">{isMacBrowser() ? '⌘' : 'Ctrl-'}K</Text>
+            ) : (
+              <Text className="cmdkKey">
+                <SearchFa fa />
+              </Text>
+            )}
+          </Flex>
+        </Button>
+      )}
 
       <Modal
         onOpenChange={() => {
@@ -128,7 +139,7 @@ export const SearchBox = ({
                 navigate(viewResultsPathFunc(inputRef.current?.value))
               }
             >
-              <Search />
+              <SearchFa fa />
               View all results
             </Button>
           </Flex>

@@ -124,7 +124,12 @@ export const TopReceivers = () => {
             ))}
         </Flex>
         <Flex css={{ justifyContent: 'center', width: '100%', mt: '$md' }}>
-          <Button as={NavLink} to={coLinksPaths.giveReceivers} color="primary">
+          <Button
+            size="xs"
+            as={NavLink}
+            to={coLinksPaths.giveReceivers}
+            color="primary"
+          >
             View Leaderboard
           </Button>
         </Flex>
