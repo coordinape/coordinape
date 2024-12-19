@@ -180,8 +180,7 @@ export const genGiveImagePrompt = async (
       `Scene focus: A moment of intergenerational wisdom being shared, depicted as if the participants are simultaneously solid matter and pure energy. Their exchange creates visible ripples in reality around them.`,
     ];
 
-    const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, or energy between two beings, elements, or concepts. The scene should embody both ancient and futuristic qualities, rendered with photographic precision but metaphysical imagination.
-
+    const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.
 ${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
 
 Technical requirements:
