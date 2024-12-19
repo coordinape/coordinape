@@ -163,6 +163,8 @@ export const genGiveImagePrompt = async (
     // time this function
     const start = new Date().getTime();
 
+    const sceneBonus = ' The scene should incorporate snow and wintery themes.';
+
     const sceneVariations = [
       // Cosmic Scale
       `Scene focus: Two celestial, mystical bodies exchanging gravitational waves, rendered as if captured through both a radio telescope and a Renaissance master's eyes. The interaction creates impossible auroras that form architectural structures in space.`,
@@ -182,6 +184,8 @@ export const genGiveImagePrompt = async (
 
     const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.
 ${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
+
+${sceneBonus}
 
 Technical requirements:
 - Avoid: cartoon styles, flat colors, obvious symbolism
