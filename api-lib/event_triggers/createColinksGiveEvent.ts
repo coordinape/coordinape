@@ -6,7 +6,7 @@ import {
   getFrameImgUrl,
   getFrameUrl,
 } from '../../_api/webhooks/neynar_mention';
-import { generateGiveImg } from '../../src/features/ai/replicate';
+import { genImageFluxSchnell } from '../../src/features/ai/replicate';
 import { uploadURLToCloudflare } from '../../src/features/cloudflare/uploadURLToCloudflare';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
@@ -138,7 +138,7 @@ const genGiveImage = async (id: number) => {
     { operationName: 'colinksGiveEvent__getProfileNames' }
   );
 
-  const replicateImageUrl = await generateGiveImg({
+  const replicateImageUrl = await genImageFluxSchnell({
     skill: colinks_gives_by_pk?.skill,
   });
 

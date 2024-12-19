@@ -36,3 +36,35 @@ always using green, blue, purple, black`;
     throw error;
   }
 };
+
+export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
+  const prompt = `Two people, entities, animals, characters, ideas are exchanging thanks, gratitude and respect for embodying the skill of "${skill}"
+ILLUSTRATION STYLE
+sometimes street photography style,
+sometimes illuminated manuscript style, 
+sometimes combine cartoon elements with photography
+always using green, blue, purple, black`;
+
+  const options = {
+    model: 'black-forest-labs/flux-schnell',
+    wait: WAIT_TIMEOUT,
+    input: {
+      prompt: prompt,
+      go_fast: true,
+      megapixels: '1',
+      num_outputs: 1,
+      aspect_ratio: '1:1',
+      output_format: 'webp',
+      output_quality: 80,
+      num_inference_steps: 4,
+    },
+  };
+
+  try {
+    const output = await replicate.predictions.create(options);
+    return output.urls.stream;
+  } catch (error) {
+    console.error(`Error generating Give image with flux schnell: ${error}`);
+    throw error;
+  }
+};
