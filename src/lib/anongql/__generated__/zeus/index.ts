@@ -3494,6 +3494,45 @@ export type ValueTypes = {
     website?: boolean | `@${string}`;
     __typename?: boolean | `@${string}`;
   }>;
+  /** aggregated selection of "profiles_public" */
+  ['profiles_public_aggregate']: AliasType<{
+    aggregate?: ValueTypes['profiles_public_aggregate_fields'];
+    nodes?: ValueTypes['profiles_public'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate fields of "profiles_public" */
+  ['profiles_public_aggregate_fields']: AliasType<{
+    avg?: ValueTypes['profiles_public_avg_fields'];
+    count?: [
+      {
+        columns?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null;
+        distinct?: boolean | undefined | null;
+      },
+      boolean | `@${string}`,
+    ];
+    max?: ValueTypes['profiles_public_max_fields'];
+    min?: ValueTypes['profiles_public_min_fields'];
+    stddev?: ValueTypes['profiles_public_stddev_fields'];
+    stddev_pop?: ValueTypes['profiles_public_stddev_pop_fields'];
+    stddev_samp?: ValueTypes['profiles_public_stddev_samp_fields'];
+    sum?: ValueTypes['profiles_public_sum_fields'];
+    var_pop?: ValueTypes['profiles_public_var_pop_fields'];
+    var_samp?: ValueTypes['profiles_public_var_samp_fields'];
+    variance?: ValueTypes['profiles_public_variance_fields'];
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate avg on columns */
+  ['profiles_public_avg_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: {
     _and?: Array<ValueTypes['profiles_public_bool_exp']> | undefined | null;
@@ -3548,6 +3587,38 @@ export type ValueTypes = {
       | null;
     website?: ValueTypes['String_comparison_exp'] | undefined | null;
   };
+  /** aggregate max on columns */
+  ['profiles_public_max_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    avatar?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    joined_colinks_at?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    website?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate min on columns */
+  ['profiles_public_min_fields']: AliasType<{
+    address?: boolean | `@${string}`;
+    avatar?: boolean | `@${string}`;
+    created_at?: boolean | `@${string}`;
+    description?: boolean | `@${string}`;
+    id?: boolean | `@${string}`;
+    joined_colinks_at?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    name?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    website?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
     address?: ValueTypes['order_by'] | undefined | null;
@@ -3594,6 +3665,33 @@ export type ValueTypes = {
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
+  /** aggregate stddev on columns */
+  ['profiles_public_stddev_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_pop on columns */
+  ['profiles_public_stddev_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate stddev_samp on columns */
+  ['profiles_public_stddev_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Streaming cursor of the table "profiles_public" */
   ['profiles_public_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -3616,6 +3714,42 @@ export type ValueTypes = {
     post_count_last_30_days?: ValueTypes['bigint'] | undefined | null;
     website?: string | undefined | null;
   };
+  /** aggregate sum on columns */
+  ['profiles_public_sum_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_pop on columns */
+  ['profiles_public_var_pop_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate var_samp on columns */
+  ['profiles_public_var_samp_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
+  /** aggregate variance on columns */
+  ['profiles_public_variance_fields']: AliasType<{
+    id?: boolean | `@${string}`;
+    links?: boolean | `@${string}`;
+    links_held?: boolean | `@${string}`;
+    post_count?: boolean | `@${string}`;
+    post_count_last_30_days?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['query_root']: AliasType<{
     activities?: [
       {
@@ -4096,6 +4230,29 @@ export type ValueTypes = {
         where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
       },
       ValueTypes['profiles_public'],
+    ];
+    profiles_public_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_public_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_public_aggregate'],
     ];
     reactions?: [
       {
@@ -5632,6 +5789,29 @@ export type ValueTypes = {
       },
       ValueTypes['profiles_public'],
     ];
+    profiles_public_aggregate?: [
+      {
+        /** distinct select on columns */
+        distinct_on?:
+          | Array<ValueTypes['profiles_public_select_column']>
+          | undefined
+          | null /** limit the number of rows returned */;
+        limit?:
+          | number
+          | undefined
+          | null /** skip the first n rows. Use only with order_by */;
+        offset?:
+          | number
+          | undefined
+          | null /** sort the rows by one or more columns */;
+        order_by?:
+          | Array<ValueTypes['profiles_public_order_by']>
+          | undefined
+          | null /** filter the rows returned */;
+        where?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+      },
+      ValueTypes['profiles_public_aggregate'],
+    ];
     profiles_public_stream?: [
       {
         /** maximum number of rows returned in a single batch */
@@ -7068,16 +7248,131 @@ export type ModelTypes = {
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     website?: string | undefined;
   };
+  /** aggregated selection of "profiles_public" */
+  ['profiles_public_aggregate']: {
+    aggregate?: GraphQLTypes['profiles_public_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profiles_public']>;
+  };
+  /** aggregate fields of "profiles_public" */
+  ['profiles_public_aggregate_fields']: {
+    avg?: GraphQLTypes['profiles_public_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profiles_public_max_fields'] | undefined;
+    min?: GraphQLTypes['profiles_public_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profiles_public_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profiles_public_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profiles_public_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['profiles_public_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profiles_public_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profiles_public_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profiles_public_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['profiles_public_avg_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: GraphQLTypes['profiles_public_bool_exp'];
+  /** aggregate max on columns */
+  ['profiles_public_max_fields']: {
+    address?: string | undefined;
+    avatar?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['profiles_public_min_fields']: {
+    address?: string | undefined;
+    avatar?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
+  };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: GraphQLTypes['profiles_public_order_by'];
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: GraphQLTypes['profiles_public_select_column'];
+  /** aggregate stddev on columns */
+  ['profiles_public_stddev_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profiles_public_stddev_pop_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profiles_public_stddev_samp_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
   /** Streaming cursor of the table "profiles_public" */
   ['profiles_public_stream_cursor_input']: GraphQLTypes['profiles_public_stream_cursor_input'];
   /** Initial value of the column from where the streaming should start */
   ['profiles_public_stream_cursor_value_input']: GraphQLTypes['profiles_public_stream_cursor_value_input'];
+  /** aggregate sum on columns */
+  ['profiles_public_sum_fields']: {
+    id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['profiles_public_var_pop_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['profiles_public_var_samp_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['profiles_public_variance_fields']: {
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
   ['query_root']: {
     /** An array relationship */
     activities: Array<GraphQLTypes['activities']>;
@@ -7143,6 +7438,8 @@ export type ModelTypes = {
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch aggregated fields from the table: "profiles_public" */
+    profiles_public_aggregate: GraphQLTypes['profiles_public_aggregate'];
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** fetch data from the table: "reactions" using primary key columns */
@@ -7461,6 +7758,8 @@ export type ModelTypes = {
     profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch aggregated fields from the table: "profiles_public" */
+    profiles_public_aggregate: GraphQLTypes['profiles_public_aggregate'];
     /** fetch data from the table in a streaming manner: "profiles_public" */
     profiles_public_stream: Array<GraphQLTypes['profiles_public']>;
     /** An array relationship */
@@ -9848,6 +10147,38 @@ export type GraphQLTypes = {
     reputation_score?: GraphQLTypes['reputation_scores'] | undefined;
     website?: string | undefined;
   };
+  /** aggregated selection of "profiles_public" */
+  ['profiles_public_aggregate']: {
+    __typename: 'profiles_public_aggregate';
+    aggregate?: GraphQLTypes['profiles_public_aggregate_fields'] | undefined;
+    nodes: Array<GraphQLTypes['profiles_public']>;
+  };
+  /** aggregate fields of "profiles_public" */
+  ['profiles_public_aggregate_fields']: {
+    __typename: 'profiles_public_aggregate_fields';
+    avg?: GraphQLTypes['profiles_public_avg_fields'] | undefined;
+    count: number;
+    max?: GraphQLTypes['profiles_public_max_fields'] | undefined;
+    min?: GraphQLTypes['profiles_public_min_fields'] | undefined;
+    stddev?: GraphQLTypes['profiles_public_stddev_fields'] | undefined;
+    stddev_pop?: GraphQLTypes['profiles_public_stddev_pop_fields'] | undefined;
+    stddev_samp?:
+      | GraphQLTypes['profiles_public_stddev_samp_fields']
+      | undefined;
+    sum?: GraphQLTypes['profiles_public_sum_fields'] | undefined;
+    var_pop?: GraphQLTypes['profiles_public_var_pop_fields'] | undefined;
+    var_samp?: GraphQLTypes['profiles_public_var_samp_fields'] | undefined;
+    variance?: GraphQLTypes['profiles_public_variance_fields'] | undefined;
+  };
+  /** aggregate avg on columns */
+  ['profiles_public_avg_fields']: {
+    __typename: 'profiles_public_avg_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
   /** Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'. */
   ['profiles_public_bool_exp']: {
     _and?: Array<GraphQLTypes['profiles_public_bool_exp']> | undefined;
@@ -9886,6 +10217,38 @@ export type GraphQLTypes = {
     reputation_score?: GraphQLTypes['reputation_scores_bool_exp'] | undefined;
     website?: GraphQLTypes['String_comparison_exp'] | undefined;
   };
+  /** aggregate max on columns */
+  ['profiles_public_max_fields']: {
+    __typename: 'profiles_public_max_fields';
+    address?: string | undefined;
+    avatar?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
+  };
+  /** aggregate min on columns */
+  ['profiles_public_min_fields']: {
+    __typename: 'profiles_public_min_fields';
+    address?: string | undefined;
+    avatar?: string | undefined;
+    created_at?: GraphQLTypes['timestamp'] | undefined;
+    description?: string | undefined;
+    id?: GraphQLTypes['bigint'] | undefined;
+    joined_colinks_at?: GraphQLTypes['timestamptz'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    name?: GraphQLTypes['citext'] | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+    website?: string | undefined;
+  };
   /** Ordering options when selecting data from "profiles_public". */
   ['profiles_public_order_by']: {
     address?: GraphQLTypes['order_by'] | undefined;
@@ -9921,6 +10284,33 @@ export type GraphQLTypes = {
   };
   /** select columns of table "profiles_public" */
   ['profiles_public_select_column']: profiles_public_select_column;
+  /** aggregate stddev on columns */
+  ['profiles_public_stddev_fields']: {
+    __typename: 'profiles_public_stddev_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate stddev_pop on columns */
+  ['profiles_public_stddev_pop_fields']: {
+    __typename: 'profiles_public_stddev_pop_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate stddev_samp on columns */
+  ['profiles_public_stddev_samp_fields']: {
+    __typename: 'profiles_public_stddev_samp_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
   /** Streaming cursor of the table "profiles_public" */
   ['profiles_public_stream_cursor_input']: {
     /** Stream column input with initial value */
@@ -9942,6 +10332,42 @@ export type GraphQLTypes = {
     post_count?: GraphQLTypes['bigint'] | undefined;
     post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
     website?: string | undefined;
+  };
+  /** aggregate sum on columns */
+  ['profiles_public_sum_fields']: {
+    __typename: 'profiles_public_sum_fields';
+    id?: GraphQLTypes['bigint'] | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: GraphQLTypes['bigint'] | undefined;
+    post_count_last_30_days?: GraphQLTypes['bigint'] | undefined;
+  };
+  /** aggregate var_pop on columns */
+  ['profiles_public_var_pop_fields']: {
+    __typename: 'profiles_public_var_pop_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate var_samp on columns */
+  ['profiles_public_var_samp_fields']: {
+    __typename: 'profiles_public_var_samp_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
+  };
+  /** aggregate variance on columns */
+  ['profiles_public_variance_fields']: {
+    __typename: 'profiles_public_variance_fields';
+    id?: number | undefined;
+    links?: number | undefined;
+    links_held?: number | undefined;
+    post_count?: number | undefined;
+    post_count_last_30_days?: number | undefined;
   };
   ['query_root']: {
     __typename: 'query_root';
@@ -10009,6 +10435,8 @@ export type GraphQLTypes = {
     profile_skills_by_pk?: GraphQLTypes['profile_skills'] | undefined;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch aggregated fields from the table: "profiles_public" */
+    profiles_public_aggregate: GraphQLTypes['profiles_public_aggregate'];
     /** An array relationship */
     reactions: Array<GraphQLTypes['reactions']>;
     /** fetch data from the table: "reactions" using primary key columns */
@@ -10741,6 +11169,8 @@ export type GraphQLTypes = {
     profile_skills_stream: Array<GraphQLTypes['profile_skills']>;
     /** fetch data from the table: "profiles_public" */
     profiles_public: Array<GraphQLTypes['profiles_public']>;
+    /** fetch aggregated fields from the table: "profiles_public" */
+    profiles_public_aggregate: GraphQLTypes['profiles_public_aggregate'];
     /** fetch data from the table in a streaming manner: "profiles_public" */
     profiles_public_stream: Array<GraphQLTypes['profiles_public']>;
     /** An array relationship */

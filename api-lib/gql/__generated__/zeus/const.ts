@@ -79,6 +79,7 @@ export const AllTypesProps: Record<string, any> = {
   },
   UpdateProfileInput: {},
   UpdateTeammatesInput: {},
+  UpdateTokenBalancesInput: {},
   UpdateUserInput: {},
   UploadCircleImageInput: {},
   UploadImageInput: {},
@@ -8322,6 +8323,9 @@ export const AllTypesProps: Record<string, any> = {
     },
     updateTeammates: {
       payload: 'UpdateTeammatesInput',
+    },
+    updateTokenBalances: {
+      payload: 'UpdateTokenBalancesInput',
     },
     updateUser: {
       payload: 'UpdateUserInput',
@@ -23312,6 +23316,7 @@ export const ReturnTypes: Record<string, any> = {
     updateProfile: 'UpdateProfileResponse',
     updateRepScore: 'ConfirmationResponse',
     updateTeammates: 'UpdateTeammatesResponse',
+    updateTokenBalances: 'ConfirmationResponse',
     updateUser: 'UserResponse',
     update_activities: 'activities_mutation_response',
     update_activities_by_pk: 'activities',
