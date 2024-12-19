@@ -18,14 +18,7 @@ export const GivePage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
-      <GiveHomeHeader>
-        <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
-          <Text h2 display>
-            Recent GIVE
-          </Text>
-        </Flex>
-      </GiveHomeHeader>
+      <GiveHomeHeader />
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -34,6 +27,19 @@ export const GivePage = () => {
         }}
       >
         <Flex column css={{ '@sm': { margin: 'auto' } }}>
+          <Flex
+            css={{
+              alignItems: 'center',
+              gap: '$sm',
+              mb: '$lg',
+              '@sm': { mt: '$lg' },
+            }}
+          >
+            <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
+            <Text h2 display>
+              Recent GIVE
+            </Text>
+          </Flex>
           <RecentGives limit={35} />
         </Flex>
         <Flex

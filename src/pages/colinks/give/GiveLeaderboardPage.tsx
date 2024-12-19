@@ -1,9 +1,8 @@
 import { Helmet } from 'react-helmet';
 
-import { GemCoOutline } from 'icons/__generated';
 import { GiveHomeHeader } from 'pages/GiveHome';
 import { GiveLeaderboard } from 'pages/GiveLeaderboard';
-import { Flex, Text } from 'ui';
+import { Flex } from 'ui';
 
 import { GiveBotCard } from './GiveBotCard';
 import { ResponsiveColumnLayout } from './GivePage';
@@ -16,14 +15,7 @@ export const GiveLeaderboardPage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
-      <GiveHomeHeader>
-        <Flex css={{ alignItems: 'center', gap: '$sm' }}>
-          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
-          <Text h2 display>
-            Hottest Skills
-          </Text>
-        </Flex>
-      </GiveHomeHeader>
+      <GiveHomeHeader />
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -31,7 +23,14 @@ export const GiveLeaderboardPage = () => {
           },
         }}
       >
-        <Flex column>
+        <Flex
+          column
+          css={{
+            '@xs': {
+              mt: '$md',
+            },
+          }}
+        >
           <GiveLeaderboard />
         </Flex>
         <Flex

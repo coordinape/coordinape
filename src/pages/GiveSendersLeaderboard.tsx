@@ -105,7 +105,7 @@ export const GiveSendersLeaderboard = () => {
                   color: '$textOnCta',
                 }}
               >
-                Senders
+                Top GIVE Senders
               </Text>
             </Flex>
             <Text

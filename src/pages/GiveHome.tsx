@@ -4,7 +4,6 @@ import { TopReceivers } from 'features/HomeCards/TopReceivers';
 import { TopSenders } from 'features/HomeCards/TopSenders';
 import { gradientFlow } from 'keyframes';
 import { Helmet } from 'react-helmet';
-import { CSS } from 'stitches.config';
 
 import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
 import { Flex, Panel, Text } from '../ui';
@@ -24,56 +23,7 @@ export const GiveHomePage = () => {
       <Helmet>
         <title>Home / Coordinape</title>
       </Helmet>
-      <GiveHomeHeader
-        css={{
-          '@xs': {
-            mb: 0,
-            color: '$textOnCta',
-            background: 'linear-gradient(300deg, $complete, $cta, $warning)',
-            backgroundSize: '600% 600%',
-            animation: `${gradientFlow} 30s ease infinite`,
-            alignItems: 'center',
-            p: '$1xl $md',
-            span: { color: '$textOnCta' },
-          },
-        }}
-      >
-        <Flex
-          row
-          css={{
-            alignItems: 'center',
-            gap: '$md',
-            '@xs': {
-              gap: '$sm',
-              alignItems: 'flex-start',
-            },
-          }}
-        >
-          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
-          <Text
-            h2
-            display
-            css={{
-              display: 'flex',
-              alignItems: 'flex-start',
-              '@xs': {
-                fontSize: '22px',
-                flexDirection: 'column',
-              },
-            }}
-          >
-            <Text semibold css={{ mr: '$sm' }}>
-              The World
-            </Text>
-            <Text css={{ gap: '$sm' }}>
-              <Text inline css={{ fontStyle: 'italic', fontFamily: 'Georgia' }}>
-                of
-              </Text>{' '}
-              <Text semibold>GIVE</Text>
-            </Text>
-          </Text>
-        </Flex>
-      </GiveHomeHeader>
+      <GiveHomeHeader />
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -88,9 +38,11 @@ export const GiveHomePage = () => {
             gap: '$sm',
             '@sm': {
               margin: 'auto',
+              gap: 0,
             },
           }}
         >
+          <FancyHeader />
           <Flex column css={{ maxWidth: '$maxMobile !important' }}>
             <Panel
               noBorder
@@ -193,42 +145,80 @@ export const GiveHomePage = () => {
   );
 };
 
-export const GiveHomeHeader = ({
-  children,
-  css,
-}: {
-  children: React.ReactNode;
-  css?: CSS;
-}) => {
+export const GiveHomeHeader = () => {
   return (
     <>
       <Flex
         column
         css={{
-          gap: '$xs',
-          width: '100%',
-          alignItems: 'center',
+          m: '$xs 0 $md $xl',
+          '@xs': {
+            m: 0,
+          },
+        }}
+      >
+        <GiveLeaderboardNav />
+      </Flex>
+    </>
+  );
+};
+
+const FancyHeader = () => {
+  return (
+    <>
+      <Flex
+        css={{
+          mb: '$lg',
+          '@sm': { mt: '$lg' },
+          '@xs': {
+            mb: 0,
+            mt: 0,
+            justifyContent: 'center',
+            color: '$textOnCta',
+            background: 'linear-gradient(300deg, $complete, $cta, $warning)',
+            backgroundSize: '600% 600%',
+            animation: `${gradientFlow} 30s ease infinite`,
+            alignItems: 'center',
+            p: '$1xl $md',
+            span: { color: '$textOnCta' },
+          },
         }}
       >
         <Flex
-          column
+          row
           css={{
-            flexGrow: 1,
-            width: '100%',
-            gap: '$xs',
-            p: '$xl $xl',
-            color: '$text',
-            borderBottom: '1px solid $contentHeaderBorder',
-            mb: '$md',
-
-            ...css,
+            alignItems: 'center',
+            gap: '$md',
+            '@xs': {
+              gap: '$sm',
+              alignItems: 'flex-start',
+            },
           }}
         >
-          {children}
+          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
+          <Text
+            h2
+            display
+            css={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              '@xs': {
+                fontSize: '22px',
+                flexDirection: 'column',
+              },
+            }}
+          >
+            <Text semibold css={{ mr: '$sm' }}>
+              The World
+            </Text>
+            <Text css={{ gap: '$sm' }}>
+              <Text inline css={{ fontStyle: 'italic', fontFamily: 'Georgia' }}>
+                of
+              </Text>{' '}
+              <Text semibold>GIVE</Text>
+            </Text>
+          </Text>
         </Flex>
-      </Flex>
-      <Flex css={{ m: '-$md 0 $md $xl' }}>
-        <GiveLeaderboardNav />
       </Flex>
     </>
   );

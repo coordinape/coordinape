@@ -148,7 +148,7 @@ export const GiveLeaderboard = () => {
                   color: '$textOnCta',
                 }}
               >
-                GIVE
+                Top GIVE
               </Text>
             </Flex>
             <Text

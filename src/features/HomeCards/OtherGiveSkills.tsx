@@ -31,7 +31,7 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
       <Flex
         column
         as={NavLink}
-        to={coLinksPaths.give}
+        to={coLinksPaths.giveLeaderboard}
         css={{
           width: '100%',
           justifyContent: 'center',
@@ -95,7 +95,16 @@ export const OtherGiveSkills = ({ skipFirst }: { skipFirst: number }) => {
             size="xs"
             as={NavLink}
             to={coLinksPaths.giveLeaderboard}
-            color="primary"
+            color="transparent"
+            css={{
+              textTransform: 'capitalize',
+              background: '$background',
+              '&:hover': {
+                background: '$background',
+                outline: '1px solid $linkHover',
+                color: '$linkHover',
+              },
+            }}
           >
             View Leaderboard
           </Button>
