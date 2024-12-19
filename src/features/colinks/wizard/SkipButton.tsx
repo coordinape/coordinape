@@ -22,7 +22,7 @@ export function SkipButton({ onClick }: { onClick: () => void }) {
       </Button>
       <AppLink
         inlineLink
-        to={coLinksPaths.home}
+        to={coLinksPaths.root}
         css={{
           fontSize: '$small',
           color: '$neutral',

@@ -22,7 +22,7 @@ const searchPages = (address?: string) => [
     ? [
         {
           name: 'Home',
-          path: coLinksPaths.home,
+          path: coLinksPaths.root,
           icon: <HouseFill size="lg" nostroke />,
         },
         {

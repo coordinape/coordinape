@@ -26,10 +26,10 @@ export const GiveLeaderboardNav = () => {
       <Button
         as={NavLink}
         color="textOnly"
-        to={coLinksPaths.home}
+        to={coLinksPaths.root}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('/giveHome') && {
+          ...(location.pathname == coLinksPaths.root && {
             ...activeTabStyles,
           }),
         }}

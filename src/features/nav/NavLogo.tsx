@@ -33,7 +33,7 @@ export const NavLogo = ({
             to={
               isCoLinks
                 ? loggedIn
-                  ? coLinksPaths.home
+                  ? coLinksPaths.root
                   : coLinksPaths.explore
                 : givePaths.home
             }

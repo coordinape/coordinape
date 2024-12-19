@@ -23,7 +23,7 @@ export const LaunchPage = () => {
         replace: true,
       });
     } else {
-      navigate(coLinksPaths.home, {
+      navigate(coLinksPaths.root, {
         replace: true,
       });
     }

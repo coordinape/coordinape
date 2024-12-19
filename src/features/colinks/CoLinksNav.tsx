@@ -334,7 +334,7 @@ const LoggedInItems = ({ address }: { address: string }) => {
 
   return (
     <>
-      <NavItem path={coLinksPaths.home}>
+      <NavItem path={coLinksPaths.root}>
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
@@ -416,7 +416,7 @@ const LoggedOutItems = () => {
 
   return (
     <>
-      <NavItem path={coLinksPaths.home}>
+      <NavItem path={coLinksPaths.root}>
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>

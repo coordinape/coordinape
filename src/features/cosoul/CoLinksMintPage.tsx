@@ -178,7 +178,7 @@ export const CoLinksMintPage = ({ minted }: { minted: boolean }) => {
                   as={NavLink}
                   color="cta"
                   size="large"
-                  to={coLinksPaths.home}
+                  to={coLinksPaths.root}
                 >
                   Start Giving
                 </Button>

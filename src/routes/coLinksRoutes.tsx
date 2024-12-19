@@ -140,9 +140,9 @@ export const coLinksRoutes = [
     >
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
-      <Route path={coLinksPaths.home} element={<GiveHomePage />} />
       <Route path={coLinksPaths.givefeed} element={<GiveFeed />} />
       <Route path={coLinksPaths.give} element={<GivePage />} />
+      <Route path={coLinksPaths.root} element={<GiveHomePage />} />
       <Route
         path={coLinksPaths.giveReceivers}
         element={<GiveReceiversPage />}
