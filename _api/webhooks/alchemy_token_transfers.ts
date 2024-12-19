@@ -69,7 +69,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 }
 
-const getTokenContract = (contract_address: string) => {
+export const getTokenContract = (contract_address: string) => {
   return TOKENS.find(
     token => token.contract.toLowerCase() === contract_address.toLowerCase()
   );

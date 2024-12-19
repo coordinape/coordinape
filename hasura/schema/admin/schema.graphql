@@ -687,6 +687,11 @@ type UpdateTeammatesResponse {
   user_id: ID!
 }
 
+input UpdateTokenBalancesInput {
+  address: String!
+  token_address: String!
+}
+
 input UpdateUserInput {
   bio: String
   circle_id: Int!
@@ -31871,6 +31876,7 @@ type mutation_root {
   """
   updateRepScore: ConfirmationResponse
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
+  updateTokenBalances(payload: UpdateTokenBalancesInput!): ConfirmationResponse!
 
   """
   Update own user

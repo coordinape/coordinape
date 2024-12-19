@@ -4340,6 +4340,42 @@ type profiles_public {
 }
 
 """
+aggregated selection of "profiles_public"
+"""
+type profiles_public_aggregate {
+  aggregate: profiles_public_aggregate_fields
+  nodes: [profiles_public!]!
+}
+
+"""
+aggregate fields of "profiles_public"
+"""
+type profiles_public_aggregate_fields {
+  avg: profiles_public_avg_fields
+  count(columns: [profiles_public_select_column!], distinct: Boolean): Int!
+  max: profiles_public_max_fields
+  min: profiles_public_min_fields
+  stddev: profiles_public_stddev_fields
+  stddev_pop: profiles_public_stddev_pop_fields
+  stddev_samp: profiles_public_stddev_samp_fields
+  sum: profiles_public_sum_fields
+  var_pop: profiles_public_var_pop_fields
+  var_samp: profiles_public_var_samp_fields
+  variance: profiles_public_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type profiles_public_avg_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
 Boolean expression to filter rows from the table "profiles_public". All fields are combined with a logical 'AND'.
 """
 input profiles_public_bool_exp {
@@ -4370,6 +4406,42 @@ input profiles_public_bool_exp {
   profile_skills: profile_skills_bool_exp
   reputation_score: reputation_scores_bool_exp
   website: String_comparison_exp
+}
+
+"""
+aggregate max on columns
+"""
+type profiles_public_max_fields {
+  address: String
+  avatar: String
+  created_at: timestamp
+  description: String
+  id: bigint
+  joined_colinks_at: timestamptz
+  links: Int
+  links_held: Int
+  name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
+  website: String
+}
+
+"""
+aggregate min on columns
+"""
+type profiles_public_min_fields {
+  address: String
+  avatar: String
+  created_at: timestamp
+  description: String
+  id: bigint
+  joined_colinks_at: timestamptz
+  links: Int
+  links_held: Int
+  name: citext
+  post_count: bigint
+  post_count_last_30_days: bigint
+  website: String
 }
 
 """
@@ -4464,6 +4536,39 @@ enum profiles_public_select_column {
 }
 
 """
+aggregate stddev on columns
+"""
+type profiles_public_stddev_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type profiles_public_stddev_pop_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type profiles_public_stddev_samp_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
 Streaming cursor of the table "profiles_public"
 """
 input profiles_public_stream_cursor_input {
@@ -4494,6 +4599,50 @@ input profiles_public_stream_cursor_value_input {
   post_count: bigint
   post_count_last_30_days: bigint
   website: String
+}
+
+"""
+aggregate sum on columns
+"""
+type profiles_public_sum_fields {
+  id: bigint
+  links: Int
+  links_held: Int
+  post_count: bigint
+  post_count_last_30_days: bigint
+}
+
+"""
+aggregate var_pop on columns
+"""
+type profiles_public_var_pop_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type profiles_public_var_samp_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type profiles_public_variance_fields {
+  id: Float
+  links: Float
+  links_held: Float
+  post_count: Float
+  post_count_last_30_days: Float
 }
 
 type query_root {
@@ -5131,6 +5280,36 @@ type query_root {
     """
     where: profiles_public_bool_exp
   ): [profiles_public!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_public"
+  """
+  profiles_public_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): profiles_public_aggregate!
 
   """
   An array relationship
@@ -7455,6 +7634,36 @@ type subscription_root {
     """
     where: profiles_public_bool_exp
   ): [profiles_public!]!
+
+  """
+  fetch aggregated fields from the table: "profiles_public"
+  """
+  profiles_public_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [profiles_public_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [profiles_public_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: profiles_public_bool_exp
+  ): profiles_public_aggregate!
 
   """
   fetch data from the table in a streaming manner: "profiles_public"

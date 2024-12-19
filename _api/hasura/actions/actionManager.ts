@@ -55,6 +55,7 @@ import updateEpoch from './_handlers/updateEpoch';
 import updateProfile from './_handlers/updateProfile';
 import updateRepScore from './_handlers/updateRepScore';
 import updateTeammates from './_handlers/updateTeammates';
+import updateTokenBalances from './_handlers/updateTokenBalances';
 import updateUser from './_handlers/updateUser';
 import uploadCircleLogo from './_handlers/uploadCircleLogo';
 import uploadOrgLogo from './_handlers/uploadOrgLogo';
@@ -70,6 +71,7 @@ const HANDLERS: HandlerDict = {
   addInviteCodes,
   adminUpdateUser,
   allocationCsv,
+  checkEthDenverInvitee,
   createCircle,
   createCoLinksGive,
   createEpoch,
@@ -87,8 +89,8 @@ const HANDLERS: HandlerDict = {
   deleteUser,
   deleteUsers,
   endEpoch,
-  checkEthDenverInvitee,
   generateApiKey,
+  generateOneTimeUpload,
   getCasts,
   getHeadlines,
   getSimilarProfiles,
@@ -114,13 +116,13 @@ const HANDLERS: HandlerDict = {
   updateProfile,
   updateRepScore,
   updateTeammates,
+  updateTokenBalances,
   updateUser,
   uploadCircleLogo,
   uploadOrgLogo,
   uploadProfileAvatar,
   uploadProfileBackground,
   vouch,
-  generateOneTimeUpload,
 };
 
 async function actionHandler(req: VercelRequest, res: VercelResponse) {

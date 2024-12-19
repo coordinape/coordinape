@@ -19,6 +19,10 @@ type Mutation {
 }
 
 type Mutation {
+  updateTokenBalances(payload: UpdateTokenBalancesInput!): ConfirmationResponse!
+}
+
+type Mutation {
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
@@ -285,6 +289,11 @@ input UploadImageInput {
 input UploadCircleImageInput {
   circle_id: Int!
   image_data_base64: String!
+}
+
+input UpdateTokenBalancesInput {
+  token_address: String!
+  address: String!
 }
 
 input AdminUpdateUserInput {
