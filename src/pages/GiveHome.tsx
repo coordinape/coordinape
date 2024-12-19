@@ -112,6 +112,8 @@ export const GiveHomePage = () => {
                   '&:hover': {
                     color: '$linkHover',
                   },
+                  display: 'none',
+                  '@xs': { display: 'flex' },
                 }}
               >
                 <LearnAboutGiveCard linkText="What is GIVE?" />

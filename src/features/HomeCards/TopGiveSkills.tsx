@@ -67,8 +67,7 @@ export const TopGiveSkills = ({
             >
               <GemCoOutline fa size={'xl'} />
               <Text
-                h2
-                display
+                h1
                 css={{
                   ...skillTextStyle,
                   maxWidth: '300px',

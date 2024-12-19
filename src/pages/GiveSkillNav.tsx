@@ -50,7 +50,7 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
       <Button
         as={NavLink}
         color="textOnly"
-        to={coLinksPaths.giveHome}
+        to={coLinksPaths.home}
         css={{
           ...tabStyles,
           ...(location.pathname.includes('/giveHome/') && {

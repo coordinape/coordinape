@@ -334,7 +334,7 @@ const LoggedInItems = ({ address }: { address: string }) => {
 
   return (
     <>
-      <NavItem path={coLinksPaths.giveHome}>
+      <NavItem path={coLinksPaths.home}>
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
@@ -344,7 +344,7 @@ const LoggedInItems = ({ address }: { address: string }) => {
       </NavItem>
       {hasOwnCoLink && (
         <>
-          <NavItem path={coLinksPaths.home}>
+          <NavItem path={coLinksPaths.coLinksFeed}>
             <LinksThick size="lg" nostroke />
             CoLinks Feed
           </NavItem>
@@ -416,7 +416,7 @@ const LoggedOutItems = () => {
 
   return (
     <>
-      <NavItem path={coLinksPaths.giveHome}>
+      <NavItem path={coLinksPaths.home}>
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
