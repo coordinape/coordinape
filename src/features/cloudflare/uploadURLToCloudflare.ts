@@ -25,7 +25,14 @@ export async function uploadURLToCloudflare(
   );
 
   const data = await response.json();
-  // console.log({ statusCode: response.status, data: JSON.stringify(data), errors: data?.errors });
+  // eslint-disable-next-line no-console
+  console.log('RECEIVED CLOUFLARE RESPONSE', {
+    imageUrl,
+    variant,
+    statusCode: response.status,
+    data: JSON.stringify(data),
+    errors: data?.errors,
+  });
 
   const variants = data.result.variants;
   const url = variants.find((v: string) => v.endsWith(variant));
