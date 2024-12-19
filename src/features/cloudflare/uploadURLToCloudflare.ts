@@ -26,7 +26,7 @@ export async function uploadURLToCloudflare(
 
   const data = await response.json();
   // eslint-disable-next-line no-console
-  console.log('RECEIVED CLOUFLARE RESPONSE', {
+  console.log('RECEIVED CLOUDFLARE RESPONSE', {
     imageUrl,
     variant,
     statusCode: response.status,
