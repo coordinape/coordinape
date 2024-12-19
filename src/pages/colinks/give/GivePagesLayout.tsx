@@ -1,10 +1,8 @@
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
-import { CoLinksSearchBox } from '../../../features/SearchBox/CoLinksSearchBox';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
-import useMobileDetect from 'hooks/useMobileDetect';
 
 import { GiveBreadCrumbs } from './GiveBreadCrumbs';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
@@ -15,7 +13,6 @@ export const GivePagesLayout = ({
   children: React.ReactNode;
 }) => {
   const { skill } = useParams();
-  const { isMobile } = useMobileDetect();
   return (
     <Flex column>
       <SingleColumnLayout
@@ -28,7 +25,7 @@ export const GivePagesLayout = ({
         <Helmet>
           <title>GIVE / Coordinape</title>
         </Helmet>
-        <ContentHeader css={{ mb: 0 }}>
+        <ContentHeader css={{ mb: 0, minHeight: 117 }}>
           <Flex
             column
             css={{
@@ -61,12 +58,6 @@ export const GivePagesLayout = ({
                   and connections in web3.
                 </Text>
               )}
-            </Flex>
-            <Flex css={{ width: '100%', maxWidth: 300 }}>
-              <CoLinksSearchBox
-                size={isMobile ? 'medium' : 'large'}
-                registerKeyDown={false}
-              />
             </Flex>
           </Flex>
         </ContentHeader>

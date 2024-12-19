@@ -1,6 +1,12 @@
 import { NavLink } from 'react-router-dom';
 
-import { StarShooting, Stars, TimelineList, Timer } from 'icons/__generated';
+import {
+  GemCoFillSm,
+  StarShooting,
+  Stars,
+  TimelineList,
+  Timer,
+} from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 
@@ -17,6 +23,20 @@ export const GiveLeaderboardNav = () => {
         ...navContainerStyles,
       }}
     >
+      <Button
+        as={NavLink}
+        color="textOnly"
+        to={coLinksPaths.giveHome}
+        css={{
+          ...tabStyles,
+          ...(location.pathname.includes('/giveHome') && {
+            ...activeTabStyles,
+          }),
+        }}
+      >
+        <GemCoFillSm fa size="lg" />
+        Home
+      </Button>
       <Button
         as={NavLink}
         color="textOnly"
