@@ -220,7 +220,11 @@ export const GiveHomeFrame = (giveId?: string): Frame => ({
   imageNode: homeFrameImageNode,
   inputText: async params => {
     const { give } = await getContextFromParams(params);
-    return `@username to GIVE #${give.skill}`;
+    let inputText = `@username to GIVE #${give.skill}`;
+    if (inputText.length > 25) {
+      inputText = inputText.substring(0, 22) + '...';
+    }
+    return inputText;
   },
   buttons: [
     {
