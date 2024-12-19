@@ -144,3 +144,77 @@ export const botReply = async (input: string): Promise<string | undefined> => {
     return undefined;
   }
 };
+
+export const genGiveImagePrompt = async (
+  skill: string
+): Promise<string | undefined> => {
+  try {
+    const openai = openai_client();
+
+    // skip if message length is too long
+    if (skill.length > 400) {
+      // eslint-disable-next-line no-console
+      console.log(
+        'genGiveImagePrompt : Skipping generation because skill is too long'
+      );
+      return undefined;
+    }
+
+    // time this function
+    const start = new Date().getTime();
+
+    const sceneVariations = [
+      // Cosmic Scale
+      `Scene focus: Two celestial, mystical bodies exchanging gravitational waves, rendered as if captured through both a radio telescope and a Renaissance master's eyes. The interaction creates impossible auroras that form architectural structures in space.`,
+
+      // Microscopic Scale
+      `Scene focus: Two networks exchanging infromation through neural synapses. The scene should appear as if viewed through both an electron microscope and stained glass.`,
+
+      // Natural Scale
+      `Scene focus: Two ancient plants sharing nutrients through mycorrhizal networks, depicted as if their roots are forming baroque cathedral architecture underground. The exchange should be visible as bioluminescent flows.`,
+
+      // Conceptual Scale
+      `Scene focus: Abstract concepts of 'past' and 'future' meeting in a liminal space, rendered as if photographed using thousand-year exposure times. Their interaction creates temporal moiré patterns.`,
+
+      // Human Scale
+      `Scene focus: A moment of intergenerational wisdom being shared, depicted as if the participants are simultaneously solid matter and pure energy. Their exchange creates visible ripples in reality around them.`,
+    ];
+
+    const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.
+${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
+
+Technical requirements:
+- Avoid: cartoon styles, flat colors, obvious symbolism
+- Use: complex textures, volumetric lighting, atmospheric depth, illustration, gritty realism
+- Colors: Should include at least one color that seems to glow or emit light, and draw from the color palette of green, blue, purple, black.
+`;
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      temperature: 1.2,
+      messages: [
+        {
+          role: 'system',
+          content: basePrompt,
+        },
+        {
+          role: 'user',
+          content: `Generate a text description for a text-to-image model. Return the text for the prompt without ANY other content in your response. Always show an exchange or interaction, never just a scene with one subject. The scene should be directly inspired by the word: ${skill}. 
+          `,
+        },
+      ],
+    });
+
+    const end = new Date().getTime();
+    // eslint-disable-next-line no-console
+    console.log(`genGiveImagePrompt: Took ${end - start}ms`);
+
+    return response.choices[0].message.content || undefined;
+  } catch (err) {
+    console.error(
+      'Received an error from OpenAI during genGiveImagePrompt:',
+      err
+    );
+    return undefined;
+  }
+};

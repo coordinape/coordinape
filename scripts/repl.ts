@@ -21,8 +21,6 @@ import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
-// uncomment and change this to import your own repl code
-
 import { TOKENS } from '../src/features/points/getAvailablePoints.ts';
 
 import { init as initOrgMembership } from './repl/org_membership';

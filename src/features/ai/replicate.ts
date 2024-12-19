@@ -1,6 +1,7 @@
 import Replicate from 'replicate';
 
 import { REPLICATE_API_TOKEN } from '../../../api-lib/config';
+import { genGiveImagePrompt } from '../../../api-lib/openai';
 
 const WAIT_TIMEOUT = 55;
 
@@ -33,6 +34,33 @@ always using green, blue, purple, black`;
     return output.urls.stream;
   } catch (error) {
     console.error(`Error generating Give image: ${error}`);
+    throw error;
+  }
+};
+
+export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
+  const prompt = await genGiveImagePrompt(skill);
+
+  const options = {
+    model: 'black-forest-labs/flux-schnell',
+    wait: WAIT_TIMEOUT,
+    input: {
+      prompt: prompt,
+      go_fast: true,
+      megapixels: '1',
+      num_outputs: 1,
+      aspect_ratio: '1:1',
+      output_format: 'webp',
+      output_quality: 80,
+      num_inference_steps: 4,
+    },
+  };
+
+  try {
+    const output = await replicate.predictions.create(options);
+    return output.urls.stream;
+  } catch (error) {
+    console.error(`Error generating Give image with flux schnell: ${error}`);
     throw error;
   }
 };
