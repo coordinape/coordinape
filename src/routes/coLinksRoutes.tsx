@@ -144,6 +144,10 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.give} element={<GivePage />} />
       <Route path={coLinksPaths.root} element={<GiveHomePage />} />
       <Route
+        path={coLinksPaths.deprecated_home}
+        element={<Navigate to={coLinksPaths.root} replace />}
+      />
+      <Route
         path={coLinksPaths.giveReceivers}
         element={<GiveReceiversPage />}
       />

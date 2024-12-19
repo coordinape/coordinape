@@ -88,6 +88,7 @@ export const coLinksPaths = {
   deprecated_givePartyAddress: (address: string) => `/giveparty/${address}`,
   deprecated_givePartyBoard: `/giveboard`,
   deprecated_giveBoardSkill: (skill: string) => `/giveboard/${skill}`,
+  deprecated_home: '/home',
   highlights: '/highlights',
   history: (address: string) => `/${address}/history`,
   holders: (address: string) => `/${address}/holders`,
