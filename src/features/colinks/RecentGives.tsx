@@ -44,6 +44,7 @@ export const RecentGives = ({
             id: true,
             cast_hash: true,
             skill: true,
+            updated_at: true,
             giver_profile_public: { address: true, name: true, avatar: true },
             target_profile_public: { address: true, name: true, avatar: true },
           },
@@ -262,7 +263,7 @@ export const RecentGives = ({
               <LightboxImage
                 key={give.id}
                 alt={`Image for give ID: ${give.id}`}
-                src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}`}
+                src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}?ts=${DateTime.fromISO(give.updated_at).toMillis()}`}
                 css={{
                   width: '100%',
                   height: giveArtHeight,
