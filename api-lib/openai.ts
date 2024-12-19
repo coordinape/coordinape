@@ -163,7 +163,11 @@ export const genGiveImagePrompt = async (
     // time this function
     const start = new Date().getTime();
 
-    const sceneBonus = ' The scene should incorporate snow and wintery themes.';
+    const sceneBonuses = [
+      'The scene should be snowy and surreal.',
+      ' The scene should very bizarre and surreal.',
+      ' The scene should be completely unhinged.',
+    ];
 
     const sceneVariations = [
       // Cosmic Scale
@@ -185,7 +189,7 @@ export const genGiveImagePrompt = async (
     const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.
 ${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
 
-${sceneBonus}
+${sceneBonuses[Math.floor(Math.random() * sceneBonuses.length)]}
 
 Technical requirements:
 - Avoid: cartoon styles, flat colors, obvious symbolism
