@@ -17,11 +17,32 @@ import {
   sendCoLinksNotificationsEmail,
 } from '../api-lib/email/postmark';
 // import { handleBonesGive } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
+import { genGiveImage } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
-import { adminClient as client } from '../api-lib/gql/adminClient';
+import { order_by } from '../api-lib/gql/__generated__/zeus/index.ts';
+import { adminClient, adminClient as client } from '../api-lib/gql/adminClient';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
 // uncomment and change this to import your own repl code
+
+const regenGiveImages = async () => {
+  const { colinks_gives } = await adminClient.query(
+    {
+      colinks_gives: [
+        { order_by: { created_at: order_by.desc_nulls_last }, limit: 10 },
+        {
+          id: true,
+        },
+      ],
+    },
+    { operationName: 'getGives' }
+  );
+
+  for (const give of colinks_gives) {
+    await genGiveImage(give.id);
+  }
+
+};
 
 import { TOKENS } from '../src/features/points/getAvailablePoints.ts';
 
@@ -45,6 +66,7 @@ const init = async () => {
     // handleBonesGive,
     uploadURLToCloudflare,
     ghouls: fetchBasedGhouls,
+    regenGiveImages,
     ...(await initOrgMembership()),
   };
 };

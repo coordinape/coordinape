@@ -1,6 +1,7 @@
 import Replicate from 'replicate';
 
 import { REPLICATE_API_TOKEN } from '../../../api-lib/config';
+import { genGiveImagePrompt } from '../../../api-lib/openai';
 
 const WAIT_TIMEOUT = 55;
 
@@ -38,12 +39,7 @@ always using green, blue, purple, black`;
 };
 
 export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
-  const prompt = `Two people, entities, animals, characters, ideas are exchanging thanks, gratitude and respect for embodying the skill of "${skill}"
-ILLUSTRATION STYLE
-sometimes street photography style,
-sometimes illuminated manuscript style, 
-sometimes combine cartoon elements with photography
-always using green, blue, purple, black`;
+  const prompt = await genGiveImagePrompt(skill);
 
   const options = {
     model: 'black-forest-labs/flux-schnell',

@@ -125,7 +125,7 @@ export const publishCastGiveDelivered = async (
   }
 };
 
-const genGiveImage = async (id: number) => {
+export const genGiveImage = async (id: number) => {
   const { colinks_gives_by_pk } = await adminClient.query(
     {
       colinks_gives_by_pk: [
