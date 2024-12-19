@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet';
 
-import { Flex } from '../../../ui';
-import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
+import { GiveHomeHeader } from 'pages/GiveHome';
 import { GiveSendersLeaderboard } from 'pages/GiveSendersLeaderboard';
+import { Flex } from 'ui';
 
 import { GiveBotCard } from './GiveBotCard';
 import { ResponsiveColumnLayout } from './GivePage';
@@ -15,16 +15,7 @@ export const GiveSendersPage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
-      <Flex
-        css={{
-          gap: '$sm',
-          mt: '-$lg',
-          mb: '$lg',
-          ml: '$xl',
-        }}
-      >
-        <GiveLeaderboardNav />
-      </Flex>
+      <GiveHomeHeader />
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -32,7 +23,14 @@ export const GiveSendersPage = () => {
           },
         }}
       >
-        <Flex column>
+        <Flex
+          column
+          css={{
+            '@xs': {
+              mt: '$md',
+            },
+          }}
+        >
           <GiveSendersLeaderboard />
         </Flex>
         <Flex

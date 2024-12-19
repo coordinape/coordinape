@@ -5,7 +5,7 @@ import { skillTextStyle } from 'stitches.config';
 
 import { giveTrendingData } from '../../../_api/give/trending';
 import { Button, Flex, Text } from '../../ui';
-import { GemCoOutline } from 'icons/__generated';
+import { ArrowRight, GemCoOutline } from 'icons/__generated';
 import { QUERY_KEY_GIVE_HOME } from 'pages/GiveHome';
 import { coLinksPaths } from 'routes/paths';
 
@@ -43,7 +43,7 @@ export const TopGiveSkills = ({
   return (
     <Flex column css={{ position: 'relative' }}>
       {tierSkills?.map(g => (
-        <Flex column key={g.skill} gap="md">
+        <Flex column key={g.skill}>
           <Flex
             column
             as={NavLink}
@@ -67,8 +67,7 @@ export const TopGiveSkills = ({
             >
               <GemCoOutline fa size={'xl'} />
               <Text
-                h2
-                display
+                h1
                 css={{
                   ...skillTextStyle,
                   maxWidth: '300px',
@@ -83,17 +82,23 @@ export const TopGiveSkills = ({
             </Flex>
           </Flex>
           <RecentGives skill={g.skill} limit={5} />
-          <Flex css={{ justifyContent: 'center', width: '100%' }}>
+          <Flex css={{ justifyContent: 'flex-end', width: '100%' }}>
             <Button
               size="xs"
               as={NavLink}
               to={coLinksPaths.giveSkill(g.skill)}
-              color="primary"
+              color="transparent"
               css={{
                 textTransform: 'capitalize',
+                background: '$background',
+                '&:hover': {
+                  background: '$background',
+                  outline: '1px solid $linkHover',
+                  color: '$linkHover',
+                },
               }}
             >
-              View More {g.skill}
+              View More {g.skill} <ArrowRight css={{ ml: '$xs' }} />
             </Button>
           </Flex>
         </Flex>

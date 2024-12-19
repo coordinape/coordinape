@@ -9,7 +9,6 @@ import { CoLinksLoggedOutLayout } from '../features/colinks/CoLinksLoggedOutLayo
 import { CoLinksWizardLayout } from '../features/colinks/wizard/CoLinksWizardLayout';
 import CoLinksSplashLayout from '../features/cosoul/CoLinksSplashLayout';
 import AccountPage from '../pages/AccountPage/AccountPage';
-import { ActivityPage } from '../pages/colinks/ActivityPage';
 import { AuthenticatePage } from '../pages/colinks/AuthenticatePage';
 import { CastsPage } from '../pages/colinks/CastsPage';
 import { BigQuestionPage } from '../pages/colinks/explore/BigQuestionPage';
@@ -22,7 +21,6 @@ import { ExplorePage } from '../pages/colinks/ExplorePage';
 import { GivePage } from '../pages/colinks/give/GivePage';
 import { GivePagesLayout } from '../pages/colinks/give/GivePagesLayout';
 import { HighlightsPage } from '../pages/colinks/HighlightsPage';
-import { LaunchPage } from '../pages/colinks/LaunchPage';
 import { LinkHistoryPage } from '../pages/colinks/LinkHistoryPage';
 import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
@@ -40,6 +38,7 @@ import { GiveHomePage } from '../pages/GiveHome';
 import { GiveSkillMap } from '../pages/GiveSkillMap';
 import { GiveSkillPage, GiveSkillRedirect } from '../pages/GiveSkillPage';
 import { PostPage } from '../pages/PostPage';
+import { ActivityPage } from 'pages/colinks/ActivityPage';
 import {
   GivePartyProfileRedirect,
   ViewProfilePageGive,
@@ -141,8 +140,19 @@ export const coLinksRoutes = [
     >
       <Route path={coLinksPaths.linking} element={<TradesPage />} />
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
-      <Route path={coLinksPaths.giveHome} element={<GiveHomePage />} />
       <Route path={coLinksPaths.givefeed} element={<GiveFeed />} />
+      <Route path={coLinksPaths.give} element={<GivePage />} />
+      <Route path={coLinksPaths.root} element={<GiveHomePage />} />
+      <Route
+        path={coLinksPaths.deprecated_home}
+        element={<Navigate to={coLinksPaths.root} replace />}
+      />
+      <Route
+        path={coLinksPaths.giveReceivers}
+        element={<GiveReceiversPage />}
+      />
+      <Route path={coLinksPaths.topGive} element={<GiveLeaderboardPage />} />
+      <Route path={coLinksPaths.giveSenders} element={<GiveSendersPage />} />
       <Route
         key="givePagesLayout"
         element={
@@ -151,16 +161,6 @@ export const coLinksRoutes = [
           </GivePagesLayout>
         }
       >
-        <Route path={coLinksPaths.give} element={<GivePage />} />
-        <Route
-          path={coLinksPaths.giveReceivers}
-          element={<GiveReceiversPage />}
-        />
-        <Route
-          path={coLinksPaths.giveLeaderboard}
-          element={<GiveLeaderboardPage />}
-        />
-        <Route path={coLinksPaths.giveSenders} element={<GiveSendersPage />} />
         <Route
           path={coLinksPaths.giveSkill(':skill')}
           element={<GiveSkillPage />}
@@ -221,8 +221,6 @@ export const coLinksRoutes = [
   </Fragment>,
 
   <Fragment key="loggedin">
-    <Route path={coLinksPaths.launch} element={<LaunchPage />} />
-
     <Route
       element={
         <RequireAuth walletRequired={true}>
@@ -236,13 +234,14 @@ export const coLinksRoutes = [
     >
       <Route path={coLinksPaths.exploreOld} element={<CoSoulExplorePage />} />
       <Route path={coLinksPaths.account} element={<AccountPage />} />
-      <Route path={coLinksPaths.home} element={<ActivityPage />} />
+      <Route path={coLinksPaths.account} element={<AccountPage />} />
       <Route
         path={coLinksPaths.notifications}
         element={<NotificationsPage />}
       />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />
+      <Route path={coLinksPaths.coLinksFeed} element={<ActivityPage />} />
       <Route
         path={coLinksPaths.searchResult(':query', ':model')}
         element={<SearchPage />}
@@ -265,7 +264,6 @@ export const coLinksRoutes = [
         </CoLinksWizardLayout>
       }
     >
-      <Route path={coLinksPaths.root} element={<LaunchPage />} />
       <Route path={coLinksPaths.wizardStart} element={<WizardStart />} />
       <Route
         path={coLinksPaths.verifyWaitList(':uuid')}

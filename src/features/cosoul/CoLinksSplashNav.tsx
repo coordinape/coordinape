@@ -20,7 +20,7 @@ export const CoLinksSplashNav = () => {
     >
       {address ? (
         <Flex css={{ gap: '$md' }}>
-          <Button as={NavLink} to={coLinksPaths.launch} color="coLinksCta">
+          <Button as={NavLink} to={coLinksPaths.root} color="coLinksCta">
             Launch CoLinks
           </Button>
           <CoLinksWalletMenu />

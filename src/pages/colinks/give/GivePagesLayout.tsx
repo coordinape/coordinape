@@ -1,13 +1,13 @@
 import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
-import { CoLinksSearchBox } from '../../../features/SearchBox/CoLinksSearchBox';
 import { ContentHeader, Flex, Text } from '../../../ui';
 import { SingleColumnLayout } from '../../../ui/layouts';
-import useMobileDetect from 'hooks/useMobileDetect';
 
 import { GiveBreadCrumbs } from './GiveBreadCrumbs';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
+
+export const giveHeaderMinHeight = 117;
 
 export const GivePagesLayout = ({
   children,
@@ -15,7 +15,6 @@ export const GivePagesLayout = ({
   children: React.ReactNode;
 }) => {
   const { skill } = useParams();
-  const { isMobile } = useMobileDetect();
   return (
     <Flex column>
       <SingleColumnLayout
@@ -28,7 +27,7 @@ export const GivePagesLayout = ({
         <Helmet>
           <title>GIVE / Coordinape</title>
         </Helmet>
-        <ContentHeader css={{ mb: 0 }}>
+        <ContentHeader css={{ mb: 0, minHeight: giveHeaderMinHeight }}>
           <Flex
             column
             css={{
@@ -50,10 +49,12 @@ export const GivePagesLayout = ({
                   <Text inline>
                     All the people who have received GIVE for{' '}
                     <Text inline semibold>
-                      {skill}
+                      {skill}.
+                    </Text>
+                    <Text inline css={{ ml: '$sm' }}>
+                      <LearnAboutGiveCard linkText="What is GIVE?" />
                     </Text>
                   </Text>
-                  <LearnAboutGiveCard linkText="What is GIVE?" />
                 </Flex>
               ) : (
                 <Text>
@@ -61,12 +62,6 @@ export const GivePagesLayout = ({
                   and connections in web3.
                 </Text>
               )}
-            </Flex>
-            <Flex css={{ width: '100%', maxWidth: 300 }}>
-              <CoLinksSearchBox
-                size={isMobile ? 'medium' : 'large'}
-                registerKeyDown={false}
-              />
             </Flex>
           </Flex>
         </ContentHeader>

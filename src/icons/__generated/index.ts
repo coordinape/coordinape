@@ -114,6 +114,7 @@ export { default as Info } from './Info';
 export { default as Key } from './Key';
 export { default as Link2 } from './Link2';
 export { default as Link } from './Link';
+export { default as LinksThick } from './LinksThick';
 export { default as Links } from './Links';
 export { default as List } from './List';
 export { default as Loader } from './Loader';

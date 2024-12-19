@@ -241,7 +241,7 @@ const NoPostsMessage = () => {
           <Text h2>Welcome to CoLinks!</Text>
           <Text p as="p">
             <AppLink
-              to={coLinksPaths.home}
+              to={coLinksPaths.root}
               css={{
                 mr: '$xs',
                 gap: '$xs',

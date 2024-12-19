@@ -137,7 +137,16 @@ export const TopSenders = () => {
             size="xs"
             as={NavLink}
             to={coLinksPaths.giveSenders}
-            color="primary"
+            color="transparent"
+            css={{
+              textTransform: 'capitalize',
+              background: '$background',
+              '&:hover': {
+                background: '$background',
+                outline: '1px solid $linkHover',
+                color: '$linkHover',
+              },
+            }}
           >
             View Leaderboard
           </Button>

@@ -2,9 +2,14 @@ import { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { ShareGiveThick, TimelineList, Timer } from 'icons/__generated';
+import {
+  GemCoFillSm,
+  ShareGiveThick,
+  TimelineList,
+  Timer,
+} from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
-import { Flex, Button } from 'ui';
+import { Flex, Button, Text } from 'ui';
 import { DrawerModal } from 'ui/DrawerModal';
 
 import {
@@ -22,6 +27,40 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
         ...navContainerStyles,
       }}
     >
+      <Flex
+        css={{
+          background: '$tagCtaBackground',
+          color: '$tagCtaText',
+          borderBottom: '1px solid $tagCtaText',
+          position: 'absolute',
+          width: '100%',
+          height: 33,
+          top: -31,
+          justifyContent: 'center',
+          display: 'none',
+          '@sm': {
+            display: 'flex',
+          },
+        }}
+      >
+        <Text semibold size="small" css={{}}>
+          #{skill}
+        </Text>
+      </Flex>
+      <Button
+        as={NavLink}
+        color="textOnly"
+        to={coLinksPaths.root}
+        css={{
+          ...tabStyles,
+          ...(location.pathname == coLinksPaths.root && {
+            ...activeTabStyles,
+          }),
+        }}
+      >
+        <GemCoFillSm fa size="lg" />
+        Home
+      </Button>
       <Button
         as={NavLink}
         color="textOnly"

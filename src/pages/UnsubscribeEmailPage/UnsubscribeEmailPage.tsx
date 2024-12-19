@@ -60,7 +60,7 @@ export const UnsubscribeEmailPage = () => {
                     color="cta"
                     onClick={() => {
                       if (isCoLinks) {
-                        navigate(coLinksPaths.home, {
+                        navigate(coLinksPaths.root, {
                           replace: true,
                         });
                       } else {
