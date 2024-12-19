@@ -34,9 +34,10 @@ import {
   Gear,
   GemCoFillSm,
   GemCoOutline,
-  HouseFill,
+  LinksThick,
   Menu,
   PlanetFill,
+  TimelineList,
   UserFill,
   X,
 } from 'icons/__generated';
@@ -44,6 +45,7 @@ import {
 import { CoLinksContext } from './CoLinksContext';
 import { CoLinksNavProfile } from './CoLinksNavProfile';
 import { useCoLinksNavQuery } from './useCoLinksNavQuery';
+import { useLinkingStatus } from './useLinkingStatus';
 
 export const CoLinksNav = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -320,23 +322,38 @@ const Count = memo(function Count() {
   ) : null;
 });
 
-const LoggedInItems = ({ address }: { address: string | undefined }) => {
+const LoggedInItems = ({ address }: { address: string }) => {
   const navigate = useNavigate();
+  const { balance } = useLinkingStatus({
+    address: address,
+    target: address,
+  });
+
+  const balanceNumber = Number(balance);
+  const hasOwnCoLink = balanceNumber > 0;
 
   return (
     <>
-      <NavItem path={coLinksPaths.home}>
-        <HouseFill size="lg" nostroke />
-        Home
-      </NavItem>
       <NavItem path={coLinksPaths.give}>
         <GemCoFillSm size="lg" nostroke />
-        GIVE
+        Home
       </NavItem>
-      <NavItem path={coLinksPaths.explore}>
-        <PlanetFill size="lg" nostroke />
-        Explore
+      <NavItem path={coLinksPaths.giveLeaderboard}>
+        <TimelineList size="lg" nostroke />
+        Top GIVE
       </NavItem>
+      {hasOwnCoLink && (
+        <>
+          <NavItem path={coLinksPaths.home}>
+            <LinksThick size="lg" nostroke />
+            CoLinks Feed
+          </NavItem>
+          <NavItem path={coLinksPaths.explore}>
+            <PlanetFill size="lg" nostroke />
+            Explore
+          </NavItem>
+        </>
+      )}
       <NavItem path={coLinksPaths.notifications}>
         <BoltFill size="lg" nostroke />
         <Flex css={{ gap: '$md' }}>
