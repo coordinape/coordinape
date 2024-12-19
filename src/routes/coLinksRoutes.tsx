@@ -143,6 +143,16 @@ export const coLinksRoutes = [
       <Route path={coLinksPaths.explore} element={<ExplorePage />} />
       <Route path={coLinksPaths.giveHome} element={<GiveHomePage />} />
       <Route path={coLinksPaths.givefeed} element={<GiveFeed />} />
+      <Route path={coLinksPaths.give} element={<GivePage />} />
+      <Route
+        path={coLinksPaths.giveReceivers}
+        element={<GiveReceiversPage />}
+      />
+      <Route
+        path={coLinksPaths.giveLeaderboard}
+        element={<GiveLeaderboardPage />}
+      />
+      <Route path={coLinksPaths.giveSenders} element={<GiveSendersPage />} />
       <Route
         key="givePagesLayout"
         element={
@@ -151,16 +161,6 @@ export const coLinksRoutes = [
           </GivePagesLayout>
         }
       >
-        <Route path={coLinksPaths.give} element={<GivePage />} />
-        <Route
-          path={coLinksPaths.giveReceivers}
-          element={<GiveReceiversPage />}
-        />
-        <Route
-          path={coLinksPaths.giveLeaderboard}
-          element={<GiveLeaderboardPage />}
-        />
-        <Route path={coLinksPaths.giveSenders} element={<GiveSendersPage />} />
         <Route
           path={coLinksPaths.giveSkill(':skill')}
           element={<GiveSkillPage />}

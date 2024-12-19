@@ -7,6 +7,8 @@ import { SingleColumnLayout } from '../../../ui/layouts';
 import { GiveBreadCrumbs } from './GiveBreadCrumbs';
 import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
+export const giveHeaderMinHeight = 117;
+
 export const GivePagesLayout = ({
   children,
 }: {
@@ -25,7 +27,7 @@ export const GivePagesLayout = ({
         <Helmet>
           <title>GIVE / Coordinape</title>
         </Helmet>
-        <ContentHeader css={{ mb: 0, minHeight: 117 }}>
+        <ContentHeader css={{ mb: 0, minHeight: giveHeaderMinHeight }}>
           <Flex
             column
             css={{
@@ -47,10 +49,12 @@ export const GivePagesLayout = ({
                   <Text inline>
                     All the people who have received GIVE for{' '}
                     <Text inline semibold>
-                      {skill}
+                      {skill}.
+                    </Text>
+                    <Text inline css={{ ml: '$sm' }}>
+                      <LearnAboutGiveCard linkText="What is GIVE?" />
                     </Text>
                   </Text>
-                  <LearnAboutGiveCard linkText="What is GIVE?" />
                 </Flex>
               ) : (
                 <Text>

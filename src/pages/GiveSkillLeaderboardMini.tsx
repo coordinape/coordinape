@@ -78,7 +78,7 @@ export const GiveSkillLeaderboardMini = () => {
 
   return (
     <>
-      <Panel noBorder>
+      <Panel noBorder css={{ maxWidth: '$maxMobile' }}>
         {/*Table*/}
         <Flex
           css={{

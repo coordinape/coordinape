@@ -2,10 +2,11 @@ import React from 'react';
 
 import { RecentGives } from 'features/colinks/RecentGives';
 import { Helmet } from 'react-helmet';
+import { CSS } from 'stitches.config';
 
-import { CSS } from '../../../stitches.config';
-import { Flex } from '../../../ui';
-import { GiveLeaderboardNav } from 'pages/GiveLeaderboardNav';
+import { GemCoOutline } from 'icons/__generated';
+import { GiveHomeHeader } from 'pages/GiveHome';
+import { Flex, Text } from 'ui';
 
 import { GiveBotCard } from './GiveBotCard';
 import { GivePartyCard } from './GivePartyCard';
@@ -17,16 +18,14 @@ export const GivePage = () => {
       <Helmet>
         <title>GIVE / Coordinape</title>
       </Helmet>
-      <Flex
-        css={{
-          gap: '$sm',
-          mt: '-$lg',
-          mb: '$lg',
-          ml: '$xl',
-        }}
-      >
-        <GiveLeaderboardNav />
-      </Flex>
+      <GiveHomeHeader>
+        <Flex css={{ alignItems: 'center', gap: '$sm' }}>
+          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
+          <Text h2 display>
+            Recent GIVE
+          </Text>
+        </Flex>
+      </GiveHomeHeader>
       <ResponsiveColumnLayout
         css={{
           '@xs': {

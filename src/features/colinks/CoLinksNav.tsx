@@ -334,7 +334,7 @@ const LoggedInItems = ({ address }: { address: string }) => {
 
   return (
     <>
-      <NavItem path={coLinksPaths.give}>
+      <NavItem path={coLinksPaths.giveHome}>
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
@@ -416,17 +416,13 @@ const LoggedOutItems = () => {
 
   return (
     <>
-      {/* <NavItem path={coLinksPaths.home}> */}
-      {/*   <HouseFill size="lg" nostroke /> */}
-      {/*   Home */}
-      {/* </NavItem> */}
-      <NavItem path={coLinksPaths.give}>
+      <NavItem path={coLinksPaths.giveHome}>
         <GemCoFillSm size="lg" nostroke />
-        GIVE
+        Home
       </NavItem>
-      <NavItem path={coLinksPaths.explore}>
-        <PlanetFill size="lg" nostroke />
-        Explore
+      <NavItem path={coLinksPaths.giveLeaderboard}>
+        <TimelineList size="lg" nostroke />
+        Top GIVE
       </NavItem>
       <NavItem external path={EXTERNAL_URL_ABOUT}>
         <BookSparkles size="lg" nostroke />

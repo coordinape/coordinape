@@ -4,7 +4,6 @@ import { Navigate, useParams } from 'react-router-dom';
 
 import { coLinksPaths } from '../routes/paths';
 import { Flex } from '../ui';
-import useMobileDetect from 'hooks/useMobileDetect';
 
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
@@ -14,8 +13,6 @@ import { GiveSkillNav } from './GiveSkillNav';
 
 export const GiveSkillPage = () => {
   const { skill } = useParams();
-  const { isMobile } = useMobileDetect();
-
   return (
     <Flex column>
       <Helmet>
@@ -32,28 +29,25 @@ export const GiveSkillPage = () => {
         {skill && <GiveSkillNav skill={skill} />}
       </Flex>
       <ResponsiveColumnLayout>
-        <Flex column>{skill && <RecentGives skill={skill} />}</Flex>
-        {!isMobile && (
-          <Flex
-            column
-            css={{
-              gap: '$md',
+        <Flex column css={{ '@sm': { margin: 'auto' } }}>
+          {skill && <RecentGives skill={skill} />}
+        </Flex>
+        <Flex
+          column
+          css={{
+            gap: '$sm',
+            '@sm': {
               flexGrow: 1,
-              '@sm': {
-                flexDirection: 'row',
-                gap: '$sm',
-                pb: '$sm',
-                overflow: 'scroll',
-                mx: '-$md',
-                px: '$md',
-              },
-            }}
-          >
-            <GiveSkillLeaderboardMini />
-            {skill !== 'null' && <ShareGiveCard skill={skill} />}
-            <LearnAboutGiveCard />
-          </Flex>
-        )}
+              margin: 'auto',
+              width: '100%',
+              maxWidth: '$maxMobile !important',
+            },
+          }}
+        >
+          <GiveSkillLeaderboardMini />
+          {skill !== 'null' && <ShareGiveCard skill={skill} />}
+          <LearnAboutGiveCard />
+        </Flex>
       </ResponsiveColumnLayout>
     </Flex>
   );

@@ -4,10 +4,10 @@ import { TopReceivers } from 'features/HomeCards/TopReceivers';
 import { TopSenders } from 'features/HomeCards/TopSenders';
 import { gradientFlow } from 'keyframes';
 import { Helmet } from 'react-helmet';
+import { CSS } from 'stitches.config';
 
 import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
 import { Flex, Panel, Text } from '../ui';
-import { SingleColumnLayout } from '../ui/layouts';
 import { GemCoOutline } from 'icons/__generated';
 
 import { GiveBotCard } from './colinks/give/GiveBotCard';
@@ -20,88 +20,62 @@ export const QUERY_KEY_GIVE_HOME = 'giveHome';
 
 export const GiveHomePage = () => {
   return (
-    <SingleColumnLayout
-      css={{ p: '0 !important', maxWidth: 'none', '@xs': { gap: 0 } }}
-    >
+    <Flex column css={{ '@xs': { gap: 0 } }}>
       <Helmet>
         <title>Home / Coordinape</title>
       </Helmet>
-
-      <Flex
-        column
+      <GiveHomeHeader
         css={{
-          gap: '$xs',
-          width: '100%',
-          alignItems: 'center',
+          '@xs': {
+            mb: 0,
+            color: '$textOnCta',
+            background: 'linear-gradient(300deg, $complete, $cta, $warning)',
+            backgroundSize: '600% 600%',
+            animation: `${gradientFlow} 30s ease infinite`,
+            alignItems: 'center',
+            p: '$1xl $md',
+            span: { color: '$textOnCta' },
+          },
         }}
       >
         <Flex
-          column
+          row
           css={{
-            flexGrow: 1,
-            width: '100%',
-            gap: '$xs',
-            p: '$xl $xl',
-            color: '$text',
-            borderBottom: '1px solid $border',
-            mb: '$md',
+            alignItems: 'center',
+            gap: '$md',
             '@xs': {
-              color: '$textOnCta',
-              background: 'linear-gradient(300deg, $complete, $cta, $warning)',
-              backgroundSize: '600% 600%',
-              animation: `${gradientFlow} 30s ease infinite`,
-              alignItems: 'center',
-              p: '$1xl $md',
+              gap: '$sm',
+              alignItems: 'flex-start',
             },
           }}
         >
-          <Flex
-            row
+          <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
+          <Text
+            h2
+            display
             css={{
-              alignItems: 'center',
-              gap: '$md',
+              display: 'flex',
+              alignItems: 'flex-start',
               '@xs': {
-                gap: '$sm',
-                alignItems: 'flex-start',
+                fontSize: '22px',
+                flexDirection: 'column',
               },
             }}
           >
-            <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
-            <Text
-              semibold
-              css={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                fontSize: '36px',
-                '@xs': {
-                  fontSize: '22px',
-                  flexDirection: 'column',
-                },
-              }}
-            >
-              <Text semibold css={{ mr: '$sm' }}>
-                The World
-              </Text>
-              <Text css={{ gap: '$sm' }}>
-                <Text
-                  inline
-                  css={{ fontStyle: 'italic', fontFamily: 'Georgia' }}
-                >
-                  of
-                </Text>{' '}
-                <Text semibold>GIVE</Text>
-              </Text>
+            <Text semibold css={{ mr: '$sm' }}>
+              The World
             </Text>
-          </Flex>
+            <Text css={{ gap: '$sm' }}>
+              <Text inline css={{ fontStyle: 'italic', fontFamily: 'Georgia' }}>
+                of
+              </Text>{' '}
+              <Text semibold>GIVE</Text>
+            </Text>
+          </Text>
         </Flex>
-      </Flex>
-      <Flex css={{ m: '-$xl 0 0 $xl' }}>
-        <GiveLeaderboardNav />
-      </Flex>
-
+      </GiveHomeHeader>
       <ResponsiveColumnLayout
         css={{
-          mt: '$sm',
           '@xs': {
             px: '0 !important',
           },
@@ -213,6 +187,47 @@ export const GiveHomePage = () => {
           <GiveBotCard />
         </Flex>
       </ResponsiveColumnLayout>
-    </SingleColumnLayout>
+    </Flex>
+  );
+};
+
+export const GiveHomeHeader = ({
+  children,
+  css,
+}: {
+  children: React.ReactNode;
+  css?: CSS;
+}) => {
+  return (
+    <>
+      <Flex
+        column
+        css={{
+          gap: '$xs',
+          width: '100%',
+          alignItems: 'center',
+        }}
+      >
+        <Flex
+          column
+          css={{
+            flexGrow: 1,
+            width: '100%',
+            gap: '$xs',
+            p: '$xl $xl',
+            color: '$text',
+            borderBottom: '1px solid $contentHeaderBorder',
+            mb: '$md',
+
+            ...css,
+          }}
+        >
+          {children}
+        </Flex>
+      </Flex>
+      <Flex css={{ m: '-$md 0 $md $xl' }}>
+        <GiveLeaderboardNav />
+      </Flex>
+    </>
   );
 };
