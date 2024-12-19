@@ -71,6 +71,11 @@ export const publishCastGiveDelivered = async (
       colinks_gives_by_pk: [
         { id: giveId },
         {
+          giver_profile_public: {
+            farcaster_account: {
+              username: true,
+            },
+          },
           target_profile_public: {
             farcaster_account: {
               username: true,
@@ -85,8 +90,12 @@ export const publishCastGiveDelivered = async (
   const fcUserName =
     colinks_gives_by_pk?.target_profile_public?.farcaster_account?.username;
 
+  const giverUserName =
+    colinks_gives_by_pk?.giver_profile_public?.farcaster_account?.username;
+
   const baseMessage = fcUserName
-    ? `GIVE Delivered to @${fcUserName}`
+    ? `GIVE Delivered to @${fcUserName}` +
+      (giverUserName ? ` from @${giverUserName}` : ``)
     : `GIVE Delivered`;
 
   const giveMessage = skill ? `${baseMessage} for #${skill}` : baseMessage;
