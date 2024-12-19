@@ -49,7 +49,7 @@ export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
       go_fast: true,
       megapixels: '1',
       num_outputs: 1,
-      aspect_ratio: '1:1',
+      aspect_ratio: '4:3',
       output_format: 'webp',
       output_quality: 80,
       num_inference_steps: 4,
