@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { useParams } from 'react-router-dom';
 
 import { LoadingModal } from '../../components';
+import { coLinksPaths } from '../../routes/paths';
 
 import { NotFound } from './NotFound';
 
@@ -30,7 +31,7 @@ export const AuthenticatePage = () => {
     hasRunOnce.current = true;
     login()
       .then(() => {
-        navigate('/home');
+        navigate(coLinksPaths.root);
       })
       .catch(() => {
         // TODO: replace this with a full screen error page
