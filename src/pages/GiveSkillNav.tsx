@@ -2,7 +2,12 @@ import { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { ShareGiveThick, TimelineList, Timer } from 'icons/__generated';
+import {
+  GemCoFillSm,
+  ShareGiveThick,
+  TimelineList,
+  Timer,
+} from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Flex, Button } from 'ui';
 import { DrawerModal } from 'ui/DrawerModal';
@@ -22,6 +27,20 @@ export const GiveSkillNav = ({ skill }: { skill: string }) => {
         ...navContainerStyles,
       }}
     >
+      <Button
+        as={NavLink}
+        color="textOnly"
+        to={coLinksPaths.giveHome}
+        css={{
+          ...tabStyles,
+          ...(location.pathname.includes('/giveHome/') && {
+            ...activeTabStyles,
+          }),
+        }}
+      >
+        <GemCoFillSm fa size="lg" />
+        Home
+      </Button>
       <Button
         as={NavLink}
         color="textOnly"

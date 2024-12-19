@@ -19,17 +19,18 @@ export const GiveSkillLeaderboardPage = () => {
       <Helmet>
         <title>{skill} / GIVE / Coordinape</title>
       </Helmet>
+      <Flex
+        css={{
+          gap: '$sm',
+          mt: '-$lg',
+          mb: '$sm',
+          ml: '$xl',
+        }}
+      >
+        {skill && <GiveSkillNav skill={skill} />}
+      </Flex>
       <ResponsiveColumnLayout>
         <Flex column>
-          <Flex
-            css={{
-              gap: '$sm',
-              mt: '-$lg',
-              mb: '$sm',
-            }}
-          >
-            {skill && <GiveSkillNav skill={skill} />}
-          </Flex>
           <GiveSkillLeaderboard />
         </Flex>
         <Flex
