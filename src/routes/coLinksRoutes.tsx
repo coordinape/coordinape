@@ -151,10 +151,7 @@ export const coLinksRoutes = [
         path={coLinksPaths.giveReceivers}
         element={<GiveReceiversPage />}
       />
-      <Route
-        path={coLinksPaths.giveLeaderboard}
-        element={<GiveLeaderboardPage />}
-      />
+      <Route path={coLinksPaths.topGive} element={<GiveLeaderboardPage />} />
       <Route path={coLinksPaths.giveSenders} element={<GiveSendersPage />} />
       <Route
         key="givePagesLayout"

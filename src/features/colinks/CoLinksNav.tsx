@@ -338,7 +338,7 @@ const LoggedInItems = ({ address }: { address: string }) => {
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
-      <NavItem path={coLinksPaths.giveLeaderboard}>
+      <NavItem path={coLinksPaths.topGive}>
         <TimelineList size="lg" nostroke />
         Top GIVE
       </NavItem>
@@ -420,7 +420,7 @@ const LoggedOutItems = () => {
         <GemCoFillSm size="lg" nostroke />
         Home
       </NavItem>
-      <NavItem path={coLinksPaths.giveLeaderboard}>
+      <NavItem path={coLinksPaths.topGive}>
         <TimelineList size="lg" nostroke />
         Top GIVE
       </NavItem>

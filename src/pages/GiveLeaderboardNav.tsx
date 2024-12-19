@@ -54,7 +54,7 @@ export const GiveLeaderboardNav = () => {
       <Button
         as={NavLink}
         color="textOnly"
-        to={coLinksPaths.giveLeaderboard}
+        to={coLinksPaths.topGive}
         css={{
           ...tabStyles,
           ...(location.pathname.includes('/giveLeaderboard') && {
