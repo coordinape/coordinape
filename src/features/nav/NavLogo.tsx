@@ -11,7 +11,6 @@ export const NavLogo = ({
   forceTheme,
   muted,
   mark,
-  loggedIn,
 }: {
   css?: CSS;
   forceTheme?: string;
@@ -30,13 +29,7 @@ export const NavLogo = ({
           <Box
             // onClick={() => setShowApps(prevState => !prevState)}
             as={NavLink}
-            to={
-              isCoLinks
-                ? loggedIn
-                  ? coLinksPaths.root
-                  : coLinksPaths.explore
-                : givePaths.home
-            }
+            to={isCoLinks ? coLinksPaths.root : givePaths.home}
             css={{
               'img, svg': {
                 width: '200px',
