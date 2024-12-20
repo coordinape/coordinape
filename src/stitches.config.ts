@@ -127,6 +127,7 @@ export const colors = {
   dimText: figmaColors.grey4,
   dimButtonHover: '#FFFFFF',
   textOnDim: figmaColors.grey5,
+  lightText: figmaColors.grey6,
 
   cta: figmaColors.secondary4,
   ctaDim: figmaColors.secondary5,
@@ -538,6 +539,7 @@ export const dark = createTheme({
     dimText: figmaColors.grey7,
     dimButtonHover: figmaColors.grey9,
     textOnDim: figmaColors.grey5,
+    lightText: figmaColors.grey6,
     modalBackground: '#0000007d',
     modalBorderColor: figmaColors.grey8,
     activePanel: figmaColors.grey8,
@@ -774,6 +776,7 @@ export const party = createTheme({
     dimText: figmaColors.grey7,
     dimButtonHover: figmaColors.grey9,
     textOnDim: figmaColors.grey5,
+    lightText: figmaColors.grey6,
     modalBackground: '#0000007d',
     modalBorderColor: figmaColors.grey8,
     activePanel: figmaColors.grey8,

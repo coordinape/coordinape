@@ -7,7 +7,7 @@ import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { ActivityRow } from '../activities/ActivityRow';
 import { Activity } from '../activities/useInfiniteActivities';
 import { webAppURL } from 'config/webAppURL';
-import { ArrowRight, GemCoOutline } from 'icons/__generated';
+import { GemCoOutline } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
 import { Avatar, Flex, Link, Text } from 'ui';
 import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
@@ -76,7 +76,6 @@ export const RecentGives = ({
   });
 
   const giveArtHeight = '180px';
-  const pillHeight = '16px';
 
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
@@ -151,62 +150,33 @@ export const RecentGives = ({
                   display: 'flex',
                   flexGrow: 1,
                   flex: 1,
-                  flexDirection: 'row',
+                  flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <ArrowRight color="text" css={{ opacity: 0.6 }} />
-                <Text
-                  tag
-                  size="small"
-                  css={{
-                    gap: '$xs',
-                    color: '$text',
-                  }}
+                <Flex
+                  row
+                  css={{ alignItems: 'center', justifyContent: 'center' }}
                 >
-                  <Text size="small" css={{ fontWeight: 'normal' }}>
-                    +1
+                  {/* <ArrowRight color="text" css={{ opacity: 0.6 }} /> */}
+                  <Text
+                    tag
+                    size="small"
+                    css={{
+                      gap: '$xs',
+                      color: '$lightText',
+                    }}
+                  >
+                    <Text semibold size="small">
+                      +1
+                    </Text>
+                    <GemCoOutline fa size={'md'} />
+                    <Text semibold>{skill}</Text>
                   </Text>
-                  <GemCoOutline fa size={'md'} />
-                  <Text>GIVE</Text>
-                </Text>
-                <ArrowRight color="text" css={{ opacity: 0.6 }} />
-                <Text
-                  tag
-                  css={{
-                    background: '#070707',
-                    color: '#e5e5e5',
-                    position: 'absolute',
-                    height: pillHeight,
-                    bottom: `calc(0px - ${pillHeight})`,
-                    borderRadius: '$2',
-                    borderTopLeftRadius: 0,
-                    borderTopRightRadius: 0,
-                    fontSize: '$xs',
-                    px: '$md',
-                    zIndex: 1,
-                  }}
-                >
-                  #{give.skill}
-                </Text>
-                <Text
-                  tag
-                  css={{
-                    background: '$surface',
-                    color: '$text',
-                    position: 'absolute',
-                    height: pillHeight,
-                    bottom: `calc(0px - ${giveArtHeight})`,
-                    right: 0,
-                    borderRadius: 0,
-                    borderTopLeftRadius: '$2',
-                    fontSize: '$xs',
-                    px: '$sm',
-                    zIndex: 1,
-                    fontWeight: '$normal',
-                  }}
-                >
+                  {/* <ArrowRight color="text" css={{ opacity: 0.6 }} /> */}
+                </Flex>
+                <Text css={{ fontSize: '$xs', color: '$lightText' }}>
                   {DateTime.fromISO(give.created_at).toRelative()}
                 </Text>
               </Link>
