@@ -159,7 +159,6 @@ export const RecentGives = ({
                   row
                   css={{ alignItems: 'center', justifyContent: 'center' }}
                 >
-                  {/* <ArrowRight color="text" css={{ opacity: 0.6 }} /> */}
                   <Text
                     tag
                     size="small"
@@ -174,7 +173,6 @@ export const RecentGives = ({
                     <GemCoOutline fa size={'md'} />
                     <Text semibold>{skill}</Text>
                   </Text>
-                  {/* <ArrowRight color="text" css={{ opacity: 0.6 }} /> */}
                 </Flex>
                 <Text css={{ fontSize: '$xs', color: '$lightText' }}>
                   {DateTime.fromISO(give.created_at).toRelative()}
