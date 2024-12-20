@@ -24,6 +24,7 @@ export const GiveHomePage = () => {
         <title>Home / Coordinape</title>
       </Helmet>
       <GiveHomeHeader />
+      <FancyHeader />
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -42,7 +43,6 @@ export const GiveHomePage = () => {
             },
           }}
         >
-          <FancyHeader />
           <Flex column css={{ maxWidth: '$maxMobile !important' }}>
             <Panel
               noBorder
@@ -120,31 +120,34 @@ export const GiveHomePage = () => {
             </Panel>
           </Flex>
         </Flex>
-        <Flex
-          column
-          css={{
-            gap: '$xl',
-            flexGrow: 1,
-            '@sm': {
-              flexDirection: 'row',
-              gap: '$sm',
-              pb: '$sm',
-              mt: '$lg',
-              overflow: 'scroll',
-              mx: '-$md',
-              px: '$md',
-            },
-          }}
-        >
-          <LearnAboutGiveCard />
-          <GivePartyCard />
-          <GiveBotCard />
-        </Flex>
+        <GiveHelpCards />
       </ResponsiveColumnLayout>
     </Flex>
   );
 };
 
+export const GiveHelpCards = () => {
+  return (
+    <>
+      <Flex
+        column
+        css={{
+          gap: '$xl',
+          maxWidth: '$maxMobile !important',
+          margin: '0 auto',
+          '@sm': {
+            width: '100%',
+            gap: '$md',
+          },
+        }}
+      >
+        <LearnAboutGiveCard />
+        <GivePartyCard />
+        <GiveBotCard />
+      </Flex>
+    </>
+  );
+};
 export const GiveHomeHeader = () => {
   return (
     <>
@@ -168,11 +171,16 @@ const FancyHeader = () => {
     <>
       <Flex
         css={{
+          ml: '$xl',
           mb: '$lg',
-          '@sm': { mt: '$lg' },
+          '@sm': {
+            width: '100%',
+            maxWidth: '$maxMobile',
+            m: '$sm auto $lg',
+          },
+
           '@xs': {
-            mb: 0,
-            mt: 0,
+            m: 0,
             justifyContent: 'center',
             color: '$textOnCta',
             background: 'linear-gradient(300deg, $complete, $cta, $warning)',
