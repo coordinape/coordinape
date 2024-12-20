@@ -4,10 +4,8 @@ import { Navigate, useParams } from 'react-router-dom';
 import { coLinksPaths } from '../routes/paths';
 import { Flex } from '../ui';
 
-import { GiveBotCard } from './colinks/give/GiveBotCard';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
-import { GivePartyCard } from './colinks/give/GivePartyCard';
-import { LearnAboutGiveCard } from './colinks/give/LearnAboutGiveCard';
+import { GiveHelpCards } from './GiveHome';
 import { GiveSkillLeaderboard } from './GiveSkillLeaderboard';
 import { GiveSkillNav } from './GiveSkillNav';
 
@@ -33,25 +31,7 @@ export const GiveSkillLeaderboardPage = () => {
         <Flex column>
           <GiveSkillLeaderboard />
         </Flex>
-        <Flex
-          column
-          css={{
-            gap: '$md',
-            flexGrow: 1,
-            '@sm': {
-              flexDirection: 'row',
-              gap: '$sm',
-              pb: '$sm',
-              overflow: 'scroll',
-              mx: '-$md',
-              px: '$md',
-            },
-          }}
-        >
-          <LearnAboutGiveCard />
-          <GivePartyCard />
-          <GiveBotCard />
-        </Flex>
+        <GiveHelpCards />
       </ResponsiveColumnLayout>
     </Flex>
   );

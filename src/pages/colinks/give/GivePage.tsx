@@ -5,12 +5,8 @@ import { Helmet } from 'react-helmet';
 import { CSS } from 'stitches.config';
 
 import { GemCoOutline } from 'icons/__generated';
-import { GiveHomeHeader } from 'pages/GiveHome';
+import { GiveHelpCards, GiveHomeHeader } from 'pages/GiveHome';
 import { Flex, Text } from 'ui';
-
-import { GiveBotCard } from './GiveBotCard';
-import { GivePartyCard } from './GivePartyCard';
-import { LearnAboutGiveCard } from './LearnAboutGiveCard';
 
 export const GivePage = () => {
   return (
@@ -19,6 +15,27 @@ export const GivePage = () => {
         <title>GIVE / Coordinape</title>
       </Helmet>
       <GiveHomeHeader />
+      <Flex
+        css={{
+          alignItems: 'center',
+          gap: '$sm',
+          mb: '$lg',
+          ml: '$xl',
+          '@sm': {
+            width: '100%',
+            maxWidth: '$maxMobile',
+            m: '$sm auto $lg',
+          },
+          '@xs': {
+            pl: '$md',
+          },
+        }}
+      >
+        <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
+        <Text h2 display>
+          Recent GIVE
+        </Text>
+      </Flex>
       <ResponsiveColumnLayout
         css={{
           '@xs': {
@@ -27,41 +44,9 @@ export const GivePage = () => {
         }}
       >
         <Flex column css={{ '@sm': { margin: 'auto' } }}>
-          <Flex
-            css={{
-              alignItems: 'center',
-              gap: '$sm',
-              mb: '$lg',
-              '@sm': { mt: '$lg' },
-            }}
-          >
-            <GemCoOutline fa size="2xl" css={{ mt: '$xs' }} />
-            <Text h2 display>
-              Recent GIVE
-            </Text>
-          </Flex>
           <RecentGives limit={35} />
         </Flex>
-        <Flex
-          column
-          css={{
-            gap: '$xl',
-            flexGrow: 1,
-            '@sm': {
-              flexDirection: 'row',
-              gap: '$sm',
-              pb: '$sm',
-              mt: '$lg',
-              overflow: 'scroll',
-              mx: '-$md',
-              px: '$md',
-            },
-          }}
-        >
-          <LearnAboutGiveCard />
-          <GivePartyCard />
-          <GiveBotCard />
-        </Flex>
+        <GiveHelpCards />
       </ResponsiveColumnLayout>
     </Flex>
   );
