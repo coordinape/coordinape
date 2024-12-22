@@ -171,7 +171,7 @@ export const RecentGives = ({
                       +1
                     </Text>
                     <GemCoOutline fa size={'md'} />
-                    <Text semibold>{skill}</Text>
+                    <Text semibold>{give.skill}</Text>
                   </Text>
                 </Flex>
                 <Text css={{ fontSize: '$xs', color: '$lightText' }}>
