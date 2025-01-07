@@ -37,8 +37,9 @@ export const GiveSkillPage = () => {
           css={{
             gap: '$sm',
             '@sm': {
+              gap: '$md',
               flexGrow: 1,
-              margin: 'auto',
+              margin: '0 auto $md',
               width: '100%',
               maxWidth: '$maxMobile !important',
             },

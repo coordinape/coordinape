@@ -138,6 +138,7 @@ export const GiveHelpCards = () => {
           '@sm': {
             width: '100%',
             px: '$md',
+            mb: '$md',
             gap: '$md',
           },
         }}
