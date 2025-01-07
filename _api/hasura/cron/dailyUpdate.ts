@@ -237,55 +237,55 @@ async function handler(req: VercelRequest, res: VercelResponse) {
         }
       }
 
-      if (circle.discord_webhook) {
-        try {
-          await sendSocialMessage({
-            message,
-            circleId: circle.id,
-            channels: { discord: true },
-            sanitize: false,
-          });
-        } catch (e: unknown) {
-          if (e instanceof Error)
-            errorLog(
-              `Discord Daily Update error for circle #${circle.id}: ` +
-                e.message
-            );
-        }
-      }
+      // if (circle.discord_webhook) {
+      //   try {
+      //     await sendSocialMessage({
+      //       message,
+      //       circleId: circle.id,
+      //       channels: { discord: true },
+      //       sanitize: false,
+      //     });
+      //   } catch (e: unknown) {
+      //     if (e instanceof Error)
+      //       errorLog(
+      //         `Discord Daily Update error for circle #${circle.id}: ` +
+      //           e.message
+      //       );
+      //   }
+      // }
 
-      if (circle.discord_circle) {
-        const {
-          discord_channel_id: channelId,
-          discord_role_id: roleId,
-          alerts,
-        } = circle.discord_circle || {};
+      // if (circle.discord_circle) {
+      //   const {
+      //     discord_channel_id: channelId,
+      //     discord_role_id: roleId,
+      //     alerts,
+      //   } = circle.discord_circle || {};
 
-        if (channelId && roleId && alerts?.['daily-update']) {
-          try {
-            await sendSocialMessage({
-              message,
-              circleId: circle.id,
-              channels: {
-                isDiscordBot: true,
-                discordBot: {
-                  type: 'daily-update' as const,
-                  message,
-                  channelId,
-                  roleId,
-                },
-              },
-              sanitize: false,
-            });
-          } catch (e: unknown) {
-            if (e instanceof Error)
-              errorLog(
-                `Discord Daily Update error for circle #${circle.id}: ` +
-                  e.message
-              );
-          }
-        }
-      }
+      //   if (channelId && roleId && alerts?.['daily-update']) {
+      //     try {
+      //       await sendSocialMessage({
+      //         message,
+      //         circleId: circle.id,
+      //         channels: {
+      //           isDiscordBot: true,
+      //           discordBot: {
+      //             type: 'daily-update' as const,
+      //             message,
+      //             channelId,
+      //             roleId,
+      //           },
+      //         },
+      //         sanitize: false,
+      //       });
+      //     } catch (e: unknown) {
+      //       if (e instanceof Error)
+      //         errorLog(
+      //           `Discord Daily Update error for circle #${circle.id}: ` +
+      //             e.message
+      //         );
+      //     }
+      //   }
+      // }
     }
 
     res.status(200).json({ message: 'updates sent' });
