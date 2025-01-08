@@ -2,6 +2,7 @@ import { anonClient } from 'lib/anongql/anonClient';
 import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import { skillTextStyle } from 'stitches.config';
 
 import { order_by } from '../../lib/anongql/__generated__/zeus';
 import { ActivityRow } from '../activities/ActivityRow';
@@ -171,7 +172,12 @@ export const RecentGives = ({
                       +1
                     </Text>
                     <GemCoOutline fa size={'md'} />
-                    <Text semibold>{skill}</Text>
+                    <Text
+                      semibold
+                      css={{ ...skillTextStyle, maxWidth: '9rem' }}
+                    >
+                      {give.skill}
+                    </Text>
                   </Text>
                 </Flex>
                 <Text css={{ fontSize: '$xs', color: '$lightText' }}>

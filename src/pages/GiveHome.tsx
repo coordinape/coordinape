@@ -137,6 +137,8 @@ export const GiveHelpCards = () => {
           margin: '0 auto',
           '@sm': {
             width: '100%',
+            px: '$md',
+            mb: '$md',
             gap: '$md',
           },
         }}
