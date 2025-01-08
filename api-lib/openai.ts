@@ -164,9 +164,9 @@ export const genGiveImagePrompt = async (
     const start = new Date().getTime();
 
     const sceneBonuses = [
-      'The scene should be snowy and surreal.',
-      ' The scene should very bizarre and surreal.',
-      ' The scene should be completely unhinged.',
+      ' The scent should be in the style of a painting by Hieronymus Bosch',
+      ' The scent should be in the style of a painting by Salvador Dali',
+      ' The scent should be in the style of 1970s sci-fi illustration',
     ];
 
     const sceneVariations = [
