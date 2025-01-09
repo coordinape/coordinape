@@ -80,7 +80,7 @@ export const genImageRecraft20b = async ({ skill }: { skill: string }) => {
     wait: WAIT_TIMEOUT,
     input: {
       prompt: prompt,
-      size: '1365x1024',
+      size: '1536x1024',
       style: modelStyles[Math.floor(Math.random() * modelStyles.length)],
     },
   };
