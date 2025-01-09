@@ -164,15 +164,15 @@ export const genGiveImagePrompt = async (
     const start = new Date().getTime();
 
     const characters = [
-      // ` Two multi-racial people wearing unique clothing exchange ${skill}`,
+      ` Two multi-racial people wearing unique clothing exchange ${skill}`,
       ` Two paper origami dolls exchanging ${skill}`,
-      // ` Two cautious strangers wearing outlandish clothing exchange ${skill}`,
-      // ` Two fantasy novel characters wearing outlandish clothing exchange  ${skill}`,
-      // ` Two sci-fi novel characters wearing outlandish clothing exchange  ${skill}`,
-      // ` Two cyborgs wearing unique clothing exchange  ${skill}`,
-      // ` Two egyptian gods wearing unique clothing exchange ${skill}`,
-      // ` Two computers talking with each other exchanging ${skill}`,
-      // ` Two ancient dieties wearing unique clothing exchange ${skill}`,
+      ` Two cautious strangers wearing outlandish clothing exchange ${skill}`,
+      ` Two fantasy novel characters wearing outlandish clothing exchange  ${skill}`,
+      ` Two sci-fi novel characters wearing outlandish clothing exchange  ${skill}`,
+      ` Two cyborgs wearing unique clothing exchange  ${skill}`,
+      ` Two egyptian gods wearing unique clothing exchange ${skill}`,
+      ` Two computers talking with each other exchanging ${skill}`,
+      ` Two ancient dieties wearing unique clothing exchange ${skill}`,
     ];
 
     const sceneVariations = [
