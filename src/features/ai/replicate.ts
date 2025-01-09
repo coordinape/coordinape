@@ -64,3 +64,31 @@ export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
     throw error;
   }
 };
+
+const modelStyles = [
+  'digital_illustration/engraving_color',
+  'realistic_image/hard_flash',
+  'digital_illustration/handmade_3d',
+];
+
+export const genImageRecraft20b = async ({ skill }: { skill: string }) => {
+  const prompt = await genGiveImagePrompt(skill);
+
+  const options = {
+    model: 'recraft-ai/recraft-20b',
+    wait: WAIT_TIMEOUT,
+    input: {
+      prompt: prompt,
+      size: '1365x1024',
+      style: modelStyles[Math.floor(Math.random() * modelStyles.length)],
+    },
+  };
+
+  try {
+    const output = await replicate.predictions.create(options);
+    return output.urls.stream;
+  } catch (error) {
+    console.error(`Error generating Give image with flux schnell: ${error}`);
+    throw error;
+  }
+};

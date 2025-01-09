@@ -76,7 +76,7 @@ export const RecentGives = ({
     return givesWithCastActivities;
   });
 
-  const giveArtHeight = '180px';
+  const giveArtHeight = '260px';
 
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
