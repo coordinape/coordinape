@@ -77,6 +77,7 @@ export const RecentGives = ({
   });
 
   const giveArtHeight = '260px';
+  const giveArtHeightMobile = '220px';
 
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
@@ -135,7 +136,7 @@ export const RecentGives = ({
                     css={{
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
-                      maxWidth: '5rem',
+                      maxWidth: '4rem',
                       overflow: 'hidden',
                       display: 'inline',
                     }}
@@ -174,7 +175,7 @@ export const RecentGives = ({
                     <GemCoOutline fa size={'md'} />
                     <Text
                       semibold
-                      css={{ ...skillTextStyle, maxWidth: '9rem' }}
+                      css={{ ...skillTextStyle, maxWidth: '6rem' }}
                     >
                       {give.skill}
                     </Text>
@@ -213,7 +214,7 @@ export const RecentGives = ({
                     css={{
                       whiteSpace: 'nowrap',
                       textOverflow: 'ellipsis',
-                      maxWidth: '5rem',
+                      maxWidth: '4rem',
                       overflow: 'hidden',
                       display: 'inline',
                     }}
@@ -245,6 +246,9 @@ export const RecentGives = ({
                     borderBottomLeftRadius: '$2',
                     borderBottomRightRadius: '$2',
                   }),
+                  '@xs': {
+                    height: giveArtHeightMobile,
+                  },
                 }}
               />
             </Flex>

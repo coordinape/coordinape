@@ -26,6 +26,7 @@ import { NavLogo } from '../nav/NavLogo';
 import { useNotificationCount } from '../notifications/useNotificationCount';
 import { CoLinksSearchBox } from '../SearchBox/CoLinksSearchBox';
 import HelpButton from 'components/HelpButton';
+import useMobileDetect from 'hooks/useMobileDetect';
 import {
   BoltFill,
   BookSparkles,
@@ -53,6 +54,7 @@ export const CoLinksNav = () => {
   const { address } = useContext(CoLinksContext);
   const location = useLocation();
   const { give } = usePoints();
+  const { isMobile } = useMobileDetect();
 
   useEffect(() => {
     setMobileMenuOpen(false);
@@ -134,7 +136,7 @@ export const CoLinksNav = () => {
         >
           <NavLogo loggedIn={!!address} />
         </Flex>
-        <CoLinksSearchBox size="smallIcon" />
+        {isMobile && <CoLinksSearchBox size="smallIcon" />}
         <GiveAvailablePopover />
         <IconButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
           {mobileMenuOpen ? <X size="lg" /> : <Menu size="lg" />}
