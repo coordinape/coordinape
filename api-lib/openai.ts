@@ -163,31 +163,16 @@ export const genGiveImagePrompt = async (
     // time this function
     const start = new Date().getTime();
 
-    const sceneBonuses = [
-      ' Hieronymus Bosch painting',
-      ' Salvador Dali painting',
-      ' Sandro Botticelli painting',
-      ' Japanese woodblock print',
-      ' Zen ink calligraphy',
-      ' Paleolithic cave paintings',
-      ' Sistine chapel characters',
-      ' Orthodoc icon painting',
-      ' Gustav Klimt painting',
-      ' Cubism painting',
-      ' Futurism painting',
-      ' Psychedelic painting',
-      ' Street photography',
-    ];
-
     const characters = [
-      ` Two surreal, melting faces, facing each other exchanging ${skill}`,
-      ` Two japanese paper collage bodies exchanging ${skill}`,
-      ` Two diverse humans greeting each other exchanging ${skill}`,
-      ` Two aliens greeting each other exchanging ${skill}`,
-      ` Two cyborgs greeting each other exchanging ${skill}`,
-      ` Two Egyptian gods greeting each other exchanging ${skill}`,
+      ` Two multi-racial people wearing unique clothing exchange ${skill}`,
+      ` Two paper origami dolls exchanging ${skill}`,
+      ` Two cautious strangers wearing outlandish clothing exchange ${skill}`,
+      ` Two fantasy novel characters wearing outlandish clothing exchange  ${skill}`,
+      ` Two sci-fi novel characters wearing outlandish clothing exchange  ${skill}`,
+      ` Two cyborgs wearing unique clothing exchange  ${skill}`,
+      ` Two egyptian gods wearing unique clothing exchange ${skill}`,
       ` Two computers talking with each other exchanging ${skill}`,
-      ` Two Buddhist dieties exchanging ${skill}`,
+      ` Two ancient dieties wearing unique clothing exchange ${skill}`,
     ];
 
     const sceneVariations = [
@@ -198,19 +183,17 @@ export const genGiveImagePrompt = async (
       `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}. The scene should appear as if viewed through both an electron microscope and stained glass.`,
 
       // Natural Scale
-      `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}, depicted as if their roots are forming baroque cathedral architecture underground. The exchange should be visible as bioluminescent flows.`,
+      `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}, depicted as if their roots are forming baroque cathedral architecture underground.`,
     ];
 
     const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.  The dominant theme is ${skill}. 
-${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
-
-Craft the prompt so that it describes the style ${sceneBonuses[Math.floor(Math.random() * sceneBonuses.length)]}.
+${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}.
 
 Technical requirements:
-- Avoid: cartoon or cartoonish style, obvious symbolism
+- Avoid: cartoon or cartoonish style, obvious symbolism, nudity
 - Use: natural color palette
-- Include the name of the artist or style in the prompt
 - ${skill} should play a significant roll in the image
+- All characters are fully clothed
 - Response must be 400 characters or less
 
 `;
