@@ -164,37 +164,55 @@ export const genGiveImagePrompt = async (
     const start = new Date().getTime();
 
     const sceneBonuses = [
-      ' The scent should be in the style of a painting by Hieronymus Bosch',
-      ' The scent should be in the style of a painting by Salvador Dali',
-      ' The scent should be in the style of 1970s sci-fi illustration',
+      ' Hieronymus Bosch painting',
+      ' Salvador Dali painting',
+      ' Sandro Botticelli painting',
+      ' Japanese woodblock print',
+      ' Zen ink calligraphy',
+      ' Paleolithic cave paintings',
+      ' Sistine chapel characters',
+      ' Orthodoc icon painting',
+      ' Gustav Klimt painting',
+      ' Cubism painting',
+      ' Futurism painting',
+      ' Psychedelic painting',
+      ' Street photography',
+    ];
+
+    const characters = [
+      ` Two surreal, melting faces, facing each other exchanging ${skill}`,
+      ` Two japanese paper collage bodies exchanging ${skill}`,
+      ` Two diverse humans greeting each other exchanging ${skill}`,
+      ` Two aliens greeting each other exchanging ${skill}`,
+      ` Two cyborgs greeting each other exchanging ${skill}`,
+      ` Two Egyptian gods greeting each other exchanging ${skill}`,
+      ` Two computers talking with each other exchanging ${skill}`,
+      ` Two Buddhist dieties exchanging ${skill}`,
     ];
 
     const sceneVariations = [
       // Cosmic Scale
-      `Scene focus: Two celestial, mystical bodies exchanging gravitational waves, rendered as if captured through both a radio telescope and a Renaissance master's eyes. The interaction creates impossible auroras that form architectural structures in space.`,
+      `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}, rendered as if captured through both a radio telescope and a Renaissance master's eyes. The interaction creates impossible auroras that form architectural structures in space.`,
 
       // Microscopic Scale
-      `Scene focus: Two networks exchanging infromation through neural synapses. The scene should appear as if viewed through both an electron microscope and stained glass.`,
+      `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}. The scene should appear as if viewed through both an electron microscope and stained glass.`,
 
       // Natural Scale
-      `Scene focus: Two ancient plants sharing nutrients through mycorrhizal networks, depicted as if their roots are forming baroque cathedral architecture underground. The exchange should be visible as bioluminescent flows.`,
-
-      // Conceptual Scale
-      `Scene focus: Abstract concepts of 'past' and 'future' meeting in a liminal space, rendered as if photographed using thousand-year exposure times. Their interaction creates temporal moiré patterns.`,
-
-      // Human Scale
-      `Scene focus: A moment of intergenerational wisdom being shared, depicted as if the participants are simultaneously solid matter and pure energy. Their exchange creates visible ripples in reality around them.`,
+      `Scene focus: ${characters[Math.floor(Math.random() * characters.length)]}, depicted as if their roots are forming baroque cathedral architecture underground. The exchange should be visible as bioluminescent flows.`,
     ];
 
-    const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.
+    const basePrompt = `Generate a text description capturing an exchange of gratitude, thanks, and respect between two people, entities, animals, or characters.  The dominant theme is ${skill}. 
 ${sceneVariations[Math.floor(Math.random() * sceneVariations.length)]}
 
-${sceneBonuses[Math.floor(Math.random() * sceneBonuses.length)]}
+Craft the prompt so that it describes the style ${sceneBonuses[Math.floor(Math.random() * sceneBonuses.length)]}.
 
 Technical requirements:
-- Avoid: cartoon styles, flat colors, obvious symbolism
-- Use: complex textures, volumetric lighting, atmospheric depth, illustration, gritty realism
-- Colors: Should include at least one color that seems to glow or emit light, and draw from the color palette of green, blue, purple, black.
+- Avoid: cartoon or cartoonish style, obvious symbolism
+- Use: natural color palette
+- Include the name of the artist or style in the prompt
+- ${skill} should play a significant roll in the image
+- Response must be 400 characters or less
+
 `;
 
     const response = await openai.chat.completions.create({
@@ -203,12 +221,12 @@ Technical requirements:
       messages: [
         {
           role: 'system',
-          content: basePrompt,
+          content: `Generate a terse 400 character text description for a text-to-image model. Return the text for the prompt without ANY other content in your response. Always show an exchange or interaction, never just a scene with one subject. The scene should be directly inspired by the word: ${skill}.
+          `,
         },
         {
           role: 'user',
-          content: `Generate a text description for a text-to-image model. Return the text for the prompt without ANY other content in your response. Always show an exchange or interaction, never just a scene with one subject. The scene should be directly inspired by the word: ${skill}. 
-          `,
+          content: basePrompt,
         },
       ],
     });
