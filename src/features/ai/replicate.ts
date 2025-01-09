@@ -68,6 +68,7 @@ export const genImageFluxSchnell = async ({ skill }: { skill: string }) => {
 const modelStyles = [
   'digital_illustration/engraving_color',
   'realistic_image/hard_flash',
+  'realistic_image/studio_portrait',
   'digital_illustration/handmade_3d',
 ];
 
