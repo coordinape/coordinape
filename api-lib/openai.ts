@@ -218,10 +218,11 @@ Technical requirements:
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       temperature: 1.2,
+      max_tokens: 110,
       messages: [
         {
           role: 'system',
-          content: `Generate a terse 400 character text description for a text-to-image model. Return the text for the prompt without ANY other content in your response. Always show an exchange or interaction, never just a scene with one subject. The scene should be directly inspired by the word: ${skill}.
+          content: `Generate a text description for a text-to-image model. Return the text for the prompt without ANY other content in your response. Always show an exchange or interaction, never just a scene with one subject. The scene should be directly inspired by the word: ${skill}.
           `,
         },
         {
