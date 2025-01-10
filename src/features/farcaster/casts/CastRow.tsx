@@ -1,4 +1,5 @@
 import Linkify from 'linkify-react';
+import { Path } from 'path-parser';
 import { NavLink } from 'react-router-dom';
 
 import { coLinksPaths } from '../../../routes/paths';
@@ -7,6 +8,22 @@ import { Cast } from '../../activities/cast';
 import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 export const CastRow = ({ cast }: { cast: Cast }) => {
+  const userPath = new Path('/surprise/:username');
+  const skillPath = new Path('/:skill');
+  let givePartyUsername: string | null = null;
+  let givePartySkill: string | null = null;
+  const givePartyPath = extractGivePartyPath(cast.text_with_mentions);
+  if (givePartyPath) {
+    const userParams = userPath.test(givePartyPath);
+    if (userParams) {
+      givePartyUsername = userParams['username'];
+    } else {
+      const skillParams = skillPath.test(givePartyPath);
+      if (skillParams) {
+        givePartySkill = skillParams['skill'];
+      }
+    }
+  }
   return (
     <Flex
       column
@@ -39,28 +56,37 @@ export const CastRow = ({ cast }: { cast: Cast }) => {
               },
             }}
           >
-            <Linkify
-              options={{
-                render: {
-                  mention: ({ attributes, content }) => {
-                    const { ...props } = attributes;
-                    const mentionedAddress = cast.mentioned_addresses?.find(
-                      ma => ma.fname == content.substring(1)
-                    )?.address;
-                    if (!mentionedAddress) {
-                      return <span {...props}>{content}</span>;
-                    }
-                    return (
-                      <NavLink to={coLinksPaths.profileGive(mentionedAddress)}>
-                        {content}
-                      </NavLink>
-                    );
+            {givePartyUsername || givePartySkill ? (
+              <Flex>
+                Party Zone SurpriseParty:{givePartyUsername} SkillParty:
+                {givePartySkill}
+              </Flex>
+            ) : (
+              <Linkify
+                options={{
+                  render: {
+                    mention: ({ attributes, content }) => {
+                      const { ...props } = attributes;
+                      const mentionedAddress = cast.mentioned_addresses?.find(
+                        ma => ma.fname == content.substring(1)
+                      )?.address;
+                      if (!mentionedAddress) {
+                        return <span {...props}>{content}</span>;
+                      }
+                      return (
+                        <NavLink
+                          to={coLinksPaths.profileGive(mentionedAddress)}
+                        >
+                          {content}
+                        </NavLink>
+                      );
+                    },
                   },
-                },
-              }}
-            >
-              {cast.text_with_mentions}
-            </Linkify>
+                }}
+              >
+                {cast.text_with_mentions}
+              </Linkify>
+            )}
           </Text>
         </Flex>
         <Flex column>
@@ -94,3 +120,9 @@ export const CastRow = ({ cast }: { cast: Cast }) => {
     </Flex>
   );
 };
+
+function extractGivePartyPath(text: string): string | null {
+  const regex = /https:\/\/give\.party(\/[^\s'"]*)/;
+  const match = text.match(regex);
+  return match ? match[1] : null;
+}
