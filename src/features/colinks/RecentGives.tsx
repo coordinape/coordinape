@@ -76,9 +76,6 @@ export const RecentGives = ({
     return givesWithCastActivities;
   });
 
-  const giveArtHeight = '260px';
-  const giveArtHeightMobile = '220px';
-
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
       <Flex css={{ flexWrap: 'wrap', columnGap: '2.5%' }}>
@@ -233,6 +230,11 @@ export const RecentGives = ({
             <Flex
               css={{
                 background: 'linear-gradient(90deg, $complete 25%, $cta 80%)',
+                ...(!give.activity?.cast && {
+                  borderBottomLeftRadius: '$2',
+                  borderBottomRightRadius: '$2',
+                  overflow: 'clip',
+                }),
               }}
             >
               <LightboxImage
@@ -241,14 +243,7 @@ export const RecentGives = ({
                 src={`${webAppURL('colinks')}/api/frames/router/img/give/${give.id}?ts=${DateTime.fromISO(give.updated_at).toMillis()}`}
                 css={{
                   width: '100%',
-                  height: giveArtHeight,
-                  ...(!give.activity?.cast && {
-                    borderBottomLeftRadius: '$2',
-                    borderBottomRightRadius: '$2',
-                  }),
-                  '@xs': {
-                    height: giveArtHeightMobile,
-                  },
+                  aspectRatio: '3/1.9',
                 }}
               />
             </Flex>

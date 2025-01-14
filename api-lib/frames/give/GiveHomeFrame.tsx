@@ -52,7 +52,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
                       ? 'radial-gradient(circle at 25% 0%, #04AFF9 0%, #FFB800 80%)'
                       : 'radial-gradient(circle at 25% 0%, #135A95 0%, #092031 80%)',
 
-            opacity: 0.7,
+            opacity: 1,
           }}
         />
         <FrameHeadline>
