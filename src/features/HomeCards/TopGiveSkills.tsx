@@ -57,6 +57,7 @@ export const TopGiveSkills = ({
               p: '$md',
               color: '$text',
               textDecoration: 'none',
+              mb: '$md',
             }}
           >
             <Flex

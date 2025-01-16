@@ -1,11 +1,12 @@
 import { useWindowSize } from '@react-hook/window-size';
+import { RecentGives } from 'features/colinks/RecentGives';
 import { mapMobileWidthInt } from 'features/cosoul/constants';
 import { CoLinksGiveButton } from 'features/points/CoLinksGiveButton';
 import { GiveReceived } from 'features/points/GiveReceived';
 import { NavLink } from 'react-router-dom';
 
 import { AutosizedGiveGraph } from '../../NetworkViz/AutosizedGiveGraph';
-import { Maximize } from 'icons/__generated';
+import { GemCoOutline, Maximize } from 'icons/__generated';
 import { useCoLinksProfile } from 'pages/GiveParty/useCoLinksProfile';
 import { coLinksPaths } from 'routes/paths';
 import { Button, Flex, Panel, Text } from 'ui';
@@ -65,14 +66,11 @@ export const ProfilePageGiveContents = ({
                       display: 'flex',
                       flexGrow: 1,
                       flexFlow: 'wrap',
-                      // flexWrap: 'wrap',
-                      // width: '100%',
                       minHeight: '$1xl',
                       height: '76px',
                       minWidth: '375px',
                       flexDirection: 'column',
                       gap: '$sm',
-                      // mx: '$md',
                       div: {
                         py: 0,
                       },
@@ -107,6 +105,100 @@ export const ProfilePageGiveContents = ({
                     Expand GIVE Map
                   </Button>
                 </Flex>
+              </Panel>
+
+              <Panel
+                noBorder
+                css={{
+                  backgroundSize: '10px 10px',
+                  backgroundImage:
+                    'repeating-linear-gradient(135deg, $borderDimmer 0, $borderDimmer 2px, $background 0, $background 50%)',
+                  border: '0.5px dotted $borderDimmer',
+                  alignItems: 'center',
+                }}
+              >
+                <Flex
+                  column
+                  css={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '$3',
+                    background: '$background',
+                    p: '$md',
+                    color: '$text',
+                    textDecoration: 'none',
+                    mb: '$md',
+                    maxWidth: '$maxMobile',
+                  }}
+                >
+                  <Flex
+                    css={{
+                      alignItems: 'center',
+                      gap: '$sm',
+                    }}
+                  >
+                    <GemCoOutline fa size={'xl'} />
+                    <Text
+                      h1
+                      css={{
+                        display: 'inline',
+                        color: '$text',
+                      }}
+                    >
+                      Received
+                      <br />
+                      <Text size="small">Recent GIVE</Text>
+                    </Text>
+                  </Flex>
+                </Flex>
+                <RecentGives address={targetAddress} receivedGives />
+              </Panel>
+              <Panel
+                noBorder
+                css={{
+                  backgroundSize: '10px 10px',
+                  backgroundImage:
+                    'repeating-linear-gradient(45deg, $borderDimmer 0, $borderDimmer 1.5px, $background 0, $background 50%)',
+                  alignItems: 'center',
+                }}
+              >
+                <Flex
+                  column
+                  css={{
+                    width: '100%',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    borderRadius: '$3',
+                    background: '$background',
+                    p: '$md',
+                    color: '$text',
+                    textDecoration: 'none',
+                    mb: '$md',
+                    maxWidth: '$maxMobile',
+                  }}
+                >
+                  <Flex
+                    css={{
+                      alignItems: 'center',
+                      gap: '$sm',
+                    }}
+                  >
+                    <GemCoOutline fa size={'xl'} />
+                    <Text
+                      h1
+                      css={{
+                        display: 'inline',
+                        color: '$text',
+                      }}
+                    >
+                      Sent
+                      <br />
+                      <Text size="small">Recent GIVE</Text>
+                    </Text>
+                  </Flex>
+                </Flex>
+                <RecentGives address={targetAddress} />
               </Panel>
             </Flex>
           ) : (

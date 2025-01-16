@@ -15,13 +15,19 @@ import { LightboxImage } from 'ui/MarkdownPreview/LightboxImage';
 
 const QUERY_KEY_RECENT_GIVES = 'recentGives';
 
-export const RecentGives = ({
-  skill,
-  limit = 10,
-}: {
+type GivesProps = {
+  address?: string;
   skill?: string;
+  receivedGives?: boolean;
   limit?: number;
-}) => {
+};
+
+export const RecentGives = ({
+  address,
+  skill,
+  receivedGives = false,
+  limit = 10,
+}: GivesProps) => {
   const fetchCastActivities = async (hashes: string[]) => {
     const res = await fetch(
       `/api/farcaster/casts/hashes?hashes=${encodeURIComponent(JSON.stringify(hashes))}`
@@ -30,51 +36,72 @@ export const RecentGives = ({
     return data.activities;
   };
 
-  const { data } = useQuery([QUERY_KEY_RECENT_GIVES, skill], async () => {
-    const { colinks_gives } = await anonClient.query(
-      {
-        colinks_gives: [
-          {
-            where: { ...(skill ? { skill: { _eq: skill } } : {}) },
-            order_by: [{ created_at: order_by.desc_nulls_last }],
-            limit: limit,
-          },
-          {
-            attestation_uid: true,
-            created_at: true,
-            id: true,
-            cast_hash: true,
-            skill: true,
-            updated_at: true,
-            giver_profile_public: { address: true, name: true, avatar: true },
-            target_profile_public: { address: true, name: true, avatar: true },
-          },
-        ],
-      },
-      {
-        operationName: 'coLinks_recent_gives @cached(ttl: 30)',
-      }
-    );
-
-    const hashes: string[] = colinks_gives
-      .filter(give => give.cast_hash)
-      .map((give): string => give.cast_hash ?? '');
-
-    const castActivities = await fetchCastActivities(hashes);
-    const givesWithCastActivities: ((typeof colinks_gives)[number] & {
-      activity: Activity | undefined;
-    })[] = [];
-    for (const give of colinks_gives) {
-      const g = {
-        ...give,
-        activity: castActivities.find(
-          a => a?.cast && a.cast?.hash === give.cast_hash
-        ),
+  const { data } = useQuery(
+    [QUERY_KEY_RECENT_GIVES, address, skill, receivedGives],
+    async () => {
+      const whereClause = {
+        ...(address
+          ? {
+              [receivedGives
+                ? 'target_profile_public'
+                : 'giver_profile_public']: {
+                address: { _eq: address },
+              },
+            }
+          : {}),
+        ...(skill ? { skill: { _eq: skill } } : {}),
       };
-      givesWithCastActivities.push(g);
+
+      const { colinks_gives } = await anonClient.query(
+        {
+          colinks_gives: [
+            {
+              where: whereClause,
+              order_by: [{ created_at: order_by.desc_nulls_last }],
+              limit: limit,
+            },
+            {
+              attestation_uid: true,
+              created_at: true,
+              id: true,
+              cast_hash: true,
+              skill: true,
+              updated_at: true,
+              giver_profile_public: { address: true, name: true, avatar: true },
+              target_profile_public: {
+                address: true,
+                name: true,
+                avatar: true,
+              },
+            },
+          ],
+        },
+        {
+          operationName: 'coLinks_gives @cached(ttl: 30)',
+        }
+      );
+
+      const hashes: string[] = colinks_gives
+        .filter(give => give.cast_hash)
+        .map((give): string => give.cast_hash ?? '');
+
+      const castActivities = await fetchCastActivities(hashes);
+      const givesWithCastActivities: ((typeof colinks_gives)[number] & {
+        activity: Activity | undefined;
+      })[] = [];
+
+      for (const give of colinks_gives) {
+        const g = {
+          ...give,
+          activity: castActivities.find(
+            a => a?.cast && a.cast?.hash === give.cast_hash
+          ),
+        };
+        givesWithCastActivities.push(g);
+      }
+      return givesWithCastActivities;
     }
-    return givesWithCastActivities;
-  });
+  );
 
   return (
     <Flex column css={{ gap: '$md', maxWidth: '$maxMobile' }}>
