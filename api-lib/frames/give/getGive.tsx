@@ -37,6 +37,9 @@ const fetchGive = async (id: number) => {
               token_id: true,
             },
             links_held: true,
+            reputation_score: {
+              total_score: true,
+            },
             colinks_gives: [{}, { id: true, target_profile_id: true }],
           },
           target_profile_public: {

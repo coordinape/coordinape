@@ -64,6 +64,7 @@ export const CoSoulComposition = ({
     borderBottom: `${nodeBorderWidth} solid $border `,
     zIndex: -1,
     '.nodeHeader': {
+      whiteSpace: 'nowrap',
       fontSize: '45px',
       '@md': {
         fontSize: '40px',
