@@ -35,9 +35,59 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
     ? `${give.image_url}?format=jpeg`
     : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
+  const give_weight =
+    give.giver_profile_public.reputation_score?.total_score || 1;
+
+  const getDiceImage = (give_weight: number): string => {
+    if (give_weight >= 10000) return 'dice-d20.png';
+    if (give_weight >= 5000) return 'dice-d12.png';
+    if (give_weight >= 3000) return 'dice-d10.png';
+    if (give_weight >= 1500) return 'dice-d8.png';
+    if (give_weight >= 500) return 'dice-d6.png';
+    return 'dice-d4.png';
+  };
+
   return (
     <FrameWrapper>
-      <FrameBgImage src={bgImage} />
+      <div tw="flex flex-col relative">
+        <div tw="flex relative">
+          <FrameBgImage src={bgImage} />
+        </div>
+        <div
+          tw="flex flex-col absolute"
+          style={{
+            right: 50,
+            top: 0,
+            width: 158,
+            height: 228,
+            backgroundImage: `url(${IMAGE_URL_BASE}banner.png)`,
+            backgroundSize: '158px 228px',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div
+            tw="flex flex-col relative justify-center items-center"
+            style={{ gap: 4, paddingTop: 10 }}
+          >
+            <span
+              style={{
+                fontSize: 26,
+                fontWeight: 600,
+                borderBottom: '1px solid white',
+              }}
+            >
+              WEIGHT
+            </span>
+            <span style={{ fontSize: 34, fontWeight: 600 }}>{give_weight}</span>
+            <img
+              alt="d"
+              src={`${IMAGE_URL_BASE}${getDiceImage(give_weight)}`}
+              width={66}
+              height={66}
+            />
+          </div>
+        </div>
+      </div>
       <FrameBody>
         <FrameBodyGradient
           gradientStyles={{
@@ -67,7 +117,8 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
               <img
                 alt="gem"
                 src={IMAGE_URL_BASE + 'GemWhite.png'}
-                style={{ width: 70, height: 70 }}
+                width={70}
+                height={70}
               />
               <span>GIVE</span>
             </div>
