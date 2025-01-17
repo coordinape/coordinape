@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import {
   Bullseye,
   CertificateLight,
-  GemCoOutline,
+  GemCoFillSm,
   Write,
 } from 'icons/__generated';
 import { coLinksPaths } from 'routes/paths';
@@ -94,7 +94,7 @@ export const ProfileNav = ({ targetAddress }: { targetAddress: string }) => {
           }),
         }}
       >
-        <GemCoOutline fa size="lg" /> Profile
+        <GemCoFillSm fa size="lg" /> Profile
       </Button>
       <Button
         as={NavLink}

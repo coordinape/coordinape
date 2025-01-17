@@ -57,7 +57,7 @@ export const GiveLeaderboardNav = () => {
         to={coLinksPaths.topGive}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('/giveLeaderboard') && {
+          ...(location.pathname === coLinksPaths.topGive && {
             ...activeTabStyles,
           }),
         }}
@@ -71,7 +71,7 @@ export const GiveLeaderboardNav = () => {
         to={coLinksPaths.giveReceivers}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('/receivers') && {
+          ...(location.pathname === coLinksPaths.giveReceivers && {
             ...activeTabStyles,
           }),
         }}
@@ -84,7 +84,7 @@ export const GiveLeaderboardNav = () => {
         to={coLinksPaths.giveSenders}
         css={{
           ...tabStyles,
-          ...(location.pathname.includes('/senders') && {
+          ...(location.pathname === coLinksPaths.giveSenders && {
             ...activeTabStyles,
           }),
         }}
