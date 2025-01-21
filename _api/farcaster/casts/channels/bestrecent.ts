@@ -32,7 +32,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ai_resp = await getBestCast(casts, quality);
     const reasoning = ai_resp.reasoning;
 
-    return res.status(200).json({ casts: casts[0], reasoning });
+    return res.status(200).json({ cast: casts[0], reasoning });
   } catch (e) {
     console.error(e);
     throw new InternalServerError('Error occurred searching profiles', e);
