@@ -23,6 +23,7 @@ export const GiveSendersPage = () => {
         <Flex
           column
           css={{
+            mb: '$md',
             '@xs': {
               mt: '$md',
             },

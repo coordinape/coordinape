@@ -135,7 +135,7 @@ export const GiveReceiversLeaderboard = () => {
               Member
             </GiveLeaderboardColumn>
             <GiveLeaderboardColumn onClick={toggleSort}>
-              Total GIVE Received
+              Received
             </GiveLeaderboardColumn>
           </GiveLeaderboardRow>
           {data?.map(
