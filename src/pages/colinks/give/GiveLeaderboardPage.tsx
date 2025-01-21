@@ -23,6 +23,7 @@ export const GiveLeaderboardPage = () => {
         <Flex
           column
           css={{
+            mb: '$md',
             '@xs': {
               mt: '$md',
             },
