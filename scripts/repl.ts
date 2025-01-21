@@ -19,6 +19,7 @@ import {
 // import { handleBonesGive } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
+import { fetchCastsForChannel } from '../api-lib/neynar.ts';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
 import { TOKENS } from '../src/features/points/getAvailablePoints.ts';
@@ -37,6 +38,7 @@ const init = async () => {
   return {
     // add your init code here
     TOKENS,
+    fetchCastsForChannel,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
     backfillCastActivity,

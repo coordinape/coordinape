@@ -17,6 +17,30 @@ export const fetchCast = async (cast_hash: string) => {
   return cast;
 };
 
+export const fetchCastsForChannel = async (
+  channelIds: string[],
+  withinSeconds?: number
+) => {
+  const feed = await client.fetchFeedByChannelIds(channelIds, {
+    withRecasts: false,
+    withReplies: false,
+    limit: 50,
+  });
+
+  // filter casts to only those within the last `withinSeconds`
+  if (!withinSeconds) {
+    return feed.casts;
+  }
+
+  const recentCasts = feed.casts.filter((cast: any) => {
+    const castTime = new Date(cast.timestamp).getTime();
+    const currentTime = new Date().getTime();
+    return currentTime - castTime < withinSeconds * 1000;
+  });
+
+  return recentCasts;
+};
+
 export const fetchUserByFid = async (fid: number) => {
   try {
     const response = await client.fetchBulkUsers([fid]);
