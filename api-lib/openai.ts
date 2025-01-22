@@ -3,20 +3,24 @@ import assert from 'assert';
 import { CastWithInteractions } from '@neynar/nodejs-sdk/build/neynar-api/v2';
 import OpenAI from 'openai';
 
-function openai_client() {
+function openai_client(custom_headers?: Record<string, string>) {
+  const defaultHeaders = {
+    'Helicone-Auth': 'Bearer ' + process.env.HELICONE_API_KEY,
+    'Helicone-Cache-Enabled': 'true',
+    'Helicone-Property-App': 'coordinape.com',
+  };
+
   return new OpenAI({
     baseURL: 'https://oai.hconeai.com/v1',
-    defaultHeaders: {
-      'Helicone-Auth': 'Bearer ' + process.env.HELICONE_API_KEY,
-      'Helicone-Cache-Enabled': 'true',
-      'Helicone-Property-App': 'coordinape.com',
-    },
+    defaultHeaders: { ...defaultHeaders, ...custom_headers },
   });
 }
 
 export const createEmbedding = async (input: string): Promise<number[]> => {
   try {
-    const openai = openai_client();
+    const openai = openai_client({
+      'Helicone-Property-Function': 'createEmbedding',
+    });
     const embeddingResponse: OpenAI.Embeddings.CreateEmbeddingResponse =
       await openai.embeddings.create({
         model: 'text-embedding-ada-002',
@@ -75,7 +79,9 @@ export const getBestCast = async (
   qualities: string
 ): Promise<any> => {
   try {
-    const openai = openai_client();
+    const openai = openai_client({
+      'Helicone-Property-Function': 'getBestCast',
+    });
 
     // time this function
     const start = new Date().getTime();
@@ -121,7 +127,9 @@ export const genHeadline = async (
   description: string | undefined;
 }> => {
   try {
-    const openai = openai_client();
+    const openai = openai_client({
+      'Helicone-Property-Function': 'genHeadline',
+    });
 
     // skip if message length is too long
     if (input.length > 12000) {
@@ -172,7 +180,7 @@ export const genHeadline = async (
 
 export const botReply = async (input: string): Promise<string | undefined> => {
   try {
-    const openai = openai_client();
+    const openai = openai_client({ 'Helicone-Property-Function': 'botReply' });
 
     // skip if message length is too long
     if (input.length > 400) {
@@ -214,7 +222,9 @@ export const genGiveImagePrompt = async (
   skill: string
 ): Promise<string | undefined> => {
   try {
-    const openai = openai_client();
+    const openai = openai_client({
+      'Helicone-Property-Function': 'genGiveImagePrompt',
+    });
 
     // skip if message length is too long
     if (skill.length > 400) {
