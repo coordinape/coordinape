@@ -31,7 +31,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     const ai_resp = await getBestCast(casts, quality);
     const reasoning = ai_resp.reasoning;
-    const index = ai_resp.index;
+    const index = ai_resp.most_interesting_index;
 
     return res.status(200).json({ cast: casts[index], reasoning });
   } catch (e) {
