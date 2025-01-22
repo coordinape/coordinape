@@ -24,6 +24,8 @@ import {
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
 
+const UNLIMITED_GIVE_PROFILES = [4064783, 4064757];
+
 const createCoLinksGiveInput = z
   .object({
     activity_id: z.number().optional(),
@@ -143,6 +145,10 @@ export const fetchPoints = async (profileId: number) => {
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : 0;
 
   const canGive = points >= POINTS_PER_GIVE;
+
+  if (!canGive && UNLIMITED_GIVE_PROFILES.includes(profileId)) {
+    return { points, give, canGive: true };
+  }
 
   const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
 
