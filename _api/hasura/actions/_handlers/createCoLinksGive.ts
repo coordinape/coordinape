@@ -15,7 +15,10 @@ import {
   findOrCreateProfileByFid,
 } from '../../../../api-lib/neynar/findOrCreate.ts';
 import { fetchCast } from '../../../../api-lib/neynar.ts';
-import { getGiveCap } from '../../../../src/features/points/emissionTiers.ts';
+import {
+  EMISSION_TIERS,
+  getGiveCap,
+} from '../../../../src/features/points/emissionTiers.ts';
 import {
   CO_CHAIN,
   CO_CONTRACT,
@@ -147,7 +150,7 @@ export const fetchPoints = async (profileId: number) => {
   const canGive = points >= POINTS_PER_GIVE;
 
   if (!canGive && UNLIMITED_GIVE_PROFILES.includes(profileId)) {
-    return { points, give, canGive: true };
+    return { points, give, canGive: true, giveCap: EMISSION_TIERS[-1].giveCap };
   }
 
   const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
