@@ -21,6 +21,7 @@ import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.
 import { adminClient as client } from '../api-lib/gql/adminClient';
 import { fetchCastsForChannel } from '../api-lib/neynar.ts';
 import { syncPoapDataForCoLinksUsers } from '../api-lib/poap/poap-api';
+import { describeImage } from '../src/features/ai/replicate.ts';
 import { uploadURLToCloudflare } from '../src/features/cloudflare/uploadURLToCloudflare';
 import { TOKENS } from '../src/features/points/getAvailablePoints.ts';
 
@@ -38,6 +39,7 @@ const init = async () => {
   return {
     // add your init code here
     TOKENS,
+    describeImage,
     fetchCastsForChannel,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
