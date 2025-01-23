@@ -7,7 +7,12 @@ import { LearnCard, contentStyles } from './LearnCard';
 export const CoAgentCard = () => {
   return (
     <>
-      <Link href={EXTERNAL_URL_COAGENTS} target="_blank" rel="nofollow">
+      <Link
+        href={EXTERNAL_URL_COAGENTS}
+        target="_blank"
+        rel="nofollow"
+        css={{ cursor: 'pointer' }}
+      >
         <LearnCard image="/imgs/background/coagent.jpg">
           <Flex
             column
