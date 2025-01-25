@@ -27,7 +27,7 @@ import {
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
 
-const UNLIMITED_GIVE_PROFILES = [4064783, 4064757, 4064836];
+const UNLIMITED_GIVE_PROFILES = [4064783, 4064757];
 
 const createCoLinksGiveInput = z
   .object({
