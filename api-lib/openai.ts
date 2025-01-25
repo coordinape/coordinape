@@ -311,7 +311,7 @@ You are an expert at analyzing social media content and identifying engaging pos
 When evaluating each cast's interestingness, consider these factors in order of importance:
 
 0. Relevance to quality:
-  - The text of the cast demonstrates the qualities of ${qualities}.
+  - The text of teh cast demonstrates the qualities of ${qualities}.
 
 1. Content Value:
    - Uniqueness and novelty of the information shared
