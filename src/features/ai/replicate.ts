@@ -93,3 +93,27 @@ export const genImageRecraft20b = async ({ skill }: { skill: string }) => {
     throw error;
   }
 };
+
+export const describeImage = async (url: string) => {
+  try {
+    const result = await replicate.run(
+      'yorickvp/llava-13b:80537f9eead1a5bfa72d5ac6ea6414379be41d4d4f6679fd776e9535d1eb58bb',
+      {
+        input: {
+          image: url,
+          top_p: 1,
+          prompt: 'describe this image',
+          max_tokens: 512,
+          temperature: 0.2,
+        },
+      }
+    );
+
+    const text = (result as string[]).join('');
+
+    return text;
+  } catch (error) {
+    console.error(`Error describing image: ${error}`);
+    return '';
+  }
+};
