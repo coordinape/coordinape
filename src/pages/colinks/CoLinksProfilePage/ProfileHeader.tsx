@@ -89,6 +89,15 @@ const ProfileHeaderWithProfile = ({
       enabled: !!profile?.id,
     }
   );
+  const { data: skillsData } = useQuery(
+    ['profileSkills', profile.id],
+    async () => {
+      return await fetchProfileSkills(profile.id);
+    },
+    {
+      enabled: !!profile?.id,
+    }
+  );
 
   return (
     <Flex column>
@@ -289,7 +298,7 @@ const ProfileHeaderWithProfile = ({
                 Muted
               </Text>
             )}
-            {details?.skills.map(s => (
+            {skillsData?.skills?.map(s => (
               <SkillTag key={s} skill={s} css={{ background: '$surface' }} />
             ))}
           </Flex>
@@ -546,13 +555,8 @@ export const fetchCoLinksProfile = async (
   };
 };
 
-const fetchProfileDetails = async (profileId: number) => {
-  const {
-    twitter_accounts_by_pk: twitter,
-    github_accounts_by_pk: github,
-    farcaster_accounts_by_pk: farcaster,
-    profile_skills,
-  } = await client.query(
+const fetchProfileSkills = async (profileId: number) => {
+  const { profile_skills } = await client.query(
     {
       profile_skills: [
         {
@@ -567,6 +571,24 @@ const fetchProfileDetails = async (profileId: number) => {
           skill_name: true,
         },
       ],
+    },
+    {
+      operationName: 'profile_details',
+    }
+  );
+
+  return {
+    skills: profile_skills.map(ps => ps.skill_name),
+  };
+};
+
+const fetchProfileDetails = async (profileId: number) => {
+  const {
+    twitter_accounts_by_pk: twitter,
+    github_accounts_by_pk: github,
+    farcaster_accounts_by_pk: farcaster,
+  } = await anonClient.query(
+    {
       farcaster_accounts_by_pk: [
         {
           profile_id: profileId,
@@ -601,9 +623,12 @@ const fetchProfileDetails = async (profileId: number) => {
     twitter: twitter ? twitter.username : undefined,
     github: github ? github.username : undefined,
     farcaster: farcaster ? farcaster.username : undefined,
-    skills: profile_skills.map(ps => ps.skill_name),
   };
 };
+
+export type ProfileSkills = Required<
+  Awaited<ReturnType<typeof fetchProfileSkills>>
+>;
 
 export type ProfileDetails = Required<
   Awaited<ReturnType<typeof fetchProfileDetails>>
