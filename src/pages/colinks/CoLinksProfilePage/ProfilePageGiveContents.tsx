@@ -27,59 +27,129 @@ export const ProfilePageGiveContents = ({
   const { data: targetProfile } = useCoLinksProfile(targetAddress);
   return (
     <>
-      <GiveReceived address={targetAddress}>
-        {receivedNumber =>
-          receivedNumber > 0 ? (
-            <Flex column css={{ gap: '$sm', width: '100%' }}>
-              <Flex css={{ gap: '$md' }}>
-                <GiveReceived address={targetAddress} size="medium" />
-              </Flex>
-              <Flex
-                css={{
-                  '@sm': {
-                    mr: '-$md',
-                    overflow: 'scroll',
-                  },
-                  '.giveSkillWrapper': {
-                    width: '100%',
-                    flexDirection: 'column',
-                    overflow: 'visible',
-                  },
-                  '.giveSkillContainer': {
-                    background:
-                      'linear-gradient(90deg, $complete 25%, $cta 80%)',
-                    p: '$sm',
-                    borderRadius: '$3',
-                    width: '100%',
-                    display: 'block',
-                    columnWidth: '150px',
-                    div: {
-                      py: '$xs',
-                      flex: '0 1',
-                      '.skillOverflow': {
-                        maxWidth: '6rem',
-                      },
-                    },
+      <Flex column css={{ width: '100%', gap: '$md' }}>
+        <GiveReceived address={targetAddress}>
+          {receivedNumber =>
+            receivedNumber > 0 ? (
+              <>
+                <Flex css={{ gap: '$md' }}>
+                  <GiveReceived address={targetAddress} size="medium" />
+                </Flex>
+                <Flex
+                  css={{
                     '@sm': {
-                      background: 'transparent',
-                      p: '$sm 0',
-                      display: 'flex',
-                      flexGrow: 1,
-                      flexFlow: 'wrap',
-                      minHeight: '$1xl',
-                      height: '76px',
-                      minWidth: '375px',
+                      mr: '-$md',
+                      overflow: 'scroll',
+                    },
+                    '.giveSkillWrapper': {
+                      width: '100%',
                       flexDirection: 'column',
-                      gap: '$sm',
+                      overflow: 'visible',
+                    },
+                    '.giveSkillContainer': {
+                      background:
+                        'linear-gradient(90deg, $complete 25%, $cta 80%)',
+                      p: '$sm',
+                      borderRadius: '$3',
+                      width: '100%',
+                      display: 'block',
+                      columnWidth: '150px',
                       div: {
-                        py: 0,
+                        py: '$xs',
+                        flex: '0 1',
+                        '.skillOverflow': {
+                          maxWidth: '6rem',
+                        },
+                      },
+                      '@sm': {
+                        background: 'transparent',
+                        p: '$sm 0',
+                        display: 'flex',
+                        flexGrow: 1,
+                        flexFlow: 'wrap',
+                        minHeight: '$1xl',
+                        height: '76px',
+                        minWidth: '375px',
+                        flexDirection: 'column',
+                        gap: '$sm',
+                        div: {
+                          py: 0,
+                        },
                       },
                     },
+                  }}
+                >
+                  <GiveReceived address={targetAddress} size="large" />
+                </Flex>
+              </>
+            ) : (
+              <Flex
+                column
+                css={{
+                  alignItems: 'flex-start',
+                  flexGrow: 1,
+                  gap: '$sm',
+                  '@sm': {
+                    maxWidth: cardMaxWidth,
+                    margin: 'auto',
                   },
                 }}
               >
-                <GiveReceived address={targetAddress} size="large" />
+                <Panel
+                  noBorder
+                  css={{
+                    p: 0,
+                    gap: '$sm',
+                    width: '100%',
+                    alignItems: 'flex-start',
+                    overflow: 'clip',
+                  }}
+                >
+                  <Flex
+                    css={{
+                      flexGrow: 1,
+                      width: '100%',
+                      minHeight: '250px',
+                      backgroundRepeat: 'no-repeat',
+                      backgroundSize: 'cover',
+                      backgroundImage: "url('/imgs/background/give-none.jpg')",
+                      backgroundPosition: 'top',
+                    }}
+                  />
+                  <Flex
+                    column
+                    css={{
+                      flex: 2,
+                      gap: '$sm',
+                      alignItems: 'flex-start',
+                      p: '$sm $md $md',
+                      color: '$text',
+                      'svg path': {
+                        fill: 'currentColor',
+                      },
+                    }}
+                  >
+                    <Text size={'medium'} semibold>
+                      {targetProfile?.name} hasn&apos;t received any GIVE
+                    </Text>
+                    <Text>
+                      Be the first to give {targetProfile?.name} a GIVE!
+                    </Text>
+                    <CoLinksGiveButton
+                      cta
+                      gives={[]}
+                      targetProfileId={targetProfile?.id}
+                      targetAddress={targetAddress}
+                    />
+                  </Flex>
+                </Panel>
               </Flex>
+            )
+          }
+        </GiveReceived>
+        <GiveReceived address={targetAddress}>
+          {(receivedNumber, sentNumber) =>
+            (sentNumber > 0 || receivedNumber > 0) && (
               <Panel noBorder css={{ p: 0, position: 'relative' }}>
                 <AutosizedGiveGraph
                   mapHeight={mapHeight}
@@ -106,7 +176,12 @@ export const ProfilePageGiveContents = ({
                   </Button>
                 </Flex>
               </Panel>
-
+            )
+          }
+        </GiveReceived>
+        <GiveReceived address={targetAddress}>
+          {receivedNumber =>
+            receivedNumber > 0 && (
               <Panel
                 noBorder
                 css={{
@@ -154,6 +229,12 @@ export const ProfilePageGiveContents = ({
                 </Flex>
                 <RecentGives address={targetAddress} receivedGives />
               </Panel>
+            )
+          }
+        </GiveReceived>
+        <GiveReceived address={targetAddress}>
+          {(_, sentNumber) =>
+            sentNumber > 0 && (
               <Panel
                 noBorder
                 css={{
@@ -200,72 +281,10 @@ export const ProfilePageGiveContents = ({
                 </Flex>
                 <RecentGives address={targetAddress} />
               </Panel>
-            </Flex>
-          ) : (
-            <Flex
-              column
-              css={{
-                alignItems: 'flex-start',
-                flexGrow: 1,
-                gap: '$sm',
-                '@sm': {
-                  maxWidth: cardMaxWidth,
-                  margin: 'auto',
-                },
-              }}
-            >
-              <Panel
-                noBorder
-                css={{
-                  p: 0,
-                  gap: '$sm',
-                  width: '100%',
-                  alignItems: 'flex-start',
-                  overflow: 'clip',
-                }}
-              >
-                <Flex
-                  css={{
-                    flexGrow: 1,
-                    width: '100%',
-                    minHeight: '250px',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                    backgroundImage: "url('/imgs/background/give-none.jpg')",
-                    backgroundPosition: 'top',
-                  }}
-                />
-                <Flex
-                  column
-                  css={{
-                    flex: 2,
-                    gap: '$sm',
-                    alignItems: 'flex-start',
-                    p: '$sm $md $md',
-                    color: '$text',
-                    'svg path': {
-                      fill: 'currentColor',
-                    },
-                  }}
-                >
-                  <Text size={'medium'} semibold>
-                    {targetProfile?.name} hasn&apos;t received any GIVE
-                  </Text>
-                  <Text>
-                    Be the first to give {targetProfile?.name} a GIVE!
-                  </Text>
-                  <CoLinksGiveButton
-                    cta
-                    gives={[]}
-                    targetProfileId={targetProfile?.id}
-                    targetAddress={targetAddress}
-                  />
-                </Flex>
-              </Panel>
-            </Flex>
-          )
-        }
-      </GiveReceived>
+            )
+          }
+        </GiveReceived>
+      </Flex>
     </>
   );
 };
