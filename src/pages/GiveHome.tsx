@@ -9,6 +9,7 @@ import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
 import { Flex, Panel, Text } from '../ui';
 import { GemCoOutline } from 'icons/__generated';
 
+import { CoAgentCard } from './colinks/give/CoAgentCard';
 import { GiveBotCard } from './colinks/give/GiveBotCard';
 import { ResponsiveColumnLayout } from './colinks/give/GivePage';
 import { GivePartyCard } from './colinks/give/GivePartyCard';
@@ -146,6 +147,7 @@ export const GiveHelpCards = () => {
         <LearnAboutGiveCard />
         <GivePartyCard />
         <GiveBotCard />
+        <CoAgentCard />
       </Flex>
     </>
   );

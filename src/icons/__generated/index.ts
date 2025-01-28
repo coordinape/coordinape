@@ -69,6 +69,7 @@ export { default as CoOrg } from './CoOrg';
 export { default as Code } from './Code';
 export { default as Collapse } from './Collapse';
 export { default as Copy } from './Copy';
+export { default as Cylinder } from './Cylinder';
 export { default as DollarSign } from './DollarSign';
 export { default as DotsHorizontal } from './DotsHorizontal';
 export { default as DotsVertical } from './DotsVertical';
