@@ -150,7 +150,12 @@ export const fetchPoints = async (profileId: number) => {
   const canGive = points >= POINTS_PER_GIVE;
 
   if (!canGive && UNLIMITED_GIVE_PROFILES.includes(profileId)) {
-    return { points, give, canGive: true, giveCap: EMISSION_TIERS[-1].giveCap };
+    return {
+      points,
+      give,
+      canGive: true,
+      giveCap: EMISSION_TIERS[EMISSION_TIERS.length - 1].giveCap,
+    };
   }
 
   const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
