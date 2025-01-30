@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { UNLIMITED_GIVE_PROFILES } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { Frame, isFrame, ResourceIdentifierWithParams } from '../frames.ts';
@@ -35,10 +36,14 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
     ? `${give.image_url}?format=jpeg`
     : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
-  const give_weight =
-    give.giver_profile_public.reputation_score?.total_score || 1;
+  const isBot = UNLIMITED_GIVE_PROFILES.includes(give.giver_profile_public.id);
+
+  const give_weight = isBot
+    ? 69
+    : give.giver_profile_public.reputation_score?.total_score || 1;
 
   const getDiceImage = (give_weight: number): string => {
+    if (give_weight == 69) return 'bot.png';
     if (give_weight >= 10000) return 'dice-d20.png';
     if (give_weight >= 5000) return 'dice-d12.png';
     if (give_weight >= 3000) return 'dice-d10.png';
