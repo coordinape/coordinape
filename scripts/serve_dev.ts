@@ -10,7 +10,8 @@ import unsubscribeToken from '../_api/email/unsubscribe/[unsubscribeToken]';
 import verifyEmail from '../_api/email/verify/[uuid]';
 import verifyEmailWaitList from '../_api/email/verifywaitlist/[uuid]';
 import givebones from '../_api/farcaster/actions/give/[skill].ts';
-import farcaster_channels from '../_api/farcaster/casts/channels/bestrecent.ts';
+import bestrecent_channels from '../_api/farcaster/casts/channels/bestrecent.ts';
+import channelinsights from '../_api/farcaster/casts/channels/channelinsights.ts';
 import farcaster_hashes from '../_api/farcaster/casts/hashes';
 import farcaster_recentlikes from '../_api/farcaster/casts/recentlikes';
 import farcaster_user from '../_api/farcaster/user/[address]';
@@ -231,7 +232,8 @@ app.get('/api/farcaster/users/:search', (req, res) => {
 
 app.get('/api/farcaster/casts/recentlikes', tf(farcaster_recentlikes));
 app.get('/api/farcaster/casts/hashes', tf(farcaster_hashes));
-app.get('/api/farcaster/casts/channels/bestrecent', tf(farcaster_channels));
+app.get('/api/farcaster/casts/channels/bestrecent', tf(bestrecent_channels));
+app.get('/api/farcaster/casts/channels/channelinsights', tf(channelinsights));
 
 
 
