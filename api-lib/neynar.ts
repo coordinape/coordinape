@@ -19,12 +19,13 @@ export const fetchCast = async (cast_hash: string) => {
 
 export const fetchCastsForChannel = async (
   channelIds: string[],
-  withinSeconds?: number
+  withinSeconds?: number,
+  limit: number = 50
 ) => {
   const feed = await client.fetchFeedByChannelIds(channelIds, {
     withRecasts: false,
     withReplies: false,
-    limit: 50,
+    limit: limit,
   });
 
   // filter casts to only those within the last `withinSeconds`
