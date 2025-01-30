@@ -9,6 +9,8 @@ Always ask before making any git commits or changes to remotes.
 Our git workflow is: 
 - create a new branch of main
 - stage your changes with git
-- test your changes with `pnpm typescript` and format with `pnpm lint-staged`
+- test your changes with `pnpm typecheck` and format with `pnpm lint-staged`
 - commit the changes,
-- push the branch to `origin` and create a pull request. You can use Github CLI (gh) to create the PRs.
+- push the branch to `origin` and create a pull request explaining the changes. You can use Github CLI (gh) to create the PRs.
+
+Always run `pnpm typecheck` and `pnpm lint-staged` before committing any changes.

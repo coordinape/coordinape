@@ -1,6 +1,6 @@
 import { isRejected } from '../src/common-lib/epochs';
 
-// import { COORDINAPE_BOT_SECRET, TELEGRAM_BOT_BASE_URL } from './config';
+import { TELEGRAM_BOT_BASE_URL } from './config';
 // import {
 //   DISCORD_BOT_AVATAR_URL,
 //   DISCORD_BOT_EPOCH_URL,
