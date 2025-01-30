@@ -37,13 +37,13 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
     : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
   const isBot = UNLIMITED_GIVE_PROFILES.includes(give.giver_profile_public.id);
-
+  const botWeight = 69;
   const give_weight = isBot
-    ? 69
+    ? botWeight
     : give.giver_profile_public.reputation_score?.total_score || 1;
 
   const getDiceImage = (give_weight: number): string => {
-    if (give_weight == 69) return 'bot.png';
+    if (give_weight == botWeight) return 'bot.png';
     if (give_weight >= 10000) return 'dice-d20.png';
     if (give_weight >= 5000) return 'dice-d12.png';
     if (give_weight >= 3000) return 'dice-d10.png';
