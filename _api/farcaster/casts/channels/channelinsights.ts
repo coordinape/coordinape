@@ -2,17 +2,17 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { InternalServerError } from '../../../../api-lib/HttpError.ts';
 import { fetchCastsForChannel } from '../../../../api-lib/neynar.ts';
-import { getChannelInsights } from '../../../../api-lib/openai.ts';
+import { getChannelInsights } from '../../../../api-lib/openai';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
-  let channel: string = '';
+  let channels: string[] = [];
   let withinSeconds = 3600;
 
-  const { channel: raw_channel, within_seconds: raw_within_seconds } =
+  const { channels: raw_channels, within_seconds: raw_within_seconds } =
     req.query;
 
-  if (typeof raw_channel === 'string') {
-    channel = raw_channel;
+  if (typeof raw_channels == 'string') {
+    channels = JSON.parse(raw_channels);
   }
 
   if (typeof raw_within_seconds === 'string') {
@@ -20,7 +20,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    const casts = await fetchCastsForChannel([channel], withinSeconds);
+    const casts = await fetchCastsForChannel(channels, withinSeconds);
 
     const ai_resp = await getChannelInsights(casts);
 
