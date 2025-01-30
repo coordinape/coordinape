@@ -1,11 +1,11 @@
 import { isRejected } from '../src/common-lib/epochs';
 
-import { COORDINAPE_BOT_SECRET, TELEGRAM_BOT_BASE_URL } from './config';
-import {
-  DISCORD_BOT_AVATAR_URL,
-  DISCORD_BOT_EPOCH_URL,
-  DISCORD_BOT_NAME,
-} from './constants';
+// import { COORDINAPE_BOT_SECRET, TELEGRAM_BOT_BASE_URL } from './config';
+// import {
+//   DISCORD_BOT_AVATAR_URL,
+//   DISCORD_BOT_EPOCH_URL,
+//   DISCORD_BOT_NAME,
+// } from './constants';
 import * as queries from './gql/queries';
 
 export type DiscordEpochEvent = {
@@ -137,34 +137,34 @@ export async function sendSocialMessage({
 
   const requests = [];
 
-  if (channels?.isDiscordBot && channels?.discordBot) {
-    const { type } = channels.discordBot || {};
-    const updateDiscordBot = update({
-      url: `${DISCORD_BOT_EPOCH_URL}${type}`,
-      headers: { 'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET },
-      body: JSON.stringify(channels.discordBot),
-      label: 'discord-bot',
-      notifyOrg,
-      circleId,
-    });
-    requests.push(updateDiscordBot);
-  }
+  // if (channels?.isDiscordBot && channels?.discordBot) {
+  //   const { type } = channels.discordBot || {};
+  //   const updateDiscordBot = update({
+  //     url: `${DISCORD_BOT_EPOCH_URL}${type}`,
+  //     headers: { 'x-coordinape-bot-secret': COORDINAPE_BOT_SECRET },
+  //     body: JSON.stringify(channels.discordBot),
+  //     label: 'discord-bot',
+  //     notifyOrg,
+  //     circleId,
+  //   });
+  //   requests.push(updateDiscordBot);
+  // }
 
-  if (channels?.discord && circle?.discord_webhook) {
-    const discordWebhookPost = {
-      content: msg,
-      username: DISCORD_BOT_NAME,
-      avatar_url: DISCORD_BOT_AVATAR_URL,
-    };
-    const updateDiscordWebhook = update({
-      url: circle.discord_webhook,
-      body: JSON.stringify(discordWebhookPost),
-      label: 'discord-webhook',
-      notifyOrg,
-      circleId,
-    });
-    requests.push(updateDiscordWebhook);
-  }
+  // if (channels?.discord && circle?.discord_webhook) {
+  //   const discordWebhookPost = {
+  //     content: msg,
+  //     username: DISCORD_BOT_NAME,
+  //     avatar_url: DISCORD_BOT_AVATAR_URL,
+  //   };
+  //   const updateDiscordWebhook = update({
+  //     url: circle.discord_webhook,
+  //     body: JSON.stringify(discordWebhookPost),
+  //     label: 'discord-webhook',
+  //     notifyOrg,
+  //     circleId,
+  //   });
+  //   requests.push(updateDiscordWebhook);
+  // }
 
   const channelId = notifyOrg
     ? circle?.organization?.telegram_id
