@@ -77,7 +77,7 @@ export const getBestCast = async (
     const start = new Date().getTime();
 
     const resp = await openai.chat.completions.create({
-      model: 'gpt-4o-mini-2024-07-18',
+      model: 'gpt-4o-2024-11-20',
       temperature: 0.8,
       messages: [
         {

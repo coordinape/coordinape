@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { InternalServerError } from '../../../../api-lib/HttpError.ts';
 import { fetchCastsForChannel } from '../../../../api-lib/neynar.ts';
-import { getBestCast } from '../../../../api-lib/openai';
+import { checkQuality, getBestCast } from '../../../../api-lib/openai';
 import { describeImage } from '../../../../src/features/ai/replicate.ts';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -33,6 +33,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const ai_resp = await getBestCast(casts, quality);
     const reasoning = ai_resp.reasoning;
     const cast = casts[ai_resp.most_interesting_index];
+
+    const qualityResult = await checkQuality(cast, quality);
 
     const embeds = cast?.embeds;
 
@@ -65,7 +67,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
     }
 
-    return res.status(200).json({ cast, reasoning, imageDesc, url });
+    return res
+      .status(200)
+      .json({ cast, reasoning, qualityResult, imageDesc, url });
   } catch (e) {
     console.error(e);
     throw new InternalServerError('Error occurred searching profiles', e);
