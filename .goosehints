@@ -1,0 +1,9 @@
+Coding is done using Mac, Typescript, React,Vercel, Postgresql, Graphql via Hasura.
+
+For EVM coding, we use hardhat, ganache, viem, ethers.
+
+Reference the package.json file to understand our packages and commands.
+
+Always ask before making any git commits or changes to remotes.
+
+Our git workflow is: create a new branch of main, commit the changes, and push the branch and create a pull request. You can use Github CLI (gh) to create the PRs.
