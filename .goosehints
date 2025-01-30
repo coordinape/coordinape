@@ -6,4 +6,9 @@ Reference the package.json file to understand our packages and commands.
 
 Always ask before making any git commits or changes to remotes.
 
-Our git workflow is: create a new branch of main, commit the changes, and push the branch and create a pull request. You can use Github CLI (gh) to create the PRs.
+Our git workflow is: 
+- create a new branch of main
+- stage your changes with git
+- test your changes with `pnpm typescript` and format with `pnpm lint-staged`
+- commit the changes,
+- push the branch to `origin` and create a pull request. You can use Github CLI (gh) to create the PRs.

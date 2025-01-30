@@ -72,9 +72,18 @@ export const getBestCast = async (
   try {
     const openai = openai_client({
       'Helicone-Property-Function': 'getBestCast',
+      'Helicone-Property-Quality': encodeURIComponent(qualities),
+      'Helicone-Property-Num_Casts': casts.length.toString(),
     });
 
     const start = new Date().getTime();
+
+    const contentToSend = simplifyCasts(casts);
+
+    while (JSON.stringify(contentToSend).length > 500000) {
+      // 500000 characters for a safe margin under the 128000 token limit
+      contentToSend.pop();
+    }
 
     const resp = await openai.chat.completions.create({
       model: 'gpt-4o-2024-11-20',
@@ -84,7 +93,7 @@ export const getBestCast = async (
           role: 'system',
           content: genFarcasterPrompt(qualities),
         },
-        { role: 'user', content: JSON.stringify(simplifyCasts(casts)) },
+        { role: 'user', content: JSON.stringify(contentToSend) },
       ],
       functions: [
         {
@@ -105,8 +114,12 @@ export const getBestCast = async (
     assert(func_args);
 
     return JSON.parse(func_args);
-  } catch (err) {
+  } catch (err: any) {
     console.error('Received an error from OpenAI during getBestCast:', err);
+    if (err.code === 'context_length_exceeded') {
+      console.error('Context length exceeded, try with fewer casts.');
+    }
+    throw err;
   }
 };
 
