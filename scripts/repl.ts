@@ -13,6 +13,7 @@ import repl from 'repl';
 import fp from 'lodash/fp';
 
 import { fetchBasedGhouls } from '../_api/hasura/cron/fetchNFTOwners';
+import { checkQuality } from '../api-lib/bedrock/claude.ts';
 import {
   sendCoLinksNotificationsEmail,
 } from '../api-lib/email/postmark';
@@ -40,6 +41,7 @@ const init = async () => {
     // add your init code here
     TOKENS,
     describeImage,
+    checkQuality,
     fetchCastsForChannel,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
