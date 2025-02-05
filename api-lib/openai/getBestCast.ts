@@ -129,6 +129,7 @@ const simplifyCasts = (casts: CastWithInteractions[]) => {
     const simplifiedCast = JSON.parse(JSON.stringify(cast));
 
     if (simplifiedCast?.embeds) delete simplifiedCast.embeds;
+    if (simplifiedCast?.frames) delete simplifiedCast.frames;
     if (simplifiedCast?.mentioned_profiles)
       delete simplifiedCast.mentioned_profiles;
     if (simplifiedCast?.reactions) {
