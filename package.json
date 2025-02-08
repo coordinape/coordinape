@@ -133,7 +133,7 @@
     "siwe": "2.0.3",
     "stream": "^0.0.2",
     "twitter-api-sdk": "^1.2.1",
-    "undici": "^5.28.1",
+    "undici": "^5.28.5",
     "usehooks-ts": "^2.9.1",
     "uuid": "^8.3.2",
     "viem": "2.20.0",
