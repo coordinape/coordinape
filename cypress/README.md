@@ -17,7 +17,7 @@ for CI contexts.
 
 Cypress is laid out as follows:
 
-- test sequences are located in [integration](./integration)
+- test sequences are located in [e2e](./e2e)
 - environment set up and plugins are in [plugins](./plugins)
 - custom commands exist in [support](./support)
 - [fixtures](./fixtures) is meant to hold data stubs
@@ -25,5 +25,5 @@ Cypress is laid out as follows:
 If you want to get started writing cypress tests, check out our existing
 test sequences and check out their [docs] and [api].
 
-[docs]: https://docs.cypress.io/guides/core-concepts/introduction-to-cypress#What-you-ll-learn
+[docs]: https://docs.cypress.io/guides/core-concepts/introduction-to-cypress#What-youll-learn
 [api]: https://docs.cypress.io/api/table-of-contents
