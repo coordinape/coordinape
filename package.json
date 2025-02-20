@@ -156,7 +156,8 @@
     "@types/react": "18.2.39",
     "js-sha256": "0.10.1",
     "react-markdown": "^9.0.1",
-    "utf-8-validate": "5.0.10"
+    "utf-8-validate": "5.0.10",
+    "esbuild": "0.25.0"
   },
   "scripts": {
     "dev": "echo $PORT && vite --port $PORT --strictPort --host",
