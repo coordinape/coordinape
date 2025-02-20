@@ -165,15 +165,15 @@ export const REPLICATE_API_TOKEN: string = getEnvValue(
   'REPLICATE_API_TOKEN',
   'replicate_api_token_default'
 );
-export const AWS_REGION: string = getEnvValue(
-  'AWS_REGION',
-  'AWS_REGION_default'
+export const BEDROCK_AWS_REGION: string = getEnvValue(
+  'BEDROCK_AWS_REGION',
+  'BEDROCK_AWS_REGION_default'
 );
-export const AWS_ACCESS_KEY_ID: string = getEnvValue(
-  'AWS_ACCESS_KEY_ID',
-  'AWS_ACCESS_KEY_ID_default'
+export const BEDROCK_AWS_ACCESS_KEY_ID: string = getEnvValue(
+  'BEDROCK_AWS_ACCESS_KEY_ID',
+  'BEDROCK_AWS_ACCESS_KEY_ID_default'
 );
-export const AWS_SECRET_ACCESS_KEY: string = getEnvValue(
-  'AWS_SECRET_ACCESS_KEY',
-  'AWS_SECRET_ACCESS_KEY_default'
+export const BEDROCK_AWS_SECRET_ACCESS_KEY: string = getEnvValue(
+  'BEDROCK_AWS_SECRET_ACCESS_KEY',
+  'BEDROCK_AWS_SECRET_ACCESS_KEY_default'
 );

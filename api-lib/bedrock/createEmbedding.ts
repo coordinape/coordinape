@@ -9,7 +9,7 @@ const EMBEDDING_MODEL_ID = 'amazon.titan-embed-text-v2:0';
  * @param {string} text - The text to create an embedding for
  * @returns {Promise<number[]>} - A promise that resolves to the embedding vector
  */
-export async function createTextEmbedding(text: string): Promise<number[]> {
+export async function createEmbedding(text: string): Promise<number[]> {
   try {
     const body = {
       inputText: text,
@@ -26,7 +26,7 @@ export async function createTextEmbedding(text: string): Promise<number[]> {
 
     const response = await bedrock.send(command);
     const responseBody = JSON.parse(new TextDecoder().decode(response.body));
-    return responseBody.EmbeddingVector;
+    return responseBody.embedding;
   } catch (error) {
     console.error('Failed to create text embedding:', error);
     throw error;

@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
-import { createTextEmbedding } from '../bedrock/createEmbedding';
+import { createEmbedding } from '../bedrock/createEmbedding';
 import { adminClient } from '../gql/adminClient';
 import { errorResponse } from '../HttpError';
 import { EventTriggerPayload } from '../types';
@@ -43,7 +43,7 @@ async function handleEnrichedCastEmbedding(req: VercelRequest) {
   }: EventTriggerPayload<'enriched_casts', 'INSERT'> = req.body;
 
   // Get the embedding
-  const embedding = await createTextEmbedding(text);
+  const embedding = await createEmbedding(text);
 
   // Update the record with the embedding result
   await adminClient.mutate(

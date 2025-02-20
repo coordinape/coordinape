@@ -1,20 +1,16 @@
 import { BedrockRuntimeClient } from '@aws-sdk/client-bedrock-runtime';
-import { fromIni } from '@aws-sdk/credential-providers';
 
 import {
-  AWS_ACCESS_KEY_ID,
-  AWS_REGION,
-  AWS_SECRET_ACCESS_KEY,
-  IS_LOCAL_ENV,
+  BEDROCK_AWS_ACCESS_KEY_ID,
+  BEDROCK_AWS_REGION,
+  BEDROCK_AWS_SECRET_ACCESS_KEY,
 } from '../config';
 
 // Initialize Bedrock client with appropriate credentials
 export const bedrock = new BedrockRuntimeClient({
-  region: AWS_REGION,
-  credentials: IS_LOCAL_ENV
-    ? fromIni({ profile: 'bedrock' })
-    : {
-        accessKeyId: AWS_ACCESS_KEY_ID!,
-        secretAccessKey: AWS_SECRET_ACCESS_KEY!,
-      },
+  region: BEDROCK_AWS_REGION,
+  credentials: {
+    accessKeyId: BEDROCK_AWS_ACCESS_KEY_ID!,
+    secretAccessKey: BEDROCK_AWS_SECRET_ACCESS_KEY!,
+  },
 });
