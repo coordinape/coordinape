@@ -14252,6 +14252,7 @@ type enriched_casts {
   activity: activities
   created_at: timestamp!
   deleted_at: timestamp
+  embedding: vector
   embeds(
     """
     JSON select path
@@ -14461,6 +14462,7 @@ input enriched_casts_bool_exp {
   activity: activities_bool_exp
   created_at: timestamp_comparison_exp
   deleted_at: timestamp_comparison_exp
+  embedding: vector_comparison_exp
   embeds: jsonb_comparison_exp
   farcaster_profile: farcaster_profile_with_addresses_bool_exp
   fid: bigint_comparison_exp
@@ -14538,6 +14540,7 @@ input enriched_casts_insert_input {
   activity: activities_obj_rel_insert_input
   created_at: timestamp
   deleted_at: timestamp
+  embedding: vector
   embeds: jsonb
   farcaster_profile: farcaster_profile_with_addresses_obj_rel_insert_input
   fid: bigint
@@ -14641,6 +14644,7 @@ input enriched_casts_order_by {
   activity: activities_order_by
   created_at: order_by
   deleted_at: order_by
+  embedding: order_by
   embeds: order_by
   farcaster_profile: farcaster_profile_with_addresses_order_by
   fid: order_by
@@ -14690,6 +14694,11 @@ enum enriched_casts_select_column {
   column name
   """
   deleted_at
+
+  """
+  column name
+  """
+  embedding
 
   """
   column name
@@ -14773,6 +14782,7 @@ input type for updating data in table "enriched_casts"
 input enriched_casts_set_input {
   created_at: timestamp
   deleted_at: timestamp
+  embedding: vector
   embeds: jsonb
   fid: bigint
   hash: bytea
@@ -14841,6 +14851,7 @@ Initial value of the column from where the streaming should start
 input enriched_casts_stream_cursor_value_input {
   created_at: timestamp
   deleted_at: timestamp
+  embedding: vector
   embeds: jsonb
   fid: bigint
   hash: bytea
@@ -14881,6 +14892,11 @@ enum enriched_casts_update_column {
   column name
   """
   deleted_at
+
+  """
+  column name
+  """
+  embedding
 
   """
   column name
