@@ -13,9 +13,9 @@ import repl from 'repl';
 import fp from 'lodash/fp';
 
 import { fetchBasedGhouls } from '../_api/hasura/cron/fetchNFTOwners';
-import {
-  sendCoLinksNotificationsEmail,
-} from '../api-lib/email/postmark';
+import { checkQuality } from '../api-lib/bedrock/claude.ts';
+import { createEmbedding } from '../api-lib/bedrock/createEmbedding';
+import { sendCoLinksNotificationsEmail } from '../api-lib/email/postmark';
 // import { handleBonesGive } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
@@ -40,6 +40,7 @@ const init = async () => {
     // add your init code here
     TOKENS,
     describeImage,
+    checkQuality,
     fetchCastsForChannel,
     syncPoapDataForCoLinksUsers,
     sendCoLinksNotificationsEmail,
@@ -47,6 +48,7 @@ const init = async () => {
     // handleBonesGive,
     uploadURLToCloudflare,
     ghouls: fetchBasedGhouls,
+    createEmbedding,
     ...(await initOrgMembership()),
   };
 };
