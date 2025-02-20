@@ -7,6 +7,7 @@ import checkNomineeTelegram from '../../../api-lib/event_triggers/checkNomineeTe
 import connectFarcaster from '../../../api-lib/event_triggers/connectFarcaster.ts';
 import createColinksGiveEvent from '../../../api-lib/event_triggers/createColinksGiveEvent.ts';
 import createContributionInteractionEvent from '../../../api-lib/event_triggers/createContributionInteractionEvent';
+import createEnrichedCastEmbedding from '../../../api-lib/event_triggers/createEnrichedCastEmbedding';
 import createNomineeDiscord from '../../../api-lib/event_triggers/createNomineeDiscord';
 import createNomineeDiscordBot from '../../../api-lib/event_triggers/createNomineeDiscordBot';
 import createNomineeTelegram from '../../../api-lib/event_triggers/createNomineeTelegram';
@@ -52,6 +53,7 @@ const HANDLERS: HandlerDict = {
   activityEpochInsert: activityHandler,
   activityContributionInsert: activityHandler,
   activityEnrichedCastInsert: activityHandler,
+  createEnrichedCastEmbedding,
   connectFarcaster,
   createReplyInteractionEvent,
   checkNomineeDiscord,

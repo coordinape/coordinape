@@ -1,14 +1,7 @@
 /* eslint-disable no-console */
-import {
-  BedrockRuntimeClient,
-  InvokeModelCommand,
-} from '@aws-sdk/client-bedrock-runtime';
-import { fromIni } from '@aws-sdk/credential-providers';
+import { InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime';
 
-const bedrock = new BedrockRuntimeClient({
-  region: 'us-east-1',
-  credentials: fromIni({ profile: 'bedrock' }),
-});
+import { bedrock } from './bedrock';
 
 export const checkQuality = async (cast: any, quality: string) => {
   try {
@@ -33,8 +26,8 @@ Quality Criteria: ${quality}`,
     const command = new InvokeModelCommand({
       modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
       body: JSON.stringify(body),
-      contentType: 'application/json', // Added content type
-      accept: 'application/json', // Added accept header
+      contentType: 'application/json',
+      accept: 'application/json',
     });
 
     const response = await bedrock.send(command);

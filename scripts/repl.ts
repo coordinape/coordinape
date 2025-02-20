@@ -14,9 +14,8 @@ import fp from 'lodash/fp';
 
 import { fetchBasedGhouls } from '../_api/hasura/cron/fetchNFTOwners';
 import { checkQuality } from '../api-lib/bedrock/claude.ts';
-import {
-  sendCoLinksNotificationsEmail,
-} from '../api-lib/email/postmark';
+import { createTextEmbedding } from '../api-lib/bedrock/createEmbedding';
+import { sendCoLinksNotificationsEmail } from '../api-lib/email/postmark';
 // import { handleBonesGive } from '../api-lib/event_triggers/createColinksGiveEvent.ts';
 import { backfillCastActivity } from '../api-lib/farcaster/backfillCastActivity.ts';
 import { adminClient as client } from '../api-lib/gql/adminClient';
@@ -49,6 +48,7 @@ const init = async () => {
     // handleBonesGive,
     uploadURLToCloudflare,
     ghouls: fetchBasedGhouls,
+    createTextEmbedding,
     ...(await initOrgMembership()),
   };
 };
