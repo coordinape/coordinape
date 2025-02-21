@@ -50,6 +50,13 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 5 * * *'
+      timeout: 60
   - name: vouchDiscordBot
     definition:
       enable_manual: false
@@ -65,10 +72,10 @@ event_triggers:
         value_from_env: HASURA_EVENT_SECRET
     cleanup_config:
       batch_size: 10000
-      clean_invocation_logs: false
-      clear_older_than: 168
-      paused: true
-      schedule: 0 0 * * *
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 5 * * *'
       timeout: 60
   - name: vouchTelegram
     definition:
@@ -83,3 +90,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 5 * * *'
+      timeout: 60
