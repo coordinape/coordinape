@@ -40,7 +40,7 @@ select_permissions:
       filter: {}
       limit: 100
       allow_aggregations: true
-    comment: ""
+    comment: ''
   - role: user
     permission:
       columns:
@@ -56,7 +56,7 @@ select_permissions:
         - warpcast_url
       filter: {}
       allow_aggregations: true
-    comment: ""
+    comment: ''
 update_permissions:
   - role: user
     permission:
@@ -66,7 +66,7 @@ update_permissions:
         profile_id:
           _eq: X-Hasura-User-Id
       check: null
-    comment: ""
+    comment: ''
 event_triggers:
   - name: createColinksGiveEvent
     definition:
@@ -81,6 +81,13 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 5 * * *'
+      timeout: 60
   - name: createNotificationColinksGives
     definition:
       enable_manual: false
@@ -94,3 +101,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 5 * * *'
+      timeout: 60
