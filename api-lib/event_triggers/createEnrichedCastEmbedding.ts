@@ -51,7 +51,7 @@ async function handleEnrichedCastEmbedding(req: VercelRequest) {
       update_enriched_casts_by_pk: [
         {
           pk_columns: { id },
-          _set: { embedding },
+          _set: { embedding: JSON.stringify(embedding) },
         },
         { id: true },
       ],
