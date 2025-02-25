@@ -1,0 +1,13 @@
+table:
+  name: virtual_enriched_casts_similarity
+  schema: public
+object_relationships:
+  - name: enriched_cast
+    using:
+      manual_configuration:
+        column_mapping:
+          id: id
+        insertion_order: null
+        remote_table:
+          name: enriched_casts
+          schema: public
