@@ -117,7 +117,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: '15 3 * * *'
       timeout: 60
     webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=activityHandler'
     headers:
@@ -141,5 +141,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 336
       paused: false
-      schedule: '0 0 * * *'
+      schedule: '30 3 * * *'
       timeout: 60

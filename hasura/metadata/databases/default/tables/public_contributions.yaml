@@ -190,7 +190,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: '0 2 * * *'
       timeout: 60
   - name: createContributionInteractionEvent
     definition:
@@ -210,7 +210,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: '15 2 * * *'
       timeout: 60
   - name: createNotificationPosts
     definition:
@@ -234,5 +234,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: '30 2 * * *'
       timeout: 60
