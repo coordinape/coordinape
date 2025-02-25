@@ -1,4 +1,4 @@
-Welcome to the code for [Coordinape](coordinape.com)! If you're new to the project, check out our [docs](https://docs.coordinape.com/).
+Welcome to the code for [Coordinape](https://coordinape.com)! If you're new to the project, check out our [docs](https://docs.coordinape.com/).
 
 [![GitPOAP Badge](https://public-api.gitpoap.io/v1/repo/coordinape/coordinape/badge)](https://www.gitpoap.io/gh/coordinape/coordinape)
 
