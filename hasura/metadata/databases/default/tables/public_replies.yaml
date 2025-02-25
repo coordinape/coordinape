@@ -146,7 +146,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: 0 5 * * *
       timeout: 60
   - name: createReplyInteractionEvent
     definition:
@@ -166,5 +166,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: 0 5 * * *
       timeout: 60

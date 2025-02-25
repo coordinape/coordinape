@@ -115,7 +115,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 6 * * *'
+      schedule: 0 6 * * *
       timeout: 60
   - name: checkNomineeDiscordBot
     definition:
@@ -136,7 +136,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '15 6 * * *'
+      schedule: 15 6 * * *
       timeout: 60
   - name: checkNomineeTelegram
     definition:
@@ -157,7 +157,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '30 6 * * *'
+      schedule: 30 6 * * *
       timeout: 60
   - name: createNomineeDiscord
     definition:
@@ -177,7 +177,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '45 6 * * *'
+      schedule: 45 6 * * *
       timeout: 60
   - name: createNomineeDiscordBot
     definition:
@@ -197,7 +197,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 7 * * *'
+      schedule: 0 7 * * *
       timeout: 60
   - name: createNomineeTelegram
     definition:
@@ -217,7 +217,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '15 7 * * *'
+      schedule: 15 7 * * *
       timeout: 60
   - name: createVouchedUser
     definition:
@@ -237,5 +237,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '30 7 * * *'
+      schedule: 30 7 * * *
       timeout: 60

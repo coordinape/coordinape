@@ -29,4 +29,4 @@ select_permissions:
         profile:
           id:
             _eq: X-Hasura-User-Id
-    comment: ""
+    comment: ''

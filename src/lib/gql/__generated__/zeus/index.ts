@@ -950,6 +950,17 @@ export type ValueTypes = {
   ['RequestInviteCodeInput']: {
     email: string;
   };
+  ['SearchCastsInput']: {
+    created_after?: string | undefined | null;
+    limit?: number | undefined | null;
+    search_query: string;
+  };
+  ['SearchCastsOutput']: AliasType<{
+    cast_id?: boolean | `@${string}`;
+    enriched_cast?: ValueTypes['enriched_casts'];
+    similarity?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   ['SearchCosoulsInput']: {
     search_query: string;
   };
@@ -15581,6 +15592,10 @@ export type ValueTypes = {
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['reputation_scores'],
     ];
+    searchCasts?: [
+      { payload: ValueTypes['SearchCastsInput'] },
+      ValueTypes['SearchCastsOutput'],
+    ];
     searchCosouls?: [
       { payload: ValueTypes['SearchCosoulsInput'] },
       ValueTypes['SearchCosoulsOutput'],
@@ -22789,6 +22804,12 @@ export type ModelTypes = {
     new: boolean;
   };
   ['RequestInviteCodeInput']: GraphQLTypes['RequestInviteCodeInput'];
+  ['SearchCastsInput']: GraphQLTypes['SearchCastsInput'];
+  ['SearchCastsOutput']: {
+    cast_id: number;
+    enriched_cast?: GraphQLTypes['enriched_casts'] | undefined;
+    similarity: number;
+  };
   ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
   ['SearchCosoulsOutput']: {
     cosoul_ids: Array<number>;
@@ -27498,6 +27519,7 @@ export type ModelTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    searchCasts: Array<GraphQLTypes['SearchCastsOutput']>;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */
@@ -29584,6 +29606,17 @@ export type GraphQLTypes = {
   };
   ['RequestInviteCodeInput']: {
     email: string;
+  };
+  ['SearchCastsInput']: {
+    created_after?: string | undefined;
+    limit?: number | undefined;
+    search_query: string;
+  };
+  ['SearchCastsOutput']: {
+    __typename: 'SearchCastsOutput';
+    cast_id: number;
+    enriched_cast?: GraphQLTypes['enriched_casts'] | undefined;
+    similarity: number;
   };
   ['SearchCosoulsInput']: {
     search_query: string;
@@ -39585,6 +39618,7 @@ export type GraphQLTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    searchCasts: Array<GraphQLTypes['SearchCastsOutput']>;
     /** searchCosouls */
     searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** searchProfiles */

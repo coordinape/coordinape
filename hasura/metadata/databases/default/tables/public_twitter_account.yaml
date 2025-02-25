@@ -25,11 +25,11 @@ select_permissions:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ""
+    comment: ''
 delete_permissions:
   - role: user
     permission:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ""
+    comment: ''

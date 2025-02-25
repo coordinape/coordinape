@@ -72,7 +72,7 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '45 4 * * *'
+      schedule: 45 4 * * *
       timeout: 60
   - name: linkTxNotification
     definition:
@@ -92,5 +92,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '15 5 * * *'
+      schedule: 15 5 * * *
       timeout: 60

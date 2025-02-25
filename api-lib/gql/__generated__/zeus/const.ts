@@ -63,6 +63,7 @@ export const AllTypesProps: Record<string, any> = {
   MarkClaimedInput: {},
   ReplenishInviteCodesInput: {},
   RequestInviteCodeInput: {},
+  SearchCastsInput: {},
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
   SetPrimaryEmailInput: {},
@@ -7618,6 +7619,12 @@ export const AllTypesProps: Record<string, any> = {
     delete_vaults_by_pk: {
       id: 'bigint',
     },
+    delete_virtual_enriched_casts_similarity: {
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    delete_virtual_enriched_casts_similarity_by_pk: {
+      id: 'bigint',
+    },
     delete_virtual_profiles_similarity: {
       where: 'virtual_profiles_similarity_bool_exp',
     },
@@ -8256,6 +8263,14 @@ export const AllTypesProps: Record<string, any> = {
     insert_vaults_one: {
       object: 'vaults_insert_input',
       on_conflict: 'vaults_on_conflict',
+    },
+    insert_virtual_enriched_casts_similarity: {
+      objects: 'virtual_enriched_casts_similarity_insert_input',
+      on_conflict: 'virtual_enriched_casts_similarity_on_conflict',
+    },
+    insert_virtual_enriched_casts_similarity_one: {
+      object: 'virtual_enriched_casts_similarity_insert_input',
+      on_conflict: 'virtual_enriched_casts_similarity_on_conflict',
     },
     insert_virtual_profiles_similarity: {
       objects: 'virtual_profiles_similarity_insert_input',
@@ -9383,6 +9398,19 @@ export const AllTypesProps: Record<string, any> = {
     },
     update_vaults_many: {
       updates: 'vaults_updates',
+    },
+    update_virtual_enriched_casts_similarity: {
+      _inc: 'virtual_enriched_casts_similarity_inc_input',
+      _set: 'virtual_enriched_casts_similarity_set_input',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    update_virtual_enriched_casts_similarity_by_pk: {
+      _inc: 'virtual_enriched_casts_similarity_inc_input',
+      _set: 'virtual_enriched_casts_similarity_set_input',
+      pk_columns: 'virtual_enriched_casts_similarity_pk_columns_input',
+    },
+    update_virtual_enriched_casts_similarity_many: {
+      updates: 'virtual_enriched_casts_similarity_updates',
     },
     update_virtual_profiles_similarity: {
       _inc: 'virtual_profiles_similarity_inc_input',
@@ -13271,6 +13299,9 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_by_pk: {
       profile_id: 'bigint',
     },
+    searchCasts: {
+      payload: 'SearchCastsInput',
+    },
     searchCosouls: {
       payload: 'SearchCosoulsInput',
     },
@@ -13481,6 +13512,19 @@ export const AllTypesProps: Record<string, any> = {
       distinct_on: 'virtual_profiles_similarity_select_column',
       order_by: 'virtual_profiles_similarity_order_by',
       where: 'virtual_profiles_similarity_bool_exp',
+    },
+    virtual_enriched_casts_similarity: {
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    virtual_enriched_casts_similarity_aggregate: {
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    virtual_enriched_casts_similarity_by_pk: {
+      id: 'bigint',
     },
     virtual_profiles_similarity: {
       distinct_on: 'virtual_profiles_similarity_select_column',
@@ -15763,6 +15807,23 @@ export const AllTypesProps: Record<string, any> = {
       order_by: 'virtual_profiles_similarity_order_by',
       where: 'virtual_profiles_similarity_bool_exp',
     },
+    virtual_enriched_casts_similarity: {
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    virtual_enriched_casts_similarity_aggregate: {
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    virtual_enriched_casts_similarity_by_pk: {
+      id: 'bigint',
+    },
+    virtual_enriched_casts_similarity_stream: {
+      cursor: 'virtual_enriched_casts_similarity_stream_cursor_input',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
     virtual_profiles_similarity: {
       distinct_on: 'virtual_profiles_similarity_select_column',
       order_by: 'virtual_profiles_similarity_order_by',
@@ -17444,6 +17505,62 @@ export const AllTypesProps: Record<string, any> = {
     match_threshold: 'float8',
     target_vector: 'vector',
   },
+  virtual_enriched_casts_similarity_aggregate_fields: {
+    count: {
+      columns: 'virtual_enriched_casts_similarity_select_column',
+    },
+  },
+  virtual_enriched_casts_similarity_bool_exp: {
+    _and: 'virtual_enriched_casts_similarity_bool_exp',
+    _not: 'virtual_enriched_casts_similarity_bool_exp',
+    _or: 'virtual_enriched_casts_similarity_bool_exp',
+    enriched_cast: 'enriched_casts_bool_exp',
+    id: 'bigint_comparison_exp',
+    similarity: 'float8_comparison_exp',
+  },
+  virtual_enriched_casts_similarity_constraint: true,
+  virtual_enriched_casts_similarity_inc_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_insert_input: {
+    enriched_cast: 'enriched_casts_obj_rel_insert_input',
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_on_conflict: {
+    constraint: 'virtual_enriched_casts_similarity_constraint',
+    update_columns: 'virtual_enriched_casts_similarity_update_column',
+    where: 'virtual_enriched_casts_similarity_bool_exp',
+  },
+  virtual_enriched_casts_similarity_order_by: {
+    enriched_cast: 'enriched_casts_order_by',
+    id: 'order_by',
+    similarity: 'order_by',
+  },
+  virtual_enriched_casts_similarity_pk_columns_input: {
+    id: 'bigint',
+  },
+  virtual_enriched_casts_similarity_select_column: true,
+  virtual_enriched_casts_similarity_set_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_stream_cursor_input: {
+    initial_value:
+      'virtual_enriched_casts_similarity_stream_cursor_value_input',
+    ordering: 'cursor_ordering',
+  },
+  virtual_enriched_casts_similarity_stream_cursor_value_input: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_update_column: true,
+  virtual_enriched_casts_similarity_updates: {
+    _inc: 'virtual_enriched_casts_similarity_inc_input',
+    _set: 'virtual_enriched_casts_similarity_set_input',
+    where: 'virtual_enriched_casts_similarity_bool_exp',
+  },
   virtual_profiles_similarity_aggregate_fields: {
     count: {
       columns: 'virtual_profiles_similarity_select_column',
@@ -17824,6 +17941,11 @@ export const ReturnTypes: Record<string, any> = {
     OrgMemberResponse: 'org_members',
     id: 'ID',
     new: 'Boolean',
+  },
+  SearchCastsOutput: {
+    cast_id: 'Int',
+    enriched_cast: 'enriched_casts',
+    similarity: 'Float',
   },
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
@@ -23121,6 +23243,10 @@ export const ReturnTypes: Record<string, any> = {
     delete_vault_tx_types_by_pk: 'vault_tx_types',
     delete_vaults: 'vaults_mutation_response',
     delete_vaults_by_pk: 'vaults',
+    delete_virtual_enriched_casts_similarity:
+      'virtual_enriched_casts_similarity_mutation_response',
+    delete_virtual_enriched_casts_similarity_by_pk:
+      'virtual_enriched_casts_similarity',
     delete_virtual_profiles_similarity:
       'virtual_profiles_similarity_mutation_response',
     delete_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
@@ -23296,6 +23422,10 @@ export const ReturnTypes: Record<string, any> = {
     insert_vault_tx_types_one: 'vault_tx_types',
     insert_vaults: 'vaults_mutation_response',
     insert_vaults_one: 'vaults',
+    insert_virtual_enriched_casts_similarity:
+      'virtual_enriched_casts_similarity_mutation_response',
+    insert_virtual_enriched_casts_similarity_one:
+      'virtual_enriched_casts_similarity',
     insert_virtual_profiles_similarity:
       'virtual_profiles_similarity_mutation_response',
     insert_virtual_profiles_similarity_one: 'virtual_profiles_similarity',
@@ -23571,6 +23701,12 @@ export const ReturnTypes: Record<string, any> = {
     update_vaults: 'vaults_mutation_response',
     update_vaults_by_pk: 'vaults',
     update_vaults_many: 'vaults_mutation_response',
+    update_virtual_enriched_casts_similarity:
+      'virtual_enriched_casts_similarity_mutation_response',
+    update_virtual_enriched_casts_similarity_by_pk:
+      'virtual_enriched_casts_similarity',
+    update_virtual_enriched_casts_similarity_many:
+      'virtual_enriched_casts_similarity_mutation_response',
     update_virtual_profiles_similarity:
       'virtual_profiles_similarity_mutation_response',
     update_virtual_profiles_similarity_by_pk: 'virtual_profiles_similarity',
@@ -25983,6 +26119,7 @@ export const ReturnTypes: Record<string, any> = {
     reputation_scores: 'reputation_scores',
     reputation_scores_aggregate: 'reputation_scores_aggregate',
     reputation_scores_by_pk: 'reputation_scores',
+    searchCasts: 'SearchCastsOutput',
     searchCosouls: 'SearchCosoulsOutput',
     searchProfiles: 'SearchProfilesOutput',
     search_contributions: 'contributions',
@@ -26030,6 +26167,11 @@ export const ReturnTypes: Record<string, any> = {
       'virtual_profiles_similarity',
     vector_similar_profiles_by_description_embedding_aggregate:
       'virtual_profiles_similarity_aggregate',
+    virtual_enriched_casts_similarity: 'virtual_enriched_casts_similarity',
+    virtual_enriched_casts_similarity_aggregate:
+      'virtual_enriched_casts_similarity_aggregate',
+    virtual_enriched_casts_similarity_by_pk:
+      'virtual_enriched_casts_similarity',
     virtual_profiles_similarity: 'virtual_profiles_similarity',
     virtual_profiles_similarity_aggregate:
       'virtual_profiles_similarity_aggregate',
@@ -27006,6 +27148,13 @@ export const ReturnTypes: Record<string, any> = {
       'virtual_profiles_similarity',
     vector_similar_profiles_by_description_embedding_aggregate:
       'virtual_profiles_similarity_aggregate',
+    virtual_enriched_casts_similarity: 'virtual_enriched_casts_similarity',
+    virtual_enriched_casts_similarity_aggregate:
+      'virtual_enriched_casts_similarity_aggregate',
+    virtual_enriched_casts_similarity_by_pk:
+      'virtual_enriched_casts_similarity',
+    virtual_enriched_casts_similarity_stream:
+      'virtual_enriched_casts_similarity',
     virtual_profiles_similarity: 'virtual_profiles_similarity',
     virtual_profiles_similarity_aggregate:
       'virtual_profiles_similarity_aggregate',
@@ -27970,6 +28119,72 @@ export const ReturnTypes: Record<string, any> = {
     deployment_block: 'Float',
     id: 'Float',
     org_id: 'Float',
+  },
+  virtual_enriched_casts_similarity: {
+    enriched_cast: 'enriched_casts',
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_aggregate: {
+    aggregate: 'virtual_enriched_casts_similarity_aggregate_fields',
+    nodes: 'virtual_enriched_casts_similarity',
+  },
+  virtual_enriched_casts_similarity_aggregate_fields: {
+    avg: 'virtual_enriched_casts_similarity_avg_fields',
+    count: 'Int',
+    max: 'virtual_enriched_casts_similarity_max_fields',
+    min: 'virtual_enriched_casts_similarity_min_fields',
+    stddev: 'virtual_enriched_casts_similarity_stddev_fields',
+    stddev_pop: 'virtual_enriched_casts_similarity_stddev_pop_fields',
+    stddev_samp: 'virtual_enriched_casts_similarity_stddev_samp_fields',
+    sum: 'virtual_enriched_casts_similarity_sum_fields',
+    var_pop: 'virtual_enriched_casts_similarity_var_pop_fields',
+    var_samp: 'virtual_enriched_casts_similarity_var_samp_fields',
+    variance: 'virtual_enriched_casts_similarity_variance_fields',
+  },
+  virtual_enriched_casts_similarity_avg_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_max_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_min_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_mutation_response: {
+    affected_rows: 'Int',
+    returning: 'virtual_enriched_casts_similarity',
+  },
+  virtual_enriched_casts_similarity_stddev_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_stddev_pop_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_stddev_samp_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_sum_fields: {
+    id: 'bigint',
+    similarity: 'float8',
+  },
+  virtual_enriched_casts_similarity_var_pop_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_var_samp_fields: {
+    id: 'Float',
+    similarity: 'Float',
+  },
+  virtual_enriched_casts_similarity_variance_fields: {
+    id: 'Float',
+    similarity: 'Float',
   },
   virtual_profiles_similarity: {
     id: 'bigint',

@@ -71,4 +71,4 @@ select_permissions:
       filter: {}
       limit: 100
       allow_aggregations: true
-    comment: ""
+    comment: ''

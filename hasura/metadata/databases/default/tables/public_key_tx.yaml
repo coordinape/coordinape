@@ -35,4 +35,4 @@ select_permissions:
         - trader
         - tx_hash
       filter: {}
-    comment: ""
+    comment: ''

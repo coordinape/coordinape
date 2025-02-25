@@ -1,7 +1,7 @@
-- "!include public_most_reacted_casts.yaml"
-- "!include public_search_contributions.yaml"
-- "!include public_search_replies.yaml"
-- "!include public_similar_profiles.yaml"
-- "!include public_vector_search_poap_events.yaml"
-- "!include public_vector_search_poap_holders.yaml"
-- "!include public_vector_similar_profiles_by_description_embedding.yaml"
+- '!include public_most_reacted_casts.yaml'
+- '!include public_search_contributions.yaml'
+- '!include public_search_replies.yaml'
+- '!include public_similar_profiles.yaml'
+- '!include public_vector_search_poap_events.yaml'
+- '!include public_vector_search_poap_holders.yaml'
+- '!include public_vector_similar_profiles_by_description_embedding.yaml'

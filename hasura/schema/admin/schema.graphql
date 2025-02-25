@@ -472,6 +472,18 @@ input RequestInviteCodeInput {
   email: String!
 }
 
+input SearchCastsInput {
+  created_after: String
+  limit: Int
+  search_query: String!
+}
+
+type SearchCastsOutput {
+  cast_id: Int!
+  enriched_cast: enriched_casts
+  similarity: Float!
+}
+
 input SearchCosoulsInput {
   search_query: String!
 }
@@ -5437,7 +5449,7 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "circle_id", "type"
+  unique or primary key constraint on columns "type", "circle_id"
   """
   circle_share_token_pkey
 
@@ -13902,7 +13914,7 @@ unique or primary key constraints on table "emails"
 """
 enum emails_constraint {
   """
-  unique or primary key constraint on columns "profile_id", "email"
+  unique or primary key constraint on columns "email", "profile_id"
   """
   emails_pkey
 }
@@ -20551,7 +20563,7 @@ enum farcaster_signers_constraint {
   signers_pkey
 
   """
-  unique or primary key constraint on columns "fid", "signer", "timestamp"
+  unique or primary key constraint on columns "fid", "timestamp", "signer"
   """
   unique_timestamp_fid_signer
 }
@@ -20974,7 +20986,7 @@ enum farcaster_storage_constraint {
   storage_pkey
 
   """
-  unique or primary key constraint on columns "expiry", "fid", "units"
+  unique or primary key constraint on columns "fid", "units", "expiry"
   """
   unique_fid_units_expiry
 }
@@ -25013,7 +25025,7 @@ unique or primary key constraints on table "link_holders"
 """
 enum link_holders_constraint {
   """
-  unique or primary key constraint on columns "target", "holder"
+  unique or primary key constraint on columns "holder", "target"
   """
   key_holders_pkey
 }
@@ -27645,7 +27657,7 @@ enum member_epoch_pgives_constraint {
   member_epoch_pgives_pkey
 
   """
-  unique or primary key constraint on columns "epoch_id", "user_id"
+  unique or primary key constraint on columns "user_id", "epoch_id"
   """
   member_epoch_pgives_user_id_epoch_id_key
 }
@@ -29406,6 +29418,23 @@ type mutation_root {
   delete single row from the table: "vaults"
   """
   delete_vaults_by_pk(id: bigint!): vaults
+
+  """
+  delete data from the table: "virtual_enriched_casts_similarity"
+  """
+  delete_virtual_enriched_casts_similarity(
+    """
+    filter the rows which have to be deleted
+    """
+    where: virtual_enriched_casts_similarity_bool_exp!
+  ): virtual_enriched_casts_similarity_mutation_response
+
+  """
+  delete single row from the table: "virtual_enriched_casts_similarity"
+  """
+  delete_virtual_enriched_casts_similarity_by_pk(
+    id: bigint!
+  ): virtual_enriched_casts_similarity
 
   """
   delete data from the table: "virtual_profiles_similarity"
@@ -31747,6 +31776,36 @@ type mutation_root {
     """
     on_conflict: vaults_on_conflict
   ): vaults
+
+  """
+  insert data into the table: "virtual_enriched_casts_similarity"
+  """
+  insert_virtual_enriched_casts_similarity(
+    """
+    the rows to be inserted
+    """
+    objects: [virtual_enriched_casts_similarity_insert_input!]!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_enriched_casts_similarity_on_conflict
+  ): virtual_enriched_casts_similarity_mutation_response
+
+  """
+  insert a single row into the table: "virtual_enriched_casts_similarity"
+  """
+  insert_virtual_enriched_casts_similarity_one(
+    """
+    the row to be inserted
+    """
+    object: virtual_enriched_casts_similarity_insert_input!
+
+    """
+    upsert condition
+    """
+    on_conflict: virtual_enriched_casts_similarity_on_conflict
+  ): virtual_enriched_casts_similarity
 
   """
   insert data into the table: "virtual_profiles_similarity"
@@ -35717,6 +35776,52 @@ type mutation_root {
   ): [vaults_mutation_response]
 
   """
+  update data of the table: "virtual_enriched_casts_similarity"
+  """
+  update_virtual_enriched_casts_similarity(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_enriched_casts_similarity_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_enriched_casts_similarity_set_input
+
+    """
+    filter the rows which have to be updated
+    """
+    where: virtual_enriched_casts_similarity_bool_exp!
+  ): virtual_enriched_casts_similarity_mutation_response
+
+  """
+  update single row of the table: "virtual_enriched_casts_similarity"
+  """
+  update_virtual_enriched_casts_similarity_by_pk(
+    """
+    increments the numeric columns with given value of the filtered values
+    """
+    _inc: virtual_enriched_casts_similarity_inc_input
+
+    """
+    sets the columns of the filtered rows to the given values
+    """
+    _set: virtual_enriched_casts_similarity_set_input
+    pk_columns: virtual_enriched_casts_similarity_pk_columns_input!
+  ): virtual_enriched_casts_similarity
+
+  """
+  update multiples rows of table: "virtual_enriched_casts_similarity"
+  """
+  update_virtual_enriched_casts_similarity_many(
+    """
+    updates to execute, in order
+    """
+    updates: [virtual_enriched_casts_similarity_updates!]!
+  ): [virtual_enriched_casts_similarity_mutation_response]
+
+  """
   update data of the table: "virtual_profiles_similarity"
   """
   update_virtual_profiles_similarity(
@@ -35979,7 +36084,7 @@ unique or primary key constraints on table "mutes"
 """
 enum mutes_constraint {
   """
-  unique or primary key constraint on columns "profile_id", "target_profile_id"
+  unique or primary key constraint on columns "target_profile_id", "profile_id"
   """
   mutes_pkey
 }
@@ -36505,7 +36610,7 @@ unique or primary key constraints on table "nft_collections"
 """
 enum nft_collections_constraint {
   """
-  unique or primary key constraint on columns "address", "chain_id"
+  unique or primary key constraint on columns "chain_id", "address"
   """
   nft_collections_pkey
 }
@@ -36907,12 +37012,12 @@ unique or primary key constraints on table "nft_holdings"
 """
 enum nft_holdings_constraint {
   """
-  unique or primary key constraint on columns "contract", "address", "token_id", "chain_id"
+  unique or primary key constraint on columns "chain_id", "address", "contract", "token_id"
   """
   nft_holdings_address_contract_token_id_chain_id_key
 
   """
-  unique or primary key constraint on columns "contract", "address", "token_id", "chain_id"
+  unique or primary key constraint on columns "chain_id", "address", "contract", "token_id"
   """
   nft_holdings_pkey
 }
@@ -39013,7 +39118,7 @@ enum org_members_constraint {
   org_members_pkey
 
   """
-  unique or primary key constraint on columns "org_id", "profile_id"
+  unique or primary key constraint on columns "profile_id", "org_id"
   """
   org_members_profile_id_org_id_key
 }
@@ -39540,7 +39645,7 @@ unique or primary key constraints on table "org_share_tokens"
 """
 enum org_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "org_id", "type"
+  unique or primary key constraint on columns "type", "org_id"
   """
   org_share_tokens_pkey
 
@@ -40927,7 +41032,7 @@ enum pending_token_gifts_constraint {
   pending_token_gifts_pkey
 
   """
-  unique or primary key constraint on columns "epoch_id", "recipient_id", "sender_id"
+  unique or primary key constraint on columns "sender_id", "recipient_id", "epoch_id"
   """
   pending_token_gifts_sender_id_recipient_id_epoch_id_key
 }
@@ -44389,7 +44494,7 @@ unique or primary key constraints on table "profile_skills"
 """
 enum profile_skills_constraint {
   """
-  unique or primary key constraint on columns "profile_id", "skill_name"
+  unique or primary key constraint on columns "skill_name", "profile_id"
   """
   profile_skills_pkey
 }
@@ -52852,6 +52957,7 @@ type query_root {
   fetch data from the table: "reputation_scores" using primary key columns
   """
   reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+  searchCasts(payload: SearchCastsInput!): [SearchCastsOutput!]!
 
   """
   searchCosouls
@@ -53989,6 +54095,73 @@ type query_root {
   ): virtual_profiles_similarity_aggregate!
 
   """
+  fetch data from the table: "virtual_enriched_casts_similarity"
+  """
+  virtual_enriched_casts_similarity(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): [virtual_enriched_casts_similarity!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_enriched_casts_similarity"
+  """
+  virtual_enriched_casts_similarity_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): virtual_enriched_casts_similarity_aggregate!
+
+  """
+  fetch data from the table: "virtual_enriched_casts_similarity" using primary key columns
+  """
+  virtual_enriched_casts_similarity_by_pk(
+    id: bigint!
+  ): virtual_enriched_casts_similarity
+
+  """
   fetch data from the table: "virtual_profiles_similarity"
   """
   virtual_profiles_similarity(
@@ -54321,7 +54494,7 @@ enum reactions_constraint {
   reactions_pkey
 
   """
-  unique or primary key constraint on columns "profile_id", "activity_id", "reaction"
+  unique or primary key constraint on columns "reaction", "activity_id", "profile_id"
   """
   reactions_profile_id_activity_id_reaction_key
 }
@@ -55213,7 +55386,7 @@ enum replies_reactions_constraint {
   replies_reactions_pkey
 
   """
-  unique or primary key constraint on columns "reply_id", "profile_id", "reaction"
+  unique or primary key constraint on columns "reaction", "profile_id", "reply_id"
   """
   replies_reactions_profile_id_reply_id_reaction_key
 }
@@ -65000,6 +65173,93 @@ type subscription_root {
   ): virtual_profiles_similarity_aggregate!
 
   """
+  fetch data from the table: "virtual_enriched_casts_similarity"
+  """
+  virtual_enriched_casts_similarity(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): [virtual_enriched_casts_similarity!]!
+
+  """
+  fetch aggregated fields from the table: "virtual_enriched_casts_similarity"
+  """
+  virtual_enriched_casts_similarity_aggregate(
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): virtual_enriched_casts_similarity_aggregate!
+
+  """
+  fetch data from the table: "virtual_enriched_casts_similarity" using primary key columns
+  """
+  virtual_enriched_casts_similarity_by_pk(
+    id: bigint!
+  ): virtual_enriched_casts_similarity
+
+  """
+  fetch data from the table in a streaming manner: "virtual_enriched_casts_similarity"
+  """
+  virtual_enriched_casts_similarity_stream(
+    """
+    maximum number of rows returned in a single batch
+    """
+    batch_size: Int!
+
+    """
+    cursor to stream the results returned by the query
+    """
+    cursor: [virtual_enriched_casts_similarity_stream_cursor_input]!
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): [virtual_enriched_casts_similarity!]!
+
+  """
   fetch data from the table: "virtual_profiles_similarity"
   """
   virtual_profiles_similarity(
@@ -65899,7 +66159,7 @@ unique or primary key constraints on table "token_balances"
 """
 enum token_balances_constraint {
   """
-  unique or primary key constraint on columns "contract", "address", "chain"
+  unique or primary key constraint on columns "address", "contract", "chain"
   """
   token_balances_address_chain_contract_key
 
@@ -68617,7 +68877,7 @@ enum users_constraint {
   users_pkey
 
   """
-  unique or primary key constraint on columns "circle_id", "profile_id", "deleted_at"
+  unique or primary key constraint on columns "deleted_at", "circle_id", "profile_id"
   """
   users_profile_id_circle_id_deleted_at_key
 }
@@ -71092,6 +71352,283 @@ input vector_similar_profiles_by_description_embedding_args {
   limit_count: Int
   match_threshold: float8
   target_vector: vector
+}
+
+"""
+Virtual table for enriched casts vector similarity
+"""
+type virtual_enriched_casts_similarity {
+  """
+  An object relationship
+  """
+  enriched_cast: enriched_casts
+  id: bigint!
+  similarity: float8!
+}
+
+"""
+aggregated selection of "virtual_enriched_casts_similarity"
+"""
+type virtual_enriched_casts_similarity_aggregate {
+  aggregate: virtual_enriched_casts_similarity_aggregate_fields
+  nodes: [virtual_enriched_casts_similarity!]!
+}
+
+"""
+aggregate fields of "virtual_enriched_casts_similarity"
+"""
+type virtual_enriched_casts_similarity_aggregate_fields {
+  avg: virtual_enriched_casts_similarity_avg_fields
+  count(
+    columns: [virtual_enriched_casts_similarity_select_column!]
+    distinct: Boolean
+  ): Int!
+  max: virtual_enriched_casts_similarity_max_fields
+  min: virtual_enriched_casts_similarity_min_fields
+  stddev: virtual_enriched_casts_similarity_stddev_fields
+  stddev_pop: virtual_enriched_casts_similarity_stddev_pop_fields
+  stddev_samp: virtual_enriched_casts_similarity_stddev_samp_fields
+  sum: virtual_enriched_casts_similarity_sum_fields
+  var_pop: virtual_enriched_casts_similarity_var_pop_fields
+  var_samp: virtual_enriched_casts_similarity_var_samp_fields
+  variance: virtual_enriched_casts_similarity_variance_fields
+}
+
+"""
+aggregate avg on columns
+"""
+type virtual_enriched_casts_similarity_avg_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+Boolean expression to filter rows from the table "virtual_enriched_casts_similarity". All fields are combined with a logical 'AND'.
+"""
+input virtual_enriched_casts_similarity_bool_exp {
+  _and: [virtual_enriched_casts_similarity_bool_exp!]
+  _not: virtual_enriched_casts_similarity_bool_exp
+  _or: [virtual_enriched_casts_similarity_bool_exp!]
+  enriched_cast: enriched_casts_bool_exp
+  id: bigint_comparison_exp
+  similarity: float8_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "virtual_enriched_casts_similarity"
+"""
+enum virtual_enriched_casts_similarity_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  virtual_enriched_casts_similarity_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "virtual_enriched_casts_similarity"
+"""
+input virtual_enriched_casts_similarity_inc_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+input type for inserting data into table "virtual_enriched_casts_similarity"
+"""
+input virtual_enriched_casts_similarity_insert_input {
+  enriched_cast: enriched_casts_obj_rel_insert_input
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate max on columns
+"""
+type virtual_enriched_casts_similarity_max_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate min on columns
+"""
+type virtual_enriched_casts_similarity_min_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+response of any mutation on the table "virtual_enriched_casts_similarity"
+"""
+type virtual_enriched_casts_similarity_mutation_response {
+  """
+  number of rows affected by the mutation
+  """
+  affected_rows: Int!
+
+  """
+  data from the rows affected by the mutation
+  """
+  returning: [virtual_enriched_casts_similarity!]!
+}
+
+"""
+on_conflict condition type for table "virtual_enriched_casts_similarity"
+"""
+input virtual_enriched_casts_similarity_on_conflict {
+  constraint: virtual_enriched_casts_similarity_constraint!
+  update_columns: [virtual_enriched_casts_similarity_update_column!]! = []
+  where: virtual_enriched_casts_similarity_bool_exp
+}
+
+"""
+Ordering options when selecting data from "virtual_enriched_casts_similarity".
+"""
+input virtual_enriched_casts_similarity_order_by {
+  enriched_cast: enriched_casts_order_by
+  id: order_by
+  similarity: order_by
+}
+
+"""
+primary key columns input for table: virtual_enriched_casts_similarity
+"""
+input virtual_enriched_casts_similarity_pk_columns_input {
+  id: bigint!
+}
+
+"""
+select columns of table "virtual_enriched_casts_similarity"
+"""
+enum virtual_enriched_casts_similarity_select_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  similarity
+}
+
+"""
+input type for updating data in table "virtual_enriched_casts_similarity"
+"""
+input virtual_enriched_casts_similarity_set_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate stddev on columns
+"""
+type virtual_enriched_casts_similarity_stddev_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate stddev_pop on columns
+"""
+type virtual_enriched_casts_similarity_stddev_pop_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate stddev_samp on columns
+"""
+type virtual_enriched_casts_similarity_stddev_samp_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+Streaming cursor of the table "virtual_enriched_casts_similarity"
+"""
+input virtual_enriched_casts_similarity_stream_cursor_input {
+  """
+  Stream column input with initial value
+  """
+  initial_value: virtual_enriched_casts_similarity_stream_cursor_value_input!
+
+  """
+  cursor ordering
+  """
+  ordering: cursor_ordering
+}
+
+"""
+Initial value of the column from where the streaming should start
+"""
+input virtual_enriched_casts_similarity_stream_cursor_value_input {
+  id: bigint
+  similarity: float8
+}
+
+"""
+aggregate sum on columns
+"""
+type virtual_enriched_casts_similarity_sum_fields {
+  id: bigint
+  similarity: float8
+}
+
+"""
+update columns of table "virtual_enriched_casts_similarity"
+"""
+enum virtual_enriched_casts_similarity_update_column {
+  """
+  column name
+  """
+  id
+
+  """
+  column name
+  """
+  similarity
+}
+
+input virtual_enriched_casts_similarity_updates {
+  """
+  increments the numeric columns with given value of the filtered values
+  """
+  _inc: virtual_enriched_casts_similarity_inc_input
+
+  """
+  sets the columns of the filtered rows to the given values
+  """
+  _set: virtual_enriched_casts_similarity_set_input
+
+  """
+  filter the rows which have to be updated
+  """
+  where: virtual_enriched_casts_similarity_bool_exp!
+}
+
+"""
+aggregate var_pop on columns
+"""
+type virtual_enriched_casts_similarity_var_pop_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate var_samp on columns
+"""
+type virtual_enriched_casts_similarity_var_samp_fields {
+  id: Float
+  similarity: Float
+}
+
+"""
+aggregate variance on columns
+"""
+type virtual_enriched_casts_similarity_variance_fields {
+  id: Float
+  similarity: Float
 }
 
 """

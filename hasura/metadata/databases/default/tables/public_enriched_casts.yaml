@@ -112,17 +112,17 @@ event_triggers:
       interval_sec: 10
       num_retries: 0
       timeout_sec: 60
+    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=activityHandler'
+    headers:
+      - name: verification_key
+        value_from_env: HASURA_EVENT_SECRET
     cleanup_config:
       batch_size: 10000
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '15 3 * * *'
+      schedule: 15 3 * * *
       timeout: 60
-    webhook: '{{HASURA_API_BASE_URL}}/event_triggers/eventManager?event=activityHandler'
-    headers:
-      - name: verification_key
-        value_from_env: HASURA_EVENT_SECRET
   - name: createEnrichedCastEmbedding
     definition:
       enable_manual: false
@@ -141,5 +141,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 336
       paused: false
-      schedule: '30 3 * * *'
+      schedule: 30 3 * * *
       timeout: 60

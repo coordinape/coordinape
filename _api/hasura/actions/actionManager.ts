@@ -40,6 +40,7 @@ import logoutUser from './_handlers/logoutUser';
 import replenishInviteCodes from './_handlers/replenishInviteCodes';
 import requestInviteCode from './_handlers/requestInviteCode';
 import restoreCoordinape from './_handlers/restoreCoordinape';
+import searchCasts from './_handlers/searchCasts';
 import searchCosouls from './_handlers/searchCosouls';
 import searchProfiles from './_handlers/searchProfiles';
 import setPrimaryEmail from './_handlers/setPrimaryEmail';
@@ -102,6 +103,7 @@ const HANDLERS: HandlerDict = {
   requestInviteCode,
   restoreCoordinape,
   searchCosouls,
+  searchCasts,
   searchProfiles,
   setPrimaryEmail,
   share,

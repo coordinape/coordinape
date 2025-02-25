@@ -24,7 +24,7 @@ select_permissions:
         - year
       filter: {}
       limit: 100
-    comment: ""
+    comment: ''
   - role: user
     permission:
       columns:
@@ -48,4 +48,4 @@ select_permissions:
         - year
       filter: {}
       allow_aggregations: true
-    comment: ""
+    comment: ''
