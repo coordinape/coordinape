@@ -29,7 +29,7 @@ insert_permissions:
       columns:
         - profile_id
         - target_profile_id
-    comment: ""
+    comment: ''
 select_permissions:
   - role: user
     permission:
@@ -43,14 +43,14 @@ select_permissions:
               _eq: X-Hasura-User-Id
           - target_profile_id:
               _eq: X-Hasura-User-Id
-    comment: ""
+    comment: ''
 delete_permissions:
   - role: user
     permission:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ""
+    comment: ''
 event_triggers:
   - name: muteChanged
     definition:
@@ -67,3 +67,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '45 5 * * *'
+      timeout: 60

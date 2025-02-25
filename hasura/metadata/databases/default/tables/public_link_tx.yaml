@@ -36,7 +36,7 @@ select_permissions:
         - tx_hash
       filter: {}
       limit: 100
-    comment: ""
+    comment: ''
   - role: user
     permission:
       columns:
@@ -52,7 +52,7 @@ select_permissions:
         - tx_hash
       filter: {}
       limit: 1000
-    comment: ""
+    comment: ''
 event_triggers:
   - name: linkTxInteractionEvent
     definition:
@@ -67,6 +67,13 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '45 4 * * *'
+      timeout: 60
   - name: linkTxNotification
     definition:
       enable_manual: false
@@ -80,3 +87,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '15 5 * * *'
+      timeout: 60

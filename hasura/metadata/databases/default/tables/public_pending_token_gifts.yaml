@@ -92,6 +92,13 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '45 7 * * *'
+      timeout: 60
   - name: refundGiveTelegram
     definition:
       delete:
@@ -108,3 +115,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '0 8 * * *'
+      timeout: 60

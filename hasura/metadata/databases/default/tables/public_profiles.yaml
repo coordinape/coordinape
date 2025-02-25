@@ -308,6 +308,13 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '15 8 * * *'
+      timeout: 60
   - name: updateDescriptionEmbedding
     definition:
       enable_manual: true
@@ -324,3 +331,10 @@ event_triggers:
     headers:
       - name: verification_key
         value_from_env: HASURA_EVENT_SECRET
+    cleanup_config:
+      batch_size: 10000
+      clean_invocation_logs: true
+      clear_older_than: 672
+      paused: false
+      schedule: '30 8 * * *'
+      timeout: 60
