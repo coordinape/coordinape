@@ -32,4 +32,4 @@ select_permissions:
         - skill
       filter: {}
       limit: 100
-    comment: ''
+    comment: ""

@@ -49,7 +49,7 @@ select_permissions:
       filter: {}
       limit: 100
       allow_aggregations: true
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -59,7 +59,7 @@ select_permissions:
         - target
       filter: {}
       allow_aggregations: true
-    comment: ''
+    comment: ""
 event_triggers:
   - name: updateLinkHolderRepScore
     definition:

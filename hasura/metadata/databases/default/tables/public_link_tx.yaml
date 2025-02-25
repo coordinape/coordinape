@@ -36,7 +36,7 @@ select_permissions:
         - tx_hash
       filter: {}
       limit: 100
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -52,7 +52,7 @@ select_permissions:
         - tx_hash
       filter: {}
       limit: 1000
-    comment: ''
+    comment: ""
 event_triggers:
   - name: linkTxInteractionEvent
     definition:

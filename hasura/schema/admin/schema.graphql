@@ -53885,6 +53885,76 @@ type query_root {
   vaults_by_pk(id: bigint!): vaults
 
   """
+  execute function "vector_search_enriched_casts" which returns "virtual_enriched_casts_similarity"
+  """
+  vector_search_enriched_casts(
+    """
+    input parameters for function "vector_search_enriched_casts"
+    """
+    args: vector_search_enriched_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): [virtual_enriched_casts_similarity!]!
+
+  """
+  execute function "vector_search_enriched_casts" and query aggregates on result of table type "virtual_enriched_casts_similarity"
+  """
+  vector_search_enriched_casts_aggregate(
+    """
+    input parameters for function "vector_search_enriched_casts_aggregate"
+    """
+    args: vector_search_enriched_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): virtual_enriched_casts_similarity_aggregate!
+
+  """
   execute function "vector_search_poap_events" which returns "poap_events"
   """
   vector_search_poap_events(
@@ -64963,6 +65033,76 @@ type subscription_root {
   ): [vaults!]!
 
   """
+  execute function "vector_search_enriched_casts" which returns "virtual_enriched_casts_similarity"
+  """
+  vector_search_enriched_casts(
+    """
+    input parameters for function "vector_search_enriched_casts"
+    """
+    args: vector_search_enriched_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): [virtual_enriched_casts_similarity!]!
+
+  """
+  execute function "vector_search_enriched_casts" and query aggregates on result of table type "virtual_enriched_casts_similarity"
+  """
+  vector_search_enriched_casts_aggregate(
+    """
+    input parameters for function "vector_search_enriched_casts_aggregate"
+    """
+    args: vector_search_enriched_casts_args!
+
+    """
+    distinct select on columns
+    """
+    distinct_on: [virtual_enriched_casts_similarity_select_column!]
+
+    """
+    limit the number of rows returned
+    """
+    limit: Int
+
+    """
+    skip the first n rows. Use only with order_by
+    """
+    offset: Int
+
+    """
+    sort the rows by one or more columns
+    """
+    order_by: [virtual_enriched_casts_similarity_order_by!]
+
+    """
+    filter the rows returned
+    """
+    where: virtual_enriched_casts_similarity_bool_exp
+  ): virtual_enriched_casts_similarity_aggregate!
+
+  """
   execute function "vector_search_poap_events" which returns "poap_events"
   """
   vector_search_poap_events(
@@ -71335,6 +71475,13 @@ input vector_comparison_exp {
   _nin: [vector!]
 }
 
+input vector_search_enriched_casts_args {
+  created_after: timestamp
+  limit_count: Int
+  match_threshold: float8
+  target_vector: vector
+}
+
 input vector_search_poap_events_args {
   limit_count: Int
   match_threshold: float8
@@ -71366,9 +71513,6 @@ type virtual_enriched_casts_similarity {
   similarity: float8!
 }
 
-"""
-aggregated selection of "virtual_enriched_casts_similarity"
-"""
 type virtual_enriched_casts_similarity_aggregate {
   aggregate: virtual_enriched_casts_similarity_aggregate_fields
   nodes: [virtual_enriched_casts_similarity!]!

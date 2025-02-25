@@ -121,7 +121,7 @@ select_permissions:
       filter: {}
       limit: 100
       allow_aggregations: true
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -138,4 +138,4 @@ select_permissions:
         - post_count_last_30_days
         - website
       filter: {}
-    comment: ''
+    comment: ""

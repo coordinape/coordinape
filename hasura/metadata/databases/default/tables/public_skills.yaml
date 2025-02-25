@@ -17,7 +17,7 @@ insert_permissions:
       check: {}
       columns:
         - name
-    comment: ''
+    comment: ""
 select_permissions:
   - role: anon
     permission:
@@ -29,7 +29,7 @@ select_permissions:
         - name
       filter: {}
       limit: 1
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -39,4 +39,4 @@ select_permissions:
         - name
         - updated_at
       filter: {}
-    comment: ''
+    comment: ""

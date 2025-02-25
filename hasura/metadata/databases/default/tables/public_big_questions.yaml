@@ -27,7 +27,7 @@ select_permissions:
       filter:
         publish_at:
           _is_null: false
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -43,4 +43,4 @@ select_permissions:
       filter:
         publish_at:
           _is_null: false
-    comment: ''
+    comment: ""

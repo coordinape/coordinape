@@ -1,11 +1,12 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { createEmbedding } from '../../../../api-lib/bedrock/createEmbedding';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import { InternalServerError } from '../../../../api-lib/HttpError';
-import { createEmbedding } from '../../../../api-lib/openai';
-import { MATCH_THRESHOLD } from '../../../../src/features/ai/vectorEmbeddings';
+
+const MATCH_THRESHOLD = 0.0;
 
 const MAX_LIMIT = 20;
 
@@ -15,15 +16,9 @@ const searchCastsSchema = z.object({
   created_after: z.string().optional(), // ISO timestamp string
 });
 
-// Define interface for vector search results
 interface VectorSearchResult {
   id: number;
   similarity: number;
-}
-
-// Define interface for the query response
-interface VectorSearchResponse {
-  vector_search_enriched_casts: VectorSearchResult[];
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -45,9 +40,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
       // Query for similar casts using the embedding
       // Use type assertion to handle custom function not in type definitions
-      const response = (await adminClient.query(
+      const response = await adminClient.query(
         {
-          // @ts-expect-error - Custom function not in type definitions
           vector_search_enriched_casts: [
             {
               args: {
@@ -66,7 +60,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         {
           operationName: 'searchCasts__embeddingSearch',
         }
-      )) as unknown as VectorSearchResponse;
+      );
 
       if (response.vector_search_enriched_casts.length > 0) {
         results = response.vector_search_enriched_casts.map(
@@ -75,6 +69,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             similarity: c.similarity,
           })
         );
+      } else {
+        // eslint-disable-next-line no-console
+        console.log('No results found for term', payload.search_query);
       }
     }
 

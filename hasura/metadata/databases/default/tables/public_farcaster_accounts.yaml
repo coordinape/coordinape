@@ -22,7 +22,7 @@ select_permissions:
         - username
       filter: {}
       limit: 1
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -39,14 +39,14 @@ select_permissions:
         - username
       filter: {}
       limit: 1
-    comment: ''
+    comment: ""
 delete_permissions:
   - role: user
     permission:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 event_triggers:
   - name: updateProfileRepScore_farcaster
     definition:

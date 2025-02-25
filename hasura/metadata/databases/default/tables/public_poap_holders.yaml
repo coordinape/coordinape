@@ -29,7 +29,7 @@ select_permissions:
       filter: {}
       limit: 100
       allow_aggregations: true
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -43,4 +43,4 @@ select_permissions:
         - address
       filter: {}
       allow_aggregations: true
-    comment: ''
+    comment: ""

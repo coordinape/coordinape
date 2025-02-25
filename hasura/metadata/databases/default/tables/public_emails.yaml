@@ -15,7 +15,7 @@ select_permissions:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 event_triggers:
   - name: updateProfileRepScore_emails
     definition:

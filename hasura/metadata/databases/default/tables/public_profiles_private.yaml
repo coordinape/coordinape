@@ -23,7 +23,7 @@ select_permissions:
       filter:
         id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 update_permissions:
   - role: user
     permission:
@@ -33,4 +33,4 @@ update_permissions:
         id:
           _eq: X-Hasura-User-Id
       check: null
-    comment: ''
+    comment: ""

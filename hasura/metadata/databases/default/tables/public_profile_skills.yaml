@@ -38,7 +38,7 @@ insert_permissions:
       columns:
         - profile_id
         - skill_name
-    comment: ''
+    comment: ""
 select_permissions:
   - role: anon
     permission:
@@ -47,7 +47,7 @@ select_permissions:
         - skill_name
       filter: {}
       limit: 11
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -55,11 +55,11 @@ select_permissions:
         - profile_id
         - skill_name
       filter: {}
-    comment: ''
+    comment: ""
 delete_permissions:
   - role: user
     permission:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""

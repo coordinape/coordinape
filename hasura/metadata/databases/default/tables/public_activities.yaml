@@ -111,7 +111,7 @@ select_permissions:
           _is_null: false
       limit: 100
       allow_aggregations: true
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:

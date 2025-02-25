@@ -58,7 +58,7 @@ actions:
       - role: user
   - name: checkEthDenverInvitee
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=checkEthDenverInvitee'
       headers:
         - name: verification_key
@@ -271,7 +271,7 @@ actions:
       - role: user
   - name: getCasts
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getCasts'
       headers:
         - name: verification_key
@@ -282,7 +282,7 @@ actions:
     comment: getCasts
   - name: getGuildInfo
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getGuildInfo'
       headers:
         - name: verification_key
@@ -291,7 +291,7 @@ actions:
       - role: user
   - name: getHeadlines
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getHeadlines'
       forward_client_headers: true
       headers:
@@ -301,7 +301,7 @@ actions:
       - role: user
   - name: getSimilarProfiles
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=getSimilarProfiles'
       headers:
         - name: verification_key
@@ -370,7 +370,7 @@ actions:
       - role: user
   - name: searchCasts
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCasts'
       headers:
         - name: verification_key
@@ -379,7 +379,7 @@ actions:
       - role: user
   - name: searchCosouls
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchCosouls'
       forward_client_headers: true
       headers:
@@ -390,7 +390,7 @@ actions:
     comment: searchCosouls
   - name: searchProfiles
     definition:
-      kind: ''
+      kind: ""
       handler: '{{HASURA_API_BASE_URL}}/actions/actionManager?action_name=searchProfiles'
       headers:
         - name: verification_key

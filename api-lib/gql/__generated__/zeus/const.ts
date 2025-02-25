@@ -13477,6 +13477,18 @@ export const AllTypesProps: Record<string, any> = {
     vaults_by_pk: {
       id: 'bigint',
     },
+    vector_search_enriched_casts: {
+      args: 'vector_search_enriched_casts_args',
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    vector_search_enriched_casts_aggregate: {
+      args: 'vector_search_enriched_casts_args',
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
     vector_search_poap_events: {
       args: 'vector_search_poap_events_args',
       distinct_on: 'poap_events_select_column',
@@ -15771,6 +15783,18 @@ export const AllTypesProps: Record<string, any> = {
       cursor: 'vaults_stream_cursor_input',
       where: 'vaults_bool_exp',
     },
+    vector_search_enriched_casts: {
+      args: 'vector_search_enriched_casts_args',
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
+    vector_search_enriched_casts_aggregate: {
+      args: 'vector_search_enriched_casts_args',
+      distinct_on: 'virtual_enriched_casts_similarity_select_column',
+      order_by: 'virtual_enriched_casts_similarity_order_by',
+      where: 'virtual_enriched_casts_similarity_bool_exp',
+    },
     vector_search_poap_events: {
       args: 'vector_search_poap_events_args',
       distinct_on: 'poap_events_select_column',
@@ -17492,6 +17516,11 @@ export const AllTypesProps: Record<string, any> = {
     _lte: 'vector',
     _neq: 'vector',
     _nin: 'vector',
+  },
+  vector_search_enriched_casts_args: {
+    created_after: 'timestamp',
+    match_threshold: 'float8',
+    target_vector: 'vector',
   },
   vector_search_poap_events_args: {
     match_threshold: 'float8',
@@ -26159,6 +26188,9 @@ export const ReturnTypes: Record<string, any> = {
     vaults: 'vaults',
     vaults_aggregate: 'vaults_aggregate',
     vaults_by_pk: 'vaults',
+    vector_search_enriched_casts: 'virtual_enriched_casts_similarity',
+    vector_search_enriched_casts_aggregate:
+      'virtual_enriched_casts_similarity_aggregate',
     vector_search_poap_events: 'poap_events',
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',
@@ -27140,6 +27172,9 @@ export const ReturnTypes: Record<string, any> = {
     vaults_aggregate: 'vaults_aggregate',
     vaults_by_pk: 'vaults',
     vaults_stream: 'vaults',
+    vector_search_enriched_casts: 'virtual_enriched_casts_similarity',
+    vector_search_enriched_casts_aggregate:
+      'virtual_enriched_casts_similarity_aggregate',
     vector_search_poap_events: 'poap_events',
     vector_search_poap_events_aggregate: 'poap_events_aggregate',
     vector_search_poap_holders: 'poap_holders',

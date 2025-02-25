@@ -72,7 +72,7 @@ select_permissions:
           - activity:
               cast_id:
                 _is_null: false
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -114,7 +114,7 @@ update_permissions:
           - deleted_at:
               _is_null: true
       check: {}
-    comment: ''
+    comment: ""
 event_triggers:
   - name: createNotificationReplies
     definition:
