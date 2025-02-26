@@ -69,6 +69,7 @@ export const coLinksPaths = {
   bigQuestion: (id: string) => `/bigquestion/${id}`,
   bigQuestions: '/bigquestions',
   casts: '/casts',
+  searchCasts: '/searchcasts',
   explore: '/explore',
   exploreHoldingMost: `/explore/holdingmost`,
   exploreMostLinks: `/explore/mostlinks`,

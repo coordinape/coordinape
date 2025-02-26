@@ -26,6 +26,7 @@ import { LinkHoldersPage } from '../pages/colinks/LinkHoldersPage';
 import { LinkHoldingsPage } from '../pages/colinks/LinkHoldingsPage';
 import { NotFound } from '../pages/colinks/NotFound';
 import { NotificationsPage } from '../pages/colinks/NotificationsPage';
+import { SearchCastsPage } from '../pages/colinks/SearchCastsPage';
 import { SearchPage } from '../pages/colinks/SearchPage';
 import { TradesPage } from '../pages/colinks/TradesPage';
 import { VerifyEmailPage } from '../pages/colinks/VerifyEmailPage';
@@ -241,6 +242,7 @@ export const coLinksRoutes = [
       />
       <Route path={coLinksPaths.highlights} element={<HighlightsPage />} />
       <Route path={coLinksPaths.casts} element={<CastsPage />} />
+      <Route path={coLinksPaths.searchCasts} element={<SearchCastsPage />} />
       <Route path={coLinksPaths.coLinksFeed} element={<ActivityPage />} />
       <Route
         path={coLinksPaths.searchResult(':query', ':model')}
