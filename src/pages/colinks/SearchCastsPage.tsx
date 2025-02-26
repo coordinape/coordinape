@@ -129,22 +129,44 @@ export const SearchCastsPage = () => {
         <title>Search Casts / Coordinape</title>
       </Helmet>
       <Flex column css={{ gap: '$xl' }}>
-        <ContentHeader>
+        <ContentHeader
+          css={{
+            background:
+              'linear-gradient(to bottom, $surface_bright, transparent)',
+            borderBottom: '1px solid $neutral100',
+          }}
+        >
           <Flex
             column
             css={{
               flexGrow: 1,
-              alignItems: 'flex-start',
+              alignItems: 'center',
               width: '100%',
-              gap: '$md',
+              gap: '$sm',
+              maxWidth: '800px',
+              margin: '0 auto',
             }}
           >
-            <Text h1>Search Casts</Text>
+            <Text
+              h1
+              css={{
+                fontSize: '2.5rem',
+                fontWeight: 'bold',
+                background: 'linear-gradient(135deg, $primary, $secondary)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textAlign: 'center',
+                mb: '$sm',
+              }}
+            >
+              Search Casts
+            </Text>
             <Flex
               css={{
                 width: '100%',
                 gap: '$sm',
                 alignItems: 'center',
+                position: 'relative',
               }}
             >
               <TextField
@@ -152,69 +174,80 @@ export const SearchCastsPage = () => {
                 value={searchTerm}
                 onChange={e => handleSearchTermChange(e.target.value)}
                 onKeyDown={handleKeyDown}
-                css={{ flexGrow: 1 }}
+                css={{
+                  flexGrow: 1,
+                  height: '48px',
+                  fontSize: '16px',
+                  borderRadius: '24px',
+                  px: '$xl',
+                  '&:focus': {
+                    boxShadow: '0 0 0 2px $colors$primary',
+                    border: 'none',
+                  },
+                }}
               />
               <Button
                 onClick={handleSearch}
                 disabled={isSearching || !searchTerm.trim()}
+                css={{
+                  height: '48px',
+                  px: '$xl',
+                  borderRadius: '24px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  background: '$primary',
+                  transition: 'all 0.2s ease',
+                  '&:hover:not(:disabled)': {
+                    transform: 'translateY(-1px)',
+                    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                  },
+                }}
               >
-                <Search /> Search
+                <Search css={{ mr: '$sm' }} /> Search
               </Button>
             </Flex>
 
             {/* Time range selector */}
-            <Flex css={{ gap: '$sm', mt: '$sm' }}>
+            <Flex
+              css={{
+                gap: '$md',
+                mt: '$sm',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Text
                 size="small"
-                css={{ color: '$text_muted', alignSelf: 'center' }}
+                css={{
+                  color: '$text_muted',
+                  fontSize: '14px',
+                  fontWeight: 500,
+                }}
               >
                 Time range:
               </Text>
-              <Flex css={{ gap: '$xs' }}>
-                <Button
-                  size="small"
-                  css={{
-                    backgroundColor:
-                      timeRange === 'all' ? '$primary' : '$surface_verylow',
-                    color: timeRange === 'all' ? 'white' : '$text',
-                  }}
-                  onClick={() => setTimeRange('all')}
-                >
-                  All time
-                </Button>
-                <Button
-                  size="small"
-                  css={{
-                    backgroundColor:
-                      timeRange === '1day' ? '$primary' : '$surface_verylow',
-                    color: timeRange === '1day' ? 'white' : '$text',
-                  }}
-                  onClick={() => setTimeRange('1day')}
-                >
-                  1 day
-                </Button>
-                <Button
-                  size="small"
-                  css={{
-                    backgroundColor:
-                      timeRange === '1week' ? '$primary' : '$surface_verylow',
-                    color: timeRange === '1week' ? 'white' : '$text',
-                  }}
-                  onClick={() => setTimeRange('1week')}
-                >
-                  1 week
-                </Button>
-                <Button
-                  size="small"
-                  css={{
-                    backgroundColor:
-                      timeRange === '1month' ? '$primary' : '$surface_verylow',
-                    color: timeRange === '1month' ? 'white' : '$text',
-                  }}
-                  onClick={() => setTimeRange('1month')}
-                >
-                  1 month
-                </Button>
+              <Flex css={{ gap: '$sm' }}>
+                {(['all', '1day', '1week', '1month'] as const).map(range => (
+                  <Button
+                    key={range}
+                    size="small"
+                    css={{
+                      backgroundColor:
+                        timeRange === range ? '$primary' : '$surface_verylow',
+                      color: timeRange === range ? 'white' : '$text',
+                      borderRadius: '16px',
+                      px: '$lg',
+                      transition: 'all 0.2s ease',
+                      '&:hover': {
+                        backgroundColor:
+                          timeRange === range ? '$primary' : '$neutral200',
+                      },
+                    }}
+                    onClick={() => setTimeRange(range)}
+                  >
+                    {range === 'all' ? 'All time' : range.replace('1', '1 ')}
+                  </Button>
+                ))}
               </Flex>
             </Flex>
           </Flex>
@@ -225,13 +258,49 @@ export const SearchCastsPage = () => {
         ) : hasSearched ? (
           filteredResults.length > 0 ? (
             <>
-              <Text size="large" semibold css={{ mb: '$md' }}>
-                Found {filteredResults.length} results for &quot;{searchTerm}
-                &quot;
-                {timeRange !== 'all'
-                  ? ` in the last ${timeRange.replace('1', '1 ')}`
-                  : ''}
-              </Text>
+              <Flex
+                css={{
+                  alignItems: 'center',
+                  gap: '$sm',
+                  background: '$surface_bright',
+                  borderRadius: '$md',
+                  border: '1px solid $neutral100',
+                }}
+              >
+                <Text
+                  size="large"
+                  semibold
+                  css={{
+                    color: '$text',
+                    fontSize: '18px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '$sm',
+                  }}
+                >
+                  <Text css={{ color: '$primary' }}>
+                    {filteredResults.length}
+                  </Text>
+                  results for
+                  <Text
+                    css={{
+                      color: '$primary',
+                      fontStyle: 'italic',
+                      maxWidth: '300px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    &ldquo;{searchTerm}&rdquo;
+                  </Text>
+                  {timeRange !== 'all' && (
+                    <Text css={{ color: '$text_muted', fontWeight: 'normal' }}>
+                      in the last {timeRange.replace('1', '1 ')}
+                    </Text>
+                  )}
+                </Text>
+              </Flex>
               <SearchResultsList results={filteredResults} />
             </>
           ) : (
@@ -240,9 +309,6 @@ export const SearchCastsPage = () => {
         ) : (
           <SearchPrompt />
         )}
-      </Flex>
-      <Flex column css={{ gap: '$lg' }}>
-        {/* Right column content can be added here */}
       </Flex>
     </TwoColumnSmallRightLayout>
   );
@@ -456,7 +522,7 @@ const NoResultsMessage = ({
     timeRange !== 'all' ? ` in the last ${timeRange.replace('1', '1 ')}` : '';
 
   return (
-    <Panel css={{ p: '$lg', textAlign: 'center' }}>
+    <Panel css={{ textAlign: 'center' }}>
       <Flex column css={{ gap: '$md', alignItems: 'center' }}>
         <Text h2>No results found</Text>
         <Text>
