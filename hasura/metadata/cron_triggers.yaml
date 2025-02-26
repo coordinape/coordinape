@@ -18,7 +18,7 @@
   comment: make sure everyone has a reputation, in batches
 - name: bigQuestionEmails
   webhook: '{{HASURA_API_BASE_URL}}/cron/bigQuestionEmails'
-  schedule: '2 2 29 2 2'
+  schedule: 2 2 29 2 2
   include_in_metadata: true
   payload: {}
   headers:

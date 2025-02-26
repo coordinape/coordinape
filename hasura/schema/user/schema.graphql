@@ -426,6 +426,18 @@ input RequestInviteCodeInput {
   email: String!
 }
 
+input SearchCastsInput {
+  created_after: String
+  limit: Int
+  search_query: String!
+}
+
+type SearchCastsOutput {
+  cast_id: Int!
+  enriched_cast: enriched_casts
+  similarity: Float!
+}
+
 input SearchCosoulsInput {
   search_query: String!
 }
@@ -2885,7 +2897,7 @@ unique or primary key constraints on table "circle_share_tokens"
 """
 enum circle_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "circle_id", "type"
+  unique or primary key constraint on columns "type", "circle_id"
   """
   circle_share_token_pkey
 
@@ -13066,7 +13078,7 @@ unique or primary key constraints on table "mutes"
 """
 enum mutes_constraint {
   """
-  unique or primary key constraint on columns "profile_id", "target_profile_id"
+  unique or primary key constraint on columns "target_profile_id", "profile_id"
   """
   mutes_pkey
 }
@@ -14844,7 +14856,7 @@ unique or primary key constraints on table "org_share_tokens"
 """
 enum org_share_tokens_constraint {
   """
-  unique or primary key constraint on columns "org_id", "type"
+  unique or primary key constraint on columns "type", "org_id"
   """
   org_share_tokens_pkey
 
@@ -16882,7 +16894,7 @@ unique or primary key constraints on table "profile_skills"
 """
 enum profile_skills_constraint {
   """
-  unique or primary key constraint on columns "profile_id", "skill_name"
+  unique or primary key constraint on columns "skill_name", "profile_id"
   """
   profile_skills_pkey
 }
@@ -21152,6 +21164,7 @@ type query_root {
   fetch data from the table: "reputation_scores" using primary key columns
   """
   reputation_scores_by_pk(profile_id: bigint!): reputation_scores
+  searchCasts(payload: SearchCastsInput!): [SearchCastsOutput!]!
 
   """
   searchCosouls
@@ -22009,7 +22022,7 @@ enum reactions_constraint {
   reactions_pkey
 
   """
-  unique or primary key constraint on columns "profile_id", "activity_id", "reaction"
+  unique or primary key constraint on columns "reaction", "activity_id", "profile_id"
   """
   reactions_profile_id_activity_id_reaction_key
 }
@@ -22781,7 +22794,7 @@ enum replies_reactions_constraint {
   replies_reactions_pkey
 
   """
-  unique or primary key constraint on columns "reply_id", "profile_id", "reaction"
+  unique or primary key constraint on columns "reaction", "profile_id", "reply_id"
   """
   replies_reactions_profile_id_reply_id_reaction_key
 }

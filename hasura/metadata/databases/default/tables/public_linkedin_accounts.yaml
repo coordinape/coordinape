@@ -12,14 +12,14 @@ select_permissions:
         profile_id:
           _eq: X-Hasura-User-Id
       limit: 1
-    comment: ''
+    comment: ""
 delete_permissions:
   - role: user
     permission:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 event_triggers:
   - name: updateProfileRepScore_linkedin
     definition:
@@ -43,5 +43,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '30 5 * * *'
+      schedule: 30 5 * * *
       timeout: 60

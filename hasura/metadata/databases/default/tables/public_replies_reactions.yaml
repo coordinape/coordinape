@@ -84,7 +84,7 @@ select_permissions:
           - activity:
               cast_id:
                 _is_null: false
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -142,5 +142,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 5 * * *'
+      schedule: 0 5 * * *
       timeout: 60

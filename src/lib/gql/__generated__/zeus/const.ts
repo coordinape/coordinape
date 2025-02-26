@@ -55,6 +55,7 @@ export const AllTypesProps: Record<string, any> = {
   LogVaultTxInput: {},
   MarkClaimedInput: {},
   RequestInviteCodeInput: {},
+  SearchCastsInput: {},
   SearchCosoulsInput: {},
   SearchProfilesInput: {},
   SetPrimaryEmailInput: {},
@@ -6384,6 +6385,9 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_by_pk: {
       profile_id: 'bigint',
     },
+    searchCasts: {
+      payload: 'SearchCastsInput',
+    },
     searchCosouls: {
       payload: 'SearchCosoulsInput',
     },
@@ -9285,6 +9289,11 @@ export const ReturnTypes: Record<string, any> = {
     id: 'ID',
     new: 'Boolean',
   },
+  SearchCastsOutput: {
+    cast_id: 'Int',
+    enriched_cast: 'enriched_casts',
+    similarity: 'Float',
+  },
   SearchCosoulsOutput: {
     cosoul_ids: 'Int',
   },
@@ -11850,6 +11859,7 @@ export const ReturnTypes: Record<string, any> = {
     replies_reactions_by_pk: 'replies_reactions',
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
+    searchCasts: 'SearchCastsOutput',
     searchCosouls: 'SearchCosoulsOutput',
     searchProfiles: 'SearchProfilesOutput',
     search_contributions: 'contributions',

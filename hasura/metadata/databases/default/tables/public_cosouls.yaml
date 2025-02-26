@@ -72,7 +72,7 @@ select_permissions:
         - updated_at
       filter: {}
       limit: 1
-    comment: ''
+    comment: ""
   - role: user
     permission:
       columns:
@@ -108,5 +108,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '45 2 * * *'
+      schedule: 45 2 * * *
       timeout: 60

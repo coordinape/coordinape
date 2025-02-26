@@ -19,10 +19,6 @@ type Mutation {
 }
 
 type Mutation {
-  updateTokenBalances(payload: UpdateTokenBalancesInput!): ConfirmationResponse!
-}
-
-type Mutation {
   allocationCsv(payload: AllocationCsvInput!): AllocationCsvResponse
 }
 
@@ -163,6 +159,10 @@ type Mutation {
 }
 
 type Query {
+  searchCasts(payload: SearchCastsInput!): [SearchCastsOutput!]!
+}
+
+type Query {
   searchCosouls(payload: SearchCosoulsInput!): SearchCosoulsOutput
 }
 
@@ -224,6 +224,10 @@ type Mutation {
 
 type Mutation {
   updateTeammates(payload: UpdateTeammatesInput!): UpdateTeammatesResponse
+}
+
+type Mutation {
+  updateTokenBalances(payload: UpdateTokenBalancesInput!): ConfirmationResponse!
 }
 
 type Mutation {
@@ -630,6 +634,12 @@ input GetCastsInput {
   cast_hashes: [String!]
 }
 
+input SearchCastsInput {
+  limit: Int
+  search_query: String!
+  created_after: String
+}
+
 type CreateCircleResponse {
   id: Int!
 }
@@ -883,6 +893,11 @@ type Cast {
 
 type GetCastsOutput {
   casts: [Cast!]!
+}
+
+type SearchCastsOutput {
+  cast_id: Int!
+  similarity: Float!
 }
 
 scalar timestamptz

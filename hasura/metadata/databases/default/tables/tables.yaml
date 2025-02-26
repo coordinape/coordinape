@@ -86,6 +86,7 @@
 - "!include public_vault_transactions.yaml"
 - "!include public_vault_tx_types.yaml"
 - "!include public_vaults.yaml"
+- "!include public_virtual_enriched_casts_similarity.yaml"
 - "!include public_virtual_profiles_similarity.yaml"
 - "!include public_virtual_reactions_count.yaml"
 - "!include public_vouches.yaml"

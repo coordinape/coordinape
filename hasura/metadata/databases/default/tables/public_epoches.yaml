@@ -172,5 +172,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '45 3 * * *'
+      schedule: 45 3 * * *
       timeout: 60

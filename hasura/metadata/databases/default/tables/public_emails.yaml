@@ -15,7 +15,7 @@ select_permissions:
       filter:
         profile_id:
           _eq: X-Hasura-User-Id
-    comment: ''
+    comment: ""
 event_triggers:
   - name: updateProfileRepScore_emails
     definition:
@@ -39,5 +39,5 @@ event_triggers:
       clean_invocation_logs: true
       clear_older_than: 672
       paused: false
-      schedule: '0 3 * * *'
+      schedule: 0 3 * * *
       timeout: 60

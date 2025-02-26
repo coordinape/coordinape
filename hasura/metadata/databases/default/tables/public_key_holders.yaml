@@ -30,4 +30,4 @@ select_permissions:
         - subject
       filter: {}
       allow_aggregations: true
-    comment: ""
+    comment: ''
