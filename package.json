@@ -7,6 +7,9 @@
   "engines": {
     "node": "20"
   },
+  "exports": {
+    "./anongql": "./src/lib/anongql/index.ts"
+  },
   "dependencies": {
     "@apollo/client": "3.7.15",
     "@aws-sdk/client-bedrock-runtime": "^3.741.0",
