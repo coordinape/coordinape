@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { UNLIMITED_GIVE_PROFILES } from '../../../_api/hasura/actions/_handlers/createCoLinksGive.ts';
 import { OGAvatar } from '../../../_api/og/OGAvatar.tsx';
+import { getGiveWeight, isBotOrAgent } from '../../give.ts';
 import { FramePostInfo } from '../_getFramePostInfo.tsx';
 import { Frame, isFrame, ResourceIdentifierWithParams } from '../frames.ts';
 import { checkAndInsertGive } from '../giveparty/checkAndInsertGive.ts';
@@ -36,14 +36,14 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
     ? `${give.image_url}?format=jpeg`
     : `frontdoor-${giverLevel}-${randomArtNumber}.jpg`;
 
-  const isBot = UNLIMITED_GIVE_PROFILES.includes(give.giver_profile_public.id);
-  const botWeight = 69;
-  const give_weight = isBot
-    ? botWeight
-    : give.giver_profile_public.reputation_score?.total_score || 1;
+  const isBot = isBotOrAgent(give.giver_profile_public.id);
+  const give_weight = getGiveWeight({
+    profileId: give.giver_profile_public.id,
+    total_score: give.giver_profile_public.reputation_score?.total_score,
+  });
 
-  const getDiceImage = (give_weight: number): string => {
-    if (give_weight == botWeight) return 'bot.png';
+  const getDiceImage = (give_weight: number, isBot: boolean): string => {
+    if (isBot) return 'bot.png';
     if (give_weight >= 10000) return 'dice-d20.png';
     if (give_weight >= 5000) return 'dice-d12.png';
     if (give_weight >= 3000) return 'dice-d10.png';
@@ -86,7 +86,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
             <span style={{ fontSize: 34, fontWeight: 600 }}>{give_weight}</span>
             <img
               alt="d"
-              src={`${IMAGE_URL_BASE}${getDiceImage(give_weight)}`}
+              src={`${IMAGE_URL_BASE}${getDiceImage(give_weight, isBot)}`}
               width={66}
               height={66}
             />

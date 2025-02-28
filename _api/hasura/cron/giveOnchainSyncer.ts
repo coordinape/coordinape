@@ -72,8 +72,12 @@ async function giveToSync() {
         },
         {
           id: true,
+          profile_id: true,
           giver_profile_public: {
             address: true,
+            reputation_score: {
+              total_score: true,
+            },
           },
           target_profile_public: {
             address: true,
