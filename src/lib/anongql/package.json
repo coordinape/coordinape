@@ -1,0 +1,39 @@
+{
+  "name": "@coordinape/anongql",
+  "version": "0.1.0",
+  "description": "Anonymous GraphQL client for Hasura",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "graphql",
+    "hasura",
+    "zeus"
+  ],
+  "author": "Coordinape",
+  "license": "MIT",
+  "peerDependencies": {
+    "@apollo/client": "^3.7.0",
+    "graphql": "^16.0.0",
+    "graphql-zeus": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coordinape/coordinape",
+    "directory": "src/lib/anongql"
+  }
+}

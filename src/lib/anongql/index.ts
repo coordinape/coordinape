@@ -1,3 +1,7 @@
-import { anonClient } from './anonClient';
+import {
+  anonClient,
+  ThunderRequireOperationName,
+  useTypedSubscription,
+} from './anonClient';
 
-export { anonClient };
+export { anonClient, ThunderRequireOperationName, useTypedSubscription };
