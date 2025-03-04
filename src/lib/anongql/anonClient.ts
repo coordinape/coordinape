@@ -1,8 +1,6 @@
 import type { SubscriptionHookOptions } from '@apollo/client';
 import { gql, useSubscription } from '@apollo/client';
 
-import { VITE_HASURA_URL } from '../../config/env';
-
 import { Ops } from './__generated__/zeus/const';
 import {
   apiFetch,
@@ -34,9 +32,20 @@ export const ThunderRequireOperationName =
     >;
 
 const makeThunder = (headers = {}) =>
-  ThunderRequireOperationName(async (...params) =>
-    apiFetch([
-      VITE_HASURA_URL,
+  ThunderRequireOperationName(async (...params) => {
+    // Get the Hasura URL from environment variables
+    const hasuraUrl =
+      typeof process !== 'undefined' && process.env.VITE_HASURA_URL
+        ? process.env.VITE_HASURA_URL
+        : typeof window !== 'undefined' && (window as any).env?.VITE_HASURA_URL
+          ? (window as any).env.VITE_HASURA_URL
+          : typeof import.meta !== 'undefined' &&
+              (import.meta as any).env?.VITE_HASURA_URL
+            ? (import.meta as any).env.VITE_HASURA_URL
+            : 'http://localhost:8080/v1/graphql'; // Fallback
+
+    return apiFetch([
+      hasuraUrl,
       {
         method: 'POST',
         headers: {
@@ -45,8 +54,8 @@ const makeThunder = (headers = {}) =>
           ...headers,
         },
       },
-    ])(...params)
-  );
+    ])(...params);
+  });
 
 const thunder = makeThunder();
 
