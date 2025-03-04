@@ -1,5 +1,13 @@
-export const UNLIMITED_GIVE_PROFILES = [4064783, 4064757, 4064836, 4065247];
-
+// FIXME: we need to make this dynamic ideally
+export const UNLIMITED_GIVE_PROFILES = [
+  4064783, // magicvest
+  4064757, // paddington
+  4064836, // furry-wif-fedora
+  4065247, // co-creator
+  4065508, // indigo-purple
+  4065511, // thedogbot
+  4065377, // shazaam420
+];
 export const getGiveWeight = ({
   profileId,
   total_score,
