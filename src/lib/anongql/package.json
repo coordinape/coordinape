@@ -5,14 +5,16 @@
   "type": "module",
   "main": "dist/index.js",
   "module": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "index.ts",
   "files": [
-    "dist"
+    "dist",
+    "*.ts",
+    "__generated__/**/*.ts"
   ],
   "exports": {
     ".": {
       "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./index.ts"
     }
   },
   "scripts": {
