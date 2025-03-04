@@ -363,5 +363,8 @@
       "**/*.{stories,test}.{ts,tsx}"
     ],
     "report-dir": "coverage-cypress"
-  }
+  },
+  "workspaces": [
+    "src/lib/anongql"
+  ]
 }
