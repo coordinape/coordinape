@@ -44,7 +44,7 @@ const homeFrameImageNode = async (params: Record<string, string>) => {
 
   const getDiceImage = (give_weight: number): string => {
     if (give_weight == botWeight) return 'bot.png';
-    if (give_weight >= 10000) return 'dice-d20.png';
+    if (give_weight >= 20000) return 'dice-d20.png';
     if (give_weight >= 5000) return 'dice-d12.png';
     if (give_weight >= 3000) return 'dice-d10.png';
     if (give_weight >= 1500) return 'dice-d8.png';
