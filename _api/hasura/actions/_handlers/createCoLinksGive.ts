@@ -3,6 +3,7 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { z } from 'zod';
 
+import { UNLIMITED_GIVE_PROFILES } from '../../../../api-lib/give.ts';
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { getInput } from '../../../../api-lib/handlerHelpers';
 import {
@@ -26,8 +27,6 @@ import {
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
 import { zEthAddress } from '../../../../src/lib/zod/formHelpers.ts';
-
-export const UNLIMITED_GIVE_PROFILES = [4064783, 4064757, 4064836, 4065247];
 
 const createCoLinksGiveInput = z
   .object({

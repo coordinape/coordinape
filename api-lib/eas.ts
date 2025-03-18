@@ -10,6 +10,7 @@ import { baseChain } from '../src/features/cosoul/chains';
 import { coLinksPaths } from '../src/routes/paths';
 
 import { COSOUL_SIGNER_ADDR_PK } from './config';
+import { getGiveWeight } from './give.ts';
 import { adminClient } from './gql/adminClient';
 import { getProvider } from './provider';
 
@@ -61,6 +62,11 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
         : webAppURL('colinks') + coLinksPaths.post(give.activity_id)) || '';
 
     const schemaEncoder = new SchemaEncoder(SCHEMA);
+
+    const weight = getGiveWeight({
+      profileId: give.profile_id,
+      total_score: give.giver_profile_public?.reputation_score?.total_score,
+    });
     const data = [
       {
         name: 'from',
@@ -74,7 +80,7 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
       { name: 'skill', value: give.skill || '', type: 'string' },
       { name: 'tag', value: '', type: 'string' },
       { name: 'note', value: '', type: 'string' },
-      { name: 'weight', value: '1', type: 'uint16' },
+      { name: 'weight', value: `${weight}`, type: 'uint16' },
     ];
     const encodedData = schemaEncoder.encodeData(data);
 
