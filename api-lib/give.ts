@@ -7,6 +7,7 @@ export const UNLIMITED_GIVE_PROFILES = [
   4065508, // indigo-purple
   4065511, // thedogbot
   4065377, // shazaam420
+  389267, // givebot
 ];
 export const getGiveWeight = ({
   profileId,

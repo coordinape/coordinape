@@ -23,6 +23,23 @@ select_permissions:
       filter: {}
       limit: 1
     comment: ""
+  - role: api-user
+    permission:
+      columns:
+        - fid
+        - profile_id
+        - followers_count
+        - following_count
+        - bio_text
+        - custody_address
+        - name
+        - pfp_url
+        - username
+        - created_at
+        - updated_at
+      filter: {}
+      limit: 1
+    comment: ""
   - role: user
     permission:
       columns:
