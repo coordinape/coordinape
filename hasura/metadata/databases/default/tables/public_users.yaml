@@ -118,7 +118,7 @@ select_permissions:
                           _eq: true
                       - read_member_profiles:
                           _eq: true
-      limit: 50
+      limit: 1000
   - role: discord-bot
     permission:
       columns:
