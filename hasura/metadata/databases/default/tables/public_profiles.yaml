@@ -195,7 +195,7 @@ select_permissions:
                     _eq: X-Hasura-Api-Key-Hash
                 - read_member_profiles:
                     _eq: true
-      limit: 50
+      limit: 1000
   - role: discord-bot
     permission:
       columns:
