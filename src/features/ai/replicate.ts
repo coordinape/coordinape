@@ -73,7 +73,23 @@ const modelStyles = [
 ];
 
 export const genImageRecraft20b = async ({ skill }: { skill: string }) => {
-  const prompt = await genGiveImagePrompt(skill);
+  let prompt;
+  if (skill.toLowerCase() === 'create') {
+    const creatures = [
+      'human-cat',
+      'human-dog',
+      'human-horse',
+      'woman',
+      'man',
+      'cyborg',
+      'wizard',
+    ];
+    const creature1 = creatures[Math.floor(Math.random() * creatures.length)];
+    const creature2 = creatures[Math.floor(Math.random() * creatures.length)];
+    prompt = `A mythical Japanese anime ${creature1} and a mythical Japanese anime ${creature2} in side profile are smiling at each other, touching hands, exchanging a solid white circle.  The background is solid flat blue #0053FF.  Style is 2D Japanese comic book anime.`;
+  } else {
+    prompt = await genGiveImagePrompt(skill);
+  }
 
   const options = {
     model: 'recraft-ai/recraft-20b',
@@ -81,7 +97,10 @@ export const genImageRecraft20b = async ({ skill }: { skill: string }) => {
     input: {
       prompt: prompt,
       size: '1536x1024',
-      style: modelStyles[Math.floor(Math.random() * modelStyles.length)],
+      style:
+        skill.toLowerCase() === 'create'
+          ? 'digital_illustration'
+          : modelStyles[Math.floor(Math.random() * modelStyles.length)],
     },
   };
 
