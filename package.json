@@ -37,7 +37,7 @@
     "@magic-sdk/admin": "^2.4.1",
     "@magic-sdk/types": "^24.3.0",
     "@magiclabs/wagmi-connector": "^2.1.0",
-    "@neynar/nodejs-sdk": "^1.12.0",
+    "@neynar/nodejs-sdk": "^2.27.1",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-checkbox": "^1.0.1",
     "@radix-ui/react-collapsible": "^1.0.1",
