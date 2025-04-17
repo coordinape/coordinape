@@ -1,4 +1,4 @@
-import { User } from '@neynar/nodejs-sdk/build/neynar-api/v2/openapi-farcaster/models/user';
+import { User } from '@neynar/nodejs-sdk/build/api/models/user';
 import { useQuery } from 'react-query';
 
 export const QUERY_KEY_PARTY_PROFILE = 'partyProfile';

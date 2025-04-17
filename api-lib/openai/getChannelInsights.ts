@@ -1,6 +1,6 @@
 import assert from 'assert';
 
-import { CastWithInteractions } from '@neynar/nodejs-sdk/build/neynar-api/v2';
+import { CastWithInteractions } from '@neynar/nodejs-sdk/build/api';
 
 import openai_client from './openaiClient';
 

@@ -65,7 +65,11 @@ export const backfillCast = async (hashOrUrl: string) => {
             parent_fid: cast.parent_author.fid,
             parent_hash: cast.parent_hash,
             embeds: cast.embeds.map(e => ({
-              ...('cast_id' in e ? { cast_id: e.cast_id } : { url: e.url }),
+              ...('cast_id' in e
+                ? { cast_id: e.cast_id }
+                : 'url' in e
+                  ? { url: e.url }
+                  : {}),
             })),
           },
         },

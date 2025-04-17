@@ -1,10 +1,16 @@
-import { NeynarAPIClient } from '@neynar/nodejs-sdk';
-import { NextCursor } from '@neynar/nodejs-sdk/build/neynar-api/v1';
-import { EmbedUrl } from '@neynar/nodejs-sdk/build/neynar-api/v2';
+import { Configuration, NeynarAPIClient } from '@neynar/nodejs-sdk';
+import {
+  CastParamType,
+  EmbedUrl,
+  NextCursor,
+} from '@neynar/nodejs-sdk/build/api';
 
 import { IS_LOCAL_ENV, NEYNAR_API_KEY, NEYNAR_BOT_SIGNER_UUID } from './config';
 
-const client = new NeynarAPIClient(NEYNAR_API_KEY);
+const config: Configuration = {
+  apiKey: NEYNAR_API_KEY,
+};
+const client = new NeynarAPIClient(config);
 
 type PublishCastOptions = {
   embeds?: EmbedUrl[];
@@ -13,7 +19,10 @@ type PublishCastOptions = {
 };
 
 export const fetchCast = async (cast_hash: string) => {
-  const cast = await client.lookUpCastByHashOrWarpcastUrl(cast_hash, 'hash');
+  const cast = await client.lookupCastByHashOrWarpcastUrl({
+    identifier: cast_hash,
+    type: CastParamType.Hash,
+  });
   return cast;
 };
 
@@ -22,7 +31,8 @@ export const fetchCastsForChannel = async (
   withinSeconds?: number,
   limit: number = 50
 ) => {
-  const feed = await client.fetchFeedByChannelIds(channelIds, {
+  const feed = await client.fetchFeedByChannelIds({
+    channelIds,
     withRecasts: false,
     withReplies: false,
     limit: limit,
@@ -44,7 +54,7 @@ export const fetchCastsForChannel = async (
 
 export const fetchUserByFid = async (fid: number) => {
   try {
-    const response = await client.fetchBulkUsers([fid]);
+    const response = await client.fetchBulkUsers({ fids: [fid] });
     return response.users[0];
   } catch (err) {
     console.error('Got an error from Neynar attempting lookupUserByFid', err);
@@ -54,8 +64,8 @@ export const fetchUserByFid = async (fid: number) => {
 
 export const fetchUserByUsername = async (username: string) => {
   try {
-    const response = await client.lookupUserByUsername(username);
-    return response.result.user;
+    const response = await client.lookupUserByUsername({ username });
+    return response.user;
   } catch (err) {
     console.error(
       'Got an error from Neynar attempting lookupUserByUsername',
@@ -67,7 +77,9 @@ export const fetchUserByUsername = async (username: string) => {
 
 export const fetchUserByAddress = async (address: string) => {
   try {
-    const users = await client.fetchBulkUsersByEthereumAddress([address]);
+    const users = await client.fetchBulkUsersByEthOrSolAddress({
+      addresses: [address],
+    });
     const firstUser = Object.values(users)[0][0];
     for (const u of Object.values(users)[0]) {
       // try to find a real one
@@ -95,11 +107,11 @@ export const publishCast = async (
   }
 
   try {
-    const response = await client.publishCast(
-      NEYNAR_BOT_SIGNER_UUID,
+    const response = await client.publishCast({
+      signerUuid: NEYNAR_BOT_SIGNER_UUID,
       text,
-      options
-    );
+      ...options,
+    });
     return response;
   } catch (err) {
     console.error('Got an error from Neynar attempting publishCast', err);
@@ -108,7 +120,8 @@ export const publishCast = async (
 };
 
 export const validateFrame = async (messageBytesInHex: string) => {
-  return await client.validateFrameAction(messageBytesInHex, {
+  return await client.validateFrameAction({
+    messageBytesInHex,
     followContext: true,
     signerContext: true,
     castReactionContext: true,
@@ -116,10 +129,10 @@ export const validateFrame = async (messageBytesInHex: string) => {
 };
 
 export const generateWarpCastUrl = async (cast_hash: string) => {
-  const castInfo = await client.lookUpCastByHashOrWarpcastUrl(
-    cast_hash,
-    'hash'
-  );
+  const castInfo = await client.lookupCastByHashOrWarpcastUrl({
+    identifier: cast_hash,
+    type: CastParamType.Hash,
+  });
   const username = castInfo.cast.author.username;
 
   // shorten cast hash to first 10 characters
@@ -129,11 +142,12 @@ export const generateWarpCastUrl = async (cast_hash: string) => {
 
 export const fetchFollowers = async (fid: number, next?: NextCursor) => {
   try {
-    const response = await client.fetchUserFollowers(fid, {
+    const response = await client.fetchUserFollowers({
+      fid,
       limit: 100,
       cursor: next?.cursor ? next?.cursor : undefined,
     });
-    return response.result;
+    return response;
   } catch (err) {
     console.error(
       'Got an error from Neynar attempting lookupUserByUsername',
@@ -145,10 +159,12 @@ export const fetchFollowers = async (fid: number, next?: NextCursor) => {
 
 export const fetchCastByHashOrWarpcastUrl = async (hash_or_url: string) => {
   try {
-    const response = await client.lookUpCastByHashOrWarpcastUrl(
-      hash_or_url,
-      hash_or_url.startsWith('http') ? 'url' : 'hash'
-    );
+    const response = await client.lookupCastByHashOrWarpcastUrl({
+      identifier: hash_or_url,
+      type: hash_or_url.startsWith('http')
+        ? CastParamType.Url
+        : CastParamType.Hash,
+    });
     return response.cast;
   } catch (err) {
     console.error('Got an error from Neynar attempting fetchCast', err);

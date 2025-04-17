@@ -108,7 +108,7 @@ export const publishCastGiveDelivered = async (
   // update warpcast_url on give with bot response hash
   try {
     if (resp) {
-      const warpcastUrl = await generateWarpCastUrl(resp.hash);
+      const warpcastUrl = await generateWarpCastUrl(resp.cast.hash);
 
       await adminClient.mutate(
         {
