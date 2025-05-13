@@ -8,13 +8,6 @@ export async function isValidSignature(
   req: VercelRequest // must be VercelRequest object, we then properly parse the buffer into a raw string body for the hmac
 ): Promise<boolean> {
   const signature = req.headers['x-neynar-signature'] as string;
-
-  // eslint-disable-next-line no-console
-  console.log(
-    'neynarSignature Received headers:',
-    JSON.stringify(req.headers, null, 2)
-  );
-
   assert(signature, 'Missing signature');
 
   const webhookSecret = process.env.NEYNAR_WEBHOOK_SECRET as string;
