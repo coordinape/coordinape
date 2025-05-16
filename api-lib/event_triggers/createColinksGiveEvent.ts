@@ -101,7 +101,7 @@ export const publishCastGiveDelivered = async (
   const giveMessage = skill ? `${baseMessage} for #${skill}` : baseMessage;
 
   const resp = await publishCast(giveMessage, {
-    replyTo: hash,
+    parent: hash,
     embeds: [{ url: getFrameUrl('give', giveId) }],
   });
 

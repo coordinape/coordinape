@@ -54,7 +54,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     // Return Help Frame if `@givebot help` is message
     if (text.trim().toLowerCase() === '@givebot help') {
       await publishCast(``, {
-        replyTo: hash,
+        parent: hash,
         embeds: [{ url: getFrameUrl('help') }],
       });
       res.status(200).send({ success: true });
@@ -78,7 +78,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await publishCast(
         `@${author_username} Please reply to a cast, or mention a user to direct your GIVE.`,
         {
-          replyTo: hash,
+          parent: hash,
         }
       );
       res.status(200).send({ success: true });
@@ -89,7 +89,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await publishCast(
         `@${author_username} GIVE can only be given to others!`,
         {
-          replyTo: hash,
+          parent: hash,
         }
       );
       res.status(200).send({ success: true });
@@ -101,7 +101,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       await publishCast(
         `@${author_username} Thanks, but I'm just a bot! Give to people by replying to a cast with @givebot or cast @givebot @user #skilltag (tag optional)`,
         {
-          replyTo: hash,
+          parent: hash,
         }
       );
       res.status(200).send({ success: true });
@@ -117,7 +117,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await publishCast(
           `@${author_username} You’re out of GIVE! Level up and get more by acquiring your CoSoul. Click into the GIVE frame, request your CoSoul, and we’ll drop you 10 more GIVE to share!`,
           {
-            replyTo: hash,
+            parent: hash,
             embeds: [{ url: getFrameUrl('front_door') }],
           }
         );
@@ -126,7 +126,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await publishCast(
           `@${author_username} You’re out of GIVE! Level up and get more by joining CoLinks! Click into the GIVE frame and then go to CoLinks and activate your first link to join. You’ll level up and we’ll drop you 10 more GIVE to share.`,
           {
-            replyTo: hash,
+            parent: hash,
             embeds: [{ url: getFrameUrl('front_door') }],
           }
         );
@@ -134,7 +134,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         await publishCast(
           `@${author_username} Unfortunately, you are out of give. More REP will equal more GIVE. Get more in CoLinks.`,
           {
-            replyTo: hash,
+            parent: hash,
             embeds: [{ url: getFrameUrl('front_door') }],
           }
         );

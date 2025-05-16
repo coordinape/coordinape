@@ -14,7 +14,7 @@ const client = new NeynarAPIClient(config);
 
 type PublishCastOptions = {
   embeds?: EmbedUrl[];
-  replyTo?: string;
+  parent?: string;
   channelId?: string;
 };
 
