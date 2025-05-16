@@ -38,7 +38,7 @@ export const RenderFrameMeta = async ({
         <div dangerouslySetInnerHTML={{ __html: scriptContent }} />;
       </head>
       <body>
-        <h1>Redirecting to CoLinks...</h1>
+        <h1>Redirecting to Coordinape...</h1>
       </body>
     </html>
   );
