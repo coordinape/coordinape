@@ -30,7 +30,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (!fcUser) {
     return errorResponseWithStatusCode(
       res,
-      'no CoLinks or Farcaster user found for this address',
+      'no Coordinape or Farcaster user found for this address',
       404
     );
   }
