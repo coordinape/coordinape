@@ -27,8 +27,8 @@ const base = {
     decimals: 18,
   },
   gasSettings: {
-    maxFeePerGas: 200000000n,
-    maxPriorityFeePerGas: 100n,
+    maxFeePerGas: 1000000000n,
+    maxPriorityFeePerGas: 1000n,
   },
 };
 const baseSepola = {
