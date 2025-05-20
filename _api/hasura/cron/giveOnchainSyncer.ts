@@ -6,7 +6,7 @@ import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-const LIMIT = 10;
+const LIMIT = 5;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
@@ -27,6 +27,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
         success++;
       } catch (e: any) {
         errors++;
+        console.error('Error attesting give', give.id, e);
       }
     }
 

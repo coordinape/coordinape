@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { EAS, SchemaEncoder } from '@ethereum-attestation-service/eas-sdk';
 import { NonceManager } from '@ethersproject/experimental';
 import { Wallet } from 'ethers';
@@ -84,6 +85,7 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
     ];
     const encodedData = schemaEncoder.encodeData(data);
 
+    console.log('starting on-chain attestation for give', give.id);
     const tx = await eas.attest(
       {
         schema: SCHEMA_UID,
@@ -100,6 +102,7 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
       }
     );
 
+    console.log('waiting for tx to be confirmed, tx hash: ', tx);
     const attestUid = await tx.wait();
 
     // eslint-disable-next-line no-console
