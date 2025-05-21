@@ -27,31 +27,64 @@ export function easWithNonceManager() {
   const chainId = Number(baseChain.chainId);
   const provider = getProvider(chainId);
 
+  // Log the provider RPC URL
+  const providerUrl = provider.connection?.url || 'unknown';
+  console.log(
+    'Using provider endpoint:',
+    providerUrl,
+    'for chain ID:',
+    chainId
+  );
+
   const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
 
   const signer = new NonceManager(syncerWallet.connect(provider));
   const eas = new EAS(EAS_CONTRACT_ADDR);
 
   eas.connect(signer);
+
+  // Log the provider address we're using
+  signer
+    .getAddress()
+    .then(address => {
+      console.log(
+        'EAS NonceManager initialized with provider address:',
+        address,
+        'on chain ID:',
+        chainId
+      );
+    })
+    .catch(err => {
+      console.error('Failed to get provider address:', err);
+    });
+
   return eas;
 }
 
-function setupEas() {
-  const chainId = Number(baseChain.chainId);
-  const provider = getProvider(chainId);
+// Function removed as we're consistently using easWithNonceManager instead
 
-  const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
-  const signer = syncerWallet.connect(provider);
-  const eas = new EAS(EAS_CONTRACT_ADDR);
+// Transaction timeout in milliseconds (50 seconds)
+const TRANSACTION_TIMEOUT = 50000;
 
-  eas.connect(signer);
-  return eas;
-}
-
-export async function attestGiveOnchain(give: Give, eas = setupEas()) {
+export async function attestGiveOnchain(
+  give: Give,
+  eas = easWithNonceManager()
+) {
   try {
+    // Get the provider address we're using (signer is available via _signer internal property)
+    const providerAddress = await (eas as any)._signer.getAddress();
+    const provider = (eas as any)._signer.provider;
+    const providerUrl = provider?.connection?.url || 'unknown';
+
     // eslint-disable-next-line no-console
-    console.log('Writing give onchain for give id: ', give.id);
+    console.log(
+      'Beginning to attempt write give onchain for give id: ',
+      give.id,
+      'using provider address:',
+      providerAddress,
+      'with RPC endpoint:',
+      providerUrl
+    );
 
     const receiverAddr = getAddress(give.target_profile_public?.address ?? '');
     const giverAddr = getAddress(give.giver_profile_public?.address ?? '');
@@ -97,13 +130,21 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
         },
       },
       {
-        maxFeePerGas: baseChain.gasSettings.maxFeePerGas,
-        maxPriorityFeePerGas: baseChain.gasSettings.maxPriorityFeePerGas,
+        maxFeePerGas: 3000000000n, // 3 gwei
+        maxPriorityFeePerGas: 100000000n, // 0.1 gwei
+        gasLimit: 1000000, // 1 million gas limit
       }
     );
 
     console.log('waiting for tx to be confirmed, tx hash: ', tx);
-    const attestUid = await tx.wait();
+    const waitPromise = tx.wait(1); // Wait for 1 confirmation explicitly
+    const timeoutPromise = new Promise<string>((_, reject) =>
+      setTimeout(
+        () => reject(new Error('Transaction timeout')),
+        TRANSACTION_TIMEOUT
+      )
+    );
+    const attestUid = await Promise.race([waitPromise, timeoutPromise]);
 
     // eslint-disable-next-line no-console
     console.log(
