@@ -48,8 +48,19 @@ function setupEas() {
   return eas;
 }
 
-export async function attestGiveOnchain(give: Give, eas = setupEas()) {
+export async function attestGiveOnchain(
+  give: Give,
+  requestId: string,
+  eas = setupEas()
+) {
   try {
+    // eslint-disable-next-line no-console
+    console.log(
+      'GIVE.SYNC ',
+      requestId,
+      'Writing give onchain for give id: ',
+      give.id
+    );
     // eslint-disable-next-line no-console
     console.log('Writing give onchain for give id: ', give.id);
 
@@ -85,6 +96,28 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
     ];
     const encodedData = schemaEncoder.encodeData(data);
 
+    const chainId = Number(baseChain.chainId);
+    const provider = getProvider(chainId);
+    // Get current gas prices dynamically
+    const feeData = await provider.getFeeData();
+    const gasPrice = await provider.getGasPrice();
+    // eslint-disable-next-line no-console
+    console.log(
+      'GIVE.SYNC ',
+      requestId,
+      'Current network gas price:',
+      gasPrice.toString(),
+      'maxfeePerGas:',
+      feeData.maxFeePerGas?.toString(),
+      'maxPriorityFeePerGas:',
+      feeData.maxPriorityFeePerGas?.toString(),
+      'OUR maxFeePerGas:',
+      baseChain.gasSettings.maxFeePerGas
+    );
+
+    // eslint-disable-next-line no-console
+    console.log('GIVE.SYNC ', requestId, 'calling attest: ', give.id);
+    // eslint-disable-next-line no-console
     console.log('starting on-chain attestation for give', give.id);
     const tx = await eas.attest(
       {
@@ -102,9 +135,27 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
       }
     );
 
+    // eslint-disable-next-line no-console
+    console.log(
+      'GIVE.SYNC ',
+      requestId,
+      'tx.wait call: ',
+      give.id,
+      'txhash: ',
+      tx.tx.hash
+    );
     console.log('waiting for tx to be confirmed, tx hash: ', tx);
     const attestUid = await tx.wait();
 
+    // eslint-disable-next-line no-console
+    console.log(
+      'GIVE.SYNC ',
+      requestId,
+      'attestation confirmed for give id: ',
+      give.id,
+      'attestUid: ',
+      attestUid
+    );
     // eslint-disable-next-line no-console
     console.log(
       'Attested give for give.id: ',
@@ -182,6 +233,8 @@ export async function attestGiveOnchain(give: Give, eas = setupEas()) {
 
     return attestUid;
   } catch (e: any) {
+    // eslint-disable-next-line no-console
+    console.log('GIVE.SYNC ', requestId, 'ERROR for give id: ', give.id);
     await adminClient.mutate(
       {
         update_colinks_gives_by_pk: [
