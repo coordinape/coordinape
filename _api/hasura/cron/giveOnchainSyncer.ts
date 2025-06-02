@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { IS_LOCAL_ENV } from '../../../api-lib/config';
@@ -16,17 +18,34 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       });
     }
 
+    const requestId = randomUUID();
+    // eslint-disable-next-line no-console
+    console.log('GIVE.SYNC ', requestId, 'giveOnchainSyncer started');
+
     const gives = await giveToSync();
     const nm = easWithNonceManager();
-
+    // eslint-disable-next-line no-console
+    console.log('GIVE.SYNC ', requestId, 'got the EAS manager');
     let errors = 0;
     let success = 0;
     for (const give of gives) {
       try {
-        await attestGiveOnchain(give, nm);
+        // eslint-disable-next-line no-console
+        console.log('GIVE.SYNC ', requestId, 'attesting giving', give.id);
+        await attestGiveOnchain(give, requestId, nm);
+        // eslint-disable-next-line no-console
+        console.log('GIVE.SYNC ', requestId, 'success', give.id);
         success++;
       } catch (e: any) {
         errors++;
+        // eslint-disable-next-line no-console
+        console.log(
+          'GIVE.SYNC ',
+          requestId,
+          'error attesting give',
+          give.id,
+          e
+        );
         console.error('Error attesting give', give.id, e);
       }
     }
