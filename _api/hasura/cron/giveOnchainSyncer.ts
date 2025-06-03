@@ -3,12 +3,12 @@ import { randomUUID } from 'node:crypto';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { IS_LOCAL_ENV } from '../../../api-lib/config';
-import { attestGiveOnchain, easWithNonceManager } from '../../../api-lib/eas';
+import { attestGiveOnchain } from '../../../api-lib/eas';
 import { order_by } from '../../../api-lib/gql/__generated__/zeus';
 import { adminClient } from '../../../api-lib/gql/adminClient';
 import { verifyHasuraRequestMiddleware } from '../../../api-lib/validate';
 
-const LIMIT = 5;
+const LIMIT = 1;
 
 async function handler(_req: VercelRequest, res: VercelResponse) {
   try {
@@ -23,7 +23,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
     console.log('GIVE.SYNC ', requestId, 'giveOnchainSyncer started');
 
     const gives = await giveToSync();
-    const nm = easWithNonceManager();
+    // const nm = easWithNonceManager();
     // eslint-disable-next-line no-console
     console.log('GIVE.SYNC ', requestId, 'got the EAS manager');
     let errors = 0;
@@ -32,7 +32,7 @@ async function handler(_req: VercelRequest, res: VercelResponse) {
       try {
         // eslint-disable-next-line no-console
         console.log('GIVE.SYNC ', requestId, 'attesting giving', give.id);
-        await attestGiveOnchain(give, requestId, nm);
+        await attestGiveOnchain(give, requestId);
         // eslint-disable-next-line no-console
         console.log('GIVE.SYNC ', requestId, 'success', give.id);
         success++;
