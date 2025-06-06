@@ -119,6 +119,10 @@ export async function attestGiveOnchain(
     console.log('GIVE.SYNC ', requestId, 'calling attest: ', give.id);
     // eslint-disable-next-line no-console
     console.log('starting on-chain attestation for give', give.id);
+
+    const syncerWallet = new Wallet(COSOUL_SIGNER_ADDR_PK);
+    const signer = syncerWallet.connect(provider);
+    const nonce = await signer.getTransactionCount();
     const tx = await eas.attest(
       {
         schema: SCHEMA_UID,
@@ -132,6 +136,7 @@ export async function attestGiveOnchain(
       {
         maxFeePerGas: baseChain.gasSettings.maxFeePerGas,
         maxPriorityFeePerGas: baseChain.gasSettings.maxPriorityFeePerGas,
+        nonce,
       }
     );
 
