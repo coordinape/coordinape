@@ -9,27 +9,27 @@ export interface EmissionTier {
 export const EMISSION_TIERS: EmissionTier[] = [
   {
     minTokens: 0n * 10n ** 18n,
-    maxTokens: 1000n * 10n ** 18n,
+    maxTokens: 1n * 10n ** 18n,
     multiplier: 1,
-    giveCap: 20,
+    giveCap: 1,
   }, // 1x = 1/day
   {
-    minTokens: 1000n * 10n ** 18n,
-    maxTokens: 10000n * 10n ** 18n,
-    multiplier: 4,
-    giveCap: 20,
-  }, // 4x = 4/day
+    minTokens: 1n * 10n ** 18n,
+    maxTokens: 100n * 10n ** 18n,
+    multiplier: 3,
+    giveCap: 3,
+  }, // 3x = 3/day
   {
-    minTokens: 10000n * 10n ** 18n,
-    maxTokens: 33000n * 10n ** 18n,
+    minTokens: 101n * 10n ** 18n,
+    maxTokens: 1000n * 10n ** 18n,
     multiplier: 10,
-    giveCap: 30,
+    giveCap: 10,
   }, // 10x = 10/day
   {
-    minTokens: 33000n * 10n ** 18n,
-    maxTokens: 100000n * 10n ** 18n,
+    minTokens: 1001n * 10n ** 18n,
+    maxTokens: 99999n * 10n ** 18n,
     multiplier: 20,
-    giveCap: 69,
+    giveCap: 20,
   }, // 20x = 20/day
   {
     minTokens: 100000n * 10n ** 18n,
