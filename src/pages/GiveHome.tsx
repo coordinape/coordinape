@@ -273,7 +273,7 @@ const FancyHeader = () => {
             What&apos;s new in the Coordinape universe...
           </Text>
           <Text h1 inline>
-            CoDAO is launched, and the governance and utility token for the
+            CoDAO has launched, and the governance and utility token for the
             Social Oracle, CO token, is live!
           </Text>
           <Flex column css={{ gap: '$md', mt: '$md' }}>
