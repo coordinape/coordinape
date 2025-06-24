@@ -12,6 +12,7 @@ export const EXTERNAL_URL_DOCS_SOCIAL_ORACLE =
   'https://docs.coordinape.com/social-oracle-tm-give';
 export const EXTERNAL_URL_SOCIAL_ORACLE_SCHEMA =
   'https://base.easscan.org/schema/view/0x82c2ec8ec89cf1d13022ff0867744f1cecf932faa4fe334aa1bb443edbfee3fa';
+export const EXTERNAL_URL_CO_DAO = 'https://co.coordinape.com/';
 export const EXTERNAL_URL_DOCS_COLINKS =
   'https://docs.coordinape.com/colinks/what-is-colinks';
 export const EXTERNAL_URL_DOCS_CONTRIBUTIONS =
