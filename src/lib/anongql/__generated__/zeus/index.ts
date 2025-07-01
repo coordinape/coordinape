@@ -647,6 +647,13 @@ export type ValueTypes = {
     _neq?: number | undefined | null;
     _nin?: Array<number> | undefined | null;
   };
+  ['SearchCosoulsInput']: {
+    search_query: string;
+  };
+  ['SearchCosoulsOutput']: AliasType<{
+    cosoul_ids?: boolean | `@${string}`;
+    __typename?: boolean | `@${string}`;
+  }>;
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
     _eq?: string | undefined | null;
@@ -4356,6 +4363,10 @@ export type ValueTypes = {
       { profile_id: ValueTypes['bigint'] },
       ValueTypes['reputation_scores'],
     ];
+    searchCosouls?: [
+      { payload: ValueTypes['SearchCosoulsInput'] },
+      ValueTypes['SearchCosoulsOutput'],
+    ];
     search_replies?: [
       {
         /** input parameters for function "search_replies" */
@@ -6249,6 +6260,10 @@ export type ModelTypes = {
   };
   /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
   ['Int_comparison_exp']: GraphQLTypes['Int_comparison_exp'];
+  ['SearchCosoulsInput']: GraphQLTypes['SearchCosoulsInput'];
+  ['SearchCosoulsOutput']: {
+    cosoul_ids: Array<number>;
+  };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: GraphQLTypes['String_comparison_exp'];
   /** Table containing activity on our platform */
@@ -7456,6 +7471,8 @@ export type ModelTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** searchCosouls */
+    searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** execute function "search_replies" which returns "replies" */
     search_replies: Array<GraphQLTypes['replies']>;
     /** fetch data from the table: "skills" */
@@ -7894,6 +7911,13 @@ export type GraphQLTypes = {
     _lte?: number | undefined;
     _neq?: number | undefined;
     _nin?: Array<number> | undefined;
+  };
+  ['SearchCosoulsInput']: {
+    search_query: string;
+  };
+  ['SearchCosoulsOutput']: {
+    __typename: 'SearchCosoulsOutput';
+    cosoul_ids: Array<number>;
   };
   /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
   ['String_comparison_exp']: {
@@ -10453,6 +10477,8 @@ export type GraphQLTypes = {
     reputation_scores: Array<GraphQLTypes['reputation_scores']>;
     /** fetch data from the table: "reputation_scores" using primary key columns */
     reputation_scores_by_pk?: GraphQLTypes['reputation_scores'] | undefined;
+    /** searchCosouls */
+    searchCosouls?: GraphQLTypes['SearchCosoulsOutput'] | undefined;
     /** execute function "search_replies" which returns "replies" */
     search_replies: Array<GraphQLTypes['replies']>;
     /** fetch data from the table: "skills" */

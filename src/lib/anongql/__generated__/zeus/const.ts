@@ -7,6 +7,7 @@ export const AllTypesProps: Record<string, any> = {
     fid: 'bigint',
   },
   Int_comparison_exp: {},
+  SearchCosoulsInput: {},
   String_comparison_exp: {},
   activities: {
     gives: {
@@ -1542,6 +1543,9 @@ export const AllTypesProps: Record<string, any> = {
     reputation_scores_by_pk: {
       profile_id: 'bigint',
     },
+    searchCosouls: {
+      payload: 'SearchCosoulsInput',
+    },
     search_replies: {
       args: 'search_replies_args',
       distinct_on: 'replies_select_column',
@@ -2386,6 +2390,9 @@ export const ReturnTypes: Record<string, any> = {
   GetCastsOutput: {
     casts: 'Cast',
   },
+  SearchCosoulsOutput: {
+    cosoul_ids: 'Int',
+  },
   activities: {
     action: 'String',
     actor_profile_id: 'bigint',
@@ -3125,6 +3132,7 @@ export const ReturnTypes: Record<string, any> = {
     replies_reactions_by_pk: 'replies_reactions',
     reputation_scores: 'reputation_scores',
     reputation_scores_by_pk: 'reputation_scores',
+    searchCosouls: 'SearchCosoulsOutput',
     search_replies: 'replies',
     skills: 'skills',
     skills_by_pk: 'skills',
