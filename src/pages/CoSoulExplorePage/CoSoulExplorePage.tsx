@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useState } from 'react';
 
-import { client } from 'lib/gql/client';
+import { anonClient as client } from 'lib/anongql/anonClient';
 import debounce from 'lodash-es/debounce';
 
 import { Where } from '../../features/colinks/fetchCoSouls';
