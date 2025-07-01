@@ -2115,6 +2115,7 @@ export type ValueTypes = {
     ];
     /** An object relationship */
     profile_public?: ValueTypes['profiles_public'];
+    rep_score?: boolean | `@${string}`;
     synced_at?: boolean | `@${string}`;
     token_id?: boolean | `@${string}`;
     updated_at?: boolean | `@${string}`;
@@ -2147,6 +2148,7 @@ export type ValueTypes = {
       | undefined
       | null;
     profile_public?: ValueTypes['profiles_public_bool_exp'] | undefined | null;
+    rep_score?: ValueTypes['Int_comparison_exp'] | undefined | null;
     synced_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
     token_id?: ValueTypes['Int_comparison_exp'] | undefined | null;
     updated_at?: ValueTypes['timestamptz_comparison_exp'] | undefined | null;
@@ -2172,6 +2174,7 @@ export type ValueTypes = {
       | undefined
       | null;
     profile_public?: ValueTypes['profiles_public_order_by'] | undefined | null;
+    rep_score?: ValueTypes['order_by'] | undefined | null;
     synced_at?: ValueTypes['order_by'] | undefined | null;
     token_id?: ValueTypes['order_by'] | undefined | null;
     updated_at?: ValueTypes['order_by'] | undefined | null;
@@ -2193,6 +2196,7 @@ export type ValueTypes = {
     created_tx_hash?: string | undefined | null;
     id?: number | undefined | null;
     pgive?: number | undefined | null;
+    rep_score?: number | undefined | null;
     synced_at?: ValueTypes['timestamptz'] | undefined | null;
     token_id?: number | undefined | null;
     updated_at?: ValueTypes['timestamptz'] | undefined | null;
@@ -6770,6 +6774,7 @@ export type ModelTypes = {
     poaps_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    rep_score?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -9046,6 +9051,7 @@ export type GraphQLTypes = {
     poaps_aggregate: GraphQLTypes['poap_holders_aggregate'];
     /** An object relationship */
     profile_public?: GraphQLTypes['profiles_public'] | undefined;
+    rep_score?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id: number;
     updated_at: GraphQLTypes['timestamptz'];
@@ -9074,6 +9080,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['poap_holders_aggregate_bool_exp']
       | undefined;
     profile_public?: GraphQLTypes['profiles_public_bool_exp'] | undefined;
+    rep_score?: GraphQLTypes['Int_comparison_exp'] | undefined;
     synced_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
     token_id?: GraphQLTypes['Int_comparison_exp'] | undefined;
     updated_at?: GraphQLTypes['timestamptz_comparison_exp'] | undefined;
@@ -9096,6 +9103,7 @@ export type GraphQLTypes = {
       | GraphQLTypes['poap_holders_aggregate_order_by']
       | undefined;
     profile_public?: GraphQLTypes['profiles_public_order_by'] | undefined;
+    rep_score?: GraphQLTypes['order_by'] | undefined;
     synced_at?: GraphQLTypes['order_by'] | undefined;
     token_id?: GraphQLTypes['order_by'] | undefined;
     updated_at?: GraphQLTypes['order_by'] | undefined;
@@ -9117,6 +9125,7 @@ export type GraphQLTypes = {
     created_tx_hash?: string | undefined;
     id?: number | undefined;
     pgive?: number | undefined;
+    rep_score?: number | undefined;
     synced_at?: GraphQLTypes['timestamptz'] | undefined;
     token_id?: number | undefined;
     updated_at?: GraphQLTypes['timestamptz'] | undefined;
@@ -11396,6 +11405,7 @@ export const enum cosouls_select_column {
   created_tx_hash = 'created_tx_hash',
   id = 'id',
   pgive = 'pgive',
+  rep_score = 'rep_score',
   synced_at = 'synced_at',
   token_id = 'token_id',
   updated_at = 'updated_at',

@@ -2117,6 +2117,7 @@ type cosouls {
   An object relationship
   """
   profile_public: profiles_public
+  rep_score: Int
   synced_at: timestamptz
   token_id: Int!
   updated_at: timestamptz!
@@ -2142,6 +2143,7 @@ input cosouls_bool_exp {
   poaps: poap_holders_bool_exp
   poaps_aggregate: poap_holders_aggregate_bool_exp
   profile_public: profiles_public_bool_exp
+  rep_score: Int_comparison_exp
   synced_at: timestamptz_comparison_exp
   token_id: Int_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -2161,6 +2163,7 @@ input cosouls_order_by {
   pgive: order_by
   poaps_aggregate: poap_holders_aggregate_order_by
   profile_public: profiles_public_order_by
+  rep_score: order_by
   synced_at: order_by
   token_id: order_by
   updated_at: order_by
@@ -2203,6 +2206,11 @@ enum cosouls_select_column {
   """
   column name
   """
+  rep_score
+
+  """
+  column name
+  """
   synced_at
 
   """
@@ -2241,6 +2249,7 @@ input cosouls_stream_cursor_value_input {
   created_tx_hash: String
   id: Int
   pgive: Int
+  rep_score: Int
   synced_at: timestamptz
   token_id: Int
   updated_at: timestamptz

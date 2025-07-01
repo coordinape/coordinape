@@ -67,6 +67,7 @@ select_permissions:
         - created_tx_hash
         - id
         - pgive
+        - rep_score
         - synced_at
         - token_id
         - updated_at
