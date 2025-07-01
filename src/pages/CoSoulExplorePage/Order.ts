@@ -1,4 +1,4 @@
-import { order_by } from '../../lib/gql/__generated__/zeus';
+import { order_by } from '../../lib/anongql/__generated__/zeus';
 
 export const getOrderBy = (val: (typeof orderOptions)[number]['value']) => {
   return orderOptions.find(o => o.value === val) ?? orderOptions[0];
