@@ -29,9 +29,6 @@ export const TOKENS: TokenContract[] = [
   },
 ];
 
-export const CO_CONTRACT = TOKENS.find(t => t.symbol === 'CO')!.contract;
-export const CO_CHAIN = TOKENS.find(t => t.symbol === 'CO')!.chain;
-
 export const getAvailablePoints = (
   balance: number,
   checkpoint: string,
