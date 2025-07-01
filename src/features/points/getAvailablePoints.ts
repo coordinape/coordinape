@@ -7,20 +7,25 @@ export const POINTS_PER_GIVE = 60 * 60 * 24;
 
 export type TokenContract = {
   symbol: string;
-  chain: number;
   contract: string;
+  chain: number;
 };
 
 export const TOKENS: TokenContract[] = [
   {
     symbol: 'CO',
-    chain: 1,
     contract: '0xf828ba501b108fbc6c88ebdff81c401bb6b94848',
+    chain: 1,
+  },
+  {
+    symbol: 'CO',
+    contract: '0xe8A9ABa04e6807Cc77501862cC7eA17c9603291E',
+    chain: 8453,
   },
   {
     symbol: 'AAVE',
-    chain: 1,
     contract: '0x7Fc66500c84A76Ad7e9c93437bFc5Ac33E2DDaE9',
+    chain: 1,
   },
 ];
 

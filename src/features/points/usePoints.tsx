@@ -8,9 +8,8 @@ import useConnectedAddress from 'hooks/useConnectedAddress';
 
 import { getEmissionTier, getGiveCap } from './emissionTiers';
 import {
-  CO_CHAIN,
-  CO_CONTRACT,
   POINTS_PER_GIVE,
+  TOKENS,
   getAvailablePoints,
 } from './getAvailablePoints';
 
@@ -25,7 +24,7 @@ export const usePoints = () => {
       return await getMyAvailablePoints();
     },
     {
-      onError: error => {
+      onError: (error: any) => {
         console.error(error);
       },
       enabled: !!address,
@@ -33,7 +32,7 @@ export const usePoints = () => {
   );
 
   const points = data?.points;
-  const tokenBalance = data?.tokenBalance;
+  const tokenBalance = data?.tokenBalance ?? 0n;
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : undefined;
   const canGive = give ? give >= 1 : false;
@@ -47,6 +46,11 @@ export const usePoints = () => {
 };
 
 const getMyAvailablePoints = async () => {
+  const coContracts = TOKENS.filter(t => t.symbol === 'CO').map(t => ({
+    contract: { _eq: t.contract },
+    chain: { _eq: t.chain.toString() },
+  }));
+
   const { profiles_private } = await client.query(
     {
       profiles_private: [
@@ -57,12 +61,8 @@ const getMyAvailablePoints = async () => {
           token_balances: [
             {
               where: {
-                contract: {
-                  _eq: CO_CONTRACT,
-                },
-                chain: { _eq: CO_CHAIN.toString() },
+                _or: coContracts,
               },
-              limit: 1,
             },
             {
               balance: true,
@@ -76,17 +76,29 @@ const getMyAvailablePoints = async () => {
     }
   );
   const profile = profiles_private.pop();
-  assert(profile, 'profiles_private doesnt exist for current user');
+
+  if (!profile) {
+    return {
+      points: 0,
+      tokenBalance: 0n,
+    };
+  }
+
   assert(profile.points_balance !== undefined);
   assert(profile.points_checkpointed_at !== undefined);
+
+  const totalTokenBalance = profile.token_balances.reduce(
+    (sum, b) => sum + BigInt(b.balance ?? 0),
+    0n
+  );
 
   return {
     points: getAvailablePoints(
       profile.points_balance,
       profile.points_checkpointed_at,
-      BigInt(profile.token_balances[0]?.balance ?? 0)
+      totalTokenBalance
     ),
-    tokenBalance: profile.token_balances[0]?.balance ?? 0,
+    tokenBalance: totalTokenBalance,
   };
 };
 
