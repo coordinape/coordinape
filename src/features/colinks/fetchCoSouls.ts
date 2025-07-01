@@ -1,7 +1,6 @@
 import { anonClient } from 'lib/anongql/anonClient';
 
-import { Selector, ValueTypes } from '../../lib/gql/__generated__/zeus';
-import { client } from '../../lib/gql/client';
+import { Selector, ValueTypes } from '../../lib/anongql/__generated__/zeus';
 
 export type Where = ValueTypes['cosouls_bool_exp'];
 export type OrderBy = ValueTypes['cosouls_order_by'];
@@ -38,7 +37,7 @@ export const fetchCoSouls = async (
   page: number,
   pageSize: number
 ) => {
-  const { cosouls } = await client.query(
+  const { cosouls } = await anonClient.query(
     {
       cosouls: [
         {
