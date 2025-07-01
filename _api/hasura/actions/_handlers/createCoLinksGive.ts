@@ -21,8 +21,6 @@ import {
   getGiveCap,
 } from '../../../../src/features/points/emissionTiers.ts';
 import {
-  CO_CHAIN,
-  CO_CONTRACT,
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
@@ -118,12 +116,8 @@ export const fetchPoints = async (profileId: number) => {
           token_balances: [
             {
               where: {
-                contract: {
-                  _eq: CO_CONTRACT,
-                },
-                chain: { _eq: CO_CHAIN.toString() },
+                symbol: { _eq: 'CO' },
               },
-              limit: 1,
             },
             {
               balance: true,
@@ -138,10 +132,24 @@ export const fetchPoints = async (profileId: number) => {
   );
   assert(profiles_by_pk, 'current user profile not found');
 
+  if (!profiles_by_pk) {
+    return {
+      points: 0,
+      give: 0,
+      canGive: false,
+      giveCap: 0,
+    };
+  }
+
+  const totalTokenBalance = profiles_by_pk.token_balances.reduce(
+    (sum, b) => sum + BigInt(b.balance ?? 0),
+    0n
+  );
+
   const points = getAvailablePoints(
     profiles_by_pk.points_balance,
     profiles_by_pk.points_checkpointed_at,
-    profiles_by_pk.token_balances[0]?.balance
+    totalTokenBalance
   );
 
   const give = points ? Math.floor(points / POINTS_PER_GIVE) : 0;
@@ -157,7 +165,7 @@ export const fetchPoints = async (profileId: number) => {
     };
   }
 
-  const giveCap = getGiveCap(profiles_by_pk.token_balances[0]?.balance);
+  const giveCap = getGiveCap(totalTokenBalance);
 
   return { points, give, canGive, giveCap };
 };
