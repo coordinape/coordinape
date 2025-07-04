@@ -75,9 +75,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     assert(profiles_by_pk, 'current user profile not found');
 
     if (!profiles_by_pk) {
-      throw new UnprocessableError(
-        'could not find profile when deleting give'
-      );
+      throw new UnprocessableError('could not find profile when deleting give');
     }
 
     const totalTokenBalance = profiles_by_pk.token_balances.reduce(
