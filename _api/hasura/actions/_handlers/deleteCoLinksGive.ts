@@ -11,8 +11,6 @@ import {
   UnprocessableError,
 } from '../../../../api-lib/HttpError';
 import {
-  CO_CHAIN,
-  CO_CONTRACT,
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
@@ -60,12 +58,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
             token_balances: [
               {
                 where: {
-                  contract: {
-                    _eq: CO_CONTRACT,
-                  },
-                  chain: { _eq: CO_CHAIN.toString() },
+                  symbol: { _eq: 'CO' },
                 },
-                limit: 1,
               },
               {
                 balance: true,
@@ -80,10 +74,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     );
     assert(profiles_by_pk, 'current user profile not found');
 
+    if (!profiles_by_pk) {
+      throw new UnprocessableError('could not find profile when deleting give');
+    }
+
+    const totalTokenBalance = profiles_by_pk.token_balances.reduce(
+      (sum, b) => sum + BigInt(b.balance ?? 0),
+      0n
+    );
+
     const points = getAvailablePoints(
       profiles_by_pk.points_balance,
       profiles_by_pk.points_checkpointed_at,
-      profiles_by_pk.token_balances[0].balance
+      totalTokenBalance
     );
     // delete the thing
     // checkpoint balance

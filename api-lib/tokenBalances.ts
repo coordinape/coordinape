@@ -14,7 +14,7 @@ import { BE_ALCHEMY_API_KEY } from './config';
 const ALCHEMY_NETWORK: Record<number, Network> = {
   1: Network.ETH_MAINNET,
   // 10: Network.OPT_MAINNET,
-  // 8453: Network.BASE_MAINNET,
+  8453: Network.BASE_MAINNET,
 };
 
 export const getTokenBalance = async (
