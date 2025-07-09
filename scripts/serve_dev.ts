@@ -19,6 +19,7 @@ import farcaster_search from '../_api/farcaster/users/[search]';
 import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
+import giveBalance from '../_api/give/balance/[address]';
 import give from '../_api/give/index';
 import giveTrending from '../_api/give/trending';
 import actionManager from '../_api/hasura/actions/actionManager';
@@ -164,6 +165,9 @@ app.get('/api/network/:address', (req, res) => {
 app.get('/api/links', tf(links));
 app.get('/api/give', tf(give));
 app.get('/api/give/trending', tf(giveTrending));
+app.get('/api/give/balance/:address', (req, res) => {
+  return tf(giveBalance)({ ...req, query: req.params }, res);
+});
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
   return tf(unsubscribeToken)({ ...req, query: req.params }, res);
@@ -235,8 +239,6 @@ app.get('/api/farcaster/casts/hashes', tf(farcaster_hashes));
 app.get('/api/farcaster/casts/channels/bestrecent', tf(bestrecent_channels));
 app.get('/api/farcaster/casts/channels/channelinsights', tf(channelinsights));
 
-
-
 app.all('/api/frames/router/:path*', (req, res) => {
   let path = req.url as string;
   // trim the first character if it's a slash
@@ -263,4 +265,4 @@ app.listen(port, () => {
   /* eslint-enable */
 });
 
-export { };
+export {};
