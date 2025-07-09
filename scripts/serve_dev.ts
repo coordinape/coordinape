@@ -33,6 +33,7 @@ import dailyReportEmail from '../_api/hasura/cron/dailyReportEmail';
 import dailyUpdate from '../_api/hasura/cron/dailyUpdate';
 import ensNames from '../_api/hasura/cron/ensNames';
 import epochs from '../_api/hasura/cron/epochs';
+import tokenBalanceRefresh from '../_api/token_balances/refresh';
 import fetchNFTOwners from '../_api/hasura/cron/fetchNFTOwners';
 import fetchPoapData from '../_api/hasura/cron/fetchPoapData';
 import generatePoapEmbeddings from '../_api/hasura/cron/generatePoapEmbeddings';
@@ -226,6 +227,9 @@ app.post('/api/farcaster/actions/give/:skill', (req, res) => {
   return tf(givebones)({ ...req, query: req.params }, res);
 });
 
+app.post('/api/token_balances/refresh', (req, res) => {
+  return tf(tokenBalanceRefresh)({ ...req, query: req.params }, res);
+});
 app.get('/api/farcaster/user/:address', (req, res) => {
   return tf(farcaster_user)({ ...req, query: req.params }, res);
 });
