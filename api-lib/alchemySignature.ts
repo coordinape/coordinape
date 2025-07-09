@@ -33,7 +33,7 @@ export function isValidSignatureWithBody(
 /**
  * Helper to extract raw body from request stream.
  */
-export const getRawBody = async (req: VercelRequest): Promise<string> => {
+export const parseRawBody = async (req: VercelRequest): Promise<string> => {
   let buf, rawBody;
   if (req.method === 'POST') {
     buf = await buffer(req);

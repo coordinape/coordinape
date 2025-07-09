@@ -5,7 +5,7 @@ import { BigNumber, Contract } from 'ethers';
 
 import {
   isValidSignatureWithBody,
-  getRawBody,
+  parseRawBody,
 } from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getProvider } from '../../api-lib/provider';
@@ -36,7 +36,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .filter(Boolean);
 
     // Read raw body ONCE
-    const rawBody = await getRawBody(req);
+    const rawBody = await parseRawBody(req);
 
     // Try all signing keys
     let valid = false;
