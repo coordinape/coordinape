@@ -8,7 +8,6 @@ import deploymentInfo from '@coordinape/contracts/deploymentInfo.json';
 
 import { TOKENS } from '../../src/features/points/getAvailablePoints';
 
-
 const api_token = process.env.ALCHEMY_API_TOKEN;
 assert(api_token, 'Missing ALCHEMY_API_TOKEN');
 
@@ -32,6 +31,50 @@ const createWebhook = (name: string, options: any, body: any) => {
     .then(response => console.log(response))
     .catch(err => console.error(err));
 };
+
+createWebhook(
+  'BASE_MAINNET - PROD | TOKENS (CO) ERC20 Transfer events',
+  options,
+  {
+    network: 'BASE_MAINNET',
+    webhook_type: 'GRAPHQL',
+    webhook_url:
+      'https://app.coordinape.com/api/webhooks/alchemy_token_transfers',
+    graphql_query: {
+      skip_empty_messages: true,
+      query: `
+# Get all Transfer event logs for the BASE CO ERC20 contract
+{
+  block {
+    hash
+    logs(filter: {addresses: [${TOKENS.filter(t => t.chain === 8453)
+      .map(t => `"${t.contract}"`)
+      .join(
+        ', '
+      )}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+      topics
+      data
+      account {
+  address
+}
+      transaction{
+  hash
+        index
+        to{
+  address
+}
+        from {
+  address
+}
+        status
+      }
+    }
+  }
+}
+  `.trim(),
+    },
+  }
+);
 
 // createWebhook('ETH_MAINNET - PROD | TOKENS (Aave & CO) ERC20 Transfer events', options, {
 //   network: 'ETH_MAINNET',
@@ -68,41 +111,41 @@ const createWebhook = (name: string, options: any, body: any) => {
 //   },
 // });
 
-createWebhook('ETH_MAINNET - STAGING | TOKENS (Aave & CO) ERC20 Transfer events', options, {
-  network: 'ETH_MAINNET',
-  webhook_type: 'GRAPHQL',
-  webhook_url:
-    'https://colinks.costaging.co/api/webhooks/alchemy_token_transfers',
-  graphql_query: {
-    skip_empty_messages: true,
-    query: `
-# Get all Transfer event logs for the ERC20 contracts in TOKENS
-{
-  block {
-    hash
-    logs(filter: {addresses: [${TOKENS.map(t => `"${t.contract}"`).join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
-      topics
-      data
-      account {
-  address
-}
-      transaction{
-  hash
-        index
-        to{
-  address
-}
-        from {
-  address
-}
-        status
-      }
-    }
-  }
-}
-  `.trim(),
-  },
-});
+// createWebhook('ETH_MAINNET - STAGING | TOKENS (Aave & CO) ERC20 Transfer events', options, {
+//   network: 'ETH_MAINNET',
+//   webhook_type: 'GRAPHQL',
+//   webhook_url:
+//     'https://colinks.costaging.co/api/webhooks/alchemy_token_transfers',
+//   graphql_query: {
+//     skip_empty_messages: true,
+//     query: `
+// # Get all Transfer event logs for the ERC20 contracts in TOKENS
+// {
+//   block {
+//     hash
+//     logs(filter: {addresses: [${TOKENS.map(t => `"${t.contract}"`).join(', ')}], topics: ["0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef"]}) {
+//       topics
+//       data
+//       account {
+//   address
+// }
+//       transaction{
+//   hash
+//         index
+//         to{
+//   address
+// }
+//         from {
+//   address
+// }
+//         status
+//       }
+//     }
+//   }
+// }
+//   `.trim(),
+//   },
+// });
 
 // createWebhook('OPT_SEPOLIA - CoSoul Transfer events', options, {
 //   network: 'OPT_SEPOLIA',
