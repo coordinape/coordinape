@@ -82,6 +82,10 @@
       "destination": "/api/give/balance/[address]?address=:address"
     },
     {
+      "source": "/api/token_balances/refresh",
+      "destination": "/api/token_balances/refresh"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
