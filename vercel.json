@@ -78,6 +78,10 @@
       "destination": "/api/farcaster/actions/give/[skill]?skill=:skill"
     },
     {
+      "source": "/api/give/balance/:address",
+      "destination": "/api/give/balance/[address]?address=:address"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
