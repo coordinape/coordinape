@@ -23,12 +23,24 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const signature = req.headers['x-alchemy-signature'] as string;
     assert(signature, 'Missing signature');
 
-    // TODO: if multiple webhooks for different chains this will be different...
-    const signingKey = process.env
+    // Support comma-separated list of signing keys
+    const signingKeysEnv = process.env
       .TOKEN_TRANSFER_WEBHOOK_ALCHEMY_SIGNING_KEY as string;
-    assert(signingKey, 'Missing alchemy signing key for token transfers');
+    assert(signingKeysEnv, 'Missing alchemy signing key for token transfers');
+    const signingKeys = signingKeysEnv
+      .split(',')
+      .map(k => k.trim())
+      .filter(Boolean);
 
-    if (!(await isValidSignature(req, signature, signingKey))) {
+    let valid = false;
+    for (const key of signingKeys) {
+      if (await isValidSignature(req, signature, key)) {
+        valid = true;
+        break;
+      }
+    }
+
+    if (!valid) {
       res.status(400).send('Webhook signature not valid');
       return;
     }
