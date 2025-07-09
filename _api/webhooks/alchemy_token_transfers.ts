@@ -3,7 +3,10 @@ import assert from 'assert';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { BigNumber, Contract } from 'ethers';
 
-import { isValidSignature } from '../../api-lib/alchemySignature';
+import {
+  isValidSignatureWithBody,
+  parseRawBody,
+} from '../../api-lib/alchemySignature';
 import { errorResponse } from '../../api-lib/HttpError';
 import { getProvider } from '../../api-lib/provider';
 import { updateTokenBalanceForAddress } from '../../api-lib/tokenBalances';
@@ -32,9 +35,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       .map(k => k.trim())
       .filter(Boolean);
 
+    // Read raw body ONCE
+    const rawBody = await parseRawBody(req);
+
+    // Try all signing keys
     let valid = false;
     for (const key of signingKeys) {
-      if (await isValidSignature(req, signature, key)) {
+      if (isValidSignatureWithBody(rawBody, signature, key)) {
         valid = true;
         break;
       }
@@ -45,7 +52,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return;
     }
 
-    const payload = req.body;
+    // Parse JSON body after signature verification
+    const payload = JSON.parse(rawBody);
 
     // eslint-disable-next-line no-console
     console.log('RECEIVED WEBHOOK PAYLOAD:', JSON.stringify(payload));

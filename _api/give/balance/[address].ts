@@ -13,7 +13,7 @@ import {
 } from '../../../src/features/points/getAvailablePoints';
 
 // Optional: adjust cache as needed for your use case
-const CACHE_CONTENT = 'public, max-age=3';
+const CACHE_CONTENT = 'public, max-age=2';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
