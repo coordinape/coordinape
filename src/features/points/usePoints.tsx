@@ -1,16 +1,16 @@
 import assert from 'assert';
 
-import { DateTime } from 'luxon';
 import { useQuery } from 'react-query';
 
 import { client } from '../../lib/gql/client';
 import useConnectedAddress from 'hooks/useConnectedAddress';
 
-import { getEmissionTier, getGiveCap } from './emissionTiers';
+import { getGiveCap } from './emissionTiers';
 import {
   POINTS_PER_GIVE,
   TOKENS,
   getAvailablePoints,
+  nextGiveAvailableAt,
 } from './getAvailablePoints';
 
 export const POINTS_QUERY_KEY = 'points_query_key';
@@ -100,14 +100,4 @@ const getMyAvailablePoints = async () => {
     ),
     tokenBalance: totalTokenBalance,
   };
-};
-
-const nextGiveAvailableAt = (currPoints: number, tokenBalance: bigint) => {
-  const needed = POINTS_PER_GIVE - (currPoints % POINTS_PER_GIVE);
-  const emissionTier = getEmissionTier(tokenBalance);
-  const emissionsPerSecond = emissionTier.multiplier;
-  const timeAt: DateTime = DateTime.now().plus({
-    seconds: needed / emissionsPerSecond,
-  });
-  return timeAt;
 };

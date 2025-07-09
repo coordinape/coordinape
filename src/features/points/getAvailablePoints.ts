@@ -45,3 +45,16 @@ export const getAvailablePoints = (
   const accruedPoints = secondsSinceLastCheckpoint * emissionRate;
   return Math.min(balance + accruedPoints, giveCap * POINTS_PER_GIVE);
 };
+
+export const nextGiveAvailableAt = (
+  currPoints: number,
+  tokenBalance: bigint
+) => {
+  const needed = POINTS_PER_GIVE - (currPoints % POINTS_PER_GIVE);
+  const emissionTier = getEmissionTier(tokenBalance);
+  const emissionsPerSecond = emissionTier.multiplier;
+  const timeAt: DateTime = DateTime.now().plus({
+    seconds: needed / emissionsPerSecond,
+  });
+  return timeAt;
+};
