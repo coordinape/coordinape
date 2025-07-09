@@ -16,6 +16,16 @@ import {
 const CACHE_CONTENT = 'public, max-age=2';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Enable CORS for all origins and handle preflight requests
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Handle preflight request
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   try {
     let { address } = req.query;
     if (!address || typeof address !== 'string') {
