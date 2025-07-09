@@ -17,12 +17,14 @@ const CACHE_CONTENT = 'public, max-age=3';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    const { address } = req.query;
+    let { address } = req.query;
     if (!address || typeof address !== 'string') {
       return res
         .status(400)
         .json({ error: 'Missing or invalid address parameter' });
     }
+
+    address = address.toLowerCase();
 
     const data = await getPointsDataForAddress(address);
 
@@ -66,9 +68,9 @@ async function getPointsDataForAddress(address: string) {
       give: 0,
       canGive: false,
       nextGiveAt: null,
-      giveCap: getGiveCap(0n),
-      pointsCap: getGiveCap(0n) * POINTS_PER_GIVE,
-      tokenBalance: 0n,
+      giveCap: getGiveCap(0n).toString(),
+      pointsCap: (getGiveCap(0n) * POINTS_PER_GIVE).toString(),
+      tokenBalance: '0',
     };
   }
 
@@ -102,8 +104,8 @@ async function getPointsDataForAddress(address: string) {
     give,
     canGive,
     nextGiveAt,
-    giveCap,
-    pointsCap,
+    giveCap: giveCap.toString(),
+    pointsCap: pointsCap.toString(),
     tokenBalance: totalTokenBalance.toString(),
   };
 }
