@@ -2,7 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../../api-lib/HttpError';
-import { fetchUserByFid } from '../../../../api-lib/neynar';
+import { findOrCreateProfileByFid } from '../../../../api-lib/neynar/findOrCreate';
 import { getGiveCap } from '../../../../src/features/points/emissionTiers';
 import {
   POINTS_PER_GIVE,
@@ -48,11 +48,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 async function getPointsDataForFid(fid: number) {
-  // Get Farcaster user data from Neynar
-  const fcUser = await fetchUserByFid(fid);
+  // Get or create Coordinape profile for this FID
+  const profile = await findOrCreateProfileByFid(fid);
 
-  if (!fcUser) {
-    // If user not found, return zeros
+  if (!profile) {
+    // If profile creation failed, return zeros
     return {
       points: 0,
       give: 0,
@@ -64,16 +64,25 @@ async function getPointsDataForFid(fid: number) {
     };
   }
 
-  // Extract all wallet addresses (custody + verified)
-  const addresses = [
-    fcUser.custody_address,
-    ...fcUser.verified_addresses.eth_addresses,
-  ]
-    .filter(addr => addr && addr !== '')
-    .map(addr => addr.toLowerCase());
+  // Get the profile's private data including points balance
+  const { profiles_private } = await adminClient.query(
+    {
+      profiles_private: [
+        { where: { address: { _eq: profile.address } } },
+        {
+          points_balance: true,
+          points_checkpointed_at: true,
+        },
+      ],
+    },
+    {
+      operationName: 'api_give_balance_fid_getPointsDataForFid_profilesPrivate',
+    }
+  );
 
-  if (addresses.length === 0) {
-    // No addresses found, return zeros
+  const privateProfile = profiles_private[0];
+  if (!privateProfile) {
+    // Profile exists but no private data found, return zeros
     return {
       points: 0,
       give: 0,
@@ -84,6 +93,9 @@ async function getPointsDataForFid(fid: number) {
       tokenBalance: '0',
     };
   }
+
+  // Get all wallet addresses for this profile (from Neynar data in findOrCreate)
+  const addresses = [profile.address].map(addr => addr.toLowerCase());
 
   // Build token filter for CO tokens
   const coContracts = TOKENS.filter(t => t.symbol === 'CO').map(t => ({
@@ -105,7 +117,7 @@ async function getPointsDataForFid(fid: number) {
       ],
     },
     {
-      operationName: 'api_give_balance_fid_getPointsDataForFid',
+      operationName: 'api_give_balance_fid_getPointsDataForFid_tokenBalances',
     }
   );
 
@@ -116,9 +128,12 @@ async function getPointsDataForFid(fid: number) {
     0n
   );
 
-  // Calculate points using existing logic (with mock profile data)
-  const mockCheckpoint = new Date().toISOString();
-  const points = getAvailablePoints(0, mockCheckpoint, totalTokenBalance);
+  // Calculate points using existing logic with real profile data
+  const points = getAvailablePoints(
+    privateProfile.points_balance,
+    privateProfile.points_checkpointed_at,
+    totalTokenBalance
+  );
   const give = Math.floor(points / POINTS_PER_GIVE);
   const canGive = give >= 1;
   const giveCap = getGiveCap(totalTokenBalance);

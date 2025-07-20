@@ -3,6 +3,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { adminClient } from '../../../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../../../api-lib/HttpError';
 import { fetchUserByFid } from '../../../../../api-lib/neynar';
+import { findOrCreateProfileByFid } from '../../../../../api-lib/neynar/findOrCreate';
 import { getGiveCap } from '../../../../../src/features/points/emissionTiers';
 import {
   POINTS_PER_GIVE,
@@ -48,17 +49,22 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 async function getDebugDataForFid(fid: number) {
-  // Get Farcaster user data from Neynar
-  const fcUser = await fetchUserByFid(fid);
+  const calculationSteps: string[] = [];
 
-  if (!fcUser) {
+  // Get or create Coordinape profile for this FID
+  calculationSteps.push(`Looking up Coordinape profile for FID ${fid}`);
+  const profile = await findOrCreateProfileByFid(fid);
+
+  if (!profile) {
+    calculationSteps.push('Failed to find or create Coordinape profile');
     return {
       farcasterUser: null,
+      coordinapeProfile: null,
       walletAddresses: [],
       tokenBalances: [],
       aggregation: {
         totalCO: '0',
-        calculationSteps: ['No Farcaster user found for FID'],
+        calculationSteps,
       },
       giveData: {
         points: 0,
@@ -72,27 +78,51 @@ async function getDebugDataForFid(fid: number) {
     };
   }
 
-  // Extract all wallet addresses (custody + verified)
-  const addresses = [
-    fcUser.custody_address,
-    ...fcUser.verified_addresses.eth_addresses,
-  ]
-    .filter(addr => addr && addr !== '')
-    .map(addr => addr.toLowerCase());
-
-  const calculationSteps: string[] = [];
   calculationSteps.push(
-    `Found ${addresses.length} wallet addresses for FID ${fid}`
+    `Found/created Coordinape profile: ${profile.name} (${profile.address})`
   );
 
-  if (addresses.length === 0) {
-    calculationSteps.push('No valid wallet addresses found');
+  // Get Farcaster user data for display
+  const fcUser = await fetchUserByFid(fid);
+
+  // Get the profile's private data including points balance
+  calculationSteps.push(
+    `Fetching points balance for profile ${profile.address}`
+  );
+  const { profiles_private } = await adminClient.query(
+    {
+      profiles_private: [
+        { where: { address: { _eq: profile.address } } },
+        {
+          points_balance: true,
+          points_checkpointed_at: true,
+        },
+      ],
+    },
+    {
+      operationName:
+        'api_give_balance_fid_debug_getDebugDataForFid_profilesPrivate',
+    }
+  );
+
+  const privateProfile = profiles_private[0];
+  if (!privateProfile) {
+    calculationSteps.push('No private profile data found');
     return {
-      farcasterUser: {
-        fid: fcUser.fid,
-        username: fcUser.username,
-        custodyAddress: fcUser.custody_address,
-        verifiedAddresses: fcUser.verified_addresses.eth_addresses,
+      farcasterUser: fcUser
+        ? {
+            fid: fcUser.fid,
+            username: fcUser.username,
+            custodyAddress: fcUser.custody_address,
+            verifiedAddresses: fcUser.verified_addresses.eth_addresses,
+            pfpUrl: fcUser.pfp_url,
+            followerCount: fcUser.follower_count,
+          }
+        : null,
+      coordinapeProfile: {
+        id: profile.id,
+        name: profile.name,
+        address: profile.address,
       },
       walletAddresses: [],
       tokenBalances: [],
@@ -112,7 +142,15 @@ async function getDebugDataForFid(fid: number) {
     };
   }
 
-  calculationSteps.push(`Addresses: ${addresses.join(', ')}`);
+  calculationSteps.push(
+    `Profile points balance: ${privateProfile.points_balance}, checkpoint: ${privateProfile.points_checkpointed_at}`
+  );
+
+  // Get all wallet addresses for this profile
+  const addresses = [profile.address].map(addr => addr.toLowerCase());
+  calculationSteps.push(
+    `Addresses to check for CO balances: ${addresses.join(', ')}`
+  );
 
   // Build token filter for CO tokens
   const coContracts = TOKENS.filter(t => t.symbol === 'CO');
@@ -145,7 +183,8 @@ async function getDebugDataForFid(fid: number) {
       ],
     },
     {
-      operationName: 'api_give_balance_fid_debug_getDebugDataForFid',
+      operationName:
+        'api_give_balance_fid_debug_getDebugDataForFid_tokenBalances',
     }
   );
 
@@ -173,16 +212,19 @@ async function getDebugDataForFid(fid: number) {
 
   calculationSteps.push(`Total CO aggregated: ${totalTokenBalance.toString()}`);
 
-  // Calculate points using existing logic (with mock profile data)
-  const mockCheckpoint = new Date().toISOString();
-  const points = getAvailablePoints(0, mockCheckpoint, totalTokenBalance);
+  // Calculate points using existing logic with real profile data
+  const points = getAvailablePoints(
+    privateProfile.points_balance,
+    privateProfile.points_checkpointed_at,
+    totalTokenBalance
+  );
   const give = Math.floor(points / POINTS_PER_GIVE);
   const canGive = give >= 1;
   const giveCap = getGiveCap(totalTokenBalance);
   const pointsCap = giveCap * POINTS_PER_GIVE;
 
   calculationSteps.push(
-    `Points calculated: ${points} (using getAvailablePoints with 0 base, current time, ${totalTokenBalance.toString()} token balance)`
+    `Points calculated: ${points} (using getAvailablePoints with ${privateProfile.points_balance} base points, checkpoint ${privateProfile.points_checkpointed_at}, ${totalTokenBalance.toString()} token balance)`
   );
   calculationSteps.push(
     `Give calculated: ${give} (${points} points ÷ ${POINTS_PER_GIVE} points per give)`
@@ -199,13 +241,22 @@ async function getDebugDataForFid(fid: number) {
   }
 
   return {
-    farcasterUser: {
-      fid: fcUser.fid,
-      username: fcUser.username,
-      custodyAddress: fcUser.custody_address,
-      verifiedAddresses: fcUser.verified_addresses.eth_addresses,
-      pfpUrl: fcUser.pfp_url,
-      followerCount: fcUser.follower_count,
+    farcasterUser: fcUser
+      ? {
+          fid: fcUser.fid,
+          username: fcUser.username,
+          custodyAddress: fcUser.custody_address,
+          verifiedAddresses: fcUser.verified_addresses.eth_addresses,
+          pfpUrl: fcUser.pfp_url,
+          followerCount: fcUser.follower_count,
+        }
+      : null,
+    coordinapeProfile: {
+      id: profile.id,
+      name: profile.name,
+      address: profile.address,
+      pointsBalance: privateProfile.points_balance,
+      pointsCheckpointedAt: privateProfile.points_checkpointed_at,
     },
     walletAddresses: addresses,
     tokenBalances: token_balances.map(b => ({
