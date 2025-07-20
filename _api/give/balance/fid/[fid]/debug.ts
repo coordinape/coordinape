@@ -146,10 +146,23 @@ async function getDebugDataForFid(fid: number) {
     `Profile points balance: ${privateProfile.points_balance}, checkpoint: ${privateProfile.points_checkpointed_at}`
   );
 
-  // Get all wallet addresses for this profile
-  const addresses = [profile.address].map(addr => addr.toLowerCase());
+  // Get ALL wallet addresses from Neynar (custody + verified addresses)
+  const allNeynarAddresses = fcUser
+    ? [fcUser.custody_address, ...fcUser.verified_addresses.eth_addresses]
+        .filter(addr => addr && addr !== '')
+        .map(addr => addr.toLowerCase())
+    : [];
+
+  // Combine with profile address and deduplicate
+  const addresses = [
+    ...new Set([profile.address.toLowerCase(), ...allNeynarAddresses]),
+  ];
+
   calculationSteps.push(
-    `Addresses to check for CO balances: ${addresses.join(', ')}`
+    `All addresses from Neynar: custody=${fcUser?.custody_address}, verified=[${fcUser?.verified_addresses.eth_addresses.join(', ')}]`
+  );
+  calculationSteps.push(
+    `Addresses to check for CO balances (deduplicated): ${addresses.join(', ')}`
   );
 
   // Build token filter for CO tokens

@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 import { adminClient } from '../../../../api-lib/gql/adminClient';
 import { errorResponse } from '../../../../api-lib/HttpError';
+import { fetchUserByFid } from '../../../../api-lib/neynar';
 import { findOrCreateProfileByFid } from '../../../../api-lib/neynar/findOrCreate';
 import { getGiveCap } from '../../../../src/features/points/emissionTiers';
 import {
@@ -94,8 +95,13 @@ async function getPointsDataForFid(fid: number) {
     };
   }
 
-  // Get all wallet addresses for this profile (from Neynar data in findOrCreate)
-  const addresses = [profile.address].map(addr => addr.toLowerCase());
+  // Get ALL wallet addresses from Neynar (custody + verified addresses)
+  const fcUser = await fetchUserByFid(fid);
+  const addresses = fcUser
+    ? [fcUser.custody_address, ...fcUser.verified_addresses.eth_addresses]
+        .filter(addr => addr && addr !== '')
+        .map(addr => addr.toLowerCase())
+    : [profile.address.toLowerCase()];
 
   // Build token filter for CO tokens
   const coContracts = TOKENS.filter(t => t.symbol === 'CO').map(t => ({
