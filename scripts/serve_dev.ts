@@ -20,6 +20,8 @@ import frames_router from '../_api/frames/router';
 import github_callback from '../_api/github/callback';
 import github_login from '../_api/github/login';
 import giveBalance from '../_api/give/balance/[address]';
+import fidBalance from '../_api/give/balance/fid/[fid]';
+import fidDebug from '../_api/give/balance/fid/[fid]/debug';
 import give from '../_api/give/index';
 import giveTrending from '../_api/give/trending';
 import actionManager from '../_api/hasura/actions/actionManager';
@@ -168,6 +170,14 @@ app.get('/api/give', tf(give));
 app.get('/api/give/trending', tf(giveTrending));
 app.get('/api/give/balance/:address', (req, res) => {
   return tf(giveBalance)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/give/balance/fid/:fid', (req, res) => {
+  return tf(fidBalance)({ ...req, query: req.params }, res);
+});
+
+app.get('/api/give/balance/fid/:fid/debug', (req, res) => {
+  return tf(fidDebug)({ ...req, query: req.params }, res);
 });
 
 app.get('/api/email/unsubscribe/:unsubscribeToken', (req, res) => {
