@@ -15,12 +15,13 @@ import {
   findOrCreateProfileByAddress,
   findOrCreateProfileByFid,
 } from '../../../../api-lib/neynar/findOrCreate.ts';
-import { fetchCast } from '../../../../api-lib/neynar.ts';
+import { fetchCast, fetchUserByFid } from '../../../../api-lib/neynar.ts';
 import {
   EMISSION_TIERS,
   getGiveCap,
 } from '../../../../src/features/points/emissionTiers.ts';
 import {
+  TOKENS,
   getAvailablePoints,
   POINTS_PER_GIVE,
 } from '../../../../src/features/points/getAvailablePoints';
@@ -106,28 +107,23 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 }
 
 export const fetchPoints = async (profileId: number) => {
+  // Get profile with farcaster account info
   const { profiles_by_pk } = await adminClient.query(
     {
       profiles_by_pk: [
         { id: profileId },
         {
+          address: true,
           points_balance: true,
           points_checkpointed_at: true,
-          token_balances: [
-            {
-              where: {
-                symbol: { _eq: 'CO' },
-              },
-            },
-            {
-              balance: true,
-            },
-          ],
+          farcaster_account: {
+            fid: true,
+          },
         },
       ],
     },
     {
-      operationName: 'getPointsForGiver',
+      operationName: 'getPointsForGiver_profile',
     }
   );
   assert(profiles_by_pk, 'current user profile not found');
@@ -141,8 +137,62 @@ export const fetchPoints = async (profileId: number) => {
     };
   }
 
-  const totalTokenBalance = profiles_by_pk.token_balances.reduce(
-    (sum, b) => sum + BigInt(b.balance ?? 0),
+  // Get ALL wallet addresses for this user (profile + Neynar addresses)
+  let addresses = [profiles_by_pk.address.toLowerCase()];
+
+  // If user has a connected Farcaster account, get all their addresses
+  if (profiles_by_pk.farcaster_account?.fid) {
+    try {
+      const fcUser = await fetchUserByFid(profiles_by_pk.farcaster_account.fid);
+      if (fcUser) {
+        const neynarAddresses = [
+          fcUser.custody_address,
+          ...fcUser.verified_addresses.eth_addresses,
+        ]
+          .filter(addr => addr && addr !== '')
+          .map(addr => addr.toLowerCase());
+
+        // Combine and deduplicate addresses
+        addresses = [...new Set([...addresses, ...neynarAddresses])];
+      }
+    } catch (e) {
+      // If Neynar fails, just use profile address
+      console.warn(
+        'Failed to fetch Neynar addresses for profile',
+        profileId,
+        e
+      );
+    }
+  }
+
+  // Build token filter for CO tokens
+  const coContracts = TOKENS.filter(t => t.symbol === 'CO').map(t => ({
+    contract: { _eq: t.contract },
+    chain: { _eq: t.chain.toString() },
+  }));
+
+  // Query token balances for ALL addresses
+  const { token_balances } = await adminClient.query(
+    {
+      token_balances: [
+        {
+          where: {
+            address: { _in: addresses },
+            _or: coContracts,
+          },
+        },
+        { balance: true, address: true, chain: true, contract: true },
+      ],
+    },
+    {
+      operationName: 'getPointsForGiver_tokenBalances',
+    }
+  );
+
+  // Aggregate total CO balance across all addresses and chains
+  const totalTokenBalance = token_balances.reduce(
+    (sum: bigint, b: { balance?: string | number }) =>
+      sum + BigInt(b.balance ?? 0),
     0n
   );
 
