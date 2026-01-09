@@ -5,7 +5,6 @@ import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameFo
 import { givePaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
-import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { shortenAddressWithFrontLength } from 'utils';
 
@@ -116,7 +115,6 @@ export const NavProfile = ({
             to={givePaths.account}
             onClick={() => setOpen(false)}
           />
-          <MagicLinkWallet />
           <NavItem label="Disconnect" onClick={logout} />
           <ThemeSwitcher />
         </Box>

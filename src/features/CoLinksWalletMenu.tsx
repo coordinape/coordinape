@@ -11,7 +11,6 @@ import { shortenAddressWithFrontLength } from 'utils';
 
 import { useWalletStatus } from './auth';
 import { useCoLinksNavQuery } from './colinks/useCoLinksNavQuery';
-import { MagicLinkWallet } from './magiclink/MagicLinkWallet';
 import { NavItem } from './nav/NavItem';
 
 export const NavProfileWidth = '165px';
@@ -163,7 +162,6 @@ export const CoLinksWalletMenu = ({
             </Flex>
             {open && (
               <Box css={{ mt: '$sm', pr: '$xs', mb: '$xs' }}>
-                <MagicLinkWallet />
                 <NavItem
                   label="Disconnect"
                   to={`${coLinksPaths.root}?`}

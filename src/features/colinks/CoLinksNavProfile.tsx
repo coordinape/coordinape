@@ -8,7 +8,6 @@ import { CreateUserNameForm } from '../../components/MainLayout/CreateUserNameFo
 import { EXTERNAL_URL_ABOUT, coLinksPaths } from '../../routes/paths';
 import { Avatar, Box, Button, Flex, Modal, Text } from '../../ui';
 import { useWalletStatus } from '../auth';
-import { MagicLinkWallet } from '../magiclink/MagicLinkWallet';
 import { ThemeSwitcher } from '../theming/ThemeSwitcher';
 import { RecentTransactionsModal } from 'components/RecentTransactionsModal';
 import { AuthDeviceModal } from 'pages/ProfilePage/AuthDevice/AuthDeviceModal';
@@ -141,7 +140,6 @@ export const CoLinksNavProfile = ({
             to={coLinksPaths.wizard}
             onClick={() => setOpen(false)}
           />
-          <MagicLinkWallet />
           <NavItem label="Log Out" onClick={logout} />
           <ThemeSwitcher />
         </Box>
