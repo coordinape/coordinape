@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { OtherGiveSkills } from 'features/HomeCards/OtherGiveSkills';
 import { TopGiveSkills } from 'features/HomeCards/TopGiveSkills';
 import { TopReceivers } from 'features/HomeCards/TopReceivers';
@@ -8,9 +6,7 @@ import { gradientFlow } from 'keyframes';
 import { Helmet } from 'react-helmet';
 
 import { MostLikedCasts } from '../features/HomeCards/MostLikedCasts';
-import { Button, Flex, Link, Modal, Panel, Text } from '../ui';
-import { CoCircle } from 'icons/__generated';
-import { EXTERNAL_URL_CO_DAO } from 'routes/paths';
+import { Flex, Panel, Text } from '../ui';
 
 import { CoAgentCard } from './colinks/give/CoAgentCard';
 import { GiveBotCard } from './colinks/give/GiveBotCard';
@@ -174,8 +170,6 @@ export const GiveHomeHeader = () => {
 };
 
 const FancyHeader = () => {
-  const [modalVisible, setModalVisible] = useState(true);
-
   return (
     <>
       <Flex
@@ -237,68 +231,6 @@ const FancyHeader = () => {
           </Text>
         </Flex>
       </Flex>
-      <Modal
-        open={modalVisible}
-        onOpenChange={setModalVisible}
-        closeButtonStyles={{ outline: 'none !important', color: 'white' }}
-        css={{
-          p: 0,
-          border: 'none',
-        }}
-      >
-        <Flex
-          css={{
-            flexGrow: 1,
-            width: '100%',
-            minHeight: '400px',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: '50% 50%',
-            backgroundSize: 'cover',
-            backgroundImage: "url('/imgs/background/co-gem.jpg')",
-          }}
-        />
-        <Flex column css={{ p: '$lg', gap: '$md' }}>
-          <Text h2 display css={{ color: '$text', flexWrap: 'wrap' }}>
-            <CoCircle
-              fa
-              size="xl"
-              css={{
-                mr: '$sm',
-                'path:last-child': { fill: 'currentColor !important' },
-              }}
-            />
-            CO Token Is Live!
-          </Text>
-          <Text h2 inline>
-            What&apos;s new in the Coordinape universe...
-          </Text>
-          <Text h1 inline>
-            CoDAO has launched, and the governance and utility token for the
-            Social Oracle, CO token, is live!
-          </Text>
-          <Flex column css={{ gap: '$md', mt: '$md' }}>
-            <Button
-              as={Link}
-              href={EXTERNAL_URL_CO_DAO}
-              target="_blank"
-              rel="noreferrer"
-              size="large"
-              color="cta"
-            >
-              Check it out!
-            </Button>
-            <Button
-              color="secondary"
-              size="large"
-              onClick={() => {
-                setModalVisible(false);
-              }}
-            >
-              Continue to Coordinape app
-            </Button>
-          </Flex>
-        </Flex>
-      </Modal>
     </>
   );
 };

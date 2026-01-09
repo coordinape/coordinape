@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
 import { useWalletStatus } from 'features/auth';
-import { MagicLinkWallet } from 'features/magiclink/MagicLinkWallet';
 import { useNavQuery } from 'features/nav/getNavData';
 import { NavItem } from 'features/nav/NavItem';
 
@@ -136,7 +135,6 @@ export const CoSoulNav = () => {
                 )}
                 <NavItem label="About CoSoul" to={coSoulPaths.cosoul} />
                 <NavItem label="Docs" to={`//${EXTERNAL_URL_DOCS}`} />
-                <MagicLinkWallet />
                 <NavItem
                   label="Disconnect"
                   to={`${coSoulPaths.cosoul}?`}

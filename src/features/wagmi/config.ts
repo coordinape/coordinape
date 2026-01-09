@@ -20,11 +20,9 @@ import {
   HARDHAT_GANACHE_PORT,
   IN_PREVIEW,
   IN_PRODUCTION,
-  MAGIC_API_KEY,
   WALLET_CONNECT_V2_PROJECT_ID,
 } from '../../config/env';
 import { localhost } from '../../utils/viem/chains';
-import { getRainbowMagicWallet } from '../magiclink/RainbowMagicConnector';
 import {
   ARBITRUM_RPC_URL,
   BASE_RPC_URL,
@@ -51,12 +49,6 @@ const wagmiChains: Chains = IN_PRODUCTION
         sepolia,
       ];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const magicWallet = getRainbowMagicWallet({
-  chains: [...wagmiChains],
-  apiKey: MAGIC_API_KEY,
-});
-
 const connectors = connectorsForWallets(
   [
     {
@@ -66,7 +58,6 @@ const connectors = connectorsForWallets(
         coinbaseWallet,
         metaMaskWallet,
         walletConnectWallet,
-        magicWallet,
       ],
     },
   ],
